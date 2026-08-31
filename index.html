@@ -201,10 +201,10 @@
             <div class="lbl">내 답 문법 분석</div>
             <div id="grammarContent"></div>
             <div class="google-ask-row">
-              <a
+              <button
                 class="google-ai-btn"
                 id="googleAskLink"
-                href="#"
+                type="button"
                 title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 검색을 띄웁니다"
               >
                 <svg
@@ -215,14 +215,6 @@
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    d="M12 2C12 7.52285 7.52285 12 2 12C7.52285 12 12 16.4771 12 22C12 16.4771 16.4771 12 22 12C16.4771 12 12 7.52285 12 2Z"
-                    fill="url(#googleAiGrad1)"
-                  />
-                  <path
-                    d="M19 16C19 18.2091 17.2091 20 15 20C17.2091 20 19 21.7909 19 24C19 21.7909 20.7909 20 23 20C20.7909 20 19 18.2091 19 16Z"
-                    fill="#ff7da7"
-                  />
                   <defs>
                     <linearGradient
                       id="googleAiGrad1"
@@ -238,9 +230,17 @@
                       <stop offset="100%" stop-color="#f4b400" />
                     </linearGradient>
                   </defs>
+                  <path
+                    d="M12 2C12 7.52285 7.52285 12 2 12C7.52285 12 12 16.4771 12 22C12 16.4771 16.4771 12 22 12C16.4771 12 12 7.52285 12 2Z"
+                    fill="url(#googleAiGrad1)"
+                  />
+                  <path
+                    d="M19 16C19 18.2091 17.2091 20 15 20C17.2091 20 19 21.7909 19 24C19 21.7909 20.7909 20 23 20C20.7909 20 19 18.2091 19 16Z"
+                    fill="#ff7da7"
+                  />
                 </svg>
                 <span>Google AI</span>
-              </a>
+              </button>
               <button class="google-copy-btn" id="googleAskCopy" type="button">
                 <svg
                   class="google-copy-icon"
@@ -383,10 +383,10 @@
 
         <div class="word-explain" id="wordExplain"></div>
         <div class="google-ask-row" id="wordGoogleAskRow" style="display: none">
-          <a
+          <button
             class="google-ai-btn"
             id="wordGoogleAskLink"
-            href="#"
+            type="button"
             title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 검색을 띄웁니다"
           >
             <svg
@@ -397,14 +397,6 @@
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="M12 2C12 7.52285 7.52285 12 2 12C7.52285 12 12 16.4771 12 22C12 16.4771 16.4771 12 22 12C16.4771 12 12 7.52285 12 2Z"
-                fill="url(#googleAiGrad2)"
-              />
-              <path
-                d="M19 16C19 18.2091 17.2091 20 15 20C17.2091 20 19 21.7909 19 24C19 21.7909 20.7909 20 23 20C20.7909 20 19 18.2091 19 16Z"
-                fill="#ff7da7"
-              />
               <defs>
                 <linearGradient
                   id="googleAiGrad2"
@@ -420,9 +412,17 @@
                   <stop offset="100%" stop-color="#f4b400" />
                 </linearGradient>
               </defs>
+              <path
+                d="M12 2C12 7.52285 7.52285 12 2 12C7.52285 12 12 16.4771 12 22C12 16.4771 16.4771 12 22 12C16.4771 12 12 7.52285 12 2Z"
+                fill="url(#googleAiGrad2)"
+              />
+              <path
+                d="M19 16C19 18.2091 17.2091 20 15 20C17.2091 20 19 21.7909 19 24C19 21.7909 20.7909 20 23 20C20.7909 20 19 18.2091 19 16Z"
+                fill="#ff7da7"
+              />
             </svg>
             <span>Google AI</span>
-          </a>
+          </button>
           <button class="google-copy-btn" id="wordGoogleAskCopy" type="button">
             <svg
               class="google-copy-icon"
