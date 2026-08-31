@@ -1,6 +1,12 @@
-// ── VOICE TTS, STT & EVALUATION SYSTEM ─────────────────────────────
+/**
+ * [speech.js] 음성 기능(TTS / STT) 및 발음 평가, AI 팝업 시스템
+ * - Web Speech API TTS (음성 재생, 속도 조절, 자동 재생)
+ * - Web Speech API STT (실시간 음성 인식, 마이크 에러 감시)
+ * - 발음/문장 일치도(Diff & Score) 평가 알고리즘
+ * - 실시간 번역 및 Google AI 보조 팝업 창 연동
+ */
 
-// Helper utilities
+// HTML 특수문자 이스케이프 유틸
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, "&amp;")
@@ -9,6 +15,7 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;");
 }
 
+// 클립보드 텍스트 복사 및 버튼 피드백 토글
 function copyText(text, btn) {
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard
@@ -30,6 +37,7 @@ function copyText(text, btn) {
   }
 }
 
+// 클립보드 API 미지원 환경용 대체 복사 함수
 function fallbackCopy(text, btn) {
   const ta = document.createElement("textarea");
   ta.value = text;
@@ -57,6 +65,7 @@ function fallbackCopy(text, btn) {
   document.body.removeChild(ta);
 }
 
+// PC/맥북 화면 우측에 고정 너비로 Google AI 사이드 팝업창 띄우기
 function openSidePopup(url, title = "GoogleAI_Popup") {
   const width = 640;
   const height = 750;
@@ -72,22 +81,25 @@ function openSidePopup(url, title = "GoogleAI_Popup") {
   return popup;
 }
 
+// 문장 번역용 Google AI 검색 프롬프트 쿼리 생성
 function buildGoogleQuery() {
   const answer = els.userInput.value.trim();
   const ko = els.koText.textContent.trim();
   return `"${ko}"를 영어로 "${answer}"라고 썼는데 이 영어 문장 문법 분석해줘`;
 }
 
+// 문법 포인트용 Google AI 검색 프롬프트 쿼리 생성
 function buildWordGoogleQuery(item) {
   return `'${item.answer}' 표현은 언제 사용해?`;
 }
 
-// TTS (Text-to-Speech) System
-let ttsRate = 1.0;
-let autoPlayTtsEnabled = false;
-let currentSpeakingBtn = null;
+// ── TTS (음성 합성) 시스템 ──────────────────────────────────────────
+let ttsRate = 1.0;                  // 기본 발음 재생 속도
+let autoPlayTtsEnabled = false;     // 정답 확인 시 자동 재생 여부
+let currentSpeakingBtn = null;      // 현재 재생 중인 버튼 엘리먼트
 const TTS_SETTINGS_KEY = "ko-en-opic-tts-settings";
 
+// 로컬 스토리지에서 TTS 설정값 로드
 function loadTtsSettings() {
   try {
     const raw = localStorage.getItem(TTS_SETTINGS_KEY);
@@ -101,6 +113,7 @@ function loadTtsSettings() {
   updateTtsSettingsUI();
 }
 
+// TTS 설정값을 로컬 스토리지에 저장
 function saveTtsSettings() {
   try {
     localStorage.setItem(
@@ -110,6 +123,7 @@ function saveTtsSettings() {
   } catch (e) {}
 }
 
+// UI 칩 및 체크박스 상태를 현재 TTS 설정값에 맞게 동기화
 function updateTtsSettingsUI() {
   document.querySelectorAll(".speed-chip").forEach((chip) => {
     if (parseFloat(chip.dataset.speed) === ttsRate) {
@@ -123,6 +137,7 @@ function updateTtsSettingsUI() {
   }
 }
 
+// TTS 음성 엔진 초기화 및 속도/자동재생 이벤트 바인딩
 function initTTS() {
   if (!("speechSynthesis" in window)) {
     if (els.audioControls) els.audioControls.style.display = "none";
@@ -147,6 +162,7 @@ function initTTS() {
   }
 }
 
+// 언어별 가장 자연스러운 고품질 시스템 보이스 탐색
 function getBestVoice(lang = "en-US") {
   if (!("speechSynthesis" in window)) return null;
   const voices = speechSynthesis.getVoices();
@@ -166,6 +182,7 @@ function getBestVoice(lang = "en-US") {
   return exact || langVoices[0];
 }
 
+// 진행 중인 모든 TTS 음성 재생 중단
 function stopTTS() {
   if ("speechSynthesis" in window) {
     speechSynthesis.cancel();
@@ -178,6 +195,7 @@ function stopTTS() {
   }
 }
 
+// 텍스트를 음성으로 재생하고 버튼 상태 애니메이션 토글
 function speakText(text, lang = "en-US", btn = null) {
   if (!("speechSynthesis" in window) || !text) return;
   if (currentSpeakingBtn === btn && speechSynthesis.speaking) {
@@ -211,7 +229,8 @@ function speakText(text, lang = "en-US", btn = null) {
   speechSynthesis.speak(utterance);
 }
 
-// Speaking evaluation
+// ── 발음 및 문장 일치도 평가 시스템 ──────────────────────────────────
+// 평가 비교를 위한 텍스트 정규화 (소문자화 및 특수문자 제거)
 function normalizeForEval(text) {
   return String(text || "")
     .toLowerCase()
@@ -220,6 +239,7 @@ function normalizeForEval(text) {
     .trim();
 }
 
+// 유저 입력값과 모범 답안 토큰을 비교하여 일치도 점수(0~100%) 및 Diff HTML 산출
 function evaluateSpeech(userInput, modelAnswer) {
   const normUser = normalizeForEval(userInput);
   const normModel = normalizeForEval(modelAnswer);
@@ -275,6 +295,7 @@ function evaluateSpeech(userInput, modelAnswer) {
   return { score, diffHtml: diffParts.join(" "), feedback };
 }
 
+// 발음 평가 점수 뱃지 및 차이점 피드백 UI 렌더링
 function renderSpeechEvaluation(evalData) {
   if (!els.speechEvalBox || !els.evalScoreBadge || !els.evalDiff || !els.evalFeedback) return;
   const { score, diffHtml, feedback } = evalData;
@@ -285,7 +306,8 @@ function renderSpeechEvaluation(evalData) {
   els.speechEvalBox.classList.add("show");
 }
 
-// Live Translation & Grammar checking
+// ── 문법 검사 및 실시간 번역 ──────────────────────────────────────────
+// LanguageTool API를 활용한 영어 문법 검사
 async function checkGrammar(text) {
   if (!text || text.length < 3) return [];
   const params = new URLSearchParams({ text, language: "en-US" });
@@ -302,6 +324,7 @@ async function checkGrammar(text) {
   }
 }
 
+// 영문 텍스트를 한국어로 번역 (Google Translate API)
 async function translateToKorean(text) {
   if (!text || !text.trim()) return "";
   try {
@@ -315,6 +338,7 @@ async function translateToKorean(text) {
   }
 }
 
+// 문법 검사 결과 및 교정 제안 UI 렌더링
 async function renderGrammarResults(matches, text) {
   els.grammarBox.classList.add("show");
   if (!matches || matches.length === 0) {
@@ -334,6 +358,7 @@ async function renderGrammarResults(matches, text) {
 }
 
 let translateTimer = null;
+// 음성 인식 / 입력 중 실시간 한국어 번역 프리뷰 실행
 async function runLiveTranslate(text) {
   if (!text.trim()) {
     els.liveTranslate.classList.remove("show");
@@ -352,7 +377,7 @@ async function runLiveTranslate(text) {
   }
 }
 
-// STT (Speech-to-Text) System
+// ── STT (음성 인식) 시스템 ──────────────────────────────────────────
 let recognition = null;
 let listening = false;
 let micStartTimer = null;
@@ -367,18 +392,21 @@ const MIC_ERROR_MESSAGES = {
   network: "네트워크 오류로 음성을 인식하지 못했어요. 인터넷 연결을 확인해주세요.",
 };
 
+// 마이크 오류 메시지 출력
 function showMicError(msg) {
   if (!els.micError) return;
   els.micError.textContent = msg;
   els.micError.classList.add("show");
 }
 
+// 마이크 오류 메시지 초기화
 function clearMicError() {
   if (!els.micError) return;
   els.micError.textContent = "";
   els.micError.classList.remove("show");
 }
 
+// 마이크 수신 상태 UI 비활성화
 function stopListeningUI() {
   listening = false;
   micStarted = false;
@@ -389,6 +417,7 @@ function stopListeningUI() {
   if (els.micBtn) els.micBtn.classList.remove("listening");
 }
 
+// 마이크 응답 없음 감시 타이머 (Watchdog)
 function armStartupWatchdog() {
   if (micStartTimer) clearTimeout(micStartTimer);
   micStartTimer = setTimeout(() => {
@@ -402,6 +431,7 @@ function armStartupWatchdog() {
   }, 3500);
 }
 
+// Web Speech API 음성 인식기 초기화
 function initSpeechRecognition() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {

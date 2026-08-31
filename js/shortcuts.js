@@ -1,8 +1,15 @@
-// ── KEYBOARD SHORTCUTS CONTROLLER ─────────────────────────────────
+/**
+ * [shortcuts.js] 맥북 / PC 데스크톱 키보드 단축키 핸들러
+ * - 전역: Esc (음성 재생/인식 중단)
+ * - 문장 연습: Enter (정답 확인), 1/2 (채점), Space (발음 듣기), R (재도전)
+ * - 문법 퀴즈: 1~4 (보기 선택), Enter (다음 문제), Space (발음 듣기)
+ * - 완료 화면: Enter (같은 주제 다시 시작)
+ */
+
 document.addEventListener("keydown", (e) => {
   const isInputFocused = document.activeElement === els.userInput;
 
-  // Global Esc to stop audio / recognition
+  // 1. 전역 Esc: 음성 재생 및 마이크 인식 즉시 중단
   if (e.key === "Escape") {
     stopTTS();
     if (listening && recognition) {
@@ -12,7 +19,7 @@ document.addEventListener("keydown", (e) => {
     return;
   }
 
-  // 1. Sentence Practice Card
+  // 2. 문장 번역 연습 모드 단축키
   if (
     els.practiceCard &&
     els.practiceCard.style.display !== "none" &&
@@ -20,11 +27,13 @@ document.addEventListener("keydown", (e) => {
   ) {
     const item = SENTENCES[order[cur]];
     if (!revealed) {
+      // 정답 확인 전: Enter 키로 정답 공개
       if (e.key === "Enter" && (!isInputFocused || !e.shiftKey)) {
         e.preventDefault();
         reveal();
       }
     } else {
+      // 정답 확인 후: 1(잘함), 2(다시), R(재도전), Space(발음 듣기)
       if (
         e.key === "1" ||
         e.key === "g" ||
@@ -54,7 +63,7 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  // 2. Grammar / Word Practice Card
+  // 3. 문법 포인트 퀴즈 모드 단축키
   if (
     els.wordCard &&
     els.wordCard.style.display !== "none" &&
@@ -62,6 +71,7 @@ document.addEventListener("keydown", (e) => {
   ) {
     const item = WORD_ITEMS[wordOrder[wordCur]];
     if (!wordAnswered) {
+      // 문제 풀이 중: 숫자 키 1~4로 보기 선택
       if (["1", "2", "3", "4"].includes(e.key)) {
         const idx = parseInt(e.key, 10) - 1;
         const optBtns = els.wordOptions.querySelectorAll(".word-opt");
@@ -71,6 +81,7 @@ document.addEventListener("keydown", (e) => {
         }
       }
     } else {
+      // 해설 노출 후: Enter(다음 문제), Space(발음 듣기)
       if (e.key === "Enter") {
         e.preventDefault();
         wordCur++;
@@ -87,7 +98,7 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  // 3. Done Screens
+  // 4. 완료 화면 단축키
   if (els.doneScreen && els.doneScreen.classList.contains("show")) {
     if (e.key === "Enter") {
       e.preventDefault();

@@ -1,4 +1,11 @@
-// ── STORAGE & STATE MANAGEMENT ─────────────────────────────────────
+/**
+ * [storage.js] 로컬 스토리지 관리 및 데이터 로더
+ * - 브라우저 localStorage 래퍼 객체
+ * - OPIc 문장 및 문법 JSON 데이터 비동기 로딩
+ * - 일별 학습 기록(Daily Log) 및 연속 학습(Streak) 계산
+ */
+
+// 브라우저 localStorage를 다루는 비동기 스토리지 래퍼
 const storage = {
   async get(key, shared) {
     const raw = localStorage.getItem(key);
@@ -22,12 +29,13 @@ const storage = {
   },
 };
 
-// Data sets loaded dynamically from JSON
-let SENTENCES = [];
-let CATEGORIES = [];
-let WORD_ITEMS = [];
-let WORD_CATEGORIES = [];
+// 동적으로 로드되는 전역 데이터 배열
+let SENTENCES = [];       // OPIc 문장 번역 목록
+let CATEGORIES = [];      // 문장 카테고리 목록
+let WORD_ITEMS = [];      // 문법 퀴즈 목록
+let WORD_CATEGORIES = []; // 문법 카테고리 목록
 
+// 문장 번역 주제 대분류 그룹 정의
 const GROUPS = {
   일상: ["자기소개", "집/주거", "직장/업무", "일상", "날씨/계절"],
   "취미 & 여가": [
@@ -51,6 +59,7 @@ const GROUPS = {
   여행: ["여행", "국내여행"],
 };
 
+// 배열 무작위 셔플 함수 (Fisher-Yates 알고리즘)
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -60,15 +69,16 @@ function shuffle(arr) {
   return a;
 }
 
-// Storage Keys
+// 스토리지 키 상수
 const STORAGE_KEY = "ko-en-opic-progress";
 const WORD_STORAGE_KEY = "ko-en-opic-word-progress";
 const DAILY_LOG_KEY = "ko-en-opic-daily-log";
 
-// Daily streak and practice log
+// 요일 라벨 및 일별 학습 기록 객체 { "YYYY-MM-DD": 풀이문제수 }
 const DAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 let dailyLog = {};
 
+// 오늘 날짜를 "YYYY-MM-DD" 포맷 문자열로 반환
 function todayKey(d = new Date()) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
@@ -76,6 +86,7 @@ function todayKey(d = new Date()) {
   return `${y}-${m}-${day}`;
 }
 
+// 로컬 스토리지에서 일별 학습 기록 로드
 async function loadDailyLog() {
   try {
     const res = await storage.get(DAILY_LOG_KEY, false);
@@ -85,6 +96,7 @@ async function loadDailyLog() {
   }
 }
 
+// 일별 학습 기록을 로컬 스토리지에 저장
 async function saveDailyLog() {
   try {
     await storage.set(DAILY_LOG_KEY, JSON.stringify(dailyLog), false);
@@ -93,12 +105,14 @@ async function saveDailyLog() {
   }
 }
 
+// 문제 풀이 시 오늘 날짜의 학습 횟수를 1 증가
 function logPracticeEvent() {
   const key = todayKey();
   dailyLog[key] = (dailyLog[key] || 0) + 1;
   saveDailyLog();
 }
 
+// 오늘 기준 연속 학습 일수(Streak) 계산
 function computeStreak() {
   let streak = 0;
   const d = new Date();
@@ -110,6 +124,7 @@ function computeStreak() {
   return streak;
 }
 
+// 대시보드 차트용 최근 7일 날짜 목록 반환
 function last7Days() {
   const days = [];
   const d = new Date();
@@ -125,6 +140,7 @@ function last7Days() {
   return days;
 }
 
+// 외부 JSON 데이터 파일 비동기 로딩 (문장 및 문법 퀴즈)
 async function loadData() {
   try {
     const [sentencesRes, grammarRes] = await Promise.all([

@@ -1,4 +1,12 @@
-// ── DOM ELEMENTS & DASHBOARD NAVIGATION ─────────────────────────────
+/**
+ * [dashboard.js] DOM 엘리먼트 캐시 및 화면 라우팅, 대시보드 렌더러
+ * - 주요 DOM 엘리먼트 참조 객체 (els)
+ * - 화면 전환 및 초기화 (hideAllScreens, showHomeScreen, showTopicScreen)
+ * - 홈 화면 통계 & 주간 학습 차트 렌더링
+ * - 문장 번역 및 문법 퀴즈 주제 선택 화면 렌더링
+ */
+
+// 주요 DOM 엘리먼트 캐시 객체
 const els = {
   koText: document.getElementById("koText"),
   enText: document.getElementById("enText"),
@@ -87,6 +95,7 @@ const els = {
   homeFromWordDone: document.getElementById("homeFromWordDone"),
 };
 
+// 모든 서브 화면을 숨기고 실행 중인 음성/마이크를 초기화
 function hideAllScreens() {
   stopTTS();
   if (listening && recognition) {
@@ -104,6 +113,7 @@ function hideAllScreens() {
   els.wordDoneScreen.classList.remove("show");
 }
 
+// 문장 번역 연습 주제 선택 카드 렌더링
 function renderChips() {
   els.topicChips.innerHTML = "";
 
@@ -174,12 +184,14 @@ function renderChips() {
   els.startBtn.style.cursor = selectedCats.size === 0 ? "not-allowed" : "pointer";
 }
 
+// 문장 번역 주제 선택 화면 열기
 function showTopicScreen() {
   hideAllScreens();
   els.topicScreen.style.display = "block";
   renderChips();
 }
 
+// 문법 포인트 퀴즈 유형 선택 카드 렌더링
 function renderWordChips() {
   els.wordTopicChips.innerHTML = "";
 
@@ -214,6 +226,7 @@ function renderWordChips() {
   els.wordStartBtn.style.cursor = wordSelectedCats.size === 0 ? "not-allowed" : "pointer";
 }
 
+// 홈 대시보드 통계 숫자 및 7일간의 학습 막대 차트 렌더링
 function renderHomeDashboard() {
   const days = last7Days();
   const today = dailyLog[days[days.length - 1].key] || 0;
@@ -251,6 +264,7 @@ function renderHomeDashboard() {
     : `${WORD_ITEMS.length}문제 · ${WORD_CATEGORIES.length}개 유형`;
 }
 
+// 홈 대시보드 화면 열기
 function showHomeScreen() {
   hideAllScreens();
   els.homeScreen.style.display = "flex";

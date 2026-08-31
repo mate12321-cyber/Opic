@@ -1,6 +1,12 @@
-// ── MAIN APP INITIALIZATION & EVENT LISTENERS ──────────────────────
+/**
+ * [app.js] 메인 애플리케이션 진입점 및 이벤트 리스너 바인딩
+ * - 복사, 번역, AI 팝업, 음성 재생 버튼 이벤트 등록
+ * - 문장 번역 및 문법 퀴즈 화면 조작 버튼 이벤트 등록
+ * - 모드 전환 및 홈 화면 내비게이션 연결
+ * - 앱 기동 시 데이터 로딩 및 초기화 (initDashboard)
+ */
 
-// Copy button event listeners
+// ── 클립보드 복사 이벤트 ──────────────────────────────────────────
 els.copyKo.addEventListener("click", () => {
   copyText(els.koText.textContent.trim(), els.copyKo);
 });
@@ -11,7 +17,7 @@ els.copyInput.addEventListener("click", () => {
   copyText(els.userInput.value.trim(), els.copyInput);
 });
 
-// User input text listeners
+// ── 유저 직접 입력 시 실시간 번역 디바운스 트리거 ──────────────────
 els.userInput.addEventListener("input", () => {
   const text = els.userInput.value.trim();
   clearTimeout(translateTimer);
@@ -23,7 +29,7 @@ els.userInput.addEventListener("input", () => {
   translateTimer = setTimeout(() => runLiveTranslate(text), 700);
 });
 
-// Google AI side popup handlers
+// ── Google AI 사이드 팝업창 연동 이벤트 ─────────────────────────────
 els.googleAskLink.addEventListener("click", (e) => {
   e.preventDefault();
   const text = els.userInput.value.trim();
@@ -54,7 +60,7 @@ els.wordGoogleAskCopy.addEventListener("click", () => {
   copyText(buildWordGoogleQuery(item), els.wordGoogleAskCopy);
 });
 
-// TTS audio playback listeners
+// ── TTS 발음 재생 이벤트 ──────────────────────────────────────────
 els.ttsKoBtn.addEventListener("click", () => {
   const text = els.koText.textContent.trim();
   if (text) speakText(text, "ko-KR", els.ttsKoBtn);
@@ -87,7 +93,7 @@ if (els.ttsWordBtn) {
   });
 }
 
-// Sentence Practice Buttons
+// ── 문장 번역 연습 모드 버튼 이벤트 ────────────────────────────────
 els.revealRow.querySelector("#revealBtn").addEventListener("click", reveal);
 els.revealRow.querySelector("#skipBtn").addEventListener("click", skip);
 els.rateRow.querySelector("#goodBtn").addEventListener("click", () => rate("good"));
@@ -98,7 +104,7 @@ els.restartBtn.addEventListener("click", startPractice);
 els.changeTopicBtn.addEventListener("click", showTopicScreen);
 els.changeTopicBtn2.addEventListener("click", showTopicScreen);
 
-// Word Practice Buttons
+// ── 문법 포인트 퀴즈 모드 버튼 이벤트 ──────────────────────────────
 els.wordNextBtn.addEventListener("click", () => {
   wordCur++;
   saveWordProgress();
@@ -117,7 +123,7 @@ els.wordChangeTopicBtn2.addEventListener("click", () => {
   renderWordChips();
 });
 
-// Mode Switching & Home Navigation
+// ── 학습 모드 전환 및 홈 화면 내비게이션 연결 ──────────────────────
 els.toWordModeLink.addEventListener("click", () => {
   hideAllScreens();
   els.wordTopicScreen.style.display = "block";
@@ -159,7 +165,7 @@ els.navWord.addEventListener("click", () => {
   els.homeFromWordDone,
 ].forEach((el) => el && el.addEventListener("click", showHomeScreen));
 
-// App Bootstrap
+// ── 앱 부트스트랩 및 초기 데이터 로딩 ──────────────────────────────
 async function initDashboard() {
   await loadData();
   initTTS();

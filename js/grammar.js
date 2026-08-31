@@ -1,10 +1,18 @@
-// ── GRAMMAR POINT PRACTICE MODE ────────────────────────────────────
-let wordSelectedCats = new Set();
-let wordOrder = [];
-let wordCur = 0;
-let wordResults = {}; // idx -> 'good' | 'bad'
-let wordAnswered = false;
+/**
+ * [grammar.js] 문법 포인트 퀴즈 모드 컨트롤러
+ * - 객관식 퀴즈 문항 셔플 및 진행 상태(wordCur, wordResults) 관리
+ * - 퀴즈 카드 및 프로그레스 닷(Dot) 렌더링
+ * - 보기 선택(selectWordOption) 시 정답/오답 즉시 피드백 및 상세 해설 제공
+ * - 로컬 스토리지를 통한 진행 상태 저장/복원
+ */
 
+let wordSelectedCats = new Set(); // 선택된 문법 유형 세트
+let wordOrder = [];               // 출제 인덱스 순서 배열
+let wordCur = 0;                  // 현재 문제 인덱스
+let wordResults = {};             // 채점 결과 { itemIndex: 'good' | 'bad' }
+let wordAnswered = false;         // 답변 완료 여부 플래그
+
+// 문법 퀴즈 진행 상태 인디케이터 점(Dot) 목록 생성
 function buildWordDots() {
   els.wordProgressDots.innerHTML = "";
   wordOrder.forEach((idx, i) => {
@@ -21,6 +29,7 @@ function buildWordDots() {
   });
 }
 
+// 현재 순서의 문법 퀴즈 카드 렌더링 (세트 종료 시 완료 화면 표시)
 function renderWordCard() {
   stopTTS();
   if (wordCur >= wordOrder.length) {
@@ -75,6 +84,7 @@ function renderWordCard() {
   buildWordDots();
 }
 
+// 퀴즈 보기 선택 시 채점, 해설 노출 및 자동 발음 실행
 function selectWordOption(opt, btn, item) {
   if (wordAnswered) return;
   wordAnswered = true;
@@ -102,6 +112,7 @@ function selectWordOption(opt, btn, item) {
   }
 }
 
+// 선택된 유형의 문법 문항들로 새 연습 세트 시작
 function startWordPractice() {
   if (wordSelectedCats.size === 0) return;
   wordOrder = shuffle(
@@ -115,6 +126,7 @@ function startWordPractice() {
   renderWordCard();
 }
 
+// 문법 퀴즈 진행 상태를 로컬 스토리지에 저장
 async function saveWordProgress() {
   try {
     const data = {
@@ -129,6 +141,7 @@ async function saveWordProgress() {
   }
 }
 
+// 로컬 스토리지에서 문법 퀴즈 진행 상태를 복원
 async function loadWordProgress() {
   try {
     const res = await storage.get(WORD_STORAGE_KEY, false);

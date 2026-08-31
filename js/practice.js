@@ -1,10 +1,18 @@
-// ── SENTENCE PRACTICE MODE ─────────────────────────────────────────
-let selectedCats = new Set();
-let order = [];
-let cur = 0;
-let results = {}; // idx -> 'good' | 'bad'
-let revealed = false;
+/**
+ * [practice.js] 문장 번역 연습 모드 컨트롤러
+ * - 문제 순서 셔플 및 진행 상태(cur, results, revealed) 관리
+ * - 문장 카드 및 프로그레스 닷(Dot) 렌더링
+ * - 정답 확인(reveal), 채점(rate), 건너뛰기(skip), 재도전(retrySameQuestion)
+ * - 로컬 스토리지를 통한 진행 상태 저장/복원
+ */
 
+let selectedCats = new Set(); // 선택된 카테고리 세트
+let order = [];               // 출제 인덱스 순서 배열
+let cur = 0;                  // 현재 문제 인덱스
+let results = {};             // 채점 결과 { sentenceIndex: 'good' | 'bad' }
+let revealed = false;         // 정답 확인 여부 플래그
+
+// 상단 진행 상태 인디케이터 점(Dot) 목록 생성
 function buildDots() {
   els.progressDots.innerHTML = "";
   order.forEach((idx, i) => {
@@ -21,6 +29,7 @@ function buildDots() {
   });
 }
 
+// 현재 순서의 문장 카드를 렌더링 (세트 종료 시 완료 화면 표시)
 function renderCard() {
   stopTTS();
   clearMicError();
@@ -74,6 +83,7 @@ function renderCard() {
   buildDots();
 }
 
+// 모범 답안 공개, 자동 발음 재생, 일치도 채점 및 문법 검사 트리거
 function reveal() {
   if (revealed) return;
   revealed = true;
@@ -101,6 +111,7 @@ function reveal() {
   }
 }
 
+// 현재 문제를 채점 전 상태로 리셋하고 다시 풀기
 function retrySameQuestion() {
   stopTTS();
   delete results[order[cur]];
@@ -119,6 +130,7 @@ function retrySameQuestion() {
   els.userInput.focus();
 }
 
+// 문제 채점 ('good' | 'bad') 후 다음 문제로 진행
 function rate(val) {
   results[order[cur]] = val;
   cur++;
@@ -127,12 +139,14 @@ function rate(val) {
   renderCard();
 }
 
+// 채점 없이 다음 문제로 건너뛰기
 function skip() {
   cur++;
   saveProgress();
   renderCard();
 }
 
+// 선택된 주제의 문장들로 새 연습 세트 시작
 function startPractice() {
   if (selectedCats.size === 0) return;
   order = shuffle(
@@ -146,6 +160,7 @@ function startPractice() {
   renderCard();
 }
 
+// 문장 번역 연습 진행 상태를 로컬 스토리지에 저장
 async function saveProgress() {
   try {
     const data = {
@@ -160,6 +175,7 @@ async function saveProgress() {
   }
 }
 
+// 로컬 스토리지에서 문장 번역 연습 진행 상태를 복원
 async function loadProgress() {
   try {
     const res = await storage.get(STORAGE_KEY, false);
