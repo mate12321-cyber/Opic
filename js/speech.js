@@ -22,11 +22,11 @@ function copyText(text, btn) {
       .writeText(text)
       .then(() => {
         if (btn) {
-          const original = btn.textContent;
-          btn.textContent = "복사됨 ✓";
+          const original = btn.innerHTML;
+          btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>복사됨 ✓</span>`;
           btn.classList.add("copied");
           setTimeout(() => {
-            btn.textContent = original;
+            btn.innerHTML = original;
             btn.classList.remove("copied");
           }, 1500);
         }
@@ -51,11 +51,11 @@ function fallbackCopy(text, btn) {
   try {
     document.execCommand("copy");
     if (btn) {
-      const original = btn.textContent;
-      btn.textContent = "복사됨 ✓";
+      const original = btn.innerHTML;
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>복사됨 ✓</span>`;
       btn.classList.add("copied");
       setTimeout(() => {
-        btn.textContent = original;
+        btn.innerHTML = original;
         btn.classList.remove("copied");
       }, 1500);
     }
@@ -94,9 +94,9 @@ function buildWordGoogleQuery(item) {
 }
 
 // ── TTS (음성 합성) 시스템 ──────────────────────────────────────────
-let ttsRate = 1.0;                  // 기본 발음 재생 속도
-let autoPlayTtsEnabled = false;     // 정답 확인 시 자동 재생 여부
-let currentSpeakingBtn = null;      // 현재 재생 중인 버튼 엘리먼트
+let ttsRate = 1.0; // 기본 발음 재생 속도
+let autoPlayTtsEnabled = false; // 정답 확인 시 자동 재생 여부
+let currentSpeakingBtn = null; // 현재 재생 중인 버튼 엘리먼트
 const TTS_SETTINGS_KEY = "ko-en-opic-tts-settings";
 
 // 로컬 스토리지에서 TTS 설정값 로드
@@ -141,7 +141,9 @@ function updateTtsSettingsUI() {
 function initTTS() {
   if (!("speechSynthesis" in window)) {
     if (els.audioControls) els.audioControls.style.display = "none";
-    document.querySelectorAll(".tts-btn").forEach((b) => (b.style.display = "none"));
+    document
+      .querySelectorAll(".tts-btn")
+      .forEach((b) => (b.style.display = "none"));
     return;
   }
   if (speechSynthesis.onvoiceschanged !== undefined) {
@@ -171,14 +173,22 @@ function getBestVoice(lang = "en-US") {
     v.lang.toLowerCase().startsWith(langPrefix),
   );
   if (!langVoices.length) return null;
-  const premiumKeywords = ["natural", "samantha", "daniel", "karen", "siri", "google", "yuna"];
+  const premiumKeywords = [
+    "natural",
+    "samantha",
+    "daniel",
+    "karen",
+    "siri",
+    "google",
+    "yuna",
+  ];
   for (const kw of premiumKeywords) {
-    const found = langVoices.find((v) =>
-      v.name.toLowerCase().includes(kw),
-    );
+    const found = langVoices.find((v) => v.name.toLowerCase().includes(kw));
     if (found) return found;
   }
-  const exact = langVoices.find((v) => v.lang.toLowerCase() === lang.toLowerCase());
+  const exact = langVoices.find(
+    (v) => v.lang.toLowerCase() === lang.toLowerCase(),
+  );
   return exact || langVoices[0];
 }
 
@@ -243,7 +253,8 @@ function normalizeForEval(text) {
 function evaluateSpeech(userInput, modelAnswer) {
   const normUser = normalizeForEval(userInput);
   const normModel = normalizeForEval(modelAnswer);
-  if (!normModel) return { score: 0, diffHtml: "", feedback: "모범 답안이 없습니다." };
+  if (!normModel)
+    return { score: 0, diffHtml: "", feedback: "모범 답안이 없습니다." };
   if (!normUser) {
     return {
       score: 0,
@@ -270,9 +281,13 @@ function evaluateSpeech(userInput, modelAnswer) {
     if (foundIdx !== -1) {
       matchedUserIndices.add(foundIdx);
       matchCount++;
-      diffParts.push(`<span class="eval-word match">${escapeHtml(targetWord)}</span>`);
+      diffParts.push(
+        `<span class="eval-word match">${escapeHtml(targetWord)}</span>`,
+      );
     } else {
-      diffParts.push(`<span class="eval-word miss">${escapeHtml(targetWord)}</span>`);
+      diffParts.push(
+        `<span class="eval-word miss">${escapeHtml(targetWord)}</span>`,
+      );
     }
   });
 
@@ -285,11 +300,18 @@ function evaluateSpeech(userInput, modelAnswer) {
     );
   }
 
-  const score = Math.min(100, Math.round((matchCount / modelTokens.length) * 100));
+  const score = Math.min(
+    100,
+    Math.round((matchCount / modelTokens.length) * 100),
+  );
   let feedback = "";
-  if (score >= 90) feedback = "🌟 훌륭합니다! 원어민 모범 답안과 거의 완벽하게 일치해요.";
-  else if (score >= 70) feedback = "👍 잘하셨어요! 놓친 단어들을 확인하고 한 번 더 말해보세요.";
-  else if (score >= 40) feedback = "💪 좋아요! 빨간색으로 표시된 단어에 유의해서 다시 연습해 보세요.";
+  if (score >= 90)
+    feedback = "🌟 훌륭합니다! 원어민 모범 답안과 거의 완벽하게 일치해요.";
+  else if (score >= 70)
+    feedback = "👍 잘하셨어요! 놓친 단어들을 확인하고 한 번 더 말해보세요.";
+  else if (score >= 40)
+    feedback =
+      "💪 좋아요! 빨간색으로 표시된 단어에 유의해서 다시 연습해 보세요.";
   else feedback = "🌱 천천히 또박또박 모범 답안 발음을 듣고 따라 해보세요.";
 
   return { score, diffHtml: diffParts.join(" "), feedback };
@@ -297,10 +319,17 @@ function evaluateSpeech(userInput, modelAnswer) {
 
 // 발음 평가 점수 뱃지 및 차이점 피드백 UI 렌더링
 function renderSpeechEvaluation(evalData) {
-  if (!els.speechEvalBox || !els.evalScoreBadge || !els.evalDiff || !els.evalFeedback) return;
+  if (
+    !els.speechEvalBox ||
+    !els.evalScoreBadge ||
+    !els.evalDiff ||
+    !els.evalFeedback
+  )
+    return;
   const { score, diffHtml, feedback } = evalData;
   els.evalScoreBadge.textContent = `${score}% 일치`;
-  els.evalScoreBadge.className = "eval-score-badge " + (score >= 80 ? "high" : score >= 50 ? "mid" : "low");
+  els.evalScoreBadge.className =
+    "eval-score-badge " + (score >= 80 ? "high" : score >= 50 ? "mid" : "low");
   els.evalDiff.innerHTML = diffHtml;
   els.evalFeedback.textContent = feedback;
   els.speechEvalBox.classList.add("show");
@@ -328,7 +357,9 @@ async function checkGrammar(text) {
 async function translateToKorean(text) {
   if (!text || !text.trim()) return "";
   try {
-    const url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=" + encodeURIComponent(text.trim());
+    const url =
+      "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=" +
+      encodeURIComponent(text.trim());
     const res = await fetch(url);
     if (!res.ok) return "";
     const data = await res.json();
@@ -346,12 +377,20 @@ async function renderGrammarResults(matches, text) {
     return;
   }
   const translated = await translateToKorean(text);
-  let html = translated ? `<div class="g-note" style="margin-bottom:8px">내 답 해석: "${escapeHtml(translated)}"</div>` : "";
+  let html = translated
+    ? `<div class="g-note" style="margin-bottom:8px">내 답 해석: "${escapeHtml(translated)}"</div>`
+    : "";
   matches.slice(0, 3).forEach((m) => {
     const offset = m.offset;
     const len = m.length;
-    const excerpt = escapeHtml(text.slice(0, offset)) + `<u>${escapeHtml(text.slice(offset, offset + len))}</u>` + escapeHtml(text.slice(offset + len, offset + len + 30));
-    const repls = (m.replacements || []).slice(0, 3).map((r) => r.value).join(", ");
+    const excerpt =
+      escapeHtml(text.slice(0, offset)) +
+      `<u>${escapeHtml(text.slice(offset, offset + len))}</u>` +
+      escapeHtml(text.slice(offset + len, offset + len + 30));
+    const repls = (m.replacements || [])
+      .slice(0, 3)
+      .map((r) => r.value)
+      .join(", ");
     html += `<div class="g-item"><div class="g-excerpt">...${excerpt}...</div><div class="g-msg">${escapeHtml(m.message)}</div>${repls ? `<div class="g-fix">추천 수정: ${escapeHtml(repls)}</div>` : ""}</div>`;
   });
   els.grammarContent.innerHTML = html;
@@ -385,11 +424,16 @@ let micStarted = false;
 let finalTranscript = "";
 
 const MIC_ERROR_MESSAGES = {
-  "not-allowed": "마이크 권한이 필요해요. 브라우저 주소창의 🔒 아이콘 → 마이크 → 허용으로 설정해주세요.",
-  "permission-denied": "마이크 권한이 필요해요. 브라우저 주소창의 🔒 아이콘 → 마이크 → 허용으로 설정해주세요.",
-  "service-not-allowed": "이 브라우저는 음성 인식 서비스를 지원하지 않아요. Chrome 브라우저에서 시도해보세요.",
-  "no-speech": "음성이 감지되지 않았어요. 마이크를 가까이 대고 다시 말씀해주세요.",
-  network: "네트워크 오류로 음성을 인식하지 못했어요. 인터넷 연결을 확인해주세요.",
+  "not-allowed":
+    "마이크 권한이 필요해요. 브라우저 주소창의 🔒 아이콘 → 마이크 → 허용으로 설정해주세요.",
+  "permission-denied":
+    "마이크 권한이 필요해요. 브라우저 주소창의 🔒 아이콘 → 마이크 → 허용으로 설정해주세요.",
+  "service-not-allowed":
+    "이 브라우저는 음성 인식 서비스를 지원하지 않아요. Chrome 브라우저에서 시도해보세요.",
+  "no-speech":
+    "음성이 감지되지 않았어요. 마이크를 가까이 대고 다시 말씀해주세요.",
+  network:
+    "네트워크 오류로 음성을 인식하지 못했어요. 인터넷 연결을 확인해주세요.",
 };
 
 // 마이크 오류 메시지 출력
@@ -422,7 +466,9 @@ function armStartupWatchdog() {
   if (micStartTimer) clearTimeout(micStartTimer);
   micStartTimer = setTimeout(() => {
     if (listening && !micStarted) {
-      showMicError("마이크가 시작되지 않았어요. 브라우저 설정에서 마이크 권한을 확인해주세요.");
+      showMicError(
+        "마이크가 시작되지 않았어요. 브라우저 설정에서 마이크 권한을 확인해주세요.",
+      );
       try {
         if (recognition) recognition.stop();
       } catch (e) {}
@@ -433,12 +479,17 @@ function armStartupWatchdog() {
 
 // Web Speech API 음성 인식기 초기화
 function initSpeechRecognition() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
     if (els.micBtn) {
-      els.micBtn.title = "이 브라우저는 음성 인식을 지원하지 않습니다 (Chrome 권장)";
+      els.micBtn.title =
+        "이 브라우저는 음성 인식을 지원하지 않습니다 (Chrome 권장)";
       els.micBtn.style.opacity = "0.4";
-      els.micBtn.onclick = () => showMicError("이 브라우저는 음성 인식을 지원하지 않아요. Chrome 브라우저에서 시도해보세요.");
+      els.micBtn.onclick = () =>
+        showMicError(
+          "이 브라우저는 음성 인식을 지원하지 않아요. Chrome 브라우저에서 시도해보세요.",
+        );
     }
     return;
   }
@@ -469,7 +520,8 @@ function initSpeechRecognition() {
         interim += transcript;
       }
     }
-    const currentText = finalTranscript + (interim ? (finalTranscript ? " " : "") + interim : "");
+    const currentText =
+      finalTranscript + (interim ? (finalTranscript ? " " : "") + interim : "");
     if (els.userInput && currentText) {
       els.userInput.value = currentText;
       clearTimeout(translateTimer);
@@ -479,7 +531,9 @@ function initSpeechRecognition() {
 
   recognition.onerror = (e) => {
     if (e.error === "aborted") return;
-    const msg = MIC_ERROR_MESSAGES[e.error] || `마이크 오류가 발생했어요 (${e.error}). 다시 시도해주세요.`;
+    const msg =
+      MIC_ERROR_MESSAGES[e.error] ||
+      `마이크 오류가 발생했어요 (${e.error}). 다시 시도해주세요.`;
     showMicError(msg);
     stopListeningUI();
   };
@@ -492,10 +546,12 @@ function initSpeechRecognition() {
     els.micBtn.onclick = () => {
       if (listening) {
         stopListeningUI();
-        try { recognition.stop(); } catch (e) {}
+        try {
+          recognition.stop();
+        } catch (e) {}
       } else {
         clearMicError();
-        finalTranscript = (els.userInput ? els.userInput.value.trim() : "");
+        finalTranscript = els.userInput ? els.userInput.value.trim() : "";
         listening = true;
         micStarted = false;
         armStartupWatchdog();

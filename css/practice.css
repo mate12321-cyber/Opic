@@ -316,12 +316,6 @@ textarea::placeholder {
   color: var(--primary);
   margin-top: 5px;
 }
-.google-ask-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
 
 /* ── 진행 닷(Dots) 인디케이터 ── */
 .progress {

@@ -87,6 +87,7 @@ graph TD
 ## 📄 3. 파일별 상세 레퍼런스 (File Reference)
 
 ### 🔹 index.html
+
 - **역할**: 단일 페이지 애플리케이션(SPA) 뷰 컨테이너
 - **주요 화면 섹션**:
   - `#homeScreen`: 오늘 학습량, 7일간 막대 그래프, 연속 학습일(Streak), 2개 학습 모드 진입 카드
@@ -100,6 +101,7 @@ graph TD
 ---
 
 ### 🔹 app.js
+
 - **역할**: 애플리케이션 진입점 및 이벤트 리스너 오케스트레이션
 - **주요 로직**:
   - 클립보드 복사 (`copyKo`, `copyEn`, `copyInput`)
@@ -112,6 +114,7 @@ graph TD
 ---
 
 ### 🔹 js/storage.js
+
 - **역할**: 브라우저 로컬 스토리지 관리, JSON 데이터 페치 및 학습 통계 계산
 - **주요 상태 및 함수**:
   - `storage`: `get()`, `set()`, `delete()`, `list()` 비동기 래퍼
@@ -125,6 +128,7 @@ graph TD
 ---
 
 ### 🔹 js/speech.js
+
 - **역할**: 음성 인식(STT), 음성 합성(TTS), 발음 평가, 실시간 번역 및 AI 팝업
 - **주요 함수**:
   - `initTTS()`, `speakText(text, lang, btn)`, `stopTTS()`: Web Speech API TTS 제어
@@ -139,6 +143,7 @@ graph TD
 ---
 
 ### 🔹 js/dashboard.js
+
 - **역할**: DOM 캐시 및 화면 라우팅, 홈 화면 통계 & 주제 선택 화면 렌더링
 - **주요 함수**:
   - `els`: 모든 주요 DOM 객체 캐싱
@@ -150,6 +155,7 @@ graph TD
 ---
 
 ### 🔹 js/practice.js
+
 - **역할**: 한→영 문장 번역 연습 모드 제어
 - **주요 상태 및 함수**:
   - `order`, `cur`, `results`, `revealed`: 연습 세트 상태
@@ -162,6 +168,7 @@ graph TD
 ---
 
 ### 🔹 js/grammar.js
+
 - **역할**: 문법 포인트 퀴즈 모드 제어
 - **주요 상태 및 함수**:
   - `wordOrder`, `wordCur`, `wordResults`, `wordAnswered`: 퀴즈 세트 상태
@@ -172,12 +179,13 @@ graph TD
 ---
 
 ### 🔹 js/shortcuts.js
+
 - **역할**: 데스크톱 및 맥북 키보드 단축키 전담
 - **단축키 매핑**:
   - **전역**: `Esc` (오디오 / 마이크 즉시 정지)
   - **문장 연습**:
-    - 확인 전: `Enter` (정답 확인)
-    - 확인 후: `1` 또는 `→` (잘했어요), `2` 또는 `←` (다시), `R` (재도전), `Space` (모범답안 발음)
+    - 확인 전: `Enter` (정답 확인), `K` (건너뛰기)
+    - 확인 후: `1` 또는 `→` (잘했어요), `2` 또는 `←` (다시), `R` (재도전), `K` (건너뛰기), `Space` (모범답안 발음)
   - **문법 퀴즈**:
     - 풀이 중: `1 ~ 4` (보기 선택)
     - 확인 후: `Enter` (다음 문제), `Space` (예문 발음)
@@ -186,6 +194,7 @@ graph TD
 ---
 
 ### 🔹 css/ 디자인 시스템 모듈
+
 1. **`css/base.css`**: Slate & Indigo 테마 변수, 글로벌 리셋, 카드 공통 서피스, 모바일 반응형 미디어 쿼리
 2. **`css/buttons.css`**: Tier 1 CTA (`48px`), Tier 2 인라인 알약 (`32px`), Tier 4 속도 칩 (`26px`), 단축키 배지(`<kbd>`)
 3. **`css/dashboard.css`**: 홈 통계 카드, 주간 학습 차트, 메뉴 진입 카드, 대분류별 주제 선택 그룹 카드

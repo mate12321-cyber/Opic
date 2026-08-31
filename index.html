@@ -202,14 +202,63 @@
             <div id="grammarContent"></div>
             <div class="google-ask-row">
               <a
-                class="copy-btn"
+                class="google-ai-btn"
                 id="googleAskLink"
                 href="#"
                 title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 검색을 띄웁니다"
-                >Google AI 팝업으로 확인</a
               >
-              <button class="copy-btn" id="googleAskCopy" type="button">
-                질문 복사
+                <svg
+                  class="google-ai-icon"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 2C12 7.52285 7.52285 12 2 12C7.52285 12 12 16.4771 12 22C12 16.4771 16.4771 12 22 12C16.4771 12 12 7.52285 12 2Z"
+                    fill="url(#googleAiGrad1)"
+                  />
+                  <path
+                    d="M19 16C19 18.2091 17.2091 20 15 20C17.2091 20 19 21.7909 19 24C19 21.7909 20.7909 20 23 20C20.7909 20 19 18.2091 19 16Z"
+                    fill="#ff7da7"
+                  />
+                  <defs>
+                    <linearGradient
+                      id="googleAiGrad1"
+                      x1="2"
+                      y1="2"
+                      x2="22"
+                      y2="22"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop offset="0%" stop-color="#4285f4" />
+                      <stop offset="35%" stop-color="#9b72cb" />
+                      <stop offset="70%" stop-color="#d96570" />
+                      <stop offset="100%" stop-color="#f4b400" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span>Google AI</span>
+              </a>
+              <button class="google-copy-btn" id="googleAskCopy" type="button">
+                <svg
+                  class="google-copy-icon"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path
+                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                  ></path>
+                </svg>
+                <span>질문 복사</span>
               </button>
             </div>
           </div>
@@ -222,6 +271,7 @@
           </button>
           <button class="ghost" id="skipBtn">
             <span>건너뛰기</span>
+            <kbd class="shortcut-key">K</kbd>
           </button>
         </div>
         <div class="row" id="rateRow" style="display: none">
@@ -247,6 +297,9 @@
         <div class="shortcut-helper desktop-only-tip">
           <span class="sk-item"
             ><kbd class="shortcut-key">↵</kbd> 정답확인</span
+          >
+          <span class="sk-item"
+            ><kbd class="shortcut-key">K</kbd> 건너뛰기</span
           >
           <span class="sk-item"
             ><kbd class="shortcut-key">1</kbd> 잘했어요</span
@@ -331,14 +384,63 @@
         <div class="word-explain" id="wordExplain"></div>
         <div class="google-ask-row" id="wordGoogleAskRow" style="display: none">
           <a
-            class="copy-btn"
+            class="google-ai-btn"
             id="wordGoogleAskLink"
             href="#"
             title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 검색을 띄웁니다"
-            >Google AI 팝업으로 확인</a
           >
-          <button class="copy-btn" id="wordGoogleAskCopy" type="button">
-            질문 복사
+            <svg
+              class="google-ai-icon"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2C12 7.52285 7.52285 12 2 12C7.52285 12 12 16.4771 12 22C12 16.4771 16.4771 12 22 12C16.4771 12 12 7.52285 12 2Z"
+                fill="url(#googleAiGrad2)"
+              />
+              <path
+                d="M19 16C19 18.2091 17.2091 20 15 20C17.2091 20 19 21.7909 19 24C19 21.7909 20.7909 20 23 20C20.7909 20 19 18.2091 19 16Z"
+                fill="#ff7da7"
+              />
+              <defs>
+                <linearGradient
+                  id="googleAiGrad2"
+                  x1="2"
+                  y1="2"
+                  x2="22"
+                  y2="22"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop offset="0%" stop-color="#4285f4" />
+                  <stop offset="35%" stop-color="#9b72cb" />
+                  <stop offset="70%" stop-color="#d96570" />
+                  <stop offset="100%" stop-color="#f4b400" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <span>Google AI</span>
+          </a>
+          <button class="google-copy-btn" id="wordGoogleAskCopy" type="button">
+            <svg
+              class="google-copy-icon"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path
+                d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+              ></path>
+            </svg>
+            <span>질문 복사</span>
           </button>
         </div>
 
