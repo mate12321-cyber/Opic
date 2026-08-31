@@ -1,0 +1,377 @@
+/**
+ * [buttons.css] 통합 버튼 및 컨트롤러 디자인 시스템 (Tier 1~5)
+ */
+
+/* ── Tier 1: 메인 액션 버튼 (고정 높이 48px) ── */
+.row {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border-radius: var(--radius-lg);
+  padding: 0 18px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 48px;
+  min-height: 48px;
+  box-sizing: border-box;
+}
+button:active {
+  transform: scale(0.98);
+}
+
+.primary {
+  flex: 1;
+  background: var(--primary);
+  color: #ffffff;
+  border: 1px solid transparent;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+}
+.primary:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+}
+
+.ghost {
+  flex: 1;
+  background: #ffffff;
+  border: 1.5px solid var(--border-light);
+  color: var(--text-body);
+  box-shadow: var(--shadow-sm);
+}
+.ghost:hover {
+  background: var(--surface-hover);
+  border-color: #cbd5e1;
+  color: var(--text-main);
+}
+
+.good {
+  flex: 1;
+  background: var(--success-bg);
+  border: 1.5px solid var(--success-border);
+  color: var(--success-text);
+  box-shadow: 0 1px 2px rgba(16, 185, 129, 0.05);
+}
+.good:hover {
+  background: #d1fae5;
+  border-color: #6ee7b7;
+}
+
+.bad {
+  flex: 1;
+  background: var(--danger-bg);
+  border: 1.5px solid var(--danger-border);
+  color: var(--danger-text);
+  box-shadow: 0 1px 2px rgba(239, 68, 68, 0.05);
+}
+.bad:hover {
+  background: #ffe4e6;
+  border-color: #fda4af;
+}
+
+/* ── Tier 2: 인라인 액션 버튼 (고정 높이 32px) ── */
+.action-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.copy-btn,
+.tts-btn {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.copy-btn {
+  color: var(--text-body);
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+.copy-btn:hover {
+  background: var(--surface-hover);
+  border-color: #cbd5e1;
+  color: var(--text-main);
+}
+.copy-btn:active {
+  transform: scale(0.96);
+}
+.copy-btn.copied {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.tts-btn {
+  color: var(--primary);
+  background: var(--primary-subtle);
+  border: 1px solid var(--primary-border);
+}
+.tts-btn:hover {
+  background: #e0e7ff;
+  border-color: #a5b4fc;
+}
+.tts-btn:active {
+  transform: scale(0.96);
+}
+.tts-btn.playing {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  animation: ttsPulse 1.2s infinite;
+}
+.tts-btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.2);
+}
+.tts-btn-primary:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+@keyframes ttsPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(79, 70, 229, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+  }
+}
+
+/* ── Tier 4: 컨트롤러 툴바 & 속도 칩 ── */
+.audio-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  margin-bottom: 18px;
+  font-size: 11.5px;
+  box-shadow: var(--shadow-sm);
+}
+.speed-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.speed-selector span {
+  font-family: var(--font-sans);
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 500;
+  margin-right: 4px;
+}
+.speed-chip {
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid var(--border-light);
+  background: var(--bg-app);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+  min-height: auto;
+}
+.speed-chip:hover {
+  border-color: var(--primary-border);
+  color: var(--primary);
+  background: #ffffff;
+}
+.speed-chip:active {
+  transform: scale(0.95);
+}
+.speed-chip.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+.auto-play-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-body);
+}
+.auto-play-toggle input {
+  cursor: pointer;
+  accent-color: var(--primary);
+  margin: 0;
+  width: 15px;
+  height: 15px;
+}
+
+/* ── 키보드 단축키 뱃지 (<kbd>) ── */
+.shortcut-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 1px 5px;
+  line-height: 1.2;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+.primary .shortcut-key {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  box-shadow: none;
+}
+.good .shortcut-key {
+  background: #ffffff;
+  border-color: var(--success-border);
+  color: var(--success-text);
+}
+.bad .shortcut-key {
+  background: #ffffff;
+  border-color: var(--danger-border);
+  color: var(--danger-text);
+}
+
+.shortcut-helper {
+  margin-top: 14px;
+  padding: 8px 12px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.sk-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Tier 5: 내비게이션 & 재도전 알약 버튼 ── */
+.change-topic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-light);
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-body);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  user-select: none;
+}
+.change-topic:hover {
+  background: #ffffff;
+  color: var(--primary);
+  border-color: var(--primary-border);
+  box-shadow: var(--shadow-sm);
+}
+
+#retrySameLink {
+  display: inline-flex;
+  margin: 14px auto 0;
+  width: auto;
+  background: var(--primary-subtle);
+  border-color: var(--primary-border);
+  color: var(--primary);
+  font-weight: 600;
+}
+#retrySameLink:hover {
+  background: #e0e7ff;
+}
+
+.mode-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-light);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.mode-switch:hover {
+  background: #ffffff;
+  color: var(--primary);
+  border-color: var(--primary-border);
+  box-shadow: var(--shadow-sm);
+}
+.mode-switch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.change-topic-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+.change-topic-row .change-topic {
+  margin-top: 0;
+}

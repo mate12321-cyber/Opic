@@ -1,0 +1,376 @@
+/**
+ * [practice.css] 문장 번역 연습 모드 (입력창, 마이크, 모범답안, 일치도 평가, 문법 검사)
+ */
+
+/* ── 텍스트에어리어 및 마이크 입력창 ── */
+.input-wrap {
+  position: relative;
+}
+textarea {
+  width: 100%;
+  min-height: 84px;
+  resize: vertical;
+  font-family: var(--font-sans);
+  font-size: 16.5px;
+  color: var(--text-main);
+  background: #ffffff;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 12px 46px 12px 14px;
+  outline: none;
+  line-height: 1.55;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+textarea:focus {
+  border-color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 3.5px rgba(79, 70, 229, 0.12);
+}
+textarea::placeholder {
+  color: var(--text-faint);
+  font-weight: 400;
+}
+
+.mic-btn {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-app);
+  font-size: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  user-select: none;
+  transition: all 0.15s ease;
+  min-height: auto;
+}
+.mic-btn:hover {
+  border-color: var(--primary-border);
+  background: var(--primary-subtle);
+}
+.mic-btn:active {
+  transform: scale(0.92);
+}
+.mic-btn.listening {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #ffffff;
+  animation: micPulse 1.2s infinite;
+}
+@keyframes micPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+.mic-error {
+  display: none;
+  font-size: 12px;
+  color: var(--danger-text);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+.mic-error.show {
+  display: block;
+}
+
+.live-translate {
+  display: none;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--primary-subtle);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.live-translate.show {
+  display: block;
+}
+.lt-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-right: 6px;
+}
+.lt-text {
+  color: var(--text-body);
+}
+.lt-text.loading {
+  opacity: 0.5;
+}
+
+.input-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+/* ── 모범 답안 박스 ── */
+.answer {
+  margin-top: 20px;
+  padding: 18px 16px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  display: none;
+}
+.answer.show {
+  display: block;
+}
+.answer .lbl {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.en {
+  font-family: var(--font-sans);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1.5;
+  margin: 0 0 10px;
+  word-break: break-word;
+}
+.tip {
+  font-size: 13px;
+  color: var(--text-body);
+  line-height: 1.55;
+  background: #ffffff;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+
+/* ── 발음 및 문장 일치도 평가 박스 ── */
+.speech-eval {
+  display: none;
+  margin-top: 14px;
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+.speech-eval.show {
+  display: block;
+}
+.eval-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.eval-title {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+.eval-score-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: var(--surface-subtle);
+  color: var(--text-body);
+}
+.eval-score-badge.high {
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
+}
+.eval-score-badge.mid {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+  border: 1px solid var(--warning-border);
+}
+.eval-score-badge.low {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+  border: 1px solid var(--danger-border);
+}
+
+.eval-diff {
+  font-size: 14.5px;
+  line-height: 1.6;
+  margin-top: 6px;
+  color: var(--text-main);
+}
+.eval-word {
+  display: inline-block;
+  padding: 2px 6px;
+  margin: 0 2px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+.eval-word.match {
+  color: var(--success-text);
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+}
+.eval-word.miss {
+  color: var(--danger-text);
+  background: var(--danger-bg);
+  text-decoration: line-through;
+  border: 1px solid var(--danger-border);
+  opacity: 0.85;
+}
+.eval-word.actual {
+  color: var(--warning-text);
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-border);
+  font-style: italic;
+}
+.eval-feedback {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+.eval-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* ── 문법 오류 검사 박스 ── */
+.grammar {
+  display: none;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-light);
+}
+.grammar.show {
+  display: block;
+}
+.grammar .lbl {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.g-good {
+  font-size: 13.5px;
+  color: var(--success-text);
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-weight: 500;
+}
+.g-note {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.g-item {
+  background: var(--danger-bg);
+  border-left: 3.5px solid var(--danger);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.g-item:last-child {
+  margin-bottom: 0;
+}
+.g-excerpt {
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+.g-excerpt u {
+  color: var(--danger);
+  text-decoration-color: var(--danger);
+}
+.g-msg {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.g-fix {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-top: 5px;
+}
+.google-ask-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+/* ── 진행 닷(Dots) 인디케이터 ── */
+.progress {
+  display: flex;
+  gap: 5px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--border-light);
+  transition: all 0.2s ease;
+}
+.dot.done {
+  background: var(--success);
+}
+.dot.miss {
+  background: var(--danger);
+  opacity: 0.7;
+}
+.dot.cur {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ── 학습 완료 화면 ── */
+.done-screen {
+  text-align: center;
+  padding: 40px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  display: none;
+}
+.done-screen.show {
+  display: block;
+}
+.done-screen h2 {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+.done-screen p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+}

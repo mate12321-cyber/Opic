@@ -1,0 +1,101 @@
+/**
+ * [grammar.css] 문법 포인트 퀴즈 모드 (보기 옵션 카드, 번호 배지, 해설 박스)
+ */
+
+#wordSentence {
+  margin-bottom: 18px;
+}
+
+.word-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.word-opt {
+  font-family: var(--font-sans);
+  font-size: 15.5px;
+  font-weight: 500;
+  text-align: left;
+  padding: 0 16px;
+  height: 52px;
+  min-height: 52px;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-light);
+  background: #ffffff;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+.word-opt:hover {
+  border-color: var(--primary);
+  background: var(--primary-subtle);
+  transform: translateY(-1px);
+}
+.word-opt:active {
+  transform: scale(0.99);
+}
+
+.opt-num-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--bg-app);
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  margin-right: 12px;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.word-opt.correct {
+  background: var(--success-bg);
+  border-color: var(--success-border);
+  color: var(--success-text);
+  font-weight: 600;
+}
+.word-opt.correct .opt-num-badge {
+  background: var(--success);
+  border-color: var(--success);
+  color: #ffffff;
+}
+
+.word-opt.wrong {
+  background: var(--danger-bg);
+  border-color: var(--danger-border);
+  color: var(--danger-text);
+}
+.word-opt.wrong .opt-num-badge {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #ffffff;
+}
+
+.word-opt.disabled {
+  pointer-events: none;
+}
+
+.word-explain {
+  display: none;
+  margin-top: 14px;
+  padding: 14px;
+  background: var(--primary-subtle);
+  border-left: 3.5px solid var(--primary);
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  color: var(--text-body);
+  line-height: 1.55;
+}
+.word-explain.show {
+  display: block;
+}

@@ -1,0 +1,224 @@
+/**
+ * [base.css] 디자인 토큰(CSS 변수), 리셋, 기본 레이아웃 및 반응형 미디어 쿼리
+ */
+
+:root {
+  /* 테마 컬러 시스템 (Slate & Indigo) */
+  --bg-app: #f8fafc;
+  --surface: #ffffff;
+  --surface-subtle: #f8fafc;
+  --surface-hover: #f1f5f9;
+
+  /* 포인트 및 프라이머리 컬러 */
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-active: #3730a3;
+  --primary-subtle: #eef2ff;
+  --primary-border: #c7d2fe;
+
+  /* 텍스트 컬러 */
+  --text-main: #0f172a;
+  --text-body: #334155;
+  --text-muted: #64748b;
+  --text-faint: #94a3b8;
+
+  /* 보더 라인 */
+  --border-light: #e2e8f0;
+  --border-subtle: #f1f5f9;
+
+  /* 상태 컬러 (성공, 실패, 경고) */
+  --success: #10b981;
+  --success-bg: #ecfdf5;
+  --success-border: #a7f3d0;
+  --success-text: #047857;
+
+  --danger: #ef4444;
+  --danger-bg: #fef2f2;
+  --danger-border: #fecdd3;
+  --danger-text: #b91c1c;
+
+  --warning: #f59e0b;
+  --warning-bg: #fffbeb;
+  --warning-border: #fde68a;
+  --warning-text: #b45309;
+
+  /* 그림자 시스템 */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06),
+    0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.08),
+    0 4px 6px -4px rgba(15, 23, 42, 0.03);
+  --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.05),
+    0 1px 3px rgba(15, 23, 42, 0.03);
+
+  /* 모서리 곡률 */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
+
+  /* 폰트 패밀리 */
+  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont,
+    "Plus Jakarta Sans", "Inter", "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg-app);
+  background-image: radial-gradient(
+      at 0% 0%,
+      rgba(79, 70, 229, 0.03) 0px,
+      transparent 50%
+    ),
+    radial-gradient(
+      at 100% 100%,
+      rgba(16, 185, 129, 0.03) 0px,
+      transparent 50%
+    );
+  font-family: var(--font-sans);
+  color: var(--text-body);
+  display: flex;
+  justify-content: center;
+  padding: max(24px, env(safe-area-inset-top, 24px)) 16px
+    max(40px, env(safe-area-inset-bottom, 40px));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 580px;
+}
+
+header {
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  text-transform: uppercase;
+}
+
+h1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 23px;
+  letter-spacing: -0.02em;
+  margin: 4px 0 0;
+  color: var(--text-main);
+}
+
+.sub {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* ── 모던 카드 공통 서피스 ── */
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  padding: 26px 24px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.cardtop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.cat {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--primary);
+  background: var(--primary-subtle);
+  border: 1px solid var(--primary-border);
+  border-radius: var(--radius-full);
+  padding: 4px 12px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.idx {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.ko {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.55;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+  margin: 0;
+  word-break: keep-all;
+}
+
+.line-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.lbl-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.lbl-row .lbl {
+  margin-bottom: 0;
+}
+
+/* ── 모바일 & 터치 디바이스 반응형 미디어 쿼리 ── */
+@media (max-width: 540px) {
+  body {
+    padding: max(16px, env(safe-area-inset-top, 16px)) 12px
+      max(32px, env(safe-area-inset-bottom, 32px));
+  }
+  .card {
+    padding: 22px 18px;
+    border-radius: var(--radius-lg);
+  }
+  .ko {
+    font-size: 19px;
+  }
+  button {
+    height: 46px;
+    min-height: 46px;
+    font-size: 14px;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .shortcut-key,
+  .desktop-only-tip {
+    display: none !important;
+  }
+}
