@@ -1608,8 +1608,8 @@
       async function loadData() {
         try {
           const [sentencesRes, grammarRes] = await Promise.all([
-            fetch("data/sentences.json"),
-            fetch("data/grammar.json"),
+            fetch("data/sentences_im1.json"),
+            fetch("data/grammar_im1.json"),
           ]);
           SENTENCES = await sentencesRes.json();
           CATEGORIES = [...new Set(SENTENCES.map((s) => s.cat))];
