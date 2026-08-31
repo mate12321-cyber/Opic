@@ -67,8 +67,15 @@
             >문법 포인트 연습 →</span
           >
         </div>
-        <div class="topic-lbl">주제 선택 <span id="topicCount"></span></div>
-        <div class="chips" id="topicChips"></div>
+        <div class="topic-header-row">
+          <div class="topic-lbl">
+            주제 선택 <span class="topic-count-badge" id="topicCount"></span>
+          </div>
+          <button type="button" class="btn-select-all" id="allTopicToggleBtn">
+            전체 선택
+          </button>
+        </div>
+        <div class="topic-groups-container" id="topicChips"></div>
         <button
           class="primary"
           id="startBtn"
@@ -274,10 +281,20 @@
             >← 문장 번역 연습</span
           >
         </div>
-        <div class="topic-lbl">
-          문법 유형 선택 <span id="wordTopicCount"></span>
+        <div class="topic-header-row">
+          <div class="topic-lbl">
+            문법 유형 선택
+            <span class="topic-count-badge" id="wordTopicCount"></span>
+          </div>
+          <button
+            type="button"
+            class="btn-select-all"
+            id="allWordTopicToggleBtn"
+          >
+            전체 선택
+          </button>
         </div>
-        <div class="chips" id="wordTopicChips"></div>
+        <div class="chips-grid-card" id="wordTopicChips"></div>
         <button
           class="primary"
           id="wordStartBtn"

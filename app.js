@@ -115,6 +115,8 @@ const els = {
   wordTopicScreen: document.getElementById("wordTopicScreen"),
   wordTopicChips: document.getElementById("wordTopicChips"),
   wordTopicCount: document.getElementById("wordTopicCount"),
+  allTopicToggleBtn: document.getElementById("allTopicToggleBtn"),
+  allWordTopicToggleBtn: document.getElementById("allWordTopicToggleBtn"),
   wordStartBtn: document.getElementById("wordStartBtn"),
   wordCard: document.getElementById("wordCard"),
   wordCatLabel: document.getElementById("wordCatLabel"),
@@ -156,28 +158,32 @@ const els = {
 function renderChips() {
   els.topicChips.innerHTML = "";
 
-  const allBtn = document.createElement("div");
-  allBtn.className =
-    "chip all" + (selectedCats.size === CATEGORIES.length ? " active" : "");
-  allBtn.textContent = "전체";
-  allBtn.onclick = () => {
-    selectedCats =
-      selectedCats.size === CATEGORIES.length ? new Set() : new Set(CATEGORIES);
-    renderChips();
-  };
-  els.topicChips.appendChild(allBtn);
+  const isAllSelected = selectedCats.size === CATEGORIES.length && CATEGORIES.length > 0;
+  if (els.allTopicToggleBtn) {
+    els.allTopicToggleBtn.textContent = isAllSelected ? "전체 해제" : "전체 선택";
+    els.allTopicToggleBtn.onclick = () => {
+      selectedCats = isAllSelected ? new Set() : new Set(CATEGORIES);
+      renderChips();
+    };
+  }
 
   Object.entries(GROUPS).forEach(([groupName, cats]) => {
-    const groupWrap = document.createElement("div");
-    groupWrap.className = "group";
+    const groupCard = document.createElement("div");
+    groupCard.className = "topic-group-card";
 
     const groupHead = document.createElement("div");
-    groupHead.className = "group-head";
+    groupHead.className = "topic-group-head";
+
     const allInGroup = cats.every((c) => selectedCats.has(c));
-    groupHead.innerHTML = `<span>${groupName}</span>`;
-    const groupToggle = document.createElement("span");
-    groupToggle.className = "group-toggle";
-    groupToggle.textContent = allInGroup ? "선택 해제" : "전체 선택";
+
+    const titleSpan = document.createElement("span");
+    titleSpan.className = "topic-group-title";
+    titleSpan.textContent = groupName;
+
+    const groupToggle = document.createElement("button");
+    groupToggle.type = "button";
+    groupToggle.className = "topic-group-toggle";
+    groupToggle.textContent = allInGroup ? "그룹 해제" : "그룹 선택";
     groupToggle.onclick = () => {
       if (allInGroup) {
         cats.forEach((c) => selectedCats.delete(c));
@@ -186,13 +192,16 @@ function renderChips() {
       }
       renderChips();
     };
-    groupHead.appendChild(groupToggle);
-    groupWrap.appendChild(groupHead);
 
-    const chipRow = document.createElement("div");
-    chipRow.className = "chips";
+    groupHead.appendChild(titleSpan);
+    groupHead.appendChild(groupToggle);
+    groupCard.appendChild(groupHead);
+
+    const chipGrid = document.createElement("div");
+    chipGrid.className = "topic-group-chips";
     cats.forEach((cat) => {
-      const chip = document.createElement("div");
+      const chip = document.createElement("button");
+      chip.type = "button";
       chip.className = "chip" + (selectedCats.has(cat) ? " active" : "");
       chip.textContent = cat;
       chip.onclick = () => {
@@ -200,15 +209,16 @@ function renderChips() {
         else selectedCats.add(cat);
         renderChips();
       };
-      chipRow.appendChild(chip);
+      chipGrid.appendChild(chip);
     });
-    groupWrap.appendChild(chipRow);
-    els.topicChips.appendChild(groupWrap);
+
+    groupCard.appendChild(chipGrid);
+    els.topicChips.appendChild(groupCard);
   });
 
   const count = SENTENCES.filter((s) => selectedCats.has(s.cat)).length;
   els.topicCount.textContent = selectedCats.size
-    ? `(${count}문장)`
+    ? `(${count}문장 · ${selectedCats.size}개 주제)`
     : "(주제를 선택하세요)";
   els.startBtn.disabled = selectedCats.size === 0;
   els.startBtn.style.opacity = selectedCats.size === 0 ? ".45" : "1";
@@ -1189,22 +1199,23 @@ els.toSentenceModeLink.addEventListener("click", () => {
 
 function renderWordChips() {
   els.wordTopicChips.innerHTML = "";
-  const allBtn = document.createElement("div");
-  allBtn.className =
-    "chip all" +
-    (wordSelectedCats.size === WORD_CATEGORIES.length ? " active" : "");
-  allBtn.textContent = "전체";
-  allBtn.onclick = () => {
-    wordSelectedCats =
-      wordSelectedCats.size === WORD_CATEGORIES.length
-        ? new Set()
-        : new Set(WORD_CATEGORIES);
-    renderWordChips();
-  };
-  els.wordTopicChips.appendChild(allBtn);
+
+  const isAllSelected =
+    wordSelectedCats.size === WORD_CATEGORIES.length &&
+    WORD_CATEGORIES.length > 0;
+  if (els.allWordTopicToggleBtn) {
+    els.allWordTopicToggleBtn.textContent = isAllSelected
+      ? "전체 해제"
+      : "전체 선택";
+    els.allWordTopicToggleBtn.onclick = () => {
+      wordSelectedCats = isAllSelected ? new Set() : new Set(WORD_CATEGORIES);
+      renderWordChips();
+    };
+  }
 
   WORD_CATEGORIES.forEach((cat) => {
-    const chip = document.createElement("div");
+    const chip = document.createElement("button");
+    chip.type = "button";
     chip.className = "chip" + (wordSelectedCats.has(cat) ? " active" : "");
     chip.textContent = cat;
     chip.onclick = () => {
@@ -1217,7 +1228,7 @@ function renderWordChips() {
 
   const count = WORD_ITEMS.filter((w) => wordSelectedCats.has(w.cat)).length;
   els.wordTopicCount.textContent = wordSelectedCats.size
-    ? `(${count}문제)`
+    ? `(${count}문제 · ${wordSelectedCats.size}개 유형)`
     : "(유형을 선택하세요)";
   els.wordStartBtn.disabled = wordSelectedCats.size === 0;
   els.wordStartBtn.style.opacity = wordSelectedCats.size === 0 ? ".45" : "1";
