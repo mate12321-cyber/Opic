@@ -1,0 +1,481 @@
+// ── VOICE TTS, STT & EVALUATION SYSTEM ─────────────────────────────
+
+// Helper utilities
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function copyText(text, btn) {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        if (btn) {
+          const original = btn.textContent;
+          btn.textContent = "복사됨 ✓";
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.textContent = original;
+            btn.classList.remove("copied");
+          }, 1500);
+        }
+      })
+      .catch(() => fallbackCopy(text, btn));
+  } else {
+    fallbackCopy(text, btn);
+  }
+}
+
+function fallbackCopy(text, btn) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.top = "0";
+  ta.style.left = "0";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try {
+    document.execCommand("copy");
+    if (btn) {
+      const original = btn.textContent;
+      btn.textContent = "복사됨 ✓";
+      btn.classList.add("copied");
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove("copied");
+      }, 1500);
+    }
+  } catch (err) {
+    alert("복사하지 못했어요: " + text);
+  }
+  document.body.removeChild(ta);
+}
+
+function openSidePopup(url, title = "GoogleAI_Popup") {
+  const width = 640;
+  const height = 750;
+  const screenWidth = window.screen.availWidth || window.innerWidth;
+  const screenHeight = window.screen.availHeight || window.innerHeight;
+  const left = Math.max(0, screenWidth - width - 30);
+  const top = Math.max(0, Math.floor((screenHeight - height) / 2));
+  const features = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,status=no,menubar=no,toolbar=no`;
+  const popup = window.open(url, title, features);
+  if (popup && popup.focus) {
+    popup.focus();
+  }
+  return popup;
+}
+
+function buildGoogleQuery() {
+  const answer = els.userInput.value.trim();
+  const ko = els.koText.textContent.trim();
+  return `"${ko}"를 영어로 "${answer}"라고 썼는데 이 영어 문장 문법 분석해줘`;
+}
+
+function buildWordGoogleQuery(item) {
+  return `'${item.answer}' 표현은 언제 사용해?`;
+}
+
+// TTS (Text-to-Speech) System
+let ttsRate = 1.0;
+let autoPlayTtsEnabled = false;
+let currentSpeakingBtn = null;
+const TTS_SETTINGS_KEY = "ko-en-opic-tts-settings";
+
+function loadTtsSettings() {
+  try {
+    const raw = localStorage.getItem(TTS_SETTINGS_KEY);
+    if (raw) {
+      const settings = JSON.parse(raw);
+      if (settings.rate) ttsRate = parseFloat(settings.rate);
+      if (typeof settings.autoPlay === "boolean")
+        autoPlayTtsEnabled = settings.autoPlay;
+    }
+  } catch (e) {}
+  updateTtsSettingsUI();
+}
+
+function saveTtsSettings() {
+  try {
+    localStorage.setItem(
+      TTS_SETTINGS_KEY,
+      JSON.stringify({ rate: ttsRate, autoPlay: autoPlayTtsEnabled }),
+    );
+  } catch (e) {}
+}
+
+function updateTtsSettingsUI() {
+  document.querySelectorAll(".speed-chip").forEach((chip) => {
+    if (parseFloat(chip.dataset.speed) === ttsRate) {
+      chip.classList.add("active");
+    } else {
+      chip.classList.remove("active");
+    }
+  });
+  if (els.autoPlayTts) {
+    els.autoPlayTts.checked = autoPlayTtsEnabled;
+  }
+}
+
+function initTTS() {
+  if (!("speechSynthesis" in window)) {
+    if (els.audioControls) els.audioControls.style.display = "none";
+    document.querySelectorAll(".tts-btn").forEach((b) => (b.style.display = "none"));
+    return;
+  }
+  if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = () => {};
+  }
+  document.querySelectorAll(".speed-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      ttsRate = parseFloat(chip.dataset.speed) || 1.0;
+      saveTtsSettings();
+      updateTtsSettingsUI();
+    });
+  });
+  if (els.autoPlayTts) {
+    els.autoPlayTts.addEventListener("change", (e) => {
+      autoPlayTtsEnabled = e.target.checked;
+      saveTtsSettings();
+    });
+  }
+}
+
+function getBestVoice(lang = "en-US") {
+  if (!("speechSynthesis" in window)) return null;
+  const voices = speechSynthesis.getVoices();
+  const langPrefix = lang.split("-")[0].toLowerCase();
+  const langVoices = voices.filter((v) =>
+    v.lang.toLowerCase().startsWith(langPrefix),
+  );
+  if (!langVoices.length) return null;
+  const premiumKeywords = ["natural", "samantha", "daniel", "karen", "siri", "google", "yuna"];
+  for (const kw of premiumKeywords) {
+    const found = langVoices.find((v) =>
+      v.name.toLowerCase().includes(kw),
+    );
+    if (found) return found;
+  }
+  const exact = langVoices.find((v) => v.lang.toLowerCase() === lang.toLowerCase());
+  return exact || langVoices[0];
+}
+
+function stopTTS() {
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel();
+  }
+  if (currentSpeakingBtn) {
+    currentSpeakingBtn.classList.remove("playing");
+    const label = currentSpeakingBtn.dataset.originalLabel;
+    if (label) currentSpeakingBtn.innerHTML = label;
+    currentSpeakingBtn = null;
+  }
+}
+
+function speakText(text, lang = "en-US", btn = null) {
+  if (!("speechSynthesis" in window) || !text) return;
+  if (currentSpeakingBtn === btn && speechSynthesis.speaking) {
+    stopTTS();
+    return;
+  }
+  stopTTS();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang;
+  utterance.rate = ttsRate;
+  utterance.pitch = 1.0;
+  const voice = getBestVoice(lang);
+  if (voice) utterance.voice = voice;
+
+  if (btn) {
+    currentSpeakingBtn = btn;
+    btn.dataset.originalLabel = btn.innerHTML;
+    btn.classList.add("playing");
+    btn.innerHTML = "⏹ 정지";
+    utterance.onend = () => {
+      btn.classList.remove("playing");
+      if (btn.dataset.originalLabel) btn.innerHTML = btn.dataset.originalLabel;
+      if (currentSpeakingBtn === btn) currentSpeakingBtn = null;
+    };
+    utterance.onerror = () => {
+      btn.classList.remove("playing");
+      if (btn.dataset.originalLabel) btn.innerHTML = btn.dataset.originalLabel;
+      if (currentSpeakingBtn === btn) currentSpeakingBtn = null;
+    };
+  }
+  speechSynthesis.speak(utterance);
+}
+
+// Speaking evaluation
+function normalizeForEval(text) {
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9'\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function evaluateSpeech(userInput, modelAnswer) {
+  const normUser = normalizeForEval(userInput);
+  const normModel = normalizeForEval(modelAnswer);
+  if (!normModel) return { score: 0, diffHtml: "", feedback: "모범 답안이 없습니다." };
+  if (!normUser) {
+    return {
+      score: 0,
+      diffHtml: "<span class='eval-word miss'>입력된 음성이 없습니다.</span>",
+      feedback: "마이크를 누르고 영어로 말해보세요.",
+    };
+  }
+
+  const userTokens = normUser.split(" ").filter(Boolean);
+  const modelTokens = normModel.split(" ").filter(Boolean);
+
+  let matchCount = 0;
+  const matchedUserIndices = new Set();
+  const diffParts = [];
+
+  modelTokens.forEach((targetWord) => {
+    let foundIdx = -1;
+    for (let j = 0; j < userTokens.length; j++) {
+      if (!matchedUserIndices.has(j) && userTokens[j] === targetWord) {
+        foundIdx = j;
+        break;
+      }
+    }
+    if (foundIdx !== -1) {
+      matchedUserIndices.add(foundIdx);
+      matchCount++;
+      diffParts.push(`<span class="eval-word match">${escapeHtml(targetWord)}</span>`);
+    } else {
+      diffParts.push(`<span class="eval-word miss">${escapeHtml(targetWord)}</span>`);
+    }
+  });
+
+  const extraWords = userTokens
+    .filter((_, idx) => !matchedUserIndices.has(idx))
+    .slice(0, 3);
+  if (extraWords.length > 0) {
+    diffParts.push(
+      `<span class="eval-word actual">(추가 인식: ${extraWords.map(escapeHtml).join(", ")})</span>`,
+    );
+  }
+
+  const score = Math.min(100, Math.round((matchCount / modelTokens.length) * 100));
+  let feedback = "";
+  if (score >= 90) feedback = "🌟 훌륭합니다! 원어민 모범 답안과 거의 완벽하게 일치해요.";
+  else if (score >= 70) feedback = "👍 잘하셨어요! 놓친 단어들을 확인하고 한 번 더 말해보세요.";
+  else if (score >= 40) feedback = "💪 좋아요! 빨간색으로 표시된 단어에 유의해서 다시 연습해 보세요.";
+  else feedback = "🌱 천천히 또박또박 모범 답안 발음을 듣고 따라 해보세요.";
+
+  return { score, diffHtml: diffParts.join(" "), feedback };
+}
+
+function renderSpeechEvaluation(evalData) {
+  if (!els.speechEvalBox || !els.evalScoreBadge || !els.evalDiff || !els.evalFeedback) return;
+  const { score, diffHtml, feedback } = evalData;
+  els.evalScoreBadge.textContent = `${score}% 일치`;
+  els.evalScoreBadge.className = "eval-score-badge " + (score >= 80 ? "high" : score >= 50 ? "mid" : "low");
+  els.evalDiff.innerHTML = diffHtml;
+  els.evalFeedback.textContent = feedback;
+  els.speechEvalBox.classList.add("show");
+}
+
+// Live Translation & Grammar checking
+async function checkGrammar(text) {
+  if (!text || text.length < 3) return [];
+  const params = new URLSearchParams({ text, language: "en-US" });
+  try {
+    const res = await fetch("https://api.languagetool.org/v2/check", {
+      method: "POST",
+      body: params,
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.matches || [];
+  } catch (e) {
+    return [];
+  }
+}
+
+async function translateToKorean(text) {
+  if (!text || !text.trim()) return "";
+  try {
+    const url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=" + encodeURIComponent(text.trim());
+    const res = await fetch(url);
+    if (!res.ok) return "";
+    const data = await res.json();
+    return (data[0] || []).map((chunk) => chunk[0]).join("");
+  } catch (e) {
+    return "";
+  }
+}
+
+async function renderGrammarResults(matches, text) {
+  els.grammarBox.classList.add("show");
+  if (!matches || matches.length === 0) {
+    els.grammarContent.innerHTML = `<div class="g-good">✓ 문법 오류가 발견되지 않았어요. 자연스러운 문장이에요!</div>`;
+    return;
+  }
+  const translated = await translateToKorean(text);
+  let html = translated ? `<div class="g-note" style="margin-bottom:8px">내 답 해석: "${escapeHtml(translated)}"</div>` : "";
+  matches.slice(0, 3).forEach((m) => {
+    const offset = m.offset;
+    const len = m.length;
+    const excerpt = escapeHtml(text.slice(0, offset)) + `<u>${escapeHtml(text.slice(offset, offset + len))}</u>` + escapeHtml(text.slice(offset + len, offset + len + 30));
+    const repls = (m.replacements || []).slice(0, 3).map((r) => r.value).join(", ");
+    html += `<div class="g-item"><div class="g-excerpt">...${excerpt}...</div><div class="g-msg">${escapeHtml(m.message)}</div>${repls ? `<div class="g-fix">추천 수정: ${escapeHtml(repls)}</div>` : ""}</div>`;
+  });
+  els.grammarContent.innerHTML = html;
+}
+
+let translateTimer = null;
+async function runLiveTranslate(text) {
+  if (!text.trim()) {
+    els.liveTranslate.classList.remove("show");
+    els.liveTranslateText.textContent = "";
+    return;
+  }
+  els.liveTranslate.classList.add("show");
+  els.liveTranslateText.textContent = "번역 중...";
+  els.liveTranslateText.classList.add("loading");
+  const translated = await translateToKorean(text);
+  els.liveTranslateText.classList.remove("loading");
+  if (translated) {
+    els.liveTranslateText.textContent = translated;
+  } else {
+    els.liveTranslate.classList.remove("show");
+  }
+}
+
+// STT (Speech-to-Text) System
+let recognition = null;
+let listening = false;
+let micStartTimer = null;
+let micStarted = false;
+let finalTranscript = "";
+
+const MIC_ERROR_MESSAGES = {
+  "not-allowed": "마이크 권한이 필요해요. 브라우저 주소창의 🔒 아이콘 → 마이크 → 허용으로 설정해주세요.",
+  "permission-denied": "마이크 권한이 필요해요. 브라우저 주소창의 🔒 아이콘 → 마이크 → 허용으로 설정해주세요.",
+  "service-not-allowed": "이 브라우저는 음성 인식 서비스를 지원하지 않아요. Chrome 브라우저에서 시도해보세요.",
+  "no-speech": "음성이 감지되지 않았어요. 마이크를 가까이 대고 다시 말씀해주세요.",
+  network: "네트워크 오류로 음성을 인식하지 못했어요. 인터넷 연결을 확인해주세요.",
+};
+
+function showMicError(msg) {
+  if (!els.micError) return;
+  els.micError.textContent = msg;
+  els.micError.classList.add("show");
+}
+
+function clearMicError() {
+  if (!els.micError) return;
+  els.micError.textContent = "";
+  els.micError.classList.remove("show");
+}
+
+function stopListeningUI() {
+  listening = false;
+  micStarted = false;
+  if (micStartTimer) {
+    clearTimeout(micStartTimer);
+    micStartTimer = null;
+  }
+  if (els.micBtn) els.micBtn.classList.remove("listening");
+}
+
+function armStartupWatchdog() {
+  if (micStartTimer) clearTimeout(micStartTimer);
+  micStartTimer = setTimeout(() => {
+    if (listening && !micStarted) {
+      showMicError("마이크가 시작되지 않았어요. 브라우저 설정에서 마이크 권한을 확인해주세요.");
+      try {
+        if (recognition) recognition.stop();
+      } catch (e) {}
+      stopListeningUI();
+    }
+  }, 3500);
+}
+
+function initSpeechRecognition() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    if (els.micBtn) {
+      els.micBtn.title = "이 브라우저는 음성 인식을 지원하지 않습니다 (Chrome 권장)";
+      els.micBtn.style.opacity = "0.4";
+      els.micBtn.onclick = () => showMicError("이 브라우저는 음성 인식을 지원하지 않아요. Chrome 브라우저에서 시도해보세요.");
+    }
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 1;
+
+  recognition.onstart = () => {
+    micStarted = true;
+    if (micStartTimer) {
+      clearTimeout(micStartTimer);
+      micStartTimer = null;
+    }
+    clearMicError();
+    if (els.micBtn) els.micBtn.classList.add("listening");
+  };
+
+  recognition.onresult = (e) => {
+    let interim = "";
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const transcript = e.results[i][0].transcript;
+      if (e.results[i].isFinal) {
+        finalTranscript += (finalTranscript ? " " : "") + transcript.trim();
+      } else {
+        interim += transcript;
+      }
+    }
+    const currentText = finalTranscript + (interim ? (finalTranscript ? " " : "") + interim : "");
+    if (els.userInput && currentText) {
+      els.userInput.value = currentText;
+      clearTimeout(translateTimer);
+      translateTimer = setTimeout(() => runLiveTranslate(currentText), 500);
+    }
+  };
+
+  recognition.onerror = (e) => {
+    if (e.error === "aborted") return;
+    const msg = MIC_ERROR_MESSAGES[e.error] || `마이크 오류가 발생했어요 (${e.error}). 다시 시도해주세요.`;
+    showMicError(msg);
+    stopListeningUI();
+  };
+
+  recognition.onend = () => {
+    stopListeningUI();
+  };
+
+  if (els.micBtn) {
+    els.micBtn.onclick = () => {
+      if (listening) {
+        stopListeningUI();
+        try { recognition.stop(); } catch (e) {}
+      } else {
+        clearMicError();
+        finalTranscript = (els.userInput ? els.userInput.value.trim() : "");
+        listening = true;
+        micStarted = false;
+        armStartupWatchdog();
+        try {
+          recognition.start();
+        } catch (e) {
+          showMicError("마이크를 시작하지 못했어요. 다시 시도해주세요.");
+          stopListeningUI();
+        }
+      }
+    };
+  }
+}
