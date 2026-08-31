@@ -2,8 +2,8 @@
   /* Modern Clean Slate & Indigo Palette */
   --bg-app: #f8fafc;
   --surface: #ffffff;
-  --surface-subtle: #f1f5f9;
-  --surface-hover: #f8fafc;
+  --surface-subtle: #f8fafc;
+  --surface-hover: #f1f5f9;
 
   --primary: #4f46e5;
   --primary-hover: #4338ca;
@@ -44,7 +44,7 @@
 
   --radius-sm: 6px;
   --radius-md: 10px;
-  --radius-lg: 14px;
+  --radius-lg: 12px;
   --radius-xl: 18px;
   --radius-full: 9999px;
 
@@ -185,6 +185,7 @@ h1 {
   margin-bottom: 0;
 }
 
+/* ── Unified Action Pill Buttons (Tier 2) ────────────────────── */
 .action-btn-group {
   display: flex;
   align-items: center;
@@ -192,26 +193,37 @@ h1 {
   flex-shrink: 0;
 }
 
-.copy-btn {
-  flex-shrink: 0;
+.copy-btn,
+.tts-btn {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
   font-family: var(--font-sans);
-  font-size: 11.5px;
-  font-weight: 500;
-  color: var(--text-muted);
-  background: var(--surface-subtle);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-full);
-  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   cursor: pointer;
   white-space: nowrap;
   user-select: none;
   transition: all 0.15s ease;
   text-decoration: none;
+  box-sizing: border-box;
+}
+
+.copy-btn {
+  color: var(--text-body);
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
 }
 .copy-btn:hover {
-  background: #e2e8f0;
-  color: var(--text-main);
+  background: var(--surface-hover);
   border-color: #cbd5e1;
+  color: var(--text-main);
 }
 .copy-btn:active {
   transform: scale(0.96);
@@ -223,22 +235,9 @@ h1 {
 }
 
 .tts-btn {
-  flex-shrink: 0;
-  font-family: var(--font-sans);
-  font-size: 11.5px;
-  font-weight: 500;
   color: var(--primary);
   background: var(--primary-subtle);
   border: 1px solid var(--primary-border);
-  border-radius: var(--radius-full);
-  padding: 5px 12px;
-  cursor: pointer;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  user-select: none;
-  transition: all 0.15s ease;
 }
 .tts-btn:hover {
   background: #e0e7ff;
@@ -254,10 +253,16 @@ h1 {
   animation: ttsPulse 1.2s infinite;
 }
 .tts-btn-primary {
-  background: var(--primary-subtle);
-  border-color: var(--primary-border);
-  font-weight: 600;
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.2);
 }
+.tts-btn-primary:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
 @keyframes ttsPulse {
   0% {
     box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
@@ -276,11 +281,12 @@ h1 {
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
-  background: var(--surface-subtle);
+  background: #ffffff;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   margin-bottom: 18px;
   font-size: 11.5px;
+  box-shadow: var(--shadow-sm);
 }
 .speed-selector {
   display: flex;
@@ -290,26 +296,31 @@ h1 {
 .speed-selector span {
   font-family: var(--font-sans);
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 500;
   margin-right: 4px;
 }
 .speed-chip {
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 6px;
   font-family: var(--font-mono);
   font-size: 11px;
-  font-weight: 500;
-  padding: 3px 9px;
-  border-radius: var(--radius-full);
+  font-weight: 600;
   border: 1px solid var(--border-light);
-  background: var(--surface);
+  background: var(--bg-app);
   color: var(--text-muted);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.12s ease;
   min-height: auto;
 }
 .speed-chip:hover {
   border-color: var(--primary-border);
   color: var(--primary);
+  background: #ffffff;
 }
 .speed-chip:active {
   transform: scale(0.95);
@@ -318,7 +329,6 @@ h1 {
   background: var(--primary);
   border-color: var(--primary);
   color: #ffffff;
-  font-weight: 600;
 }
 .auto-play-toggle {
   display: flex;
@@ -327,9 +337,9 @@ h1 {
   cursor: pointer;
   user-select: none;
   font-family: var(--font-sans);
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 500;
-  color: var(--text-muted);
+  color: var(--text-body);
 }
 .auto-play-toggle input {
   cursor: pointer;
@@ -350,13 +360,14 @@ textarea {
   font-family: var(--font-sans);
   font-size: 16.5px;
   color: var(--text-main);
-  background: var(--surface-subtle);
+  background: #ffffff;
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-lg);
   padding: 12px 46px 12px 14px;
   outline: none;
   line-height: 1.55;
   transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
 }
 textarea:focus {
   border-color: var(--primary);
@@ -374,9 +385,9 @@ textarea::placeholder {
   top: 8px;
   width: 34px;
   height: 34px;
-  border-radius: var(--radius-full);
+  border-radius: 8px;
   border: 1px solid var(--border-light);
-  background: var(--surface);
+  background: var(--bg-app);
   font-size: 15px;
   line-height: 1;
   display: flex;
@@ -386,7 +397,6 @@ textarea::placeholder {
   padding: 0;
   user-select: none;
   transition: all 0.15s ease;
-  box-shadow: var(--shadow-sm);
   min-height: auto;
 }
 .mic-btn:hover {
@@ -461,7 +471,7 @@ textarea::placeholder {
 .answer {
   margin-top: 20px;
   padding: 18px 16px;
-  background: var(--surface-subtle);
+  background: var(--bg-app);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
   display: none;
@@ -489,10 +499,10 @@ textarea::placeholder {
 }
 .tip {
   font-size: 13px;
-  color: var(--text-muted);
+  color: var(--text-body);
   line-height: 1.55;
   background: #ffffff;
-  padding: 10px 12px;
+  padding: 10px 14px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
 }
@@ -660,19 +670,20 @@ textarea::placeholder {
   flex-wrap: wrap;
 }
 
-/* ── Modern Buttons ──────────────────────────────────────────── */
+/* ── Unified Main Action Buttons (Tier 1) ────────────────────── */
 .row {
   display: flex;
   gap: 10px;
   margin-top: 20px;
 }
+
 button {
   font-family: var(--font-sans);
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  padding: 0 18px;
   cursor: pointer;
   border: 1px solid transparent;
   transition: all 0.15s ease;
@@ -680,7 +691,10 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 46px;
+  gap: 6px;
+  height: 48px;
+  min-height: 48px;
+  box-sizing: border-box;
 }
 button:active {
   transform: scale(0.98);
@@ -690,7 +704,7 @@ button:active {
   flex: 1;
   background: var(--primary);
   color: #ffffff;
-  border: none;
+  border: 1px solid transparent;
   box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
 }
 .primary:hover {
@@ -700,20 +714,23 @@ button:active {
 
 .ghost {
   flex: 1;
-  background: var(--surface-subtle);
-  border: 1px solid var(--border-light);
+  background: #ffffff;
+  border: 1.5px solid var(--border-light);
   color: var(--text-body);
+  box-shadow: var(--shadow-sm);
 }
 .ghost:hover {
-  background: #e2e8f0;
+  background: var(--surface-hover);
   border-color: #cbd5e1;
+  color: var(--text-main);
 }
 
 .good {
   flex: 1;
   background: var(--success-bg);
-  border: 1px solid var(--success-border);
+  border: 1.5px solid var(--success-border);
   color: var(--success-text);
+  box-shadow: 0 1px 2px rgba(16, 185, 129, 0.05);
 }
 .good:hover {
   background: #d1fae5;
@@ -723,8 +740,9 @@ button:active {
 .bad {
   flex: 1;
   background: var(--danger-bg);
-  border: 1px solid var(--danger-border);
+  border: 1.5px solid var(--danger-border);
   color: var(--danger-text);
+  box-shadow: 0 1px 2px rgba(239, 68, 68, 0.05);
 }
 .bad:hover {
   background: #ffe4e6;
@@ -738,15 +756,14 @@ button:active {
   justify-content: center;
   font-family: var(--font-mono);
   font-size: 10px;
-  font-weight: 600;
-  color: #475569;
+  font-weight: 700;
+  color: var(--text-muted);
   background: #ffffff;
   border: 1px solid #cbd5e1;
   border-radius: 4px;
-  padding: 2px 6px;
-  margin-left: 6px;
+  padding: 1px 5px;
   line-height: 1.2;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 }
 .primary .shortcut-key {
   background: rgba(255, 255, 255, 0.2);
@@ -768,7 +785,7 @@ button:active {
 .shortcut-helper {
   margin-top: 14px;
   padding: 8px 12px;
-  background: var(--surface-subtle);
+  background: var(--bg-app);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   display: flex;
@@ -884,25 +901,36 @@ button:active {
 }
 .group-toggle {
   font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 11.5px;
+  font-weight: 600;
   color: var(--primary);
-  text-decoration: underline;
   cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.12s ease;
 }
+.group-toggle:hover {
+  background: var(--primary-subtle);
+}
+
 .chip {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-light);
+  background: #ffffff;
+  color: var(--text-body);
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 500;
-  padding: 7px 14px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-light);
-  background: var(--surface);
-  color: var(--text-body);
   cursor: pointer;
   user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.12s ease;
   min-height: auto;
+  box-shadow: var(--shadow-sm);
 }
 .chip:hover {
   border-color: var(--primary-border);
@@ -923,36 +951,70 @@ button:active {
   color: #ffffff;
   box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
 }
+
+/* ── Unified Navigation & Footer Links ───────────────────────── */
 .change-topic {
-  margin-top: 16px;
-  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-light);
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 500;
-  color: var(--text-muted);
-  text-decoration: underline;
+  color: var(--text-body);
   cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  user-select: none;
 }
 .change-topic:hover {
+  background: #ffffff;
   color: var(--primary);
+  border-color: var(--primary-border);
+  box-shadow: var(--shadow-sm);
+}
+
+#retrySameLink {
+  display: inline-flex;
+  margin: 14px auto 0;
+  width: auto;
+  background: var(--primary-subtle);
+  border-color: var(--primary-border);
+  color: var(--primary);
+  font-weight: 600;
+}
+#retrySameLink:hover {
+  background: #e0e7ff;
 }
 
 .mode-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--bg-app);
+  border: 1px solid var(--border-light);
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 600;
-  color: var(--primary);
+  color: var(--text-body);
   text-decoration: none;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
-  transition: background 0.12s ease;
+  transition: all 0.15s ease;
 }
 .mode-switch:hover {
-  background: var(--primary-subtle);
+  background: #ffffff;
+  color: var(--primary);
+  border-color: var(--primary-border);
+  box-shadow: var(--shadow-sm);
 }
 
-/* ── Grammar Quiz (Word Mode) ────────────────────────────────── */
+/* ── Grammar Quiz (Word Mode) Option Buttons ─────────────────── */
 #wordSentence {
   margin-bottom: 18px;
 }
@@ -966,38 +1028,44 @@ button:active {
   font-size: 15.5px;
   font-weight: 500;
   text-align: left;
-  padding: 13px 16px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-light);
-  background: var(--surface);
+  padding: 0 16px;
+  height: 52px;
+  min-height: 52px;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-light);
+  background: #ffffff;
   color: var(--text-main);
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   transition: all 0.15s ease;
-  min-height: 48px;
+  box-shadow: var(--shadow-sm);
 }
 .word-opt:hover {
   border-color: var(--primary);
   background: var(--primary-subtle);
+  transform: translateY(-1px);
 }
 .word-opt:active {
-  transform: scale(0.98);
+  transform: scale(0.99);
 }
 .opt-num-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: var(--radius-full);
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 700;
-  background: var(--surface-subtle);
+  background: var(--bg-app);
+  border: 1px solid var(--border-light);
   color: var(--text-muted);
   margin-right: 12px;
   flex-shrink: 0;
+  transition: all 0.15s ease;
 }
 .word-opt.correct {
   background: var(--success-bg);
@@ -1007,6 +1075,7 @@ button:active {
 }
 .word-opt.correct .opt-num-badge {
   background: var(--success);
+  border-color: var(--success);
   color: #ffffff;
 }
 .word-opt.wrong {
@@ -1016,6 +1085,7 @@ button:active {
 }
 .word-opt.wrong .opt-num-badge {
   background: var(--danger);
+  border-color: var(--danger);
   color: #ffffff;
 }
 .word-opt.disabled {
@@ -1024,10 +1094,10 @@ button:active {
 .word-explain {
   display: none;
   margin-top: 14px;
-  padding: 12px 14px;
+  padding: 14px;
   background: var(--primary-subtle);
   border-left: 3.5px solid var(--primary);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   font-size: 13.5px;
   color: var(--text-body);
   line-height: 1.55;
@@ -1045,7 +1115,7 @@ button:active {
 .change-topic-row {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
   margin-top: 16px;
 }
 .change-topic-row .change-topic {
@@ -1160,6 +1230,8 @@ button:active {
   font-family: inherit;
   box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
+  height: auto;
+  min-height: 76px;
 }
 .nav-card:hover {
   border-color: var(--primary-border);
@@ -1174,7 +1246,7 @@ button:active {
   flex-shrink: 0;
   width: 44px;
   height: 44px;
-  background: var(--surface-subtle);
+  background: var(--primary-subtle);
   border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
@@ -1233,13 +1305,18 @@ button:active {
     padding-right: 44px;
   }
   .mic-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
   }
   .topic-screen {
     padding: 20px 16px;
     border-radius: var(--radius-lg);
+  }
+  button {
+    height: 46px;
+    min-height: 46px;
+    font-size: 14px;
   }
 }
 
