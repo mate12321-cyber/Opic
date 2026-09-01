@@ -117,9 +117,12 @@ function hideAllScreens() {
 function renderChips() {
   els.topicChips.innerHTML = "";
 
-  const isAllSelected = selectedCats.size === CATEGORIES.length && CATEGORIES.length > 0;
+  const isAllSelected =
+    selectedCats.size === CATEGORIES.length && CATEGORIES.length > 0;
   if (els.allTopicToggleBtn) {
-    els.allTopicToggleBtn.textContent = isAllSelected ? "전체 해제" : "전체 선택";
+    els.allTopicToggleBtn.textContent = isAllSelected
+      ? "전체 해제"
+      : "전체 선택";
     els.allTopicToggleBtn.onclick = () => {
       selectedCats = isAllSelected ? new Set() : new Set(CATEGORIES);
       renderChips();
@@ -181,7 +184,8 @@ function renderChips() {
     : "(주제를 선택하세요)";
   els.startBtn.disabled = selectedCats.size === 0;
   els.startBtn.style.opacity = selectedCats.size === 0 ? ".45" : "1";
-  els.startBtn.style.cursor = selectedCats.size === 0 ? "not-allowed" : "pointer";
+  els.startBtn.style.cursor =
+    selectedCats.size === 0 ? "not-allowed" : "pointer";
 }
 
 // 문장 번역 주제 선택 화면 열기
@@ -195,9 +199,13 @@ function showTopicScreen() {
 function renderWordChips() {
   els.wordTopicChips.innerHTML = "";
 
-  const isAllSelected = wordSelectedCats.size === WORD_CATEGORIES.length && WORD_CATEGORIES.length > 0;
+  const isAllSelected =
+    wordSelectedCats.size === WORD_CATEGORIES.length &&
+    WORD_CATEGORIES.length > 0;
   if (els.allWordTopicToggleBtn) {
-    els.allWordTopicToggleBtn.textContent = isAllSelected ? "전체 해제" : "전체 선택";
+    els.allWordTopicToggleBtn.textContent = isAllSelected
+      ? "전체 해제"
+      : "전체 선택";
     els.allWordTopicToggleBtn.onclick = () => {
       wordSelectedCats = isAllSelected ? new Set() : new Set(WORD_CATEGORIES);
       renderWordChips();
@@ -223,7 +231,8 @@ function renderWordChips() {
     : "(유형을 선택하세요)";
   els.wordStartBtn.disabled = wordSelectedCats.size === 0;
   els.wordStartBtn.style.opacity = wordSelectedCats.size === 0 ? ".45" : "1";
-  els.wordStartBtn.style.cursor = wordSelectedCats.size === 0 ? "not-allowed" : "pointer";
+  els.wordStartBtn.style.cursor =
+    wordSelectedCats.size === 0 ? "not-allowed" : "pointer";
 }
 
 // 홈 대시보드 통계 숫자 및 7일간의 학습 막대 차트 렌더링
@@ -246,7 +255,8 @@ function renderHomeDashboard() {
     .map((d) => {
       const count = dailyLog[d.key] || 0;
       const h = Math.max(3, Math.round((count / max) * 44));
-      return `<div class="bar-col">
+      return `<div class="bar-col${d.isToday ? " is-today" : ""}" title="${d.label}요일: ${count}문제">
+      <div class="bar-tooltip">${count}문제</div>
       <div class="bar${d.isToday ? " today" : ""}" style="height:${h}px"></div>
       <div class="bar-label">${d.label}</div>
     </div>`;

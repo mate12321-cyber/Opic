@@ -62,9 +62,10 @@
   background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 16px 16px 12px;
-  height: 84px;
+  padding: 22px 16px 12px;
+  height: 92px;
   box-shadow: var(--shadow-sm);
+  position: relative;
 }
 .home-chart .bar-col {
   flex: 1;
@@ -74,24 +75,95 @@
   justify-content: flex-end;
   height: 100%;
   gap: 5px;
+  position: relative;
+  cursor: pointer;
+  padding: 0 2px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
 }
+.home-chart .bar-col:hover {
+  background: var(--surface-hover, #f8fafc);
+}
+
+/* 요일 요소 호버 시 표시되는 수량 툴팁 */
+.home-chart .bar-tooltip {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) translateY(0);
+  background: #0f172a;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 3px 7px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.18);
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 20;
+}
+.home-chart .bar-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  border-width: 4px;
+  border-style: solid;
+  border-color: #0f172a transparent transparent transparent;
+}
+.home-chart .bar-col:hover .bar-tooltip,
+.home-chart .bar-col:focus-visible .bar-tooltip {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transform: translateX(-50%) translateY(-4px);
+  transform: translateX(-50%) translateY(-4px);
+}
+
 .home-chart .bar {
   width: 100%;
   max-width: 22px;
   background: #cbd5e1;
   border-radius: 4px 4px 2px 2px;
   min-height: 4px;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
+}
+.home-chart .bar-col:hover .bar {
+  background: #94a3b8;
+  -webkit-transform: scaleY(1.05);
+  transform: scaleY(1.05);
+  transform-origin: bottom;
 }
 .home-chart .bar.today {
   background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%);
   box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
+}
+.home-chart .bar-col:hover .bar.today {
+  background: linear-gradient(180deg, #4f46e5 0%, #4338ca 100%);
+  box-shadow: 0 3px 8px rgba(79, 70, 229, 0.45);
 }
 .home-chart .bar-label {
   font-family: var(--font-sans);
   font-size: 10.5px;
   font-weight: 600;
   color: var(--text-muted);
+  transition: color 0.15s ease;
+}
+.home-chart .bar-col:hover .bar-label {
+  color: var(--text-main);
+  font-weight: 700;
+}
+.home-chart .bar-col.is-today .bar-label {
+  color: var(--primary);
+  font-weight: 700;
 }
 
 /* ── 홈 메뉴 내비게이션 카드 ── */
