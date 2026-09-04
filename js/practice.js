@@ -7,10 +7,10 @@
  */
 
 let selectedCats = new Set(); // 선택된 카테고리 세트
-let order = [];               // 출제 인덱스 순서 배열
-let cur = 0;                  // 현재 문제 인덱스
-let results = {};             // 채점 결과 { sentenceIndex: 'good' | 'bad' }
-let revealed = false;         // 정답 확인 여부 플래그
+let order = []; // 출제 인덱스 순서 배열
+let cur = 0; // 현재 문제 인덱스
+let results = {}; // 채점 결과 { sentenceIndex: 'good' | 'bad' }
+let revealed = false; // 정답 확인 여부 플래그
 
 // 상단 진행 상태 인디케이터 점(Dot) 목록 생성
 function buildDots() {
@@ -162,7 +162,9 @@ function prevQuestion() {
 function startPractice() {
   if (selectedCats.size === 0) return;
   order = shuffle(
-    SENTENCES.map((_, i) => i).filter((i) => selectedCats.has(SENTENCES[i].cat)),
+    SENTENCES.map((_, i) => i).filter((i) =>
+      selectedCats.has(SENTENCES[i].cat),
+    ),
   );
   cur = 0;
   results = {};
@@ -195,9 +197,7 @@ async function loadProgress() {
       const data = JSON.parse(res.value);
       results = data.results || {};
       if (Array.isArray(data.cats) && data.cats.length) {
-        selectedCats = new Set(
-          data.cats.filter((c) => CATEGORIES.includes(c)),
-        );
+        selectedCats = new Set(data.cats.filter((c) => CATEGORIES.includes(c)));
       }
       if (
         Array.isArray(data.order) &&

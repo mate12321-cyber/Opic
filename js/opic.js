@@ -18,6 +18,7 @@ let opicReplayCount = 0;
 let opicSpeakingTimer = null;
 let opicSpeakingSeconds = 0;
 let opicViewMode = "breakdown"; // "breakdown" (문장별) | "full" (전체 문단)
+let opicEnRevealed = false;    // 영어 질문 블라인드 해제 여부
 
 // 로컬 스토리지에서 진행 상태 로드
 async function loadOpicProgress() {
@@ -210,6 +211,9 @@ function renderOpicCard() {
   els.evaQKo.classList.remove("show");
   if (els.btnToggleEvaKo) els.btnToggleEvaKo.textContent = "해석 보기 ▾";
 
+  // 영어 질문 기본 블라인드 상태 설정
+  toggleEvaEn(false);
+
   // 한국어 답변 가이드 리셋 & 렌더링
   if (els.opicKoHintBox) els.opicKoHintBox.style.display = "none";
   if (els.btnToggleOpicKoHint)
@@ -239,6 +243,27 @@ function renderOpicCard() {
 
   // 질문 음성 자동 재생 (첫 진입 시)
   playEvaQuestion(true);
+}
+
+// 영어 질문 블라인드 상태 토글
+function toggleEvaEn(forceShow = null) {
+  if (forceShow !== null) {
+    opicEnRevealed = forceShow;
+  } else {
+    opicEnRevealed = !opicEnRevealed;
+  }
+
+  if (els.evaQEn) {
+    els.evaQEn.style.display = opicEnRevealed ? "block" : "none";
+  }
+  if (els.evaBlindBox) {
+    els.evaBlindBox.style.display = opicEnRevealed ? "none" : "flex";
+  }
+  if (els.btnToggleEvaEn) {
+    els.btnToggleEvaEn.textContent = opicEnRevealed
+      ? "영어 질문 숨기기 ▴"
+      : "영어 질문 보기 ▾";
+  }
 }
 
 // 한국어 답변 가이드 목록 렌더링
@@ -277,13 +302,35 @@ function toggleOpicKoHint() {
 // 에바 질문 청취 횟수 배지
 function updateEvaReplayBadge() {
   if (!els.evaReplayCount) return;
-  els.evaReplayCount.textContent = `청취 ${opicReplayCount}/2회`;
+  if (opicReplayCount >= 2) {
+    els.evaReplayCount.textContent = `청취 2/2회 (완료)`;
+  } else {
+    els.evaReplayCount.textContent = `청취 ${opicReplayCount}/2회`;
+  }
 }
 
 // 에바 질문 음성 재생
 function playEvaQuestion(isAuto = false) {
   const item = OPIC_QUESTIONS[opicOrder[opicCur]];
   if (!item) return;
+
+  // 재생 중인 상태에서 클릭한 경우 (정지 버튼 동작) -> 재생만 중단하고 청취 횟수는 증가시키지 않음
+  const isPlayingEva =
+    (currentSpeakingBtn === els.ttsEvaBtn ||
+      (els.ttsEvaBtn && els.ttsEvaBtn.classList.contains("playing"))) &&
+    "speechSynthesis" in window &&
+    speechSynthesis.speaking;
+
+  if (isPlayingEva) {
+    stopTTS();
+    return;
+  }
+
+  // 수동 재생 시도 시 2회 초과 청취 방지 (OPIc 실전 규정)
+  if (!isAuto && opicReplayCount >= 2) {
+    alert("에바의 질문은 최대 2회까지만 청취 가능합니다 (OPIc 실전 규정).");
+    return;
+  }
 
   opicReplayCount++;
   updateEvaReplayBadge();
@@ -392,6 +439,9 @@ function revealOpic() {
   if (els.opicFullKo) els.opicFullKo.textContent = item.answer_ko;
   if (els.opicTipText) els.opicTipText.textContent = item.tip;
   renderKeywordChips(item.keywords);
+
+  // 정답 확인 시 영어 질문 텍스트 블라인드 자동 해제
+  toggleEvaEn(true);
 
   // 기본 뷰 모드 설정 (문장별 분할 뷰)
   switchOpicAnswerView("breakdown");

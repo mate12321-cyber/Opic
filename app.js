@@ -153,6 +153,12 @@ if (els.ttsWordBtn) {
 if (els.ttsEvaBtn) {
   els.ttsEvaBtn.addEventListener("click", () => playEvaQuestion(false));
 }
+if (els.btnToggleEvaEn) {
+  els.btnToggleEvaEn.addEventListener("click", () => toggleEvaEn());
+}
+if (els.btnRevealBlind) {
+  els.btnRevealBlind.addEventListener("click", () => toggleEvaEn(true));
+}
 if (els.btnToggleEvaKo) {
   els.btnToggleEvaKo.addEventListener("click", toggleEvaKo);
 }

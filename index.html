@@ -302,9 +302,7 @@
           <span class="sk-item"
             ><kbd class="shortcut-key">↵</kbd> 정답확인</span
           >
-          <span class="sk-item"
-            ><kbd class="shortcut-key">P</kbd> 이전</span
-          >
+          <span class="sk-item"><kbd class="shortcut-key">P</kbd> 이전</span>
           <span class="sk-item"
             ><kbd class="shortcut-key">K</kbd> 건너뛰기</span
           >
@@ -463,9 +461,7 @@
           <span class="sk-item"
             ><kbd class="shortcut-key">1~4</kbd> 보기 선택</span
           >
-          <span class="sk-item"
-            ><kbd class="shortcut-key">P</kbd> 이전</span
-          >
+          <span class="sk-item"><kbd class="shortcut-key">P</kbd> 이전</span>
           <span class="sk-item"
             ><kbd class="shortcut-key">↵</kbd> 다음 문제</span
           >
@@ -551,7 +547,21 @@
             </div>
             <span class="eva-type-badge" id="evaTypeBadge">실전 질문</span>
           </div>
-          <p class="eva-q-en" id="evaQEn"></p>
+
+          <!-- 기본 블라인드 상태 박스 (실전 시험처럼 음성만 듣고 연습) -->
+          <div class="eva-blind-box" id="evaBlindBox">
+            <div class="blind-left">
+              <span class="blind-icon">🔒</span>
+              <span class="blind-text">실전 OPIc 모드 · 영어 질문이 블라인드 처리되었습니다</span>
+            </div>
+            <button type="button" class="btn-reveal-blind" id="btnRevealBlind">
+              질문 보기
+            </button>
+          </div>
+
+          <!-- 실제 영어 질문 텍스트 (블라인드 해제 시 표시) -->
+          <p class="eva-q-en" id="evaQEn" style="display: none"></p>
+
           <div class="eva-q-actions">
             <div class="eva-listen-group">
               <button
@@ -566,9 +576,18 @@
                 >청취 0/2회</span
               >
             </div>
-            <button class="btn-toggle-ko" id="btnToggleEvaKo" type="button">
-              해석 보기 ▾
-            </button>
+            <div class="eva-toggle-group">
+              <button
+                class="btn-toggle-eva-en"
+                id="btnToggleEvaEn"
+                type="button"
+              >
+                영어 질문 보기 ▾
+              </button>
+              <button class="btn-toggle-ko" id="btnToggleEvaKo" type="button">
+                해석 보기 ▾
+              </button>
+            </div>
           </div>
           <div class="eva-q-ko" id="evaQKo"></div>
         </div>
@@ -806,9 +825,7 @@
           <span class="sk-item"
             ><kbd class="shortcut-key">↵</kbd> 답안확인</span
           >
-          <span class="sk-item"
-            ><kbd class="shortcut-key">P</kbd> 이전</span
-          >
+          <span class="sk-item"><kbd class="shortcut-key">P</kbd> 이전</span>
           <span class="sk-item"
             ><kbd class="shortcut-key">K</kbd> 건너뛰기</span
           >

@@ -284,19 +284,33 @@ button.google-copy-btn > *,
 button.google-ai-btn,
 .google-ai-btn {
   background: #eef2ff !important;
-  background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 50%, #fdf2f8 100%) !important;
+  background: linear-gradient(
+    135deg,
+    #eef2ff 0%,
+    #f5f3ff 50%,
+    #fdf2f8 100%
+  ) !important;
   color: #4338ca !important;
   border: 1.5px solid #c7d2fe !important;
-  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  box-shadow:
+    0 1px 3px rgba(79, 70, 229, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
 }
 
 button.google-ai-btn:hover,
 .google-ai-btn:hover {
   background: #e0e7ff !important;
-  background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 50%, #fce7f3 100%) !important;
+  background: linear-gradient(
+    135deg,
+    #e0e7ff 0%,
+    #ede9fe 50%,
+    #fce7f3 100%
+  ) !important;
   border-color: #818cf8 !important;
   color: #312e81 !important;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  box-shadow:
+    0 4px 12px rgba(79, 70, 229, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
   -webkit-transform: translateY(-2px) !important;
   transform: translateY(-2px) !important;
 }

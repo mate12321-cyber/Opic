@@ -7,10 +7,10 @@
  */
 
 let wordSelectedCats = new Set(); // 선택된 문법 유형 세트
-let wordOrder = [];               // 출제 인덱스 순서 배열
-let wordCur = 0;                  // 현재 문제 인덱스
-let wordResults = {};             // 채점 결과 { itemIndex: 'good' | 'bad' }
-let wordAnswered = false;         // 답변 완료 여부 플래그
+let wordOrder = []; // 출제 인덱스 순서 배열
+let wordCur = 0; // 현재 문제 인덱스
+let wordResults = {}; // 채점 결과 { itemIndex: 'good' | 'bad' }
+let wordAnswered = false; // 답변 완료 여부 플래그
 
 // 문법 퀴즈 진행 상태 인디케이터 점(Dot) 목록 생성
 function buildWordDots() {
@@ -128,7 +128,9 @@ function prevWordQuestion() {
 function startWordPractice() {
   if (wordSelectedCats.size === 0) return;
   wordOrder = shuffle(
-    WORD_ITEMS.map((_, i) => i).filter((i) => wordSelectedCats.has(WORD_ITEMS[i].cat)),
+    WORD_ITEMS.map((_, i) => i).filter((i) =>
+      wordSelectedCats.has(WORD_ITEMS[i].cat),
+    ),
   );
   wordCur = 0;
   wordResults = {};
