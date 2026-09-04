@@ -87,17 +87,80 @@ const els = {
   navSentenceSub: document.getElementById("navSentenceSub"),
   navWord: document.getElementById("navWord"),
   navWordSub: document.getElementById("navWordSub"),
+  navOpic: document.getElementById("navOpic"),
+  navOpicSub: document.getElementById("navOpicSub"),
   homeFromTopic: document.getElementById("homeFromTopic"),
   homeFromWordTopic: document.getElementById("homeFromWordTopic"),
   homeFromPractice: document.getElementById("homeFromPractice"),
   homeFromDone: document.getElementById("homeFromDone"),
   homeFromWordCard: document.getElementById("homeFromWordCard"),
   homeFromWordDone: document.getElementById("homeFromWordDone"),
+  homeFromOpicTopic: document.getElementById("homeFromOpicTopic"),
+  toSentenceFromOpic: document.getElementById("toSentenceFromOpic"),
+  homeFromOpicCard: document.getElementById("homeFromOpicCard"),
+  homeFromOpicDone: document.getElementById("homeFromOpicDone"),
+  opicTopicScreen: document.getElementById("opicTopicScreen"),
+  opicTopicChips: document.getElementById("opicTopicChips"),
+  opicTopicCount: document.getElementById("opicTopicCount"),
+  allOpicTopicToggleBtn: document.getElementById("allOpicTopicToggleBtn"),
+  opicStartBtn: document.getElementById("opicStartBtn"),
+  opicCard: document.getElementById("opicCard"),
+  opicCatLabel: document.getElementById("opicCatLabel"),
+  opicIdxLabel: document.getElementById("opicIdxLabel"),
+  evaTypeBadge: document.getElementById("evaTypeBadge"),
+  evaQEn: document.getElementById("evaQEn"),
+  evaQKo: document.getElementById("evaQKo"),
+  btnToggleEvaKo: document.getElementById("btnToggleEvaKo"),
+  ttsEvaBtn: document.getElementById("ttsEvaBtn"),
+  evaReplayCount: document.getElementById("evaReplayCount"),
+  opicTimerDigits: document.getElementById("opicTimerDigits"),
+  opicUserInput: document.getElementById("opicUserInput"),
+  opicMicBtn: document.getElementById("opicMicBtn"),
+  opicMicError: document.getElementById("opicMicError"),
+  opicLiveTranslate: document.getElementById("opicLiveTranslate"),
+  opicLiveTranslateText: document.getElementById("opicLiveTranslateText"),
+  copyOpicInput: document.getElementById("copyOpicInput"),
+  opicAnswerBox: document.getElementById("opicAnswerBox"),
+  ttsOpicAllBtn: document.getElementById("ttsOpicAllBtn"),
+  copyOpicAll: document.getElementById("copyOpicAll"),
+  tabBreakdownBtn: document.getElementById("tabBreakdownBtn"),
+  tabFullBtn: document.getElementById("tabFullBtn"),
+  sentenceBreakdownList: document.getElementById("sentenceBreakdownList"),
+  fullParagraphView: document.getElementById("fullParagraphView"),
+  opicFullEn: document.getElementById("opicFullEn"),
+  opicFullKo: document.getElementById("opicFullKo"),
+  opicKeywordsBox: document.getElementById("opicKeywordsBox"),
+  opicKeywordChipsWrap: document.getElementById("opicKeywordChipsWrap"),
+  opicTipText: document.getElementById("opicTipText"),
+  opicSpeechEvalBox: document.getElementById("opicSpeechEvalBox"),
+  opicEvalScoreBadge: document.getElementById("opicEvalScoreBadge"),
+  opicEvalDiff: document.getElementById("opicEvalDiff"),
+  opicEvalFeedback: document.getElementById("opicEvalFeedback"),
+  ttsOpicUserInputBtn: document.getElementById("ttsOpicUserInputBtn"),
+  opicGoogleAskLink: document.getElementById("opicGoogleAskLink"),
+  opicGoogleAskCopy: document.getElementById("opicGoogleAskCopy"),
+  opicRevealRow: document.getElementById("opicRevealRow"),
+  opicRevealBtn: document.getElementById("opicRevealBtn"),
+  opicSkipBtn: document.getElementById("opicSkipBtn"),
+  opicRateRow: document.getElementById("opicRateRow"),
+  opicGoodBtn: document.getElementById("opicGoodBtn"),
+  opicBadBtn: document.getElementById("opicBadBtn"),
+  opicRetrySameLink: document.getElementById("opicRetrySameLink"),
+  opicProgressDots: document.getElementById("opicProgressDots"),
+  opicChangeTopicBtn: document.getElementById("opicChangeTopicBtn"),
+  opicChangeTopicBtn2: document.getElementById("opicChangeTopicBtn2"),
+  opicDoneScreen: document.getElementById("opicDoneScreen"),
+  opicDoneSummary: document.getElementById("opicDoneSummary"),
+  opicRetryWrongBtn: document.getElementById("opicRetryWrongBtn"),
+  opicRestartBtn: document.getElementById("opicRestartBtn"),
 };
 
 // 모든 서브 화면을 숨기고 실행 중인 음성/마이크를 초기화
 function hideAllScreens() {
   stopTTS();
+  if (typeof stopSpeakingTimer === "function") {
+    stopSpeakingTimer();
+  }
   if (listening && recognition) {
     recognition.onend = null;
     recognition.stop();
@@ -111,6 +174,12 @@ function hideAllScreens() {
   els.wordTopicScreen.style.display = "none";
   els.wordCard.style.display = "none";
   els.wordDoneScreen.classList.remove("show");
+  if (els.opicTopicScreen) els.opicTopicScreen.style.display = "none";
+  if (els.opicCard) els.opicCard.style.display = "none";
+  if (els.opicDoneScreen) {
+    els.opicDoneScreen.style.display = "none";
+    els.opicDoneScreen.classList.remove("show");
+  }
 }
 
 // 문장 번역 연습 주제 선택 카드 렌더링
@@ -272,6 +341,13 @@ function renderHomeDashboard() {
   els.navWordSub.textContent = wordResumable
     ? `이어하기 · ${wordCur}/${wordOrder.length}문제 진행 중`
     : `${WORD_ITEMS.length}문제 · ${WORD_CATEGORIES.length}개 유형`;
+
+  const opicResumable = opicOrder.length > 0 && opicCur < opicOrder.length;
+  if (els.navOpicSub) {
+    els.navOpicSub.textContent = opicResumable
+      ? `이어하기 · ${opicCur}/${opicOrder.length}질문 진행 중`
+      : `${OPIC_QUESTIONS.length}개 예상 질문 · IM1 5~7문장 답변`;
+  }
 }
 
 // 홈 대시보드 화면 열기

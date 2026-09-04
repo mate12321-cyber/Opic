@@ -137,7 +137,51 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  // 4. 완료 화면 단축키
+  // 4. OPIc 실전 질문 & 답변 모드 단축키
+  const isOpicInputFocused = document.activeElement === els.opicUserInput;
+  if (
+    els.opicCard &&
+    els.opicCard.style.display !== "none" &&
+    !els.opicDoneScreen.classList.contains("show")
+  ) {
+    const item = OPIC_QUESTIONS[opicOrder[opicCur]];
+    if (!opicRevealed) {
+      // 모범 답안 확인 전: Enter(모범답안 공개), K / ㅏ(건너뛰기), Space(에바 질문 다시 듣기)
+      if (isEnter && (!isOpicInputFocused || !e.shiftKey)) {
+        e.preventDefault();
+        revealOpic();
+      } else if (isKeyK && !isOpicInputFocused) {
+        e.preventDefault();
+        skipOpic();
+      } else if (isSpace && !isOpicInputFocused) {
+        e.preventDefault();
+        playEvaQuestion(false);
+      }
+    } else {
+      // 모범 답안 확인 후: 1/G/ㅎ(잘함), 2/B/ㅠ(다시), R/ㄱ(재도전), K/ㅏ(건너뛰기), Space(모범답안 듣기)
+      if (isGoodKey) {
+        e.preventDefault();
+        rateOpic("good");
+      } else if (isBadKey) {
+        e.preventDefault();
+        rateOpic("bad");
+      } else if (isKeyR) {
+        e.preventDefault();
+        retrySameOpicQuestion();
+      } else if (isKeyK) {
+        e.preventDefault();
+        skipOpic();
+      } else if (isSpace && !isOpicInputFocused) {
+        e.preventDefault();
+        if (item) speakText(item.answer_en, "en-US", els.ttsOpicAllBtn);
+      } else if (isEnter && !isOpicInputFocused) {
+        e.preventDefault();
+        rateOpic("good");
+      }
+    }
+  }
+
+  // 5. 완료 화면 단축키
   if (els.doneScreen && els.doneScreen.classList.contains("show")) {
     if (isEnter) {
       e.preventDefault();
@@ -148,6 +192,12 @@ document.addEventListener("keydown", (e) => {
     if (isEnter) {
       e.preventDefault();
       startWordPractice();
+    }
+  }
+  if (els.opicDoneScreen && els.opicDoneScreen.classList.contains("show")) {
+    if (isEnter) {
+      e.preventDefault();
+      startOpicPractice(false);
     }
   }
 });
