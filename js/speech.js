@@ -440,7 +440,8 @@ const MIC_ERROR_MESSAGES = {
 
 // 마이크 오류 메시지 출력
 function showMicError(msg, errorEl) {
-  const targetEl = errorEl || (activeTarget && activeTarget.error) || els.micError;
+  const targetEl =
+    errorEl || (activeTarget && activeTarget.error) || els.micError;
   if (!targetEl) return;
   targetEl.textContent = msg;
   targetEl.classList.add("show");
@@ -448,7 +449,8 @@ function showMicError(msg, errorEl) {
 
 // 마이크 오류 메시지 초기화
 function clearMicError(errorEl) {
-  const targetEl = errorEl || (activeTarget && activeTarget.error) || els.micError;
+  const targetEl =
+    errorEl || (activeTarget && activeTarget.error) || els.micError;
   if (!targetEl) return;
   targetEl.textContent = "";
   targetEl.classList.remove("show");
@@ -494,11 +496,19 @@ function armStartupWatchdog() {
 }
 
 // 음성 인식 토글 함수 (문장 연습 및 OPIc 실전 모드 공용)
-function toggleSpeechRecognition(targetInput, targetBtn, targetError, isOpic = false) {
+function toggleSpeechRecognition(
+  targetInput,
+  targetBtn,
+  targetError,
+  isOpic = false,
+) {
   if (!recognition) {
     initSpeechRecognition();
     if (!recognition) {
-      showMicError("이 브라우저는 음성 인식을 지원하지 않습니다. Chrome을 사용해주세요.", targetError);
+      showMicError(
+        "이 브라우저는 음성 인식을 지원하지 않습니다. Chrome을 사용해주세요.",
+        targetError,
+      );
       return;
     }
   }
@@ -593,7 +603,6 @@ function initSpeechRecognition() {
     }
   };
 
-
   recognition.onerror = (e) => {
     if (e.error === "aborted") return;
     const msg =
@@ -607,4 +616,3 @@ function initSpeechRecognition() {
     stopListeningUI();
   };
 }
-

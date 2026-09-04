@@ -329,7 +329,6 @@ if (els.opicMicBtn) {
   );
 }
 
-
 // ── 앱 부트스트랩 및 초기 데이터 로딩 ──────────────────────────────
 async function initDashboard() {
   await loadData();
