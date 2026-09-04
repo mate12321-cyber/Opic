@@ -183,6 +183,9 @@ if (els.tabFullBtn) {
 }
 
 // ── 문장 번역 연습 모드 버튼 이벤트 ────────────────────────────────
+if (els.btnPrevSentence) {
+  els.btnPrevSentence.addEventListener("click", prevQuestion);
+}
 els.revealRow.querySelector("#revealBtn").addEventListener("click", reveal);
 els.revealRow.querySelector("#skipBtn").addEventListener("click", skip);
 els.rateRow
@@ -198,6 +201,9 @@ els.changeTopicBtn.addEventListener("click", showTopicScreen);
 els.changeTopicBtn2.addEventListener("click", showTopicScreen);
 
 // ── 문법 포인트 퀴즈 모드 버튼 이벤트 ──────────────────────────────
+if (els.btnPrevWord) {
+  els.btnPrevWord.addEventListener("click", prevWordQuestion);
+}
 els.wordNextBtn.addEventListener("click", () => {
   wordCur++;
   saveWordProgress();
@@ -217,6 +223,9 @@ els.wordChangeTopicBtn2.addEventListener("click", () => {
 });
 
 // ── OPIc 실전 질문 & 답변 모드 버튼 이벤트 ─────────────────────────
+if (els.btnPrevOpic) {
+  els.btnPrevOpic.addEventListener("click", prevOpicQuestion);
+}
 if (els.opicRevealBtn) els.opicRevealBtn.addEventListener("click", revealOpic);
 if (els.opicSkipBtn) els.opicSkipBtn.addEventListener("click", skipOpic);
 if (els.opicGoodBtn)

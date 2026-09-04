@@ -2,8 +2,9 @@
  * [shortcuts.js] 맥북 / PC 데스크톱 키보드 단축키 핸들러
  * - 한/영 입력 상태 모두 지원 (e.code 및 한글 자모/영문 동시 매핑)
  * - 전역: Esc (음성 재생/인식 중단)
- * - 문장 연습: Enter (정답 확인), K / ㅏ (건너뛰기), 1/2 또는 G/B 또는 방향키 (채점), Space (발음 듣기), R / ㄱ (재도전)
- * - 문법 퀴즈: 1~4 (보기 선택), Enter (다음 문제), Space (발음 듣기)
+ * - 문장 연습: Enter (정답 확인), P / ㅔ (이전 문제), K / ㅏ (건너뛰기), 1/2 또는 G/B (채점), Space (발음 듣기), R / ㄱ (재도전)
+ * - 문법 퀴즈: 1~4 (보기 선택), P / ㅔ (이전 문제), Enter (다음 문제), Space (발음 듣기)
+ * - 실전 질문: Enter (모범답안 확인), P / ㅔ (이전 질문), K / ㅏ (건너뛰기), 1/2 또는 G/B (채점), Space (발음 듣기), R / ㄱ (재도전)
  * - 완료 화면: Enter (같은 주제 다시 시작)
  */
 
@@ -24,6 +25,8 @@ document.addEventListener("keydown", (e) => {
   const isEnter =
     e.key === "Enter" || e.code === "Enter" || e.code === "NumpadEnter";
   const isSpace = e.code === "Space" || e.key === " ";
+  const isKeyP =
+    e.code === "KeyP" || e.key === "p" || e.key === "P" || e.key === "ㅔ";
   const isKeyK =
     e.code === "KeyK" || e.key === "k" || e.key === "K" || e.key === "ㅏ";
   const isKeyR =
@@ -39,9 +42,7 @@ document.addEventListener("keydown", (e) => {
     e.code === "KeyG" ||
     e.key === "g" ||
     e.key === "G" ||
-    e.key === "ㅎ" ||
-    e.code === "ArrowRight" ||
-    e.key === "ArrowRight";
+    e.key === "ㅎ";
   const isBadKey =
     e.code === "Digit2" ||
     e.code === "Numpad2" ||
@@ -49,9 +50,7 @@ document.addEventListener("keydown", (e) => {
     e.code === "KeyB" ||
     e.key === "b" ||
     e.key === "B" ||
-    e.key === "ㅠ" ||
-    e.code === "ArrowLeft" ||
-    e.key === "ArrowLeft";
+    e.key === "ㅠ";
 
   // 2. 문장 번역 연습 모드 단축키
   if (
@@ -60,6 +59,12 @@ document.addEventListener("keydown", (e) => {
     !els.doneScreen.classList.contains("show")
   ) {
     const item = SENTENCES[order[cur]];
+    if (!isInputFocused && isKeyP && cur > 0) {
+      e.preventDefault();
+      prevQuestion();
+      return;
+    }
+
     if (!revealed) {
       // 정답 확인 전: Enter(정답 공개), K / ㅏ(건너뛰기)
       if (isEnter && (!isInputFocused || !e.shiftKey)) {
@@ -100,6 +105,12 @@ document.addEventListener("keydown", (e) => {
     !els.wordDoneScreen.classList.contains("show")
   ) {
     const item = WORD_ITEMS[wordOrder[wordCur]];
+    if (isKeyP && wordCur > 0) {
+      e.preventDefault();
+      prevWordQuestion();
+      return;
+    }
+
     if (!wordAnswered) {
       // 문제 풀이 중: 숫자 키 1~4로 보기 선택 (한/영 및 넘패드 지원)
       let numIdx = -1;
@@ -145,6 +156,12 @@ document.addEventListener("keydown", (e) => {
     !els.opicDoneScreen.classList.contains("show")
   ) {
     const item = OPIC_QUESTIONS[opicOrder[opicCur]];
+    if (!isOpicInputFocused && isKeyP && opicCur > 0) {
+      e.preventDefault();
+      prevOpicQuestion();
+      return;
+    }
+
     if (!opicRevealed) {
       // 모범 답안 확인 전: Enter(모범답안 공개), K / ㅏ(건너뛰기), Space(에바 질문 다시 듣기)
       if (isEnter && (!isOpicInputFocused || !e.shiftKey)) {

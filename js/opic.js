@@ -199,6 +199,9 @@ function renderOpicCard() {
   // 상단 라벨
   els.opicCatLabel.textContent = item.cat;
   els.opicIdxLabel.textContent = `${String(opicCur + 1).padStart(2, "0")} / ${String(opicOrder.length).padStart(2, "0")}`;
+  if (els.btnPrevOpic) {
+    els.btnPrevOpic.disabled = opicCur === 0;
+  }
   if (els.evaTypeBadge) els.evaTypeBadge.textContent = item.type || "실전 질문";
 
   // 에바 질문 텍스트 및 해석
@@ -462,6 +465,16 @@ function skipOpic() {
   opicCur++;
   saveOpicProgress();
   renderOpicCard();
+}
+
+// 이전 질문으로 되돌아가기
+function prevOpicQuestion() {
+  if (opicCur > 0) {
+    stopTTS();
+    opicCur--;
+    saveOpicProgress();
+    renderOpicCard();
+  }
 }
 
 // 진행 점(Dots) 렌더링

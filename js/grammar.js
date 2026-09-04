@@ -61,6 +61,9 @@ function renderWordCard() {
 
   els.wordCard.style.display = "block";
   els.wordDoneScreen.classList.remove("show");
+  if (els.btnPrevWord) {
+    els.btnPrevWord.disabled = wordCur === 0;
+  }
   const item = WORD_ITEMS[wordOrder[wordCur]];
   els.wordCatLabel.textContent = item.cat;
   els.wordIdxLabel.textContent = `${String(wordCur + 1).padStart(2, "0")} / ${String(wordOrder.length).padStart(2, "0")}`;
@@ -109,6 +112,15 @@ function selectWordOption(opt, btn, item) {
     const match = item.tip && item.tip.match(/예\)\s*([^.]+)/);
     const speechText = match ? match[1].trim() : item.answer;
     speakText(speechText, "en-US", els.ttsWordBtn);
+  }
+}
+
+// 이전 문제로 되돌아가기
+function prevWordQuestion() {
+  if (wordCur > 0) {
+    wordCur--;
+    saveWordProgress();
+    renderWordCard();
   }
 }
 

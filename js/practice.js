@@ -62,6 +62,9 @@ function renderCard() {
 
   els.practiceCard.style.display = "block";
   els.doneScreen.classList.remove("show");
+  if (els.btnPrevSentence) {
+    els.btnPrevSentence.disabled = cur === 0;
+  }
   const item = SENTENCES[order[cur]];
   els.catLabel.textContent = item.cat;
   els.idxLabel.textContent = `${String(cur + 1).padStart(2, "0")} / ${String(order.length).padStart(2, "0")}`;
@@ -144,6 +147,15 @@ function skip() {
   cur++;
   saveProgress();
   renderCard();
+}
+
+// 이전 문제로 되돌아가기
+function prevQuestion() {
+  if (cur > 0) {
+    cur--;
+    saveProgress();
+    renderCard();
+  }
 }
 
 // 선택된 주제의 문장들로 새 연습 세트 시작

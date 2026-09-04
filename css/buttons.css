@@ -82,6 +82,49 @@ button:active {
 }
 
 /* ── Tier 2: 인라인 액션 버튼 (고정 높이 32px) ── */
+.cardtop-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-prev-q {
+  height: 26px;
+  min-height: 26px;
+  padding: 0 9px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  border: 1px solid var(--border-light);
+  background: #ffffff;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.btn-prev-q:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: #cbd5e1;
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-prev-q:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.btn-prev-q:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .action-btn-group {
   display: flex;
   align-items: center;

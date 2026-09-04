@@ -101,7 +101,17 @@
       <div class="card" id="practiceCard" style="display: none">
         <div class="cardtop">
           <span class="cat" id="catLabel">CATEGORY</span>
-          <span class="idx" id="idxLabel">01 / 00</span>
+          <div class="cardtop-right">
+            <button
+              type="button"
+              class="btn-prev-q"
+              id="btnPrevSentence"
+              title="이전 문제 (P)"
+            >
+              ‹ 이전
+            </button>
+            <span class="idx" id="idxLabel">01 / 00</span>
+          </div>
         </div>
 
         <div class="audio-controls" id="audioControls">
@@ -293,6 +303,9 @@
             ><kbd class="shortcut-key">↵</kbd> 정답확인</span
           >
           <span class="sk-item"
+            ><kbd class="shortcut-key">P</kbd> 이전</span
+          >
+          <span class="sk-item"
             ><kbd class="shortcut-key">K</kbd> 건너뛰기</span
           >
           <span class="sk-item"
@@ -359,7 +372,17 @@
       <div class="card" id="wordCard" style="display: none">
         <div class="cardtop">
           <span class="cat" id="wordCatLabel">CATEGORY</span>
-          <span class="idx" id="wordIdxLabel">01 / 00</span>
+          <div class="cardtop-right">
+            <button
+              type="button"
+              class="btn-prev-q"
+              id="btnPrevWord"
+              title="이전 문제 (P)"
+            >
+              ‹ 이전
+            </button>
+            <span class="idx" id="wordIdxLabel">01 / 00</span>
+          </div>
         </div>
         <div class="line-row" style="margin-bottom: 12px">
           <p class="ko" id="wordSentence" style="margin-bottom: 0"></p>
@@ -438,7 +461,10 @@
         </div>
         <div class="shortcut-helper desktop-only-tip">
           <span class="sk-item"
-            ><kbd class="shortcut-key">1~3</kbd> 보기 선택</span
+            ><kbd class="shortcut-key">1~4</kbd> 보기 선택</span
+          >
+          <span class="sk-item"
+            ><kbd class="shortcut-key">P</kbd> 이전</span
           >
           <span class="sk-item"
             ><kbd class="shortcut-key">↵</kbd> 다음 문제</span
@@ -503,7 +529,17 @@
       <div class="card" id="opicCard" style="display: none">
         <div class="cardtop">
           <span class="cat" id="opicCatLabel">CATEGORY</span>
-          <span class="idx" id="opicIdxLabel">01 / 00</span>
+          <div class="cardtop-right">
+            <button
+              type="button"
+              class="btn-prev-q"
+              id="btnPrevOpic"
+              title="이전 질문 (P)"
+            >
+              ‹ 이전
+            </button>
+            <span class="idx" id="opicIdxLabel">01 / 00</span>
+          </div>
         </div>
 
         <!-- 에바(Eva) 질문 박스 -->
@@ -769,6 +805,9 @@
         <div class="shortcut-helper desktop-only-tip">
           <span class="sk-item"
             ><kbd class="shortcut-key">↵</kbd> 답안확인</span
+          >
+          <span class="sk-item"
+            ><kbd class="shortcut-key">P</kbd> 이전</span
           >
           <span class="sk-item"
             ><kbd class="shortcut-key">K</kbd> 건너뛰기</span
