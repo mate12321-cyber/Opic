@@ -16,7 +16,7 @@ OPIc/
 ├── data/                       # ── [Data Layer] ──────────────────────────
 │   ├── sentences_im1.json      # OPIc IM1 문장 번역 데이터 (208개 문항)
 │   ├── grammar_im1.json        # OPIc IM1 문법 포인트 퀴즈 데이터 (81개 문항)
-│   └── questions_im1.json      # [NEW] OPIc 실전 질문 및 IM1 5~7문장 답변 데이터 (20개 문항)
+│   └── questions_im1.json      # OPIc 실전 질문 및 IM1 5~7문장 답변 데이터 (40개 문항)
 │
 ├── js/                         # ── [Logic & Controller Layer] ────────────
 │   ├── storage.js              # 스토리지(localStorage), JSON 비동기 로딩, 스트릭/로그

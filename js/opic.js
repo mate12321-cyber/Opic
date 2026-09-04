@@ -18,7 +18,7 @@ let opicReplayCount = 0;
 let opicSpeakingTimer = null;
 let opicSpeakingSeconds = 0;
 let opicViewMode = "breakdown"; // "breakdown" (문장별) | "full" (전체 문단)
-let opicEnRevealed = false;    // 영어 질문 블라인드 해제 여부
+let opicEnRevealed = false; // 영어 질문 블라인드 해제 여부
 
 // 로컬 스토리지에서 진행 상태 로드
 async function loadOpicProgress() {

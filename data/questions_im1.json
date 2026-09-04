@@ -875,5 +875,865 @@
     "tip": "사과 및 용건 → 야근/긴급 상황 설명 → 지각 사실 전달 → 1차 대안(시간 연기) → 2차 대안(주말 재약속) → 만회 제안 및 마무리 6문장입니다.",
     "answer_en": "Hi Minho, it's me. I am so sorry, but I have some bad news. An urgent equipment issue just happened at my work, so I have to work overtime today. I don't think I can make it to the cafe by 7 PM. So, would it be okay if we meet an hour and a half later around 8:30? If that is too late for you, how about rescheduling our meeting to this Saturday? I will buy you a delicious dinner next time to make it up to you. Let me know!",
     "answer_ko": "안녕 민호야, 나야. 정말 미안한데 안 좋은 소식이 있어. 방금 회사에 급한 설비 문제가 생겨서 오늘 야근을 해야 할 것 같아. 7시까지 카페에 도착하기 어려울 것 같아. 그래서 말인데, 한 시간 반 늦게 8시 30분쯤 만나는 건 어떨까? 만약 너무 늦다면 이번 주 토요일로 약속을 다시 잡는 건 어때? 내가 미안한 마음으로 다음번에 맛있는 저녁 살게. 확인하고 연락 줘!"
+  },
+  {
+    "id": "q_intro_02",
+    "cat": "자기소개",
+    "type": "일상/취미",
+    "q_en": "Could you tell me more about your daily routine and what you enjoy doing on weekends?",
+    "q_ko": "평소 일과와 주말에 주로 즐겨 하시는 활동에 대해 조금 더 말씀해 주시겠어요?",
+    "sentences": [
+      {
+        "en": "On weekdays, my daily schedule is quite simple and regular.",
+        "ko": "평일의 제 하루 일정은 꽤 단순하고 규칙적인 편입니다."
+      },
+      {
+        "en": "I wake up early, go to work, and return home in the evening.",
+        "ko": "일찍 일어나서 출근하고, 저녁에 집으로 돌아옵니다."
+      },
+      {
+        "en": "On weekends, I like to get enough rest and refresh myself.",
+        "ko": "주말에는 충분한 휴식을 취하고 재충전하는 것을 좋아해요."
+      },
+      {
+        "en": "I usually go for a walk in a nearby park or visit cozy cafes.",
+        "ko": "보통 근처 공원에서 산책을 하거나 아늑한 카페를 찾아갑니다."
+      },
+      {
+        "en": "Spending quality time with my family makes me feel happy and energetic.",
+        "ko": "가족과 함께 소중한 시간을 보내면 행복하고 활력이 생겨요."
+      },
+      {
+        "en": "These weekend routines help me prepare for the upcoming week.",
+        "ko": "이러한 주말 일과는 다가오는 한 주를 준비하는 데 큰 도움이 됩니다."
+      }
+    ],
+    "keywords": [
+      "daily schedule",
+      "refresh myself",
+      "nearby park",
+      "quality time",
+      "prepare for"
+    ],
+    "tip": "평일 일과(기상-출근-퇴근) → 주말 여가 활동(산책, 카페) → 가족과의 시간 및 기분 순서로 전개하세요.",
+    "answer_en": "On weekdays, my daily schedule is quite simple and regular. I wake up early, go to work, and return home in the evening. On weekends, I like to get enough rest and refresh myself. I usually go for a walk in a nearby park or visit cozy cafes. Spending quality time with my family makes me feel happy and energetic. These weekend routines help me prepare for the upcoming week.",
+    "answer_ko": "평일의 제 하루 일정은 꽤 단순하고 규칙적인 편입니다. 일찍 일어나서 출근하고, 저녁에 집으로 돌아옵니다. 주말에는 충분한 휴식을 취하고 재충전하는 것을 좋아해요. 보통 근처 공원에서 산책을 하거나 아늑한 카페를 찾아갑니다. 가족과 함께 소중한 시간을 보내면 행복하고 활력이 생겨요. 이러한 주말 일과는 다가오는 한 주를 준비하는 데 큰 도움이 됩니다."
+  },
+  {
+    "id": "q_home_04",
+    "cat": "집/주거",
+    "type": "변화/인테리어",
+    "q_en": "How has your home changed compared to the past? Did you buy new furniture or change the interior?",
+    "q_ko": "과거와 비교했을 때 집이 어떻게 달라졌나요? 새 가구를 샀거나 인테리어를 바꾸었나요?",
+    "sentences": [
+      {
+        "en": "My apartment looks much brighter and cozier now than before.",
+        "ko": "우리 집은 예전보다 지금 훨씬 더 밝고 아늑해 보입니다."
+      },
+      {
+        "en": "A few months ago, we decided to change the living room wallpaper.",
+        "ko": "몇 달 전에 우리는 거실 벽지를 바꾸기로 결정했어요."
+      },
+      {
+        "en": "We also replaced our old sofa with a comfortable gray fabric sofa.",
+        "ko": "그리고 낡은 소파를 편안한 회색 패브릭 소파로 교체했습니다."
+      },
+      {
+        "en": "In addition, I placed a few small green plants near the window.",
+        "ko": "게다가 창가 근처에 작은 초록색 화분들도 몇 개 두었어요."
+      },
+      {
+        "en": "These small changes made the whole atmosphere fresh and relaxing.",
+        "ko": "이러한 작은 변화들 덕분에 집 전체 분위기가 산뜻하고 편안해졌습니다."
+      },
+      {
+        "en": "I really love staying in my upgraded living room these days.",
+        "ko": "요즘에는 이렇게 새로 단장한 거실에 머무는 것이 정말 좋습니다."
+      }
+    ],
+    "keywords": [
+      "brighter and cozier",
+      "wallpaper",
+      "replace with",
+      "green plants",
+      "atmosphere"
+    ],
+    "tip": "집의 전반적인 인상 → 벽지/가구 교체 → 소품(화분) 추가 → 변화 후 만족감 순서로 설명하세요.",
+    "answer_en": "My apartment looks much brighter and cozier now than before. A few months ago, we decided to change the living room wallpaper. We also replaced our old sofa with a comfortable gray fabric sofa. In addition, I placed a few small green plants near the window. These small changes made the whole atmosphere fresh and relaxing. I really love staying in my upgraded living room these days.",
+    "answer_ko": "우리 집은 예전보다 지금 훨씬 더 밝고 아늑해 보입니다. 몇 달 전에 우리는 거실 벽지를 바꾸기로 결정했어요. 그리고 낡은 소파를 편안한 회색 패브릭 소파로 교체했습니다. 게다가 창가 근처에 작은 초록색 화분들도 몇 개 두었어요. 이러한 작은 변화들 덕분에 집 전체 분위기가 산뜻하고 편안해졌습니다. 요즘에는 이렇게 새로 단장한 거실에 머무는 것이 정말 좋습니다."
+  },
+  {
+    "id": "q_work_04",
+    "cat": "직장/업무",
+    "type": "과거 경험",
+    "q_en": "Tell me about your very first day at your current company. What was your first impression?",
+    "q_ko": "현재 회사에 처음 출근했던 첫날에 대해 이야기해 주세요. 첫인상이 어땠나요?",
+    "sentences": [
+      {
+        "en": "I still remember my first day at my current company very clearly.",
+        "ko": "현재 회사에 처음 출근했던 첫날이 아직도 아주 생생하게 기억납니다."
+      },
+      {
+        "en": "I arrived thirty minutes early because I was quite nervous.",
+        "ko": "꽤 긴장했기 때문에 30분 일찍 회사에 도착했어요."
+      },
+      {
+        "en": "My team manager warmly welcomed me and introduced me to other colleagues.",
+        "ko": "팀장님이 따뜻하게 맞아주시고 다른 동료들에게 저를 소개해 주셨습니다."
+      },
+      {
+        "en": "They kindly explained basic company rules and showed me my new desk.",
+        "ko": "동료들은 친절하게 기본 사내 규정을 설명해 주고 제 새 자리를 안내해 주었어요."
+      },
+      {
+        "en": "We had lunch together at a delicious restaurant near the office.",
+        "ko": "우리는 회사 근처의 맛있는 식당에서 다 함께 점심을 먹었습니다."
+      },
+      {
+        "en": "Thanks to their warm support, I was able to adapt to the new environment quickly.",
+        "ko": "동료들의 따뜻한 배려 덕분에 새로운 환경에 빠르게 적응할 수 있었습니다."
+      }
+    ],
+    "keywords": [
+      "first day",
+      "quite nervous",
+      "warmly welcomed",
+      "adapt to",
+      "new environment"
+    ],
+    "tip": "첫날의 감정(긴장) → 팀장/동료와의 첫 만남 → 점심 식사 → 감사한 마음과 적응 순으로 과거 시제를 일관되게 쓰세요.",
+    "answer_en": "I still remember my first day at my current company very clearly. I arrived thirty minutes early because I was quite nervous. My team manager warmly welcomed me and introduced me to other colleagues. They kindly explained basic company rules and showed me my new desk. We had lunch together at a delicious restaurant near the office. Thanks to their warm support, I was able to adapt to the new environment quickly.",
+    "answer_ko": "현재 회사에 처음 출근했던 첫날이 아직도 아주 생생하게 기억납니다. 꽤 긴장했기 때문에 30분 일찍 회사에 도착했어요. 팀장님이 따뜻하게 맞아주시고 다른 동료들에게 저를 소개해 주셨습니다. 동료들은 친절하게 기본 사내 규정을 설명해 주고 제 새 자리를 안내해 주었어요. 우리는 회사 근처의 맛있는 식당에서 다 함께 점심을 먹었습니다. 동료들의 따뜻한 배려 덕분에 새로운 환경에 빠르게 적응할 수 있었습니다."
+  },
+  {
+    "id": "q_cafe_03",
+    "cat": "카페가기",
+    "type": "과거 경험",
+    "q_en": "Tell me about a memorable experience you had at a cafe recently. What happened?",
+    "q_ko": "최근 카페에서 겪었던 기억에 남는 경험에 대해 말씀해 주세요. 무슨 일이 있었나요?",
+    "sentences": [
+      {
+        "en": "Last month, I had a memorable time at a quiet neighborhood cafe.",
+        "ko": "지난달에 동네의 조용한 카페에서 기억에 남는 시간을 보냈습니다."
+      },
+      {
+        "en": "I went there on a rainy Sunday afternoon to read a book.",
+        "ko": "비가 내리는 일요일 오후에 책을 읽으려고 그곳에 갔어요."
+      },
+      {
+        "en": "The cafe was playing gentle jazz music, and the smell of coffee was wonderful.",
+        "ko": "카페에는 잔잔한 재즈 음악이 흐르고 있었고, 커피 향이 정말 훌륭했습니다."
+      },
+      {
+        "en": "I ordered an iced Americano and a warm slice of chocolate cake.",
+        "ko": "저는 아이스 아메리카노와 따뜻한 초콜릿 케이크 한 조각을 주문했어요."
+      },
+      {
+        "en": "Watching the raindrops fall through the big window made me feel peaceful.",
+        "ko": "큰 창문을 통해 빗방울이 떨어지는 모습을 바라보니 마음이 참 평화로워졌습니다."
+      },
+      {
+        "en": "It was one of the most relaxing afternoons I have had this year.",
+        "ko": "올해 보낸 오후 중 가장 편안하고 힐링되는 시간 중 하나였어요."
+      }
+    ],
+    "keywords": [
+      "neighborhood cafe",
+      "rainy Sunday",
+      "gentle jazz music",
+      "feel peaceful",
+      "relaxing afternoon"
+    ],
+    "tip": "언제/어디서(비 오는 일요일 동네 카페) → 분위기와 주문한 메뉴 → 창밖 풍경과 감정 순서로 묘사하세요.",
+    "answer_en": "Last month, I had a memorable time at a quiet neighborhood cafe. I went there on a rainy Sunday afternoon to read a book. The cafe was playing gentle jazz music, and the smell of coffee was wonderful. I ordered an iced Americano and a warm slice of chocolate cake. Watching the raindrops fall through the big window made me feel peaceful. It was one of the most relaxing afternoons I have had this year.",
+    "answer_ko": "지난달에 동네의 조용한 카페에서 기억에 남는 시간을 보냈습니다. 비가 내리는 일요일 오후에 책을 읽으려고 그곳에 갔어요. 카페에는 잔잔한 재즈 음악이 흐르고 있었고, 커피 향이 정말 훌륭했습니다. 저는 아이스 아메리카노와 따뜻한 초콜릿 케이크 한 조각을 주문했어요. 큰 창문을 통해 빗방울이 떨어지는 모습을 바라보니 마음이 참 평화로워졌습니다. 올해 보낸 오후 중 가장 편안하고 힐링되는 시간 중 하나였어요."
+  },
+  {
+    "id": "q_cafe_04",
+    "cat": "카페가기",
+    "type": "변화/비교",
+    "q_en": "How have cafes in your country changed over the years? What differences do you notice?",
+    "q_ko": "최근 몇 년간 한국의 카페 문화는 어떻게 변화했나요? 어떤 점이 달라졌나요?",
+    "sentences": [
+      {
+        "en": "Cafes in Korea have changed significantly over the past few years.",
+        "ko": "한국의 카페들은 지난 몇 년 동안 정말 많이 변화했습니다."
+      },
+      {
+        "en": "In the past, cafes were mainly places where people met to drink coffee.",
+        "ko": "과거에 카페는 주로 사람들이 만나서 커피를 마시는 장소였습니다."
+      },
+      {
+        "en": "Nowadays, many modern cafes offer great bakeries and special dessert menus.",
+        "ko": "요즘에는 많은 현대적인 카페들이 훌륭한 베이커리와 특별한 디저트 메뉴를 제공해요."
+      },
+      {
+        "en": "Also, large bakery cafes with beautiful nature views have become very popular.",
+        "ko": "또한 아름다운 자연 전망을 가진 대형 베이커리 카페들이 매우 인기를 끌고 있습니다."
+      },
+      {
+        "en": "Many people now visit cafes to study, work on laptops, or take photos.",
+        "ko": "많은 사람들이 이제 공부를 하거나 노트북으로 일하고, 사진을 찍기 위해 카페를 찾습니다."
+      },
+      {
+        "en": "I think cafes have become important cultural and healing spaces for everyone.",
+        "ko": "카페가 모든 사람들에게 중요한 문화 공간이자 힐링 공간이 되었다고 생각해요."
+      }
+    ],
+    "keywords": [
+      "changed significantly",
+      "In the past",
+      "Nowadays",
+      "bakery cafes",
+      "healing spaces"
+    ],
+    "tip": "과거의 단순한 음료 공간과 현재의 대형 베이커리/복합 힐링 공간을 대비하여 설명하세요.",
+    "answer_en": "Cafes in Korea have changed significantly over the past few years. In the past, cafes were mainly places where people met to drink coffee. Nowadays, many modern cafes offer great bakeries and special dessert menus. Also, large bakery cafes with beautiful nature views have become very popular. Many people now visit cafes to study, work on laptops, or take photos. I think cafes have become important cultural and healing spaces for everyone.",
+    "answer_ko": "한국의 카페들은 지난 몇 년 동안 정말 많이 변화했습니다. 과거에 카페는 주로 사람들이 만나서 커피를 마시는 장소였습니다. 요즘에는 많은 현대적인 카페들이 훌륭한 베이커리와 특별한 디저트 메뉴를 제공해요. 또한 아름다운 자연 전망을 가진 대형 베이커리 카페들이 매우 인기를 끌고 있습니다. 많은 사람들이 이제 공부를 하거나 노트북으로 일하고, 사진을 찍기 위해 카페를 찾습니다. 카페가 모든 사람들에게 중요한 문화 공간이자 힐링 공간이 되었다고 생각해요."
+  },
+  {
+    "id": "q_park_03",
+    "cat": "공원가기",
+    "type": "과거 경험",
+    "q_en": "Tell me about a memorable event or an unexpected situation that happened while you were at a park.",
+    "q_ko": "공원에 갔을 때 일어났던 기억에 남는 일이나 예상치 못한 상황에 대해 말씀해 주세요.",
+    "sentences": [
+      {
+        "en": "I remember a memorable day at a lake park last spring.",
+        "ko": "지난봄에 호수 공원에서 있었던 기억에 남는 하루가 생각납니다."
+      },
+      {
+        "en": "I went to the park on a sunny Saturday afternoon to jog.",
+        "ko": "화창한 토요일 오후에 조깅을 하려고 공원에 갔어요."
+      },
+      {
+        "en": "Suddenly, dark clouds gathered and it started to rain heavily without warning.",
+        "ko": "갑자기 먹구름이 몰려오더니 예고도 없이 비가 세차게 쏟아지기 시작했습니다."
+      },
+      {
+        "en": "I quickly ran under a nearby wooden pavilion with other runners.",
+        "ko": "저는 다른 러너들과 함께 근처의 나무 정자 밑으로 재빨리 뛰어갔어요."
+      },
+      {
+        "en": "We waited for about twenty minutes while watching the sudden spring shower.",
+        "ko": "우리는 갑작스러운 봄비를 바라보며 약 20분 동안 비를 피했습니다."
+      },
+      {
+        "en": "After the rain stopped, a beautiful rainbow appeared in the sky, which was amazing.",
+        "ko": "비가 그친 뒤 하늘에 아름다운 무지개가 떴는데, 정말 멋지고 인상적이었습니다."
+      }
+    ],
+    "keywords": [
+      "lake park",
+      "started to rain heavily",
+      "wooden pavilion",
+      "spring shower",
+      "beautiful rainbow"
+    ],
+    "tip": "평화로운 상황 → 갑작스러운 소나기 발생 → 정자로 대피 → 비 갠 후 무지개의 감동 순서로 구성하세요.",
+    "answer_en": "I remember a memorable day at a lake park last spring. I went to the park on a sunny Saturday afternoon to jog. Suddenly, dark clouds gathered and it started to rain heavily without warning. I quickly ran under a nearby wooden pavilion with other runners. We waited for about twenty minutes while watching the sudden spring shower. After the rain stopped, a beautiful rainbow appeared in the sky, which was amazing.",
+    "answer_ko": "지난봄에 호수 공원에서 있었던 기억에 남는 하루가 생각납니다. 화창한 토요일 오후에 조깅을 하려고 공원에 갔어요. 갑자기 먹구름이 몰려오더니 예고도 없이 비가 세차게 쏟아지기 시작했습니다. 저는 다른 러너들과 함께 근처의 나무 정자 밑으로 재빨리 뛰어갔어요. 우리는 갑작스러운 봄비를 바라보며 약 20분 동안 비를 피했습니다. 비가 그친 뒤 하늘에 아름다운 무지개가 떴는데, 정말 멋지고 인상적이었습니다."
+  },
+  {
+    "id": "q_park_04",
+    "cat": "공원가기",
+    "type": "계절/비교",
+    "q_en": "How do parks look different depending on the seasons? What is your favorite season to visit a park?",
+    "q_ko": "계절에 따라 공원의 모습이 어떻게 다른가요? 공원에 가기 가장 좋은 계절은 언제인가요?",
+    "sentences": [
+      {
+        "en": "Parks in Korea show completely different charms in each season.",
+        "ko": "한국의 공원들은 계절마다 완전히 다른 매력을 보여줍니다."
+      },
+      {
+        "en": "In spring, cherry blossoms bloom everywhere and the park is full of pink flowers.",
+        "ko": "봄에는 벚꽃이 곳곳에 만개하여 공원이 온통 분홍빛 꽃으로 가득합니다."
+      },
+      {
+        "en": "In autumn, the trees turn red and yellow, creating wonderful walking trails.",
+        "ko": "가을에는 나무들이 붉고 노랗게 물들어 멋진 산책로를 만들어냅니다."
+      },
+      {
+        "en": "My favorite season to visit a park is definitely autumn.",
+        "ko": "제가 공원에 가기 가장 좋아하는 계절은 단연코 가을이에요."
+      },
+      {
+        "en": "The weather is cool and breezy, making it perfect for outdoor walking.",
+        "ko": "날씨가 선선하고 바람이 불어 야외에서 걷기에 딱 알맞습니다."
+      },
+      {
+        "en": "I always take many nice photos with my smartphone when I walk there.",
+        "ko": "그곳을 걸을 때면 스마트폰으로 멋진 사진을 항상 많이 찍어요."
+      }
+    ],
+    "keywords": [
+      "different charms",
+      "cherry blossoms",
+      "turn red and yellow",
+      "cool and breezy",
+      "walking trails"
+    ],
+    "tip": "봄(벚꽃)과 가을(단풍)의 특징 비교 → 가장 좋아하는 계절(가을) 선택 및 이유(선선한 날씨)를 제시하세요.",
+    "answer_en": "Parks in Korea show completely different charms in each season. In spring, cherry blossoms bloom everywhere and the park is full of pink flowers. In autumn, the trees turn red and yellow, creating wonderful walking trails. My favorite season to visit a park is definitely autumn. The weather is cool and breezy, making it perfect for outdoor walking. I always take many nice photos with my smartphone when I walk there.",
+    "answer_ko": "한국의 공원들은 계절마다 완전히 다른 매력을 보여줍니다. 봄에는 벚꽃이 곳곳에 만개하여 공원이 온통 분홍빛 꽃으로 가득합니다. 가을에는 나무들이 붉고 노랗게 물들어 멋진 산책로를 만들어냅니다. 제가 공원에 가기 가장 좋아하는 계절은 단연코 가을이에요. 날씨가 선선하고 바람이 불어 야외에서 걷기에 딱 알맞습니다. 그곳을 걸을 때면 스마트폰으로 멋진 사진을 항상 많이 찍어요."
+  },
+  {
+    "id": "q_movie_03",
+    "cat": "영화보기",
+    "type": "단계/루틴",
+    "q_en": "Walk me through what you do from the moment you decide to watch a movie to the moment you leave the cinema.",
+    "q_ko": "영화를 보기로 결정한 순간부터 영화관을 나올 때까지의 과정을 순서대로 설명해 주세요.",
+    "sentences": [
+      {
+        "en": "Whenever I plan to watch a movie, I follow a simple routine.",
+        "ko": "영화를 보려고 계획할 때마다 저는 간단한 루틴을 따릅니다."
+      },
+      {
+        "en": "First, I open a mobile cinema app to check movie ratings and book good seats.",
+        "ko": "먼저 모바일 영화관 앱을 열어 영화 평점을 확인하고 좋은 좌석을 예매해요."
+      },
+      {
+        "en": "On the movie day, I arrive at the theater about fifteen minutes early.",
+        "ko": "영화 보는 날에는 약 15분 일찍 상영관에 도착합니다."
+      },
+      {
+        "en": "I always buy a large sweet popcorn and a cold soda at the snack bar.",
+        "ko": "매점에서 항상 달콤한 라지 팝콘과 시원한 탄산음료를 구입해요."
+      },
+      {
+        "en": "During the movie, I focus completely on the story on the big screen.",
+        "ko": "영화 상영 중에는 대형 스크린의 이야기에 완전히 몰입합니다."
+      },
+      {
+        "en": "After the movie ends, I usually talk about the story with my companion on the way home.",
+        "ko": "영화가 끝난 후에는 집으로 돌아오는 길에 동행과 영화에 대한 이야기를 나눕니다."
+      }
+    ],
+    "keywords": [
+      "follow a simple routine",
+      "book good seats",
+      "arrive early",
+      "sweet popcorn",
+      "on the way home"
+    ],
+    "tip": "First(앱 예매) → On the day(일찍 도착) → 매점 간식 구매 → 영화 몰입 → 귀가 시 소감 공유의 시간 순서로 말하세요.",
+    "answer_en": "Whenever I plan to watch a movie, I follow a simple routine. First, I open a mobile cinema app to check movie ratings and book good seats. On the movie day, I arrive at the theater about fifteen minutes early. I always buy a large sweet popcorn and a cold soda at the snack bar. During the movie, I focus completely on the story on the big screen. After the movie ends, I usually talk about the story with my companion on the way home.",
+    "answer_ko": "영화를 보려고 계획할 때마다 저는 간단한 루틴을 따릅니다. 먼저 모바일 영화관 앱을 열어 영화 평점을 확인하고 좋은 좌석을 예매해요. 영화 보는 날에는 약 15분 일찍 상영관에 도착합니다. 매점에서 항상 달콤한 라지 팝콘과 시원한 탄산음료를 구입해요. 영화 상영 중에는 대형 스크린의 이야기에 완전히 몰입합니다. 영화가 끝난 후에는 집으로 돌아오는 길에 동행과 영화에 대한 이야기를 나눕니다."
+  },
+  {
+    "id": "q_movie_04",
+    "cat": "영화보기",
+    "type": "변화/비교",
+    "q_en": "How have movie theaters changed compared to when you were young?",
+    "q_ko": "어렸을 때와 비교해서 요즘 영화관은 어떻게 달라졌나요?",
+    "sentences": [
+      {
+        "en": "Movie theaters have improved dramatically compared to when I was young.",
+        "ko": "영화관은 제가 어렸을 때와 비교해서 엄청나게 발전했습니다."
+      },
+      {
+        "en": "In the past, we had to wait in long lines at the ticket counter to buy paper tickets.",
+        "ko": "예전에는 종이 티켓을 사기 위해 매표소에서 긴 줄을 서서 기다려야 했습니다."
+      },
+      {
+        "en": "Today, we can reserve everything easily with smartphones and use mobile tickets.",
+        "ko": "오늘날에는 스마트폰으로 모든 것을 쉽게 예약하고 모바일 티켓을 사용합니다."
+      },
+      {
+        "en": "Furthermore, modern theaters have special sound systems and very comfortable reclining seats.",
+        "ko": "게다가 최신 상영관들은 특별한 사운드 시스템과 매우 편안한 리클라이너 좌석을 갖추고 있어요."
+      },
+      {
+        "en": "The snack menus have also become much more diverse with hot dogs and nachos.",
+        "ko": "스낵 메뉴도 핫도그, 나초 등으로 훨씬 더 다양해졌습니다."
+      },
+      {
+        "en": "These modern features make the whole moviegoing experience much more enjoyable.",
+        "ko": "이러한 현대적인 시설들 덕분에 영화를 관람하는 경험 전체가 훨씬 더 즐거워졌습니다."
+      }
+    ],
+    "keywords": [
+      "improved dramatically",
+      "ticket counter",
+      "mobile tickets",
+      "reclining seats",
+      "moviegoing experience"
+    ],
+    "tip": "과거의 불편했던 매표소 줄서기 vs 현재의 모바일 예매 및 안락한 리클라이너 좌석을 대조하세요.",
+    "answer_en": "Movie theaters have improved dramatically compared to when I was young. In the past, we had to wait in long lines at the ticket counter to buy paper tickets. Today, we can reserve everything easily with smartphones and use mobile tickets. Furthermore, modern theaters have special sound systems and very comfortable reclining seats. The snack menus have also become much more diverse with hot dogs and nachos. These modern features make the whole moviegoing experience much more enjoyable.",
+    "answer_ko": "영화관은 제가 어렸을 때와 비교해서 엄청나게 발전했습니다. 예전에는 종이 티켓을 사기 위해 매표소에서 긴 줄을 서서 기다려야 했습니다. 오늘날에는 스마트폰으로 모든 것을 쉽게 예약하고 모바일 티켓을 사용합니다. 게다가 최신 상영관들은 특별한 사운드 시스템과 매우 편안한 리클라이너 좌석을 갖추고 있어요. 스낵 메뉴도 핫도그, 나초 등으로 훨씬 더 다양해졌습니다. 이러한 현대적인 시설들 덕분에 영화를 관람하는 경험 전체가 훨씬 더 즐거워졌습니다."
+  },
+  {
+    "id": "q_music_02",
+    "cat": "음악감상",
+    "type": "변화/비교",
+    "q_en": "How has your taste in music changed over the years? What kind of music did you listen to in the past?",
+    "q_ko": "시간이 지나면서 음악 취향이 어떻게 바뀌었나요? 예전에는 어떤 음악을 들으셨나요?",
+    "sentences": [
+      {
+        "en": "My taste in music has changed quite a bit over the years.",
+        "ko": "제 음악 취향은 세월이 흐르면서 꽤 많이 바뀌었습니다."
+      },
+      {
+        "en": "When I was a student, I mostly listened to fast dance tracks and exciting pop songs.",
+        "ko": "학생 때는 주로 빠른 댄스곡이나 신나는 팝송을 많이 들었어요."
+      },
+      {
+        "en": "However, these days I prefer calm acoustic melodies and gentle ballad songs.",
+        "ko": "하지만 요즘에는 잔잔한 어쿠스틱 멜로디와 차분한 발라드 곡을 더 선호합니다."
+      },
+      {
+        "en": "Listening to peaceful music after a long day at work relieves my stress effectively.",
+        "ko": "퇴근 후 긴 하루 끝에 평화로운 음악을 들으면 스트레스가 효과적으로 풀려요."
+      },
+      {
+        "en": "I often stream soft piano playlists on my smartphone before going to sleep.",
+        "ko": "잠들기 전에는 스마트폰으로 부드러운 피아노 재생목록을 자주 스트리밍합니다."
+      },
+      {
+        "en": "I think mellow music gives me great emotional comfort nowadays.",
+        "ko": "요즘에는 감미로운 음악이 저에게 큰 정서적 위안을 주는 것 같아요."
+      }
+    ],
+    "keywords": [
+      "taste in music",
+      "fast dance tracks",
+      "calm acoustic",
+      "relieves my stress",
+      "emotional comfort"
+    ],
+    "tip": "과거의 신나는 댄스/팝 선호 → 현재의 잔잔한 발라드/어쿠스틱 선호 → 힐링과 수면 도움으로 전개하세요.",
+    "answer_en": "My taste in music has changed quite a bit over the years. When I was a student, I mostly listened to fast dance tracks and exciting pop songs. However, these days I prefer calm acoustic melodies and gentle ballad songs. Listening to peaceful music after a long day at work relieves my stress effectively. I often stream soft piano playlists on my smartphone before going to sleep. I think mellow music gives me great emotional comfort nowadays.",
+    "answer_ko": "제 음악 취향은 세월이 흐르면서 꽤 많이 바뀌었습니다. 학생 때는 주로 빠른 댄스곡이나 신나는 팝송을 많이 들었어요. 하지만 요즘에는 잔잔한 어쿠스틱 멜로디와 차분한 발라드 곡을 더 선호합니다. 퇴근 후 긴 하루 끝에 평화로운 음악을 들으면 스트레스가 효과적으로 풀려요. 잠들기 전에는 스마트폰으로 부드러운 피아노 재생목록을 자주 스트리밍합니다. 요즘에는 감미로운 음악이 저에게 큰 정서적 위안을 주는 것 같아요."
+  },
+  {
+    "id": "q_music_03",
+    "cat": "음악감상",
+    "type": "과거 경험",
+    "q_en": "Tell me about a memorable experience related to music, like attending a live concert or a music festival.",
+    "q_ko": "라이브 콘서트나 페스티벌처럼 음악과 관련된 기억에 남는 경험에 대해 말씀해 주세요.",
+    "sentences": [
+      {
+        "en": "One of my best musical memories was going to an outdoor music festival last autumn.",
+        "ko": "가장 좋았던 음악적 추억 중 하나는 작년 가을에 야외 음악 페스티벌에 갔던 일입니다."
+      },
+      {
+        "en": "I went there with my close friends on a cool weekend afternoon.",
+        "ko": "선선한 주말 오후에 친한 친구들과 함께 그곳에 갔어요."
+      },
+      {
+        "en": "Several famous indie bands and acoustic singers performed on the open stage.",
+        "ko": "여러 유명 인디 밴드와 어쿠스틱 가수들이 야외 무대에서 공연을 펼쳤습니다."
+      },
+      {
+        "en": "The live sound quality was fantastic, and the crowd was singing along together.",
+        "ko": "라이브 음향은 환상적이었고, 관객들은 다 함께 노래를 따라 불렀습니다."
+      },
+      {
+        "en": "We sat on a picnic mat on the grass, eating snacks and enjoying the music.",
+        "ko": "우리는 잔디밭 돗자리에 앉아 간식을 먹으며 음악을 즐겼어요."
+      },
+      {
+        "en": "That live performance gave me unforgettable memories and a lot of energy.",
+        "ko": "그 라이브 공연은 저에게 잊을 수 없는 추억과 많은 에너지를 안겨주었습니다."
+      }
+    ],
+    "keywords": [
+      "music festival",
+      "close friends",
+      "performed on stage",
+      "singing along",
+      "picnic mat"
+    ],
+    "tip": "작년 가을 야외 페스티벌 배경 → 친구들과 동행 → 라이브 떼창과 잔디밭 힐링 → 감동의 소감 순으로 답변하세요.",
+    "answer_en": "One of my best musical memories was going to an outdoor music festival last autumn. I went there with my close friends on a cool weekend afternoon. Several famous indie bands and acoustic singers performed on the open stage. The live sound quality was fantastic, and the crowd was singing along together. We sat on a picnic mat on the grass, eating snacks and enjoying the music. That live performance gave me unforgettable memories and a lot of energy.",
+    "answer_ko": "가장 좋았던 음악적 추억 중 하나는 작년 가을에 야외 음악 페스티벌에 갔던 일입니다. 선선한 주말 오후에 친한 친구들과 함께 그곳에 갔어요. 여러 유명 인디 밴드와 어쿠스틱 가수들이 야외 무대에서 공연을 펼쳤습니다. 라이브 음향은 환상적이었고, 관객들은 다 함께 노래를 따라 불렀습니다. 우리는 잔디밭 돗자리에 앉아 간식을 먹으며 음악을 즐겼어요. 그 라이브 공연은 저에게 잊을 수 없는 추억과 많은 에너지를 안겨주었습니다."
+  },
+  {
+    "id": "q_fitness_02",
+    "cat": "운동하기",
+    "type": "장소 묘사",
+    "q_en": "Please describe the fitness center or place where you usually work out. What facilities does it have?",
+    "q_ko": "주로 운동하는 헬스장이나 장소에 대해 설명해 주세요. 어떤 시설들이 있나요?",
+    "sentences": [
+      {
+        "en": "I usually work out at a modern fitness center located near my home.",
+        "ko": "저는 주로 집 근처에 위치한 현대적인 헬스장에서 운동합니다."
+      },
+      {
+        "en": "The gym is very spacious, clean, and well-maintained.",
+        "ko": "그 헬스장은 매우 넓고 깨끗하며 관리가 잘 되어 있어요."
+      },
+      {
+        "en": "There are many modern treadmills and stationary bicycles in the cardio zone.",
+        "ko": "유산소 운동 구역에는 최신 러닝머신과 실내 자전거가 많이 구비되어 있습니다."
+      },
+      {
+        "en": "It also has a wide variety of weight machines and dumbbells for strength training.",
+        "ko": "또한 근력 운동을 위한 다양한 웨이트 머신과 덤벨들도 갖추고 있습니다."
+      },
+      {
+        "en": "The shower room is always spotless, which is a big plus for me.",
+        "ko": "샤워실도 항상 티 없이 깨끗해서 저에게 큰 장점입니다."
+      },
+      {
+        "en": "Exercising in such a clean environment motivates me to visit regularly.",
+        "ko": "이렇게 쾌적한 환경에서 운동하면 정기적으로 방문하고 싶은 동기부여가 됩니다."
+      }
+    ],
+    "keywords": [
+      "fitness center",
+      "spacious and clean",
+      "cardio zone",
+      "strength training",
+      "clean environment"
+    ],
+    "tip": "헬스장 위치 → 유산소 구역(러닝머신) → 웨이트 구역 → 샤워실 청결도 → 운동 만족감 순서로 설명하세요.",
+    "answer_en": "I usually work out at a modern fitness center located near my home. The gym is very spacious, clean, and well-maintained. There are many modern treadmills and stationary bicycles in the cardio zone. It also has a wide variety of weight machines and dumbbells for strength training. The shower room is always spotless, which is a big plus for me. Exercising in such a clean environment motivates me to visit regularly.",
+    "answer_ko": "저는 주로 집 근처에 위치한 현대적인 헬스장에서 운동합니다. 그 헬스장은 매우 넓고 깨끗하며 관리가 잘 되어 있어요. 유산소 운동 구역에는 최신 러닝머신과 실내 자전거가 많이 구비되어 있습니다. 또한 근력 운동을 위한 다양한 웨이트 머신과 덤벨들도 갖추고 있습니다. 샤워실도 항상 티 없이 깨끗해서 저에게 큰 장점입니다. 이렇게 쾌적한 환경에서 운동하면 정기적으로 방문하고 싶은 동기부여가 됩니다."
+  },
+  {
+    "id": "q_fitness_03",
+    "cat": "운동하기",
+    "type": "계기/변화",
+    "q_en": "Why did you first start working out, and how has regular exercise helped your health?",
+    "q_ko": "처음 운동을 시작하게 된 계기와 규칙적인 운동이 건강에 어떤 도움이 되었는지 말씀해 주세요.",
+    "sentences": [
+      {
+        "en": "I started working out regularly about two years ago to improve my physical health.",
+        "ko": "저는 건강을 증진시키기 위해 약 2년 전부터 규칙적으로 운동을 시작했습니다."
+      },
+      {
+        "en": "At that time, I often felt tired and lacked stamina due to long working hours.",
+        "ko": "그 당시에는 긴 근무 시간 때문에 자주 피로감을 느끼고 체력이 부족했어요."
+      },
+      {
+        "en": "So, I decided to jog and do light weight training three times a week.",
+        "ko": "그래서 일주일에 세 번 조깅과 가벼운 웨이트 트레이닝을 하기로 결심했습니다."
+      },
+      {
+        "en": "After exercising consistently, my stamina has improved significantly.",
+        "ko": "꾸준히 운동한 후로 체력이 눈에 띄게 좋아졌습니다."
+      },
+      {
+        "en": "I also sleep much better at night and feel refreshed every morning.",
+        "ko": "밤에도 잠을 훨씬 잘 자고 매일 아침 상쾌함을 느껴요."
+      },
+      {
+        "en": "Working out has truly become an essential habit for my healthy lifestyle.",
+        "ko": "운동은 이제 제 건강한 라이프스타일을 위한 필수적인 습관이 되었습니다."
+      }
+    ],
+    "keywords": [
+      "improve physical health",
+      "lacked stamina",
+      "three times a week",
+      "improved significantly",
+      "healthy lifestyle"
+    ],
+    "tip": "시작 계기(피로/체력 부족) → 실천(주 3회 운동) → 건강 변화(체력 향상, 수면 개선) 순서로 구성하세요.",
+    "answer_en": "I started working out regularly about two years ago to improve my physical health. At that time, I often felt tired and lacked stamina due to long working hours. So, I decided to jog and do light weight training three times a week. After exercising consistently, my stamina has improved significantly. I also sleep much better at night and feel refreshed every morning. Working out has truly become an essential habit for my healthy lifestyle.",
+    "answer_ko": "저는 건강을 증진시키기 위해 약 2년 전부터 규칙적으로 운동을 시작했습니다. 그 당시에는 긴 근무 시간 때문에 자주 피로감을 느끼고 체력이 부족했어요. 그래서 일주일에 세 번 조깅과 가벼운 웨이트 트레이닝을 하기로 결심했습니다. 꾸준히 운동한 후로 체력이 눈에 띄게 좋아졌습니다. 밤에도 잠을 훨씬 잘 자고 매일 아침 상쾌함을 느껴요. 운동은 이제 제 건강한 라이프스타일을 위한 필수적인 습관이 되었습니다."
+  },
+  {
+    "id": "q_cook_02",
+    "cat": "요리하기",
+    "type": "과거 경험",
+    "q_en": "Tell me about a time when you cooked a special meal for your family or friends. What did you make?",
+    "q_ko": "가족이나 친구들을 위해 특별한 음식을 요리했던 경험에 대해 이야기해 주세요. 무엇을 만드셨나요?",
+    "sentences": [
+      {
+        "en": "Last Christmas, I decided to cook a special dinner for my family.",
+        "ko": "지난 크리스마스에 저는 가족을 위해 특별한 저녁 식사를 요리하기로 결심했습니다."
+      },
+      {
+        "en": "I prepared creamy pasta with fresh shrimp and a warm tomato soup.",
+        "ko": "신선한 새우를 넣은 크림 파스타와 따뜻한 토마토 수프를 준비했어요."
+      },
+      {
+        "en": "I carefully chopped fresh vegetables and followed an online video recipe.",
+        "ko": "신선한 채소들을 정성껏 썰고 온라인 동영상 레시피를 주의 깊게 따라 했습니다."
+      },
+      {
+        "en": "The cooking took about an hour, and the aroma filled the entire kitchen.",
+        "ko": "요리하는 데 약 한 시간이 걸렸고, 주방 전체에 맛있는 향이 가득 찼습니다."
+      },
+      {
+        "en": "My family really loved the food and praised my cooking skills.",
+        "ko": "가족들은 음식을 정말 좋아해 주었고 제 요리 솜씨를 칭찬해 주었습니다."
+      },
+      {
+        "en": "Seeing them enjoy my meal made me feel proud and happy.",
+        "ko": "가족들이 제 음식을 맛있게 먹는 모습을 보니 뿌듯하고 참 행복했어요."
+      }
+    ],
+    "keywords": [
+      "special dinner",
+      "creamy pasta",
+      "video recipe",
+      "praised my cooking",
+      "feel proud"
+    ],
+    "tip": "언제/누구를 위해(크리스마스 가족) → 메뉴(크림 파스타) → 조리 과정 → 가족들의 칭찬과 뿌듯함 순으로 말하세요.",
+    "answer_en": "Last Christmas, I decided to cook a special dinner for my family. I prepared creamy pasta with fresh shrimp and a warm tomato soup. I carefully chopped fresh vegetables and followed an online video recipe. The cooking took about an hour, and the aroma filled the entire kitchen. My family really loved the food and praised my cooking skills. Seeing them enjoy my meal made me feel proud and happy.",
+    "answer_ko": "지난 크리스마스에 저는 가족을 위해 특별한 저녁 식사를 요리하기로 결심했습니다. 신선한 새우를 넣은 크림 파스타와 따뜻한 토마토 수프를 준비했어요. 신선한 채소들을 정성껏 썰고 온라인 동영상 레시피를 주의 깊게 따라 했습니다. 요리하는 데 약 한 시간이 걸렸고, 주방 전체에 맛있는 향이 가득 찼습니다. 가족들은 음식을 정말 좋아해 주었고 제 요리 솜씨를 칭찬해 주었습니다. 가족들이 제 음식을 맛있게 먹는 모습을 보니 뿌듯하고 참 행복했어요."
+  },
+  {
+    "id": "q_cook_03",
+    "cat": "요리하기",
+    "type": "과거 문제",
+    "q_en": "Have you ever made a mistake or had an unexpected problem while cooking? Tell me what happened.",
+    "q_ko": "요리하다가 실수를 했거나 예상치 못한 문제를 겪은 적이 있나요? 무슨 일이 있었는지 이야기해 주세요.",
+    "sentences": [
+      {
+        "en": "I remember an unforgettable mistake I made when I first cooked Kimchi stew.",
+        "ko": "처음 김치찌개를 끓였을 때 저질렀던 잊지 못할 실수가 기억납니다."
+      },
+      {
+        "en": "I was trying to cook a delicious meal for myself on a weekend.",
+        "ko": "주말에 혼자 맛있는 식사를 만들어 먹으려고 했어요."
+      },
+      {
+        "en": "Unfortunately, I put in way too much salt because I misread the measurement.",
+        "ko": "안타깝게도 계량을 잘못 읽어서 소금을 너무 많이 넣어버렸습니다."
+      },
+      {
+        "en": "When I tasted the soup, it was far too salty to eat.",
+        "ko": "국물 맛을 보았을 때 너무 짜서 도저히 먹을 수가 없었어요."
+      },
+      {
+        "en": "I quickly added more water, chopped onions, and tofu to fix the flavor.",
+        "ko": "맛을 살리기 위해 서둘러 물을 더 붓고 썬 양파와 두부를 추가했습니다."
+      },
+      {
+        "en": "Fortunately, the stew turned out okay, and I learned to season carefully.",
+        "ko": "다행히 찌개는 먹을 만해졌고, 간을 조심해서 맞춰야 한다는 교훈을 얻었습니다."
+      }
+    ],
+    "keywords": [
+      "unforgettable mistake",
+      "Kimchi stew",
+      "too much salt",
+      "fix the flavor",
+      "season carefully"
+    ],
+    "tip": "상황(첫 김치찌개) → 실수(소금 과다 투입) → 맛보고 당황 → 대처(물, 양파, 두부 추가) → 교훈 순서로 전개하세요.",
+    "answer_en": "I remember an unforgettable mistake I made when I first cooked Kimchi stew. I was trying to cook a delicious meal for myself on a weekend. Unfortunately, I put in way too much salt because I misread the measurement. When I tasted the soup, it was far too salty to eat. I quickly added more water, chopped onions, and tofu to fix the flavor. Fortunately, the stew turned out okay, and I learned to season carefully.",
+    "answer_ko": "처음 김치찌개를 끓였을 때 저질렀던 잊지 못할 실수가 기억납니다. 주말에 혼자 맛있는 식사를 만들어 먹으려고 했어요. 안타깝게도 계량을 잘못 읽어서 소금을 너무 많이 넣어버렸습니다. 국물 맛을 보았을 때 너무 짜서 도저히 먹을 수가 없었어요. 맛을 살리기 위해 서둘러 물을 더 붓고 썬 양파와 두부를 추가했습니다. 다행히 찌개는 먹을 만해졌고, 간을 조심해서 맞춰야 한다는 교훈을 얻었습니다."
+  },
+  {
+    "id": "q_travel_02",
+    "cat": "국내여행",
+    "type": "장소 묘사",
+    "q_en": "What is your favorite travel destination in your country? What makes that place special?",
+    "q_ko": "국내에서 가장 좋아하는 여행지는 어디인가요? 그곳이 왜 특별한가요?",
+    "sentences": [
+      {
+        "en": "My absolute favorite travel destination in Korea is Jeju Island.",
+        "ko": "한국에서 제가 가장 좋아하는 여행지는 단연 제주도입니다."
+      },
+      {
+        "en": "Jeju Island is famous for its crystal clear emerald ocean and clean air.",
+        "ko": "제주도는 투명한 에메랄드빛 바다와 맑은 공기로 유명해요."
+      },
+      {
+        "en": "I really love driving along the coastal road while feeling the sea breeze.",
+        "ko": "저는 바닷바람을 맞으며 해안도로를 따라 드라이브하는 것을 정말 좋아합니다."
+      },
+      {
+        "en": "There are also many unique cafes, beautiful oreums, and delicious black pork restaurants.",
+        "ko": "또한 특색 있는 카페, 아름다운 오름, 맛있는 흑돼지 식당들도 많습니다."
+      },
+      {
+        "en": "Visiting Jeju always gives me a deep sense of healing and relaxation.",
+        "ko": "제주를 방문하면 언제나 깊은 힐링과 휴식의 느낌을 받습니다."
+      },
+      {
+        "en": "Whenever I need a break from busy daily life, Jeju is the first place I think of.",
+        "ko": "바쁜 일상에서 휴식이 필요할 때면 제주도가 가장 먼저 떠오릅니다."
+      }
+    ],
+    "keywords": [
+      "favorite travel destination",
+      "Jeju Island",
+      "crystal clear ocean",
+      "coastal road",
+      "deep sense of healing"
+    ],
+    "tip": "여행지 선정(제주도) → 자연 경관(바다, 오름) → 드라이브/맛집 즐길 거리 → 힐링되는 감정 순서로 답변하세요.",
+    "answer_en": "My absolute favorite travel destination in Korea is Jeju Island. Jeju Island is famous for its crystal clear emerald ocean and clean air. I really love driving along the coastal road while feeling the sea breeze. There are also many unique cafes, beautiful oreums, and delicious black pork restaurants. Visiting Jeju always gives me a deep sense of healing and relaxation. Whenever I need a break from busy daily life, Jeju is the first place I think of.",
+    "answer_ko": "한국에서 제가 가장 좋아하는 여행지는 단연 제주도입니다. 제주도는 투명한 에메랄드빛 바다와 맑은 공기로 유명해요. 저는 바닷바람을 맞으며 해안도로를 따라 드라이브하는 것을 정말 좋아합니다. 또한 특색 있는 카페, 아름다운 오름, 맛있는 흑돼지 식당들도 많습니다. 제주를 방문하면 언제나 깊은 힐링과 휴식의 느낌을 받습니다. 바쁜 일상에서 휴식이 필요할 때면 제주도가 가장 먼저 떠오릅니다."
+  },
+  {
+    "id": "q_travel_03",
+    "cat": "국내여행",
+    "type": "준비/단계",
+    "q_en": "What do you usually do to prepare for a domestic trip before leaving?",
+    "q_ko": "국내 여행을 떠나기 전에 보통 어떤 준비를 하시나요?",
+    "sentences": [
+      {
+        "en": "Before going on a domestic trip, I follow a few practical steps.",
+        "ko": "국내 여행을 떠나기 전에 저는 몇 가지 실용적인 단계를 거칩니다."
+      },
+      {
+        "en": "First, I search online for comfortable accommodations and book them in advance.",
+        "ko": "먼저 인터넷으로 편안한 숙소를 검색하고 미리 예약합니다."
+      },
+      {
+        "en": "Next, I look up famous local restaurants and make a simple travel itinerary.",
+        "ko": "다음으로 유명한 현지 맛집들을 찾아보고 간단한 여행 일정을 세워요."
+      },
+      {
+        "en": "The night before the trip, I pack my suitcase with comfortable clothes and personal items.",
+        "ko": "여행 전날 밤에는 캐리어에 편한 옷과 개인 물품들을 챙깁니다."
+      },
+      {
+        "en": "I also make sure to check the weather forecast to pack an umbrella if needed.",
+        "ko": "또한 필요시 우산을 챙길 수 있도록 일기예보도 꼭 확인해요."
+      },
+      {
+        "en": "Careful preparation always makes my trips much smoother and more enjoyable.",
+        "ko": "꼼꼼한 준비 덕분에 여행이 항상 훨씬 더 순조롭고 즐거워집니다."
+      }
+    ],
+    "keywords": [
+      "practical steps",
+      "book in advance",
+      "travel itinerary",
+      "pack my suitcase",
+      "weather forecast"
+    ],
+    "tip": "숙소 예약 → 맛집 및 동선 계획 → 짐 싸기 → 날씨 확인의 체계적인 순서로 설명하세요.",
+    "answer_en": "Before going on a domestic trip, I follow a few practical steps. First, I search online for comfortable accommodations and book them in advance. Next, I look up famous local restaurants and make a simple travel itinerary. The night before the trip, I pack my suitcase with comfortable clothes and personal items. I also make sure to check the weather forecast to pack an umbrella if needed. Careful preparation always makes my trips much smoother and more enjoyable.",
+    "answer_ko": "국내 여행을 떠나기 전에 저는 몇 가지 실용적인 단계를 거칩니다. 먼저 인터넷으로 편안한 숙소를 검색하고 미리 예약합니다. 다음으로 유명한 현지 맛집들을 찾아보고 간단한 여행 일정을 세워요. 여행 전날 밤에는 캐리어에 편한 옷과 개인 물품들을 챙깁니다. 또한 필요시 우산을 챙길 수 있도록 일기예보도 꼭 확인해요. 꼼꼼한 준비 덕분에 여행이 항상 훨씬 더 순조롭고 즐거워집니다."
+  },
+  {
+    "id": "q_camp_02",
+    "cat": "캠핑하기",
+    "type": "장소 묘사",
+    "q_en": "Please describe your favorite campsite. Where is it located and what does it look like?",
+    "q_ko": "가장 좋아하는 캠핑장에 대해 설명해 주세요. 어디에 있고 어떻게 생겼나요?",
+    "sentences": [
+      {
+        "en": "My favorite campsite is located inside a quiet pine forest near a mountain.",
+        "ko": "제가 가장 좋아하는 캠핑장은 산 근처의 조용한 소나무 숲속에 위치해 있습니다."
+      },
+      {
+        "en": "The campsite is surrounded by tall pine trees and a small, clean stream.",
+        "ko": "캠핑장은 키 큰 소나무들과 작고 깨끗한 시냇물로 둘러싸여 있어요."
+      },
+      {
+        "en": "Each camping site is very spacious, providing plenty of privacy.",
+        "ko": "각 텐트 구역이 매우 넓어서 프라이버시가 충분히 보장됩니다."
+      },
+      {
+        "en": "It also has clean restrooms, warm shower booths, and convenient sinks.",
+        "ko": "깨끗한 화장실, 온수 샤워 부스, 편리한 개수대 시설도 갖추고 있어요."
+      },
+      {
+        "en": "At night, you can see countless bright stars in the dark sky.",
+        "ko": "밤이 되면 어두운 하늘에 무수히 많은 밝은 별들을 볼 수 있습니다."
+      },
+      {
+        "en": "Listening to the sound of flowing water there brings me complete peace of mind.",
+        "ko": "그곳에서 흐르는 물소리를 듣고 있으면 마음에 온전한 평화가 찾아옵니다."
+      }
+    ],
+    "keywords": [
+      "pine forest",
+      "clean stream",
+      "plenty of privacy",
+      "bright stars",
+      "peace of mind"
+    ],
+    "tip": "캠핑장 위치/자연(소나무 숲, 시냇물) → 편의시설(샤워실/개수대) → 밤하늘의 별과 힐링 느낌을 묘사하세요.",
+    "answer_en": "My favorite campsite is located inside a quiet pine forest near a mountain. The campsite is surrounded by tall pine trees and a small, clean stream. Each camping site is very spacious, providing plenty of privacy. It also has clean restrooms, warm shower booths, and convenient sinks. At night, you can see countless bright stars in the dark sky. Listening to the sound of flowing water there brings me complete peace of mind.",
+    "answer_ko": "제가 가장 좋아하는 캠핑장은 산 근처의 조용한 소나무 숲속에 위치해 있습니다. 캠핑장은 키 큰 소나무들과 작고 깨끗한 시냇물로 둘러싸여 있어요. 각 텐트 구역이 매우 넓어서 프라이버시가 충분히 보장됩니다. 깨끗한 화장실, 온수 샤워 부스, 편리한 개수대 시설도 갖추고 있어요. 밤이 되면 어두운 하늘에 무수히 많은 밝은 별들을 볼 수 있습니다. 그곳에서 흐르는 물소리를 듣고 있으면 마음에 온전한 평화가 찾아옵니다."
+  },
+  {
+    "id": "q_camp_03",
+    "cat": "캠핑하기",
+    "type": "과거 경험",
+    "q_en": "Tell me about a memorable or unexpected incident that occurred while you were camping outdoors.",
+    "q_ko": "야외 캠핑 중에 일어났던 기억에 남거나 예상치 못한 사건에 대해 이야기해 주세요.",
+    "sentences": [
+      {
+        "en": "I remember an unexpected adventure during a camping trip two summers ago.",
+        "ko": "2년 전 여름 캠핑 여행 중에 겪었던 뜻밖의 모험이 기억납니다."
+      },
+      {
+        "en": "While we were grilling meat around the campfire at night, strong wind started blowing.",
+        "ko": "밤에 모닥불 주변에서 고기를 굽고 있었는데 갑자기 강한 바람이 불기 시작했습니다."
+      },
+      {
+        "en": "One of our tarp poles suddenly bent because of the heavy wind.",
+        "ko": "거센 바람 때문에 타프 폴대 하나가 갑자기 휘어져 버렸어요."
+      },
+      {
+        "en": "My friends and I quickly worked together to tighten the ropes and secure the tent.",
+        "ko": "친구들과 저는 로프를 단단히 조이고 텐트를 고정하기 위해 재빨리 힘을 모았습니다."
+      },
+      {
+        "en": "After fixing everything safely, we sat inside the tent and ate hot cup noodles.",
+        "ko": "모든 것을 안전하게 수습한 후, 우리는 텐트 안에 둘러앉아 따뜻한 컵라면을 먹었어요."
+      },
+      {
+        "en": "It was a bit surprising at first, but now it has become a fun story to remember.",
+        "ko": "처음에는 조금 당황스러웠지만, 지금은 기억에 남는 재미있는 추억거리가 되었습니다."
+      }
+    ],
+    "keywords": [
+      "unexpected adventure",
+      "strong wind",
+      "tarp poles",
+      "worked together",
+      "fun story"
+    ],
+    "tip": "평화로운 바비큐 → 갑작스러운 강풍과 타프 파손 → 협동하여 텐트 고정 → 라면 먹으며 훈훈한 마무리로 구성하세요.",
+    "answer_en": "I remember an unexpected adventure during a camping trip two summers ago. While we were grilling meat around the campfire at night, strong wind started blowing. One of our tarp poles suddenly bent because of the heavy wind. My friends and I quickly worked together to tighten the ropes and secure the tent. After fixing everything safely, we sat inside the tent and ate hot cup noodles. It was a bit surprising at first, but now it has become a fun story to remember.",
+    "answer_ko": "2년 전 여름 캠핑 여행 중에 겪었던 뜻밖의 모험이 기억납니다. 밤에 모닥불 주변에서 고기를 굽고 있었는데 갑자기 강한 바람이 불기 시작했습니다. 거센 바람 때문에 타프 폴대 하나가 갑자기 휘어져 버렸어요. 친구들과 저는 로프를 단단히 조이고 텐트를 고정하기 위해 재빨리 힘을 모았습니다. 모든 것을 안전하게 수습한 후, 우리는 텐트 안에 둘러앉아 따뜻한 컵라면을 먹었어요. 처음에는 조금 당황스러웠지만, 지금은 기억에 남는 재미있는 추억거리가 되었습니다."
+  },
+  {
+    "id": "q_rp_03",
+    "cat": "롤플레이",
+    "type": "문제 해결/교환",
+    "q_en": "You bought a piece of clothing at a store, but when you got home, you found a defect. Call the store to explain the problem and ask for an exchange.",
+    "q_ko": "가게에서 옷을 샀는데 집에 와서 보니 불량을 발견했습니다. 매장에 전화해 상황을 설명하고 교환을 요청해 보세요.",
+    "sentences": [
+      {
+        "en": "Hello, I purchased a navy blue jacket at your store this afternoon.",
+        "ko": "안녕하세요, 오늘 오후에 귀하의 매장에서 네이비 블루 재킷을 구매했습니다."
+      },
+      {
+        "en": "When I tried it on at home, I found that the zipper was completely stuck.",
+        "ko": "집에 와서 입어보았는데 지퍼가 완전히 걸려서 움직이지 않는 것을 발견했어요."
+      },
+      {
+        "en": "I would like to know if I can exchange this defective jacket for a new one.",
+        "ko": "이 불량 재킷을 새 상품으로 교환할 수 있는지 알고 싶습니다."
+      },
+      {
+        "en": "Do you still have the same jacket in size large in stock?",
+        "ko": "혹시 같은 재킷 라지 사이즈 재고가 아직 남아 있나요?"
+      },
+      {
+        "en": "I have the receipt and the price tag is still attached to the jacket.",
+        "ko": "영수증을 가지고 있고 가격표도 재킷에 그대로 붙어 있습니다."
+      },
+      {
+        "en": "I will visit your store tomorrow morning, so please let me know if that works.",
+        "ko": "내일 아침에 매장을 방문할 예정인데 괜찮은지 알려주세요."
+      }
+    ],
+    "keywords": [
+      "purchased a jacket",
+      "zipper was stuck",
+      "exchange for a new one",
+      "in stock",
+      "have the receipt"
+    ],
+    "tip": "구매 사실 밝히기 → 불량 상황(지퍼 고장) 설명 → 동일 사이즈 재고 확인 및 교환 요청 → 영수증 소지 및 방문 시간 안내 순서로 말하세요.",
+    "answer_en": "Hello, I purchased a navy blue jacket at your store this afternoon. When I tried it on at home, I found that the zipper was completely stuck. I would like to know if I can exchange this defective jacket for a new one. Do you still have the same jacket in size large in stock? I have the receipt and the price tag is still attached to the jacket. I will visit your store tomorrow morning, so please let me know if that works.",
+    "answer_ko": "안녕하세요, 오늘 오후에 귀하의 매장에서 네이비 블루 재킷을 구매했습니다. 집에 와서 입어보았는데 지퍼가 완전히 걸려서 움직이지 않는 것을 발견했어요. 이 불량 재킷을 새 상품으로 교환할 수 있는지 알고 싶습니다. 혹시 같은 재킷 라지 사이즈 재고가 아직 남아 있나요? 영수증을 가지고 있고 가격표도 재킷에 그대로 붙어 있습니다. 내일 아침에 매장을 방문할 예정인데 괜찮은지 알려주세요."
   }
 ]
