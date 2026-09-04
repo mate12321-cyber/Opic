@@ -160,7 +160,6 @@ if (els.btnToggleOpicKoHint) {
   els.btnToggleOpicKoHint.addEventListener("click", toggleOpicKoHint);
 }
 if (els.ttsOpicAllBtn) {
-
   els.ttsOpicAllBtn.addEventListener("click", () => {
     const item = OPIC_QUESTIONS[opicOrder[opicCur]];
     if (item) speakText(item.answer_en, "en-US", els.ttsOpicAllBtn);
@@ -234,14 +233,8 @@ if (els.opicRetryWrongBtn)
   els.opicRetryWrongBtn.addEventListener("click", () =>
     startOpicPractice(true),
   );
-if (els.allOpicTopicToggleBtn) {
-  els.allOpicTopicToggleBtn.addEventListener("click", () => {
-    const isAll = opicSelectedCats.size === OPIC_CATEGORIES.length;
-    opicSelectedCats = isAll ? new Set() : new Set(OPIC_CATEGORIES);
-    renderOpicChips();
-  });
-}
 if (els.opicChangeTopicBtn) {
+
   els.opicChangeTopicBtn.addEventListener("click", () => {
     hideAllScreens();
     els.opicTopicScreen.style.display = "block";

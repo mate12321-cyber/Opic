@@ -8,7 +8,11 @@
 
 /* ── 에바 질문 카드 섹션 ── */
 .eva-question-card {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.08) 0%,
+    rgba(168, 85, 247, 0.08) 100%
+  );
   border: 1px solid rgba(99, 102, 241, 0.2);
   border-radius: var(--radius-lg);
   padding: 16px 18px;
@@ -146,7 +150,7 @@
 }
 
 .timer-digits {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 15px;
   font-weight: 700;
   color: var(--primary);
@@ -247,7 +251,6 @@
 .ko-hint-text {
   flex: 1;
 }
-
 
 /* ── 5~7문장 모범 답변 뷰 ── */
 .opic-answer-container {

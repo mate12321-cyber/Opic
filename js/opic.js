@@ -37,6 +37,9 @@ async function loadOpicProgress() {
   } catch (e) {
     /* 초기 상태 유지 */
   }
+  if (opicSelectedCats.size === 0 && OPIC_CATEGORIES.length > 0) {
+    opicSelectedCats = new Set(OPIC_CATEGORIES);
+  }
 }
 
 // 로컬 스토리지에 진행 상태 저장
@@ -81,7 +84,7 @@ function updateSpeakingTimerDisplay() {
   const mins = String(Math.floor(opicSpeakingSeconds / 60)).padStart(2, "0");
   const secs = String(opicSpeakingSeconds % 60).padStart(2, "0");
   els.opicTimerDigits.textContent = `${mins}:${secs}`;
-  
+
   if (opicSpeakingSeconds >= 40 && opicSpeakingSeconds <= 60) {
     els.opicTimerDigits.style.color = "#10b981"; // 권장 시간대 (녹색)
   } else if (opicSpeakingSeconds > 60) {
@@ -96,8 +99,18 @@ function renderOpicChips() {
   if (!els.opicTopicChips) return;
   els.opicTopicChips.innerHTML = "";
 
-  if (opicSelectedCats.size === 0 && OPIC_CATEGORIES.length > 0) {
-    OPIC_CATEGORIES.forEach((c) => opicSelectedCats.add(c));
+  const isAllSelected =
+    opicSelectedCats.size === OPIC_CATEGORIES.length &&
+    OPIC_CATEGORIES.length > 0;
+
+  if (els.allOpicTopicToggleBtn) {
+    els.allOpicTopicToggleBtn.textContent = isAllSelected
+      ? "전체 해제"
+      : "전체 선택";
+    els.allOpicTopicToggleBtn.onclick = () => {
+      opicSelectedCats = isAllSelected ? new Set() : new Set(OPIC_CATEGORIES);
+      renderOpicChips();
+    };
   }
 
   OPIC_CATEGORIES.forEach((cat) => {
@@ -112,28 +125,29 @@ function renderOpicChips() {
       } else {
         opicSelectedCats.add(cat);
       }
-      btn.classList.toggle("active", opicSelectedCats.has(cat));
-      updateOpicTopicCountBadge();
+      renderOpicChips();
     });
     els.opicTopicChips.appendChild(btn);
   });
 
-  updateOpicTopicCountBadge();
-}
-
-// 선택된 질문 개수 배지 업데이트
-function updateOpicTopicCountBadge() {
   const selectedCount = OPIC_QUESTIONS.filter((q) =>
     opicSelectedCats.has(q.cat),
   ).length;
+
   if (els.opicTopicCount) {
-    els.opicTopicCount.textContent = `선택 ${selectedCount} / ${OPIC_QUESTIONS.length}`;
+    els.opicTopicCount.textContent = opicSelectedCats.size
+      ? `(${selectedCount}질문 · ${opicSelectedCats.size}개 주제)`
+      : "(주제를 선택하세요)";
   }
-  if (els.allOpicTopicToggleBtn) {
-    const isAllSelected = opicSelectedCats.size === OPIC_CATEGORIES.length;
-    els.allOpicTopicToggleBtn.textContent = isAllSelected ? "전체 해제" : "전체 선택";
+
+  if (els.opicStartBtn) {
+    els.opicStartBtn.disabled = opicSelectedCats.size === 0;
+    els.opicStartBtn.style.opacity = opicSelectedCats.size === 0 ? ".45" : "1";
+    els.opicStartBtn.style.cursor =
+      opicSelectedCats.size === 0 ? "not-allowed" : "pointer";
   }
 }
+
 
 // 연습 세트 시작
 function startOpicPractice(wrongOnly = false) {
@@ -196,7 +210,8 @@ function renderOpicCard() {
 
   // 한국어 답변 가이드 리셋 & 렌더링
   if (els.opicKoHintBox) els.opicKoHintBox.style.display = "none";
-  if (els.btnToggleOpicKoHint) els.btnToggleOpicKoHint.classList.remove("active");
+  if (els.btnToggleOpicKoHint)
+    els.btnToggleOpicKoHint.classList.remove("active");
   renderOpicKoHintList(item.sentences);
 
   // 청취 횟수 리셋
@@ -263,7 +278,6 @@ function updateEvaReplayBadge() {
   els.evaReplayCount.textContent = `청취 ${opicReplayCount}/2회`;
 }
 
-
 // 에바 질문 음성 재생
 function playEvaQuestion(isAuto = false) {
   const item = OPIC_QUESTIONS[opicOrder[opicCur]];
@@ -285,11 +299,14 @@ function toggleEvaKo() {
 // 답변 분할 뷰 vs 전체 문단 뷰 전환
 function switchOpicAnswerView(mode) {
   opicViewMode = mode;
-  if (els.tabBreakdownBtn) els.tabBreakdownBtn.classList.toggle("active", mode === "breakdown");
-  if (els.tabFullBtn) els.tabFullBtn.classList.toggle("active", mode === "full");
+  if (els.tabBreakdownBtn)
+    els.tabBreakdownBtn.classList.toggle("active", mode === "breakdown");
+  if (els.tabFullBtn)
+    els.tabFullBtn.classList.toggle("active", mode === "full");
 
   if (els.sentenceBreakdownList) {
-    els.sentenceBreakdownList.style.display = mode === "breakdown" ? "flex" : "none";
+    els.sentenceBreakdownList.style.display =
+      mode === "breakdown" ? "flex" : "none";
   }
   if (els.fullParagraphView) {
     els.fullParagraphView.classList.toggle("show", mode === "full");
@@ -458,7 +475,8 @@ function renderOpicProgressDots() {
   if (total <= maxDots) {
     for (let i = 0; i < total; i++) {
       const d = document.createElement("div");
-      d.className = "dot" + (i < opicCur ? " done" : i === opicCur ? " cur" : "");
+      d.className =
+        "dot" + (i < opicCur ? " done" : i === opicCur ? " cur" : "");
       els.opicProgressDots.appendChild(d);
     }
   } else {
@@ -480,7 +498,8 @@ function showOpicDoneScreen() {
   els.opicDoneSummary.textContent = `총 ${total}개 실전 질문 중 ${opicGoodCount}개 완벽 연습 (${accuracy}%)`;
 
   if (els.opicRetryWrongBtn) {
-    els.opicRetryWrongBtn.style.display = opicWrongList.length > 0 ? "block" : "none";
+    els.opicRetryWrongBtn.style.display =
+      opicWrongList.length > 0 ? "block" : "none";
     els.opicRetryWrongBtn.textContent = `틀린 질문(${opicWrongList.length}개)만 다시 연습`;
   }
 }
