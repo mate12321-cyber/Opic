@@ -546,12 +546,31 @@
           <span class="timer-target-tip">권장: 40~60초 (IM1 목표)</span>
         </div>
 
+        <!-- 한국어 답변 보기 (영어로 말하기 힌트 가이드) -->
+        <div class="ko-answer-hint-wrap">
+          <button
+            type="button"
+            class="btn-toggle-ko-hint"
+            id="btnToggleOpicKoHint"
+          >
+            <span>💡 한국어 답변 가이드 보기</span>
+            <span class="toggle-icon">▾</span>
+          </button>
+          <div class="ko-answer-hint-box" id="opicKoHintBox" style="display: none">
+            <div class="ko-hint-header">
+              <span class="ko-hint-title">🇰🇷 한국어 답변 흐름 (이 내용을 보며 영어로 말해보세요)</span>
+            </div>
+            <div class="ko-hint-list" id="opicKoHintList"></div>
+          </div>
+        </div>
+
         <!-- 답변 입력 & 마이크 영역 -->
         <div class="input-wrap">
           <textarea
             id="opicUserInput"
             placeholder="마이크(🎤)를 누르고 에바에게 영어로 5~7문장 답변을 말해보세요"
           ></textarea>
+
           <button
             class="mic-btn"
             id="opicMicBtn"

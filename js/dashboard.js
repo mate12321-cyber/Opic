@@ -114,8 +114,12 @@ const els = {
   ttsEvaBtn: document.getElementById("ttsEvaBtn"),
   evaReplayCount: document.getElementById("evaReplayCount"),
   opicTimerDigits: document.getElementById("opicTimerDigits"),
+  btnToggleOpicKoHint: document.getElementById("btnToggleOpicKoHint"),
+  opicKoHintBox: document.getElementById("opicKoHintBox"),
+  opicKoHintList: document.getElementById("opicKoHintList"),
   opicUserInput: document.getElementById("opicUserInput"),
   opicMicBtn: document.getElementById("opicMicBtn"),
+
   opicMicError: document.getElementById("opicMicError"),
   opicLiveTranslate: document.getElementById("opicLiveTranslate"),
   opicLiveTranslateText: document.getElementById("opicLiveTranslateText"),

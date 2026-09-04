@@ -156,7 +156,11 @@ if (els.ttsEvaBtn) {
 if (els.btnToggleEvaKo) {
   els.btnToggleEvaKo.addEventListener("click", toggleEvaKo);
 }
+if (els.btnToggleOpicKoHint) {
+  els.btnToggleOpicKoHint.addEventListener("click", toggleOpicKoHint);
+}
 if (els.ttsOpicAllBtn) {
+
   els.ttsOpicAllBtn.addEventListener("click", () => {
     const item = OPIC_QUESTIONS[opicOrder[opicCur]];
     if (item) speakText(item.answer_en, "en-US", els.ttsOpicAllBtn);

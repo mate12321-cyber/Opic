@@ -194,6 +194,11 @@ function renderOpicCard() {
   els.evaQKo.classList.remove("show");
   if (els.btnToggleEvaKo) els.btnToggleEvaKo.textContent = "해석 보기 ▾";
 
+  // 한국어 답변 가이드 리셋 & 렌더링
+  if (els.opicKoHintBox) els.opicKoHintBox.style.display = "none";
+  if (els.btnToggleOpicKoHint) els.btnToggleOpicKoHint.classList.remove("active");
+  renderOpicKoHintList(item.sentences);
+
   // 청취 횟수 리셋
   updateEvaReplayBadge();
 
@@ -219,11 +224,45 @@ function renderOpicCard() {
   playEvaQuestion(true);
 }
 
+// 한국어 답변 가이드 목록 렌더링
+function renderOpicKoHintList(sentences) {
+  if (!els.opicKoHintList) return;
+  els.opicKoHintList.innerHTML = "";
+
+  sentences.forEach((s, idx) => {
+    const item = document.createElement("div");
+    item.className = "ko-hint-item";
+
+    const num = document.createElement("div");
+    num.className = "ko-hint-num";
+    num.textContent = idx + 1;
+
+    const text = document.createElement("div");
+    text.className = "ko-hint-text";
+    text.textContent = s.ko;
+
+    item.appendChild(num);
+    item.appendChild(text);
+    els.opicKoHintList.appendChild(item);
+  });
+}
+
+// 한국어 답변 가이드 토글
+function toggleOpicKoHint() {
+  if (!els.opicKoHintBox) return;
+  const isHidden = els.opicKoHintBox.style.display === "none";
+  els.opicKoHintBox.style.display = isHidden ? "block" : "none";
+  if (els.btnToggleOpicKoHint) {
+    els.btnToggleOpicKoHint.classList.toggle("active", isHidden);
+  }
+}
+
 // 에바 질문 청취 횟수 배지
 function updateEvaReplayBadge() {
   if (!els.evaReplayCount) return;
   els.evaReplayCount.textContent = `청취 ${opicReplayCount}/2회`;
 }
+
 
 // 에바 질문 음성 재생
 function playEvaQuestion(isAuto = false) {
