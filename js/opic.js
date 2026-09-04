@@ -148,7 +148,6 @@ function renderOpicChips() {
   }
 }
 
-
 // 연습 세트 시작
 function startOpicPractice(wrongOnly = false) {
   stopTTS();

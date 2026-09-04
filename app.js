@@ -234,7 +234,6 @@ if (els.opicRetryWrongBtn)
     startOpicPractice(true),
   );
 if (els.opicChangeTopicBtn) {
-
   els.opicChangeTopicBtn.addEventListener("click", () => {
     hideAllScreens();
     els.opicTopicScreen.style.display = "block";
@@ -314,72 +313,22 @@ if (els.navOpic) {
 ].forEach((el) => el && el.addEventListener("click", showHomeScreen));
 
 // ── 마이크 음성 입력(STT) 토글 연동 ────────────────────────────────
-function toggleMic(targetInput, targetMicBtn, targetErrorBox) {
-  if (!recognition) {
-    targetErrorBox.textContent =
-      "현재 브라우저에서 음성 인식을 지원하지 않습니다. Chrome/Safari를 이용해 주세요.";
-    return;
-  }
-  if (listening) {
-    recognition.stop();
-    stopListeningUI();
-    return;
-  }
-
-  try {
-    recognition.lang = "en-US";
-    recognition.onresult = (event) => {
-      let finalTranscript = "";
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        finalTranscript += event.results[i][0].transcript;
-      }
-      if (finalTranscript) {
-        targetInput.value =
-          (targetInput.value ? targetInput.value + " " : "") + finalTranscript;
-        targetInput.dispatchEvent(new Event("input"));
-      }
-    };
-    recognition.onerror = (e) => {
-      targetErrorBox.textContent =
-        "음성 인식 오류: " + (e.error || "다시 시도해 주세요.");
-      stopListeningUI();
-    };
-    recognition.onend = () => {
-      stopListeningUI();
-    };
-
-    recognition.start();
-    listening = true;
-    targetMicBtn.classList.add("listening");
-    targetErrorBox.textContent = "";
-    if (
-      typeof startSpeakingTimer === "function" &&
-      targetInput === els.opicUserInput
-    ) {
-      startSpeakingTimer();
-    }
-  } catch (err) {
-    targetErrorBox.textContent = "마이크를 시작할 수 없습니다.";
-    stopListeningUI();
-  }
-}
-
-function stopListeningUI() {
-  listening = false;
-  if (els.micBtn) els.micBtn.classList.remove("listening");
-  if (els.opicMicBtn) els.opicMicBtn.classList.remove("listening");
-}
-
 if (els.micBtn) {
   els.micBtn.addEventListener("click", () =>
-    toggleMic(els.userInput, els.micBtn, els.micError),
+    toggleSpeechRecognition(els.userInput, els.micBtn, els.micError, false),
   );
 }
 if (els.opicMicBtn) {
   els.opicMicBtn.addEventListener("click", () =>
-    toggleMic(els.opicUserInput, els.opicMicBtn, els.opicMicError),
+    toggleSpeechRecognition(
+      els.opicUserInput,
+      els.opicMicBtn,
+      els.opicMicError,
+      true,
+    ),
   );
 }
+
 
 // ── 앱 부트스트랩 및 초기 데이터 로딩 ──────────────────────────────
 async function initDashboard() {

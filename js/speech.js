@@ -421,6 +421,8 @@ let recognition = null;
 let listening = false;
 let micStartTimer = null;
 let micStarted = false;
+let activeTarget = null;
+let baseTranscript = "";
 let finalTranscript = "";
 
 const MIC_ERROR_MESSAGES = {
@@ -437,17 +439,19 @@ const MIC_ERROR_MESSAGES = {
 };
 
 // 마이크 오류 메시지 출력
-function showMicError(msg) {
-  if (!els.micError) return;
-  els.micError.textContent = msg;
-  els.micError.classList.add("show");
+function showMicError(msg, errorEl) {
+  const targetEl = errorEl || (activeTarget && activeTarget.error) || els.micError;
+  if (!targetEl) return;
+  targetEl.textContent = msg;
+  targetEl.classList.add("show");
 }
 
 // 마이크 오류 메시지 초기화
-function clearMicError() {
-  if (!els.micError) return;
-  els.micError.textContent = "";
-  els.micError.classList.remove("show");
+function clearMicError(errorEl) {
+  const targetEl = errorEl || (activeTarget && activeTarget.error) || els.micError;
+  if (!targetEl) return;
+  targetEl.textContent = "";
+  targetEl.classList.remove("show");
 }
 
 // 마이크 수신 상태 UI 비활성화
@@ -458,7 +462,22 @@ function stopListeningUI() {
     clearTimeout(micStartTimer);
     micStartTimer = null;
   }
+  if (activeTarget && activeTarget.btn) {
+    activeTarget.btn.classList.remove("listening");
+  }
   if (els.micBtn) els.micBtn.classList.remove("listening");
+  if (els.opicMicBtn) els.opicMicBtn.classList.remove("listening");
+}
+
+// 음성 인식 중단
+function stopSpeechRecognition() {
+  stopListeningUI();
+  if (recognition) {
+    try {
+      recognition.stop();
+    } catch (e) {}
+  }
+  activeTarget = null;
 }
 
 // 마이크 응답 없음 감시 타이머 (Watchdog)
@@ -469,30 +488,65 @@ function armStartupWatchdog() {
       showMicError(
         "마이크가 시작되지 않았어요. 브라우저 설정에서 마이크 권한을 확인해주세요.",
       );
-      try {
-        if (recognition) recognition.stop();
-      } catch (e) {}
-      stopListeningUI();
+      stopSpeechRecognition();
     }
   }, 3500);
+}
+
+// 음성 인식 토글 함수 (문장 연습 및 OPIc 실전 모드 공용)
+function toggleSpeechRecognition(targetInput, targetBtn, targetError, isOpic = false) {
+  if (!recognition) {
+    initSpeechRecognition();
+    if (!recognition) {
+      showMicError("이 브라우저는 음성 인식을 지원하지 않습니다. Chrome을 사용해주세요.", targetError);
+      return;
+    }
+  }
+
+  // 이미 듣고 있는 상태에서 같은 버튼을 눌렀을 때 -> 정지
+  if (listening && activeTarget && activeTarget.btn === targetBtn) {
+    stopSpeechRecognition();
+    return;
+  }
+
+  // 다른 버튼이 눌렸다면 이전 인식 중단
+  if (listening) {
+    stopSpeechRecognition();
+  }
+
+  clearMicError(targetError);
+  activeTarget = {
+    input: targetInput,
+    btn: targetBtn,
+    error: targetError,
+    isOpic,
+  };
+
+  baseTranscript = targetInput ? targetInput.value.trim() : "";
+  finalTranscript = "";
+  listening = true;
+  micStarted = false;
+
+  armStartupWatchdog();
+  if (targetBtn) targetBtn.classList.add("listening");
+
+  if (isOpic && typeof startSpeakingTimer === "function") {
+    startSpeakingTimer();
+  }
+
+  try {
+    recognition.start();
+  } catch (e) {
+    showMicError("마이크를 시작하지 못했어요. 다시 시도해주세요.", targetError);
+    stopSpeechRecognition();
+  }
 }
 
 // Web Speech API 음성 인식기 초기화
 function initSpeechRecognition() {
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    if (els.micBtn) {
-      els.micBtn.title =
-        "이 브라우저는 음성 인식을 지원하지 않습니다 (Chrome 권장)";
-      els.micBtn.style.opacity = "0.4";
-      els.micBtn.onclick = () =>
-        showMicError(
-          "이 브라우저는 음성 인식을 지원하지 않아요. Chrome 브라우저에서 시도해보세요.",
-        );
-    }
-    return;
-  }
+  if (!SpeechRecognition) return;
 
   recognition = new SpeechRecognition();
   recognition.lang = "en-US";
@@ -507,27 +561,38 @@ function initSpeechRecognition() {
       micStartTimer = null;
     }
     clearMicError();
-    if (els.micBtn) els.micBtn.classList.add("listening");
+    if (activeTarget && activeTarget.btn) {
+      activeTarget.btn.classList.add("listening");
+    }
   };
 
   recognition.onresult = (e) => {
+    let accumulatedFinal = "";
     let interim = "";
-    for (let i = e.resultIndex; i < e.results.length; i++) {
+    for (let i = 0; i < e.results.length; i++) {
       const transcript = e.results[i][0].transcript;
       if (e.results[i].isFinal) {
-        finalTranscript += (finalTranscript ? " " : "") + transcript.trim();
+        accumulatedFinal += (accumulatedFinal ? " " : "") + transcript.trim();
       } else {
         interim += transcript;
       }
     }
-    const currentText =
-      finalTranscript + (interim ? (finalTranscript ? " " : "") + interim : "");
-    if (els.userInput && currentText) {
-      els.userInput.value = currentText;
-      clearTimeout(translateTimer);
-      translateTimer = setTimeout(() => runLiveTranslate(currentText), 500);
+
+    // 마이크 시작 전 기존 텍스트 + 확정된 음성 텍스트 + 현재 발화 중인 임시 텍스트 결합
+    let currentText = baseTranscript;
+    if (accumulatedFinal) {
+      currentText += (currentText ? " " : "") + accumulatedFinal;
+    }
+    if (interim) {
+      currentText += (currentText ? " " : "") + interim;
+    }
+
+    if (activeTarget && activeTarget.input) {
+      activeTarget.input.value = currentText;
+      activeTarget.input.dispatchEvent(new Event("input"));
     }
   };
+
 
   recognition.onerror = (e) => {
     if (e.error === "aborted") return;
@@ -535,33 +600,11 @@ function initSpeechRecognition() {
       MIC_ERROR_MESSAGES[e.error] ||
       `마이크 오류가 발생했어요 (${e.error}). 다시 시도해주세요.`;
     showMicError(msg);
-    stopListeningUI();
+    stopSpeechRecognition();
   };
 
   recognition.onend = () => {
     stopListeningUI();
   };
-
-  if (els.micBtn) {
-    els.micBtn.onclick = () => {
-      if (listening) {
-        stopListeningUI();
-        try {
-          recognition.stop();
-        } catch (e) {}
-      } else {
-        clearMicError();
-        finalTranscript = els.userInput ? els.userInput.value.trim() : "";
-        listening = true;
-        micStarted = false;
-        armStartupWatchdog();
-        try {
-          recognition.start();
-        } catch (e) {
-          showMicError("마이크를 시작하지 못했어요. 다시 시도해주세요.");
-          stopListeningUI();
-        }
-      }
-    };
-  }
 }
+
