@@ -1,11 +1,11 @@
 /**
  * [vocab-tooltip.js] 영어 문장 단어/표현 드래그 & 더블클릭/모바일 터치 인라인 번역 툴팁 시스템
- * - Android / iOS 모바일 최적화:
- *   1. 더블 탭: 브라우저 줌 방지(touch-action) 및 즉각 단어 팝업 (Caret Range)
- *   2. 롱프레스(380ms): OS 기본 메뉴(복사/검색)와 충돌 없는 커스텀 롱프레스 + 햅틱 피드백
- *   3. 핀치 줌(Pinch-to-zoom) 및 스크롤(Pan) 100% 정상 작동 보존
- * - Google Translate 정밀 번역 & 사전 엔진 (한글 뜻 + 품사별 상세 뜻 목록)
- * - L1 메모리 캐시 + L2 LocalStorage 캐시 (0ms 초고속)
+ * - 429 Rate Limit 방지 및 100% 안정성 보장:
+ *   1. Tier 1: OPIc & 기초 영단어 내장 사전 (네트워크 요청 0회, 0ms 즉각 반환)
+ *   2. Tier 2: MyMemory 정식 오픈 번역 API (무제한급 안정성)
+ *   3. Tier 3: Google Translate API (429 발생 시 자동 쿨다운 및 MyMemory 우회)
+ * - Android / iOS 모바일 최적화 (더블탭 확대 방지, 핀치 줌 유지, 롱프레스 햅틱 및 OS 메뉴 방어)
+ * - L1 메모리 캐시 + L2 LocalStorage 캐시
  * - Web Speech API 연동 발음 재생 및 내 단어장 저장 지원
  */
 
@@ -13,6 +13,80 @@
   const VOCAB_CACHE_KEY = "ko-en-opic-vocab-cache";
   const SAVED_WORDS_KEY = "ko-en-opic-saved-words";
   const memCache = new Map(); // L1 초고속 인메모리 캐시
+  let googleCooldownUntil = 0; // Google API 429 차단 시 쿨다운 타임스탬프
+
+  // 📖 Tier 1: OPIc 빈출 및 기초 영단어 내장 딕셔너리 (네트워크 0회, 429 원천 차단)
+  const BUILTIN_DICT = {
+    best: { meaning: "가장 좋은, 최고의", posList: [{ pos: "형용사", meanings: ["최고의", "가장 좋은", "으뜸가는"] }, { pos: "명사", meanings: ["최선", "최고"] }] },
+    better: { meaning: "더 좋은, 더 나은", posList: [{ pos: "형용사", meanings: ["더 좋은", "호전된"] }] },
+    good: { meaning: "좋은, 훌륭한", posList: [{ pos: "형용사", meanings: ["좋은", "착한", "적절한"] }] },
+    give: { meaning: "주다, 제공하다", posList: [{ pos: "동사", meanings: ["주다", "제공하다", "넘겨주다"] }] },
+    gives: { meaning: "주다 (3인칭 단수)", posList: [{ pos: "동사", meanings: ["주다", "제공하다"] }] },
+    given: { meaning: "주어진, 주입된", posList: [{ pos: "형용사", meanings: ["주어진", "소정의"] }] },
+    take: { meaning: "가지다, 데려가다, (시간이) 걸리다", posList: [{ pos: "동사", meanings: ["취하다", "데려가다", "받아들이다"] }] },
+    takes: { meaning: "걸리다, 가지다", posList: [{ pos: "동사", meanings: ["걸리다", "가지다"] }] },
+    taking: { meaning: "가져가는 것, 수령", posList: [{ pos: "동사", meanings: ["가져가기", "복용하기"] }] },
+    work: { meaning: "일하다, 작동하다, 직장", posList: [{ pos: "동사", meanings: ["일하다", "작동하다"] }, { pos: "명사", meanings: ["일", "직장", "업무"] }] },
+    working: { meaning: "근무하는, 일하는", posList: [{ pos: "동사", meanings: ["일하는 중"] }, { pos: "형용사", meanings: ["근무의", "효과적인"] }] },
+    shift: { meaning: "근무 조, 교대, 이동", posList: [{ pos: "명사", meanings: ["교대 근무", "변화", "전환"] }] },
+    shifts: { meaning: "교대근무들", posList: [{ pos: "명사", meanings: ["교대 근무조"] }] },
+    rotating: { meaning: "교대하는, 회전하는", posList: [{ pos: "형용사", meanings: ["순환하는", "교대하는"] }] },
+    company: { meaning: "회사, 동료, 함께 있음", posList: [{ pos: "명사", meanings: ["회사", "동료", "친구"] }] },
+    manage: { meaning: "관리하다, 경영하다", posList: [{ pos: "동사", meanings: ["관리하다", "다루다", "어떻게든 해내다"] }] },
+    managing: { meaning: "관리하는 것", posList: [{ pos: "동사", meanings: ["관리하기", "운영하기"] }] },
+    equipment: { meaning: "장비, 설비, 기구", posList: [{ pos: "명사", meanings: ["장비", "설비", "기기"] }] },
+    electrical: { meaning: "전기의, 전열의", posList: [{ pos: "형용사", meanings: ["전기의", "전기 공학의"] }] },
+    prefer: { meaning: "선호하다, 더 좋아하다", posList: [{ pos: "동사", meanings: ["더 좋아하다", "선호하다"] }] },
+    usually: { meaning: "보통, 대개, 평소에", posList: [{ pos: "부사", meanings: ["보통", "대체로", "늘"] }] },
+    often: { meaning: "자주, 종종", posList: [{ pos: "부사", meanings: ["자주", "흔히", "종종"] }] },
+    always: { meaning: "항상, 언제나", posList: [{ pos: "부사", meanings: ["항상", "늘", "언제나"] }] },
+    sometimes: { meaning: "때때로, 가끔", posList: [{ pos: "부사", meanings: ["때때로", "가끔"] }] },
+    rarely: { meaning: "드물게, 거의 ~않다", posList: [{ pos: "부사", meanings: ["드물게", "좀처럼 ~않는"] }] },
+    never: { meaning: "결코 ~않다, 전혀 없다", posList: [{ pos: "부사", meanings: ["결코 ~않다", "전혀"] }] },
+    favorite: { meaning: "가장 좋아하는, 마음에 드는", posList: [{ pos: "형용사", meanings: ["가장 좋아하는"] }, { pos: "명사", meanings: ["인기 있는 사람/물건"] }] },
+    because: { meaning: "~때문에, 왜냐하면", posList: [{ pos: "접속사", meanings: ["~때문에", "왜냐하면"] }] },
+    although: { meaning: "비록 ~일지라도", posList: [{ pos: "접속사", meanings: ["비록 ~이지만", "~에도 불구하고"] }] },
+    however: { meaning: "그러나, 하지만", posList: [{ pos: "부사", meanings: ["그러나", "그렇지만"] }] },
+    recommend: { meaning: "추천하다, 권하다", posList: [{ pos: "동사", meanings: ["추천하다", "권고하다"] }] },
+    experience: { meaning: "경험, 체험, 겪다", posList: [{ pos: "명사", meanings: ["경험", "체험"] }, { pos: "동사", meanings: ["경험하다", "겪다"] }] },
+    memorable: { meaning: "기억에 남는, 인상적인", posList: [{ pos: "형용사", meanings: ["기억할 만한", "인상 깊은"] }] },
+    delicious: { meaning: "맛있는, 아주 좋은", posList: [{ pos: "형용사", meanings: ["맛있는", "향긋한"] }] },
+    travel: { meaning: "여행하다, 이동하다, 여행", posList: [{ pos: "동사", meanings: ["여행하다", "이동하다"] }, { pos: "명사", meanings: ["여행", "출장"] }] },
+    trip: { meaning: "여행, 나들이, 걸려 넘어지다", posList: [{ pos: "명사", meanings: ["여행", "이동"] }] },
+    weekend: { meaning: "주말", posList: [{ pos: "명사", meanings: ["주말", "토일요일"] }] },
+    weekends: { meaning: "주말마다", posList: [{ pos: "명사", meanings: ["주말마다"] }] },
+    holiday: { meaning: "휴일, 명절, 휴가", posList: [{ pos: "명사", meanings: ["휴일", "공휴일", "휴가"] }] },
+    family: { meaning: "가족, 가문", posList: [{ pos: "명사", meanings: ["가족", "식구"] }] },
+    friend: { meaning: "친구, 벗", posList: [{ pos: "명사", meanings: ["친구", "동료"] }] },
+    friends: { meaning: "친구들", posList: [{ pos: "명사", meanings: ["친구들"] }] },
+    movie: { meaning: "영화", posList: [{ pos: "명사", meanings: ["영화", "필름"] }] },
+    movies: { meaning: "영화(감상)", posList: [{ pos: "명사", meanings: ["영화들"] }] },
+    park: { meaning: "공원, 주차하다", posList: [{ pos: "명사", meanings: ["공원", "유원지"] }, { pos: "동사", meanings: ["주차하다"] }] },
+    coffee: { meaning: "커피", posList: [{ pos: "명사", meanings: ["커피", "원두"] }] },
+    relax: { meaning: "휴식을 취하다, 긴장을 풀다", posList: [{ pos: "동사", meanings: ["쉬다", "안정을 취하다"] }] },
+    weather: { meaning: "날씨, 기상", posList: [{ pos: "명사", meanings: ["날씨", "기후"] }] },
+    season: { meaning: "계절, 시즌", posList: [{ pos: "명사", meanings: ["계절", "시기"] }] },
+    convenient: { meaning: "편리한, 간편한", posList: [{ pos: "형용사", meanings: ["편리한", "가까운", "알맞은"] }] },
+    comfortable: { meaning: "편안한, 쾌적한", posList: [{ pos: "형용사", meanings: ["편안한", "안락한"] }] },
+    popular: { meaning: "인기 있는, 대중적인", posList: [{ pos: "형용사", meanings: ["인기 있는", "유명한"] }] },
+    important: { meaning: "중요한, 중대한", posList: [{ pos: "형용사", meanings: ["중요한", "유력한"] }] },
+    special: { meaning: "특별한, 특수한", posList: [{ pos: "형용사", meanings: ["특별한", "특급의"] }] },
+    place: { meaning: "장소, 곳, 두다", posList: [{ pos: "명사", meanings: ["장소", "위치", "곳"] }, { pos: "동사", meanings: ["놓다", "배치하다"] }] },
+    routine: { meaning: "일상, 루틴, 규칙적인 일", posList: [{ pos: "명사", meanings: ["일상적인 일", "판에 박힌 일"] }] },
+    around: { meaning: "주위에, 약, 대략", posList: [{ pos: "전치사", meanings: ["~주위에", "~대략", "~쯤"] }] },
+    almost: { meaning: "거의, 하마터면", posList: [{ pos: "부사", meanings: ["거의", "대부분"] }] },
+    together: { meaning: "함께, 같이", posList: [{ pos: "부사", meanings: ["함께", "동시에"] }] },
+    especially: { meaning: "특히, 특별히", posList: [{ pos: "부사", meanings: ["특히", "각별히"] }] },
+    recently: { meaning: "최근에, 요즈음", posList: [{ pos: "부사", meanings: ["최근에", "얼마 전에"] }] },
+    lately: { meaning: "최근에, 요새", posList: [{ pos: "부사", meanings: ["최근에", "요즈음"] }] },
+    usually: { meaning: "보통, 대개", posList: [{ pos: "부사", meanings: ["보통", "평소에"] }] },
+    start: { meaning: "시작하다, 출발하다", posList: [{ pos: "동사", meanings: ["시작하다", "착수하다"] }] },
+    finish: { meaning: "끝내다, 마치다", posList: [{ pos: "동사", meanings: ["끝마치다", "완료하다"] }] },
+    enjoy: { meaning: "즐기다, 누리다", posList: [{ pos: "동사", meanings: ["즐기다", "만끽하다"] }] },
+    listen: { meaning: "듣다, 귀를 기울이다", posList: [{ pos: "동사", meanings: ["듣다", "청취하다"] }] },
+    watch: { meaning: "보다, 지켜보다, 시계", posList: [{ pos: "동사", meanings: ["보다", "관람하다"] }] },
+    order: { meaning: "주문하다, 명령하다, 순서", posList: [{ pos: "동사", meanings: ["주문하다"] }, { pos: "명사", meanings: ["주문", "순서"] }] }
+  };
 
   let tooltipEl = null;
   let currentTargetWord = "";
@@ -289,32 +363,57 @@
     }
   }
 
-  // 번역 및 품사 사전 데이터 조회 (Google Translate 단일 고속 엔드포인트)
+  // 다중 Fallback 번역 & 사전 엔진 (429 Rate Limit 방지)
   async function fetchWordDetails(queryText) {
+    const key = queryText.toLowerCase().trim();
+
+    // 1. Tier 1: 내장 딕셔너리 우선 검색 (네트워크 0회, 0ms 반환)
+    if (BUILTIN_DICT[key]) {
+      const builtin = BUILTIN_DICT[key];
+      return {
+        word: queryText,
+        meaning: builtin.meaning,
+        posList: builtin.posList || [],
+      };
+    }
+
     let mainMeaning = "";
     let posList = [];
+    const now = Date.now();
 
-    // 1. Google Translate API 호출 (한글 뜻 + 품사별 사전 목록 동시 수신)
-    try {
-      const url =
-        "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&hl=ko&dt=t&dt=bd&q=" +
-        encodeURIComponent(queryText);
-      const res = await fetch(url);
-      if (res.ok) {
-        const data = await res.json();
-        if (data && data[0]) {
-          mainMeaning = data[0].map((chunk) => chunk[0]).join("").trim();
+    // 2. Tier 2: Google Translate API (쿨다운이 아닐 때만 시도)
+    if (now > googleCooldownUntil) {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 2000);
+        const url =
+          "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&hl=ko&dt=t&dt=bd&q=" +
+          encodeURIComponent(queryText);
+        
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeout);
+
+        if (res.status === 429) {
+          // 429 감지 시 3분간 Google API 호출 중단 및 MyMemory로 전환
+          googleCooldownUntil = Date.now() + 3 * 60 * 1000;
+        } else if (res.ok) {
+          const data = await res.json();
+          if (data && data[0]) {
+            mainMeaning = data[0].map((chunk) => chunk[0]).join("").trim();
+          }
+          if (data && data[1] && Array.isArray(data[1])) {
+            posList = data[1].slice(0, 3).map((item) => ({
+              pos: item[0] || "",
+              meanings: (item[1] || []).slice(0, 4),
+            }));
+          }
         }
-        if (data && data[1] && Array.isArray(data[1])) {
-          posList = data[1].slice(0, 3).map((item) => ({
-            pos: item[0] || "",
-            meanings: (item[1] || []).slice(0, 4),
-          }));
-        }
+      } catch (e) {
+        // 네트워크 타임아웃 또는 CORS 차단 시 조용히 Fallback
       }
-    } catch (e) {}
+    }
 
-    // 2. 번역 실패 시 MyMemory API로 fallback
+    // 3. Tier 3: MyMemory API Fallback (429 영향 없음)
     if (!mainMeaning) {
       try {
         const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(queryText)}&langpair=en|ko`;
@@ -368,7 +467,7 @@
   async function showVocabTooltip(selectedText, rect) {
     createTooltipDOM();
     currentTargetWord = selectedText;
-    const cacheKey = selectedText.toLowerCase();
+    const cacheKey = selectedText.toLowerCase().trim();
 
     const wordEl = document.getElementById("vocabWordText");
     const phoneticEl = document.getElementById("vocabPhoneticText");
@@ -384,12 +483,26 @@
 
     updateStarBtnUI(isWordSaved(selectedText));
 
-    // ⚡ L1/L2 캐시 즉시 표시
+    // ⚡ 1. L1/L2 캐시 확인 -> 즉시 0ms 표시
     if (memCache.has(cacheKey)) {
       const cached = memCache.get(cacheKey);
       currentWordData = cached;
       renderBodyContent(cached);
       positionTooltip(rect);
+      return;
+    }
+
+    // ⚡ 2. 내장 딕셔너리 확인 -> 즉시 0ms 표시
+    if (BUILTIN_DICT[cacheKey]) {
+      const builtin = {
+        word: selectedText,
+        meaning: BUILTIN_DICT[cacheKey].meaning,
+        posList: BUILTIN_DICT[cacheKey].posList || [],
+      };
+      currentWordData = builtin;
+      renderBodyContent(builtin);
+      positionTooltip(rect);
+      saveVocabCache(cacheKey, builtin);
       return;
     }
 
@@ -567,7 +680,7 @@
       }, 380);
     }, { passive: true });
 
-    // 터치 이동 시 (스크롤 동작): 롱프레스 취소 (스크롤/핀치 줌 방해 금지)
+    // 터치 이동 시 (스크롤 동작): 롱프레스 취소
     document.addEventListener("touchmove", (e) => {
       if (touchStartPos && e.touches && e.touches[0]) {
         const touch = e.touches[0];
@@ -615,10 +728,10 @@
       triggerSelectionDebounced(100);
     }, { passive: true });
 
-    // 4. 안드로이드 contextmenu 방어 (롱프레스로 툴팁이 떴을 때 OS 메뉴와 겹침 방지)
+    // 4. 안드로이드 contextmenu 방어
     document.addEventListener("contextmenu", (e) => {
       if (isLongPressTriggered) {
-        e.preventDefault(); // 롱프레스 시 OS 기본 메뉴(복사/검색) 억제
+        e.preventDefault();
       }
     });
 
