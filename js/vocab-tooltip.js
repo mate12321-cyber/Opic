@@ -699,7 +699,86 @@
     return null;
   }
 
-  // 텍스트 선택 핸들러 (단어 및 긴 문장 1500자까지 모두 지원)
+  // 텍스트 선택 영역을 띄어쓰기/단어 경계(Word Boundaries)로 자동 보정 & 확장하는 함수
+  function snapRangeToWordBoundaries(range) {
+    if (!range) return range;
+
+    try {
+      let startNode = range.startContainer;
+      let startOffset = range.startOffset;
+      let endNode = range.endContainer;
+      let endOffset = range.endOffset;
+
+      // 1. startNode가 Element일 경우 자식 텍스트 노드로 이동
+      if (startNode.nodeType === Node.ELEMENT_NODE) {
+        if (startNode.childNodes && startNode.childNodes.length > 0) {
+          const idx = Math.min(startOffset, startNode.childNodes.length - 1);
+          startNode = startNode.childNodes[idx];
+          startOffset = 0;
+        }
+      }
+
+      // 2. endNode가 Element일 경우 자식 텍스트 노드로 이동
+      if (endNode.nodeType === Node.ELEMENT_NODE) {
+        if (endNode.childNodes && endNode.childNodes.length > 0) {
+          const idx = Math.min(endOffset, endNode.childNodes.length - 1);
+          endNode = endNode.childNodes[idx];
+          endOffset = (endNode.textContent || "").length;
+        }
+      }
+
+      // 3. startNode가 텍스트 노드인 경우 단어 시작 지점으로 앞쪽 확장
+      if (startNode && startNode.nodeType === Node.TEXT_NODE) {
+        const text = startNode.textContent || "";
+        let s = Math.min(Math.max(0, startOffset), text.length);
+
+        // 선택 시작 위치의 바로 앞 글자가 단어 문자이면 단어의 맨 앞(공백/경계)까지 확장
+        while (s > 0 && /[a-zA-Z0-9'-]/.test(text[s - 1])) {
+          s--;
+        }
+        startOffset = s;
+      }
+
+      // 4. endNode가 텍스트 노드인 경우 단어 끝 지점으로 뒤쪽 확장
+      if (endNode && endNode.nodeType === Node.TEXT_NODE) {
+        const text = endNode.textContent || "";
+        let e = Math.min(Math.max(0, endOffset), text.length);
+
+        // 선택 끝 위치의 글자가 단어 문자이면 단어의 맨 끝(공백/경계)까지 확장
+        while (e < text.length && /[a-zA-Z0-9'-]/.test(text[e])) {
+          e++;
+        }
+        endOffset = e;
+      }
+
+      const newRange = document.createRange();
+      newRange.setStart(startNode, startOffset);
+      newRange.setEnd(endNode, endOffset);
+      return newRange;
+    } catch (e) {
+      return range;
+    }
+  }
+
+  function snapInputToWordBoundaries(activeEl) {
+    if (!activeEl || typeof activeEl.selectionStart !== "number") return;
+    try {
+      const val = activeEl.value || "";
+      let start = activeEl.selectionStart;
+      let end = activeEl.selectionEnd;
+      if (start === end) return;
+
+      while (start > 0 && /[a-zA-Z0-9'-]/.test(val[start - 1])) {
+        start--;
+      }
+      while (end < val.length && /[a-zA-Z0-9'-]/.test(val[end])) {
+        end++;
+      }
+      activeEl.setSelectionRange(start, end);
+    } catch (e) {}
+  }
+
+  // 텍스트 선택 핸들러 (단어 및 긴 문장 1500자까지 모두 지원 + 띄어쓰기 단위 드래그 자동 보정)
   function handleSelection() {
     let cleanText = "";
     let rect = null;
@@ -713,6 +792,8 @@
       typeof activeEl.selectionEnd === "number" &&
       activeEl.selectionStart !== activeEl.selectionEnd
     ) {
+      // 💡 띄어쓰기 단위 단어 보정
+      snapInputToWordBoundaries(activeEl);
       const raw = activeEl.value.substring(activeEl.selectionStart, activeEl.selectionEnd);
       cleanText = raw.trim().replace(/^[^a-zA-Z0-9"'(]+|[^a-zA-Z0-9"').!?;]+$/g, "").trim();
       if (cleanText && /[a-zA-Z]/.test(cleanText) && cleanText.length <= 1500) {
@@ -724,21 +805,28 @@
     if (!cleanText) {
       const selection = window.getSelection();
       if (selection && !selection.isCollapsed && selection.rangeCount > 0) {
-        const rawText = selection.toString();
-        cleanText = rawText.trim().replace(/^[^a-zA-Z0-9"'(]+|[^a-zA-Z0-9"').!?;]+$/g, "").trim();
-        if (cleanText && cleanText.length <= 1500 && /[a-zA-Z]/.test(cleanText)) {
-          if (cleanText.length > 1 || /^[aAiI]$/.test(cleanText)) {
-            try {
-              const range = selection.getRangeAt(0);
-              const r = range.getBoundingClientRect();
-              if (r && (r.width > 0 || r.height > 0)) {
-                rect = r;
-              } else if (range.getClientRects().length > 0) {
-                rect = range.getClientRects()[0];
+        try {
+          const originalRange = selection.getRangeAt(0);
+          // 💡 띄어쓰기 단위 단어 보정 (선택 범위를 단어/띄어쓰기 경계로 자동 스냅)
+          const snappedRange = snapRangeToWordBoundaries(originalRange);
+          if (snappedRange) {
+            selection.removeAllRanges();
+            selection.addRange(snappedRange);
+
+            const rawText = snappedRange.toString();
+            cleanText = rawText.trim().replace(/^[^a-zA-Z0-9"'(]+|[^a-zA-Z0-9"').!?;]+$/g, "").trim();
+            if (cleanText && cleanText.length <= 1500 && /[a-zA-Z]/.test(cleanText)) {
+              if (cleanText.length > 1 || /^[aAiI]$/.test(cleanText)) {
+                const r = snappedRange.getBoundingClientRect();
+                if (r && (r.width > 0 || r.height > 0)) {
+                  rect = r;
+                } else if (snappedRange.getClientRects().length > 0) {
+                  rect = snappedRange.getClientRects()[0];
+                }
               }
-            } catch (e) {}
+            }
           }
-        }
+        } catch (e) {}
       }
     }
 
