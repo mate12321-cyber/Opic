@@ -720,13 +720,18 @@
       triggerSelectionDebounced(150);
     });
 
+    let isTouchMoving = false;
+
     // 3. 모바일 전용 롱프레스(380ms) 및 더블탭 제스처 리스너
     document.addEventListener("touchstart", (e) => {
+      isTouchMoving = false;
       if (tooltipEl && tooltipEl.contains(e.target)) return;
 
       // 두 손가락 이상(핀치 줌)일 경우 롱프레스 취소
       if (e.touches.length !== 1) {
         if (longPressTimer) clearTimeout(longPressTimer);
+        lastTouchEndTime = 0;
+        lastTouchPoint = null;
         return;
       }
 
@@ -737,7 +742,7 @@
       // 380ms 동안 손가락을 대고 있으면 커스텀 롱프레스 발동
       if (longPressTimer) clearTimeout(longPressTimer);
       longPressTimer = setTimeout(() => {
-        if (!touchStartPos) return;
+        if (!touchStartPos || isTouchMoving) return;
         const detected = getWordAtPoint(touchStartPos.x, touchStartPos.y);
         if (detected) {
           isLongPressTriggered = true;
@@ -750,12 +755,15 @@
       }, 380);
     }, { passive: true });
 
-    // 터치 이동 시 (스크롤 동작): 롱프레스 취소
+    // 터치 이동 시 (스크롤 동작): 롱프레스 취소 및 더블탭 메모리 즉시 무효화
     document.addEventListener("touchmove", (e) => {
       if (touchStartPos && e.touches && e.touches[0]) {
         const touch = e.touches[0];
         const dist = Math.hypot(touch.clientX - touchStartPos.x, touch.clientY - touchStartPos.y);
-        if (dist > 10) {
+        if (dist > 8) {
+          isTouchMoving = true;
+          lastTouchEndTime = 0; // ⚡ 스크롤 중에는 더블탭 메모리 리셋 (스크롤을 탭으로 오인 방지)
+          lastTouchPoint = null;
           if (longPressTimer) {
             clearTimeout(longPressTimer);
             longPressTimer = null;
@@ -764,7 +772,7 @@
       }
     }, { passive: true });
 
-    // 터치 종료 (touchend): 더블탭 감지 & 롱프레스 타이머 정리
+    // 터치 종료 (touchend): 스크롤이 아닐 때만 더블탭 감지 & 롱프레스 타이머 정리
     document.addEventListener("touchend", (e) => {
       if (longPressTimer) {
         clearTimeout(longPressTimer);
@@ -774,16 +782,23 @@
       if (tooltipEl && tooltipEl.contains(e.target)) return;
       if (isLongPressTriggered) return;
 
+      // ⚡ 손가락을 움직여 스크롤한 경우, 더블탭이나 선택 트리거를 100% 무시하고 종료!
+      if (isTouchMoving) {
+        lastTouchEndTime = 0;
+        lastTouchPoint = null;
+        return;
+      }
+
       const now = Date.now();
       const touch = e.changedTouches && e.changedTouches[0];
 
-      // 📱 모바일 더블 탭 감지 (500ms 이내 동일 지점 40px 반경 연속 탭)
-      if (touch && now - lastTouchEndTime < 500 && lastTouchPoint) {
+      // 📱 모바일 순수 더블 탭 감지 (움직이지 않고 400ms 이내 동일 지점 30px 반경 연속 탭)
+      if (touch && now - lastTouchEndTime < 400 && lastTouchPoint) {
         const dist = Math.hypot(touch.clientX - lastTouchPoint.x, touch.clientY - lastTouchPoint.y);
-        if (dist < 40) {
+        if (dist < 30) {
           const detected = getWordAtPoint(touch.clientX, touch.clientY);
           if (detected) {
-            lastShownTime = Date.now(); // 툴팁 노출 시간 기록 (합성 이벤트에 의한 즉시 닫힘 방지)
+            lastShownTime = Date.now();
             if (navigator.vibrate) {
               try { navigator.vibrate(20); } catch (v) {}
             }
@@ -800,19 +815,27 @@
       }
       lastTouchEndTime = now;
 
-      triggerSelectionDebounced(100);
+      // 단일 탭일 때는 혹시 드래그 선택 중인지 검사
+      triggerSelectionDebounced(150);
     }, { passive: true });
 
-    // 4. 키보드 ESC 닫기
+    // 4. 화면 스크롤 시 열려있는 툴팁 닫기
+    window.addEventListener("scroll", () => {
+      if (Date.now() - lastShownTime > 800) {
+        hideTooltip();
+      }
+    }, { passive: true });
+
+    // 5. 키보드 ESC 닫기
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         hideTooltip();
       }
     });
 
-    // 6. 툴팁 외부 클릭/터치 시 닫기 (방금 뜬 툴팁은 500ms 동안 닫기 무시)
+    // 6. 툴팁 외부 클릭/터치 시 닫기
     document.addEventListener("mousedown", (e) => {
-      if (Date.now() - lastShownTime < 500) return; // ⚡ 탭 직후 합성 mousedown으로 인한 즉시 닫힘 방지
+      if (Date.now() - lastShownTime < 500) return;
       if (tooltipEl && !tooltipEl.contains(e.target)) {
         const selection = window.getSelection();
         if (!selection || selection.isCollapsed) {
@@ -822,7 +845,7 @@
     });
 
     document.addEventListener("touchstart", (e) => {
-      if (Date.now() - lastShownTime < 500) return; // ⚡ 탭 직후 터치 닫힘 방지
+      if (Date.now() - lastShownTime < 500) return;
       if (tooltipEl && !tooltipEl.contains(e.target)) {
         const selection = window.getSelection();
         if (!selection || selection.isCollapsed) {
