@@ -715,8 +715,10 @@
       triggerSelectionDebounced(10);
     });
 
-    // 2. iOS Safari & Android Chrome 롱프레스 / 텍스트 선택 이벤트 (selectionchange)
+    // 2. 텍스트 선택 이벤트 (PC 드래그 또는 모바일 롱프레스 핀 조절 시)
     document.addEventListener("selectionchange", () => {
+      // 📱 모바일에서는 롱프레스가 발동되었을 때만 선택 변경 감지
+      if (window.innerWidth <= 600 && !isLongPressTriggered) return;
       triggerSelectionDebounced(150);
     });
 
@@ -814,9 +816,6 @@
         lastTouchPoint = { x: touch.clientX, y: touch.clientY };
       }
       lastTouchEndTime = now;
-
-      // 단일 탭일 때는 혹시 드래그 선택 중인지 검사
-      triggerSelectionDebounced(150);
     }, { passive: true });
 
     // 4. 화면 스크롤 시 열려있는 툴팁 닫기
