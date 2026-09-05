@@ -1,0 +1,247 @@
+/**
+ * [vocab-tooltip.css] 단어/표현 드래그 & 더블클릭 인라인 번역 툴팁 스타일
+ */
+
+.vocab-tooltip {
+  position: fixed !important;
+  z-index: 999999 !important;
+  width: 320px;
+  max-width: calc(100vw - 24px);
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border-light, #e2e8f0);
+  border-radius: var(--radius-lg, 12px);
+  box-shadow:
+    0 12px 32px -4px rgba(15, 23, 42, 0.18),
+    0 4px 12px -2px rgba(15, 23, 42, 0.08);
+  font-family: inherit;
+  color: var(--text-main, #0f172a);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(4px) scale(0.98);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.vocab-tooltip.show {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+/* 툴팁 화살표 */
+.vocab-tooltip-arrow {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--border-light, #e2e8f0);
+  transform: rotate(45deg);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.vocab-tooltip[data-placement="top"] .vocab-tooltip-arrow {
+  bottom: -6px;
+  border-top: none;
+  border-left: none;
+}
+
+.vocab-tooltip[data-placement="bottom"] .vocab-tooltip-arrow {
+  top: -6px;
+  border-bottom: none;
+  border-right: none;
+}
+
+/* 헤더 영역 */
+.vocab-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle, #f1f5f9);
+  background: var(--surface-subtle, #f8fafc);
+}
+
+.vocab-word-box {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.vocab-word {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--primary, #4f46e5);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vocab-phonetic {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted, #64748b);
+  white-space: nowrap;
+}
+
+.vocab-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.vocab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted, #64748b);
+  border-radius: var(--radius-sm, 6px);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.vocab-btn:hover {
+  background: var(--surface-hover, #f1f5f9);
+  color: var(--text-main, #0f172a);
+}
+
+.vocab-btn.star.saved {
+  color: #f59e0b;
+}
+
+.vocab-btn.close:hover {
+  color: var(--danger, #ef4444);
+}
+
+/* 본문 영역 */
+.vocab-body {
+  padding: 12px 14px;
+  max-height: 220px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.vocab-meaning-main {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main, #0f172a);
+  line-height: 1.45;
+  margin-bottom: 4px;
+}
+
+.vocab-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary, #4f46e5);
+  background: var(--primary-subtle, #eef2ff);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.vocab-dict-def {
+  font-size: 0.82rem;
+  color: var(--text-body, #334155);
+  line-height: 1.4;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border-light, #e2e8f0);
+}
+
+.vocab-example {
+  font-size: 0.78rem;
+  color: var(--text-muted, #64748b);
+  font-style: italic;
+  margin-top: 4px;
+  padding-left: 8px;
+  border-left: 2px solid var(--border-light, #e2e8f0);
+}
+
+/* 로딩 스피너 */
+.vocab-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 18px 0;
+  color: var(--text-muted, #64748b);
+  font-size: 0.85rem;
+}
+
+.vocab-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-light, #e2e8f0);
+  border-top-color: var(--primary, #4f46e5);
+  border-radius: 50%;
+  animation: vocab-spin 0.6s linear infinite;
+}
+
+@keyframes vocab-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 푸터 링크 */
+.vocab-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: var(--surface-subtle, #f8fafc);
+  border-top: 1px solid var(--border-subtle, #f1f5f9);
+  font-size: 0.75rem;
+}
+
+.vocab-external-links {
+  display: flex;
+  gap: 10px;
+}
+
+.vocab-link {
+  color: var(--text-muted, #64748b);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.vocab-link:hover {
+  color: var(--primary, #4f46e5);
+  text-decoration: underline;
+}
+
+.vocab-toast {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.9);
+  color: #ffffff;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.vocab-toast.show {
+  opacity: 1;
+}

@@ -358,5 +358,6 @@ async function initDashboard() {
 
 document.addEventListener("DOMContentLoaded", () => {
   initSpeechRecognition();
+  if (typeof initVocabTooltip === "function") initVocabTooltip();
   initDashboard();
 });
