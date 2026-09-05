@@ -124,7 +124,8 @@ function loadTtsSettings() {
       if (typeof settings.autoPlay === "boolean")
         autoPlayTtsEnabled = settings.autoPlay;
       if (settings.engine) ttsEngine = settings.engine;
-      if (settings.azureApiKey !== undefined) azureApiKey = settings.azureApiKey;
+      if (settings.azureApiKey !== undefined)
+        azureApiKey = settings.azureApiKey;
       if (settings.azureRegion) azureRegion = settings.azureRegion;
       if (settings.azureVoice) azureVoice = settings.azureVoice;
     }
@@ -200,7 +201,8 @@ function initTtsSettingsModal() {
     if (engineSelect) engineSelect.value = ttsEngine;
     if (azureKeyInput) azureKeyInput.value = azureApiKey || "";
     if (azureRegionInput) azureRegionInput.value = azureRegion || "eastus";
-    if (azureVoiceSelect) azureVoiceSelect.value = azureVoice || "en-US-JennyNeural";
+    if (azureVoiceSelect)
+      azureVoiceSelect.value = azureVoice || "en-US-JennyNeural";
 
     if (azureSection) {
       azureSection.style.display = ttsEngine === "azure" ? "flex" : "none";
@@ -233,7 +235,8 @@ function initTtsSettingsModal() {
     saveBtn.addEventListener("click", () => {
       if (engineSelect) ttsEngine = engineSelect.value;
       if (azureKeyInput) azureApiKey = azureKeyInput.value.trim();
-      if (azureRegionInput) azureRegion = azureRegionInput.value.trim() || "eastus";
+      if (azureRegionInput)
+        azureRegion = azureRegionInput.value.trim() || "eastus";
       if (azureVoiceSelect) azureVoice = azureVoiceSelect.value;
 
       saveTtsSettings();
@@ -253,11 +256,15 @@ function initTtsSettingsModal() {
       azureTestBtn.disabled = true;
 
       const tempKey = azureKeyInput ? azureKeyInput.value.trim() : azureApiKey;
-      const tempRegion = azureRegionInput ? azureRegionInput.value.trim() : azureRegion;
+      const tempRegion = azureRegionInput
+        ? azureRegionInput.value.trim()
+        : azureRegion;
       const tempVoice = azureVoiceSelect ? azureVoiceSelect.value : azureVoice;
 
       if (!tempKey) {
-        alert("Azure API Key를 입력해주세요. (없을 시 Google 번역기 무료 음성을 선택할 수 있습니다)");
+        alert(
+          "Azure API Key를 입력해주세요. (없을 시 Google 번역기 무료 음성을 선택할 수 있습니다)",
+        );
         azureTestBtn.innerHTML = originalText;
         azureTestBtn.disabled = false;
         return;
@@ -265,9 +272,12 @@ function initTtsSettingsModal() {
 
       try {
         const ratePercent = Math.round((ttsRate - 1.0) * 100);
-        const rateStr = (ratePercent >= 0 ? `+${ratePercent}%` : `${ratePercent}%`);
+        const rateStr =
+          ratePercent >= 0 ? `+${ratePercent}%` : `${ratePercent}%`;
         const endpoint = `https://${tempRegion}.tts.speech.microsoft.com/cognitiveservices/v1`;
-        const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'>` +
+        const testLang = tempVoice.split("-").slice(0, 2).join("-") || "en-US";
+        const ssml =
+          `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='${testLang}'>` +
           `<voice name='${tempVoice}'>` +
           `<prosody rate='${rateStr}'>Hello! I am your AI native English speaking tutor.</prosody>` +
           `</voice></speak>`;
@@ -285,7 +295,9 @@ function initTtsSettingsModal() {
 
         if (!res.ok) {
           const errBody = await res.text().catch(() => "");
-          throw new Error(`Azure 응답 에러 (${res.status}): ${errBody || "키 또는 지역명을 확인하세요."}`);
+          throw new Error(
+            `Azure 응답 에러 (${res.status}): ${errBody || "키 또는 지역명을 확인하세요."}`,
+          );
         }
 
         const blob = await res.blob();
@@ -445,15 +457,21 @@ function resetCurrentButton() {
 }
 
 // Azure Speech REST API 호출 (Blob 반환)
-async function fetchAzureTtsAudio(text, voice = "en-US-JennyNeural", rate = 1.0) {
+async function fetchAzureTtsAudio(
+  text,
+  voice = "en-US-JennyNeural",
+  rate = 1.0,
+) {
   if (!azureApiKey || !azureApiKey.trim()) {
     throw new Error("Azure API Key가 설정되지 않았습니다.");
   }
   const endpoint = `https://${azureRegion.trim()}.tts.speech.microsoft.com/cognitiveservices/v1`;
   const ratePercent = Math.round((rate - 1.0) * 100);
-  const rateStr = (ratePercent >= 0 ? `+${ratePercent}%` : `${ratePercent}%`);
-  
-  const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'>` +
+  const rateStr = ratePercent >= 0 ? `+${ratePercent}%` : `${ratePercent}%`;
+
+  const voiceLang = voice.split("-").slice(0, 2).join("-") || "en-US";
+  const ssml =
+    `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='${voiceLang}'>` +
     `<voice name='${voice}'>` +
     `<prosody rate='${rateStr}'>${escapeXml(text)}</prosody>` +
     `</voice></speak>`;
@@ -551,7 +569,10 @@ async function speakText(text, lang = "en-US", btn = null) {
   const cleanText = text.trim();
 
   // 재생 중인 버튼을 다시 누르면 즉시 정지
-  if (currentSpeakingBtn === btn && (activeAudio || (window.speechSynthesis && speechSynthesis.speaking))) {
+  if (
+    currentSpeakingBtn === btn &&
+    (activeAudio || (window.speechSynthesis && speechSynthesis.speaking))
+  ) {
     stopTTS();
     return;
   }
@@ -559,7 +580,7 @@ async function speakText(text, lang = "en-US", btn = null) {
 
   const isKorean = lang.startsWith("ko");
   const effectiveEngine = isKorean ? "google" : ttsEngine;
-  const voiceName = isKorean ? "ko-KR" : (azureVoice || "en-US-JennyNeural");
+  const voiceName = isKorean ? "ko-KR" : azureVoice || "en-US-JennyNeural";
 
   // 1단계: IndexedDB 캐시 확인 (오디오 영구 보존 & 0자 소모)
   const cacheKey = window.AudioCache
@@ -579,7 +600,12 @@ async function speakText(text, lang = "en-US", btn = null) {
   }
 
   // 2단계: Azure Neural TTS 시도 (영어이고 Azure 설정 유효 시)
-  if (!isKorean && effectiveEngine === "azure" && azureApiKey && azureApiKey.trim()) {
+  if (
+    !isKorean &&
+    effectiveEngine === "azure" &&
+    azureApiKey &&
+    azureApiKey.trim()
+  ) {
     try {
       const blob = await fetchAzureTtsAudio(cleanText, voiceName, ttsRate);
       if (window.AudioCache && cacheKey) {
@@ -588,7 +614,10 @@ async function speakText(text, lang = "en-US", btn = null) {
       await playAudioBlob(blob, btn);
       return;
     } catch (err) {
-      console.warn("[TTS] Azure Neural TTS failed, trying fallback:", err.message);
+      console.warn(
+        "[TTS] Azure Neural TTS failed, trying fallback:",
+        err.message,
+      );
     }
   }
 
@@ -602,7 +631,10 @@ async function speakText(text, lang = "en-US", btn = null) {
       await playAudioBlob(blob, btn);
       return;
     } catch (err) {
-      console.warn("[TTS] Google TTS failed, falling back to Web Speech API:", err.message);
+      console.warn(
+        "[TTS] Google TTS failed, falling back to Web Speech API:",
+        err.message,
+      );
     }
   }
 

@@ -15,7 +15,9 @@ const AudioCache = (() => {
     if (dbPromise) return dbPromise;
     dbPromise = new Promise((resolve) => {
       if (!("indexedDB" in window)) {
-        console.warn("[AudioCache] IndexedDB not supported in this environment.");
+        console.warn(
+          "[AudioCache] IndexedDB not supported in this environment.",
+        );
         resolve(null);
         return;
       }
@@ -129,7 +131,8 @@ const AudioCache = (() => {
             resolve({ count, sizeBytes: totalSize, sizeFormatted: formatted });
           }
         };
-        req.onerror = () => resolve({ count: 0, sizeBytes: 0, sizeFormatted: "0 KB" });
+        req.onerror = () =>
+          resolve({ count: 0, sizeBytes: 0, sizeFormatted: "0 KB" });
       });
     } catch (err) {
       return { count: 0, sizeBytes: 0, sizeFormatted: "0 KB" };
