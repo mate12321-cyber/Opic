@@ -264,7 +264,6 @@ function speakText(text, lang = "en-US", btn = null) {
   utterance.pitch = 1.22; // ⚡ 여성 아나운서 톤으로 피치(음높이)를 상향하여 남성 보이스 환경에서도 여성 톤 출력 보장
   const voice = getBestVoice(lang);
   if (voice) utterance.voice = voice;
-
   if (btn) {
     currentSpeakingBtn = btn;
     btn.dataset.originalLabel = btn.innerHTML;
