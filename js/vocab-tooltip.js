@@ -340,19 +340,44 @@
     }
 
     const approxHeight = 160;
-    let top = rect.top - approxHeight - 12;
+    let top = 0;
     let placement = "top";
 
-    // 상단 공간이 부족하면 하단으로 전환 (모바일 상단바 고려)
-    if (top < (isMobile ? 30 : 10)) {
-      top = rect.bottom + 10;
-      placement = "bottom";
+    if (isMobile) {
+      // 📱 모바일: OS 복사/검색 바는 단어 위쪽에 뜨므로, 우리 툴팁은 단어 아래쪽에 우선 배치하여 겹침 100% 방지
+      const spaceBelow = window.innerHeight - rect.bottom;
+      if (spaceBelow > approxHeight + 20) {
+        top = rect.bottom + 10;
+        placement = "bottom";
+      } else {
+        top = Math.max(10, rect.top - approxHeight - 12);
+        placement = "top";
+      }
+    } else {
+      // 💻 PC: 단어 위쪽에 우선 배치
+      if (rect.top - approxHeight - 12 > 10) {
+        top = rect.top - approxHeight - 12;
+        placement = "top";
+      } else {
+        top = rect.bottom + 10;
+        placement = "bottom";
+      }
     }
 
     tooltipEl.setAttribute("data-placement", placement);
     tooltipEl.style.left = `${Math.round(left)}px`;
     tooltipEl.style.top = `${Math.round(top)}px`;
     tooltipEl.classList.add("show");
+
+    // 📱 모바일: OS 기본 메뉴(복사/검색/공유 바)가 우리 툴팁을 가리지 않도록 선택 범위 즉시 해제
+    if (isMobile) {
+      try {
+        const sel = window.getSelection();
+        if (sel && sel.removeAllRanges) {
+          sel.removeAllRanges();
+        }
+      } catch (e) {}
+    }
   }
 
   function hideTooltip() {
