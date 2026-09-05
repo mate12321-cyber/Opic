@@ -34,46 +34,96 @@ async function savePatternProgress() {
   }
 }
 
+// 안전한 HTML 이스케이프 헬퍼
+function safeEscapeHtml(str) {
+  if (typeof escapeHtml === "function") return escapeHtml(str);
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// 특정 패턴 직접 선택 및 진입
+function selectPattern(idx) {
+  const parsed = parseInt(idx, 10);
+  if (!isNaN(parsed) && parsed >= 0 && parsed < PATTERN_ITEMS.length) {
+    patternCur = parsed;
+  }
+  patternVarCur = 0;
+  showPatternCard();
+}
+window.selectPattern = selectPattern;
+
+// 특정 주제 변형(슬롯) 선택
+function selectPatternVariation(vIdx) {
+  const parsed = parseInt(vIdx, 10);
+  if (!isNaN(parsed)) {
+    patternVarCur = parsed;
+    renderPatternVariation();
+  }
+}
+window.selectPatternVariation = selectPatternVariation;
+
 // 6대 패턴 목록 화면 렌더링
 function renderPatternTopics() {
   const container = document.getElementById("patternTopicGrid");
-  if (!container || !PATTERN_ITEMS.length) return;
+  if (!container) return;
+
+  if (!PATTERN_ITEMS || !PATTERN_ITEMS.length) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 24px 16px; color: var(--text-muted); font-size: 14px;">
+        ⏳ 만능 패턴 데이터를 불러오는 중입니다...
+      </div>
+    `;
+    return;
+  }
 
   container.innerHTML = PATTERN_ITEMS.map((pat, idx) => {
-    const isDone = patternProgress[pat.id];
+    const isDone = patternProgress && patternProgress[pat.id];
     return `
-      <div class="pattern-select-card" data-idx="${idx}">
+      <button type="button" class="pattern-select-card" data-idx="${idx}" onclick="selectPattern(${idx})">
         <div class="pattern-select-icon">${pat.icon || "🧩"}</div>
         <div class="pattern-select-body">
           <div class="pattern-select-name">
-            <span>${idx + 1}. ${escapeHtml(pat.name)}</span>
+            <span>${idx + 1}. ${safeEscapeHtml(pat.name)}</span>
             ${isDone ? '<span class="pattern-select-badge">완료 ✓</span>' : ""}
           </div>
-          <div class="pattern-select-desc">${escapeHtml(pat.desc)}</div>
-          <div class="pattern-select-cats">📌 적용 주제: ${escapeHtml(pat.category)}</div>
+          <div class="pattern-select-desc">${safeEscapeHtml(pat.desc)}</div>
+          <div class="pattern-select-cats">📌 적용 주제: ${safeEscapeHtml(pat.category)}</div>
         </div>
-      </div>
+      </button>
     `;
   }).join("");
 
+  // 이벤트 리스너 이중 바인딩으로 터치/클릭 100% 보장
   container.querySelectorAll(".pattern-select-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      patternCur = parseInt(card.dataset.idx, 10) || 0;
-      patternVarCur = 0;
-      showPatternCard();
+    card.addEventListener("click", (e) => {
+      const idx = parseInt(card.dataset.idx, 10);
+      if (!isNaN(idx)) {
+        selectPattern(idx);
+      }
     });
   });
 }
 
 // 패턴 학습 화면으로 전환
-function showPatternCard() {
+function showPatternCard(idx) {
+  if (typeof idx === "number" && !isNaN(idx) && idx >= 0 && idx < PATTERN_ITEMS.length) {
+    patternCur = idx;
+    patternVarCur = 0;
+  }
   hideAllScreens();
   const card = document.getElementById("patternCard");
   if (card) {
     card.style.display = "block";
     renderPatternCard();
   }
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
+window.showPatternCard = showPatternCard;
 
 // 패턴 카드 상세 렌더링
 function renderPatternCard() {
@@ -88,7 +138,7 @@ function renderPatternCard() {
 
   const titleEl = document.getElementById("patternMainTitle");
   if (titleEl) {
-    titleEl.innerHTML = `${pat.icon || "🧩"} ${escapeHtml(pat.name)}`;
+    titleEl.innerHTML = `${pat.icon || "🧩"} ${safeEscapeHtml(pat.name)}`;
   }
 
   const descEl = document.getElementById("patternDescP");
@@ -101,7 +151,7 @@ function renderPatternCard() {
   if (skeletonWrap && pat.skeleton) {
     skeletonWrap.innerHTML = pat.skeleton
       .map((line) => {
-        return `<div class="skeleton-item">${escapeHtml(line)}</div>`;
+        return `<div class="skeleton-item">${safeEscapeHtml(line)}</div>`;
       })
       .join("");
   }
@@ -113,8 +163,8 @@ function renderPatternCard() {
       .map((v, vIdx) => {
         const activeClass = vIdx === patternVarCur ? "active" : "";
         return `
-        <button type="button" class="switcher-chip ${activeClass}" data-vidx="${vIdx}">
-          <span>${escapeHtml(v.topic)}</span>
+        <button type="button" class="switcher-chip ${activeClass}" data-vidx="${vIdx}" onclick="selectPatternVariation(${vIdx})">
+          <span>${safeEscapeHtml(v.topic)}</span>
         </button>
       `;
       })
@@ -122,8 +172,10 @@ function renderPatternCard() {
 
     switcherChips.querySelectorAll(".switcher-chip").forEach((chip) => {
       chip.addEventListener("click", () => {
-        patternVarCur = parseInt(chip.dataset.vidx, 10) || 0;
-        renderPatternVariation();
+        const vIdx = parseInt(chip.dataset.vidx, 10);
+        if (!isNaN(vIdx)) {
+          selectPatternVariation(vIdx);
+        }
       });
     });
   }
@@ -160,8 +212,8 @@ function renderPatternVariation() {
               🔊 발음
             </button>
           </div>
-          <div class="ps-en">${escapeHtml(s.en)}</div>
-          <div class="ps-ko">${escapeHtml(s.ko)}</div>
+          <div class="ps-en">${safeEscapeHtml(s.en)}</div>
+          <div class="ps-ko">${safeEscapeHtml(s.ko)}</div>
         </div>
       `;
       })

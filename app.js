@@ -321,6 +321,7 @@ if (els.navPattern) {
     if (els.patternTopicScreen) {
       els.patternTopicScreen.style.display = "block";
       renderPatternTopics();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   });
 }
@@ -338,6 +339,7 @@ if (toOpicFromPattern) {
     if (els.opicTopicScreen) {
       els.opicTopicScreen.style.display = "block";
       renderOpicChips();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   });
 }
@@ -350,6 +352,7 @@ if (patternChangeListBtn) {
     if (els.patternTopicScreen) {
       els.patternTopicScreen.style.display = "block";
       renderPatternTopics();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   });
 }
@@ -396,6 +399,9 @@ async function initDashboard() {
   await loadPatternProgress();
   await loadProgress();
   renderHomeDashboard();
+  if (typeof renderPatternTopics === "function") {
+    renderPatternTopics();
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
