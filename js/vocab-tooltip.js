@@ -100,6 +100,7 @@
   let isLongPressTriggered = false;
   let lastTouchEndTime = 0;
   let lastTouchPoint = null;
+  let lastShownTime = 0;
 
   // HTML 이스케이프 유틸
   function escapeHtml(str) {
@@ -750,6 +751,7 @@
         const detected = getWordAtPoint(touchStartPos.x, touchStartPos.y);
         if (detected) {
           isLongPressTriggered = true;
+          lastShownTime = Date.now();
           if (navigator.vibrate) {
             try { navigator.vibrate(20); } catch (v) {}
           }
@@ -785,12 +787,16 @@
       const now = Date.now();
       const touch = e.changedTouches && e.changedTouches[0];
 
-      // 📱 모바일 더블 탭 감지 (450ms 이내 동일 지점 35px 반경 연속 탭)
-      if (touch && now - lastTouchEndTime < 450 && lastTouchPoint) {
+      // 📱 모바일 더블 탭 감지 (500ms 이내 동일 지점 40px 반경 연속 탭)
+      if (touch && now - lastTouchEndTime < 500 && lastTouchPoint) {
         const dist = Math.hypot(touch.clientX - lastTouchPoint.x, touch.clientY - lastTouchPoint.y);
-        if (dist < 35) {
+        if (dist < 40) {
           const detected = getWordAtPoint(touch.clientX, touch.clientY);
           if (detected) {
+            lastShownTime = Date.now(); // 툴팁 노출 시간 기록 (합성 이벤트에 의한 즉시 닫힘 방지)
+            if (navigator.vibrate) {
+              try { navigator.vibrate(20); } catch (v) {}
+            }
             showVocabTooltip(detected.word, detected.rect);
             lastTouchEndTime = 0;
             lastTouchPoint = null;
@@ -809,7 +815,7 @@
 
     // 4. 안드로이드 contextmenu 방어
     document.addEventListener("contextmenu", (e) => {
-      if (isLongPressTriggered) {
+      if (isLongPressTriggered || Date.now() - lastShownTime < 600) {
         e.preventDefault();
       }
     });
@@ -821,8 +827,9 @@
       }
     });
 
-    // 6. 툴팁 외부 클릭/터치 시 닫기
+    // 6. 툴팁 외부 클릭/터치 시 닫기 (방금 뜬 툴팁은 500ms 동안 닫기 무시)
     document.addEventListener("mousedown", (e) => {
+      if (Date.now() - lastShownTime < 500) return; // ⚡ 탭 직후 합성 mousedown으로 인한 즉시 닫힘 방지
       if (tooltipEl && !tooltipEl.contains(e.target)) {
         const selection = window.getSelection();
         if (!selection || selection.isCollapsed) {
@@ -832,6 +839,7 @@
     });
 
     document.addEventListener("touchstart", (e) => {
+      if (Date.now() - lastShownTime < 500) return; // ⚡ 탭 직후 터치 닫힘 방지
       if (tooltipEl && !tooltipEl.contains(e.target)) {
         const selection = window.getSelection();
         if (!selection || selection.isCollapsed) {
