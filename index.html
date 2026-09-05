@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/practice.css" />
     <link rel="stylesheet" href="css/grammar.css" />
     <link rel="stylesheet" href="css/vocab-tooltip.css" />
+    <link rel="stylesheet" href="css/pattern.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -57,11 +58,11 @@
         <div class="home-chart" id="homeChart"></div>
 
         <div class="home-nav">
-          <button class="nav-card" id="navSentence">
-            <span class="nav-card-icon">📝</span>
+          <button class="nav-card" id="navPattern">
+            <span class="nav-card-icon">🧩</span>
             <span class="nav-card-body">
-              <span class="nav-card-title">문장 번역 연습</span>
-              <span class="nav-card-sub" id="navSentenceSub"></span>
+              <span class="nav-card-title">만능 패턴 집중 훈련 <span style="font-size: 11px; color: #16a34a; font-weight: 700; margin-left: 4px;">BEST ⭐</span></span>
+              <span class="nav-card-sub" id="navPatternSub">6대 만능 템플릿으로 모든 질문 정복</span>
             </span>
             <span class="nav-card-arrow">›</span>
           </button>
@@ -70,6 +71,14 @@
             <span class="nav-card-body">
               <span class="nav-card-title">실전 질문 & 답변 연습</span>
               <span class="nav-card-sub" id="navOpicSub"></span>
+            </span>
+            <span class="nav-card-arrow">›</span>
+          </button>
+          <button class="nav-card" id="navSentence">
+            <span class="nav-card-icon">📝</span>
+            <span class="nav-card-body">
+              <span class="nav-card-title">문장 번역 연습</span>
+              <span class="nav-card-sub" id="navSentenceSub"></span>
             </span>
             <span class="nav-card-arrow">›</span>
           </button>
@@ -883,6 +892,95 @@
           <span class="change-topic" id="opicChangeTopicBtn2">주제 변경</span>
         </div>
       </div>
+
+      <!-- 4. 🧩 만능 패턴 선택 화면 (Pattern Screen) -->
+      <div class="topic-screen" id="patternTopicScreen" style="display: none">
+        <div class="mode-switch-row">
+          <span class="mode-switch" id="homeFromPatternTopic">🏠 홈</span>
+          <span class="mode-switch" id="toOpicFromPattern">실전 질문 연습 →</span>
+        </div>
+        <div class="topic-header-row">
+          <div class="topic-lbl">
+            🧩 6대 만능 템플릿 선택 <span class="topic-count-badge" id="patternCount">6개</span>
+          </div>
+        </div>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px; margin-bottom: 12px; line-height: 1.4;">
+          어떤 주제가 나와도 단어 몇 개만 바꿔서 즉시 유창하게 말할 수 있는 핵심 만능 패턴을 선택하세요.
+        </p>
+        <div class="pattern-topic-grid" id="patternTopicGrid"></div>
+      </div>
+
+      <!-- 5. 🧩 만능 패턴 학습 카드 (Pattern Card) -->
+      <div class="card" id="patternCard" style="display: none">
+        <div class="cardtop">
+          <span class="cat" id="patternIdxLabel">PATTERN 01 / 06</span>
+          <div class="cardtop-right">
+            <button type="button" class="btn-prev-q" id="btnPrevPattern" title="이전 패턴 (P)">
+              ‹ 이전
+            </button>
+            <span class="idx" id="patternCurLabel">만능 공식</span>
+          </div>
+        </div>
+
+        <div class="pattern-header-box">
+          <div class="pattern-title-row">
+            <div class="pattern-main-title" id="patternMainTitle">🧩 만능 패턴</div>
+          </div>
+          <p class="pattern-desc-p" id="patternDescP"></p>
+        </div>
+
+        <!-- 만능 뼈대 프레임워크 -->
+        <div class="skeleton-box">
+          <div class="skeleton-box-header">
+            <span>📐 6문장 만능 뼈대 구조 (Framework)</span>
+          </div>
+          <div class="skeleton-list" id="patternSkeletonList"></div>
+        </div>
+
+        <!-- 인터랙티브 주제 스위처 -->
+        <div class="switcher-wrap">
+          <div class="switcher-label">
+            <span>🔄 주제별 단어 갈아끼우기 (실시간 적용):</span>
+          </div>
+          <div class="switcher-chips" id="patternSwitcherChips"></div>
+        </div>
+
+        <!-- 단계별 6문장 리스트 -->
+        <div class="lbl-row" style="margin-top: 10px; margin-bottom: 8px;">
+          <div class="lbl">단계별 문장 훈련</div>
+        </div>
+        <div class="pattern-sentences-wrap" id="patternSentenceList"></div>
+
+        <!-- 전체 답변 및 오디오 -->
+        <div class="answer" style="display: block; margin-top: 16px;">
+          <div class="lbl-row">
+            <div class="lbl">전체 스크립트 연결 듣기</div>
+            <div class="action-btn-group">
+              <button class="tts-btn tts-btn-primary" id="patternTtsAllBtn" type="button" title="전체 답변 원어민 발음 듣기">
+                🔊 전체 발음 듣기
+              </button>
+              <button class="copy-btn" id="patternCopyAllBtn" title="전체 답변 복사">
+                복사
+              </button>
+            </div>
+          </div>
+          <p class="en" id="patternFullEn" style="margin-bottom: 6px; font-size: 14.5px;"></p>
+          <p class="ko" id="patternFullKo" style="font-size: 13.5px; color: var(--text-muted);"></p>
+        </div>
+
+        <!-- 버튼 영역 -->
+        <div class="row" style="margin-top: 18px;">
+          <button class="primary" id="patternNextBtn" style="width: 100%;">
+            <span>이 패턴 완료 & 다음 패턴으로 →</span>
+            <kbd class="shortcut-key">↵</kbd>
+          </button>
+        </div>
+
+        <div class="change-topic-row" style="margin-top: 14px;">
+          <span class="change-topic" id="homeFromPatternCard">🏠 홈</span>
+          <span class="change-topic" id="patternChangeListBtn">다른 패턴 선택</span>
+        </div>
+      </div>
     </div>
 
     <!-- 🎧 TTS & 오디오 캐시 설정 모달 -->
@@ -1083,6 +1181,7 @@
     <script src="js/practice.js"></script>
     <script src="js/grammar.js"></script>
     <script src="js/opic.js"></script>
+    <script src="js/pattern.js"></script>
     <script src="js/shortcuts.js"></script>
     <script src="js/vocab-tooltip.js"></script>
     <script src="app.js"></script>

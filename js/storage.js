@@ -36,6 +36,7 @@ let WORD_ITEMS = []; // 문법 퀴즈 목록
 let WORD_CATEGORIES = []; // 문법 카테고리 목록
 let OPIC_QUESTIONS = []; // OPIc 실전 질문 목록
 let OPIC_CATEGORIES = []; // OPIc 실전 카테고리 목록
+let PATTERN_ITEMS = []; // 만능 패턴 목록
 
 // 문장 번역 주제 대분류 그룹 정의
 const GROUPS = {
@@ -75,6 +76,7 @@ function shuffle(arr) {
 const STORAGE_KEY = "ko-en-opic-progress";
 const WORD_STORAGE_KEY = "ko-en-opic-word-progress";
 const OPIC_STORAGE_KEY = "ko-en-opic-qa-progress";
+const PATTERN_STORAGE_KEY = "ko-en-opic-pattern-progress";
 const DAILY_LOG_KEY = "ko-en-opic-daily-log";
 
 // 요일 라벨 및 일별 학습 기록 객체 { "YYYY-MM-DD": 풀이문제수 }
@@ -143,13 +145,14 @@ function last7Days() {
   return days;
 }
 
-// 외부 JSON 데이터 파일 비동기 로딩 (문장, 문법 퀴즈, OPIc 실전 질문)
+// 외부 JSON 데이터 파일 비동기 로딩 (문장, 문법 퀴즈, OPIc 실전 질문, 만능 패턴)
 async function loadData() {
   try {
-    const [sentencesRes, grammarRes, opicRes] = await Promise.all([
+    const [sentencesRes, grammarRes, opicRes, patternRes] = await Promise.all([
       fetch("data/sentences_im1.json"),
       fetch("data/grammar_im1.json"),
       fetch("data/questions_im1.json"),
+      fetch("data/patterns_im1.json"),
     ]);
     SENTENCES = await sentencesRes.json();
     CATEGORIES = [...new Set(SENTENCES.map((s) => s.cat))];
@@ -157,6 +160,7 @@ async function loadData() {
     WORD_CATEGORIES = [...new Set(WORD_ITEMS.map((w) => w.cat))];
     OPIC_QUESTIONS = await opicRes.json();
     OPIC_CATEGORIES = [...new Set(OPIC_QUESTIONS.map((q) => q.cat))];
+    PATTERN_ITEMS = await patternRes.json();
   } catch (e) {
     console.error("데이터 로드 실패:", e);
   }

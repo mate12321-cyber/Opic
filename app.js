@@ -315,6 +315,45 @@ if (els.navOpic) {
   });
 }
 
+if (els.navPattern) {
+  els.navPattern.addEventListener("click", () => {
+    hideAllScreens();
+    if (els.patternTopicScreen) {
+      els.patternTopicScreen.style.display = "block";
+      renderPatternTopics();
+    }
+  });
+}
+
+const homeFromPatternTopic = document.getElementById("homeFromPatternTopic");
+const homeFromPatternCard = document.getElementById("homeFromPatternCard");
+const patternChangeListBtn = document.getElementById("patternChangeListBtn");
+const toOpicFromPattern = document.getElementById("toOpicFromPattern");
+const patternNextBtn = document.getElementById("patternNextBtn");
+const btnPrevPattern = document.getElementById("btnPrevPattern");
+
+if (toOpicFromPattern) {
+  toOpicFromPattern.addEventListener("click", () => {
+    hideAllScreens();
+    if (els.opicTopicScreen) {
+      els.opicTopicScreen.style.display = "block";
+      renderOpicChips();
+    }
+  });
+}
+
+if (patternNextBtn) patternNextBtn.addEventListener("click", nextPattern);
+if (btnPrevPattern) btnPrevPattern.addEventListener("click", prevPattern);
+if (patternChangeListBtn) {
+  patternChangeListBtn.addEventListener("click", () => {
+    hideAllScreens();
+    if (els.patternTopicScreen) {
+      els.patternTopicScreen.style.display = "block";
+      renderPatternTopics();
+    }
+  });
+}
+
 [
   els.homeFromTopic,
   els.homeFromWordTopic,
@@ -325,6 +364,8 @@ if (els.navOpic) {
   els.homeFromOpicTopic,
   els.homeFromOpicCard,
   els.homeFromOpicDone,
+  homeFromPatternTopic,
+  homeFromPatternCard,
 ].forEach((el) => el && el.addEventListener("click", showHomeScreen));
 
 // ── 마이크 음성 입력(STT) 토글 연동 ────────────────────────────────
@@ -352,6 +393,7 @@ async function initDashboard() {
   await loadDailyLog();
   await loadWordProgress();
   await loadOpicProgress();
+  await loadPatternProgress();
   await loadProgress();
   renderHomeDashboard();
 }

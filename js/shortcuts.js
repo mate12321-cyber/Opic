@@ -198,7 +198,21 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  // 5. 완료 화면 단축키
+  // 5. 만능 패턴 훈련 모드 단축키
+  const patternCard = document.getElementById("patternCard");
+  if (patternCard && patternCard.style.display !== "none") {
+    if (isEnter) {
+      e.preventDefault();
+      if (typeof nextPattern === "function") nextPattern();
+      return;
+    } else if (isKeyP) {
+      e.preventDefault();
+      if (typeof prevPattern === "function") prevPattern();
+      return;
+    }
+  }
+
+  // 6. 완료 화면 단축키
   if (els.doneScreen && els.doneScreen.classList.contains("show")) {
     if (isEnter) {
       e.preventDefault();

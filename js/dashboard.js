@@ -163,6 +163,10 @@ const els = {
   opicDoneSummary: document.getElementById("opicDoneSummary"),
   opicRetryWrongBtn: document.getElementById("opicRetryWrongBtn"),
   opicRestartBtn: document.getElementById("opicRestartBtn"),
+  navPattern: document.getElementById("navPattern"),
+  navPatternSub: document.getElementById("navPatternSub"),
+  patternTopicScreen: document.getElementById("patternTopicScreen"),
+  patternCard: document.getElementById("patternCard"),
 };
 
 // 모든 서브 화면을 숨기고 실행 중인 음성/마이크를 초기화
@@ -190,6 +194,8 @@ function hideAllScreens() {
     els.opicDoneScreen.style.display = "none";
     els.opicDoneScreen.classList.remove("show");
   }
+  if (els.patternTopicScreen) els.patternTopicScreen.style.display = "none";
+  if (els.patternCard) els.patternCard.style.display = "none";
 }
 
 // 문장 번역 연습 주제 선택 카드 렌더링
@@ -357,6 +363,13 @@ function renderHomeDashboard() {
     els.navOpicSub.textContent = opicResumable
       ? `이어하기 · ${opicCur}/${opicOrder.length}질문 진행 중`
       : `${OPIC_QUESTIONS.length}개 예상 질문 · IM1 5~7문장 답변`;
+  }
+
+  if (els.navPatternSub) {
+    const doneCount = Object.keys(patternProgress || {}).length;
+    els.navPatternSub.textContent = doneCount > 0
+      ? `학습 중 · 6개 중 ${doneCount}개 완료 ✓`
+      : `6대 핵심 템플릿으로 모든 질문 정복`;
   }
 }
 

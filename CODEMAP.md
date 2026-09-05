@@ -16,15 +16,17 @@ OPIc/
 ├── data/                       # ── [Data Layer] ──────────────────────────
 │   ├── sentences_im1.json      # OPIc IM1 문장 번역 데이터 (208개 문항)
 │   ├── grammar_im1.json        # OPIc IM1 문법 포인트 퀴즈 데이터 (81개 문항)
-│   └── questions_im1.json      # OPIc 실전 질문 및 IM1 5~7문장 답변 데이터 (40개 문항)
+│   ├── questions_im1.json      # OPIc 실전 질문 및 IM1 6문장 만능 답변 데이터 (40개 문항)
+│   └── patterns_im1.json       # [NEW] 6대 만능 템플릿 및 실시간 슬롯 스위처 데이터 (6개 패턴)
 ├── js/                         # ── [Logic & Controller Layer] ────────────
-│   ├── audio-cache.js          # [NEW] IndexedDB 기반 TTS 오디오 영구 캐시 매니저 (0자 소모 보장)
+│   ├── audio-cache.js          # IndexedDB 기반 TTS 오디오 영구 캐시 매니저 (0자 소모 보장)
 │   ├── storage.js              # 스토리지(localStorage), JSON 비동기 로딩, 스트릭/로그
 │   ├── speech.js               # Azure Neural TTS / Google / Web Speech 하이브리드 음성 엔진, 발음 평가
 │   ├── dashboard.js            # DOM 엘리먼트 캐시, 홈 대시보드 통계/차트, 주제 선택 화면
 │   ├── practice.js             # 문장 번역 연습 모드 (카드 렌더링, 정답 확인, 채점, 저장)
 │   ├── grammar.js              # 문법 포인트 퀴즈 모드 (보기 선택, 해설, 저장)
 │   ├── opic.js                 # OPIc 실전 질문 답변 모드 (에바 질문, 5~7문장 답변 뷰, 타이머)
+│   ├── pattern.js              # [NEW] 만능 패턴 집중 훈련 모드 컨트롤러 (슬롯 스위처, 단계별 TTS/STT)
 │   ├── vocab-tooltip.js        # 단어/표현 드래그 & 더블클릭/모바일 탭 인라인 번역 툴팁 시스템
 │   └── shortcuts.js            # 맥북/PC 데스크톱 키보드 단축키 핸들러
 │
@@ -34,8 +36,9 @@ OPIc/
     ├── dashboard.css           # 홈 화면 통계 카드, 7일 학습 막대 차트, 주제 선택 그룹 카드
     ├── practice.css            # 문장 연습 입력창, 마이크, 모범답안, 일치도 평가, 문법 검사 박스
     ├── grammar.css             # 문법 퀴즈 보기 옵션 카드, 번호 배지, 해설 박스
-    ├── opic.css                # [NEW] OPIc 실전 질문 답변 연습 카드 및 분할 뷰 스타일
-    └── vocab-tooltip.css       # [NEW] 플로팅 번역 툴팁, 사전 발음기호/품사 태그 스타일
+    ├── opic.css                # OPIc 실전 질문 답변 연습 카드 및 분할 뷰 스타일
+    ├── pattern.css             # [NEW] 만능 패턴 집중 훈련 카드 및 슬롯 스위처 스타일
+    └── vocab-tooltip.css       # 플로팅 번역 툴팁, 사전 발음기호/품사 태그 스타일
 ```
 
 ---
