@@ -369,16 +369,6 @@
     tooltipEl.style.left = `${Math.round(left)}px`;
     tooltipEl.style.top = `${Math.round(top)}px`;
     tooltipEl.classList.add("show");
-
-    // 📱 모바일: OS 기본 메뉴(복사/검색/공유 바)가 우리 툴팁을 가리지 않도록 선택 범위 즉시 해제
-    if (isMobile) {
-      try {
-        const sel = window.getSelection();
-        if (sel && sel.removeAllRanges) {
-          sel.removeAllRanges();
-        }
-      } catch (e) {}
-    }
   }
 
   function hideTooltip() {
@@ -813,14 +803,7 @@
       triggerSelectionDebounced(100);
     }, { passive: true });
 
-    // 4. 안드로이드 contextmenu 방어
-    document.addEventListener("contextmenu", (e) => {
-      if (isLongPressTriggered || Date.now() - lastShownTime < 600) {
-        e.preventDefault();
-      }
-    });
-
-    // 5. 키보드 ESC 닫기
+    // 4. 키보드 ESC 닫기
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         hideTooltip();
