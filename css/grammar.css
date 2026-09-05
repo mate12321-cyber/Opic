@@ -99,3 +99,39 @@
 .word-explain.show {
   display: block;
 }
+
+/* ── 📱 모바일 가로 모드 (Landscape Mode) 문법 퀴즈 최적화 ── */
+@media (orientation: landscape) and (max-height: 600px) {
+  #wordSentence {
+    margin-bottom: 10px;
+  }
+
+  .word-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .word-opt {
+    height: 38px;
+    min-height: 38px;
+    font-size: 13.5px;
+    padding: 0 12px;
+    border-radius: var(--radius-md);
+  }
+
+  .opt-num-badge {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+    margin-right: 8px;
+    border-radius: 6px;
+  }
+
+  .word-explain {
+    margin-top: 8px;
+    padding: 8px 12px;
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+}

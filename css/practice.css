@@ -368,3 +368,96 @@ textarea::placeholder {
   font-size: 14px;
   margin-bottom: 24px;
 }
+
+/* ── 📱 모바일 가로 모드 (Landscape Mode) 연습 화면 최적화 ── */
+@media (orientation: landscape) and (max-height: 600px) {
+  textarea {
+    min-height: 52px;
+    height: 56px;
+    font-size: 14.5px;
+    padding: 8px 42px 8px 12px;
+    line-height: 1.4;
+    border-radius: var(--radius-md);
+  }
+
+  .mic-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    right: 6px;
+    top: 6px;
+    border-radius: 6px;
+  }
+
+  .ko {
+    font-size: 17px;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .audio-controls {
+    margin-bottom: 8px;
+    padding: 4px 10px;
+    border-radius: var(--radius-md);
+  }
+
+  .speed-chip {
+    height: 24px;
+    font-size: 11px;
+    padding: 0 8px;
+  }
+
+  .live-translate {
+    margin-top: 6px;
+    padding: 6px 10px;
+    font-size: 12.5px;
+  }
+
+  .input-actions {
+    margin-top: 4px;
+  }
+
+  .answer {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+  }
+
+  .en {
+    font-size: 15.5px;
+    margin-bottom: 6px;
+  }
+
+  .tip {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: var(--radius-sm);
+  }
+
+  .eval-box {
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: var(--radius-md);
+  }
+
+  .g-box {
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: var(--radius-md);
+  }
+
+  .done-screen {
+    padding: 18px 16px;
+    border-radius: var(--radius-lg);
+  }
+
+  .done-screen h2 {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .done-screen p {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+}
