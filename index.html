@@ -28,7 +28,17 @@
       <div class="home-screen" id="homeScreen">
         <div class="home-header">
           <div class="home-eyebrow">OPIc 연습</div>
-          <div class="home-date" id="homeDate"></div>
+          <div style="display: flex; align-items: center; gap: 8px">
+            <button
+              type="button"
+              class="settings-trigger-btn"
+              id="openTtsSettingsBtn"
+              title="원어민 음성(Azure Neural) 및 오디오 캐시 설정"
+            >
+              ⚙️ 음성 설정
+            </button>
+            <div class="home-date" id="homeDate"></div>
+          </div>
         </div>
 
         <div class="home-stats">
@@ -128,13 +138,23 @@
               1.2x
             </button>
           </div>
-          <label
-            class="auto-play-toggle"
-            title="정답 확인 시 모범 답안 음성을 자동으로 들려줍니다"
-          >
-            <input type="checkbox" id="autoPlayTts" />
-            <span>자동 재생</span>
-          </label>
+          <div style="display: flex; align-items: center; gap: 8px">
+            <label
+              class="auto-play-toggle"
+              title="정답 확인 시 모범 답안 음성을 자동으로 들려줍니다"
+            >
+              <input type="checkbox" id="autoPlayTts" />
+              <span>자동 재생</span>
+            </label>
+            <button
+              type="button"
+              class="settings-trigger-btn"
+              id="openTtsSettingsBtnCard"
+              title="음성(TTS) 및 캐시 설정"
+            >
+              ⚙️
+            </button>
+          </div>
         </div>
 
         <div class="line-row">
@@ -865,6 +885,90 @@
       </div>
     </div>
 
+    <!-- 🎧 TTS & 오디오 캐시 설정 모달 -->
+    <div class="modal-backdrop" id="ttsSettingsModal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">
+            <span>🎧 원어민 음성(TTS) & 캐시 설정</span>
+          </div>
+          <button type="button" class="modal-close-btn" id="closeTtsModalBtn" title="닫기">✕</button>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="ttsEngineSelect">음성 합성 엔진 선택</label>
+          <select class="form-select" id="ttsEngineSelect">
+            <option value="azure">✨ Microsoft Azure Neural (초고품질 원어민 권장)</option>
+            <option value="google">🌐 Google 번역기 여성 음성 (무료)</option>
+            <option value="native">📱 브라우저 기본 내장 음성 (Web Speech API)</option>
+          </select>
+          <span class="form-sublabel">※ Azure 키 미설정 또는 오류 시 자동으로 Google ➡️ 브라우저 기본 음성으로 안전 폴백됩니다.</span>
+        </div>
+
+        <!-- Azure 전용 설정 영역 -->
+        <div id="azureSettingsSection" style="display: flex; flex-direction: column; gap: 12px">
+          <div class="form-group">
+            <label class="form-label" for="azureApiKeyInput">Azure Speech API Key (무료 티어)</label>
+            <input
+              type="password"
+              class="form-input"
+              id="azureApiKeyInput"
+              placeholder="예: 3a1b2c3d4e5f..."
+              autocomplete="off"
+            />
+            <span class="form-sublabel">매달 50만 자 무료(F0) 키. 브라우저 로컬에만 안전하게 보관됩니다.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="azureRegionInput">Azure Region (지역)</label>
+            <input
+              type="text"
+              class="form-input"
+              id="azureRegionInput"
+              placeholder="예: eastus, koreacentral"
+              value="eastus"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="azureVoiceSelect">원어민 보이스 선택</label>
+            <select class="form-select" id="azureVoiceSelect">
+              <option value="en-US-JennyNeural">en-US-Jenny (여성 - 가장 자연스럽고 인기 많음)</option>
+              <option value="en-US-AriaNeural">en-US-Aria (여성 - 또렷하고 신뢰감 있는 아나운서 톤)</option>
+              <option value="en-US-GuyNeural">en-US-Guy (남성 - 차분한 원어민 톤)</option>
+            </select>
+          </div>
+
+          <button type="button" class="ghost" id="azureTestBtn" style="height: 38px; min-height: 38px; font-size: 13px;">
+            🔊 발음 & 연결 테스트
+          </button>
+        </div>
+
+        <!-- IndexedDB 영구 캐시 관리 영역 -->
+        <div class="cache-box">
+          <div class="cache-info-row">
+            <span class="form-label" style="margin: 0">📦 로컬 오디오 영구 캐시</span>
+            <span class="cache-badge" id="cacheStatsBadge">조회 중...</span>
+          </div>
+          <span class="form-sublabel">
+            한 번 들은 음성은 브라우저(IndexedDB)에 영구 저장되어 Azure 사용량(0자 소모)을 극단적으로 줄여줍니다. 강력 새로고침을 해도 안전하게 유지됩니다.
+          </span>
+          <div class="btn-row-flex">
+            <button type="button" class="ghost" id="clearCacheBtn" style="height: 34px; min-height: 34px; font-size: 12px; color: var(--danger-text);">
+              🧹 캐시 비우기
+            </button>
+          </div>
+        </div>
+
+        <div class="btn-row-flex" style="margin-top: 6px">
+          <button type="button" class="primary" id="saveTtsModalBtn" style="flex: 1">
+            저장 및 적용
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/audio-cache.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/speech.js"></script>
     <script src="js/dashboard.js"></script>

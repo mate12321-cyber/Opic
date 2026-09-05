@@ -261,11 +261,12 @@
       hideTooltip();
     });
 
-    document.getElementById("vocabSpeakBtn").addEventListener("click", (e) => {
+    const vocabSpeakBtn = document.getElementById("vocabSpeakBtn");
+    vocabSpeakBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       if (currentTargetWord) {
         if (typeof speakText === "function") {
-          speakText(currentTargetWord, "en-US");
+          speakText(currentTargetWord, "en-US", vocabSpeakBtn);
         } else if ("speechSynthesis" in window) {
           const u = new SpeechSynthesisUtterance(currentTargetWord);
           u.lang = "en-US";

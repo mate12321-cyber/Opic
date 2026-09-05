@@ -18,13 +18,14 @@ OPIc/
 │   ├── grammar_im1.json        # OPIc IM1 문법 포인트 퀴즈 데이터 (81개 문항)
 │   └── questions_im1.json      # OPIc 실전 질문 및 IM1 5~7문장 답변 데이터 (40개 문항)
 ├── js/                         # ── [Logic & Controller Layer] ────────────
+│   ├── audio-cache.js          # [NEW] IndexedDB 기반 TTS 오디오 영구 캐시 매니저 (0자 소모 보장)
 │   ├── storage.js              # 스토리지(localStorage), JSON 비동기 로딩, 스트릭/로그
-│   ├── speech.js               # Web Speech TTS/STT, 발음 일치도 평가, 실시간 번역, AI 팝업
+│   ├── speech.js               # Azure Neural TTS / Google / Web Speech 하이브리드 음성 엔진, 발음 평가
 │   ├── dashboard.js            # DOM 엘리먼트 캐시, 홈 대시보드 통계/차트, 주제 선택 화면
 │   ├── practice.js             # 문장 번역 연습 모드 (카드 렌더링, 정답 확인, 채점, 저장)
 │   ├── grammar.js              # 문법 포인트 퀴즈 모드 (보기 선택, 해설, 저장)
-│   ├── opic.js                 # [NEW] OPIc 실전 질문 답변 모드 (에바 질문, 5~7문장 답변 뷰, 타이머)
-│   ├── vocab-tooltip.js        # [NEW] 단어/표현 드래그 & 더블클릭 인라인 번역 툴팁 시스템
+│   ├── opic.js                 # OPIc 실전 질문 답변 모드 (에바 질문, 5~7문장 답변 뷰, 타이머)
+│   ├── vocab-tooltip.js        # 단어/표현 드래그 & 더블클릭/모바일 탭 인라인 번역 툴팁 시스템
 │   └── shortcuts.js            # 맥북/PC 데스크톱 키보드 단축키 핸들러
 │
 └── css/                        # ── [Design System & Style Layer] ─────────
