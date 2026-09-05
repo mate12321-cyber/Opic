@@ -85,7 +85,11 @@
     enjoy: { meaning: "즐기다, 누리다", posList: [{ pos: "동사", meanings: ["즐기다", "만끽하다"] }] },
     listen: { meaning: "듣다, 귀를 기울이다", posList: [{ pos: "동사", meanings: ["듣다", "청취하다"] }] },
     watch: { meaning: "보다, 지켜보다, 시계", posList: [{ pos: "동사", meanings: ["보다", "관람하다"] }] },
-    order: { meaning: "주문하다, 명령하다, 순서", posList: [{ pos: "동사", meanings: ["주문하다"] }, { pos: "명사", meanings: ["주문", "순서"] }] }
+    order: { meaning: "주문하다, 명령하다, 순서", posList: [{ pos: "동사", meanings: ["주문하다"] }, { pos: "명사", meanings: ["주문", "순서"] }] },
+    vibe: { meaning: "분위기, 느낌", posList: [{ pos: "명사", meanings: ["분위기", "느낌", "기운"] }] },
+    vibes: { meaning: "분위기, 감정들", posList: [{ pos: "명사", meanings: ["분위기", "느낌"] }] },
+    amazing: { meaning: "놀라운, 대단한, 아주 멋진", posList: [{ pos: "형용사", meanings: ["놀라운", "굉장한", "멋진"] }] },
+    awesome: { meaning: "굉장한, 아주 좋은", posList: [{ pos: "형용사", meanings: ["멋진", "대단한", "최고인"] }] }
   };
 
   let tooltipEl = null;

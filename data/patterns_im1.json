@@ -8,7 +8,7 @@
     "skeleton": [
       "1. Whenever I think of [주제/분야], there is a special place I really love called [장소명].",
       "2. It is located [위치/거리], so it is super easy to get there.",
-      "3. Inside the place, the atmosphere is very clean, cozy, and modern.",
+      "3. Inside the place, the vibe is very clean, cozy, and modern.",
       "4. There are [주요 시설/특징], so people can gather and relax comfortably.",
       "5. What I love most about this place is that it helps me relieve all my stress.",
       "6. Overall, it is definitely my favorite place, and I always feel happy whenever I go there."
@@ -27,7 +27,7 @@
             "ko": "불당동 집에서 걸어서 2분 거리에 위치해 있어서 찾아가기가 정말 편합니다."
           },
           {
-            "en": "Inside the cafe, the atmosphere is very clean, cozy, and modern.",
+            "en": "Inside the cafe, the vibe is very clean, cozy, and modern.",
             "ko": "카페 내부는 분위기가 매우 깨끗하고 아늑하며 현대적이에요."
           },
           {
@@ -57,7 +57,7 @@
             "ko": "집 바로 길 건너편에 위치해 있어서 언제든지 찾아가기가 정말 편합니다."
           },
           {
-            "en": "Inside the park, the atmosphere is very clean, peaceful, and green.",
+            "en": "Inside the park, the vibe is very clean, peaceful, and green.",
             "ko": "공원 내부는 분위기가 매우 깨끗하고 평화로우며 푸르릅니다."
           },
           {
@@ -87,7 +87,7 @@
             "ko": "아파트 커뮤니티 건물 바로 아래층에 위치해 있어서 이용하기가 정말 쉽고 편리합니다."
           },
           {
-            "en": "Inside the fitness center, the atmosphere is very clean, bright, and energetic.",
+            "en": "Inside the fitness center, the vibe is very clean, bright, and energetic.",
             "ko": "헬스장 내부는 분위기가 매우 깨끗하고 밝으며 활기가 넘쳐요."
           },
           {
@@ -117,7 +117,7 @@
             "ko": "보통 천안 근교의 경치 좋은 시골길 드라이브 코스를 달리는데, 30분 이내로 쉽게 갈 수 있습니다."
           },
           {
-            "en": "Along the route, the atmosphere is very peaceful, open, and refreshing.",
+            "en": "Along the route, the vibe is very peaceful, open, and refreshing.",
             "ko": "드라이브 코스를 따라 펼쳐지는 분위기는 매우 평화롭고 탁 트여 있으며 상쾌해요."
           },
           {
@@ -282,7 +282,7 @@
     "skeleton": [
       "1. I remember a very special and memorable experience related to [주제].",
       "2. Some time ago, I [경험한 사건 / 장소 방문] with [함께한 사람].",
-      "3. The whole atmosphere was absolutely wonderful, exciting, and unforgettable.",
+      "3. The whole vibe was absolutely wonderful, exciting, and unforgettable.",
       "4. We spent time [주요 활동 내용] and experienced so many meaningful moments.",
       "5. We shared great conversations and felt deep emotions throughout that time.",
       "6. It was one of the most unforgettable experiences in my life, and I will never forget it."
@@ -301,11 +301,11 @@
             "ko": "얼마 전 집에서 아내와 함께 대형 화면으로 명작 영화 '트루먼 쇼'를 보았어요."
           },
           {
-            "en": "The acting by Jim Carrey was absolutely breathtaking, and the storyline was deeply touching.",
+            "en": "The acting by Jim Carrey was absolutely amazing, and the storyline was deeply touching.",
             "ko": "주연 짐 캐리의 연기는 숨이 멎을 정도로 훌륭했고, 줄거리도 깊은 감동을 주었습니다."
           },
           {
-            "en": "We were completely immersed in Truman's journey as he discovered the truth about his life and sought freedom.",
+            "en": "We were really focused on Truman's journey as he discovered the truth about his life and sought freedom.",
             "ko": "트루먼이 자신의 삶에 대한 진실을 깨닫고 진정한 자유를 찾아가는 여정에 완전히 몰입했어요."
           },
           {
@@ -313,7 +313,7 @@
             "ko": "영화가 끝난 후에도 삶과 자유에 대해 몇 시간 동안 깊은 대화를 나누었습니다."
           },
           {
-            "en": "It was one of the most meaningful and thought-provoking movies in my life, and I will never forget it.",
+            "en": "It was one of the most meaningful and touching movies in my life, and I will never forget it.",
             "ko": "제 인생에서 가장 뜻깊고 깊은 여운을 준 영화 중 하나였으며, 영원히 잊지 못할 거예요."
           }
         ]
@@ -327,15 +327,15 @@
             "ko": "홍천에서 열렸던 지역 축제와 관련하여 매우 특별하고 기억에 남는 경험이 하나 생각납니다."
           },
           {
-            "en": "Some time ago, I visited the Armed Forces Day festival held in Hongcheon on a vibrant weekend.",
+            "en": "Some time ago, I visited the Armed Forces Day festival held in Hongcheon on an exciting weekend.",
             "ko": "얼마 전 활기찬 주말에 홍천에서 개최된 국군의 날 축제 현장을 방문했어요."
           },
           {
-            "en": "The whole stadium atmosphere was energetic, and the military band performances were breathtaking.",
+            "en": "The whole stadium vibe was energetic, and the military band performances were amazing.",
             "ko": "축제장 전체 분위기가 활기로 가득했고, 군악대의 웅장한 연주와 퍼포먼스는 숨이 멎을 정도였습니다."
           },
           {
-            "en": "We watched exciting honor guard demonstrations, enjoyed street food, and took lots of great photos.",
+            "en": "We watched exciting honor guard shows, enjoyed street food, and took lots of great photos.",
             "ko": "멋진 의장대 시범을 관람하고 맛있는 축제 음식도 먹으며 멋진 사진들을 많이 찍었어요."
           },
           {
@@ -389,7 +389,7 @@
     "skeleton": [
       "1. I remember a very unexpected and memorable situation I experienced when [상황/활동 중].",
       "2. Suddenly, [돌발 상황 발생 (에어컨 고장 / 지인 마주침 / 요리 연기)].",
-      "3. I was quite surprised and flustered at first because it happened without any warning.",
+      "3. I was quite surprised and worried at first because it happened without any warning.",
       "4. However, I tried to stay calm and immediately [대처 행동 (수리 요청 / 반갑게 인사 / 환기)].",
       "5. Fortunately, the situation was handled smoothly without any trouble.",
       "6. It was a surprising moment, but it became a valuable and pleasant memory for me."
@@ -408,7 +408,7 @@
             "ko": "한여름에 새로 설치한 거실 에어컨에서 갑자기 찬 바람이 나오지 않고 멈췄어요."
           },
           {
-            "en": "The weather was very hot, so my wife and I were quite flustered and worried at first.",
+            "en": "The weather was very hot, so my wife and I were quite surprised and worried at first.",
             "ko": "날씨가 너무 더워서 처음에는 아내와 저 모두 꽤 당황스럽고 걱정이 되었습니다."
           },
           {
@@ -457,14 +457,14 @@
       },
       {
         "topic": "🍳 요리 중 연기 발생 대처 (Kitchen Smoke while Cooking)",
-        "keyword": "smoke alarm while pan-searing steak",
+        "keyword": "smoke alarm while grilling steak",
         "sentences": [
           {
             "en": "I remember an unexpected little accident I experienced while cooking dinner at home.",
             "ko": "집에서 저녁을 요리하던 중 겪었던 예상치 못한 작은 돌발 상황이 기억납니다."
           },
           {
-            "en": "While pan-searing a steak on high heat, a lot of smoke suddenly filled the kitchen.",
+            "en": "While grilling a steak on high heat, a lot of smoke suddenly filled the kitchen.",
             "ko": "센 불에 스테이크를 굽던 중 갑자기 주방에 연기가 가득 차올랐어요."
           },
           {
@@ -497,7 +497,7 @@
       "1. Compared to the past, I think [주제] has changed a lot in many ways.",
       "2. In the past, [주제] was quite simple and there were not many modern options.",
       "3. However, nowadays, everything has become much more convenient, high-tech, and comfortable.",
-      "4. For example, we can easily use smart mobile apps and enjoy premium amenities.",
+      "4. For example, we can easily use smart mobile apps and enjoy great facilities.",
       "5. Because of these great changes, people can enjoy a much better and happier lifestyle.",
       "6. Overall, I am extremely satisfied with these modern changes and I enjoy them even more."
     ],
@@ -523,7 +523,7 @@
             "ko": "예를 들어 모바일 앱으로 간편하게 주문할 수 있고 독서나 대화를 위한 편안한 좌석이 마련되어 있습니다."
           },
           {
-            "en": "Because of these great changes, people can relax, work, or date in a much more pleasant atmosphere.",
+            "en": "Because of these great changes, people can relax, work, or date in a much more pleasant vibe.",
             "ko": "이러한 훌륭한 변화 덕분에 사람들은 훨씬 더 쾌적한 분위기에서 휴식을 취하거나 데이트를 즐길 수 있어요."
           },
           {
@@ -575,7 +575,7 @@
             "ko": "과거에는 아파트가 표준적인 주차 공간과 기본 시설만 갖춘 단순한 거주 건물이었어요."
           },
           {
-            "en": "However, modern apartments in Buldang-dong offer amazing smart home systems and community amenities.",
+            "en": "However, modern apartments in Buldang-dong offer amazing smart home systems and community facilities.",
             "ko": "하지만 요즘 불당동의 신축 아파트는 놀라운 스마트홈 시스템과 최고급 커뮤니티 시설을 제공합니다."
           },
           {
@@ -638,7 +638,7 @@
       },
       {
         "topic": "🚗 약속 지연 시 배려 제안 (Delighted & Considerate Delay)",
-        "keyword": "shift handover delay & treat coffee",
+        "keyword": "work shift delay & treat coffee",
         "sentences": [
           {
             "en": "Hi Minsoo, it's Hyosang! I'm really sorry, but something unexpected just came up at work.",
