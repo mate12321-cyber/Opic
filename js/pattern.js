@@ -24,7 +24,11 @@ async function loadPatternProgress() {
 // 패턴 진도 로컬스토리지 저장
 async function savePatternProgress() {
   try {
-    await storage.set(PATTERN_STORAGE_KEY, JSON.stringify(patternProgress), false);
+    await storage.set(
+      PATTERN_STORAGE_KEY,
+      JSON.stringify(patternProgress),
+      false,
+    );
   } catch (e) {
     /* best effort */
   }
@@ -95,22 +99,26 @@ function renderPatternCard() {
   // 2. 템플릿 뼈대 (Skeleton) 렌더링
   const skeletonWrap = document.getElementById("patternSkeletonList");
   if (skeletonWrap && pat.skeleton) {
-    skeletonWrap.innerHTML = pat.skeleton.map((line) => {
-      return `<div class="skeleton-item">${escapeHtml(line)}</div>`;
-    }).join("");
+    skeletonWrap.innerHTML = pat.skeleton
+      .map((line) => {
+        return `<div class="skeleton-item">${escapeHtml(line)}</div>`;
+      })
+      .join("");
   }
 
   // 3. 인터랙티브 주제 스위처 칩 렌더링
   const switcherChips = document.getElementById("patternSwitcherChips");
   if (switcherChips && pat.variations) {
-    switcherChips.innerHTML = pat.variations.map((v, vIdx) => {
-      const activeClass = vIdx === patternVarCur ? "active" : "";
-      return `
+    switcherChips.innerHTML = pat.variations
+      .map((v, vIdx) => {
+        const activeClass = vIdx === patternVarCur ? "active" : "";
+        return `
         <button type="button" class="switcher-chip ${activeClass}" data-vidx="${vIdx}">
           <span>${escapeHtml(v.topic)}</span>
         </button>
       `;
-    }).join("");
+      })
+      .join("");
 
     switcherChips.querySelectorAll(".switcher-chip").forEach((chip) => {
       chip.addEventListener("click", () => {
@@ -142,8 +150,9 @@ function renderPatternVariation() {
   // 문장 목록 렌더링
   const sentenceList = document.getElementById("patternSentenceList");
   if (sentenceList && curVar.sentences) {
-    sentenceList.innerHTML = curVar.sentences.map((s, sIdx) => {
-      return `
+    sentenceList.innerHTML = curVar.sentences
+      .map((s, sIdx) => {
+        return `
         <div class="pattern-sentence-item">
           <div class="ps-header">
             <span class="ps-num">문장 ${sIdx + 1}</span>
@@ -155,7 +164,8 @@ function renderPatternVariation() {
           <div class="ps-ko">${escapeHtml(s.ko)}</div>
         </div>
       `;
-    }).join("");
+      })
+      .join("");
 
     // 개별 문장 TTS 바인딩
     sentenceList.querySelectorAll(".tts-btn").forEach((btn) => {

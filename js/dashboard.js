@@ -367,9 +367,10 @@ function renderHomeDashboard() {
 
   if (els.navPatternSub) {
     const doneCount = Object.keys(patternProgress || {}).length;
-    els.navPatternSub.textContent = doneCount > 0
-      ? `학습 중 · 6개 중 ${doneCount}개 완료 ✓`
-      : `6대 핵심 템플릿으로 모든 질문 정복`;
+    els.navPatternSub.textContent =
+      doneCount > 0
+        ? `학습 중 · 6개 중 ${doneCount}개 완료 ✓`
+        : `6대 핵심 템플릿으로 모든 질문 정복`;
   }
 }
 
