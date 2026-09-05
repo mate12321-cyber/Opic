@@ -241,6 +241,10 @@
 
     document.body.appendChild(tooltipEl);
 
+    // 툴팁 내부 텍스트 드래그 및 선택 방지
+    tooltipEl.addEventListener("selectstart", (e) => e.preventDefault());
+    tooltipEl.addEventListener("dragstart", (e) => e.preventDefault());
+
     // 이벤트 리스너 바인딩 (PC & 모바일 터치 대응)
     tooltipEl.addEventListener("mouseenter", () => {
       isMouseInsideTooltip = true;
