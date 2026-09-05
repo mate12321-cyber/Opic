@@ -15,7 +15,7 @@
     ],
     "variations": [
       {
-        "topic": "☕ 집 앞 스타벅스 & 투썸플레이스 (Favorite Cafes)",
+        "topic": "☕ 카페",
         "keyword": "Starbucks & Twosome in Buldang-dong",
         "sentences": [
           {
@@ -45,7 +45,7 @@
         ]
       },
       {
-        "topic": "🌳 불당동 아름드리 공원 (Areumdri Park)",
+        "topic": "🌳 공원",
         "keyword": "Areumdri Park right in front of apartment",
         "sentences": [
           {
@@ -75,7 +75,7 @@
         ]
       },
       {
-        "topic": "🏋️ 아파트 단지 헬스장 (Apartment Fitness Center)",
+        "topic": "🏋️ 헬스장",
         "keyword": "gym in my apartment complex",
         "sentences": [
           {
@@ -105,7 +105,7 @@
         ]
       },
       {
-        "topic": "🚗 주말 근교 드라이브 (Weekend Scenic Drive)",
+        "topic": "🚗 드라이브",
         "keyword": "scenic countryside drive with wife",
         "sentences": [
           {
@@ -152,7 +152,7 @@
     ],
     "variations": [
       {
-        "topic": "☕ 카페 일과 (Cafe Routine)",
+        "topic": "☕ 카페",
         "keyword": "Starbucks in Buldang-dong with wife",
         "sentences": [
           {
@@ -182,7 +182,7 @@
         ]
       },
       {
-        "topic": "🚶 아름드리 공원 산책 (Areumdri Park Walk)",
+        "topic": "🚶 공원 산책",
         "keyword": "walking & listening to Roy Kim or Beatles",
         "sentences": [
           {
@@ -212,7 +212,7 @@
         ]
       },
       {
-        "topic": "🍳 주말 요리 루틴 (Weekend Cooking)",
+        "topic": "🍳 요리",
         "keyword": "cooking delicious meals with wife",
         "sentences": [
           {
@@ -242,7 +242,7 @@
         ]
       },
       {
-        "topic": "💻 저녁 코딩 & 자기계발 (Coding & Tech Projects)",
+        "topic": "💻 코딩",
         "keyword": "coding hobby projects on PC",
         "sentences": [
           {
@@ -289,7 +289,7 @@
     ],
     "variations": [
       {
-        "topic": "🎬 영화 '트루먼 쇼' 관람 (Movie 'The Truman Show')",
+        "topic": "🎬 영화",
         "keyword": "The Truman Show starring Jim Carrey",
         "sentences": [
           {
@@ -319,7 +319,7 @@
         ]
       },
       {
-        "topic": "🎪 홍천 국군의 날 축제 (Hongcheon Military Festival)",
+        "topic": "🎪 축제",
         "keyword": "Armed Forces Day festival in Hongcheon",
         "sentences": [
           {
@@ -349,7 +349,7 @@
         ]
       },
       {
-        "topic": "🏡 새 아파트 이사 & 인테리어 (Moving to Buldang Apartment)",
+        "topic": "🏡 새집 이사",
         "keyword": "moving into our own apartment in Buldang-dong",
         "sentences": [
           {
@@ -396,7 +396,7 @@
     ],
     "variations": [
       {
-        "topic": "❄️ 새집 에어컨 설치 및 고장 수리 (AC Issue During Move)",
+        "topic": "❄️ 에어컨 수리",
         "keyword": "air conditioner not cooling properly after moving",
         "sentences": [
           {
@@ -426,7 +426,7 @@
         ]
       },
       {
-        "topic": "👥 아름드리 공원에서 우연히 지인 마주침 (Running into an Acquaintance)",
+        "topic": "👥 지인 만남",
         "keyword": "running into an old colleague while walking in park",
         "sentences": [
           {
@@ -456,7 +456,7 @@
         ]
       },
       {
-        "topic": "🍳 요리 중 연기 발생 대처 (Kitchen Smoke while Cooking)",
+        "topic": "🍳 요리 연기",
         "keyword": "smoke alarm while grilling steak",
         "sentences": [
           {
@@ -503,7 +503,7 @@
     ],
     "variations": [
       {
-        "topic": "☕ 카페 문화의 변화 (Cafe Changes in Buldang-dong)",
+        "topic": "☕ 카페의 변화",
         "keyword": "mobile ordering & bakery desserts",
         "sentences": [
           {
@@ -533,7 +533,7 @@
         ]
       },
       {
-        "topic": "🎬 영화 감상 방식의 변화 (Movie Watching Habits)",
+        "topic": "🎬 영화의 변화",
         "keyword": "smart TVs & streaming platforms",
         "sentences": [
           {
@@ -563,7 +563,7 @@
         ]
       },
       {
-        "topic": "🏡 아파트 주거 환경의 변화 (Apartment Living Evolution)",
+        "topic": "🏡 주거의 변화",
         "keyword": "smart home systems & community gym",
         "sentences": [
           {
@@ -607,7 +607,7 @@
     ],
     "variations": [
       {
-        "topic": "🎫 축제/공연 티켓 문의 (Festival / Concert Inquiry)",
+        "topic": "🎫 티켓 문의",
         "keyword": "dates, prices, parking, booking",
         "sentences": [
           {
@@ -637,7 +637,7 @@
         ]
       },
       {
-        "topic": "🚗 약속 지연 시 배려 제안 (Delighted & Considerate Delay)",
+        "topic": "🚗 약속 지연",
         "keyword": "work shift delay & treat coffee",
         "sentences": [
           {
@@ -667,7 +667,7 @@
         ]
       },
       {
-        "topic": "🛍️ 가전/가구 하자 교환 & 환불 (Appliance Exchange / Refund)",
+        "topic": "🛍️ 교환/환불",
         "keyword": "defect found on newly delivered appliance",
         "sentences": [
           {
