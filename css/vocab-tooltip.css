@@ -245,3 +245,29 @@
 .vocab-toast.show {
   opacity: 1;
 }
+
+/* 모바일 전용 반응형 스타일 */
+@media (max-width: 600px) {
+  .vocab-tooltip {
+    width: 290px !important;
+    max-width: calc(100vw - 16px) !important;
+    border-radius: 10px;
+  }
+  .vocab-header {
+    padding: 8px 12px;
+  }
+  .vocab-word {
+    font-size: 1rem;
+  }
+  .vocab-btn {
+    width: 32px;
+    height: 32px;
+  }
+  .vocab-body {
+    padding: 10px 12px;
+    max-height: 200px;
+  }
+  .vocab-meaning-main {
+    font-size: 0.9rem;
+  }
+}

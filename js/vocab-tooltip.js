@@ -1,9 +1,11 @@
 /**
- * [vocab-tooltip.js] 영어 문장 단어/표현 드래그 & 더블클릭 인라인 번역 툴팁 시스템
+ * [vocab-tooltip.js] 영어 문장 단어/표현 드래그 & 더블클릭/모바일 터치 인라인 번역 툴팁 시스템
+ * - Android 및 iOS(Safari/Chrome) 모바일 환경 완벽 지원
+ *   (1. 롱프레스 및 선택 핸들 이동 감지: selectionchange)
+ *   (2. 모바일 원터치/더블탭 단어 자동 인식: Caret Range)
  * - Google Translate 정밀 번역 & 사전 엔진 (한글 뜻 + 품사별 상세 뜻 목록)
- * - 외부 불안정 사전 API(522 CORS 에러) 완전 배제 및 초고속 단일 요청 통합
- * - 인메모리 L1 캐시 + LocalStorage L2 캐시 (재조회 시 0ms 즉각 표시)
- * - Web Speech API 연동 발음 재생 및 내 단어장 저장/북마크 지원
+ * - L1 메모리 캐시 + L2 LocalStorage 캐시 (0ms 초고속)
+ * - Web Speech API 연동 발음 재생 및 내 단어장 저장 지원
  */
 
 (function () {
@@ -16,6 +18,8 @@
   let currentWordData = null;
   let isMouseInsideTooltip = false;
   let selectionDebounceTimer = null;
+  let lastTouchEndTime = 0;
+  let lastTouchPoint = null;
 
   // HTML 이스케이프 유틸
   function escapeHtml(str) {
@@ -156,13 +160,20 @@
 
     document.body.appendChild(tooltipEl);
 
-    // 이벤트 리스너 바인딩
+    // 이벤트 리스너 바인딩 (PC & 모바일 터치 대응)
     tooltipEl.addEventListener("mouseenter", () => {
       isMouseInsideTooltip = true;
     });
     tooltipEl.addEventListener("mouseleave", () => {
       isMouseInsideTooltip = false;
     });
+    tooltipEl.addEventListener("touchstart", (e) => {
+      e.stopPropagation();
+      isMouseInsideTooltip = true;
+    }, { passive: true });
+    tooltipEl.addEventListener("touchend", () => {
+      setTimeout(() => { isMouseInsideTooltip = false; }, 300);
+    }, { passive: true });
 
     document.getElementById("vocabCloseBtn").addEventListener("click", (e) => {
       e.stopPropagation();
@@ -228,16 +239,17 @@
   function positionTooltip(rect) {
     if (!tooltipEl) createTooltipDOM();
 
-    const tooltipWidth = Math.min(320, window.innerWidth - 24);
+    const isMobile = window.innerWidth <= 600;
+    const tooltipWidth = Math.min(300, window.innerWidth - 20);
     tooltipEl.style.width = `${tooltipWidth}px`;
 
     const targetCenterX = rect.left + rect.width / 2;
     let left = targetCenterX - tooltipWidth / 2;
 
-    // 좌우 화면 경계 여백 보정 (최소 12px)
-    if (left < 12) left = 12;
-    if (left + tooltipWidth > window.innerWidth - 12) {
-      left = window.innerWidth - tooltipWidth - 12;
+    // 좌우 화면 경계 여백 보정 (최소 10px)
+    if (left < 10) left = 10;
+    if (left + tooltipWidth > window.innerWidth - 10) {
+      left = window.innerWidth - tooltipWidth - 10;
     }
 
     const arrowEl = document.getElementById("vocabTooltipArrow");
@@ -248,11 +260,11 @@
     }
 
     const approxHeight = 160;
-    let top = rect.top - approxHeight - 10;
+    let top = rect.top - approxHeight - 12;
     let placement = "top";
 
-    // 상단 공간이 부족하면 하단으로 전환
-    if (top < 10) {
+    // 상단 공간이 부족하면 하단으로 전환 (모바일 상단바 고려)
+    if (top < (isMobile ? 20 : 10)) {
       top = rect.bottom + 10;
       placement = "bottom";
     }
@@ -274,7 +286,7 @@
   // 번역 및 품사 사전 데이터 조회 (Google Translate 단일 고속 엔드포인트)
   async function fetchWordDetails(queryText) {
     let mainMeaning = "";
-    let posList = []; // [ { pos: "동사", meanings: ["주다", "바치다"] } ]
+    let posList = [];
 
     // 1. Google Translate API 호출 (한글 뜻 + 품사별 사전 목록 동시 수신)
     try {
@@ -284,11 +296,9 @@
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
-        // 대표 한글 번역 추출
         if (data && data[0]) {
           mainMeaning = data[0].map((chunk) => chunk[0]).join("").trim();
         }
-        // 품사별 상세 뜻 목록 추출 (data[1])
         if (data && data[1] && Array.isArray(data[1])) {
           posList = data[1].slice(0, 3).map((item) => ({
             pos: item[0] || "",
@@ -330,7 +340,6 @@
       </div>
     `;
 
-    // 품사별 추가 뜻 리스트가 있을 경우 표시
     if (data.posList && data.posList.length > 0) {
       html += `<div class="vocab-dict-def">`;
       data.posList.forEach((item) => {
@@ -349,7 +358,7 @@
     bodyEl.innerHTML = html;
   }
 
-  // 툴팁 노출 메인 함수 (단일 초고속 렌더링)
+  // 툴팁 노출 메인 함수
   async function showVocabTooltip(selectedText, rect) {
     createTooltipDOM();
     currentTargetWord = selectedText;
@@ -364,13 +373,12 @@
     wordEl.textContent = selectedText;
     phoneticEl.textContent = "";
 
-    // 외부 링크 설정
     googleLink.href = `https://translate.google.com/?sl=en&tl=ko&text=${encodeURIComponent(selectedText)}&op=translate`;
     naverLink.href = `https://en.dict.naver.com/#/search?query=${encodeURIComponent(selectedText)}`;
 
     updateStarBtnUI(isWordSaved(selectedText));
 
-    // ⚡ L1/L2 캐시에 이미 존재하면 즉시 0ms 렌더링!
+    // ⚡ L1/L2 캐시 즉시 표시
     if (memCache.has(cacheKey)) {
       const cached = memCache.get(cacheKey);
       currentWordData = cached;
@@ -379,7 +387,6 @@
       return;
     }
 
-    // 캐시가 없으면 스피너 표시 후 즉시 포지셔닝
     bodyEl.innerHTML = `
       <div class="vocab-loading">
         <div class="vocab-spinner"></div>
@@ -396,7 +403,6 @@
       renderBodyContent(result);
       positionTooltip(rect);
 
-      // 캐시 저장 (메모리 + LocalStorage)
       saveVocabCache(cacheKey, result);
     } catch (err) {
       if (currentTargetWord === selectedText) {
@@ -405,7 +411,55 @@
     }
   }
 
-  // 텍스트 선택 핸들러
+  // 터치/클릭 좌표(x, y) 아래의 단어 자동 인식 (Caret Range)
+  function getWordAtPoint(x, y) {
+    let range = null;
+    if (document.caretRangeFromPoint) {
+      range = document.caretRangeFromPoint(x, y);
+    } else if (document.caretPositionFromPoint) {
+      const pos = document.caretPositionFromPoint(x, y);
+      if (pos && pos.offsetNode) {
+        range = document.createRange();
+        range.setStart(pos.offsetNode, pos.offset);
+        range.setEnd(pos.offsetNode, pos.offset);
+      }
+    }
+
+    if (!range || !range.startContainer) return null;
+    const node = range.startContainer;
+    if (node.nodeType !== Node.TEXT_NODE) return null;
+
+    const text = node.textContent;
+    const offset = range.startOffset;
+    if (!text || offset < 0 || offset > text.length) return null;
+
+    // offset 위치 기준으로 앞뒤 영단어 경계 탐색
+    let start = offset;
+    while (start > 0 && /[a-zA-Z'-]/.test(text[start - 1])) {
+      start--;
+    }
+    let end = offset;
+    while (end < text.length && /[a-zA-Z'-]/.test(text[end])) {
+      end++;
+    }
+
+    const word = text.substring(start, end).trim().replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
+    if (!word || word.length < 2 || !/[a-zA-Z]/.test(word)) return null;
+
+    try {
+      const wordRange = document.createRange();
+      wordRange.setStart(node, start);
+      wordRange.setEnd(node, end);
+      const rect = wordRange.getBoundingClientRect();
+      if (rect && (rect.width > 0 || rect.height > 0)) {
+        return { word, rect };
+      }
+    } catch (e) {}
+
+    return null;
+  }
+
+  // 텍스트 선택 핸들러 (PC selection + 모바일 selectionchange 공용)
   function handleSelection() {
     let cleanText = "";
     let rect = null;
@@ -426,7 +480,7 @@
       }
     }
 
-    // 2. 일반 DOM 텍스트 선택 확인 (window.getSelection)
+    // 2. 일반 DOM 텍스트 선택 확인 (window.getSelection - iOS/Android 롱프레스 & PC 드래그)
     if (!cleanText) {
       const selection = window.getSelection();
       if (selection && !selection.isCollapsed && selection.rangeCount > 0) {
@@ -439,6 +493,8 @@
               const r = range.getBoundingClientRect();
               if (r && (r.width > 0 || r.height > 0)) {
                 rect = r;
+              } else if (range.getClientRects().length > 0) {
+                rect = range.getClientRects()[0];
               }
             } catch (e) {}
           }
@@ -460,32 +516,58 @@
   function initVocabTooltip() {
     createTooltipDOM();
 
-    // 마우스 업 (드래그 완료)
+    // 1. PC 마우스 업 & 더블클릭
     document.addEventListener("mouseup", (e) => {
       if (tooltipEl && tooltipEl.contains(e.target)) return;
       triggerSelectionDebounced(20);
     });
 
-    // 더블클릭 (단어 빠른 선택)
     document.addEventListener("dblclick", (e) => {
       if (tooltipEl && tooltipEl.contains(e.target)) return;
       triggerSelectionDebounced(10);
     });
 
-    // 모바일 터치 선택
-    document.addEventListener("touchend", (e) => {
-      if (tooltipEl && tooltipEl.contains(e.target)) return;
-      triggerSelectionDebounced(100);
+    // 2. iOS Safari & Android Chrome 롱프레스 / 텍스트 선택 핵심 이벤트 (selectionchange)
+    document.addEventListener("selectionchange", () => {
+      triggerSelectionDebounced(150);
     });
 
-    // ESC 키 누를 때 닫기
+    // 3. 모바일 터치 종료 이벤트 (touchend)
+    document.addEventListener("touchend", (e) => {
+      if (tooltipEl && tooltipEl.contains(e.target)) return;
+      
+      const now = Date.now();
+      const touch = e.changedTouches && e.changedTouches[0];
+      
+      // 모바일 더블 탭 감지 (300ms 이내 연속 탭)
+      if (touch && now - lastTouchEndTime < 320 && lastTouchPoint) {
+        const dist = Math.hypot(touch.clientX - lastTouchPoint.x, touch.clientY - lastTouchPoint.y);
+        if (dist < 25) {
+          const detected = getWordAtPoint(touch.clientX, touch.clientY);
+          if (detected) {
+            showVocabTooltip(detected.word, detected.rect);
+            lastTouchEndTime = 0;
+            return;
+          }
+        }
+      }
+
+      if (touch) {
+        lastTouchPoint = { x: touch.clientX, y: touch.clientY };
+      }
+      lastTouchEndTime = now;
+
+      triggerSelectionDebounced(100);
+    }, { passive: true });
+
+    // 4. 키보드 ESC 닫기
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         hideTooltip();
       }
     });
 
-    // 툴팁 외부 클릭 시 닫기
+    // 5. 툴팁 외부 클릭/터치 시 닫기
     document.addEventListener("mousedown", (e) => {
       if (tooltipEl && !tooltipEl.contains(e.target)) {
         const selection = window.getSelection();
@@ -494,6 +576,15 @@
         }
       }
     });
+
+    document.addEventListener("touchstart", (e) => {
+      if (tooltipEl && !tooltipEl.contains(e.target)) {
+        const selection = window.getSelection();
+        if (!selection || selection.isCollapsed) {
+          hideTooltip();
+        }
+      }
+    }, { passive: true });
   }
 
   // 즉시 초기화 & DOM 준비 시 재확인
