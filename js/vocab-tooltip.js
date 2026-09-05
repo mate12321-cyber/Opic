@@ -1,14 +1,16 @@
 /**
  * [vocab-tooltip.js] 영어 문장 단어/표현 드래그 & 더블클릭 인라인 번역 툴팁 시스템
- * - 마우스 드래그, 더블클릭, 모바일 터치 선택 시 플로팅 툴팁 표시
- * - Google Translate & MyMemory & Free Dictionary API 결합
- * - 로컬 캐싱을 통한 초고속 렌더링
+ * - 초고속 점진적 렌더링 (한국어 뜻 즉시 렌더링 + 영영사전/발음기호 병렬 수신)
+ * - 인메모리 L1 캐시 + LocalStorage L2 캐시 (재조회 시 0ms 즉각 표시)
+ * - Google Translate & MyMemory & Free Dictionary API 완전 병렬 처리
  * - Web Speech API 연동 발음 재생 및 내 단어장 저장/북마크 지원
  */
 
 (function () {
   const VOCAB_CACHE_KEY = "ko-en-opic-vocab-cache";
   const SAVED_WORDS_KEY = "ko-en-opic-saved-words";
+  const memCache = new Map(); // L1 초고속 인메모리 캐시
+
   let tooltipEl = null;
   let currentTargetWord = "";
   let currentWordData = null;
@@ -24,7 +26,7 @@
       .replace(/"/g, "&quot;");
   }
 
-  // 로컬 캐시 유틸
+  // L2 로컬 스토리지 캐시 유틸
   function getVocabCache() {
     try {
       return JSON.parse(localStorage.getItem(VOCAB_CACHE_KEY)) || {};
@@ -33,8 +35,11 @@
     }
   }
 
-  function saveVocabCache(cache) {
+  function saveVocabCache(key, data) {
     try {
+      memCache.set(key, data);
+      const cache = getVocabCache();
+      cache[key] = data;
       const keys = Object.keys(cache);
       if (keys.length > 500) {
         keys.slice(0, 100).forEach((k) => delete cache[k]);
@@ -42,6 +47,14 @@
       localStorage.setItem(VOCAB_CACHE_KEY, JSON.stringify(cache));
     } catch (e) {}
   }
+
+  // 초기 기동 시 L2 캐시를 L1 메모리에 워밍업
+  try {
+    const l2 = getVocabCache();
+    for (const [k, v] of Object.entries(l2)) {
+      memCache.set(k, v);
+    }
+  } catch (e) {}
 
   // 저장된 단어장 유틸
   function getSavedWords() {
@@ -129,7 +142,7 @@
       <div class="vocab-body" id="vocabBody">
         <div class="vocab-loading">
           <div class="vocab-spinner"></div>
-          <span>번역 및 사전 검색 중...</span>
+          <span>뜻 검색 중...</span>
         </div>
       </div>
       <div class="vocab-footer">
@@ -235,7 +248,7 @@
       arrowEl.style.left = `${arrowLeft - 5}px`;
     }
 
-    const approxHeight = 180;
+    const approxHeight = 170;
     let top = rect.top - approxHeight - 10;
     let placement = "top";
 
@@ -259,98 +272,120 @@
     }
   }
 
-  // 번역 및 영영사전 데이터 로드
-  async function fetchWordInfo(queryText) {
-    const isSingleWord = /^[a-zA-Z'-]+$/.test(queryText);
-    const cacheKey = queryText.toLowerCase();
-    const cache = getVocabCache();
-
-    if (cache[cacheKey]) {
-      return cache[cacheKey];
+  // 빠른 타임아웃 지원 fetch 유틸
+  async function fetchWithTimeout(url, timeoutMs = 2500) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timer);
+      return response;
+    } catch (e) {
+      clearTimeout(timer);
+      throw e;
     }
+  }
 
-    let koreanMeaning = "";
-    let phonetic = "";
-    let partOfSpeech = "";
-    let definition = "";
-    let example = "";
-
-    // 1. Google Translate API 번역 시도
+  // 한국어 번역 가져오기 (Google -> MyMemory Fallback)
+  async function fetchKoreanMeaning(queryText) {
+    // 1. Google Translate (초고속 ~100-200ms)
     try {
       const url =
         "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=" +
         encodeURIComponent(queryText);
-      const res = await fetch(url);
+      const res = await fetchWithTimeout(url, 2000);
       if (res.ok) {
         const data = await res.json();
         if (data && data[0]) {
-          koreanMeaning = data[0].map((chunk) => chunk[0]).join("").trim();
+          const text = data[0].map((chunk) => chunk[0]).join("").trim();
+          if (text) return text;
         }
       }
     } catch (e) {}
 
-    // 번역 실패 시 MyMemory API로 fallback
-    if (!koreanMeaning) {
-      try {
-        const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(queryText)}&langpair=en|ko`;
-        const res = await fetch(myMemoryUrl);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.responseData && data.responseData.translatedText) {
-            koreanMeaning = data.responseData.translatedText.trim();
-          }
+    // 2. MyMemory Fallback
+    try {
+      const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(queryText)}&langpair=en|ko`;
+      const res = await fetchWithTimeout(myMemoryUrl, 2500);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.responseData && data.responseData.translatedText) {
+          return data.responseData.translatedText.trim();
         }
-      } catch (e) {}
-    }
+      }
+    } catch (e) {}
 
-    // 2. 단일 단어인 경우 Free Dictionary API로 상세 정보 조회
-    if (isSingleWord) {
-      try {
-        const dictUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(queryText.toLowerCase())}`;
-        const dictRes = await fetch(dictUrl);
-        if (dictRes.ok) {
-          const dictData = await dictRes.json();
-          if (Array.isArray(dictData) && dictData.length > 0) {
-            const entry = dictData[0];
-            phonetic =
-              entry.phonetic ||
-              (entry.phonetics && entry.phonetics.find((p) => p.text)?.text) ||
-              "";
-
-            if (entry.meanings && entry.meanings.length > 0) {
-              const m = entry.meanings[0];
-              partOfSpeech = m.partOfSpeech || "";
-              if (m.definitions && m.definitions.length > 0) {
-                definition = m.definitions[0].definition || "";
-                example = m.definitions[0].example || "";
-              }
-            }
-          }
-        }
-      } catch (e) {}
-    }
-
-    const result = {
-      word: queryText,
-      meaning: koreanMeaning || "한국어 번역을 가져오지 못했습니다.",
-      phonetic,
-      partOfSpeech,
-      definition,
-      example,
-    };
-
-    // 캐시 저장
-    cache[cacheKey] = result;
-    saveVocabCache(cache);
-
-    return result;
+    return "";
   }
 
-  // 툴팁 렌더링
+  // 영영사전 상세 정보 가져오기 (Free Dictionary API)
+  async function fetchEnglishDictionary(singleWord) {
+    try {
+      const dictUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(singleWord.toLowerCase())}`;
+      const res = await fetchWithTimeout(dictUrl, 2500);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const entry = data[0];
+          const phonetic =
+            entry.phonetic ||
+            (entry.phonetics && entry.phonetics.find((p) => p.text)?.text) ||
+            "";
+
+          let partOfSpeech = "";
+          let definition = "";
+          let example = "";
+
+          if (entry.meanings && entry.meanings.length > 0) {
+            const m = entry.meanings[0];
+            partOfSpeech = m.partOfSpeech || "";
+            if (m.definitions && m.definitions.length > 0) {
+              definition = m.definitions[0].definition || "";
+              example = m.definitions[0].example || "";
+            }
+          }
+
+          return { phonetic, partOfSpeech, definition, example };
+        }
+      }
+    } catch (e) {}
+    return { phonetic: "", partOfSpeech: "", definition: "", example: "" };
+  }
+
+  // 툴팁 렌더링 헬퍼 (점진적 업데이트)
+  function renderBodyContent(data) {
+    const bodyEl = document.getElementById("vocabBody");
+    const phoneticEl = document.getElementById("vocabPhoneticText");
+    if (!bodyEl) return;
+
+    if (data.phonetic && phoneticEl) {
+      phoneticEl.textContent = data.phonetic;
+    }
+
+    let html = `
+      <div class="vocab-meaning-main">
+        ${data.partOfSpeech ? `<span class="vocab-tag">${escapeHtml(data.partOfSpeech)}</span>` : ""}
+        ${escapeHtml(data.meaning || "번역 중...")}
+      </div>
+    `;
+
+    if (data.definition) {
+      html += `
+        <div class="vocab-dict-def">
+          <strong>영영:</strong> ${escapeHtml(data.definition)}
+          ${data.example ? `<div class="vocab-example">"${escapeHtml(data.example)}"</div>` : ""}
+        </div>
+      `;
+    }
+
+    bodyEl.innerHTML = html;
+  }
+
+  // 툴팁 노출 메인 함수 (점진적 초고속 스트리밍 방식)
   async function showVocabTooltip(selectedText, rect) {
     createTooltipDOM();
     currentTargetWord = selectedText;
-    currentWordData = { word: selectedText, meaning: "" };
+    const cacheKey = selectedText.toLowerCase();
 
     const wordEl = document.getElementById("vocabWordText");
     const phoneticEl = document.getElementById("vocabPhoneticText");
@@ -360,51 +395,76 @@
 
     wordEl.textContent = selectedText;
     phoneticEl.textContent = "";
-    bodyEl.innerHTML = `
-      <div class="vocab-loading">
-        <div class="vocab-spinner"></div>
-        <span>번역 및 사전 검색 중...</span>
-      </div>
-    `;
 
     // 외부 링크 설정
     googleLink.href = `https://translate.google.com/?sl=en&tl=ko&text=${encodeURIComponent(selectedText)}&op=translate`;
     naverLink.href = `https://en.dict.naver.com/#/search?query=${encodeURIComponent(selectedText)}`;
 
     updateStarBtnUI(isWordSaved(selectedText));
+
+    // ⚡ L1/L2 캐시에 이미 존재하면 즉시 0ms 렌더링!
+    if (memCache.has(cacheKey)) {
+      const cached = memCache.get(cacheKey);
+      currentWordData = cached;
+      renderBodyContent(cached);
+      positionTooltip(rect);
+      return;
+    }
+
+    // 캐시가 없으면 스피너 표시 후 즉시 포지셔닝
+    bodyEl.innerHTML = `
+      <div class="vocab-loading">
+        <div class="vocab-spinner"></div>
+        <span>뜻 검색 중...</span>
+      </div>
+    `;
     positionTooltip(rect);
 
-    try {
-      const data = await fetchWordInfo(selectedText);
+    const isSingleWord = /^[a-zA-Z'-]+$/.test(selectedText);
+    const wordData = {
+      word: selectedText,
+      meaning: "",
+      phonetic: "",
+      partOfSpeech: "",
+      definition: "",
+      example: "",
+    };
+
+    // ⚡ 병렬 실행: 한국어 번역과 영영사전을 동시에 호출
+    const koreanPromise = fetchKoreanMeaning(selectedText);
+    const dictPromise = isSingleWord
+      ? fetchEnglishDictionary(selectedText)
+      : Promise.resolve({ phonetic: "", partOfSpeech: "", definition: "", example: "" });
+
+    // 1단계: 한국어 번역이 도착하는 즉시 1차 UI 렌더링 (체감 속도 ~150ms)
+    koreanPromise.then((meaning) => {
+      if (currentTargetWord !== selectedText) return;
+      wordData.meaning = meaning || "한국어 뜻을 찾지 못했습니다.";
+      currentWordData = wordData;
+      renderBodyContent(wordData);
+      positionTooltip(rect);
+    });
+
+    // 2단계: 사전 상세 정보(발음기호/영영) 도착 시 2차 UI 보강 & 캐시 저장
+    Promise.allSettled([koreanPromise, dictPromise]).then(([kRes, dRes]) => {
       if (currentTargetWord !== selectedText) return;
 
-      currentWordData = data;
-      phoneticEl.textContent = data.phonetic || "";
-      updateStarBtnUI(isWordSaved(data.word));
+      const meaning = kRes.status === "fulfilled" && kRes.value ? kRes.value : wordData.meaning;
+      const dict = dRes.status === "fulfilled" && dRes.value ? dRes.value : {};
 
-      let bodyHtml = `
-        <div class="vocab-meaning-main">
-          ${data.partOfSpeech ? `<span class="vocab-tag">${escapeHtml(data.partOfSpeech)}</span>` : ""}
-          ${escapeHtml(data.meaning)}
-        </div>
-      `;
+      wordData.meaning = meaning || "한국어 뜻을 찾지 못했습니다.";
+      wordData.phonetic = dict.phonetic || "";
+      wordData.partOfSpeech = dict.partOfSpeech || "";
+      wordData.definition = dict.definition || "";
+      wordData.example = dict.example || "";
 
-      if (data.definition) {
-        bodyHtml += `
-          <div class="vocab-dict-def">
-            <strong>영영:</strong> ${escapeHtml(data.definition)}
-            ${data.example ? `<div class="vocab-example">"${escapeHtml(data.example)}"</div>` : ""}
-          </div>
-        `;
-      }
-
-      bodyEl.innerHTML = bodyHtml;
+      currentWordData = wordData;
+      renderBodyContent(wordData);
       positionTooltip(rect);
-    } catch (err) {
-      if (currentTargetWord === selectedText) {
-        bodyEl.innerHTML = `<div style="color:var(--danger, #ef4444); font-size:0.85rem;">번역을 불러오는 중 오류가 발생했습니다.</div>`;
-      }
-    }
+
+      // 캐시 저장 (메모리 + LocalStorage)
+      saveVocabCache(cacheKey, wordData);
+    });
   }
 
   // 텍스트 선택 핸들러
@@ -453,7 +513,7 @@
     }
   }
 
-  function triggerSelectionDebounced(delay = 50) {
+  function triggerSelectionDebounced(delay = 40) {
     if (selectionDebounceTimer) clearTimeout(selectionDebounceTimer);
     selectionDebounceTimer = setTimeout(handleSelection, delay);
   }
