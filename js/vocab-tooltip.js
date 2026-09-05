@@ -269,6 +269,10 @@
         } else if ("speechSynthesis" in window) {
           const u = new SpeechSynthesisUtterance(currentTargetWord);
           u.lang = "en-US";
+          if (typeof getBestVoice === "function") {
+            const voice = getBestVoice("en-US");
+            if (voice) u.voice = voice;
+          }
           window.speechSynthesis.speak(u);
         }
       }

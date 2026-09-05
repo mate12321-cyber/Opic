@@ -164,7 +164,7 @@ function initTTS() {
   }
 }
 
-// 언어별 가장 자연스러운 고품질 시스템 보이스 탐색
+// 언어별 가장 자연스러운 여성 고품질 시스템 보이스 탐색 (갤럭시/안드로이드/iOS/PC 완벽 대응)
 function getBestVoice(lang = "en-US") {
   if (!("speechSynthesis" in window)) return null;
   const voices = speechSynthesis.getVoices();
@@ -173,19 +173,45 @@ function getBestVoice(lang = "en-US") {
     v.lang.toLowerCase().startsWith(langPrefix),
   );
   if (!langVoices.length) return null;
-  const premiumKeywords = [
-    "natural",
+
+  // 1. 여성 전용 프리미엄 보이스 키워드 (삼성 TTS, 구글 TTS, iOS/macOS, Windows)
+  const femaleKeywords = [
+    "female",
+    "여성",
     "samantha",
-    "daniel",
     "karen",
-    "siri",
-    "google",
+    "ava",
+    "victoria",
+    "zoe",
+    "allison",
+    "susan",
+    "zira",
     "yuna",
+    "natural",
+    "google us english",
   ];
-  for (const kw of premiumKeywords) {
-    const found = langVoices.find((v) => v.name.toLowerCase().includes(kw));
+
+  // 남성 전용 키워드 (제외 대상)
+  const maleKeywords = ["male", "남성", "daniel", "david", "george", "guy", "alex", "fred"];
+
+  // 1단계: 여성 키워드가 명시적으로 포함된 보이스 탐색
+  for (const kw of femaleKeywords) {
+    const found = langVoices.find((v) => {
+      const name = (v.name + " " + (v.voiceURI || "")).toLowerCase();
+      const isMale = maleKeywords.some((m) => name.includes(m));
+      return !isMale && name.includes(kw);
+    });
     if (found) return found;
   }
+
+  // 2단계: 남성 키워드가 없는 영어 보이스 중 첫 번째 보이스 선택
+  const nonMale = langVoices.find((v) => {
+    const name = (v.name + " " + (v.voiceURI || "")).toLowerCase();
+    return !maleKeywords.some((m) => name.includes(m));
+  });
+  if (nonMale) return nonMale;
+
+  // 3단계: 기본 fallback
   const exact = langVoices.find(
     (v) => v.lang.toLowerCase() === lang.toLowerCase(),
   );
