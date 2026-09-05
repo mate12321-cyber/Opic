@@ -555,8 +555,9 @@
     }
   }
 
-  // 터치/클릭 좌표(x, y) 아래의 단어 자동 인식 (Caret Range)
+  // 터치/클릭 좌표(x, y) 아래의 단어 정밀 자동 인식 (Caret Range + Element Fallback)
   function getWordAtPoint(x, y) {
+    // 1. Caret API 시도
     let range = null;
     if (document.caretRangeFromPoint) {
       range = document.caretRangeFromPoint(x, y);
@@ -569,34 +570,86 @@
       }
     }
 
-    if (!range || !range.startContainer) return null;
-    const node = range.startContainer;
-    if (node.nodeType !== Node.TEXT_NODE) return null;
+    if (range && range.startContainer) {
+      let node = range.startContainer;
+      let offset = range.startOffset;
 
-    const text = node.textContent;
-    const offset = range.startOffset;
-    if (!text || offset < 0 || offset > text.length) return null;
+      // Element 노드일 경우 자식 텍스트 노드로 이동
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        if (node.childNodes && node.childNodes.length > 0) {
+          const childIdx = Math.min(offset, node.childNodes.length - 1);
+          node = node.childNodes[childIdx];
+        }
+      }
 
-    // offset 위치 기준으로 앞뒤 영단어 경계 탐색
-    let start = offset;
-    while (start > 0 && /[a-zA-Z'-]/.test(text[start - 1])) {
-      start--;
+      if (node && node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent || "";
+        let start = Math.min(Math.max(0, offset), text.length);
+        
+        // 클릭 위치가 공백이면 앞이나 뒤의 글자로 이동
+        if (start < text.length && !/[a-zA-Z]/.test(text[start]) && start > 0 && /[a-zA-Z]/.test(text[start - 1])) {
+          start--;
+        }
+
+        let wordStart = start;
+        while (wordStart > 0 && /[a-zA-Z'-]/.test(text[wordStart - 1])) {
+          wordStart--;
+        }
+        let wordEnd = start;
+        while (wordEnd < text.length && /[a-zA-Z'-]/.test(text[wordEnd])) {
+          wordEnd++;
+        }
+
+        const word = text.substring(wordStart, wordEnd).trim().replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
+        if (word && word.length >= 1 && /[a-zA-Z]/.test(word)) {
+          try {
+            const wordRange = document.createRange();
+            wordRange.setStart(node, wordStart);
+            wordRange.setEnd(node, wordEnd);
+            const rect = wordRange.getBoundingClientRect();
+            if (rect && (rect.width > 0 || rect.height > 0)) {
+              return { word, rect };
+            }
+          } catch (e) {}
+        }
+      }
     }
-    let end = offset;
-    while (end < text.length && /[a-zA-Z'-]/.test(text[end])) {
-      end++;
-    }
 
-    const word = text.substring(start, end).trim().replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
-    if (!word || word.length < 2 || !/[a-zA-Z]/.test(word)) return null;
-
+    // 2. Element 바운딩 박스 기반 Fallback 검색 (Caret API 실패 시 완벽 보완)
     try {
-      const wordRange = document.createRange();
-      wordRange.setStart(node, start);
-      wordRange.setEnd(node, end);
-      const rect = wordRange.getBoundingClientRect();
-      if (rect && (rect.width > 0 || rect.height > 0)) {
-        return { word, rect };
+      const el = document.elementFromPoint(x, y);
+      if (el && !el.closest("#vocabTooltip")) {
+        const textNodes = [];
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        let n;
+        while ((n = walker.nextNode())) {
+          textNodes.push(n);
+        }
+
+        for (const tNode of textNodes) {
+          const text = tNode.textContent || "";
+          const regex = /[a-zA-Z'-]+/g;
+          let match;
+          while ((match = regex.exec(text)) !== null) {
+            const wordRange = document.createRange();
+            wordRange.setStart(tNode, match.index);
+            wordRange.setEnd(tNode, match.index + match[0].length);
+            const rect = wordRange.getBoundingClientRect();
+
+            // 터치 지점 (x, y)가 단어 사각형(상하좌우 8px 여유) 안에 있는지 확인
+            if (
+              x >= rect.left - 8 &&
+              x <= rect.right + 8 &&
+              y >= rect.top - 8 &&
+              y <= rect.bottom + 8
+            ) {
+              const word = match[0].trim().replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
+              if (word && /[a-zA-Z]/.test(word)) {
+                return { word, rect };
+              }
+            }
+          }
+        }
       }
     } catch (e) {}
 
@@ -732,14 +785,15 @@
       const now = Date.now();
       const touch = e.changedTouches && e.changedTouches[0];
 
-      // 더블 탭 감지 (300ms 이내 동일 지점 연속 탭)
-      if (touch && now - lastTouchEndTime < 320 && lastTouchPoint) {
+      // 📱 모바일 더블 탭 감지 (450ms 이내 동일 지점 35px 반경 연속 탭)
+      if (touch && now - lastTouchEndTime < 450 && lastTouchPoint) {
         const dist = Math.hypot(touch.clientX - lastTouchPoint.x, touch.clientY - lastTouchPoint.y);
-        if (dist < 25) {
+        if (dist < 35) {
           const detected = getWordAtPoint(touch.clientX, touch.clientY);
           if (detected) {
             showVocabTooltip(detected.word, detected.rect);
             lastTouchEndTime = 0;
+            lastTouchPoint = null;
             return;
           }
         }
