@@ -159,12 +159,13 @@ async function loadData() {
   };
 
   try {
-    const [sentencesData, grammarData, opicData, patternData] = await Promise.all([
-      fetchJson("data/sentences_im1.json"),
-      fetchJson("data/grammar_im1.json"),
-      fetchJson("data/questions_im1.json"),
-      fetchJson("data/patterns_im1.json"),
-    ]);
+    const [sentencesData, grammarData, opicData, patternData] =
+      await Promise.all([
+        fetchJson("data/sentences_im1.json"),
+        fetchJson("data/grammar_im1.json"),
+        fetchJson("data/questions_im1.json"),
+        fetchJson("data/patterns_im1.json"),
+      ]);
 
     if (sentencesData && Array.isArray(sentencesData)) {
       SENTENCES = sentencesData;
