@@ -89,7 +89,9 @@
     vibe: { meaning: "분위기, 느낌", posList: [{ pos: "명사", meanings: ["분위기", "느낌", "기운"] }] },
     vibes: { meaning: "분위기, 감정들", posList: [{ pos: "명사", meanings: ["분위기", "느낌"] }] },
     amazing: { meaning: "놀라운, 대단한, 아주 멋진", posList: [{ pos: "형용사", meanings: ["놀라운", "굉장한", "멋진"] }] },
-    awesome: { meaning: "굉장한, 아주 좋은", posList: [{ pos: "형용사", meanings: ["멋진", "대단한", "최고인"] }] }
+    awesome: { meaning: "굉장한, 아주 좋은", posList: [{ pos: "형용사", meanings: ["멋진", "대단한", "최고인"] }] },
+    truly: { meaning: "진정으로, 정말로, 참으로", posList: [{ pos: "부사", meanings: ["진정으로", "정말로", "참으로"] }] },
+    really: { meaning: "정말로, 아주, 진짜로", posList: [{ pos: "부사", meanings: ["정말", "진짜로", "매우"] }] }
   };
 
   let tooltipEl = null;
