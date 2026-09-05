@@ -322,12 +322,18 @@
     }
   }
 
+  let lastTargetRect = null;
+
   // 툴팁 위치 계산 및 배치
   function positionTooltip(rect) {
     if (!tooltipEl) createTooltipDOM();
+    if (!rect) return;
+    lastTargetRect = rect;
 
     const isMobile = window.innerWidth <= 600;
-    const tooltipWidth = Math.min(290, window.innerWidth - 20);
+    const tooltipWidth = isMobile
+      ? Math.min(320, window.innerWidth - 20)
+      : Math.min(360, window.innerWidth - 32);
     tooltipEl.style.width = `${tooltipWidth}px`;
 
     const targetCenterX = rect.left + rect.width / 2;
@@ -346,30 +352,57 @@
       arrowEl.style.left = `${arrowLeft - 5}px`;
     }
 
-    const approxHeight = 160;
+    // 실제 렌더링된 툴팁 높이 측정 (하드코딩 160px로 인한 겹침 문제 원천 차단)
+    const actualHeight = tooltipEl.offsetHeight || 160;
+    const margin = 10; // 선택 텍스트와 툴팁 사이 간격
+    const screenPadding = 10;
+
+    const spaceAbove = rect.top - screenPadding;
+    const spaceBelow = window.innerHeight - rect.bottom - screenPadding;
+
     let top = 0;
     let placement = "top";
 
     if (isMobile) {
-      // 📱 모바일: OS 복사/검색 바는 단어 위쪽에 뜨므로, 우리 툴팁은 단어 아래쪽에 우선 배치하여 겹침 100% 방지
-      const spaceBelow = window.innerHeight - rect.bottom;
-      if (spaceBelow > approxHeight + 20) {
-        top = rect.bottom + 10;
+      // 📱 모바일: 아래쪽 공간이 충분하면 아래쪽에 우선 배치 (모바일 상단 돋보기/선택 바와 겹침 방지)
+      if (spaceBelow >= actualHeight + margin) {
+        top = rect.bottom + margin;
         placement = "bottom";
-      } else {
-        top = Math.max(10, rect.top - approxHeight - 12);
+      } else if (spaceAbove >= actualHeight + margin) {
+        top = rect.top - actualHeight - margin;
         placement = "top";
+      } else {
+        // 화면 공간이 협소할 때는 공간이 더 넓은 쪽에 배치
+        if (spaceBelow >= spaceAbove) {
+          top = rect.bottom + margin;
+          placement = "bottom";
+        } else {
+          top = rect.top - actualHeight - margin;
+          placement = "top";
+        }
       }
     } else {
-      // 💻 PC: 단어 위쪽에 우선 배치
-      if (rect.top - approxHeight - 12 > 10) {
-        top = rect.top - approxHeight - 12;
+      // 💻 PC: 위쪽 공간이 충분하면 위쪽에 우선 배치
+      if (spaceAbove >= actualHeight + margin) {
+        top = rect.top - actualHeight - margin;
         placement = "top";
-      } else {
-        top = rect.bottom + 10;
+      } else if (spaceBelow >= actualHeight + margin) {
+        top = rect.bottom + margin;
         placement = "bottom";
+      } else {
+        // 공간이 부족할 때는 더 넓은 쪽에 배치
+        if (spaceAbove >= spaceBelow) {
+          top = rect.top - actualHeight - margin;
+          placement = "top";
+        } else {
+          top = rect.bottom + margin;
+          placement = "bottom";
+        }
       }
     }
+
+    // 최종 위치 안전 클램핑 (화면 밖으로 삐져나가지 않도록 보장)
+    top = Math.max(screenPadding, Math.min(top, window.innerHeight - actualHeight - screenPadding));
 
     tooltipEl.setAttribute("data-placement", placement);
     tooltipEl.style.left = `${Math.round(left)}px`;
@@ -382,10 +415,11 @@
       tooltipEl.classList.remove("show");
       currentTargetWord = "";
       currentWordData = null;
+      lastTargetRect = null;
     }
   }
 
-  // 다중 Fallback 번역 & 사전 엔진 (429 Rate Limit 방지)
+  // 다중 Fallback 번역 & 사전 엔진 (429 Rate Limit 방지 및 긴 문장 완벽 지원)
   async function fetchWordDetails(queryText) {
     const key = queryText.toLowerCase().trim();
 
@@ -407,11 +441,11 @@
     if (now > googleCooldownUntil) {
       try {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 2000);
+        const timeout = setTimeout(() => controller.abort(), 3500);
         const url =
           "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&hl=ko&dt=t&dt=bd&q=" +
           encodeURIComponent(queryText);
-        
+
         const res = await fetch(url, { signal: controller.signal });
         clearTimeout(timeout);
 
@@ -420,8 +454,11 @@
           googleCooldownUntil = Date.now() + 3 * 60 * 1000;
         } else if (res.ok) {
           const data = await res.json();
-          if (data && data[0]) {
-            mainMeaning = data[0].map((chunk) => chunk[0]).join("").trim();
+          if (data && data[0] && Array.isArray(data[0])) {
+            mainMeaning = data[0]
+              .map((chunk) => (chunk && chunk[0] ? chunk[0] : ""))
+              .join("")
+              .trim();
           }
           if (data && data[1] && Array.isArray(data[1])) {
             posList = data[1].slice(0, 3).map((item) => ({
@@ -463,7 +500,7 @@
 
     let html = `
       <div class="vocab-meaning-main">
-        ${escapeHtml(data.meaning || "뜻 검색 중...")}
+        ${escapeHtml(data.meaning || "번역 검색 중...")}
       </div>
     `;
 
@@ -487,8 +524,10 @@
 
   // 툴팁 노출 메인 함수
   async function showVocabTooltip(selectedText, rect) {
+    if (!selectedText) return;
     createTooltipDOM();
     currentTargetWord = selectedText;
+    lastTargetRect = rect;
     const cacheKey = selectedText.toLowerCase().trim();
 
     const wordEl = document.getElementById("vocabWordText");
@@ -498,6 +537,7 @@
     const naverLink = document.getElementById("vocabNaverLink");
 
     wordEl.textContent = selectedText;
+    wordEl.title = selectedText;
     phoneticEl.textContent = "";
 
     googleLink.href = `https://translate.google.com/?sl=en&tl=ko&text=${encodeURIComponent(selectedText)}&op=translate`;
@@ -531,7 +571,7 @@
     bodyEl.innerHTML = `
       <div class="vocab-loading">
         <div class="vocab-spinner"></div>
-        <span>뜻 검색 중...</span>
+        <span>번역 검색 중...</span>
       </div>
     `;
     positionTooltip(rect);
@@ -542,12 +582,14 @@
 
       currentWordData = result;
       renderBodyContent(result);
-      positionTooltip(rect);
+      // 번역 내용이 렌더링되어 높이가 변경된 후 정밀 재배치
+      positionTooltip(lastTargetRect || rect);
 
       saveVocabCache(cacheKey, result);
     } catch (err) {
       if (currentTargetWord === selectedText) {
         bodyEl.innerHTML = `<div style="color:var(--danger, #ef4444); font-size:0.85rem;">번역을 불러오는 중 오류가 발생했습니다.</div>`;
+        positionTooltip(lastTargetRect || rect);
       }
     }
   }
@@ -582,7 +624,7 @@
       if (node && node.nodeType === Node.TEXT_NODE) {
         const text = node.textContent || "";
         let start = Math.min(Math.max(0, offset), text.length);
-        
+
         // 클릭 위치가 공백이면 앞이나 뒤의 글자로 이동
         if (start < text.length && !/[a-zA-Z]/.test(text[start]) && start > 0 && /[a-zA-Z]/.test(text[start - 1])) {
           start--;
@@ -653,7 +695,7 @@
     return null;
   }
 
-  // 텍스트 선택 핸들러 (PC selection + 모바일 selectionchange 공용)
+  // 텍스트 선택 핸들러 (단어 및 긴 문장 1500자까지 모두 지원)
   function handleSelection() {
     let cleanText = "";
     let rect = null;
@@ -668,8 +710,8 @@
       activeEl.selectionStart !== activeEl.selectionEnd
     ) {
       const raw = activeEl.value.substring(activeEl.selectionStart, activeEl.selectionEnd);
-      cleanText = raw.trim().replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
-      if (cleanText && /[a-zA-Z]/.test(cleanText) && cleanText.length <= 60) {
+      cleanText = raw.trim().replace(/^[^a-zA-Z0-9"'(]+|[^a-zA-Z0-9"').!?;]+$/g, "").trim();
+      if (cleanText && /[a-zA-Z]/.test(cleanText) && cleanText.length <= 1500) {
         rect = activeEl.getBoundingClientRect();
       }
     }
@@ -679,8 +721,8 @@
       const selection = window.getSelection();
       if (selection && !selection.isCollapsed && selection.rangeCount > 0) {
         const rawText = selection.toString();
-        cleanText = rawText.trim().replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
-        if (cleanText && cleanText.length <= 60 && /[a-zA-Z]/.test(cleanText)) {
+        cleanText = rawText.trim().replace(/^[^a-zA-Z0-9"'(]+|[^a-zA-Z0-9"').!?;]+$/g, "").trim();
+        if (cleanText && cleanText.length <= 1500 && /[a-zA-Z]/.test(cleanText)) {
           if (cleanText.length > 1 || /^[aAiI]$/.test(cleanText)) {
             try {
               const range = selection.getRangeAt(0);
@@ -770,7 +812,7 @@
         const dist = Math.hypot(touch.clientX - touchStartPos.x, touch.clientY - touchStartPos.y);
         if (dist > 8) {
           isTouchMoving = true;
-          lastTouchEndTime = 0; // ⚡ 스크롤 중에는 더블탭 메모리 리셋 (스크롤을 탭으로 오인 방지)
+          lastTouchEndTime = 0;
           lastTouchPoint = null;
           if (longPressTimer) {
             clearTimeout(longPressTimer);
@@ -790,7 +832,7 @@
       if (tooltipEl && tooltipEl.contains(e.target)) return;
       if (isLongPressTriggered) return;
 
-      // ⚡ 손가락을 움직여 스크롤한 경우, 더블탭이나 선택 트리거를 100% 무시하고 종료!
+      // ⚡ 손가락을 움직여 스크롤한 경우 무시
       if (isTouchMoving) {
         lastTouchEndTime = 0;
         lastTouchPoint = null;
@@ -838,26 +880,15 @@
       }
     });
 
-    // 6. 툴팁 외부 클릭/터치 시 닫기
-    document.addEventListener("mousedown", (e) => {
-      if (Date.now() - lastShownTime < 500) return;
-      if (tooltipEl && !tooltipEl.contains(e.target)) {
-        const selection = window.getSelection();
-        if (!selection || selection.isCollapsed) {
-          hideTooltip();
-        }
-      }
-    });
+    // 6. 툴팁 외부 클릭/터치 시 1클릭 즉시 닫기 (이전 선택 상태나 500ms 지연 없이 즉각 반응)
+    const handleOutsideDismiss = (e) => {
+      if (!tooltipEl || !tooltipEl.classList.contains("show")) return;
+      if (tooltipEl.contains(e.target)) return;
+      hideTooltip();
+    };
 
-    document.addEventListener("touchstart", (e) => {
-      if (Date.now() - lastShownTime < 500) return;
-      if (tooltipEl && !tooltipEl.contains(e.target)) {
-        const selection = window.getSelection();
-        if (!selection || selection.isCollapsed) {
-          hideTooltip();
-        }
-      }
-    }, { passive: true });
+    document.addEventListener("mousedown", handleOutsideDismiss);
+    document.addEventListener("touchstart", handleOutsideDismiss, { passive: true });
   }
 
   // 즉시 초기화 & DOM 준비 시 재확인

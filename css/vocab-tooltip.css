@@ -128,7 +128,7 @@
 /* 본문 영역 */
 .vocab-body {
   padding: 12px 14px;
-  max-height: 220px;
+  max-height: 240px;
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -137,8 +137,10 @@
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-main, #0f172a);
-  line-height: 1.45;
+  line-height: 1.5;
   margin-bottom: 4px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .vocab-tag {
