@@ -147,21 +147,41 @@ function last7Days() {
 
 // 외부 JSON 데이터 파일 비동기 로딩 (문장, 문법 퀴즈, OPIc 실전 질문, 만능 패턴)
 async function loadData() {
+  const fetchJson = async (url) => {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      console.error(`[loadData] ${url} 로드 실패:`, err);
+      return null;
+    }
+  };
+
   try {
-    const [sentencesRes, grammarRes, opicRes, patternRes] = await Promise.all([
-      fetch("data/sentences_im1.json"),
-      fetch("data/grammar_im1.json"),
-      fetch("data/questions_im1.json"),
-      fetch("data/patterns_im1.json"),
+    const [sentencesData, grammarData, opicData, patternData] = await Promise.all([
+      fetchJson("data/sentences_im1.json"),
+      fetchJson("data/grammar_im1.json"),
+      fetchJson("data/questions_im1.json"),
+      fetchJson("data/patterns_im1.json"),
     ]);
-    SENTENCES = await sentencesRes.json();
-    CATEGORIES = [...new Set(SENTENCES.map((s) => s.cat))];
-    WORD_ITEMS = await grammarRes.json();
-    WORD_CATEGORIES = [...new Set(WORD_ITEMS.map((w) => w.cat))];
-    OPIC_QUESTIONS = await opicRes.json();
-    OPIC_CATEGORIES = [...new Set(OPIC_QUESTIONS.map((q) => q.cat))];
-    PATTERN_ITEMS = await patternRes.json();
+
+    if (sentencesData && Array.isArray(sentencesData)) {
+      SENTENCES = sentencesData;
+      CATEGORIES = [...new Set(SENTENCES.map((s) => s.cat))];
+    }
+    if (grammarData && Array.isArray(grammarData)) {
+      WORD_ITEMS = grammarData;
+      WORD_CATEGORIES = [...new Set(WORD_ITEMS.map((w) => w.cat))];
+    }
+    if (opicData && Array.isArray(opicData)) {
+      OPIC_QUESTIONS = opicData;
+      OPIC_CATEGORIES = [...new Set(OPIC_QUESTIONS.map((q) => q.cat))];
+    }
+    if (patternData && Array.isArray(patternData)) {
+      PATTERN_ITEMS = patternData;
+    }
   } catch (e) {
-    console.error("데이터 로드 실패:", e);
+    console.error("데이터 전체 로드 처리 중 오류:", e);
   }
 }

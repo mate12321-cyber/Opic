@@ -68,7 +68,7 @@ function selectPatternVariation(vIdx) {
 window.selectPatternVariation = selectPatternVariation;
 
 // 6대 패턴 목록 화면 렌더링
-function renderPatternTopics() {
+async function renderPatternTopics() {
   const container = document.getElementById("patternTopicGrid");
   if (!container) return;
 
@@ -78,7 +78,26 @@ function renderPatternTopics() {
         ⏳ 만능 패턴 데이터를 불러오는 중입니다...
       </div>
     `;
-    return;
+    try {
+      const res = await fetch("data/patterns_im1.json");
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length) {
+          PATTERN_ITEMS = data;
+        }
+      }
+    } catch (e) {
+      console.error("패턴 데이터 직접 로드 실패:", e);
+    }
+
+    if (!PATTERN_ITEMS || !PATTERN_ITEMS.length) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 24px 16px; color: var(--danger-text); font-size: 14px;">
+          ❌ 만능 패턴 데이터를 불러오지 못했습니다. 새로고침을 시도해 보세요.
+        </div>
+      `;
+      return;
+    }
   }
 
   container.innerHTML = PATTERN_ITEMS.map((pat, idx) => {
@@ -111,7 +130,12 @@ function renderPatternTopics() {
 
 // 패턴 학습 화면으로 전환
 function showPatternCard(idx) {
-  if (typeof idx === "number" && !isNaN(idx) && idx >= 0 && idx < PATTERN_ITEMS.length) {
+  if (
+    typeof idx === "number" &&
+    !isNaN(idx) &&
+    idx >= 0 &&
+    idx < PATTERN_ITEMS.length
+  ) {
     patternCur = idx;
     patternVarCur = 0;
   }
