@@ -1,8 +1,9 @@
 /**
  * [vocab-tooltip.js] 영어 문장 단어/표현 드래그 & 더블클릭/모바일 터치 인라인 번역 툴팁 시스템
- * - Android 및 iOS(Safari/Chrome) 모바일 환경 완벽 지원
- *   (1. 롱프레스 및 선택 핸들 이동 감지: selectionchange)
- *   (2. 모바일 원터치/더블탭 단어 자동 인식: Caret Range)
+ * - Android / iOS 모바일 최적화:
+ *   1. 더블 탭: 브라우저 줌 방지(touch-action) 및 즉각 단어 팝업 (Caret Range)
+ *   2. 롱프레스(380ms): OS 기본 메뉴(복사/검색)와 충돌 없는 커스텀 롱프레스 + 햅틱 피드백
+ *   3. 핀치 줌(Pinch-to-zoom) 및 스크롤(Pan) 100% 정상 작동 보존
  * - Google Translate 정밀 번역 & 사전 엔진 (한글 뜻 + 품사별 상세 뜻 목록)
  * - L1 메모리 캐시 + L2 LocalStorage 캐시 (0ms 초고속)
  * - Web Speech API 연동 발음 재생 및 내 단어장 저장 지원
@@ -18,6 +19,11 @@
   let currentWordData = null;
   let isMouseInsideTooltip = false;
   let selectionDebounceTimer = null;
+
+  // 모바일 터치 제스처 관리 변수
+  let longPressTimer = null;
+  let touchStartPos = null;
+  let isLongPressTriggered = false;
   let lastTouchEndTime = 0;
   let lastTouchPoint = null;
 
@@ -240,7 +246,7 @@
     if (!tooltipEl) createTooltipDOM();
 
     const isMobile = window.innerWidth <= 600;
-    const tooltipWidth = Math.min(300, window.innerWidth - 20);
+    const tooltipWidth = Math.min(290, window.innerWidth - 20);
     tooltipEl.style.width = `${tooltipWidth}px`;
 
     const targetCenterX = rect.left + rect.width / 2;
@@ -264,7 +270,7 @@
     let placement = "top";
 
     // 상단 공간이 부족하면 하단으로 전환 (모바일 상단바 고려)
-    if (top < (isMobile ? 20 : 10)) {
+    if (top < (isMobile ? 30 : 10)) {
       top = rect.bottom + 10;
       placement = "bottom";
     }
@@ -480,7 +486,7 @@
       }
     }
 
-    // 2. 일반 DOM 텍스트 선택 확인 (window.getSelection - iOS/Android 롱프레스 & PC 드래그)
+    // 2. 일반 DOM 텍스트 선택 확인 (window.getSelection - 롱프레스 & PC 드래그)
     if (!cleanText) {
       const selection = window.getSelection();
       if (selection && !selection.isCollapsed && selection.rangeCount > 0) {
@@ -527,19 +533,68 @@
       triggerSelectionDebounced(10);
     });
 
-    // 2. iOS Safari & Android Chrome 롱프레스 / 텍스트 선택 핵심 이벤트 (selectionchange)
+    // 2. iOS Safari & Android Chrome 롱프레스 / 텍스트 선택 이벤트 (selectionchange)
     document.addEventListener("selectionchange", () => {
       triggerSelectionDebounced(150);
     });
 
-    // 3. 모바일 터치 종료 이벤트 (touchend)
-    document.addEventListener("touchend", (e) => {
+    // 3. 모바일 전용 롱프레스(380ms) 및 더블탭 제스처 리스너
+    document.addEventListener("touchstart", (e) => {
       if (tooltipEl && tooltipEl.contains(e.target)) return;
-      
+
+      // 두 손가락 이상(핀치 줌)일 경우 롱프레스 취소
+      if (e.touches.length !== 1) {
+        if (longPressTimer) clearTimeout(longPressTimer);
+        return;
+      }
+
+      const touch = e.touches[0];
+      touchStartPos = { x: touch.clientX, y: touch.clientY };
+      isLongPressTriggered = false;
+
+      // 380ms 동안 손가락을 대고 있으면 커스텀 롱프레스 발동
+      if (longPressTimer) clearTimeout(longPressTimer);
+      longPressTimer = setTimeout(() => {
+        if (!touchStartPos) return;
+        const detected = getWordAtPoint(touchStartPos.x, touchStartPos.y);
+        if (detected) {
+          isLongPressTriggered = true;
+          if (navigator.vibrate) {
+            try { navigator.vibrate(20); } catch (v) {}
+          }
+          showVocabTooltip(detected.word, detected.rect);
+        }
+      }, 380);
+    }, { passive: true });
+
+    // 터치 이동 시 (스크롤 동작): 롱프레스 취소 (스크롤/핀치 줌 방해 금지)
+    document.addEventListener("touchmove", (e) => {
+      if (touchStartPos && e.touches && e.touches[0]) {
+        const touch = e.touches[0];
+        const dist = Math.hypot(touch.clientX - touchStartPos.x, touch.clientY - touchStartPos.y);
+        if (dist > 10) {
+          if (longPressTimer) {
+            clearTimeout(longPressTimer);
+            longPressTimer = null;
+          }
+        }
+      }
+    }, { passive: true });
+
+    // 터치 종료 (touchend): 더블탭 감지 & 롱프레스 타이머 정리
+    document.addEventListener("touchend", (e) => {
+      if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+      }
+
+      if (tooltipEl && tooltipEl.contains(e.target)) return;
+      if (isLongPressTriggered) return;
+
       const now = Date.now();
       const touch = e.changedTouches && e.changedTouches[0];
-      
-      // 모바일 더블 탭 감지 (300ms 이내 연속 탭)
+
+      // 더블 탭 감지 (300ms 이내 동일 지점 연속 탭)
       if (touch && now - lastTouchEndTime < 320 && lastTouchPoint) {
         const dist = Math.hypot(touch.clientX - lastTouchPoint.x, touch.clientY - lastTouchPoint.y);
         if (dist < 25) {
@@ -560,14 +615,21 @@
       triggerSelectionDebounced(100);
     }, { passive: true });
 
-    // 4. 키보드 ESC 닫기
+    // 4. 안드로이드 contextmenu 방어 (롱프레스로 툴팁이 떴을 때 OS 메뉴와 겹침 방지)
+    document.addEventListener("contextmenu", (e) => {
+      if (isLongPressTriggered) {
+        e.preventDefault(); // 롱프레스 시 OS 기본 메뉴(복사/검색) 억제
+      }
+    });
+
+    // 5. 키보드 ESC 닫기
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         hideTooltip();
       }
     });
 
-    // 5. 툴팁 외부 클릭/터치 시 닫기
+    // 6. 툴팁 외부 클릭/터치 시 닫기
     document.addEventListener("mousedown", (e) => {
       if (tooltipEl && !tooltipEl.contains(e.target)) {
         const selection = window.getSelection();
