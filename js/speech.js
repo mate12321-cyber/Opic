@@ -164,7 +164,7 @@ function initTTS() {
   }
 }
 
-// 언어별 가장 자연스러운 여성 고품질 시스템 보이스 탐색 (갤럭시/안드로이드/iOS/PC 완벽 대응)
+// 언어별 가장 자연스러운 여성 고품질 시스템 보이스 탐색 (삼성 브라우저/갤럭시/안드로이드/iOS/PC 완벽 대응)
 function getBestVoice(lang = "en-US") {
   if (!("speechSynthesis" in window)) return null;
   const voices = speechSynthesis.getVoices();
@@ -174,10 +174,15 @@ function getBestVoice(lang = "en-US") {
   );
   if (!langVoices.length) return null;
 
-  // 1. 여성 전용 프리미엄 보이스 키워드 (삼성 TTS, 구글 TTS, iOS/macOS, Windows)
+  // 1. 여성 전용 프리미엄 보이스 키워드 (삼성 브라우저/삼성 TTS, 구글 TTS, iOS/macOS, Windows)
   const femaleKeywords = [
     "female",
     "여성",
+    "smtf",
+    "f00",
+    "voice 1",
+    "voice_1",
+    "voice1",
     "samantha",
     "karen",
     "ava",
@@ -187,12 +192,26 @@ function getBestVoice(lang = "en-US") {
     "susan",
     "zira",
     "yuna",
+    "en-us-x-sfg#female",
+    "en-us-x-tpf-local",
     "natural",
     "google us english",
   ];
 
   // 남성 전용 키워드 (제외 대상)
-  const maleKeywords = ["male", "남성", "daniel", "david", "george", "guy", "alex", "fred"];
+  const maleKeywords = [
+    "male",
+    "남성",
+    "smtm",
+    "m00",
+    "daniel",
+    "david",
+    "george",
+    "guy",
+    "alex",
+    "fred",
+    "en-us-x-sfg#male",
+  ];
 
   // 1단계: 여성 키워드가 명시적으로 포함된 보이스 탐색
   for (const kw of femaleKeywords) {
@@ -242,7 +261,7 @@ function speakText(text, lang = "en-US", btn = null) {
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = lang;
   utterance.rate = ttsRate;
-  utterance.pitch = 1.0;
+  utterance.pitch = 1.22; // ⚡ 여성 아나운서 톤으로 피치(음높이)를 상향하여 남성 보이스 환경에서도 여성 톤 출력 보장
   const voice = getBestVoice(lang);
   if (voice) utterance.voice = voice;
 
