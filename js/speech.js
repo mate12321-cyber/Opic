@@ -2160,9 +2160,10 @@ function calculateComprehensiveOpicScore({
   const userTokens = normUser.split(" ").filter(Boolean);
   const wordCount = userTokens.length;
   const uniqueWords = new Set(userTokens).size;
+  const virtualSentences = splitIntoVirtualSentences(userText);
   const sentenceCount = Math.max(
     1,
-    (userText.match(/[.!?]+/g) || []).length || Math.ceil(wordCount / 10),
+    virtualSentences.length || (userText.match(/[.!?]+/g) || []).length || Math.ceil(wordCount / 9)
   );
 
   const foundConnectors = matchWordList(userText, OPIC_CONNECTORS);
@@ -2855,6 +2856,90 @@ function clearMicError(errorEl) {
   targetEl.classList.remove("show");
 }
 
+// ── 음성인식(STT) 한국인 영어 발화 오인식 자동 보정 & 가상 문장 분절 엔진 ──────
+
+// 빈번한 한국인 음소 분절 및 오인식 표현 교정 규칙
+const PHONETIC_CORRECTION_RULES = [
+  { reg: /\ba\s+part\s+meant\b/gi, rep: "apartment" },
+  { reg: /\ba\s+partment\b/gi, rep: "apartment" },
+  { reg: /\bleaving\s+room\b/gi, rep: "living room" },
+  { reg: /\bcause\s+he\b/gi, rep: "cozy" },
+  { reg: /\bcazy\b/gi, rep: "cozy" },
+  { reg: /\bfridge\s+later\b/gi, rep: "refrigerator" },
+  { reg: /\bcan\s+be\s+near\b/gi, rep: "convenient" },
+  { reg: /\bconve\s+near\b/gi, rep: "convenient" },
+  { reg: /\btwo\s+some\s+place\b/gi, rep: "A Twosome Place" },
+  { reg: /\btwo\s+some\b/gi, rep: "Twosome" },
+  { reg: /\bstar\s+bucks\b/gi, rep: "Starbucks" },
+  { reg: /\belectric\s+engineer\b/gi, rep: "electrical engineer" },
+  { reg: /\brotat(?:ing|ion)\s+shift\b/gi, rep: "rotating shifts" },
+  { reg: /\bdepartment\s+store\b/gi, rep: "department store" },
+  { reg: /\bconvenience\s+store\b/gi, rep: "convenience store" },
+  { reg: /\bsubway\s+station\b/gi, rep: "subway station" },
+  { reg: /\bwork\s+out\b/gi, rep: "workout" },
+  { reg: /\bworking\s+out\b/gi, rep: "working out" },
+  { reg: /\bevery\s+day\b/gi, rep: "every day" },
+  { reg: /\bfirst\s+of\s+all\b/gi, rep: "first of all" },
+  { reg: /\byou\s+no\b/gi, rep: "you know" },
+  { reg: /\bas\s+i\s+recall\b/gi, rep: "as I recall" },
+  { reg: /\bi\s+am\s+agree\b/gi, rep: "I agree" },
+  { reg: /\bin\s+front\s+off\b/gi, rep: "in front of" },
+  { reg: /\bone\s+of\s+the\s+best\s+thing\b/gi, rep: "one of the best things" }
+];
+
+// 음성 인식 텍스트 자동 보정기
+function correctSttPhoneticErrors(text) {
+  if (!text) return "";
+  let corrected = text;
+  for (const rule of PHONETIC_CORRECTION_RULES) {
+    corrected = corrected.replace(rule.reg, rule.rep);
+  }
+  return corrected;
+}
+
+// 구두점이 없는 긴 STT 발화 텍스트를 접속사/필러 기준으로 가상 분절하는 지능형 문장 분절기
+function splitIntoVirtualSentences(text) {
+  if (!text || !text.trim()) return [];
+  const rawSentences = text
+    .split(/[.!?]+/)
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  // 이미 마침표 등으로 3개 이상 잘 분절되어 있다면 그대로 반환
+  if (rawSentences.length >= 3) {
+    return rawSentences;
+  }
+
+  // 구두점이 부족한 경우 접속사 및 담화표지어 경계를 기준으로 가상 분절
+  const virtualSplitRegex = /\b(because|since|so|therefore|however|although|even though|but|when|whenever|after that|afterwards|before|then|also|besides|furthermore|moreover|what's more|plus|for example|for instance|in fact|you know|honestly|actually|frankly|i think|in my opinion|first of all|finally)\b/gi;
+
+  const virtualSentences = [];
+  for (const seg of rawSentences) {
+    let cursor = 0;
+    const tokens = seg.split(/\s+/);
+    let currentChunk = [];
+
+    for (const token of tokens) {
+      const isSplitter = virtualSplitRegex.test(token);
+      virtualSplitRegex.lastIndex = 0; // 정규식 리셋
+
+      if (isSplitter && currentChunk.length >= 4) {
+        virtualSentences.push(currentChunk.join(" "));
+        currentChunk = [token];
+      } else {
+        currentChunk.push(token);
+      }
+    }
+    if (currentChunk.length > 0) {
+      virtualSentences.push(currentChunk.join(" "));
+    }
+  }
+
+  return virtualSentences.length > 0 ? virtualSentences : [text.trim()];
+}
+
+let userExplicitlyStoppedMic = false; // 사용자가 명시적으로 마이크를 정지했는지 여부 (침묵 자동 재연결 제어용)
+
 // 마이크 수신 상태 UI 비활성화
 function stopListeningUI() {
   listening = false;
@@ -2872,6 +2957,7 @@ function stopListeningUI() {
 
 // 음성 인식 및 녹음 중단
 function stopSpeechRecognition() {
+  userExplicitlyStoppedMic = true;
   stopListeningUI();
   if (recognition) {
     try {
@@ -2956,6 +3042,7 @@ async function toggleSpeechRecognition(
   finalTranscript = "";
   listening = true;
   micStarted = false;
+  userExplicitlyStoppedMic = false;
 
   armStartupWatchdog();
   if (targetBtn) targetBtn.classList.add("listening");
@@ -3051,6 +3138,9 @@ function initSpeechRecognition() {
       currentText += (currentText ? " " : "") + interim;
     }
 
+    // ⚡ 한국인 발화 빈출 음소 왜곡 자동 보정
+    currentText = correctSttPhoneticErrors(currentText);
+
     if (activeTarget && activeTarget.input) {
       activeTarget.input.value = currentText;
       activeTarget.input.dispatchEvent(new Event("input"));
@@ -3058,7 +3148,10 @@ function initSpeechRecognition() {
   };
 
   recognition.onerror = (e) => {
-    if (e.error === "aborted") return;
+    if (e.error === "aborted" || e.error === "no-speech") {
+      // 침묵이나 일시적 중단은 무시하고 자동 재연결에 맡김
+      return;
+    }
     const msg =
       MIC_ERROR_MESSAGES[e.error] ||
       `마이크 오류가 발생했어요 (${e.error}). 다시 시도해주세요.`;
@@ -3067,6 +3160,19 @@ function initSpeechRecognition() {
   };
 
   recognition.onend = () => {
+    // 사용자가 명시적으로 중지하지 않았고, 여전히 듣기 활성 상태라면 브라우저의 침묵 타임아웃 방어를 위해 자동 재연결
+    if (listening && !userExplicitlyStoppedMic && activeTarget) {
+      setTimeout(() => {
+        if (listening && !userExplicitlyStoppedMic && recognition) {
+          try {
+            recognition.start();
+          } catch (err) {
+            console.warn("[SpeechRecognition] Auto-restart silent retry failed:", err);
+          }
+        }
+      }, 150);
+      return;
+    }
     stopListeningUI();
   };
 }

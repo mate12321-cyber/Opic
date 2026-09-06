@@ -229,6 +229,20 @@ els.wordChangeTopicBtn2.addEventListener("click", () => {
 });
 
 // ── OPIc 실전 질문 & 답변 모드 버튼 이벤트 ─────────────────────────
+if (els.btnModeRandom) {
+  els.btnModeRandom.addEventListener("click", () => {
+    opicPlayMode = "random";
+    updatePlayModeTabsUI();
+    saveOpicProgress();
+  });
+}
+if (els.btnModeCombo) {
+  els.btnModeCombo.addEventListener("click", () => {
+    opicPlayMode = "combo";
+    updatePlayModeTabsUI();
+    saveOpicProgress();
+  });
+}
 if (els.btnPrevOpic) {
   els.btnPrevOpic.addEventListener("click", prevOpicQuestion);
 }

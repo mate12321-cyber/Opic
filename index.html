@@ -557,6 +557,17 @@
             전체 선택
           </button>
         </div>
+
+        <!-- OPIc 실전 연습 모드 선택 (일반 무작위 vs 실전 3단 콤보) -->
+        <div class="opic-play-mode-tabs" style="display: flex; gap: 8px; margin-bottom: 14px;">
+          <button type="button" class="btn-play-mode active" id="btnModeRandom" data-playmode="random">
+            🎲 일반 무작위
+          </button>
+          <button type="button" class="btn-play-mode" id="btnModeCombo" data-playmode="combo" title="주제별 묘사 ➔ 루틴 ➔ 과거경험 3문항 세트 연습">
+            🎯 실전 3단 콤보 (묘사➔루틴➔경험)
+          </button>
+        </div>
+
         <div class="chips-grid-card" id="opicTopicChips"></div>
         <button
           class="primary"
@@ -570,7 +581,10 @@
       <!-- 2. 실전 질문 & 답변 연습 카드 -->
       <div class="card" id="opicCard" style="display: none">
         <div class="cardtop">
-          <span class="cat" id="opicCatLabel">CATEGORY</span>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span class="cat" id="opicCatLabel">CATEGORY</span>
+            <span class="combo-step-badge" id="opicComboStepBadge" style="display: none;">🎯 콤보 1/3단계</span>
+          </div>
           <div class="cardtop-right">
             <button
               type="button"
@@ -640,13 +654,28 @@
           <div class="eva-q-ko" id="evaQKo"></div>
         </div>
 
-        <!-- 말하기 타이머 -->
+        <!-- 실시간 발화 시간 게이지 바 & 타이머 -->
         <div class="speaking-timer-box">
-          <div class="timer-label">
-            <span>⏱️ 답변 시간:</span>
-            <span class="timer-digits" id="opicTimerDigits">00:00</span>
+          <div class="timer-top-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div class="timer-label">
+              <span>⏱️ 답변 시간:</span>
+              <span class="timer-digits" id="opicTimerDigits">00:00</span>
+            </div>
+            <span class="timer-target-tip" id="opicTimerLevelTip">🌱 답변 준비 (~30초)</span>
           </div>
-          <span class="timer-target-tip">권장: 40~60초 (IM1 목표)</span>
+          <div class="timer-gauge-track">
+            <div class="timer-gauge-bar" id="opicTimerGaugeBar" style="width: 0%;"></div>
+            <div class="timer-marker marker-im" title="IM 권장 (45초)"></div>
+            <div class="timer-marker marker-ih" title="IH 권장 (75초)"></div>
+            <div class="timer-marker marker-al" title="AL 권장 (95초+)"></div>
+          </div>
+          <div class="timer-gauge-labels">
+            <span>0초</span>
+            <span style="left: 37.5%;">IM (45초)</span>
+            <span style="left: 62.5%;">IH (75초)</span>
+            <span style="left: 79%;">AL (95초+)</span>
+            <span>120초</span>
+          </div>
         </div>
 
         <!-- 한국어 답변 보기 (영어로 말하기 힌트 가이드) -->

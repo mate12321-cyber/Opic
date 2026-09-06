@@ -19,6 +19,7 @@ let opicSpeakingTimer = null;
 let opicSpeakingSeconds = 0;
 let opicViewMode = "breakdown"; // "breakdown" (문장별) | "full" (전체 문단)
 let opicEnRevealed = false; // 영어 질문 블라인드 해제 여부
+let opicPlayMode = "random"; // "random" (일반 무작위) | "combo" (실전 3단 콤보)
 
 // 로컬 스토리지에서 진행 상태 로드
 async function loadOpicProgress() {
@@ -33,6 +34,7 @@ async function loadOpicProgress() {
         opicWrongList = data.wrongList || [];
         opicGoodCount = data.goodCount || 0;
         opicBadCount = data.badCount || 0;
+        if (data.playMode) opicPlayMode = data.playMode;
       }
     }
   } catch (e) {
@@ -41,6 +43,7 @@ async function loadOpicProgress() {
   if (opicSelectedCats.size === 0 && OPIC_CATEGORIES.length > 0) {
     opicSelectedCats = new Set(OPIC_CATEGORIES);
   }
+  updatePlayModeTabsUI();
 }
 
 // 로컬 스토리지에 진행 상태 저장
@@ -53,10 +56,21 @@ async function saveOpicProgress() {
       wrongList: opicWrongList,
       goodCount: opicGoodCount,
       badCount: opicBadCount,
+      playMode: opicPlayMode,
     };
     await storage.set(OPIC_STORAGE_KEY, JSON.stringify(data), false);
   } catch (e) {
     /* best effort */
+  }
+}
+
+// 연습 모드 탭 UI 동기화
+function updatePlayModeTabsUI() {
+  if (els.btnModeRandom) {
+    els.btnModeRandom.classList.toggle("active", opicPlayMode === "random");
+  }
+  if (els.btnModeCombo) {
+    els.btnModeCombo.classList.toggle("active", opicPlayMode === "combo");
   }
 }
 
@@ -79,19 +93,38 @@ function stopSpeakingTimer() {
   }
 }
 
-// 말하기 타이머 화면 업데이트
+// 말하기 타이머 화면 및 실시간 게이지 바 업데이트
 function updateSpeakingTimerDisplay() {
   if (!els.opicTimerDigits) return;
   const mins = String(Math.floor(opicSpeakingSeconds / 60)).padStart(2, "0");
   const secs = String(opicSpeakingSeconds % 60).padStart(2, "0");
   els.opicTimerDigits.textContent = `${mins}:${secs}`;
 
-  if (opicSpeakingSeconds >= 40 && opicSpeakingSeconds <= 60) {
-    els.opicTimerDigits.style.color = "#10b981"; // 권장 시간대 (녹색)
-  } else if (opicSpeakingSeconds > 60) {
-    els.opicTimerDigits.style.color = "#f59e0b"; // 1분 초과 (주황색)
-  } else {
-    els.opicTimerDigits.style.color = "var(--primary)";
+  // 실시간 게이지 바 너비 계산 (최대 120초 기준)
+  if (els.opicTimerGaugeBar) {
+    const pct = Math.min(100, (opicSpeakingSeconds / 120) * 100);
+    els.opicTimerGaugeBar.style.width = `${pct}%`;
+  }
+
+  // 실시간 목표 레벨 안내 팁 업데이트
+  if (els.opicTimerLevelTip) {
+    els.opicTimerLevelTip.className = "timer-target-tip";
+    if (opicSpeakingSeconds >= 95) {
+      els.opicTimerLevelTip.textContent = "🏆 AL 권장 구간 달성 (95초+) 완벽한 문단!";
+      els.opicTimerLevelTip.classList.add("tip-al");
+      els.opicTimerDigits.style.color = "#d97706";
+    } else if (opicSpeakingSeconds >= 75) {
+      els.opicTimerLevelTip.textContent = "🥇 IH 권장 구간 달성 (75초+)";
+      els.opicTimerLevelTip.classList.add("tip-ih");
+      els.opicTimerDigits.style.color = "#4f46e5";
+    } else if (opicSpeakingSeconds >= 45) {
+      els.opicTimerLevelTip.textContent = "🥉 IM 권장 구간 달성 (45초+)";
+      els.opicTimerLevelTip.classList.add("tip-im");
+      els.opicTimerDigits.style.color = "#10b981";
+    } else {
+      els.opicTimerLevelTip.textContent = "🌱 답변 진행 중 (~30초)";
+      els.opicTimerDigits.style.color = "var(--primary)";
+    }
   }
 }
 
@@ -149,14 +182,46 @@ function renderOpicChips() {
   }
 }
 
-// 연습 세트 시작
+// 연습 세트 시작 (일반 무작위 vs 실전 3단 콤보)
 function startOpicPractice(wrongOnly = false) {
   stopTTS();
   stopSpeakingTimer();
 
   if (wrongOnly && opicWrongList.length > 0) {
     opicOrder = shuffle([...opicWrongList]);
+  } else if (opicPlayMode === "combo") {
+    // 🎯 실전 3단 콤보 모드: 선택된 카테고리별로 3문항씩 묶어 순차 세트 구성
+    const comboIndices = [];
+    const cats = [...opicSelectedCats];
+    
+    // 카테고리 순서를 섞음
+    const shuffledCats = shuffle(cats);
+    for (const cat of shuffledCats) {
+      const catQuestions = OPIC_QUESTIONS.map((q, idx) => ({ q, idx }))
+        .filter(({ q }) => q.cat === cat);
+      
+      if (catQuestions.length > 0) {
+        // 콤보 1단계(묘사), 2단계(루틴/활동), 3단계(과거경험/사건) 순서 정렬
+        const sorted = catQuestions.sort((a, b) => {
+          const rank = (type) => {
+            if (type.includes("묘사") || type.includes("소개")) return 1;
+            if (type.includes("루틴") || type.includes("활동") || type.includes("취미")) return 2;
+            if (type.includes("경험") || type.includes("과거") || type.includes("사건") || type.includes("문제")) return 3;
+            return 2;
+          };
+          return rank(a.q.type || "") - rank(b.q.type || "");
+        });
+        sorted.slice(0, 3).forEach(({ idx }) => comboIndices.push(idx));
+      }
+    }
+
+    if (comboIndices.length === 0) {
+      alert("최소 하나 이상의 주제를 선택해 주세요.");
+      return;
+    }
+    opicOrder = comboIndices;
   } else {
+    // 🎲 일반 무작위 모드
     const filteredIndices = OPIC_QUESTIONS.map((q, idx) => ({ q, idx }))
       .filter(({ q }) => opicSelectedCats.has(q.cat))
       .map(({ idx }) => idx);
@@ -198,13 +263,25 @@ function renderOpicCard() {
   opicRevealed = false;
   opicReplayCount = 0;
 
-  // 상단 라벨
+  // 상단 라벨 및 3단 콤보 배지 처리
   els.opicCatLabel.textContent = item.cat;
   els.opicIdxLabel.textContent = `${String(opicCur + 1).padStart(2, "0")} / ${String(opicOrder.length).padStart(2, "0")}`;
   if (els.btnPrevOpic) {
     els.btnPrevOpic.disabled = opicCur === 0;
   }
   if (els.evaTypeBadge) els.evaTypeBadge.textContent = item.type || "실전 질문";
+
+  // 3단 콤보 배지 표시
+  if (els.opicComboStepBadge) {
+    if (opicPlayMode === "combo") {
+      const step = (opicCur % 3) + 1;
+      const stepNames = { 1: "장소·대상 묘사", 2: "일상 루틴·활동", 3: "과거 기억·경험" };
+      els.opicComboStepBadge.textContent = `🎯 콤보 ${step}/3단계: ${stepNames[step] || item.type}`;
+      els.opicComboStepBadge.style.display = "inline-flex";
+    } else {
+      els.opicComboStepBadge.style.display = "none";
+    }
+  }
 
   // 에바 질문 텍스트 및 해석
   els.evaQEn.textContent = item.q_en;
