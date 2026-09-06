@@ -760,3 +760,140 @@ textarea::placeholder {
     margin-bottom: 12px;
   }
 }
+
+/* ── 🌙 다크 모드 (Dark Theme) 연습 화면 오버라이드 ── */
+body.dark-theme textarea {
+  background: #1f2937;
+  color: #f9fafb;
+  border-color: #374151;
+}
+body.dark-theme textarea:focus {
+  background: #111827;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3.5px rgba(99, 102, 241, 0.25);
+}
+
+body.dark-theme .mic-btn {
+  background: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+body.dark-theme .mic-btn:hover {
+  background: #374151;
+  border-color: #6366f1;
+  color: #818cf8;
+}
+
+body.dark-theme .live-translate {
+  background: #1e1b4b;
+  border-left-color: #6366f1;
+}
+body.dark-theme .lt-label {
+  color: #a5b4fc;
+}
+body.dark-theme .lt-text {
+  color: #e5e7eb;
+}
+
+body.dark-theme .answer {
+  background: #111827;
+  border-color: #374151;
+}
+body.dark-theme .tip {
+  background: #1f2937;
+  border-color: #374151;
+  color: #cbd5e1;
+}
+
+body.dark-theme .speech-eval {
+  background: #111827;
+  border-color: #374151;
+}
+body.dark-theme .eval-header {
+  border-bottom-color: #374151;
+}
+body.dark-theme .eval-score-badge {
+  background: #1f2937;
+  color: #cbd5e1;
+}
+
+body.dark-theme .eval-metrics-grid {
+  background: #1f2937;
+  border-color: #374151;
+}
+body.dark-theme .metric-bar-bg {
+  background: #374151;
+}
+
+body.dark-theme .azure-word-chip.score-good {
+  background: #064e3b;
+  color: #a7f3d0;
+  border-color: #047857;
+}
+body.dark-theme .azure-word-chip.score-warn {
+  background: #451a03;
+  color: #fde68a;
+  border-color: #92400e;
+}
+body.dark-theme .azure-word-chip.score-bad {
+  background: #450a0a;
+  color: #fecaca;
+  border-color: #991b1b;
+}
+body.dark-theme .azure-word-chip.omission {
+  background: #1f2937;
+  color: #9ca3af;
+  border-color: #374151;
+}
+body.dark-theme .azure-word-chip.insertion {
+  background: #2e1065;
+  color: #d8b4fe;
+  border-color: #581c87;
+}
+
+body.dark-theme .phoneme-popover {
+  background: #111827;
+  border: 1px solid #374151;
+  color: #e5e7eb;
+}
+body.dark-theme .phoneme-popover::after {
+  border-top-color: #111827;
+}
+
+body.dark-theme .eval-feedback {
+  background: rgba(99, 102, 241, 0.12);
+  color: #cbd5e1;
+}
+body.dark-theme .eval-voice-btn {
+  background: #1f2937;
+  border-color: #374151;
+  color: #818cf8;
+}
+body.dark-theme .eval-voice-btn:hover {
+  background: #374151;
+  border-color: #6366f1;
+  color: #f9fafb;
+}
+
+body.dark-theme .grammar {
+  border-top-color: #374151;
+}
+body.dark-theme .g-good {
+  background: #064e3b;
+  border-color: #047857;
+  color: #a7f3d0;
+}
+body.dark-theme .g-item {
+  background: #450a0a;
+  border-left-color: #ef4444;
+  color: #fecaca;
+}
+body.dark-theme .g-excerpt {
+  color: #f9fafb;
+}
+
+body.dark-theme .done-screen {
+  background: #111827;
+  border-color: #374151;
+}
+

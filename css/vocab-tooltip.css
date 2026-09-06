@@ -368,3 +368,55 @@
   border-radius: var(--radius-lg);
   border: 1px dashed var(--border-light);
 }
+
+/* ── 🌙 다크 모드 (Dark Theme) 단어 툴팁 & 단어장 오버라이드 ── */
+body.dark-theme .vocab-tooltip {
+  background: #111827;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+body.dark-theme .vocab-tooltip-arrow {
+  background: #111827;
+  border-color: #374151;
+}
+
+body.dark-theme .vocab-header {
+  background: #1f2937;
+  border-bottom-color: #374151;
+}
+
+body.dark-theme .vocab-tag {
+  background: #1e1b4b;
+  color: #a5b4fc;
+}
+
+body.dark-theme .vocab-dict-def {
+  border-top-color: #374151;
+  color: #e5e7eb;
+}
+
+body.dark-theme .vocab-example {
+  border-left-color: #374151;
+  color: #9ca3af;
+}
+
+body.dark-theme .vocab-footer {
+  background: #1f2937;
+  border-top-color: #374151;
+}
+
+body.dark-theme .saved-word-item {
+  background: #1f2937;
+  border-color: #374151;
+}
+body.dark-theme .saved-word-item:hover {
+  background: #374151;
+  border-color: #6366f1;
+}
+
+body.dark-theme .vocab-empty-state {
+  background: #1f2937;
+  border-color: #374151;
+}
+

@@ -135,3 +135,49 @@
     line-height: 1.45;
   }
 }
+
+/* ── 🌙 다크 모드 (Dark Theme) 문법 포인트 퀴즈 오버라이드 ── */
+body.dark-theme .word-opt {
+  background: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+body.dark-theme .word-opt:hover:not(.disabled) {
+  background: #374151;
+  border-color: #6366f1;
+  color: #f9fafb;
+}
+body.dark-theme .word-opt.correct {
+  background: #064e3b !important;
+  border-color: #10b981 !important;
+  color: #a7f3d0 !important;
+}
+body.dark-theme .word-opt.correct .opt-num-badge {
+  background: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+body.dark-theme .word-opt.wrong {
+  background: #450a0a !important;
+  border-color: #ef4444 !important;
+  color: #fecaca !important;
+}
+body.dark-theme .word-opt.wrong .opt-num-badge {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+body.dark-theme .opt-num-badge {
+  background: #111827;
+  border-color: #374151;
+  color: #9ca3af;
+}
+
+body.dark-theme .word-explain {
+  background: #1f2937;
+  border-color: #374151;
+  border-left-color: #6366f1;
+  color: #cbd5e1;
+}
+
