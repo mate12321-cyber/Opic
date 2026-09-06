@@ -1275,39 +1275,204 @@ function evaluateOpicSpeaking(userInput) {
   // 1. 논리 연결어 & 접속사 & 전환구 (Connectors & Transitions) - 40+ 항목
   const CONNECTORS = [
     // 인과 / 이유
-    "because", "since", "so", "therefore", "thus", "as a result", "due to", "thanks to", "that's why", "for that reason",
+    "because",
+    "since",
+    "so",
+    "therefore",
+    "thus",
+    "as a result",
+    "due to",
+    "thanks to",
+    "that's why",
+    "for that reason",
     // 대조 / 양보
-    "however", "although", "even though", "though", "but", "on the other hand", "instead", "while", "whereas", "despite", "in contrast", "yet", "nevertheless",
+    "however",
+    "although",
+    "even though",
+    "though",
+    "but",
+    "on the other hand",
+    "instead",
+    "while",
+    "whereas",
+    "despite",
+    "in contrast",
+    "yet",
+    "nevertheless",
     // 시간 / 순서
-    "when", "whenever", "as soon as", "after that", "afterwards", "before", "first of all", "first", "secondly", "second", "third", "then", "next", "later on", "later", "in the end", "finally", "at first", "since then", "meanwhile",
+    "when",
+    "whenever",
+    "as soon as",
+    "after that",
+    "afterwards",
+    "before",
+    "first of all",
+    "first",
+    "secondly",
+    "second",
+    "third",
+    "then",
+    "next",
+    "later on",
+    "later",
+    "in the end",
+    "finally",
+    "at first",
+    "since then",
+    "meanwhile",
     // 추가 / 강조
-    "also", "besides", "in addition", "furthermore", "moreover", "plus", "what's more", "not only", "especially", "particularly", "above all",
+    "also",
+    "besides",
+    "in addition",
+    "furthermore",
+    "moreover",
+    "plus",
+    "what's more",
+    "not only",
+    "especially",
+    "particularly",
+    "above all",
     // 예시 / 인용
-    "for example", "for instance", "such as", "in fact", "as i mentioned", "speaking of"
+    "for example",
+    "for instance",
+    "such as",
+    "in fact",
+    "as i mentioned",
+    "speaking of",
   ];
 
   // 2. 자연스러운 구어체 필러 & 담화 표지어 (Discourse Markers & Fillers) - 30+ 항목
   const FILLERS = [
     // 생각 / 의견 제시
-    "i think", "i believe", "i guess", "i suppose", "in my opinion", "from my perspective", "as far as i know", "to be honest", "honestly", "frankly speaking", "frankly", "to be frank", "to tell the truth", "personally", "to be specific",
+    "i think",
+    "i believe",
+    "i guess",
+    "i suppose",
+    "in my opinion",
+    "from my perspective",
+    "as far as i know",
+    "to be honest",
+    "honestly",
+    "frankly speaking",
+    "frankly",
+    "to be frank",
+    "to tell the truth",
+    "personally",
+    "to be specific",
     // 공감 / 호흡 조절
-    "you know", "i mean", "you see", "as you know", "what i mean is", "if you know what i mean",
+    "you know",
+    "i mean",
+    "you see",
+    "as you know",
+    "what i mean is",
+    "if you know what i mean",
     // 화제 도입 / 전환
-    "actually", "basically", "literally", "by the way", "anyway", "overall", "well", "you know what", "like i said",
+    "actually",
+    "basically",
+    "literally",
+    "by the way",
+    "anyway",
+    "overall",
+    "well",
+    "you know what",
+    "like i said",
     // 기억 환기 / 시간 벌기
-    "if i remember correctly", "as i recall", "let me see", "let me think", "how should i say"
+    "if i remember correctly",
+    "as i recall",
+    "let me see",
+    "let me think",
+    "how should i say",
   ];
 
   // 3. 과거 시제 동사 & 불규칙 과거형 & 과거 완료 (Past Verbs & Irregular Past Tense) - 60+ 항목
   const PAST_VERBS = [
     // 이동 / 활동
-    "went", "came", "arrived", "left", "walked", "ran", "drove", "rode", "flew", "traveled", "travelled", "visited", "stayed", "moved", "stopped", "hung out",
+    "went",
+    "came",
+    "arrived",
+    "left",
+    "walked",
+    "ran",
+    "drove",
+    "rode",
+    "flew",
+    "traveled",
+    "travelled",
+    "visited",
+    "stayed",
+    "moved",
+    "stopped",
+    "hung out",
     // 상태 / 감정
-    "was", "were", "had", "felt", "liked", "loved", "enjoyed", "hated", "missed", "preferred", "wanted", "needed", "hoped", "wished", "seemed", "became", "used to",
+    "was",
+    "were",
+    "had",
+    "felt",
+    "liked",
+    "loved",
+    "enjoyed",
+    "hated",
+    "missed",
+    "preferred",
+    "wanted",
+    "needed",
+    "hoped",
+    "wished",
+    "seemed",
+    "became",
+    "used to",
     // 인지 / 판단
-    "thought", "knew", "understood", "realized", "noticed", "remembered", "forgot", "decided", "chose", "learned", "found", "discovered", "planned",
+    "thought",
+    "knew",
+    "understood",
+    "realized",
+    "noticed",
+    "remembered",
+    "forgot",
+    "decided",
+    "chose",
+    "learned",
+    "found",
+    "discovered",
+    "planned",
     // 일상 행위 / 대화
-    "ate", "drank", "bought", "sold", "paid", "spent", "woke", "slept", "got", "took", "gave", "brought", "made", "did", "used", "put", "read", "watched", "listened", "heard", "saw", "looked", "met", "talked", "spoke", "said", "told", "asked", "answered", "called", "worked", "studied", "cleaned", "cooked", "played", "exercised", "worked out"
+    "ate",
+    "drank",
+    "bought",
+    "sold",
+    "paid",
+    "spent",
+    "woke",
+    "slept",
+    "got",
+    "took",
+    "gave",
+    "brought",
+    "made",
+    "did",
+    "used",
+    "put",
+    "read",
+    "watched",
+    "listened",
+    "heard",
+    "saw",
+    "looked",
+    "met",
+    "talked",
+    "spoke",
+    "said",
+    "told",
+    "asked",
+    "answered",
+    "called",
+    "worked",
+    "studied",
+    "cleaned",
+    "cooked",
+    "played",
+    "exercised",
+    "worked out",
   ];
 
   // 단어 경계(Word Boundary) 기반 고정밀 매칭 헬퍼
@@ -1316,7 +1481,10 @@ function evaluateOpicSpeaking(userInput) {
     const lower = text.toLowerCase();
     for (const item of list) {
       const escaped = item.replace(/['’]/g, "['’]?").replace(/\s+/g, "\\s+");
-      const regex = new RegExp("(?:^|\\s|[,.!?])" + escaped + "(?:$|\\s|[,.!?])", "i");
+      const regex = new RegExp(
+        "(?:^|\\s|[,.!?])" + escaped + "(?:$|\\s|[,.!?])",
+        "i",
+      );
       if (regex.test(lower)) {
         matches.push(item);
       }
@@ -1338,7 +1506,8 @@ function evaluateOpicSpeaking(userInput) {
   let feedback = "";
 
   const hasHighFluency = wordCount >= 50 && sentenceCount >= 4;
-  const hasGoodTransitions = foundConnectors.length >= 2 || foundFillers.length >= 2;
+  const hasGoodTransitions =
+    foundConnectors.length >= 2 || foundFillers.length >= 2;
   const hasRichVocab = uniqueWords >= 25;
 
   if (hasHighFluency && hasGoodTransitions && hasRichVocab) {
@@ -1348,15 +1517,20 @@ function evaluateOpicSpeaking(userInput) {
       label: "🏆 AL (Advanced Low)",
       gradeClass: "grade-al",
     };
-    feedback = "🌟 탁월합니다! 풍부한 발화량, 자연스러운 연결어 및 담화 표지어 활용으로 완벽한 문단(Paragraph)을 구성했습니다. OPIc 최고 등급(AL) 수준입니다.";
-  } else if (wordCount >= 40 && (foundConnectors.length >= 1 || foundFillers.length >= 1)) {
+    feedback =
+      "🌟 탁월합니다! 풍부한 발화량, 자연스러운 연결어 및 담화 표지어 활용으로 완벽한 문단(Paragraph)을 구성했습니다. OPIc 최고 등급(AL) 수준입니다.";
+  } else if (
+    wordCount >= 40 &&
+    (foundConnectors.length >= 1 || foundFillers.length >= 1)
+  ) {
     score = 84;
     opicGrade = {
       grade: "IH",
       label: "🥇 IH (Intermediate High)",
       gradeClass: "grade-ih",
     };
-    feedback = "🥇 훌륭합니다! 문장들이 접속사로 매끄럽게 연결되며 안정적인 문단을 형성하고 있습니다. OPIc IH 기준을 확실하게 충족합니다.";
+    feedback =
+      "🥇 훌륭합니다! 문장들이 접속사로 매끄럽게 연결되며 안정적인 문단을 형성하고 있습니다. OPIc IH 기준을 확실하게 충족합니다.";
   } else if (wordCount >= 28) {
     score = 72;
     opicGrade = {
@@ -1364,7 +1538,8 @@ function evaluateOpicSpeaking(userInput) {
       label: "🥈 IM2 (Intermediate Mid 2)",
       gradeClass: "grade-im",
     };
-    feedback = "👍 좋습니다! 질문에 대한 핵심 전달력이 우수합니다. 'because, when, also' 같은 연결어를 1~2개 더 추가하면 IH 등급으로 즉시 도약할 수 있습니다.";
+    feedback =
+      "👍 좋습니다! 질문에 대한 핵심 전달력이 우수합니다. 'because, when, also' 같은 연결어를 1~2개 더 추가하면 IH 등급으로 즉시 도약할 수 있습니다.";
   } else if (wordCount >= 15) {
     score = 58;
     opicGrade = {
@@ -1372,7 +1547,8 @@ function evaluateOpicSpeaking(userInput) {
       label: "🥈 IM1 (Intermediate Mid 1)",
       gradeClass: "grade-im",
     };
-    feedback = "💪 기본 전달력이 양호합니다. 단순 단문 나열을 넘어 [이유/생각/과거 경험]을 덧붙여 3~4문장 이상으로 답변을 확장해보세요.";
+    feedback =
+      "💪 기본 전달력이 양호합니다. 단순 단문 나열을 넘어 [이유/생각/과거 경험]을 덧붙여 3~4문장 이상으로 답변을 확장해보세요.";
   } else {
     score = 40;
     opicGrade = {
@@ -1380,7 +1556,8 @@ function evaluateOpicSpeaking(userInput) {
       label: "🥉 IL (Intermediate Low)",
       gradeClass: "grade-il",
     };
-    feedback = "🌱 답변 분량이 다소 짧습니다. 질문에 대해 2~3문장 이상으로 조금 더 구체적으로 말해보세요.";
+    feedback =
+      "🌱 답변 분량이 다소 짧습니다. 질문에 대해 2~3문장 이상으로 조금 더 구체적으로 말해보세요.";
   }
 
   const wordsHtml = userTokens
@@ -1389,13 +1566,19 @@ function evaluateOpicSpeaking(userInput) {
 
   const tags = [];
   if (foundConnectors.length > 0) {
-    tags.push(`🔗 연결어(${foundConnectors.length}개): ${foundConnectors.slice(0, 4).join(", ")}`);
+    tags.push(
+      `🔗 연결어(${foundConnectors.length}개): ${foundConnectors.slice(0, 4).join(", ")}`,
+    );
   }
   if (foundFillers.length > 0) {
-    tags.push(`💬 필러(${foundFillers.length}개): ${foundFillers.slice(0, 3).join(", ")}`);
+    tags.push(
+      `💬 필러(${foundFillers.length}개): ${foundFillers.slice(0, 3).join(", ")}`,
+    );
   }
   if (foundPastVerbs.length > 0) {
-    tags.push(`⏳ 과거시제(${foundPastVerbs.length}개): ${foundPastVerbs.slice(0, 3).join(", ")}`);
+    tags.push(
+      `⏳ 과거시제(${foundPastVerbs.length}개): ${foundPastVerbs.slice(0, 3).join(", ")}`,
+    );
   }
 
   const statsHtml = `
@@ -1667,10 +1850,18 @@ async function translateToKorean(text) {
 }
 
 // 문법 검사 결과 및 교정 제안 UI 렌더링
-async function renderGrammarResults(matches, text) {
-  els.grammarBox.classList.add("show");
+async function renderGrammarResults(
+  matches,
+  text,
+  targetBox = els.grammarBox,
+  targetContent = els.grammarContent,
+) {
+  if (!targetBox || !targetContent) return;
+  targetBox.classList.add("show");
+  targetBox.style.display = "block";
+
   if (!matches || matches.length === 0) {
-    els.grammarContent.innerHTML = `<div class="g-good">✓ 문법 오류가 발견되지 않았어요. 자연스러운 문장이에요!</div>`;
+    targetContent.innerHTML = `<div class="g-good">✓ 문법 오류가 발견되지 않았어요. 자연스러운 문장이에요!</div>`;
     return;
   }
   const translated = await translateToKorean(text);
@@ -1690,7 +1881,7 @@ async function renderGrammarResults(matches, text) {
       .join(", ");
     html += `<div class="g-item"><div class="g-excerpt">...${excerpt}...</div><div class="g-msg">${escapeHtml(m.message)}</div>${repls ? `<div class="g-fix">추천 수정: ${escapeHtml(repls)}</div>` : ""}</div>`;
   });
-  els.grammarContent.innerHTML = html;
+  targetContent.innerHTML = html;
 }
 
 let translateTimer = null;

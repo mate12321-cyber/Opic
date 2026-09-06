@@ -146,6 +146,8 @@ const els = {
   opicEvalScoreBadge: document.getElementById("opicEvalScoreBadge"),
   opicEvalDiff: document.getElementById("opicEvalDiff"),
   opicEvalFeedback: document.getElementById("opicEvalFeedback"),
+  opicGrammarBox: document.getElementById("opicGrammarBox"),
+  opicGrammarContent: document.getElementById("opicGrammarContent"),
   ttsOpicUserInputBtn: document.getElementById("ttsOpicUserInputBtn"),
   opicGoogleAskLink: document.getElementById("opicGoogleAskLink"),
   opicGoogleAskCopy: document.getElementById("opicGoogleAskCopy"),

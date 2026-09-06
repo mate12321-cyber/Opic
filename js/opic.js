@@ -233,6 +233,11 @@ function renderOpicCard() {
   // 모범 답안 박스 및 평가 박스 숨김
   els.opicAnswerBox.style.display = "none";
   if (els.opicSpeechEvalBox) els.opicSpeechEvalBox.style.display = "none";
+  if (els.opicGrammarBox) {
+    els.opicGrammarBox.classList.remove("show");
+    els.opicGrammarBox.style.display = "none";
+  }
+  if (els.opicGrammarContent) els.opicGrammarContent.innerHTML = "";
 
   // 버튼 상태 리셋
   els.opicRevealRow.style.display = "flex";
@@ -464,6 +469,18 @@ function revealOpic() {
       referenceText: userText, // 평가 기준을 모범 답안이 아닌 '내 실제 답변'으로 설정
       userText: userText,
       voiceBtn: els.ttsOpicUserInputBtn,
+    });
+  }
+
+  // 내 답변 실시간 문법 검사 & 원어민식 교정 제안
+  if (userText && els.opicGrammarBox && els.opicGrammarContent) {
+    checkGrammar(userText).then((matches) => {
+      renderGrammarResults(
+        matches,
+        userText,
+        els.opicGrammarBox,
+        els.opicGrammarContent,
+      );
     });
   }
 
