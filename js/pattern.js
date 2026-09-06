@@ -255,16 +255,25 @@ function renderPatternVariation() {
     });
   }
 
-  // 전체 답변 텍스트 구성 (문장별 줄바꿈)
-  const fullEnFormatted = curVar.sentences.map((s) => s.en).join("\n");
-  const fullKoFormatted = curVar.sentences.map((s) => s.ko).join("\n");
+  // 전체 답변 텍스트 구성 (문장별 영어 -> 한글 순서 배치)
+  const fullContentEl = document.getElementById("patternFullContent");
+  if (fullContentEl && curVar.sentences) {
+    fullContentEl.innerHTML = curVar.sentences
+      .map(
+        (s) => `
+        <div class="pattern-full-pair">
+          <div class="pattern-full-en">${safeEscapeHtml(s.en)}</div>
+          <div class="pattern-full-ko">${safeEscapeHtml(s.ko)}</div>
+        </div>
+      `,
+      )
+      .join("");
+  }
+
   const fullEnSpeech = curVar.sentences.map((s) => s.en).join(" ");
-
-  const fullEnEl = document.getElementById("patternFullEn");
-  if (fullEnEl) fullEnEl.textContent = fullEnFormatted;
-
-  const fullKoEl = document.getElementById("patternFullKo");
-  if (fullKoEl) fullKoEl.textContent = fullKoFormatted;
+  const copyFormatted = curVar.sentences
+    .map((s) => `${s.en}\n${s.ko}`)
+    .join("\n\n");
 
   // 전체 TTS 버튼
   const allTtsBtn = document.getElementById("patternTtsAllBtn");
@@ -275,7 +284,7 @@ function renderPatternVariation() {
   // 전체 복사 버튼
   const copyBtn = document.getElementById("patternCopyAllBtn");
   if (copyBtn) {
-    copyBtn.onclick = () => copyText(fullEnFormatted, copyBtn);
+    copyBtn.onclick = () => copyText(copyFormatted, copyBtn);
   }
 }
 

@@ -306,19 +306,40 @@
   line-height: 1.4;
 }
 
-/* ── 전체 스크립트 연결 영역 (문장별 줄바꿈) ── */
-#patternFullEn {
-  white-space: pre-line;
-  line-height: 1.65;
-  margin-bottom: 10px;
+/* ── 전체 스크립트 연결 영역 (문장별 영어 ➡️ 한글 번역 순서 배치) ── */
+.pattern-full-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.pattern-full-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--border-light, #e2e8f0);
+}
+
+.pattern-full-pair:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.pattern-full-en {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main, #0f172a);
+  line-height: 1.5;
   word-break: keep-all;
   overflow-wrap: break-word;
 }
 
-#patternFullKo {
-  white-space: pre-line;
-  line-height: 1.55;
-  color: var(--text-muted);
+.pattern-full-ko {
+  font-size: 13.5px;
+  color: var(--text-muted, #64748b);
+  line-height: 1.45;
   word-break: keep-all;
   overflow-wrap: break-word;
 }
