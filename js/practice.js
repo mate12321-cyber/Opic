@@ -73,6 +73,9 @@ function renderCard() {
   els.tipText.textContent = item.tip ? `💡 ${item.tip}` : "";
   els.tipText.style.display = item.tip ? "block" : "none";
   els.userInput.value = "";
+  if (typeof autoResizeTextarea === "function") {
+    autoResizeTextarea(els.userInput);
+  }
   els.answerBox.classList.remove("show");
   els.grammarBox.classList.remove("show");
   els.grammarContent.innerHTML = "";

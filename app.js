@@ -29,8 +29,9 @@ if (els.copyOpicAll) {
   });
 }
 
-// ── 유저 직접 입력 시 실시간 번역 디바운스 트리거 ──────────────────
+// ── 유저 직접 입력 시 실시간 번역 디바운스 트리거 & 자동 높이 조절 ──────────────────
 els.userInput.addEventListener("input", () => {
+  autoResizeTextarea(els.userInput);
   const text = els.userInput.value.trim();
   clearTimeout(translateTimer);
   if (!text) {
@@ -43,6 +44,7 @@ els.userInput.addEventListener("input", () => {
 
 if (els.opicUserInput) {
   els.opicUserInput.addEventListener("input", () => {
+    autoResizeTextarea(els.opicUserInput);
     const text = els.opicUserInput.value.trim();
     clearTimeout(translateTimer);
     if (!text) {

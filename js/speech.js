@@ -2884,7 +2884,10 @@ async function translateToKorean(text) {
         googleTranslateCooldownUntil = Date.now() + 60000;
       } else if (res.ok) {
         const data = await res.json();
-        translated = (data[0] || []).map((chunk) => chunk[0]).join("").trim();
+        translated = (data[0] || [])
+          .map((chunk) => chunk[0])
+          .join("")
+          .trim();
       }
     } catch (e) {
       // CORS 또는 네트워크 에러 발생 시 60초 쿨다운 설정
@@ -3065,6 +3068,17 @@ function correctSttPhoneticErrors(text) {
     }
   }
   return corrected;
+}
+
+// 텍스트 길이에 따라 textarea 높이를 실시간 자동 확장 (스크롤바 없이 한눈에 보기)
+function autoResizeTextarea(el) {
+  if (!el) return;
+  el.style.height = "auto";
+  const isOpic = el.id === "opicUserInput";
+  const minHeight = isOpic ? 110 : 84;
+  // 스크롤이 생기기 전 6px 여유 공간을 미리 확보하여 부드럽게 확장
+  const newHeight = Math.max(minHeight, el.scrollHeight + 6);
+  el.style.height = `${newHeight}px`;
 }
 
 // 구두점이 없는 긴 STT 발화 텍스트를 접속사/필러 기준으로 가상 분절하는 지능형 문장 분절기
@@ -3314,6 +3328,7 @@ function initSpeechRecognition() {
 
     if (activeTarget && activeTarget.input) {
       activeTarget.input.value = currentText;
+      autoResizeTextarea(activeTarget.input);
       activeTarget.input.dispatchEvent(new Event("input"));
     }
   };

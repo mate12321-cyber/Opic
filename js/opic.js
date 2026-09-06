@@ -300,6 +300,9 @@ function renderOpicCard() {
 
   // 입력창 및 실시간 번역 리셋
   els.opicUserInput.value = "";
+  if (typeof autoResizeTextarea === "function") {
+    autoResizeTextarea(els.opicUserInput);
+  }
   els.opicLiveTranslate.classList.remove("show");
   els.opicLiveTranslateText.textContent = "";
   if (els.opicMicError) els.opicMicError.textContent = "";

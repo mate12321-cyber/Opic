@@ -9,18 +9,24 @@
 textarea {
   width: 100%;
   min-height: 84px;
-  resize: vertical;
+  resize: none;
+  overflow-y: hidden;
   font-family: var(--font-sans);
-  font-size: 16.5px;
+  font-size: 16px;
   color: var(--text-main);
   background: #ffffff;
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 12px 46px 12px 14px;
+  padding: 12px 46px 14px 14px;
   outline: none;
-  line-height: 1.55;
-  transition: all 0.2s ease;
+  line-height: 1.6;
+  box-sizing: border-box;
+  transition: height 0.12s ease-out, border-color 0.2s ease, box-shadow 0.2s ease;
   box-shadow: var(--shadow-sm);
+}
+#opicUserInput {
+  min-height: 110px;
+  font-size: 15.5px;
 }
 textarea:focus {
   border-color: var(--primary);
