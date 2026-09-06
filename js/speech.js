@@ -2163,7 +2163,9 @@ function calculateComprehensiveOpicScore({
   const virtualSentences = splitIntoVirtualSentences(userText);
   const sentenceCount = Math.max(
     1,
-    virtualSentences.length || (userText.match(/[.!?]+/g) || []).length || Math.ceil(wordCount / 9)
+    virtualSentences.length ||
+      (userText.match(/[.!?]+/g) || []).length ||
+      Math.ceil(wordCount / 9),
   );
 
   const foundConnectors = matchWordList(userText, OPIC_CONNECTORS);
@@ -2183,10 +2185,7 @@ function calculateComprehensiveOpicScore({
   // - IL (Intermediate Low): 3~4문장 (19~34단어, 약 30초) - 단순 단문 나열
   // - Novice / 미흡: 1~2문장 (18단어 미만, 20초 미만) - 단답형 / 파편화된 구문
 
-  const effectiveSentences = Math.max(
-    sentenceCount,
-    Math.round(wordCount / 9)
-  );
+  const effectiveSentences = Math.max(sentenceCount, Math.round(wordCount / 9));
 
   let volumeScore = 25;
   let volumeCapGrade = "IL";
@@ -2884,7 +2883,7 @@ const PHONETIC_CORRECTION_RULES = [
   { reg: /\bas\s+i\s+recall\b/gi, rep: "as I recall" },
   { reg: /\bi\s+am\s+agree\b/gi, rep: "I agree" },
   { reg: /\bin\s+front\s+off\b/gi, rep: "in front of" },
-  { reg: /\bone\s+of\s+the\s+best\s+thing\b/gi, rep: "one of the best things" }
+  { reg: /\bone\s+of\s+the\s+best\s+thing\b/gi, rep: "one of the best things" },
 ];
 
 // 음성 인식 텍스트 자동 보정기
@@ -2902,7 +2901,7 @@ function splitIntoVirtualSentences(text) {
   if (!text || !text.trim()) return [];
   const rawSentences = text
     .split(/[.!?]+/)
-    .map(s => s.trim())
+    .map((s) => s.trim())
     .filter(Boolean);
 
   // 이미 마침표 등으로 3개 이상 잘 분절되어 있다면 그대로 반환
@@ -2911,7 +2910,8 @@ function splitIntoVirtualSentences(text) {
   }
 
   // 구두점이 부족한 경우 접속사 및 담화표지어 경계를 기준으로 가상 분절
-  const virtualSplitRegex = /\b(because|since|so|therefore|however|although|even though|but|when|whenever|after that|afterwards|before|then|also|besides|furthermore|moreover|what's more|plus|for example|for instance|in fact|you know|honestly|actually|frankly|i think|in my opinion|first of all|finally)\b/gi;
+  const virtualSplitRegex =
+    /\b(because|since|so|therefore|however|although|even though|but|when|whenever|after that|afterwards|before|then|also|besides|furthermore|moreover|what's more|plus|for example|for instance|in fact|you know|honestly|actually|frankly|i think|in my opinion|first of all|finally)\b/gi;
 
   const virtualSentences = [];
   for (const seg of rawSentences) {
@@ -3167,7 +3167,10 @@ function initSpeechRecognition() {
           try {
             recognition.start();
           } catch (err) {
-            console.warn("[SpeechRecognition] Auto-restart silent retry failed:", err);
+            console.warn(
+              "[SpeechRecognition] Auto-restart silent retry failed:",
+              err,
+            );
           }
         }
       }, 150);

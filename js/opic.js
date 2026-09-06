@@ -110,7 +110,8 @@ function updateSpeakingTimerDisplay() {
   if (els.opicTimerLevelTip) {
     els.opicTimerLevelTip.className = "timer-target-tip";
     if (opicSpeakingSeconds >= 95) {
-      els.opicTimerLevelTip.textContent = "🏆 AL 권장 구간 달성 (95초+) 완벽한 문단!";
+      els.opicTimerLevelTip.textContent =
+        "🏆 AL 권장 구간 달성 (95초+) 완벽한 문단!";
       els.opicTimerLevelTip.classList.add("tip-al");
       els.opicTimerDigits.style.color = "#d97706";
     } else if (opicSpeakingSeconds >= 75) {
@@ -193,24 +194,17 @@ function startOpicPractice(wrongOnly = false) {
     // 🎯 실전 3단 콤보 모드: 선택된 카테고리별로 3문항씩 묶어 순차 세트 구성
     const comboIndices = [];
     const cats = [...opicSelectedCats];
-    
+
     // 카테고리 순서를 섞음
     const shuffledCats = shuffle(cats);
     for (const cat of shuffledCats) {
-      const catQuestions = OPIC_QUESTIONS.map((q, idx) => ({ q, idx }))
-        .filter(({ q }) => q.cat === cat);
-      
+      const catQuestions = OPIC_QUESTIONS.map((q, idx) => ({ q, idx })).filter(
+        ({ q }) => q.cat === cat,
+      );
+
       if (catQuestions.length > 0) {
-        // 콤보 1단계(묘사), 2단계(루틴/활동), 3단계(과거경험/사건) 순서 정렬
-        const sorted = catQuestions.sort((a, b) => {
-          const rank = (type) => {
-            if (type.includes("묘사") || type.includes("소개")) return 1;
-            if (type.includes("루틴") || type.includes("활동") || type.includes("취미")) return 2;
-            if (type.includes("경험") || type.includes("과거") || type.includes("사건") || type.includes("문제")) return 3;
-            return 2;
-          };
-          return rank(a.q.type || "") - rank(b.q.type || "");
-        });
+        // 실제 OPIc 콤보 단계(1단계 묘사 ➔ 2단계 루틴 ➔ 3단계 과거경험) 순서 정렬
+        const sorted = catQuestions.sort((a, b) => (a.q.combo_step || 1) - (b.q.combo_step || 1));
         sorted.slice(0, 3).forEach(({ idx }) => comboIndices.push(idx));
       }
     }
@@ -274,9 +268,8 @@ function renderOpicCard() {
   // 3단 콤보 배지 표시
   if (els.opicComboStepBadge) {
     if (opicPlayMode === "combo") {
-      const step = (opicCur % 3) + 1;
-      const stepNames = { 1: "장소·대상 묘사", 2: "일상 루틴·활동", 3: "과거 기억·경험" };
-      els.opicComboStepBadge.textContent = `🎯 콤보 ${step}/3단계: ${stepNames[step] || item.type}`;
+      const stepText = item.combo_role || `콤보 ${item.combo_step || 1}단계`;
+      els.opicComboStepBadge.textContent = `🎯 ${stepText}`;
       els.opicComboStepBadge.style.display = "inline-flex";
     } else {
       els.opicComboStepBadge.style.display = "none";

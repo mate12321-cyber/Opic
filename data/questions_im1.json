@@ -41,7 +41,9 @@
     ],
     "tip": "[만능 자기소개] 이름/나이(28세) → 거주지(천안 불당동 자가) 및 아내 → 직업(전기 엔지니어) → 취미(요리, 코딩, 드라이브) → 성격(배려심) → 포부 순으로 답변하세요.",
     "answer_en": "Hello, Eva! My name is Hyosang Kim, and I am twenty-eight years old. I live in an apartment in Buldang-dong, Cheonan with my loving wife. I work as an electrical engineer at a technology manufacturing company. In my free time, I really enjoy cooking delicious meals, coding, and going for scenic drives. I would describe myself as a very positive, calm, and considerate person. I am very excited to take this test today, and I will do my best.",
-    "answer_ko": "안녕하세요, 에바! 제 이름은 김효상이고 28살입니다. 저는 사랑하는 아내와 함께 천안 불당동의 아파트에 살고 있어요. 저는 기술 제조 회사에서 전기 엔지니어로 일하고 있습니다. 여가 시간에는 맛있는 요리하기, 코딩, 그리고 드라이브를 즐깁니다. 제 성격은 매우 긍정적이고 차분하며 상대방을 배려하는 편이에요. 오늘 이 시험을 보게 되어 매우 설레고, 최선을 다하겠습니다."
+    "answer_ko": "안녕하세요, 에바! 제 이름은 김효상이고 28살입니다. 저는 사랑하는 아내와 함께 천안 불당동의 아파트에 살고 있어요. 저는 기술 제조 회사에서 전기 엔지니어로 일하고 있습니다. 여가 시간에는 맛있는 요리하기, 코딩, 그리고 드라이브를 즐깁니다. 제 성격은 매우 긍정적이고 차분하며 상대방을 배려하는 편이에요. 오늘 이 시험을 보게 되어 매우 설레고, 최선을 다하겠습니다.",
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사"
   },
   {
     "id": "q_intro_02",
@@ -85,7 +87,9 @@
     ],
     "tip": "[만능 루틴] 교대근무 업무 → 퇴근 후 저녁 식사 → 주말 집 앞 아름드리 공원 산책 → 단골 카페 방문 → 힐링 효과 → 일과 삶의 균형.",
     "answer_en": "Usually, on weekdays, I work on rotating shifts at the company, maintaining electrical power systems. When I get home after my shift, I take a warm shower and enjoy a homemade dinner with my wife. On weekends, whenever I have free time, I love going for a walk in Areumdri Park right in front of our home. We often stop by Starbucks or A Twosome Place to drink iced Americanos together. Spending quality time like this helps me relieve stress and refresh my mind completely. Overall, I always try to maintain a healthy and happy balance between work and family life.",
-    "answer_ko": "보통 평일에는 회사에서 교대근무로 일하며 전력 시스템을 유지 관리합니다. 근무를 마치고 집에 돌아오면 따뜻한 물로 샤워를 하고 아내와 함께 맛있는 집밥을 즐겨요. 주말에는 여유 시간이 생길 때마다 집 바로 앞 아름드리 공원으로 산책을 나가는 걸 좋아해요. 우리는 스타벅스나 투썸플레이스에 들러 아이스 아메리카노를 함께 마시곤 합니다. 이런 알찬 시간을 보내는 것은 스트레스를 풀고 머리를 완전히 식히는 데 큰 도움이 돼요. 전반적으로 저는 일과 가정생활 사이에 건강하고 행복한 균형을 유지하려고 노력합니다."
+    "answer_ko": "보통 평일에는 회사에서 교대근무로 일하며 전력 시스템을 유지 관리합니다. 근무를 마치고 집에 돌아오면 따뜻한 물로 샤워를 하고 아내와 함께 맛있는 집밥을 즐겨요. 주말에는 여유 시간이 생길 때마다 집 바로 앞 아름드리 공원으로 산책을 나가는 걸 좋아해요. 우리는 스타벅스나 투썸플레이스에 들러 아이스 아메리카노를 함께 마시곤 합니다. 이런 알찬 시간을 보내는 것은 스트레스를 풀고 머리를 완전히 식히는 데 큰 도움이 돼요. 전반적으로 저는 일과 가정생활 사이에 건강하고 행복한 균형을 유지하려고 노력합니다.",
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동"
   },
   {
     "id": "q_home_01",
@@ -128,7 +132,9 @@
     ],
     "tip": "[만능 장소 묘사] 불당동 아파트 거실 묘사 → 채광 & 뷰 → 가구(소파/대형TV) → 아내와 영화 감상 → 힐링 가치.",
     "answer_en": "Whenever I think of my home, there is a special place I really love called the living room. It is located in our apartment in Buldang-dong, Cheonan, and it has large windows with plenty of natural light. Inside the living room, the vibe is very clean, cozy, and modern. There is a comfortable sofa, warm lighting, and a large TV where my wife and I watch movies. What I love most about our home is that it provides the perfect relaxation after busy shifts. Overall, it is really my favorite place in the world, and I feel so peaceful there.",
-    "answer_ko": "제 집을 생각할 때마다, 제가 정말 좋아하는 거실이라는 특별한 공간이 있어요. 천안 불당동에 위치한 우리 아파트 거실은 큰 창문이 있어 자연 채광이 아주 풍부합니다. 거실 내부는 분위기가 매우 깨끗하고 아늑하며 현대적이에요. 편안한 소파와 따뜻한 조명, 아내와 함께 영화를 보는 대형 TV가 있습니다. 우리 집에서 가장 좋은 점은 바쁜 근무를 마치고 완벽한 휴식을 취할 수 있다는 것입니다. 전반적으로 이곳은 세상에서 제가 가장 좋아하는 장소이며, 그곳에 있을 때 큰 평화로움을 느껴요."
+    "answer_ko": "제 집을 생각할 때마다, 제가 정말 좋아하는 거실이라는 특별한 공간이 있어요. 천안 불당동에 위치한 우리 아파트 거실은 큰 창문이 있어 자연 채광이 아주 풍부합니다. 거실 내부는 분위기가 매우 깨끗하고 아늑하며 현대적이에요. 편안한 소파와 따뜻한 조명, 아내와 함께 영화를 보는 대형 TV가 있습니다. 우리 집에서 가장 좋은 점은 바쁜 근무를 마치고 완벽한 휴식을 취할 수 있다는 것입니다. 전반적으로 이곳은 세상에서 제가 가장 좋아하는 장소이며, 그곳에 있을 때 큰 평화로움을 느껴요.",
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사"
   },
   {
     "id": "q_home_02",
@@ -172,7 +178,9 @@
     ],
     "tip": "[만능 집 일과] 주방 요리(파스타/볶음밥) → 서재 코딩 작업 → 로이킴/비틀즈 음악 감상 → 소파에서 아내와 대화 → 취침 전 휴식.",
     "answer_en": "Usually, whenever I have free time at home, I love to cook delicious food and work on coding projects. First of all, I enter our kitchen and prepare a tasty dinner like pasta or fried rice with my wife. After dinner, I sit at my clean study desk and turn on my dual-monitor computer. While coding, I enjoy listening to acoustic ballads or songs by Roy Kim and The Beatles. Before going to bed, my wife and I relax on the living room sofa and chat about our day. It is the best way for me to unwind and recharge, so I enjoy this routine every day.",
-    "answer_ko": "보통 집에서 여유 시간이 생길 때마다, 저는 맛있는 요리를 하고 코딩 프로젝트를 하는 것을 좋아해요. 우선 주방으로 가서 아내와 함께 파스타나 볶음밥 같은 맛있는 저녁 식사를 준비합니다. 식사 후에는 서재의 깔끔한 책상에 앉아 듀얼 모니터 컴퓨터를 켭니다. 코딩을 하면서 로이킴이나 비틀즈의 어쿠스틱 발라드 곡들을 듣는 것을 즐겨요. 잠자리에 들기 전에는 아내와 거실 소파에 앉아 오늘 하루에 대해 이야기를 나눕니다. 하루를 마무리하고 재충전하기에 가장 좋은 방법이라 매일 이 일과를 소중히 즐깁니다."
+    "answer_ko": "보통 집에서 여유 시간이 생길 때마다, 저는 맛있는 요리를 하고 코딩 프로젝트를 하는 것을 좋아해요. 우선 주방으로 가서 아내와 함께 파스타나 볶음밥 같은 맛있는 저녁 식사를 준비합니다. 식사 후에는 서재의 깔끔한 책상에 앉아 듀얼 모니터 컴퓨터를 켭니다. 코딩을 하면서 로이킴이나 비틀즈의 어쿠스틱 발라드 곡들을 듣는 것을 즐겨요. 잠자리에 들기 전에는 아내와 거실 소파에 앉아 오늘 하루에 대해 이야기를 나눕니다. 하루를 마무리하고 재충전하기에 가장 좋은 방법이라 매일 이 일과를 소중히 즐깁니다.",
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동"
   },
   {
     "id": "q_home_03",
@@ -216,7 +224,9 @@
     ],
     "tip": "[만능 문제 해결] 새집 이사 직후 에어컨 고장 → 무더위 당황 → 침착하게 서비스센터 긴급 수리 접수 → 기사님 방문 신속 해결 → 신속 대처의 교훈.",
     "answer_en": "I remember an unexpected problem I experienced right after moving into our new apartment in Buldang-dong. In the middle of hot summer, our newly installed air conditioner suddenly stopped cooling. The indoor temperature rose quickly, so my wife and I were quite panicked and worried at first. However, I stayed calm and immediately called the installation service center to request an urgent inspection. Fortunately, a professional technician arrived the next morning and fixed the electrical wiring problem right away. It was a stressful moment, but it taught me the value of prompt action and proper maintenance.",
-    "answer_ko": "불당동 새 아파트로 이사한 직후에 겪었던 예상치 못한 문제가 하나 생각납니다. 한여름에 새로 설치한 거실 에어컨에서 갑자기 찬 바람이 나오지 않고 멈췄어요. 실내 온도가 빠르게 올라가서 처음에는 아내와 저 모두 꽤 당황스럽고 어찌할 바를 몰랐습니다. 하지만 침착하게 즉시 설치 서비스 센터에 전화하여 긴급 점검을 요청했습니다. 다행히 전문 기사님이 다음 날 아침 일찍 도착하셔서 전기 배선 문제를 곧바로 해결해 주셨어요. 잠깐 스트레스를 받긴 했지만, 신속한 대처와 철저한 관리의 중요성을 배운 소중한 경험이었습니다."
+    "answer_ko": "불당동 새 아파트로 이사한 직후에 겪었던 예상치 못한 문제가 하나 생각납니다. 한여름에 새로 설치한 거실 에어컨에서 갑자기 찬 바람이 나오지 않고 멈췄어요. 실내 온도가 빠르게 올라가서 처음에는 아내와 저 모두 꽤 당황스럽고 어찌할 바를 몰랐습니다. 하지만 침착하게 즉시 설치 서비스 센터에 전화하여 긴급 점검을 요청했습니다. 다행히 전문 기사님이 다음 날 아침 일찍 도착하셔서 전기 배선 문제를 곧바로 해결해 주셨어요. 잠깐 스트레스를 받긴 했지만, 신속한 대처와 철저한 관리의 중요성을 배운 소중한 경험이었습니다.",
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 기억·경험"
   },
   {
     "id": "q_home_04",
@@ -260,7 +270,9 @@
     ],
     "tip": "[만능 변화 비교] 과거 좁은 집 → 불당동 자가 아파트 이사 → 현대적 인테리어 & 가구(리클라이너 소파, 무드등, 듀얼모니터 서재) → 삶의 질 향상.",
     "answer_en": "Compared to the past, our home environment has improved greatly since moving into our own apartment. In the past, our living space was smaller and we only had basic, old furniture. However, in our new home in Buldang-dong, we designed a cozy, modern, and smart interior. For example, we purchased a comfortable recliner sofa, installed warm mood lighting, and added a dual-monitor desk. Because of these wonderful changes, relaxing at home after my shifts feels much more healing and enjoyable. Overall, I am really satisfied with our home interior and proud of our living space.",
-    "answer_ko": "과거와 비교했을 때, 우리만의 자가 아파트로 이사한 이후 주거 환경이 정말 많이 좋아졌습니다. 과거에는 거주 공간이 더 좁았고 기본적인 오래된 가구들만 사용했어요. 하지만 불당동의 새 보금자리에서는 아늑하고 현대적인 스마트 인테리어를 직접 꾸몄습니다. 예를 들어 편안한 리클라이너 소파를 들이고, 따뜻한 무드 조명을 달았으며 듀얼 모니터 서재 책상을 마련했어요. 이러한 멋진 변화 덕분에 교대근무 후 집에서 쉬는 시간이 훨씬 더 힐링되고 즐겁습니다. 전반적으로 저는 우리 집 인테리어에 대단히 만족하며 보금자리에 큰 자부심을 느낍니다."
+    "answer_ko": "과거와 비교했을 때, 우리만의 자가 아파트로 이사한 이후 주거 환경이 정말 많이 좋아졌습니다. 과거에는 거주 공간이 더 좁았고 기본적인 오래된 가구들만 사용했어요. 하지만 불당동의 새 보금자리에서는 아늑하고 현대적인 스마트 인테리어를 직접 꾸몄습니다. 예를 들어 편안한 리클라이너 소파를 들이고, 따뜻한 무드 조명을 달았으며 듀얼 모니터 서재 책상을 마련했어요. 이러한 멋진 변화 덕분에 교대근무 후 집에서 쉬는 시간이 훨씬 더 힐링되고 즐겁습니다. 전반적으로 저는 우리 집 인테리어에 대단히 만족하며 보금자리에 큰 자부심을 느낍니다.",
+    "combo_step": 4,
+    "combo_role": "4단계: 변화·비교 심화"
   },
   {
     "id": "q_work_01",
@@ -304,7 +316,9 @@
     ],
     "tip": "[만능 직장 묘사] 천안 인근 기술 제조 공장 → 전력 제어실(컨트롤룸) 묘사 → 모니터링 콘솔 및 전기 설비 → 동료들과의 팀워크 → 안전 관리 자부심.",
     "answer_en": "Whenever I think of my workplace, there is a core area I spend most of my time called the electrical control room. Our technology manufacturing plant is located in the industrial complex near Cheonan, so it is convenient to commute. Inside the control room, the vibe is very clean, high-tech, and well-organized. There are multi-screen monitoring consoles and electrical power panels that control the factory power supply. What I love most about my workplace is that my colleagues are very supportive and we work closely as a team. Overall, it is a great professional environment, and I take big pride in maintaining our electrical systems safely.",
-    "answer_ko": "제 직장을 생각할 때마다, 제가 대부분의 시간을 보내는 전력 제어실이라는 핵심 공간이 있습니다. 우리 기술 제조 공장은 천안 인근 산업단지에 위치해 있어서 출퇴근하기가 편리합니다. 제어실 내부는 분위기가 매우 깨끗하고 첨단 설비로 잘 정돈되어 있어요. 공장 전력 공급을 제어하는 멀티 모니터링 콘솔과 고압 분전반 패널들이 갖춰져 있습니다. 직장에서 가장 좋은 점은 동료들이 서로를 배려하고 팀으로 긴밀하게 협력한다는 것입니다. 전반적으로 훌륭한 업무 환경이며, 전력 시스템을 안전하게 유지하는 것에 큰 자부심을 느낍니다."
+    "answer_ko": "제 직장을 생각할 때마다, 제가 대부분의 시간을 보내는 전력 제어실이라는 핵심 공간이 있습니다. 우리 기술 제조 공장은 천안 인근 산업단지에 위치해 있어서 출퇴근하기가 편리합니다. 제어실 내부는 분위기가 매우 깨끗하고 첨단 설비로 잘 정돈되어 있어요. 공장 전력 공급을 제어하는 멀티 모니터링 콘솔과 고압 분전반 패널들이 갖춰져 있습니다. 직장에서 가장 좋은 점은 동료들이 서로를 배려하고 팀으로 긴밀하게 협력한다는 것입니다. 전반적으로 훌륭한 업무 환경이며, 전력 시스템을 안전하게 유지하는 것에 큰 자부심을 느낍니다.",
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사"
   },
   {
     "id": "q_work_02",
@@ -348,7 +362,9 @@
     ],
     "tip": "[만능 업무 루틴] 교대근무 인수인계 → 현장 전력 설비 점검(전압/배전/발전기) → 데이터 기록 및 사전 정비 → 일일 보고서 작성 → 보람과 성취감.",
     "answer_en": "As an electrical engineer, I work on rotating shifts to ensure our plant power runs safely twenty-four hours a day. First of all, when my shift begins, I attend a brief handover meeting with the previous engineer. Then, I inspect voltage meters, power distribution lines, and emergency backup generators across the site. While doing rounds, I log operational data on the system and troubleshoot any small electrical issues. After completing all safety checks, I write a daily maintenance report before handing over the shift. It requires high concentration, but keeping the factory running smoothly brings me great satisfaction.",
-    "answer_ko": "전기 엔지니어로서, 저는 공장의 24시간 안정적인 전력 가동을 위해 교대근무로 일하고 있습니다. 우선 근무가 시작되면 이전 근무 엔지니어와 함께 간단한 인수인계 미팅을 진행합니다. 그 후 현장을 돌며 전압 계측기, 전력 분전선로, 비상 발전기 설비들을 꼼꼼히 점검해요. 순찰을 돌면서 시스템에 운전 데이터를 기록하고 작은 전기적 이상 징후를 사전에 조치합니다. 모든 안전 점검을 마친 후 교대 인계 전 일일 정비 보고서를 작성합니다. 높은 집중력이 필요한 일이지만, 공장이 문제없이 원활하게 가동될 때 큰 보람을 느낍니다."
+    "answer_ko": "전기 엔지니어로서, 저는 공장의 24시간 안정적인 전력 가동을 위해 교대근무로 일하고 있습니다. 우선 근무가 시작되면 이전 근무 엔지니어와 함께 간단한 인수인계 미팅을 진행합니다. 그 후 현장을 돌며 전압 계측기, 전력 분전선로, 비상 발전기 설비들을 꼼꼼히 점검해요. 순찰을 돌면서 시스템에 운전 데이터를 기록하고 작은 전기적 이상 징후를 사전에 조치합니다. 모든 안전 점검을 마친 후 교대 인계 전 일일 정비 보고서를 작성합니다. 높은 집중력이 필요한 일이지만, 공장이 문제없이 원활하게 가동될 때 큰 보람을 느낍니다.",
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동"
   },
   {
     "id": "q_work_03",
@@ -392,7 +408,9 @@
     ],
     "tip": "[만능 직장 문제해결] 야간 근무 중 전력 트립 경보 → 긴장감 → 침착하게 회로/모듈 불량 진단 → 예비 부품 신속 교체 복구 → 팀워크와 성공적 해결.",
     "answer_en": "I remember an urgent electrical problem I solved during a night shift a few months ago. Suddenly, a critical power supply alarm went off on the main control monitor around two in the morning. A sudden power trip occurred on one of the production lines, so we were quite tense and worried at first. However, I stayed calm, checked the circuit breaker status immediately, and identified a faulty power module. I quickly replaced the spare module with my team, and the entire power line was restored safely within twenty minutes. It was a high-pressure situation, but it proved the strength of our teamwork and quick decision-making.",
-    "answer_ko": "몇 달 전 야간 근무 중에 해결했던 긴급한 전기 설비 문제가 하나 기억납니다. 새벽 2시경 메인 제어 모니터에서 중요한 전력 공급 경보가 갑자기 울렸어요. 생산 라인 중 한 곳에 전력 차단이 발생해서 처음에는 꽤 긴장되고 당황스러웠습니다. 하지만 침착하게 즉시 차단기 상태를 확인했고 불량 전원 모듈을 찾아냈습니다. 팀원과 함께 예비 모듈로 신속하게 교체하여 20분 만에 전체 전력 라인을 안전하게 복구했습니다. 긴박한 상황이었지만, 우리 팀의 단결력과 빠른 판단력을 입증한 뜻깊은 경험이었습니다."
+    "answer_ko": "몇 달 전 야간 근무 중에 해결했던 긴급한 전기 설비 문제가 하나 기억납니다. 새벽 2시경 메인 제어 모니터에서 중요한 전력 공급 경보가 갑자기 울렸어요. 생산 라인 중 한 곳에 전력 차단이 발생해서 처음에는 꽤 긴장되고 당황스러웠습니다. 하지만 침착하게 즉시 차단기 상태를 확인했고 불량 전원 모듈을 찾아냈습니다. 팀원과 함께 예비 모듈로 신속하게 교체하여 20분 만에 전체 전력 라인을 안전하게 복구했습니다. 긴박한 상황이었지만, 우리 팀의 단결력과 빠른 판단력을 입증한 뜻깊은 경험이었습니다.",
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 기억·경험"
   },
   {
     "id": "q_work_04",
@@ -436,7 +454,9 @@
     ],
     "tip": "[만능 첫 출근] 첫 출근의 설렘과 긴장 → 안전 장비 착용 및 공장 첫인상 → 선배들의 따뜻한 환영과 변전 시설 투어 → 점심 식사와 격려 → 엔지니어로서의 다짐.",
     "answer_en": "I remember my very first day at the company as an electrical engineer very vividly. When I first stepped into the huge manufacturing plant, everything looked massive and slightly intimidating. I put on my safety helmet and steel-toe boots, feeling both nervous and excited at the same time. My senior colleagues welcomed me warmly and gave me a comprehensive safety tour of the electrical substations. We had a delicious lunch together, and their kind encouragement made me feel comfortable right away. It was an exciting beginning, and it motivated me to become a responsible and skilled professional.",
-    "answer_ko": "전기 엔지니어로서 회사에 첫 출근했던 첫날의 기억이 아주 생생합니다. 거대한 제조 공장에 처음 발을 들여놓았을 때, 모든 설비가 웅장하고 조금 긴장되기도 했어요. 안전모와 안전화를 착용하며 긴장감과 설렘을 동시에 느꼈습니다. 선배 엔지니어분들이 저를 따뜻하게 맞아주셨고 변전소와 전력 설비에 대한 안전 견학을 시켜주셨습니다. 점심 식사를 함께하며 따뜻한 격려를 해주셔서 금세 마음이 편안해졌어요. 설레는 첫 출발이었으며, 책임감 있고 유능한 엔지니어로 성장하겠다는 큰 동기부여가 되었습니다."
+    "answer_ko": "전기 엔지니어로서 회사에 첫 출근했던 첫날의 기억이 아주 생생합니다. 거대한 제조 공장에 처음 발을 들여놓았을 때, 모든 설비가 웅장하고 조금 긴장되기도 했어요. 안전모와 안전화를 착용하며 긴장감과 설렘을 동시에 느꼈습니다. 선배 엔지니어분들이 저를 따뜻하게 맞아주셨고 변전소와 전력 설비에 대한 안전 견학을 시켜주셨습니다. 점심 식사를 함께하며 따뜻한 격려를 해주셔서 금세 마음이 편안해졌어요. 설레는 첫 출발이었으며, 책임감 있고 유능한 엔지니어로 성장하겠다는 큰 동기부여가 되었습니다.",
+    "combo_step": 4,
+    "combo_role": "4단계: 변화·비교 심화"
   },
   {
     "id": "q_cafe_01",
@@ -479,7 +499,9 @@
     ],
     "tip": "[만능 카페 묘사] 불당동 집 앞 스타벅스/투썸플레이스 → 도보 2분 접근성 → 채광과 통창 인테리어 → 아내와의 힐링 → 최애 장소.",
     "answer_en": "Whenever I think of cafes, there are special places I really love called Starbucks and A Twosome Place in front of my home. They are located in Buldang-dong, Cheonan, just a two-minute walk from our apartment building. Inside the cafe, the vibe is very clean, cozy, and stylishly modern. There are large floor-to-ceiling windows with warm sunlight and comfortable seats for relaxing. What I love most about this cafe is that drinking coffee with my wife relieves all my stress after shifts. Overall, it is really my favorite weekend cafe spot, and I always feel happy whenever I visit.",
-    "answer_ko": "카페를 생각할 때마다, 제 집 바로 앞에 있는 스타벅스와 투썸플레이스라는 특별한 장소가 생각나요. 천안 불당동에 위치해 있으며, 우리 아파트 단지에서 걸어서 단 2분 거리에 있습니다. 카페 내부는 분위기가 매우 깨끗하고 아늑하며 세련되게 현대적이에요. 따뜻한 햇살이 들어오는 큰 통창과 편안히 쉴 수 있는 푹신한 좌석들이 마련되어 있습니다. 이곳에서 가장 좋은 점은 아내와 함께 커피를 마시며 교대근무 피로를 말끔히 풀 수 있다는 것입니다. 전반적으로 이곳은 제가 가장 좋아하는 주말 카페 공간이며, 방문할 때마다 항상 행복해요."
+    "answer_ko": "카페를 생각할 때마다, 제 집 바로 앞에 있는 스타벅스와 투썸플레이스라는 특별한 장소가 생각나요. 천안 불당동에 위치해 있으며, 우리 아파트 단지에서 걸어서 단 2분 거리에 있습니다. 카페 내부는 분위기가 매우 깨끗하고 아늑하며 세련되게 현대적이에요. 따뜻한 햇살이 들어오는 큰 통창과 편안히 쉴 수 있는 푹신한 좌석들이 마련되어 있습니다. 이곳에서 가장 좋은 점은 아내와 함께 커피를 마시며 교대근무 피로를 말끔히 풀 수 있다는 것입니다. 전반적으로 이곳은 제가 가장 좋아하는 주말 카페 공간이며, 방문할 때마다 항상 행복해요.",
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사"
   },
   {
     "id": "q_cafe_02",
@@ -523,7 +545,9 @@
     ],
     "tip": "[만능 카페 루틴] 주말 오후 방문 → 모바일 오더 주문(아이스 아메리카노 & 케이크) → 창가 자리 착석 → 아내와 대화 & 일정 계획 → 재충전 완료.",
     "answer_en": "Usually, on weekend afternoons, my wife and I visit our favorite Starbucks in Buldang-dong. First of all, we enter the cafe and easily order iced Americanos and a slice of cake through the mobile app. While waiting for our drinks, we find a bright, quiet table near the window. While drinking our coffee, we enjoy sharing fun stories about our week and making weekend plans. After spending about one or two relaxing hours there, we feel totally refreshed and happy. It is our favorite simple pleasure, so we visit the cafe on a regular basis.",
-    "answer_ko": "보통 주말 오후에, 아내와 저는 불당동의 단골 스타벅스를 방문합니다. 우선 카페에 들어가 모바일 앱으로 아이스 아메리카노와 조각 케이크를 간편하게 주문합니다. 음료를 기다리는 동안 창가 쪽의 밝고 조용한 테이블에 자리를 잡아요. 커피를 마시면서 한 주 동안 있었던 재미있는 이야기를 나누고 주말 계획을 세웁니다. 그곳에서 한두 시간 정도 편안하게 시간을 보내고 나면 몸과 마음이 완전히 재충전돼요. 우리 부부가 가장 좋아하는 소소한 힐링이라 정기적으로 카페를 찾습니다."
+    "answer_ko": "보통 주말 오후에, 아내와 저는 불당동의 단골 스타벅스를 방문합니다. 우선 카페에 들어가 모바일 앱으로 아이스 아메리카노와 조각 케이크를 간편하게 주문합니다. 음료를 기다리는 동안 창가 쪽의 밝고 조용한 테이블에 자리를 잡아요. 커피를 마시면서 한 주 동안 있었던 재미있는 이야기를 나누고 주말 계획을 세웁니다. 그곳에서 한두 시간 정도 편안하게 시간을 보내고 나면 몸과 마음이 완전히 재충전돼요. 우리 부부가 가장 좋아하는 소소한 힐링이라 정기적으로 카페를 찾습니다.",
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동"
   },
   {
     "id": "q_cafe_03",
@@ -567,7 +591,9 @@
     ],
     "tip": "[만능 카페 경험] 결혼기념일 카페 방문 → 꽃 장식과 어쿠스틱 음악 분위기 → 딸기 케이크와 커피 → 추억 회상과 진심 나눔 → 로맨틱한 기억.",
     "answer_en": "I remember a very special and sweet memory I had at our neighborhood cafe recently. A few months ago, on our wedding anniversary, my wife and I went to a specialty dessert cafe in Buldang-dong. The cafe was decorated with lovely flowers, and soft acoustic ballad music was playing in the background. We ordered hand-dripped coffee and a signature strawberry cake, which tasted really amazing. We looked at our wedding photos on our phones and shared heartfelt gratitude for each other. It was one of the most warm and romantic cafe visits in my life, and I will never forget it.",
-    "answer_ko": "얼마 전 동네 카페에서 있었던 아주 특별하고 달콤했던 추억이 하나 생각납니다. 몇 달 전 결혼기념일에 아내와 함께 불당동의 스페셜티 디저트 카페에 갔어요. 카페는 예쁜 꽃들로 장식되어 있었고 감미로운 어쿠스틱 발라드 음악이 흐르고 있었습니다. 우리는 핸드드립 커피와 시그니처 딸기 케이크를 주문했는데 맛이 정말 훌륭했어요. 휴대폰으로 결혼사진들을 함께 보며 서로에게 진심 어린 고마운 마음을 전했습니다. 제 인생에서 가장 따뜻하고 로맨틱했던 카페 방문 중 하나였으며, 영원히 잊지 못할 것입니다."
+    "answer_ko": "얼마 전 동네 카페에서 있었던 아주 특별하고 달콤했던 추억이 하나 생각납니다. 몇 달 전 결혼기념일에 아내와 함께 불당동의 스페셜티 디저트 카페에 갔어요. 카페는 예쁜 꽃들로 장식되어 있었고 감미로운 어쿠스틱 발라드 음악이 흐르고 있었습니다. 우리는 핸드드립 커피와 시그니처 딸기 케이크를 주문했는데 맛이 정말 훌륭했어요. 휴대폰으로 결혼사진들을 함께 보며 서로에게 진심 어린 고마운 마음을 전했습니다. 제 인생에서 가장 따뜻하고 로맨틱했던 카페 방문 중 하나였으며, 영원히 잊지 못할 것입니다.",
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 기억·경험"
   },
   {
     "id": "q_cafe_04",
@@ -611,7 +637,9 @@
     ],
     "tip": "[만능 카페 변화 비교] 과거 단순 테이크아웃 카페 → 불당동 세련된 라이프스타일 쉼터 → 스마트오더 & 베이커리 & 편안한 인테리어 → 높은 만족도.",
     "answer_en": "Compared to the past, I think cafes in Korea have transformed remarkably. In the past, cafes were small, simple shops where people just grabbed a quick cup of coffee. However, nowadays, cafes in Buldang-dong have become large, stylish lifestyle hubs. For example, we can easily order through smart mobile apps and enjoy fresh bakery desserts. Also, they provide high-speed Wi-Fi and comfortable seating suitable for reading, working, or dating. Overall, I am very satisfied with these modern changes and I love visiting cafes even more.",
-    "answer_ko": "과거와 비교했을 때, 한국의 카페는 정말 놀라울 정도로 변화했다고 생각합니다. 과거에는 카페가 단순히 커피 한잔만 재빨리 사 마시는 작고 단순한 가게였어요. 하지만 요즘 불당동의 카페들은 대형화되고 세련된 라이프스타일 복합 공간이 되었습니다. 예를 들어 스마트 모바일 앱으로 간편하게 주문할 수 있고 신선한 베이커리 디저트를 즐길 수 있어요. 또한 초고속 와이파이와 독서, 업무, 데이트에 최적화된 편안한 좌석을 제공합니다. 전반적으로 저는 이러한 현대적인 변화에 매우 만족하며 카페를 더욱 즐겨 찾습니다."
+    "answer_ko": "과거와 비교했을 때, 한국의 카페는 정말 놀라울 정도로 변화했다고 생각합니다. 과거에는 카페가 단순히 커피 한잔만 재빨리 사 마시는 작고 단순한 가게였어요. 하지만 요즘 불당동의 카페들은 대형화되고 세련된 라이프스타일 복합 공간이 되었습니다. 예를 들어 스마트 모바일 앱으로 간편하게 주문할 수 있고 신선한 베이커리 디저트를 즐길 수 있어요. 또한 초고속 와이파이와 독서, 업무, 데이트에 최적화된 편안한 좌석을 제공합니다. 전반적으로 저는 이러한 현대적인 변화에 매우 만족하며 카페를 더욱 즐겨 찾습니다.",
+    "combo_step": 4,
+    "combo_role": "4단계: 변화·비교 심화"
   },
   {
     "id": "q_park_01",
@@ -654,7 +682,9 @@
     ],
     "tip": "[만능 공원 묘사] 불당동 아름드리 공원 → 집 바로 앞 위치 → 산책로, 푸른 나무, 벤치 시설 → 맑은 공기와 힐링 → 최애 공원.",
     "answer_en": "Whenever I think of parks, there is a special place I really love called Areumdri Park right in front of my home. It is located in Buldang-dong, Cheonan, just across the street from our apartment building. Inside the park, the vibe is very clean, peaceful, and beautifully green. There are well-paved walking trails, tall green trees, colorful flower beds, and wooden benches. What I love most about this park is that taking a walk helps me breathe fresh air and relieve stress. Overall, it is really my favorite park, and I always feel happy and refreshed whenever I visit with my wife.",
-    "answer_ko": "공원을 생각할 때마다, 제 집 바로 앞에 있는 아름드리 공원이라는 특별한 장소가 생각나요. 천안 불당동에 위치해 있으며, 우리 아파트 단지 바로 길 건너편에 있습니다. 공원 내부는 분위기가 매우 깨끗하고 평화로우며 아름답게 푸르러요. 깔끔하게 포장된 산책로와 키 큰 느티나무들, 알록달록한 화단과 나무 벤치들이 잘 갖춰져 있습니다. 이 공원에서 가장 좋은 점은 산책하며 맑은 공기를 마시고 모든 스트레스를 풀 수 있다는 것입니다. 전반적으로 이곳은 제가 가장 좋아하는 공원이며, 아내와 함께 갈 때마다 항상 상쾌하고 행복해요."
+    "answer_ko": "공원을 생각할 때마다, 제 집 바로 앞에 있는 아름드리 공원이라는 특별한 장소가 생각나요. 천안 불당동에 위치해 있으며, 우리 아파트 단지 바로 길 건너편에 있습니다. 공원 내부는 분위기가 매우 깨끗하고 평화로우며 아름답게 푸르러요. 깔끔하게 포장된 산책로와 키 큰 느티나무들, 알록달록한 화단과 나무 벤치들이 잘 갖춰져 있습니다. 이 공원에서 가장 좋은 점은 산책하며 맑은 공기를 마시고 모든 스트레스를 풀 수 있다는 것입니다. 전반적으로 이곳은 제가 가장 좋아하는 공원이며, 아내와 함께 갈 때마다 항상 상쾌하고 행복해요.",
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사"
   },
   {
     "id": "q_park_02",
@@ -698,7 +728,9 @@
     ],
     "tip": "[만능 공원 루틴] 저녁 운동화 & 이어폰 착용 → 아름드리 공원 산책로 걷기 → 로이킴/비틀즈 음악 감상 → 40분 후 스트레칭 → 체력 관리.",
     "answer_en": "Usually, whenever I have free time in the evening, I love to take a refreshing walk in Areumdri Park. First of all, I put on comfortable sneakers, grab my smartphone, and put on wireless earphones. When I arrive at the park, I walk along the green trails at a nice and steady pace. While walking, I enjoy listening to sweet ballads by Roy Kim or timeless hits by The Beatles. After walking for about forty minutes, I do simple stretching on a bench to cool down. It is the best way for me to maintain stamina after my shifts, so I do it on a regular basis.",
-    "answer_ko": "보통 저녁에 여유 시간이 생길 때마다, 저는 아름드리 공원에서 상쾌한 산책을 하는 것을 좋아해요. 우선 편안한 운동화를 신은 뒤 스마트폰과 무선 이어폰을 챙깁니다. 공원에 도착하면 기분 좋은 속도로 푸른 산책로를 따라 걷습니다. 걸으면서 로이킴의 감미로운 발라드나 비틀즈의 명곡들을 듣는 것을 즐겨요. 약 40분 정도 걷고 나면 벤치에서 가벼운 스트레칭으로 몸을 풀어줍니다. 교대근무 후 건강한 체력을 유지하기에 가장 좋은 방법이라 정기적으로 산책합니다."
+    "answer_ko": "보통 저녁에 여유 시간이 생길 때마다, 저는 아름드리 공원에서 상쾌한 산책을 하는 것을 좋아해요. 우선 편안한 운동화를 신은 뒤 스마트폰과 무선 이어폰을 챙깁니다. 공원에 도착하면 기분 좋은 속도로 푸른 산책로를 따라 걷습니다. 걸으면서 로이킴의 감미로운 발라드나 비틀즈의 명곡들을 듣는 것을 즐겨요. 약 40분 정도 걷고 나면 벤치에서 가벼운 스트레칭으로 몸을 풀어줍니다. 교대근무 후 건강한 체력을 유지하기에 가장 좋은 방법이라 정기적으로 산책합니다.",
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동"
   },
   {
     "id": "q_park_03",
@@ -742,7 +774,9 @@
     ],
     "tip": "[만능 공원 경험] 아름드리 공원 산책 중 예전 동료 우연히 마주침 → 깜짝 놀람과 반가움 → 같은 불당동 주민 확인 → 스타벅스에서 커피 마시며 근황 토크.",
     "answer_en": "I remember an unexpected and very pleasant surprise I experienced at Areumdri Park recently. A few weeks ago, while taking a walk in the evening, I suddenly bumped into an old colleague from my previous job. I was quite startled at first because we had not seen each other for over three years. We smiled warmly, shook hands, and happily discovered that we now live in the same neighborhood in Buldang-dong. We went to Starbucks across the street, drank iced coffee, and caught up on each other's life for an hour. It was an unexpected encounter, but it brought back great memories and made my day really special.",
-    "answer_ko": "얼마 전 집 앞 아름드리 공원에서 겪었던 뜻밖이고 정말 반가웠던 일이 하나 생각납니다. 몇 주 전 저녁에 공원을 걷던 중, 이전 직장에서 함께 일했던 옛 동료를 우연히 마주쳤어요. 3년 넘게 서로 연락이 닿지 않던 사이여서 처음에는 깜짝 놀라고 신기했습니다. 우리는 환하게 웃으며 악수를 나눴고, 지금 같은 불당동 동네에 살고 있다는 사실을 알게 되었어요. 우리는 길 건너 스타벅스로 가서 아이스 커피를 마시며 한 시간 동안 그동안의 소식을 나눴습니다. 예상치 못한 만남이었지만, 옛 추억을 되살려주고 하루를 정말 특별하게 만들어 준 기분 좋은 일이었습니다."
+    "answer_ko": "얼마 전 집 앞 아름드리 공원에서 겪었던 뜻밖이고 정말 반가웠던 일이 하나 생각납니다. 몇 주 전 저녁에 공원을 걷던 중, 이전 직장에서 함께 일했던 옛 동료를 우연히 마주쳤어요. 3년 넘게 서로 연락이 닿지 않던 사이여서 처음에는 깜짝 놀라고 신기했습니다. 우리는 환하게 웃으며 악수를 나눴고, 지금 같은 불당동 동네에 살고 있다는 사실을 알게 되었어요. 우리는 길 건너 스타벅스로 가서 아이스 커피를 마시며 한 시간 동안 그동안의 소식을 나눴습니다. 예상치 못한 만남이었지만, 옛 추억을 되살려주고 하루를 정말 특별하게 만들어 준 기분 좋은 일이었습니다.",
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 기억·경험"
   },
   {
     "id": "q_park_04",
@@ -786,7 +820,9 @@
     ],
     "tip": "[만능 공원 계절 비교] 사계절 매력 → 봄: 벚꽃 만개와 피크닉 활기 → 겨울: 설경과 고요한 아늑함 → 사계절 산책의 즐거움.",
     "answer_en": "Areumdri Park right in front of our apartment shows completely different beauty throughout the four seasons. In spring, the park is filled with blooming cherry blossoms and fresh green leaves, looking very lively. Many families and couples come out to take photos, enjoy picnics, and feel the warm sunshine. On the other hand, in winter, the park becomes very quiet, peaceful, and covered with white snow. Walking on the crisp snow while bundled up in a warm padded jacket gives a unique, cozy feeling. Both seasons have their own unique charm, and I love walking there in every season with my wife.",
-    "answer_ko": "우리 아파트 바로 앞 아름드리 공원은 사계절 내내 완전히 다른 아름다운 매력을 보여줍니다. 봄에는 공원이 만개한 벚꽃과 싱그러운 연둣빛 잎들로 가득 차서 생기가 넘쳐요. 많은 가족들과 커플들이 나와 따스한 햇살을 맞으며 사진을 찍고 피크닉을 즐깁니다. 반면에 겨울에는 공원이 눈으로 하얗게 덮이며 매우 고요하고 평화로워집니다. 따뜻한 패딩을 입고 뽀드득 눈길을 걸으면 색다른 아늑함을 느낄 수 있어요. 두 계절 모두 각자의 특별한 매력이 있어서, 저는 아내와 사계절 내내 그곳을 산책하는 것을 정말 좋아합니다."
+    "answer_ko": "우리 아파트 바로 앞 아름드리 공원은 사계절 내내 완전히 다른 아름다운 매력을 보여줍니다. 봄에는 공원이 만개한 벚꽃과 싱그러운 연둣빛 잎들로 가득 차서 생기가 넘쳐요. 많은 가족들과 커플들이 나와 따스한 햇살을 맞으며 사진을 찍고 피크닉을 즐깁니다. 반면에 겨울에는 공원이 눈으로 하얗게 덮이며 매우 고요하고 평화로워집니다. 따뜻한 패딩을 입고 뽀드득 눈길을 걸으면 색다른 아늑함을 느낄 수 있어요. 두 계절 모두 각자의 특별한 매력이 있어서, 저는 아내와 사계절 내내 그곳을 산책하는 것을 정말 좋아합니다.",
+    "combo_step": 4,
+    "combo_role": "4단계: 변화·비교 심화"
   },
   {
     "id": "q_movie_01",
@@ -830,51 +866,9 @@
     ],
     "tip": "[만능 영화 선호] 감동 드라마/코미디 장르 → 인생 영화 '트루먼 쇼' → 주연 짐 캐리의 깊이 있는 연기력 → 진정한 자유의 메시지 → 삶의 긍정적 영향.",
     "answer_en": "Whenever I think of movies, my favorite genre is meaningful drama and inspiring comedy films. My all-time favorite movie is 'The Truman Show', starring the brilliant actor Jim Carrey. I love Jim Carrey because he portrays deep, emotional human struggles behind funny humor so perfectly. His performance in seeking true freedom and genuine love moved my heart deeply. What I love most about such movies is that they make me reflect on life and give me positive energy. Overall, 'The Truman Show' is my favorite masterpiece, and I always recommend it to my friends.",
-    "answer_ko": "영화를 생각할 때마다, 제가 가장 좋아하는 장르는 깊은 여운을 주는 드라마와 훈훈한 코미디 영화입니다. 제가 인생에서 가장 좋아하는 명작 영화는 훌륭한 배우 짐 캐리가 주연을 맡은 '트루먼 쇼'입니다. 짐 캐리를 좋아하는 이유는 유쾌한 유머 뒤에 숨겨진 인간의 깊은 고뇌와 감정을 완벽하게 연기하기 때문입니다. 진정한 자유와 진실된 사랑을 찾아 떠나는 그의 연기는 제 마음에 깊은 감동을 주었습니다. 이런 영화들에서 가장 좋은 점은 제 삶을 돌아보게 만들고 긍정적인 에너지를 채워준다는 것입니다. 전반적으로 '트루먼 쇼'는 제가 가장 아끼는 인생 영화이며, 친구들에게도 항상 추천합니다."
-  },
-  {
-    "id": "q_movie_02",
-    "cat": "영화보기",
-    "type": "과거 경험",
-    "q_en": "Tell me about the most memorable movie you have seen recently. What was the storyline and why was it memorable?",
-    "q_ko": "최근에 본 가장 기억에 남는 영화에 대해 말씀해 주세요. 줄거리는 무엇이었고 왜 기억에 남았나요?",
-    "sentences": [
-      {
-        "en": "I remember a very memorable experience when I rewatched 'The Truman Show' on my big home TV with my wife.",
-        "ko": "집에서 아내와 함께 대형 TV로 영화 '트루먼 쇼'를 다시 감상했던 매우 기억에 남는 순간이 있습니다."
-      },
-      {
-        "en": "The story is about a man named Truman whose entire life is broadcast live as a reality TV show without his knowledge.",
-        "ko": "줄거리는 자신의 삶 전체가 본인도 모른 채 전 세계에 리얼리티 쇼로 생중계되는 트루먼이라는 남자의 이야기예요."
-      },
-      {
-        "en": "When he discovers the truth, he courageously overcomes his fears to escape the fake dome world.",
-        "ko": "진실을 깨달았을 때, 그는 가짜 세트장 세상을 탈출하기 위해 두려움을 용기 있게 극복합니다."
-      },
-      {
-        "en": "The final ending scene where he bows and says his famous goodbye gave me chills and tears.",
-        "ko": "마지막 장면에서 그가 정중하게 인사하며 유명한 작별 인사를 건네는 장면은 온몸에 소름과 눈물을 선사했어요."
-      },
-      {
-        "en": "After the movie, my wife and I shared deep conversations about authenticity and living our own true lives.",
-        "ko": "영화가 끝난 후 아내와 저는 진정성 있는 삶과 주체적인 삶에 대해 깊은 이야기를 나눴습니다."
-      },
-      {
-        "en": "It was an unforgettable movie night, and the powerful message still stays in my heart.",
-        "ko": "잊을 수 없는 영화의 밤이었으며, 그 강력한 감동의 메시지는 아직도 제 마음속에 남아 있습니다."
-      }
-    ],
-    "keywords": [
-      "rewatched The Truman Show at home",
-      "broadcast live as reality show",
-      "courageously escape fake world",
-      "final famous goodbye scene",
-      "authenticity and true life",
-      "powerful message"
-    ],
-    "tip": "[만능 영화 관람 경험] 집에서 아내와 '트루먼 쇼' 감상 → 가짜 세상 속 트루먼의 진실 탐색 줄거리 → 마지막 탈출과 명대사 감동 → 아내와의 깊은 대화.",
-    "answer_en": "I remember a very memorable experience when I rewatched 'The Truman Show' on my big home TV with my wife. The story is about a man named Truman whose entire life is broadcast live as a reality TV show without his knowledge. When he discovers the truth, he courageously overcomes his fears to escape the fake dome world. The final ending scene where he bows and says his famous goodbye gave me chills and tears. After the movie, my wife and I shared deep conversations about authenticity and living our own true lives. It was an unforgettable movie night, and the powerful message still stays in my heart.",
-    "answer_ko": "집에서 아내와 함께 대형 TV로 영화 '트루먼 쇼'를 다시 감상했던 매우 기억에 남는 순간이 있습니다. 줄거리는 자신의 삶 전체가 본인도 모른 채 전 세계에 리얼리티 쇼로 생중계되는 트루먼이라는 남자의 이야기예요. 진실을 깨달았을 때, 그는 가짜 세트장 세상을 탈출하기 위해 두려움을 용기 있게 극복합니다. 마지막 장면에서 그가 정중하게 인사하며 유명한 작별 인사를 건네는 장면은 온몸에 소름과 눈물을 선사했어요. 영화가 끝난 후 아내와 저는 진정성 있는 삶과 주체적인 삶에 대해 깊은 이야기를 나눴습니다. 잊을 수 없는 영화의 밤이었으며, 그 강력한 감동의 메시지는 아직도 제 마음속에 남아 있습니다."
+    "answer_ko": "영화를 생각할 때마다, 제가 가장 좋아하는 장르는 깊은 여운을 주는 드라마와 훈훈한 코미디 영화입니다. 제가 인생에서 가장 좋아하는 명작 영화는 훌륭한 배우 짐 캐리가 주연을 맡은 '트루먼 쇼'입니다. 짐 캐리를 좋아하는 이유는 유쾌한 유머 뒤에 숨겨진 인간의 깊은 고뇌와 감정을 완벽하게 연기하기 때문입니다. 진정한 자유와 진실된 사랑을 찾아 떠나는 그의 연기는 제 마음에 깊은 감동을 주었습니다. 이런 영화들에서 가장 좋은 점은 제 삶을 돌아보게 만들고 긍정적인 에너지를 채워준다는 것입니다. 전반적으로 '트루먼 쇼'는 제가 가장 아끼는 인생 영화이며, 친구들에게도 항상 추천합니다.",
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사"
   },
   {
     "id": "q_movie_03",
@@ -918,7 +912,55 @@
     ],
     "tip": "[만능 영화 루틴] 집에서 영화 선택 → 주방 간식(팝콘/음료) 준비 → 무드등 조절 & 리클라이너 소파 착석 → 영화 몰입 감상 → 아내와 소감 나눔.",
     "answer_en": "Usually, on weekend evenings, my wife and I love having a cozy movie night in our living room. First of all, we browse through streaming platforms on our smart TV and pick a meaningful movie. Then, we prepare some fresh popcorn, cut fruits, and iced green tea in the kitchen. We dim the living room mood lights, sit side by side on our recliner sofa, and start the film. While watching, we stay fully focused on the beautiful scenes and engaging storyline. After the movie ends, sharing our impressions together makes our weekend so peaceful and happy.",
-    "answer_ko": "보통 주말 저녁에, 아내와 저는 거실에서 아늑한 영화의 밤을 보내는 것을 좋아해요. 우선 스마트 TV로 스트리밍 플랫폼을 둘러보며 감동적인 영화를 한 편 고릅니다. 그런 다음 주방에서 고소한 팝콘과 과일, 시원한 녹차를 준비해요. 거실 무드등을 은은하게 낮추고 리클라이너 소파에 나란히 앉아 영화를 시작합니다. 영화를 보는 동안 아름다운 영상미와 흥미진진한 줄거리에 완전히 몰입해요. 영화가 끝난 후 소감을 함께 나누면 주말이 정말 평화롭고 행복해집니다."
+    "answer_ko": "보통 주말 저녁에, 아내와 저는 거실에서 아늑한 영화의 밤을 보내는 것을 좋아해요. 우선 스마트 TV로 스트리밍 플랫폼을 둘러보며 감동적인 영화를 한 편 고릅니다. 그런 다음 주방에서 고소한 팝콘과 과일, 시원한 녹차를 준비해요. 거실 무드등을 은은하게 낮추고 리클라이너 소파에 나란히 앉아 영화를 시작합니다. 영화를 보는 동안 아름다운 영상미와 흥미진진한 줄거리에 완전히 몰입해요. 영화가 끝난 후 소감을 함께 나누면 주말이 정말 평화롭고 행복해집니다.",
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동"
+  },
+  {
+    "id": "q_movie_02",
+    "cat": "영화보기",
+    "type": "과거 경험",
+    "q_en": "Tell me about the most memorable movie you have seen recently. What was the storyline and why was it memorable?",
+    "q_ko": "최근에 본 가장 기억에 남는 영화에 대해 말씀해 주세요. 줄거리는 무엇이었고 왜 기억에 남았나요?",
+    "sentences": [
+      {
+        "en": "I remember a very memorable experience when I rewatched 'The Truman Show' on my big home TV with my wife.",
+        "ko": "집에서 아내와 함께 대형 TV로 영화 '트루먼 쇼'를 다시 감상했던 매우 기억에 남는 순간이 있습니다."
+      },
+      {
+        "en": "The story is about a man named Truman whose entire life is broadcast live as a reality TV show without his knowledge.",
+        "ko": "줄거리는 자신의 삶 전체가 본인도 모른 채 전 세계에 리얼리티 쇼로 생중계되는 트루먼이라는 남자의 이야기예요."
+      },
+      {
+        "en": "When he discovers the truth, he courageously overcomes his fears to escape the fake dome world.",
+        "ko": "진실을 깨달았을 때, 그는 가짜 세트장 세상을 탈출하기 위해 두려움을 용기 있게 극복합니다."
+      },
+      {
+        "en": "The final ending scene where he bows and says his famous goodbye gave me chills and tears.",
+        "ko": "마지막 장면에서 그가 정중하게 인사하며 유명한 작별 인사를 건네는 장면은 온몸에 소름과 눈물을 선사했어요."
+      },
+      {
+        "en": "After the movie, my wife and I shared deep conversations about authenticity and living our own true lives.",
+        "ko": "영화가 끝난 후 아내와 저는 진정성 있는 삶과 주체적인 삶에 대해 깊은 이야기를 나눴습니다."
+      },
+      {
+        "en": "It was an unforgettable movie night, and the powerful message still stays in my heart.",
+        "ko": "잊을 수 없는 영화의 밤이었으며, 그 강력한 감동의 메시지는 아직도 제 마음속에 남아 있습니다."
+      }
+    ],
+    "keywords": [
+      "rewatched The Truman Show at home",
+      "broadcast live as reality show",
+      "courageously escape fake world",
+      "final famous goodbye scene",
+      "authenticity and true life",
+      "powerful message"
+    ],
+    "tip": "[만능 영화 관람 경험] 집에서 아내와 '트루먼 쇼' 감상 → 가짜 세상 속 트루먼의 진실 탐색 줄거리 → 마지막 탈출과 명대사 감동 → 아내와의 깊은 대화.",
+    "answer_en": "I remember a very memorable experience when I rewatched 'The Truman Show' on my big home TV with my wife. The story is about a man named Truman whose entire life is broadcast live as a reality TV show without his knowledge. When he discovers the truth, he courageously overcomes his fears to escape the fake dome world. The final ending scene where he bows and says his famous goodbye gave me chills and tears. After the movie, my wife and I shared deep conversations about authenticity and living our own true lives. It was an unforgettable movie night, and the powerful message still stays in my heart.",
+    "answer_ko": "집에서 아내와 함께 대형 TV로 영화 '트루먼 쇼'를 다시 감상했던 매우 기억에 남는 순간이 있습니다. 줄거리는 자신의 삶 전체가 본인도 모른 채 전 세계에 리얼리티 쇼로 생중계되는 트루먼이라는 남자의 이야기예요. 진실을 깨달았을 때, 그는 가짜 세트장 세상을 탈출하기 위해 두려움을 용기 있게 극복합니다. 마지막 장면에서 그가 정중하게 인사하며 유명한 작별 인사를 건네는 장면은 온몸에 소름과 눈물을 선사했어요. 영화가 끝난 후 아내와 저는 진정성 있는 삶과 주체적인 삶에 대해 깊은 이야기를 나눴습니다. 잊을 수 없는 영화의 밤이었으며, 그 강력한 감동의 메시지는 아직도 제 마음속에 남아 있습니다.",
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 기억·경험"
   },
   {
     "id": "q_movie_04",
@@ -962,7 +1004,9 @@
     ],
     "tip": "[만능 영화 변화 비교] 과거 비디오/DVD 대여 → 현재 스마트 4K TV 스트리밍 & 프리미엄 영화관(리클라이너 좌석, IMAX) → 압도적 편의성과 몰입감.",
     "answer_en": "Compared to when I was young, I think the way we watch movies has advanced dramatically. In the past, we had to visit the cinema directly or rent videotapes and DVDs to watch films. However, nowadays, smart 4K TVs and high-speed streaming services allow us to watch anything instantly. Also, modern movie theaters have upgraded with luxury recliner seats, premium sound, and IMAX screens. Because of these modern options, we can enjoy cinema-quality entertainment both at home and at the theater. Overall, I am really satisfied with these technological advancements and enjoy movies even more.",
-    "answer_ko": "어릴 적과 비교했을 때, 우리가 영화를 감상하는 방식은 정말 비약적으로 발전했다고 생각합니다. 과거에는 영화를 보려면 직접 극장에 가거나 비디오테이프와 DVD를 빌려봐야만 했어요. 하지만 요즘은 스마트 4K TV와 초고속 스트리밍 서비스 덕분에 원하는 영화를 즉시 감상할 수 있습니다. 또한 현대 영화관들은 고급 리클라이너 좌석, 프리미엄 사운드, IMAX 스크린으로 대폭 업그레이드되었어요. 이러한 현대적인 옵션 덕분에 우리는 집과 극장 모두에서 최고 수준의 엔터테인먼트를 즐길 수 있습니다. 전반적으로 저는 이러한 기술 발전에 대단히 만족하며 영화를 더욱 즐겁게 감상하고 있습니다."
+    "answer_ko": "어릴 적과 비교했을 때, 우리가 영화를 감상하는 방식은 정말 비약적으로 발전했다고 생각합니다. 과거에는 영화를 보려면 직접 극장에 가거나 비디오테이프와 DVD를 빌려봐야만 했어요. 하지만 요즘은 스마트 4K TV와 초고속 스트리밍 서비스 덕분에 원하는 영화를 즉시 감상할 수 있습니다. 또한 현대 영화관들은 고급 리클라이너 좌석, 프리미엄 사운드, IMAX 스크린으로 대폭 업그레이드되었어요. 이러한 현대적인 옵션 덕분에 우리는 집과 극장 모두에서 최고 수준의 엔터테인먼트를 즐길 수 있습니다. 전반적으로 저는 이러한 기술 발전에 대단히 만족하며 영화를 더욱 즐겁게 감상하고 있습니다.",
+    "combo_step": 4,
+    "combo_role": "4단계: 변화·비교 심화"
   },
   {
     "id": "q_music_01",
@@ -1006,7 +1050,9 @@
     ],
     "tip": "[만능 음악 선호] 감성 발라드/어쿠스틱 장르 → 좋아하는 아티스트(로이킴, 비틀즈) → 아름드리 공원 산책 및 코딩 중 청취 → 마음의 평화와 힐링.",
     "answer_en": "Whenever I listen to music, my favorite genres are emotional K-pop ballads and classic acoustic pop. My favorite singers are Roy Kim and the legendary British band The Beatles. I love Roy Kim's warm vocal tone and The Beatles' timeless melodies that touch the heart. I usually listen to music through my wireless earphones while walking in Areumdri Park or coding at home. What I love most about listening to their music is that it brings deep peace and relieves all my stress. Overall, music is an essential part of my daily life, and it always brightens up my mood.",
-    "answer_ko": "음악을 들을 때마다, 제가 가장 좋아하는 장르는 감미로운 K-POP 발라드와 클래식 어쿠스틱 팝입니다. 제가 가장 좋아하는 아티스트는 감성 보컬 로이킴과 전설적인 영국 밴드 비틀즈입니다. 로이킴의 따뜻한 음색과 마음을 울리는 비틀즈의 시대를 초월한 멜로디를 정말 사랑해요. 저는 주로 집 앞 아름드리 공원을 산책하거나 집에서 코딩할 때 무선 이어폰으로 음악을 듣습니다. 그들의 음악을 들을 때 가장 좋은 점은 마음에 깊은 평안을 주고 모든 스트레스를 녹여준다는 것입니다. 전반적으로 음악은 제 일상에 없어서는 안 될 소중한 부분이며, 언제나 기분을 밝게 북돋아 줍니다."
+    "answer_ko": "음악을 들을 때마다, 제가 가장 좋아하는 장르는 감미로운 K-POP 발라드와 클래식 어쿠스틱 팝입니다. 제가 가장 좋아하는 아티스트는 감성 보컬 로이킴과 전설적인 영국 밴드 비틀즈입니다. 로이킴의 따뜻한 음색과 마음을 울리는 비틀즈의 시대를 초월한 멜로디를 정말 사랑해요. 저는 주로 집 앞 아름드리 공원을 산책하거나 집에서 코딩할 때 무선 이어폰으로 음악을 듣습니다. 그들의 음악을 들을 때 가장 좋은 점은 마음에 깊은 평안을 주고 모든 스트레스를 녹여준다는 것입니다. 전반적으로 음악은 제 일상에 없어서는 안 될 소중한 부분이며, 언제나 기분을 밝게 북돋아 줍니다.",
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사"
   },
   {
     "id": "q_music_02",
@@ -1050,7 +1096,9 @@
     ],
     "tip": "[만능 음악 취향 변화] 학생 시절: 빠른 댄스/힙합 → 직장인(전기 엔지니어) 된 후: 차분하고 따뜻한 어쿠스틱 발라드(로이킴/비틀즈) → 교대근무 피로 회복과 힐링.",
     "answer_en": "Compared to the past, my taste in music has changed quite naturally as I grew older. When I was a student, I mainly listened to loud dance tracks, hip-hop, and heavy rock songs. However, after starting my career as an electrical engineer, I began to appreciate calmer music. Nowadays, I listen to acoustic guitar melodies and warm vocal ballads by Roy Kim and The Beatles. These gentle songs help me relax after busy shifts and bring comfort to my tired mind. Overall, my music taste has become much deeper and more peaceful, and I really love it.",
-    "answer_ko": "과거와 비교했을 때, 제 음악 취향은 나이가 들면서 꽤 자연스럽게 변화했습니다. 학생 시절에는 주로 신나는 댄스곡, 힙합, 비트가 강한 록 음악을 많이 들었어요. 하지만 전기 엔지니어로 직장 생활을 시작한 후부터는 한결 차분한 음악의 매력을 알게 되었습니다. 요즘에는 어쿠스틱 기타 선율과 로이킴, 비틀즈의 따뜻한 보컬 발라드를 주로 듣습니다. 이러한 편안한 노래들은 바쁜 교대근무 후 마음을 진정시키고 지친 마음에 따뜻한 위로를 줍니다. 전반적으로 제 음악 취향은 훨씬 더 깊이 있고 평화로워졌으며, 지금의 취향을 정말 좋아합니다."
+    "answer_ko": "과거와 비교했을 때, 제 음악 취향은 나이가 들면서 꽤 자연스럽게 변화했습니다. 학생 시절에는 주로 신나는 댄스곡, 힙합, 비트가 강한 록 음악을 많이 들었어요. 하지만 전기 엔지니어로 직장 생활을 시작한 후부터는 한결 차분한 음악의 매력을 알게 되었습니다. 요즘에는 어쿠스틱 기타 선율과 로이킴, 비틀즈의 따뜻한 보컬 발라드를 주로 듣습니다. 이러한 편안한 노래들은 바쁜 교대근무 후 마음을 진정시키고 지친 마음에 따뜻한 위로를 줍니다. 전반적으로 제 음악 취향은 훨씬 더 깊이 있고 평화로워졌으며, 지금의 취향을 정말 좋아합니다.",
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동"
   },
   {
     "id": "q_music_03",
@@ -1094,51 +1142,9 @@
     ],
     "tip": "[만능 음악 경험] 홍천 국군의 날 축제 참가 → 야외 축제장의 활기찬 분위기 → 웅장한 군악대 라이브 연주와 드럼 비트 → 전율과 환호 → 잊지 못할 추억.",
     "answer_en": "I remember a very special and memorable experience when I attended the Armed Forces Day festival in Hongcheon. The outdoor stadium was packed with energetic people, and The vibe was full of excitement. The military marching band played exciting live music and powerful drum performances live on stage. The sound system was so powerful that the live beats gave me goosebumps all over my body. Everyone clapped and cheered together, creating a wonderful feeling of unity and happiness. It was one of the most exciting and unique musical memories in my life, and I will never forget it.",
-    "answer_ko": "홍천에서 열린 국군의 날 축제에 참가했을 때의 아주 특별하고 기억에 남는 경험이 있습니다. 야외 행사장은 열정적인 사람들로 가득 차 있었고 축제 분위기는 흥분으로 가득했어요. 군악대가 무대 위에서 웅장한 금관악기 연주와 파워풀한 드럼 퍼포먼스를 라이브로 들려주었습니다. 음향 시스템이 매우 웅장해서 현장의 생생한 비트가 온몸에 소름을 돋게 했어요. 모든 관중이 함께 박수를 치고 환호하며 하나 되는 멋진 일체감과 행복을 나누었습니다. 제 인생에서 가장 흥미진진하고 특별했던 음악적 추억 중 하나였으며, 영원히 잊지 못할 것입니다."
-  },
-  {
-    "id": "q_exercise_01",
-    "cat": "운동하기",
-    "type": "일상/루틴",
-    "q_en": "You indicated that you exercise. What kind of exercise do you do? Walk me through your workout routine.",
-    "q_ko": "운동을 하신다고 하셨습니다. 어떤 운동을 하시나요? 평소 운동 일과를 말씀해 주세요.",
-    "sentences": [
-      {
-        "en": "Usually, whenever I have free time after work, I love working out at the fitness center in our apartment complex.",
-        "ko": "보통 퇴근 후 여유 시간이 생길 때마다, 저는 아파트 단지 내 헬스장에서 운동하는 것을 좋아해요."
-      },
-      {
-        "en": "First of all, I put on my workout sportswear, grab my water bottle, and head downstairs to the gym.",
-        "ko": "우선 운동복을 챙겨 입고 물병을 챙겨 아래층 헬스장으로 내려갑니다."
-      },
-      {
-        "en": "When I arrive, I warm up on the treadmill for ten minutes to get my heart rate going.",
-        "ko": "도착하면 심박수를 올리기 위해 러닝머신에서 10분간 가볍게 워밍업을 해요."
-      },
-      {
-        "en": "Then, I perform weight training exercises like chest presses and squats for thirty minutes.",
-        "ko": "그런 다음 가슴 운동과 스쿼트 같은 웨이트 트레이닝을 30분 동안 집중해서 진행합니다."
-      },
-      {
-        "en": "After finishing with gentle stretches, I take a warm shower and feel totally refreshed and energized.",
-        "ko": "마무리 스트레칭을 하고 따뜻한 샤워를 마치고 나면 완전히 상쾌해지고 에너지가 넘쳐요."
-      },
-      {
-        "en": "It is the best way for me to maintain strong stamina for my shifts, so I work out regularly.",
-        "ko": "교대근무를 위한 탄탄한 체력을 유지하는 최고의 방법이라 정기적으로 운동합니다."
-      }
-    ],
-    "keywords": [
-      "apartment fitness center",
-      "sportswear and water bottle",
-      "warm up on treadmill",
-      "weight training like squats",
-      "warm shower and energized",
-      "strong stamina for shifts"
-    ],
-    "tip": "[만능 운동 루틴] 아파트 헬스장 이동 → 러닝머신 10분 워밍업 → 웨이트 트레이닝 30분(스쿼트 등) → 마무리 스트레칭 & 샤워 → 교대근무 체력 관리.",
-    "answer_en": "Usually, whenever I have free time after work, I love working out at the fitness center in our apartment complex. First of all, I put on my workout sportswear, grab my water bottle, and head downstairs to the gym. When I arrive, I warm up on the treadmill for ten minutes to get my heart rate going. Then, I perform weight training exercises like chest presses and squats for thirty minutes. After finishing with gentle stretches, I take a warm shower and feel totally refreshed and energized. It is the best way for me to maintain strong stamina for my shifts, so I work out regularly.",
-    "answer_ko": "보통 퇴근 후 여유 시간이 생길 때마다, 저는 아파트 단지 내 헬스장에서 운동하는 것을 좋아해요. 우선 운동복을 챙겨 입고 물병을 챙겨 아래층 헬스장으로 내려갑니다. 도착하면 심박수를 올리기 위해 러닝머신에서 10분간 가볍게 워밍업을 해요. 그런 다음 가슴 운동과 스쿼트 같은 웨이트 트레이닝을 30분 동안 집중해서 진행합니다. 마무리 스트레칭을 하고 따뜻한 샤워를 마치고 나면 완전히 상쾌해지고 에너지가 넘쳐요. 교대근무를 위한 탄탄한 체력을 유지하는 최고의 방법이라 정기적으로 운동합니다."
+    "answer_ko": "홍천에서 열린 국군의 날 축제에 참가했을 때의 아주 특별하고 기억에 남는 경험이 있습니다. 야외 행사장은 열정적인 사람들로 가득 차 있었고 축제 분위기는 흥분으로 가득했어요. 군악대가 무대 위에서 웅장한 금관악기 연주와 파워풀한 드럼 퍼포먼스를 라이브로 들려주었습니다. 음향 시스템이 매우 웅장해서 현장의 생생한 비트가 온몸에 소름을 돋게 했어요. 모든 관중이 함께 박수를 치고 환호하며 하나 되는 멋진 일체감과 행복을 나누었습니다. 제 인생에서 가장 흥미진진하고 특별했던 음악적 추억 중 하나였으며, 영원히 잊지 못할 것입니다.",
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 기억·경험"
   },
   {
     "id": "q_exercise_02",
@@ -1182,7 +1188,55 @@
     ],
     "tip": "[만능 헬스장 묘사] 불당동 아파트 커뮤니티 헬스장 → 아파트 내 뛰어난 접근성 → 러닝머신, 덤벨, 스트레칭존 설비 → 입주민 전용의 쾌적함 → 높은 만족도.",
     "answer_en": "Whenever I work out, there is a great facility I use called our apartment community fitness center. It is located in the community building of our apartment in Buldang-dong, so it is super easy to access. Inside the fitness center, the vibe is very clean, bright, and fresh. There are brand-new treadmills with digital screens, free weight dumbbell racks, and stretching mats. What I love most about this gym is that only residents use it, so it is never too crowded. Overall, it is really my favorite place to stay fit, and I feel proud of our community facility.",
-    "answer_ko": "운동할 때마다, 제가 자주 이용하는 아파트 커뮤니티 헬스장이라는 훌륭한 시설이 있습니다. 천안 불당동 우리 아파트 커뮤니티 건물에 위치해 있어서 찾아가기가 정말 편합니다. 헬스장 내부는 분위기가 매우 깨끗하고 밝으며 환기가 잘 되어 있어요. 디지털 화면이 달린 최신식 러닝머신, 프리웨이트 덤벨 거치대, 스트레칭 매트가 완비되어 있습니다. 이 헬스장에서 가장 좋은 점은 입주민 전용이라 너무 붐비지 않고 쾌적하다는 것입니다. 전반적으로 이곳은 건강을 지키기에 가장 좋은 장소이며, 아파트 편의시설에 큰 만족감을 느낍니다."
+    "answer_ko": "운동할 때마다, 제가 자주 이용하는 아파트 커뮤니티 헬스장이라는 훌륭한 시설이 있습니다. 천안 불당동 우리 아파트 커뮤니티 건물에 위치해 있어서 찾아가기가 정말 편합니다. 헬스장 내부는 분위기가 매우 깨끗하고 밝으며 환기가 잘 되어 있어요. 디지털 화면이 달린 최신식 러닝머신, 프리웨이트 덤벨 거치대, 스트레칭 매트가 완비되어 있습니다. 이 헬스장에서 가장 좋은 점은 입주민 전용이라 너무 붐비지 않고 쾌적하다는 것입니다. 전반적으로 이곳은 건강을 지키기에 가장 좋은 장소이며, 아파트 편의시설에 큰 만족감을 느낍니다.",
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사"
+  },
+  {
+    "id": "q_exercise_01",
+    "cat": "운동하기",
+    "type": "일상/루틴",
+    "q_en": "You indicated that you exercise. What kind of exercise do you do? Walk me through your workout routine.",
+    "q_ko": "운동을 하신다고 하셨습니다. 어떤 운동을 하시나요? 평소 운동 일과를 말씀해 주세요.",
+    "sentences": [
+      {
+        "en": "Usually, whenever I have free time after work, I love working out at the fitness center in our apartment complex.",
+        "ko": "보통 퇴근 후 여유 시간이 생길 때마다, 저는 아파트 단지 내 헬스장에서 운동하는 것을 좋아해요."
+      },
+      {
+        "en": "First of all, I put on my workout sportswear, grab my water bottle, and head downstairs to the gym.",
+        "ko": "우선 운동복을 챙겨 입고 물병을 챙겨 아래층 헬스장으로 내려갑니다."
+      },
+      {
+        "en": "When I arrive, I warm up on the treadmill for ten minutes to get my heart rate going.",
+        "ko": "도착하면 심박수를 올리기 위해 러닝머신에서 10분간 가볍게 워밍업을 해요."
+      },
+      {
+        "en": "Then, I perform weight training exercises like chest presses and squats for thirty minutes.",
+        "ko": "그런 다음 가슴 운동과 스쿼트 같은 웨이트 트레이닝을 30분 동안 집중해서 진행합니다."
+      },
+      {
+        "en": "After finishing with gentle stretches, I take a warm shower and feel totally refreshed and energized.",
+        "ko": "마무리 스트레칭을 하고 따뜻한 샤워를 마치고 나면 완전히 상쾌해지고 에너지가 넘쳐요."
+      },
+      {
+        "en": "It is the best way for me to maintain strong stamina for my shifts, so I work out regularly.",
+        "ko": "교대근무를 위한 탄탄한 체력을 유지하는 최고의 방법이라 정기적으로 운동합니다."
+      }
+    ],
+    "keywords": [
+      "apartment fitness center",
+      "sportswear and water bottle",
+      "warm up on treadmill",
+      "weight training like squats",
+      "warm shower and energized",
+      "strong stamina for shifts"
+    ],
+    "tip": "[만능 운동 루틴] 아파트 헬스장 이동 → 러닝머신 10분 워밍업 → 웨이트 트레이닝 30분(스쿼트 등) → 마무리 스트레칭 & 샤워 → 교대근무 체력 관리.",
+    "answer_en": "Usually, whenever I have free time after work, I love working out at the fitness center in our apartment complex. First of all, I put on my workout sportswear, grab my water bottle, and head downstairs to the gym. When I arrive, I warm up on the treadmill for ten minutes to get my heart rate going. Then, I perform weight training exercises like chest presses and squats for thirty minutes. After finishing with gentle stretches, I take a warm shower and feel totally refreshed and energized. It is the best way for me to maintain strong stamina for my shifts, so I work out regularly.",
+    "answer_ko": "보통 퇴근 후 여유 시간이 생길 때마다, 저는 아파트 단지 내 헬스장에서 운동하는 것을 좋아해요. 우선 운동복을 챙겨 입고 물병을 챙겨 아래층 헬스장으로 내려갑니다. 도착하면 심박수를 올리기 위해 러닝머신에서 10분간 가볍게 워밍업을 해요. 그런 다음 가슴 운동과 스쿼트 같은 웨이트 트레이닝을 30분 동안 집중해서 진행합니다. 마무리 스트레칭을 하고 따뜻한 샤워를 마치고 나면 완전히 상쾌해지고 에너지가 넘쳐요. 교대근무를 위한 탄탄한 체력을 유지하는 최고의 방법이라 정기적으로 운동합니다.",
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동"
   },
   {
     "id": "q_exercise_03",
@@ -1226,7 +1280,9 @@
     ],
     "tip": "[만능 운동 계기/효과] 교대근무 체력 증진 목적 → 초기 피로감 극복 → 주 3회 꾸준한 운동 → 지구력 향상 & 숙면 효과 → 긍정적 삶의 변화.",
     "answer_en": "I first started working out regularly to build strong stamina for my shift duties as an electrical engineer. In the beginning, working on irregular shifts often made me feel tired and lethargic. However, after exercising consistently for thirty minutes three times a week, my health changed completely. My physical endurance increased significantly, and I no longer feel exhausted after night shifts. Also, working out helps me sleep deeply and maintain a positive, energetic mindset. Overall, regular exercise has been the best life choice for me, and I will continue it forever.",
-    "answer_ko": "전기 엔지니어로서 교대근무를 버텨낼 수 있는 튼튼한 체력을 기르기 위해 운동을 처음 시작했습니다. 처음에는 불규칙한 교대근무 일정 때문에 자주 피곤하고 무기력함을 느끼곤 했어요. 하지만 일주일에 3번씩 30분 동안 꾸준히 운동을 한 후, 제 건강은 완전히 달라졌습니다. 체력이 눈에 띄게 좋아졌고, 야간 근무를 마치고 나서도 지치지 않게 되었어요. 또한 운동은 숙면을 취하게 해주고 긍정적이고 활기찬 마인드를 유지하도록 도와줍니다. 전반적으로 규칙적인 운동은 제 인생 최고의 선택이었으며, 앞으로도 평생 꾸준히 이어갈 것입니다."
+    "answer_ko": "전기 엔지니어로서 교대근무를 버텨낼 수 있는 튼튼한 체력을 기르기 위해 운동을 처음 시작했습니다. 처음에는 불규칙한 교대근무 일정 때문에 자주 피곤하고 무기력함을 느끼곤 했어요. 하지만 일주일에 3번씩 30분 동안 꾸준히 운동을 한 후, 제 건강은 완전히 달라졌습니다. 체력이 눈에 띄게 좋아졌고, 야간 근무를 마치고 나서도 지치지 않게 되었어요. 또한 운동은 숙면을 취하게 해주고 긍정적이고 활기찬 마인드를 유지하도록 도와줍니다. 전반적으로 규칙적인 운동은 제 인생 최고의 선택이었으며, 앞으로도 평생 꾸준히 이어갈 것입니다.",
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 기억·경험"
   },
   {
     "id": "q_cook_01",
@@ -1270,7 +1326,9 @@
     ],
     "tip": "[만능 요리 루틴] 아내를 위한 주말 집밥 → 파스타와 김치볶음밥 → 마늘/김치 재료 손질 → 참기름 볶음 & 계란 프라이 → 식탁에서의 행복한 식사.",
     "answer_en": "Usually, on weekends, I love cooking delicious homemade meals for my wife in our apartment kitchen. My favorite dishes to cook are simple pasta and savory kimchi fried rice with fresh ingredients. First of all, I chop fresh garlic, onions, and ripe kimchi into small bite-sized pieces on a cutting board. Then, I stir-fry them in a pan with fragrant sesame oil, add warm rice, and cook a sunny-side-up egg on top. Eating our freshly cooked meal together at the dining table makes us feel so happy, cozy, and satisfied. It is my favorite way to express love and relieve stress, so I cook on a regular basis.",
-    "answer_ko": "보통 주말에, 저는 우리 아파트 주방에서 아내를 위해 맛있는 집밥을 요리하는 것을 좋아해요. 제가 가장 즐겨 만드는 요리는 간단한 파스타와 신선한 재료를 넣은 고소한 김치볶음밥입니다. 우선 도마 위에서 신선한 마늘, 양파, 잘 익은 김치를 한 입 크기로 먹기 좋게 썹니다. 그런 다음 고소한 참기름을 두른 팬에 볶다가 따뜻한 밥을 넣고 위에 계란 프라이를 얹어요. 식탁에서 갓 만든 따뜻한 음식을 함께 먹으면 정말 포근하고 행복하며 만족스럽습니다. 마음을 표현하고 스트레스를 푸는 제가 가장 좋아하는 방법이라 정기적으로 요리합니다."
+    "answer_ko": "보통 주말에, 저는 우리 아파트 주방에서 아내를 위해 맛있는 집밥을 요리하는 것을 좋아해요. 제가 가장 즐겨 만드는 요리는 간단한 파스타와 신선한 재료를 넣은 고소한 김치볶음밥입니다. 우선 도마 위에서 신선한 마늘, 양파, 잘 익은 김치를 한 입 크기로 먹기 좋게 썹니다. 그런 다음 고소한 참기름을 두른 팬에 볶다가 따뜻한 밥을 넣고 위에 계란 프라이를 얹어요. 식탁에서 갓 만든 따뜻한 음식을 함께 먹으면 정말 포근하고 행복하며 만족스럽습니다. 마음을 표현하고 스트레스를 푸는 제가 가장 좋아하는 방법이라 정기적으로 요리합니다.",
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사"
   },
   {
     "id": "q_cook_02",
@@ -1314,7 +1372,9 @@
     ],
     "tip": "[만능 특별 요리 경험] 아내 생일 서프라이즈 디너 → 소고기 안심 스테이크 & 갈릭 크림 파스타 → 촛불과 와인잔 테이블 세팅 → 아내의 환한 미소와 칭찬 → 큰 보람.",
     "answer_en": "I remember a very special dinner I cooked for my wife on her birthday a few months ago. I secretly bought premium beef tenderloin, fresh garlic, and quality pasta ingredients from the market. I carefully grilled the steak to medium-rare and cooked a rich garlic cream pasta with love. I set up a lovely dining table with pretty wine glasses and warm candlelight in our living room. When my wife tasted the steak, she smiled brightly and told me it was the best meal she ever had. Seeing her so happy brought me huge joy, and it became an unforgettable birthday celebration.",
-    "answer_ko": "몇 달 전 아내의 생일에 아내를 위해 특별한 저녁 식사를 직접 요리했던 기억이 납니다. 마트에서 최상급 소고기 안심과 신선한 마늘, 파스타 재료를 미리 비밀리에 장봐왔어요. 스테이크를 정성스럽게 미디엄 레어로 굽고 고소한 갈릭 크림 파스타를 정성껏 만들었습니다. 거실 식탁에 예쁜 와인잔과 따뜻한 촛불을 켜서 로맨틱한 분위기를 꾸몄어요. 아내가 스테이크를 맛보더니 환하게 웃으며 지금까지 먹어본 최고의 식사라고 칭찬해 주었습니다. 아내가 행복해하는 모습을 보니 큰 기쁨을 느꼈고, 잊지 못할 생일 파티 추억이 되었습니다."
+    "answer_ko": "몇 달 전 아내의 생일에 아내를 위해 특별한 저녁 식사를 직접 요리했던 기억이 납니다. 마트에서 최상급 소고기 안심과 신선한 마늘, 파스타 재료를 미리 비밀리에 장봐왔어요. 스테이크를 정성스럽게 미디엄 레어로 굽고 고소한 갈릭 크림 파스타를 정성껏 만들었습니다. 거실 식탁에 예쁜 와인잔과 따뜻한 촛불을 켜서 로맨틱한 분위기를 꾸몄어요. 아내가 스테이크를 맛보더니 환하게 웃으며 지금까지 먹어본 최고의 식사라고 칭찬해 주었습니다. 아내가 행복해하는 모습을 보니 큰 기쁨을 느꼈고, 잊지 못할 생일 파티 추억이 되었습니다.",
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동"
   },
   {
     "id": "q_cook_03",
@@ -1358,51 +1418,9 @@
     ],
     "tip": "[만능 요리 돌발 문제] 스테이크 굽다 연기 발생 → 화재경보기 울림 당황 → 침착하게 불 줄이고 창문 개방 & 환풍기 가동 → 신속한 환기 → 맛있는 식사와 유쾌한 추억.",
     "answer_en": "I remember an unexpected little mishap I experienced while grilling steak for dinner at home. I heated the pan too hot, and when I put the seasoned meat in, thick smoke suddenly filled the kitchen. The smoke detector on the ceiling started beeping loudly, so my wife and I were quite worried at first. However, I stayed calm, turned down the stove immediately, and opened all our large living room windows. I turned on the ventilation hood at maximum power, and the fresh air cleared out the smoke in two minutes. Fortunately, the steak turned out very juicy, and it became a funny and memorable cooking story for us.",
-    "answer_ko": "집에서 저녁으로 스테이크를 굽던 중 겪었던 예상치 못한 작은 돌발 상황이 생각납니다. 팬을 너무 뜨겁게 달구어 양념한 고기를 넣자마자 갑자기 주방에 자욱한 연기가 가득 차올랐어요. 천장의 화재경보기가 요란하게 울리기 시작해서 처음에는 아내와 저 모두 꽤 당황스럽고 놀랐습니다. 하지만 침착하게 즉시 가스레인지 불을 줄이고 거실의 큰 창문들을 모두 활짝 열었습니다. 환풍기를 최대로 가동하자 신선한 공기가 유입되며 2분 만에 연기가 말끔히 빠져나갔어요. 다행히 스테이크는 겉바속촉으로 맛있게 완성되었고, 우리 부부에게 즐거운 요리 에피소드가 되었습니다."
-  },
-  {
-    "id": "q_trip_01",
-    "cat": "국내여행",
-    "type": "과거 경험",
-    "q_en": "Tell me about a memorable domestic trip or scenic drive you took recently. Where did you go and what did you do?",
-    "q_ko": "최근에 다녀온 기억에 남는 국내 여행이나 드라이브에 대해 말씀해 주세요. 어디로 가셨고 무엇을 하셨나요?",
-    "sentences": [
-      {
-        "en": "I remember a very scenic and relaxing weekend drive I took with my wife around the Cheonan countryside.",
-        "ko": "아내와 함께 천안 근교의 경치 좋은 시골길로 주말 드라이브를 다녀왔던 기억이 납니다."
-      },
-      {
-        "en": "The weather was sunny and clear, so we rolled down the car windows and enjoyed the refreshing breeze.",
-        "ko": "날씨가 화창하고 맑아서 차 창문을 내리고 상쾌한 바람을 즐겼어요."
-      },
-      {
-        "en": "While driving along the lakeside roads, we listened to our favorite ballad playlist by Roy Kim and The Beatles.",
-        "ko": "호숫가 도로를 따라 달리면서 로이킴과 비틀즈의 감미로운 발라드 플레이리스트를 들었습니다."
-      },
-      {
-        "en": "We stopped at a cozy bakery cafe with a beautiful mountain view and drank iced coffee together.",
-        "ko": "전망 좋은 베이커리 카페에 들러 아름다운 마운틴 뷰를 감상하며 시원한 아이스 커피를 마셨어요."
-      },
-      {
-        "en": "We took lots of lovely pictures and had meaningful conversations throughout the afternoon.",
-        "ko": "예쁜 사진도 많이 찍고 오후 내내 진솔한 대화를 나누며 행복한 시간을 보냈습니다."
-      },
-      {
-        "en": "It was one of the most healing and peaceful trips in my life, and we created wonderful memories.",
-        "ko": "제 인생에서 가장 힐링되고 평화로웠던 나들이 중 하나였으며, 멋진 추억을 남겼습니다."
-      }
-    ],
-    "keywords": [
-      "scenic weekend drive near Cheonan",
-      "sunny and clear breeze",
-      "Roy Kim and The Beatles playlist",
-      "cozy bakery cafe with mountain view",
-      "lovely pictures and conversations",
-      "healing and peaceful trip"
-    ],
-    "tip": "[만능 국내여행/드라이브] 천안 근교 호숫가 드라이브 → 맑은 날씨와 로이킴/비틀즈 음악 → 마운틴 뷰 베이커리 카페 방문 → 사진 촬영과 대화 → 완벽한 힐링.",
-    "answer_en": "I remember a very scenic and relaxing weekend drive I took with my wife around the Cheonan countryside. The weather was sunny and clear, so we rolled down the car windows and enjoyed the refreshing breeze. While driving along the lakeside roads, we listened to our favorite ballad playlist by Roy Kim and The Beatles. We stopped at a cozy bakery cafe with a beautiful mountain view and drank iced coffee together. We took lots of lovely pictures and had meaningful conversations throughout the afternoon. It was one of the most healing and peaceful trips in my life, and we created wonderful memories.",
-    "answer_ko": "아내와 함께 천안 근교의 경치 좋은 시골길로 주말 드라이브를 다녀왔던 기억이 납니다. 날씨가 화창하고 맑아서 차 창문을 내리고 상쾌한 바람을 즐겼어요. 호숫가 도로를 따라 달리면서 로이킴과 비틀즈의 감미로운 발라드 플레이리스트를 들었습니다. 전망 좋은 베이커리 카페에 들러 아름다운 마운틴 뷰를 감상하며 시원한 아이스 커피를 마셨어요. 예쁜 사진도 많이 찍고 오후 내내 진솔한 대화를 나누며 행복한 시간을 보냈습니다. 제 인생에서 가장 힐링되고 평화로웠던 나들이 중 하나였으며, 멋진 추억을 남겼습니다."
+    "answer_ko": "집에서 저녁으로 스테이크를 굽던 중 겪었던 예상치 못한 작은 돌발 상황이 생각납니다. 팬을 너무 뜨겁게 달구어 양념한 고기를 넣자마자 갑자기 주방에 자욱한 연기가 가득 차올랐어요. 천장의 화재경보기가 요란하게 울리기 시작해서 처음에는 아내와 저 모두 꽤 당황스럽고 놀랐습니다. 하지만 침착하게 즉시 가스레인지 불을 줄이고 거실의 큰 창문들을 모두 활짝 열었습니다. 환풍기를 최대로 가동하자 신선한 공기가 유입되며 2분 만에 연기가 말끔히 빠져나갔어요. 다행히 스테이크는 겉바속촉으로 맛있게 완성되었고, 우리 부부에게 즐거운 요리 에피소드가 되었습니다.",
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 기억·경험"
   },
   {
     "id": "q_trip_02",
@@ -1445,7 +1463,9 @@
     ],
     "tip": "[만능 여행지 묘사] 강원도 홍천의 자연 묘사 → 산과 계곡의 수려한 풍경 → 숲속 캠핑 및 지역 축제 매력 → 맑은 공기와 피로 해소 → 최애 힐링 스팟.",
     "answer_en": "Whenever I think of travel destinations in Korea, my favorite place is the nature in Hongcheon, Gangwon Province. It is located about an hour and a half drive away, surrounded by lush green mountains and clean valleys. Inside the area, the vibe is very clean, refreshing, and deeply peaceful. There are scenic camping sites, forest walking trails, and exciting local festivals like Armed Forces Day. What I love most about Hongcheon is that breathing the crisp mountain air completely clears all my stress. Overall, it is really my favorite getaway spot, and I always feel happy whenever I visit with my wife.",
-    "answer_ko": "국내 여행지를 생각할 때마다, 제가 가장 좋아하는 장소는 강원도 홍천의 수려한 자연입니다. 차로 약 1시간 반 거리에 위치해 있으며, 푸른 산과 맑은 계곡으로 둘러싸여 있습니다. 그 지역의 분위기는 매우 깨끗하고 상쾌하며 마음이 깊이 평화로워져요. 경치 좋은 캠핑장들과 숲속 산책로, 국군의 날 같은 활기찬 지역 축제가 열립니다. 홍천에서 가장 좋은 점은 맑은 산 공기를 마시면 모든 업무 피로가 완전히 사라진다는 것입니다. 전반적으로 이곳은 제가 가장 좋아하는 여행지이며, 아내와 함께 방문할 때마다 항상 행복을 느낍니다."
+    "answer_ko": "국내 여행지를 생각할 때마다, 제가 가장 좋아하는 장소는 강원도 홍천의 수려한 자연입니다. 차로 약 1시간 반 거리에 위치해 있으며, 푸른 산과 맑은 계곡으로 둘러싸여 있습니다. 그 지역의 분위기는 매우 깨끗하고 상쾌하며 마음이 깊이 평화로워져요. 경치 좋은 캠핑장들과 숲속 산책로, 국군의 날 같은 활기찬 지역 축제가 열립니다. 홍천에서 가장 좋은 점은 맑은 산 공기를 마시면 모든 업무 피로가 완전히 사라진다는 것입니다. 전반적으로 이곳은 제가 가장 좋아하는 여행지이며, 아내와 함께 방문할 때마다 항상 행복을 느낍니다.",
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사"
   },
   {
     "id": "q_trip_03",
@@ -1489,7 +1509,100 @@
     ],
     "tip": "[만능 여행 준비] 차량 기본 점검(타이어/연료) → 내비게이션 드라이브 경로 검색 → 음악 플레이리스트 준비 → 커피/간식 텀블러 포장 → 안전 출발.",
     "answer_en": "Usually, before going on a weekend drive or trip, I prepare everything step by step with my wife. First of all, I inspect my car condition, checking the tire pressure, engine oil, and fuel level. Then, I search navigation apps on my smartphone to find scenic, traffic-free driving routes. I also download our favorite driving playlist with songs by Roy Kim and The Beatles. My wife packs a light bag with cold bottled water, fresh coffee tumblers, and simple snacks. Thorough preparation guarantees a safe and comfortable trip, so we always enjoy the journey.",
-    "answer_ko": "보통 주말 드라이브나 여행을 떠나기 전에, 저는 아내와 함께 차근차근 준비를 합니다. 우선 자동차의 타이어 공기압, 엔진오일, 연료 상태를 꼼꼼하게 점검합니다. 그런 다음 스마트폰 내비게이션 앱으로 경치 좋고 막히지 않는 드라이브 경로를 검색해요. 또한 차 안에서 들을 로이킴과 비틀즈의 드라이브 플레이리스트를 미리 다운로드합니다. 아내는 시원한 생수와 커피 텀블러, 간단한 간식이 든 가벼운 가방을 챙겨요. 철저한 준비는 안전하고 편안한 여행을 보장해주어 언제나 기분 좋게 출발합니다."
+    "answer_ko": "보통 주말 드라이브나 여행을 떠나기 전에, 저는 아내와 함께 차근차근 준비를 합니다. 우선 자동차의 타이어 공기압, 엔진오일, 연료 상태를 꼼꼼하게 점검합니다. 그런 다음 스마트폰 내비게이션 앱으로 경치 좋고 막히지 않는 드라이브 경로를 검색해요. 또한 차 안에서 들을 로이킴과 비틀즈의 드라이브 플레이리스트를 미리 다운로드합니다. 아내는 시원한 생수와 커피 텀블러, 간단한 간식이 든 가벼운 가방을 챙겨요. 철저한 준비는 안전하고 편안한 여행을 보장해주어 언제나 기분 좋게 출발합니다.",
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동"
+  },
+  {
+    "id": "q_trip_01",
+    "cat": "국내여행",
+    "type": "과거 경험",
+    "q_en": "Tell me about a memorable domestic trip or scenic drive you took recently. Where did you go and what did you do?",
+    "q_ko": "최근에 다녀온 기억에 남는 국내 여행이나 드라이브에 대해 말씀해 주세요. 어디로 가셨고 무엇을 하셨나요?",
+    "sentences": [
+      {
+        "en": "I remember a very scenic and relaxing weekend drive I took with my wife around the Cheonan countryside.",
+        "ko": "아내와 함께 천안 근교의 경치 좋은 시골길로 주말 드라이브를 다녀왔던 기억이 납니다."
+      },
+      {
+        "en": "The weather was sunny and clear, so we rolled down the car windows and enjoyed the refreshing breeze.",
+        "ko": "날씨가 화창하고 맑아서 차 창문을 내리고 상쾌한 바람을 즐겼어요."
+      },
+      {
+        "en": "While driving along the lakeside roads, we listened to our favorite ballad playlist by Roy Kim and The Beatles.",
+        "ko": "호숫가 도로를 따라 달리면서 로이킴과 비틀즈의 감미로운 발라드 플레이리스트를 들었습니다."
+      },
+      {
+        "en": "We stopped at a cozy bakery cafe with a beautiful mountain view and drank iced coffee together.",
+        "ko": "전망 좋은 베이커리 카페에 들러 아름다운 마운틴 뷰를 감상하며 시원한 아이스 커피를 마셨어요."
+      },
+      {
+        "en": "We took lots of lovely pictures and had meaningful conversations throughout the afternoon.",
+        "ko": "예쁜 사진도 많이 찍고 오후 내내 진솔한 대화를 나누며 행복한 시간을 보냈습니다."
+      },
+      {
+        "en": "It was one of the most healing and peaceful trips in my life, and we created wonderful memories.",
+        "ko": "제 인생에서 가장 힐링되고 평화로웠던 나들이 중 하나였으며, 멋진 추억을 남겼습니다."
+      }
+    ],
+    "keywords": [
+      "scenic weekend drive near Cheonan",
+      "sunny and clear breeze",
+      "Roy Kim and The Beatles playlist",
+      "cozy bakery cafe with mountain view",
+      "lovely pictures and conversations",
+      "healing and peaceful trip"
+    ],
+    "tip": "[만능 국내여행/드라이브] 천안 근교 호숫가 드라이브 → 맑은 날씨와 로이킴/비틀즈 음악 → 마운틴 뷰 베이커리 카페 방문 → 사진 촬영과 대화 → 완벽한 힐링.",
+    "answer_en": "I remember a very scenic and relaxing weekend drive I took with my wife around the Cheonan countryside. The weather was sunny and clear, so we rolled down the car windows and enjoyed the refreshing breeze. While driving along the lakeside roads, we listened to our favorite ballad playlist by Roy Kim and The Beatles. We stopped at a cozy bakery cafe with a beautiful mountain view and drank iced coffee together. We took lots of lovely pictures and had meaningful conversations throughout the afternoon. It was one of the most healing and peaceful trips in my life, and we created wonderful memories.",
+    "answer_ko": "아내와 함께 천안 근교의 경치 좋은 시골길로 주말 드라이브를 다녀왔던 기억이 납니다. 날씨가 화창하고 맑아서 차 창문을 내리고 상쾌한 바람을 즐겼어요. 호숫가 도로를 따라 달리면서 로이킴과 비틀즈의 감미로운 발라드 플레이리스트를 들었습니다. 전망 좋은 베이커리 카페에 들러 아름다운 마운틴 뷰를 감상하며 시원한 아이스 커피를 마셨어요. 예쁜 사진도 많이 찍고 오후 내내 진솔한 대화를 나누며 행복한 시간을 보냈습니다. 제 인생에서 가장 힐링되고 평화로웠던 나들이 중 하나였으며, 멋진 추억을 남겼습니다.",
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 기억·경험"
+  },
+  {
+    "id": "q_camp_02",
+    "cat": "캠핑하기",
+    "type": "장소 묘사",
+    "q_en": "Please describe your favorite campsite. Where is it located and what facilities are available there?",
+    "q_ko": "가장 좋아하는 캠핑장에 대해 설명해 주세요. 어디에 위치해 있고 어떤 시설들이 갖춰져 있나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of camping, there is a wonderful place I really love called the lakeside forest campsite.",
+        "ko": "캠핑을 생각할 때마다, 제가 정말 좋아하는 호숫가 숲속 캠핑장이라는 멋진 장소가 있습니다."
+      },
+      {
+        "en": "It is located about an hour's drive from Cheonan, surrounded by tall pine trees and calm water.",
+        "ko": "천안에서 차로 약 1시간 거리에 위치해 있으며, 키 큰 소나무들과 고요한 호수로 둘러싸여 있어요."
+      },
+      {
+        "en": "Inside the campsite, the vibe is very clean, refreshing, and deeply quiet.",
+        "ko": "캠핑장 내부는 분위기가 매우 깨끗하고 상쾌하며 깊이 고요합니다."
+      },
+      {
+        "en": "There are spacious wooden deck sites, clean modern shower rooms, and electrical outlets for convenience.",
+        "ko": "넓은 나무 데크 사이트와 깨끗한 현대식 샤워장, 편리한 전기 배전 시설이 잘 갖춰져 있습니다."
+      },
+      {
+        "en": "What I love most about this campsite is that breathing the fresh pine scent relieves all my work stress.",
+        "ko": "이 캠핑장에서 가장 좋은 점은 상쾌한 솔향기를 맡으며 모든 업무 스트레스를 날려버릴 수 있다는 것입니다."
+      },
+      {
+        "en": "Overall, it is really my favorite outdoor retreat, and I always feel happy whenever I visit with my wife.",
+        "ko": "전반적으로 이곳은 제가 가장 좋아하는 야외 힐링 쉼터이며, 아내와 함께 갈 때마다 항상 행복해요."
+      }
+    ],
+    "keywords": [
+      "lakeside forest campsite",
+      "hour's drive from Cheonan",
+      "tall pine trees and calm water",
+      "wooden deck sites and clean showers",
+      "fresh pine scent relieves stress"
+    ],
+    "tip": "[만능 캠핑장 묘사] 천안 근교 호숫가 숲속 캠핑장 → 소나무와 호수 뷰 → 넓은 데크 & 샤워장 & 전기 시설 → 솔향기 힐링 → 최애 캠핑지.",
+    "answer_en": "Whenever I think of camping, there is a wonderful place I really love called the lakeside forest campsite. It is located about an hour's drive from Cheonan, surrounded by tall pine trees and calm water. Inside the campsite, the vibe is very clean, refreshing, and deeply quiet. There are spacious wooden deck sites, clean modern shower rooms, and electrical outlets for convenience. What I love most about this campsite is that breathing the fresh pine scent relieves all my work stress. Overall, it is really my favorite outdoor retreat, and I always feel happy whenever I visit with my wife.",
+    "answer_ko": "캠핑을 생각할 때마다, 제가 정말 좋아하는 호숫가 숲속 캠핑장이라는 멋진 장소가 있습니다. 천안에서 차로 약 1시간 거리에 위치해 있으며, 키 큰 소나무들과 고요한 호수로 둘러싸여 있어요. 캠핑장 내부는 분위기가 매우 깨끗하고 상쾌하며 깊이 고요합니다. 넓은 나무 데크 사이트와 깨끗한 현대식 샤워장, 편리한 전기 배전 시설이 잘 갖춰져 있습니다. 이 캠핑장에서 가장 좋은 점은 상쾌한 솔향기를 맡으며 모든 업무 스트레스를 날려버릴 수 있다는 것입니다. 전반적으로 이곳은 제가 가장 좋아하는 야외 힐링 쉼터이며, 아내와 함께 갈 때마다 항상 행복해요.",
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사"
   },
   {
     "id": "q_camp_01",
@@ -1533,50 +1646,9 @@
     ],
     "tip": "[만능 캠핑 루틴] 캠핑장 도착 후 텐트 & 의자 설치 → 핸드드립 커피 힐링 → 저녁 구이 요리 & 음악 → 밤하늘 별 보기 → 완전한 재충전.",
     "answer_en": "Usually, whenever I have a free weekend, my wife and I love going on a quiet camping trip in the forest. First of all, when we arrive at the campsite, we pitch our tent securely and set up comfortable folding chairs. Then, we brew hot hand-dripped coffee while enjoying the fresh green mountain view. In the evening, we cook delicious grilled food on a portable stove and play soft acoustic music. Looking at the starry night sky around a warm camp light makes us feel totally relaxed and peaceful. It is the best way for us to disconnect from work and recharge, so we camp on a regular basis.",
-    "answer_ko": "보통 주말에 여유가 생길 때마다, 아내와 저는 숲속으로 조용한 힐링 캠핑을 떠나는 것을 좋아해요. 우선 캠핑장에 도착하면 텐트를 튼튼하게 치고 편안한 접이식 의자를 세팅합니다. 그런 다음 푸른 마운틴 뷰를 감상하며 따뜻한 핸드드립 커피를 내려 마셔요. 저녁에는 휴대용 버너에 맛있는 구이 요리를 해 먹고 잔잔한 어쿠스틱 음악을 틀어놓습니다. 은은한 랜턴 불빛 아래에서 밤하늘의 별을 바라보고 있으면 마음이 정말 평화로워져요. 바쁜 일상에서 벗어나 재충전하기에 최고의 방법이라 정기적으로 캠핑을 즐깁니다."
-  },
-  {
-    "id": "q_camp_02",
-    "cat": "캠핑하기",
-    "type": "장소 묘사",
-    "q_en": "Please describe your favorite campsite. Where is it located and what facilities are available there?",
-    "q_ko": "가장 좋아하는 캠핑장에 대해 설명해 주세요. 어디에 위치해 있고 어떤 시설들이 갖춰져 있나요?",
-    "sentences": [
-      {
-        "en": "Whenever I think of camping, there is a wonderful place I really love called the lakeside forest campsite.",
-        "ko": "캠핑을 생각할 때마다, 제가 정말 좋아하는 호숫가 숲속 캠핑장이라는 멋진 장소가 있습니다."
-      },
-      {
-        "en": "It is located about an hour's drive from Cheonan, surrounded by tall pine trees and calm water.",
-        "ko": "천안에서 차로 약 1시간 거리에 위치해 있으며, 키 큰 소나무들과 고요한 호수로 둘러싸여 있어요."
-      },
-      {
-        "en": "Inside the campsite, the vibe is very clean, refreshing, and deeply quiet.",
-        "ko": "캠핑장 내부는 분위기가 매우 깨끗하고 상쾌하며 깊이 고요합니다."
-      },
-      {
-        "en": "There are spacious wooden deck sites, clean modern shower rooms, and electrical outlets for convenience.",
-        "ko": "넓은 나무 데크 사이트와 깨끗한 현대식 샤워장, 편리한 전기 배전 시설이 잘 갖춰져 있습니다."
-      },
-      {
-        "en": "What I love most about this campsite is that breathing the fresh pine scent relieves all my work stress.",
-        "ko": "이 캠핑장에서 가장 좋은 점은 상쾌한 솔향기를 맡으며 모든 업무 스트레스를 날려버릴 수 있다는 것입니다."
-      },
-      {
-        "en": "Overall, it is really my favorite outdoor retreat, and I always feel happy whenever I visit with my wife.",
-        "ko": "전반적으로 이곳은 제가 가장 좋아하는 야외 힐링 쉼터이며, 아내와 함께 갈 때마다 항상 행복해요."
-      }
-    ],
-    "keywords": [
-      "lakeside forest campsite",
-      "hour's drive from Cheonan",
-      "tall pine trees and calm water",
-      "wooden deck sites and clean showers",
-      "fresh pine scent relieves stress"
-    ],
-    "tip": "[만능 캠핑장 묘사] 천안 근교 호숫가 숲속 캠핑장 → 소나무와 호수 뷰 → 넓은 데크 & 샤워장 & 전기 시설 → 솔향기 힐링 → 최애 캠핑지.",
-    "answer_en": "Whenever I think of camping, there is a wonderful place I really love called the lakeside forest campsite. It is located about an hour's drive from Cheonan, surrounded by tall pine trees and calm water. Inside the campsite, the vibe is very clean, refreshing, and deeply quiet. There are spacious wooden deck sites, clean modern shower rooms, and electrical outlets for convenience. What I love most about this campsite is that breathing the fresh pine scent relieves all my work stress. Overall, it is really my favorite outdoor retreat, and I always feel happy whenever I visit with my wife.",
-    "answer_ko": "캠핑을 생각할 때마다, 제가 정말 좋아하는 호숫가 숲속 캠핑장이라는 멋진 장소가 있습니다. 천안에서 차로 약 1시간 거리에 위치해 있으며, 키 큰 소나무들과 고요한 호수로 둘러싸여 있어요. 캠핑장 내부는 분위기가 매우 깨끗하고 상쾌하며 깊이 고요합니다. 넓은 나무 데크 사이트와 깨끗한 현대식 샤워장, 편리한 전기 배전 시설이 잘 갖춰져 있습니다. 이 캠핑장에서 가장 좋은 점은 상쾌한 솔향기를 맡으며 모든 업무 스트레스를 날려버릴 수 있다는 것입니다. 전반적으로 이곳은 제가 가장 좋아하는 야외 힐링 쉼터이며, 아내와 함께 갈 때마다 항상 행복해요."
+    "answer_ko": "보통 주말에 여유가 생길 때마다, 아내와 저는 숲속으로 조용한 힐링 캠핑을 떠나는 것을 좋아해요. 우선 캠핑장에 도착하면 텐트를 튼튼하게 치고 편안한 접이식 의자를 세팅합니다. 그런 다음 푸른 마운틴 뷰를 감상하며 따뜻한 핸드드립 커피를 내려 마셔요. 저녁에는 휴대용 버너에 맛있는 구이 요리를 해 먹고 잔잔한 어쿠스틱 음악을 틀어놓습니다. 은은한 랜턴 불빛 아래에서 밤하늘의 별을 바라보고 있으면 마음이 정말 평화로워져요. 바쁜 일상에서 벗어나 재충전하기에 최고의 방법이라 정기적으로 캠핑을 즐깁니다.",
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동"
   },
   {
     "id": "q_camp_03",
@@ -1620,7 +1692,9 @@
     ],
     "tip": "[만능 캠핑 문제 해결] 야간 돌풍 발생 → 텐트 흔들림 당황 → 침착하게 손전등 들고 팩 깊숙이 고정 및 스트링 보강 → 안전 확보 → 값진 교훈.",
     "answer_en": "I remember an unexpected and tense situation I experienced while camping near the lake a few months ago. In the middle of the night, sudden strong mountain gusts began shaking our tent violently. The wind noise was loud, so my wife and I were quite panicked and startled at first. However, I stayed calm, grabbed my flashlight, and went outside to hammer the tent pegs deeper into the ground. I reinforced the guy lines securely, and our tent became completely stable and safe until morning. It was a thrilling experience, but it taught me the importance of thorough safety preparation in nature.",
-    "answer_ko": "몇 달 전 호숫가에서 캠핑을 하던 중 겪었던 아주 갑작스럽고 아찔했던 상황이 생각납니다. 한밤중에 갑작스러운 거센 돌풍이 불어닥쳐 텐트가 심하게 흔들리기 시작했어요. 바람 소리가 너무 커서 처음에는 아내와 저 모두 꽤 당황스럽고 깜짝 놀랐습니다. 하지만 침착하게 손전등을 챙겨 밖으로 나가 텐트 팩을 땅속 깊숙이 단단하게 다시 박았습니다. 스트링 줄을 팽팽하게 보강하자 텐트가 아침까지 완벽하게 안정적이고 안전해졌어요. 아찔한 순간이었지만, 자연 속에서 철저한 안전 대비의 중요성을 배운 값진 경험이 되었습니다."
+    "answer_ko": "몇 달 전 호숫가에서 캠핑을 하던 중 겪었던 아주 갑작스럽고 아찔했던 상황이 생각납니다. 한밤중에 갑작스러운 거센 돌풍이 불어닥쳐 텐트가 심하게 흔들리기 시작했어요. 바람 소리가 너무 커서 처음에는 아내와 저 모두 꽤 당황스럽고 깜짝 놀랐습니다. 하지만 침착하게 손전등을 챙겨 밖으로 나가 텐트 팩을 땅속 깊숙이 단단하게 다시 박았습니다. 스트링 줄을 팽팽하게 보강하자 텐트가 아침까지 완벽하게 안정적이고 안전해졌어요. 아찔한 순간이었지만, 자연 속에서 철저한 안전 대비의 중요성을 배운 값진 경험이 되었습니다.",
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 기억·경험"
   },
   {
     "id": "q_rp_01",
@@ -1664,7 +1738,9 @@
     ],
     "tip": "[만능 롤플레이 정보문의] 전화 인사 및 목적 → 일정/좌석 문의 → 가격 및 커플 할인 문의 → 무료 주차 문의 → 즉시 2석 예약 → 감사 인사.",
     "answer_en": "Hello, I am calling to ask a few questions about the upcoming festival tickets and schedule. First of all, could you tell me what dates and seating sections are currently available? Also, how much is the admission fee per person, and are there any special couple or early-bird discounts? By the way, is free parking available at the venue for ticket holders? If two good seats in the center are available, I would like to book them right now. Thank you so much for your kind assistance. Have a wonderful day!",
-    "answer_ko": "안녕하세요, 다가오는 축제 티켓과 일정에 대해 몇 가지 문의드리려고 전화드렸습니다. 우선 현재 어떤 날짜와 좌석 구역이 예매 가능한지 알려주시겠어요? 그리고 1인당 입장료는 얼마이며 혹시 커플이나 조기 예매 특별 할인 혜택이 있나요? 참고로 티켓 소지자에게 행사장 무료 주차가 지원되나요? 만약 중앙에 좋은 자리 2석이 남아 있다면 지금 바로 예약하고 싶습니다. 친절하게 안내해 주셔서 정말 감사합니다. 좋은 하루 보내세요!"
+    "answer_ko": "안녕하세요, 다가오는 축제 티켓과 일정에 대해 몇 가지 문의드리려고 전화드렸습니다. 우선 현재 어떤 날짜와 좌석 구역이 예매 가능한지 알려주시겠어요? 그리고 1인당 입장료는 얼마이며 혹시 커플이나 조기 예매 특별 할인 혜택이 있나요? 참고로 티켓 소지자에게 행사장 무료 주차가 지원되나요? 만약 중앙에 좋은 자리 2석이 남아 있다면 지금 바로 예약하고 싶습니다. 친절하게 안내해 주셔서 정말 감사합니다. 좋은 하루 보내세요!",
+    "combo_step": 1,
+    "combo_role": "11번: 상황 질문·문의"
   },
   {
     "id": "q_rp_02",
@@ -1708,50 +1784,54 @@
     ],
     "tip": "[만능 롤플레이 배려 지연] 사과 및 교대근무/교통 지연 사유 → 대안 1 (30분 늦추기) → 배려 (\"스타벅스에서 커피 시켜 먹어, 내가 살게!\") → 대안 2 (내일 재약속) → 안전 도착 다짐.",
     "answer_en": "Hi Minsoo, it's Hyosang! I'm really sorry, but something unexpected just came up at work. Due to unexpected traffic on the road right now, I think I will be about thirty minutes late. Is it okay if we push back our meeting time slightly so you don't have to wait outside? Please go into Starbucks in front of my apartment first and order your favorite coffee and dessert on my treat! If you are too tired today, we can easily reschedule our meeting for tomorrow evening. I really apologize for this delay, and I'll get there as fast and safely as I can!",
-    "answer_ko": "안녕 민수야, 효상이야! 정말 미안한데 회사에서 예상치 못한 업무 인수인계가 조금 늦어졌어. 지금 도로에 갑작스러운 교통 체증까지 겹쳐서 약 30분 정도 늦을 것 같아. 밖에서 기다리지 않도록 우리 약속 시간을 조금만 늦춰도 괜찮을까? 우리 집 앞 스타벅스에 먼저 들어가서 좋아하는 커피랑 디저트 시켜서 먹고 있어, 내가 쏠게! 만약 오늘 너무 피곤하면 내일 저녁으로 약속을 다시 잡아도 괜찮아. 늦어져서 정말 미안하고, 최대한 빠르고 안전하게 갈게!"
+    "answer_ko": "안녕 민수야, 효상이야! 정말 미안한데 회사에서 예상치 못한 업무 인수인계가 조금 늦어졌어. 지금 도로에 갑작스러운 교통 체증까지 겹쳐서 약 30분 정도 늦을 것 같아. 밖에서 기다리지 않도록 우리 약속 시간을 조금만 늦춰도 괜찮을까? 우리 집 앞 스타벅스에 먼저 들어가서 좋아하는 커피랑 디저트 시켜서 먹고 있어, 내가 쏠게! 만약 오늘 너무 피곤하면 내일 저녁으로 약속을 다시 잡아도 괜찮아. 늦어져서 정말 미안하고, 최대한 빠르고 안전하게 갈게!",
+    "combo_step": 2,
+    "combo_role": "12번: 문제 해결·대안"
   },
   {
     "id": "q_rp_03",
     "cat": "롤플레이",
-    "type": "문제 해결/교환",
-    "q_en": "You bought a home appliance at a store, but when it was delivered, you noticed a scratch and a defect. Call the store and ask for an exchange or refund.",
-    "q_ko": "매장에서 가전제품을 구매했으나 배송받고 보니 흠집과 하자가 발견되었습니다. 매장에 전화해 교환이나 환불을 요청해 보세요.",
+    "type": "유사 과거 경험",
+    "q_en": "Have you ever experienced an unexpected problem related to purchasing tickets or making a reservation, similar to the situation before? What happened and how did you resolve it?",
+    "q_ko": "이전 상황과 유사하게, 공연 티켓을 예매하거나 약속/예약을 할 때 예상치 못한 문제를 겪은 적이 있나요? 무슨 일이 있었고 어떻게 해결하셨는지 자세히 말씀해 주세요.",
     "sentences": [
       {
-        "en": "Hello, I am calling regarding the home appliance I purchased at your store earlier this week.",
-        "ko": "안녕하세요, 이번 주 초 귀사 매장에서 구매한 가전제품 관련해서 문의드리려고 전화드렸습니다."
+        "en": "Yes, I actually remember an unexpected situation when I was trying to book concert tickets for my wife and me last year.",
+        "ko": "네, 작년에 아내와 함께 볼 콘서트 티켓을 예매하려다 겪었던 뜻밖의 상황이 생생히 기억납니다."
       },
       {
-        "en": "When it was delivered and inspected, I noticed a scratch on the surface and a loose power button.",
-        "ko": "배송을 받고 확인해 보니 표면에 흠집이 있고 전원 버튼이 헐겁게 조립되어 있더라고요."
+        "en": "When the online ticket booking opened, the server suddenly crashed because too many people accessed it at once.",
+        "ko": "온라인 티켓 예매가 오픈되었을 때, 너무 많은 사람이 한꺼번에 접속해서 서버가 갑자기 다운되었습니다."
       },
       {
-        "en": "I have the original purchase receipt, and the warranty card is securely kept.",
-        "ko": "구매 영수증을 그대로 보관하고 있으며 품질 보증서도 잘 보관되어 있습니다."
+        "en": "I was very nervous, but I quickly switched to my smartphone app and called customer service directly.",
+        "ko": "매우 당황스러웠지만, 재빨리 스마트폰 앱으로 전환하고 고객센터에 직접 전화를 걸었습니다."
       },
       {
-        "en": "If you have another brand-new unit in stock, I would like to exchange it as soon as possible.",
-        "ko": "혹시 매장에 새 제품 재고가 있다면 가능한 한 빨리 새 상품으로 교환받고 싶습니다."
+        "en": "Fortunately, a kind staff member helped me secure two great seats in the second row.",
+        "ko": "다행히도 친절한 직원분께서 2열의 아주 좋은 좌석 2자리를 확보할 수 있도록 도와주셨어요."
       },
       {
-        "en": "If an immediate replacement is difficult, could you please process a full refund for me?",
-        "ko": "만약 즉시 교환이 어렵다면 전액 환불로 처리해 주실 수 있나요?"
+        "en": "In the end, my wife and I were able to enjoy the amazing live concert together without any trouble.",
+        "ko": "결국 아내와 저는 아무 문제 없이 환상적인 라이브 콘서트를 함께 즐길 수 있었습니다."
       },
       {
-        "en": "Thank you very much for your understanding and prompt help. I look forward to your reply.",
-        "ko": "이해해 주시고 신속하게 도와주셔서 감사드리며, 확인 후 답변 부탁드립니다."
+        "en": "Through that experience, I realized how important it is to stay calm and have a backup plan when unexpected problems happen.",
+        "ko": "그 경험을 통해 예상치 못한 문제가 생겼을 때 침착함을 유지하고 대안을 마련하는 것이 얼마나 중요한지 깨달았습니다."
       }
     ],
     "keywords": [
-      "calling regarding appliance",
-      "scratch on surface and loose button",
-      "original receipt and warranty",
-      "exchange for brand-new unit",
-      "process full refund",
-      "prompt help and reply"
+      "book concert tickets last year",
+      "server suddenly crashed",
+      "switched to smartphone app",
+      "customer service staff",
+      "secure two great seats",
+      "stay calm and backup plan"
     ],
-    "tip": "[만능 롤플레이 교환/환불] 전화 인사 및 제품 설명 → 흠집/버튼 하자 발견 설명 → 영수증 및 보증서 확인 → 대안 1 (새 상품 교환) → 대안 2 (전액 환불) → 정중한 감사 마무리.",
-    "answer_en": "Hello, I am calling regarding the home appliance I purchased at your store earlier this week. When it was delivered and inspected, I noticed a scratch on the surface and a loose power button. I have the original purchase receipt, and the warranty card is securely kept. If you have another brand-new unit in stock, I would like to exchange it as soon as possible. If an immediate replacement is difficult, could you please process a full refund for me? Thank you very much for your understanding and prompt help. I look forward to your reply.",
-    "answer_ko": "안녕하세요, 이번 주 초 귀사 매장에서 구매한 가전제품 관련해서 문의드리려고 전화드렸습니다. 배송을 받고 확인해 보니 표면에 흠집이 있고 전원 버튼이 헐겁게 조립되어 있더라고요. 구매 영수증을 그대로 보관하고 있으며 품질 보증서도 잘 보관되어 있습니다. 혹시 매장에 새 제품 재고가 있다면 가능한 한 빨리 새 상품으로 교환받고 싶습니다. 만약 즉시 교환이 어렵다면 전액 환불로 처리해 주실 수 있나요? 이해해 주시고 신속하게 도와주셔서 감사드리며, 확인 후 답변 부탁드립니다."
+    "tip": "[만능 13번 유사 경험] 작년 콘서트 티켓 예매 시도 → 접속 폭주로 서버 다운 → 스마트폰 앱 전환 & 고객센터 문의 대안 실행 → 좌석 확보 성공 → 힐링 및 교훈(침착한 대안의 중요성).",
+    "answer_en": "Yes, I actually remember an unexpected situation when I was trying to book concert tickets for my wife and me last year. When the online ticket booking opened, the server suddenly crashed because too many people accessed it at once. I was very nervous, but I quickly switched to my smartphone app and called customer service directly. Fortunately, a kind staff member helped me secure two great seats in the second row. In the end, my wife and I were able to enjoy the amazing live concert together without any trouble. Through that experience, I realized how important it is to stay calm and have a backup plan when unexpected problems happen.",
+    "answer_ko": "네, 작년에 아내와 함께 볼 콘서트 티켓을 예매하려다 겪었던 뜻밖의 상황이 생생히 기억납니다. 온라인 티켓 예매가 오픈되었을 때, 너무 많은 사람이 한꺼번에 접속해서 서버가 갑자기 다운되었습니다. 매우 당황스러웠지만, 재빨리 스마트폰 앱으로 전환하고 고객센터에 직접 전화를 걸었습니다. 다행히도 친절한 직원분께서 2열의 아주 좋은 좌석 2자리를 확보할 수 있도록 도와주셨어요. 결국 아내와 저는 아무 문제 없이 환상적인 라이브 콘서트를 함께 즐길 수 있었습니다. 그 경험을 통해 예상치 못한 문제가 생겼을 때 침착함을 유지하고 대안을 마련하는 것이 얼마나 중요한지 깨달았습니다.",
+    "combo_step": 3,
+    "combo_role": "13번: 유사 과거 경험"
   }
 ]

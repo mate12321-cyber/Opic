@@ -312,8 +312,13 @@
 }
 
 @keyframes pulseTip {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
 }
 
 .timer-gauge-track {
@@ -329,7 +334,13 @@
   height: 100%;
   width: 0%;
   border-radius: 4px;
-  background: linear-gradient(90deg, #f59e0b 0%, #10b981 35%, #6366f1 65%, #a855f7 90%);
+  background: linear-gradient(
+    90deg,
+    #f59e0b 0%,
+    #10b981 35%,
+    #6366f1 65%,
+    #a855f7 90%
+  );
   transition: width 0.3s ease-out;
 }
 
@@ -341,9 +352,15 @@
   background: rgba(0, 0, 0, 0.3);
   z-index: 2;
 }
-.timer-marker.marker-im { left: 37.5%; } /* 45초 / 120초 */
-.timer-marker.marker-ih { left: 62.5%; } /* 75초 / 120초 */
-.timer-marker.marker-al { left: 79.1%; } /* 95초 / 120초 */
+.timer-marker.marker-im {
+  left: 37.5%;
+} /* 45초 / 120초 */
+.timer-marker.marker-ih {
+  left: 62.5%;
+} /* 75초 / 120초 */
+.timer-marker.marker-al {
+  left: 79.1%;
+} /* 95초 / 120초 */
 
 .timer-gauge-labels {
   position: relative;
