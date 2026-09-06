@@ -312,6 +312,7 @@ function renderOpicCard() {
     els.opicGrammarBox.style.display = "none";
   }
   if (els.opicGrammarContent) els.opicGrammarContent.innerHTML = "";
+  if (els.opicGoogleAskRow) els.opicGoogleAskRow.style.display = "none";
 
   // 버튼 상태 리셋
   els.opicRevealRow.style.display = "grid";
@@ -565,6 +566,7 @@ function evaluateOpicAnswer() {
   }
 
   // 버튼 상태 전환: [채점] 행 숨김 -> [모범답안 확인/재채점 버튼 포함 2x2 평가 행] 표시
+  if (els.opicGoogleAskRow) els.opicGoogleAskRow.style.display = "flex";
   if (els.opicRevealRow) els.opicRevealRow.style.display = "none";
   if (els.opicRateRow) els.opicRateRow.style.display = "grid";
   if (els.opicRetrySameLink)

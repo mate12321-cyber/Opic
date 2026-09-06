@@ -769,8 +769,94 @@
           </button>
         </div>
 
-        <!-- 5~7문장 모범 답변 영역 -->
-        <div class="answer" id="opicAnswerBox">
+        <!-- 1. 내 답변 발음 진단 / 문법 분석 / AI 피드백 독립 영역 -->
+        <!-- 발음 및 일치도 평가 -->
+        <div
+          class="speech-eval"
+          id="opicSpeechEvalBox"
+          style="display: none"
+        >
+          <div class="eval-header">
+            <div class="eval-title">🎙️ 내 답변 실전 발화 & 발음 진단</div>
+            <span class="eval-score-badge" id="opicEvalScoreBadge"
+              >0% 일치</span
+            >
+          </div>
+          <div class="eval-diff" id="opicEvalDiff"></div>
+          <div class="eval-feedback" id="opicEvalFeedback"></div>
+          <div class="eval-actions">
+            <button
+              class="tts-btn"
+              id="ttsOpicUserInputBtn"
+              type="button"
+              title="내가 녹음한 답변 듣기"
+            >
+              🔊 내 답변 다시 듣기
+            </button>
+          </div>
+        </div>
+
+        <!-- 내 답변 문법 검사 및 교정 영역 -->
+        <div class="grammar" id="opicGrammarBox" style="display: none">
+          <div class="lbl">내 답변 문법 & 어휘 분석</div>
+          <div id="opicGrammarContent"></div>
+        </div>
+
+        <!-- Google AI 질문 연동 -->
+        <div class="google-ask-row" id="opicGoogleAskRow" style="display: none; margin-top: 10px">
+          <button
+            class="google-ai-btn"
+            id="opicGoogleAskLink"
+            type="button"
+            title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 피드백을 띄웁니다"
+          >
+            <svg
+              class="google-ai-icon"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2C12 7.523 7.523 12 2 12C7.523 12 12 16.477 12 22C12 16.477 16.477 12 22 12C16.477 12 12 7.523 12 2Z"
+                fill="#4285f4"
+              />
+              <path
+                d="M19 2C19 4.209 17.209 6 15 6C17.209 6 19 7.791 19 10C19 7.791 20.791 6 23 6C20.791 6 19 4.209 19 2Z"
+                fill="#ea4335"
+              />
+              <circle cx="19.5" cy="18.5" r="2.5" fill="#fbbc05" />
+            </svg>
+            <span>Google AI 피드백</span>
+          </button>
+          <button
+            class="google-copy-btn"
+            id="opicGoogleAskCopy"
+            type="button"
+          >
+            <svg
+              class="google-copy-icon"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path
+                d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+              ></path>
+            </svg>
+            <span>피드백 질문 복사</span>
+          </button>
+        </div>
+
+        <!-- 2. 5~7문장 모범 답변 독립 영역 -->
+        <div class="answer" id="opicAnswerBox" style="display: none">
           <div class="lbl-row">
             <div class="lbl">💡 참고용 모범 답변 (5~7문장)</div>
             <div class="action-btn-group">
@@ -825,91 +911,6 @@
 
             <!-- 답변 전개 팁 -->
             <div class="tip" id="opicTipText"></div>
-
-            <!-- 발음 및 일치도 평가 -->
-            <div
-              class="speech-eval"
-              id="opicSpeechEvalBox"
-              style="display: none"
-            >
-              <div class="eval-header">
-                <div class="eval-title">🎙️ 내 답변 실전 발화 & 발음 진단</div>
-                <span class="eval-score-badge" id="opicEvalScoreBadge"
-                  >0% 일치</span
-                >
-              </div>
-              <div class="eval-diff" id="opicEvalDiff"></div>
-              <div class="eval-feedback" id="opicEvalFeedback"></div>
-              <div class="eval-actions">
-                <button
-                  class="tts-btn"
-                  id="ttsOpicUserInputBtn"
-                  type="button"
-                  title="내가 녹음한 답변 듣기"
-                >
-                  🔊 내 답변 다시 듣기
-                </button>
-              </div>
-            </div>
-
-            <!-- 내 답변 문법 검사 및 교정 영역 -->
-            <div class="grammar" id="opicGrammarBox">
-              <div class="lbl">내 답변 문법 & 어휘 분석</div>
-              <div id="opicGrammarContent"></div>
-            </div>
-
-            <!-- Google AI 질문 연동 -->
-            <div class="google-ask-row" style="margin-top: 10px">
-              <button
-                class="google-ai-btn"
-                id="opicGoogleAskLink"
-                type="button"
-                title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 피드백을 띄웁니다"
-              >
-                <svg
-                  class="google-ai-icon"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 2C12 7.523 7.523 12 2 12C7.523 12 12 16.477 12 22C12 16.477 16.477 12 22 12C16.477 12 12 7.523 12 2Z"
-                    fill="#4285f4"
-                  />
-                  <path
-                    d="M19 2C19 4.209 17.209 6 15 6C17.209 6 19 7.791 19 10C19 7.791 20.791 6 23 6C20.791 6 19 4.209 19 2Z"
-                    fill="#ea4335"
-                  />
-                  <circle cx="19.5" cy="18.5" r="2.5" fill="#fbbc05" />
-                </svg>
-                <span>Google AI 피드백</span>
-              </button>
-              <button
-                class="google-copy-btn"
-                id="opicGoogleAskCopy"
-                type="button"
-              >
-                <svg
-                  class="google-copy-icon"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path
-                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
-                  ></path>
-                </svg>
-                <span>피드백 질문 복사</span>
-              </button>
-            </div>
           </div>
         </div>
 

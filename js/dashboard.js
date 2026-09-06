@@ -154,6 +154,7 @@ const els = {
   opicGrammarBox: document.getElementById("opicGrammarBox"),
   opicGrammarContent: document.getElementById("opicGrammarContent"),
   ttsOpicUserInputBtn: document.getElementById("ttsOpicUserInputBtn"),
+  opicGoogleAskRow: document.getElementById("opicGoogleAskRow"),
   opicGoogleAskLink: document.getElementById("opicGoogleAskLink"),
   opicGoogleAskCopy: document.getElementById("opicGoogleAskCopy"),
   opicRevealRow: document.getElementById("opicRevealRow"),
