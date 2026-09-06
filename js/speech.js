@@ -2837,20 +2837,71 @@ async function checkGrammar(text) {
   }
 }
 
-// 영문 텍스트를 한국어로 번역 (Google Translate API)
+// 번역 메모리 캐시 및 Rate Limit 쿨다운 관리
+const translationCache = new Map();
+let googleTranslateCooldownUntil = 0;
+
+// 영문 텍스트를 한국어로 번역 (MyMemory + Google Translate 다중 폴백 및 캐싱)
 async function translateToKorean(text) {
-  if (!text || !text.trim()) return "";
-  try {
-    const url =
-      "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=" +
-      encodeURIComponent(text.trim());
-    const res = await fetch(url);
-    if (!res.ok) return "";
-    const data = await res.json();
-    return (data[0] || []).map((chunk) => chunk[0]).join("");
-  } catch (e) {
-    return "";
+  const clean = (text || "").trim();
+  if (!clean) return "";
+
+  // 1. 캐시 히트 검사
+  if (translationCache.has(clean)) {
+    return translationCache.get(clean);
   }
+
+  let translated = "";
+
+  // 2. 1차 번역 엔진: MyMemory API (CORS 친화적 & 브라우저 안정성 우수)
+  try {
+    const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean.slice(0, 500))}&langpair=en|ko`;
+    const res = await fetch(myMemoryUrl);
+    if (res.ok) {
+      const data = await res.json();
+      if (
+        data &&
+        data.responseData &&
+        data.responseData.translatedText &&
+        !data.responseData.translatedText.startsWith("MYMEMORY WARNING:")
+      ) {
+        translated = data.responseData.translatedText.trim();
+      }
+    }
+  } catch (e) {
+    /* fallback to google */
+  }
+
+  // 3. 2차 번역 엔진: Google Translate API (쿨다운 상태가 아닐 때만 시도)
+  if (!translated && Date.now() > googleTranslateCooldownUntil) {
+    try {
+      const url =
+        "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=" +
+        encodeURIComponent(clean);
+      const res = await fetch(url);
+      if (res.status === 429) {
+        // 429 Too Many Requests 감지 시 60초간 Google 호출 차단 (CORS 에러 방지)
+        googleTranslateCooldownUntil = Date.now() + 60000;
+      } else if (res.ok) {
+        const data = await res.json();
+        translated = (data[0] || []).map((chunk) => chunk[0]).join("").trim();
+      }
+    } catch (e) {
+      // CORS 또는 네트워크 에러 발생 시 60초 쿨다운 설정
+      googleTranslateCooldownUntil = Date.now() + 60000;
+    }
+  }
+
+  if (translated) {
+    // 캐시 저장 (최대 100개 유지)
+    if (translationCache.size > 100) {
+      const firstKey = translationCache.keys().next().value;
+      translationCache.delete(firstKey);
+    }
+    translationCache.set(clean, translated);
+  }
+
+  return translated;
 }
 
 // 문법 검사 결과 및 교정 제안 UI 렌더링

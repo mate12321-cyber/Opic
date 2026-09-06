@@ -51,16 +51,10 @@ if (els.opicUserInput) {
       return;
     }
     translateTimer = setTimeout(async () => {
-      const isEn = /^[a-zA-Z0-9\s.,!?'"-]+$/.test(text);
-      const pair = isEn ? "en|ko" : "ko|en";
       try {
-        const res = await fetch(
-          `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text.slice(0, 500))}&langpair=${pair}`,
-        );
-        const data = await res.json();
-        if (data.responseData?.translatedText) {
-          els.opicLiveTranslateText.textContent =
-            data.responseData.translatedText;
+        const translated = await translateToKorean(text);
+        if (translated) {
+          els.opicLiveTranslateText.textContent = translated;
           els.opicLiveTranslate.classList.add("show");
         }
       } catch (e) {
