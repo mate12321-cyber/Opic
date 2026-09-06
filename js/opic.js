@@ -469,6 +469,7 @@ function revealOpic() {
       referenceText: userText, // 평가 기준을 모범 답안이 아닌 '내 실제 답변'으로 설정
       userText: userText,
       voiceBtn: els.ttsOpicUserInputBtn,
+      questionItem: item, // 질문 메타데이터(질문영문, 카테고리, 키워드) 전달하여 주제 적합도 분석
     });
   }
 
