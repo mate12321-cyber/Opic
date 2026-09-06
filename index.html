@@ -913,11 +913,14 @@
           </div>
         </div>
 
-        <!-- 컨트롤 버튼 -->
+        <!-- 컨트롤 버튼 (내 답변 채점하기 vs 모범 답안 보기 분리) -->
         <div class="row" id="opicRevealRow">
-          <button class="primary" id="opicRevealBtn">
-            <span>모범 답안 확인</span>
+          <button class="primary" id="opicEvalBtn">
+            <span>📊 내 답변 채점하기</span>
             <kbd class="shortcut-key">↵</kbd>
+          </button>
+          <button class="secondary btn-toggle-model" id="opicRevealBtn">
+            <span>💡 모범 답안 보기</span>
           </button>
           <button class="ghost" id="opicSkipBtn">
             <span>건너뛰기</span>
@@ -925,6 +928,9 @@
           </button>
         </div>
         <div class="row" id="opicRateRow" style="display: none">
+          <button class="secondary btn-toggle-model" id="opicRevealAfterEvalBtn" style="display: none">
+            <span>💡 모범 답안 보기</span>
+          </button>
           <button class="good" id="opicGoodBtn">
             <span>잘했어요 ✓</span>
             <kbd class="shortcut-key">1</kbd>
@@ -945,20 +951,13 @@
           <span class="change-topic" id="opicChangeTopicBtn">주제 변경</span>
         </div>
         <div class="shortcut-helper desktop-only-tip">
-          <span class="sk-item"
-            ><kbd class="shortcut-key">↵</kbd> 답안확인</span
-          >
+          <span class="sk-item"><kbd class="shortcut-key">↵</kbd> 채점하기</span>
+          <span class="sk-item"><kbd class="shortcut-key">M</kbd> 모범답안</span>
           <span class="sk-item"><kbd class="shortcut-key">P</kbd> 이전</span>
-          <span class="sk-item"
-            ><kbd class="shortcut-key">K</kbd> 건너뛰기</span
-          >
-          <span class="sk-item"
-            ><kbd class="shortcut-key">1</kbd> 잘했어요</span
-          >
+          <span class="sk-item"><kbd class="shortcut-key">K</kbd> 건너뛰기</span>
+          <span class="sk-item"><kbd class="shortcut-key">1</kbd> 잘했어요</span>
           <span class="sk-item"><kbd class="shortcut-key">2</kbd> 다시</span>
-          <span class="sk-item"
-            ><kbd class="shortcut-key">Space</kbd> 발음듣기</span
-          >
+          <span class="sk-item"><kbd class="shortcut-key">Space</kbd> 발음</span>
           <span class="sk-item"><kbd class="shortcut-key">R</kbd> 재도전</span>
         </div>
       </div>

@@ -246,7 +246,15 @@ if (els.btnModeCombo) {
 if (els.btnPrevOpic) {
   els.btnPrevOpic.addEventListener("click", prevOpicQuestion);
 }
-if (els.opicRevealBtn) els.opicRevealBtn.addEventListener("click", revealOpic);
+if (els.opicEvalBtn) {
+  els.opicEvalBtn.addEventListener("click", evaluateOpicAnswer);
+}
+if (els.opicRevealBtn) {
+  els.opicRevealBtn.addEventListener("click", revealOpicModelAnswer);
+}
+if (els.opicRevealAfterEvalBtn) {
+  els.opicRevealAfterEvalBtn.addEventListener("click", revealOpicModelAnswer);
+}
 if (els.opicSkipBtn) els.opicSkipBtn.addEventListener("click", skipOpic);
 if (els.opicGoodBtn)
   els.opicGoodBtn.addEventListener("click", () => rateOpic("good"));

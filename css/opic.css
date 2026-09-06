@@ -761,3 +761,17 @@
     padding: 0 10px;
   }
 }
+
+/* ── 모범 답안 보기 보조 버튼 스타일 ── */
+.btn-toggle-model {
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+  font-weight: 600;
+  transition: all var(--trans-fast);
+}
+.btn-toggle-model:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
+}

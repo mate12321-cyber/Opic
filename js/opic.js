@@ -204,7 +204,9 @@ function startOpicPractice(wrongOnly = false) {
 
       if (catQuestions.length > 0) {
         // 실제 OPIc 콤보 단계(1단계 묘사 ➔ 2단계 루틴 ➔ 3단계 과거경험) 순서 정렬
-        const sorted = catQuestions.sort((a, b) => (a.q.combo_step || 1) - (b.q.combo_step || 1));
+        const sorted = catQuestions.sort(
+          (a, b) => (a.q.combo_step || 1) - (b.q.combo_step || 1),
+        );
         sorted.slice(0, 3).forEach(({ idx }) => comboIndices.push(idx));
       }
     }
@@ -255,6 +257,8 @@ function renderOpicCard() {
   if (!item) return;
 
   opicRevealed = false;
+  opicEvaluated = false;
+  opicModelRevealed = false;
   opicReplayCount = 0;
 
   // 상단 라벨 및 3단 콤보 배지 처리
@@ -312,6 +316,7 @@ function renderOpicCard() {
   // 버튼 상태 리셋
   els.opicRevealRow.style.display = "flex";
   els.opicRateRow.style.display = "none";
+  if (els.opicRevealAfterEvalBtn) els.opicRevealAfterEvalBtn.style.display = "none";
   els.opicRetrySameLink.style.display = "none";
 
   // 진행 점(Dots) 렌더링
@@ -500,10 +505,56 @@ function renderKeywordChips(keywords) {
   });
 }
 
-// 정답 확인 (모범 답변 공개)
-function revealOpic() {
-  if (opicRevealed) return;
-  opicRevealed = true;
+// ── 내 답변 채점하기 (모범 답안 공개 없이 내 발화만 진단) ────────
+function evaluateOpicAnswer() {
+  if (opicEvaluated) return;
+  opicEvaluated = true;
+  stopSpeakingTimer();
+
+  const item = OPIC_QUESTIONS[opicOrder[opicCur]];
+  if (!item) return;
+
+  const userText = (els.opicUserInput ? els.opicUserInput.value : "").trim();
+
+  // 1. 발음, 유창성, 운율, 발화량 및 주제 적합도 정밀 진단
+  if (els.opicSpeechEvalBox) {
+    renderPronunciationAssessment({
+      boxEl: els.opicSpeechEvalBox,
+      badgeEl: els.opicEvalScoreBadge,
+      diffEl: els.opicEvalDiff,
+      feedbackEl: els.opicEvalFeedback,
+      mode: "opic",
+      referenceText: userText, // 평가 기준을 모범 답안이 아닌 '내 실제 답변'으로 설정
+      userText: userText,
+      voiceBtn: els.ttsOpicUserInputBtn,
+      questionItem: item, // 질문 메타데이터(질문영문, 카테고리, 키워드) 전달하여 주제 적합도 분석
+    });
+  }
+
+  // 2. 내 답변 실시간 문법 검사 & 원어민식 교정 제안
+  if (userText && els.opicGrammarBox && els.opicGrammarContent) {
+    checkGrammar(userText).then((matches) => {
+      renderGrammarResults(
+        matches,
+        userText,
+        els.opicGrammarBox,
+        els.opicGrammarContent,
+      );
+    });
+  }
+
+  // 버튼 상태 전환: [채점] 행 숨김 -> [모범답안 확인 버튼 포함 평가 행] 표시
+  if (els.opicRevealRow) els.opicRevealRow.style.display = "none";
+  if (els.opicRateRow) els.opicRateRow.style.display = "flex";
+  if (els.opicRevealAfterEvalBtn) {
+    els.opicRevealAfterEvalBtn.style.display = opicModelRevealed ? "none" : "inline-flex";
+  }
+  if (els.opicRetrySameLink) els.opicRetrySameLink.style.display = "inline-flex";
+}
+
+// ── 모범 답안 보기 (에바 질문의 5~7문장 모범 답변 공개) ────────
+function revealOpicModelAnswer() {
+  opicModelRevealed = true;
   stopSpeakingTimer();
 
   const item = OPIC_QUESTIONS[opicOrder[opicCur]];
@@ -522,43 +573,21 @@ function revealOpic() {
   // 기본 뷰 모드 설정 (문장별 분할 뷰)
   switchOpicAnswerView("breakdown");
 
-  els.opicAnswerBox.style.display = "block";
-  els.opicRevealRow.style.display = "none";
-  els.opicRateRow.style.display = "flex";
-  els.opicRetrySameLink.style.display = "inline-flex";
-
-  // 발음 및 나만의 답변 실전 평가 (모범 답안과 비교하지 않고 내 답변 자체를 평가)
-  const userText = els.opicUserInput.value.trim();
-  if (els.opicSpeechEvalBox) {
-    renderPronunciationAssessment({
-      boxEl: els.opicSpeechEvalBox,
-      badgeEl: els.opicEvalScoreBadge,
-      diffEl: els.opicEvalDiff,
-      feedbackEl: els.opicEvalFeedback,
-      mode: "opic",
-      referenceText: userText, // 평가 기준을 모범 답안이 아닌 '내 실제 답변'으로 설정
-      userText: userText,
-      voiceBtn: els.ttsOpicUserInputBtn,
-      questionItem: item, // 질문 메타데이터(질문영문, 카테고리, 키워드) 전달하여 주제 적합도 분석
-    });
-  }
-
-  // 내 답변 실시간 문법 검사 & 원어민식 교정 제안
-  if (userText && els.opicGrammarBox && els.opicGrammarContent) {
-    checkGrammar(userText).then((matches) => {
-      renderGrammarResults(
-        matches,
-        userText,
-        els.opicGrammarBox,
-        els.opicGrammarContent,
-      );
-    });
-  }
+  if (els.opicAnswerBox) els.opicAnswerBox.style.display = "block";
+  if (els.opicRevealRow) els.opicRevealRow.style.display = "none";
+  if (els.opicRateRow) els.opicRateRow.style.display = "flex";
+  if (els.opicRevealAfterEvalBtn) els.opicRevealAfterEvalBtn.style.display = "none";
+  if (els.opicRetrySameLink) els.opicRetrySameLink.style.display = "inline-flex";
 
   // 자동 재생 설정 시 전체 모범답안 TTS 재생
   if (els.autoPlayTts && els.autoPlayTts.checked) {
     speakText(item.answer_en, "en-US", els.ttsOpicAllBtn);
   }
+}
+
+// 하위 호환용 래퍼
+function revealOpic() {
+  revealOpicModelAnswer();
 }
 
 // 문제 평가 (잘했어요 / 다시 연습)

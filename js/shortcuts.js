@@ -150,6 +150,7 @@ document.addEventListener("keydown", (e) => {
 
   // 4. OPIc 실전 질문 & 답변 모드 단축키
   const isOpicInputFocused = document.activeElement === els.opicUserInput;
+  const isKeyM = e.code === "KeyM" || e.key === "m" || e.key === "M" || e.key === "ㅡ";
   if (
     els.opicCard &&
     els.opicCard.style.display !== "none" &&
@@ -162,11 +163,14 @@ document.addEventListener("keydown", (e) => {
       return;
     }
 
-    if (!opicRevealed) {
-      // 모범 답안 확인 전: Enter(모범답안 공개), K / ㅏ(건너뛰기), Space(에바 질문 다시 듣기)
+    if (!opicEvaluated && !opicModelRevealed) {
+      // 채점 전: Enter (내 답변 채점하기), M (모범답안 보기), K / ㅏ (건너뛰기), Space (에바 질문 듣기)
       if (isEnter && (!isOpicInputFocused || !e.shiftKey)) {
         e.preventDefault();
-        revealOpic();
+        evaluateOpicAnswer();
+      } else if (isKeyM && !isOpicInputFocused) {
+        e.preventDefault();
+        revealOpicModelAnswer();
       } else if (isKeyK && !isOpicInputFocused) {
         e.preventDefault();
         skipOpic();
@@ -175,13 +179,16 @@ document.addEventListener("keydown", (e) => {
         playEvaQuestion(false);
       }
     } else {
-      // 모범 답안 확인 후: 1/G/ㅎ(잘함), 2/B/ㅠ(다시), R/ㄱ(재도전), K/ㅏ(건너뛰기), Space(모범답안 듣기)
+      // 채점 또는 모범답안 확인 후: 1/G/ㅎ (잘함), 2/B/ㅠ (다시), M (모범답안 토글), R/ㄱ (재도전), K/ㅏ (건너뛰기), Space (모범답안 듣기)
       if (isGoodKey) {
         e.preventDefault();
         rateOpic("good");
       } else if (isBadKey) {
         e.preventDefault();
         rateOpic("bad");
+      } else if (isKeyM && !isOpicInputFocused) {
+        e.preventDefault();
+        revealOpicModelAnswer();
       } else if (isKeyR) {
         e.preventDefault();
         retrySameOpicQuestion();
