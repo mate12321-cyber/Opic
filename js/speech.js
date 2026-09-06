@@ -1248,7 +1248,7 @@ function evaluateSpeech(userInput, modelAnswer) {
   return { isAzure: false, score, diffHtml: diffParts.join(" "), feedback };
 }
 
-// OPIc 실전 나만의 답변 발화 평가 (모범 답안과 비교하지 않고 내 답변 자체를 평가)
+// OPIc 실전 나만의 답변 발화 평가 (ACTFL 공식 4대 기준 기반 다면 평가)
 function evaluateOpicSpeaking(userInput) {
   const normUser = normalizeForEval(userInput);
   if (!normUser) {
@@ -1256,48 +1256,128 @@ function evaluateOpicSpeaking(userInput) {
       score: 0,
       diffHtml: "<span class='eval-word miss'>입력된 음성이 없습니다.</span>",
       feedback: "마이크를 누르고 영어로 나만의 답변을 자유롭게 말해보세요.",
-      opicGrade: { grade: "IL", label: "🥉 IL (Intermediate Low)", gradeClass: "grade-il" },
+      opicGrade: {
+        grade: "IL",
+        label: "🥉 IL (Intermediate Low)",
+        gradeClass: "grade-il",
+      },
     };
   }
 
   const userTokens = normUser.split(" ").filter(Boolean);
   const wordCount = userTokens.length;
+  const uniqueWords = new Set(userTokens).size;
   const sentenceCount = Math.max(
     1,
     (userInput.match(/[.!?]+/g) || []).length || Math.ceil(wordCount / 10),
   );
 
+  // 1. 논리 연결어 (Connectors & Transitions) 감지
+  const CONNECTORS = [
+    "because", "so", "however", "although", "when", "while", "after", "before",
+    "especially", "first", "second", "then", "finally", "also", "besides",
+    "therefore", "even though", "as a result", "for example"
+  ];
+  const foundConnectors = CONNECTORS.filter((c) => normUser.includes(c));
+
+  // 2. 자연스러운 필러 및 구어체 담화 표지어 (Fillers & Discourse Markers) 감지
+  const FILLERS = [
+    "you know", "i think", "actually", "honestly", "to be honest", "in my opinion",
+    "as far as i know", "well", "basically", "i mean", "like"
+  ];
+  const foundFillers = FILLERS.filter((f) => normUser.includes(f));
+
+  // 3. 과거 시제 동사 감지 (경험/일과 서술 평가)
+  const PAST_VERBS = [
+    "went", "was", "were", "had", "liked", "enjoyed", "saw", "played", "visited",
+    "ate", "bought", "felt", "walked", "started", "decided", "loved", "took"
+  ];
+  const foundPastVerbs = PAST_VERBS.filter((pv) => userTokens.includes(pv));
+
+  // 4. ACTFL OPIc 종합 등급 판정 알고리즘
   let score = 50;
-  let opicGrade = { grade: "IM1", label: "🥈 IM1 (Intermediate Mid 1)", gradeClass: "grade-im" };
+  let opicGrade = {
+    grade: "IM1",
+    label: "🥈 IM1 (Intermediate Mid 1)",
+    gradeClass: "grade-im",
+  };
   let feedback = "";
 
-  if (wordCount >= 45 && sentenceCount >= 4) {
-    score = 88;
-    opicGrade = { grade: "IH", label: "🥇 IH (Intermediate High)", gradeClass: "grade-ih" };
-    feedback = "🌟 훌륭합니다! 45단어 이상의 풍부한 발화량과 문장 전개로 OPIc IH 수준을 만족하는 답변입니다.";
-  } else if (wordCount >= 30) {
-    score = 75;
-    opicGrade = { grade: "IM2", label: "🥈 IM2 (Intermediate Mid 2)", gradeClass: "grade-im" };
-    feedback = "👍 좋습니다! 핵심 내용이 명확합니다. 세부 묘사나 느낌 문장을 1~2개 더 덧붙이면 IH/AL 고득점에 유리합니다.";
+  const hasHighFluency = wordCount >= 50 && sentenceCount >= 4;
+  const hasGoodTransitions = foundConnectors.length >= 2 || foundFillers.length >= 2;
+  const hasRichVocab = uniqueWords >= 25;
+
+  if (hasHighFluency && hasGoodTransitions && hasRichVocab) {
+    score = 92;
+    opicGrade = {
+      grade: "AL",
+      label: "🏆 AL (Advanced Low)",
+      gradeClass: "grade-al",
+    };
+    feedback = "🌟 탁월합니다! 풍부한 발화량, 자연스러운 연결어 및 담화 표지어 활용으로 완벽한 문단(Paragraph)을 구성했습니다. OPIc 최고 등급(AL) 수준입니다.";
+  } else if (wordCount >= 40 && (foundConnectors.length >= 1 || foundFillers.length >= 1)) {
+    score = 84;
+    opicGrade = {
+      grade: "IH",
+      label: "🥇 IH (Intermediate High)",
+      gradeClass: "grade-ih",
+    };
+    feedback = "🥇 훌륭합니다! 문장들이 접속사로 매끄럽게 연결되며 안정적인 문단을 형성하고 있습니다. OPIc IH 기준을 확실하게 충족합니다.";
+  } else if (wordCount >= 28) {
+    score = 72;
+    opicGrade = {
+      grade: "IM2",
+      label: "🥈 IM2 (Intermediate Mid 2)",
+      gradeClass: "grade-im",
+    };
+    feedback = "👍 좋습니다! 질문에 대한 핵심 전달력이 우수합니다. 'because, when, also' 같은 연결어를 1~2개 더 추가하면 IH 등급으로 즉시 도약할 수 있습니다.";
   } else if (wordCount >= 15) {
-    score = 60;
-    opicGrade = { grade: "IM1", label: "🥈 IM1 (Intermediate Mid 1)", gradeClass: "grade-im" };
-    feedback = "💪 기본 전달력이 좋습니다. [이유/생각/과거 경험]을 추가하여 4~5문장 이상으로 답변을 확장해보세요.";
+    score = 58;
+    opicGrade = {
+      grade: "IM1",
+      label: "🥈 IM1 (Intermediate Mid 1)",
+      gradeClass: "grade-im",
+    };
+    feedback = "💪 기본 전달력이 양호합니다. 단순 단문 나열을 넘어 [이유/생각/과거 경험]을 덧붙여 3~4문장 이상으로 답변을 확장해보세요.";
   } else {
     score = 40;
-    opicGrade = { grade: "IL", label: "🥉 IL (Intermediate Low)", gradeClass: "grade-il" };
-    feedback = "🌱 답변 분량이 다소 짧습니다. 질문에 대해 3~4문장 이상으로 조금 더 길게 말해보세요.";
+    opicGrade = {
+      grade: "IL",
+      label: "🥉 IL (Intermediate Low)",
+      gradeClass: "grade-il",
+    };
+    feedback = "🌱 답변 분량이 다소 짧습니다. 질문에 대해 2~3문장 이상으로 조금 더 구체적으로 말해보세요.";
   }
 
   const wordsHtml = userTokens
     .map((t) => `<span class="eval-word match">${escapeHtml(t)}</span>`)
     .join(" ");
 
+  const tags = [];
+  if (foundConnectors.length > 0) {
+    tags.push(`🔗 연결어: ${foundConnectors.slice(0, 3).join(", ")}`);
+  }
+  if (foundFillers.length > 0) {
+    tags.push(`💬 필러: ${foundFillers.slice(0, 2).join(", ")}`);
+  }
+  if (foundPastVerbs.length > 0) {
+    tags.push(`⏳ 과거시제: ${foundPastVerbs.slice(0, 2).join(", ")}`);
+  }
+
   const statsHtml = `
-    <div style="display: flex; gap: 14px; margin-bottom: 8px; font-size: 12px; color: var(--text-muted); padding: 6px 10px; background: var(--surface-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
-      <span>📝 발화 단어 수: <strong style="color: var(--text-main);">${wordCount}단어</strong></span>
-      <span>📑 문장 수: <strong style="color: var(--text-main);">약 ${sentenceCount}문장</strong></span>
-      <span>⏱️ 평가 기준: <strong style="color: #4f46e5;">나만의 답변 자체 진단</strong></span>
+    <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; padding: 8px 12px; background: var(--surface-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+      <div style="display: flex; gap: 14px; font-size: 12px; color: var(--text-muted); flex-wrap: wrap;">
+        <span>📝 발화 단어 수: <strong style="color: var(--text-main);">${wordCount}단어 (${uniqueWords}개 고유 어휘)</strong></span>
+        <span>📑 문장 수: <strong style="color: var(--text-main);">약 ${sentenceCount}문장</strong></span>
+        <span>⏱️ 평가 방식: <strong style="color: #4f46e5;">ACTFL OPIc 다면 평가</strong></span>
+      </div>
+      ${
+        tags.length > 0
+          ? `<div style="display: flex; gap: 8px; font-size: 11px; color: #4338ca; flex-wrap: wrap; margin-top: 2px;">
+              ${tags.map((t) => `<span style="background: #e0e7ff; padding: 1px 7px; border-radius: 4px; font-weight: 600;">${t}</span>`).join("")}
+            </div>`
+          : ""
+      }
     </div>
   `;
 
@@ -1328,7 +1408,9 @@ async function renderPronunciationAssessment({
   const wavBuffer = lastRecordedWavs[mode];
   const isOpic = mode === "opic";
   // OPIc 실전 모드는 모범 답안과 비교하지 않고 '내 실제 답변(userText)'을 기준으로 발음/유창성/운율을 정밀 진단!
-  const targetAssessmentText = isOpic ? (userText || "").trim() : (referenceText || userText || "").trim();
+  const targetAssessmentText = isOpic
+    ? (userText || "").trim()
+    : (referenceText || userText || "").trim();
 
   // 1. Azure AI 평가 가능한 상태 (WAV 음성 데이터 + Azure API Key 유효 + 발화 텍스트 있음)
   if (azureApiKey && azureApiKey.trim() && wavBuffer && targetAssessmentText) {
