@@ -2998,7 +2998,8 @@ const PHONETIC_CORRECTION_RULES = [
   // 외래어 악센트 및 단어 쪼개짐 보정
   { reg: /\bcaf[eé]\s*s\b/gi, rep: "cafes" },
   { reg: /\bcaf\s+s\b/gi, rep: "cafes" },
-  { reg: /\bcaf[eé]s?\b/gi, (match) => match.toLowerCase().endsWith("s") ? "cafes" : "cafe" },
+  { reg: /\bcaf[eé]s\b/gi, rep: "cafes" },
+  { reg: /\bcaf[eé]\b/gi, rep: "cafe" },
 ];
 
 // 음성 인식 텍스트 자동 보정기
