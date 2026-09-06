@@ -2637,67 +2637,67 @@ async function renderPronunciationAssessment({
       </div>
     `;
 
-// Arpabet / IPA 음소 기호를 직관적인 한글 발음 및 기호 설명으로 변환
-const PHONEME_KOREAN_MAP = {
-  // 모음 (Vowels)
-  aa: "아",
-  ae: "애(입크게)",
-  ah: "어(짧은어)",
-  ao: "오/어-(깊은소리)",
-  aw: "아우",
-  ay: "아이",
-  eh: "에",
-  er: "얼(혀굴림)",
-  ey: "에이",
-  ih: "이(짧은이)",
-  iy: "이-(장모음)",
-  ow: "오우",
-  oy: "오이",
-  uh: "우(짧은우)",
-  uw: "우-(장모음)",
-  ax: "어(약모음)",
-  ix: "이(약모음)",
-  axr: "얼(약모음)",
+    // Arpabet / IPA 음소 기호를 직관적인 한글 발음 및 기호 설명으로 변환
+    const PHONEME_KOREAN_MAP = {
+      // 모음 (Vowels)
+      aa: "아",
+      ae: "애(입크게)",
+      ah: "어(짧은어)",
+      ao: "오/어-(깊은소리)",
+      aw: "아우",
+      ay: "아이",
+      eh: "에",
+      er: "얼(혀굴림)",
+      ey: "에이",
+      ih: "이(짧은이)",
+      iy: "이-(장모음)",
+      ow: "오우",
+      oy: "오이",
+      uh: "우(짧은우)",
+      uw: "우-(장모음)",
+      ax: "어(약모음)",
+      ix: "이(약모음)",
+      axr: "얼(약모음)",
 
-  // 자음 (Consonants)
-  b: "ㅂ",
-  ch: "ㅊ",
-  d: "ㄷ",
-  dh: "유성th(혀문 드)",
-  dx: "플랩(ㄹ/ㄷ)",
-  el: "받침l",
-  em: "받침m",
-  en: "받침n",
-  f: "f(윗니+아랫입술 ㅍ)",
-  g: "ㄱ",
-  hh: "ㅎ",
-  h: "ㅎ",
-  jh: "ㅈ",
-  k: "ㅋ",
-  l: "l(ㄹ)",
-  m: "ㅁ",
-  n: "ㄴ",
-  ng: "ㅇ(받침 이응)",
-  p: "ㅍ",
-  r: "r(혀당긴 ㄹ)",
-  s: "ㅅ",
-  sh: "쉬",
-  t: "ㅌ",
-  th: "무성th(혀문 쓰)",
-  v: "v(윗니+아랫입술 ㅂ)",
-  w: "w(입술오므린 우)",
-  wh: "hw(휘)",
-  y: "y(이)",
-  z: "z(떨리는 ㅈ)",
-  zh: "zh(부드러운 쥐)",
-};
+      // 자음 (Consonants)
+      b: "ㅂ",
+      ch: "ㅊ",
+      d: "ㄷ",
+      dh: "유성th(혀문 드)",
+      dx: "플랩(ㄹ/ㄷ)",
+      el: "받침l",
+      em: "받침m",
+      en: "받침n",
+      f: "f(윗니+아랫입술 ㅍ)",
+      g: "ㄱ",
+      hh: "ㅎ",
+      h: "ㅎ",
+      jh: "ㅈ",
+      k: "ㅋ",
+      l: "l(ㄹ)",
+      m: "ㅁ",
+      n: "ㄴ",
+      ng: "ㅇ(받침 이응)",
+      p: "ㅍ",
+      r: "r(혀당긴 ㄹ)",
+      s: "ㅅ",
+      sh: "쉬",
+      t: "ㅌ",
+      th: "무성th(혀문 쓰)",
+      v: "v(윗니+아랫입술 ㅂ)",
+      w: "w(입술오므린 우)",
+      wh: "hw(휘)",
+      y: "y(이)",
+      z: "z(떨리는 ㅈ)",
+      zh: "zh(부드러운 쥐)",
+    };
 
-function getPhonemeKoreanDesc(phoneme) {
-  if (!phoneme) return "";
-  const cleanKey = String(phoneme).toLowerCase().replace(/[0-9]/g, "");
-  const desc = PHONEME_KOREAN_MAP[cleanKey];
-  return desc ? `${phoneme}(${desc})` : phoneme;
-}
+    function getPhonemeKoreanDesc(phoneme) {
+      if (!phoneme) return "";
+      const cleanKey = String(phoneme).toLowerCase().replace(/[0-9]/g, "");
+      const desc = PHONEME_KOREAN_MAP[cleanKey];
+      return desc ? `${phoneme}(${desc})` : phoneme;
+    }
 
     let wordsHtml = `<div class="eval-words-section">
       <div class="eval-words-label">
@@ -2950,6 +2950,17 @@ const PHONETIC_CORRECTION_RULES = [
   { reg: /\bi\s+am\s+agree\b/gi, rep: "I agree" },
   { reg: /\bin\s+front\s+off\b/gi, rep: "in front of" },
   { reg: /\bone\s+of\s+the\s+best\s+thing\b/gi, rep: "one of the best things" },
+
+  // 한국 주요 지명 및 동/구 고유명사 오인식 보정 규칙
+  { reg: /\b(?:bull|bool|pull|full)\s*(?:dang|tang)\s*(?:dong|tong)?\b/gi, rep: "Buldang-dong" },
+  { reg: /\bbuilding\s+dong\b/gi, rep: "Buldang-dong" },
+  { reg: /\b(?:chun\s*an|cheon\s*an|chun\s*ahn)\b/gi, rep: "Cheonan" },
+  { reg: /\b(?:ssang\s*yong|sang\s*yong)\s*(?:dong)?\b/gi, rep: "Ssangyong-dong" },
+  { reg: /\b(?:gang\s*nam|kang\s*nam)\s*(?:dong|gu)?\b/gi, rep: "Gangnam" },
+  { reg: /\b(?:hong\s*dae|hong\s*day)\b/gi, rep: "Hongdae" },
+  { reg: /\b(?:yeo\s*ui\s*do|yeoui\s*do)\b/gi, rep: "Yeouido" },
+  { reg: /\b(?:sin\s*chon|shin\s*chon)\b/gi, rep: "Sinchon" },
+  { reg: /\b(?:han\s*river|hangang|han\s*gang)\b/gi, rep: "the Han River" },
 ];
 
 // 음성 인식 텍스트 자동 보정기
