@@ -164,7 +164,186 @@ function updateTtsSettingsUI() {
   }
 }
 
-// TTS 모달 UI 이벤트 바인딩 및 캐시 통계 갱신
+// ── Azure Speech F0 무료 한도(5시간 / 50만자) 실시간 사용량 추적기 ──────
+const AZURE_USAGE_STORAGE_KEY = "ko-en-opic-azure-f0-usage";
+const AZURE_F0_AUDIO_LIMIT_SEC = 5 * 3600; // 5시간 = 18,000초 = 300분
+const AZURE_F0_TTS_CHAR_LIMIT = 500000; // 500,000자
+
+function getCurrentYearMonth() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  return `${y}-${m}`;
+}
+
+function getCurrentYearMonthLabel() {
+  const d = new Date();
+  return `${d.getFullYear()}년 ${d.getMonth() + 1}월`;
+}
+
+function getAzureMonthlyUsage() {
+  const currentMonth = getCurrentYearMonth();
+  let data = {
+    month: currentMonth,
+    audioSeconds: 0,
+    ttsChars: 0,
+    requestCount: 0,
+  };
+
+  try {
+    const raw = localStorage.getItem(AZURE_USAGE_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.month === currentMonth) {
+        data = {
+          month: currentMonth,
+          audioSeconds: Number(parsed.audioSeconds) || 0,
+          ttsChars: Number(parsed.ttsChars) || 0,
+          requestCount: Number(parsed.requestCount) || 0,
+        };
+      } else {
+        // 새 달이 되면 자동 0으로 리셋 후 새 월 저장
+        saveAzureMonthlyUsage(data);
+      }
+    }
+  } catch (e) {}
+
+  const audioSec = Math.round(data.audioSeconds);
+  const audioMin = Math.floor(audioSec / 60);
+  const audioRemSec = audioSec % 60;
+  const audioRemainingSec = Math.max(0, AZURE_F0_AUDIO_LIMIT_SEC - audioSec);
+  const audioRemHours = Math.floor(audioRemainingSec / 3600);
+  const audioRemMins = Math.floor((audioRemainingSec % 3600) / 60);
+
+  const audioPercent = Math.min(
+    100,
+    (audioSec / AZURE_F0_AUDIO_LIMIT_SEC) * 100,
+  );
+  const ttsPercent = Math.min(
+    100,
+    (data.ttsChars / AZURE_F0_TTS_CHAR_LIMIT) * 100,
+  );
+  const ttsRemainingChars = Math.max(
+    0,
+    AZURE_F0_TTS_CHAR_LIMIT - data.ttsChars,
+  );
+
+  return {
+    month: data.month,
+    monthLabel: getCurrentYearMonthLabel(),
+    audioSeconds: audioSec,
+    audioFormatted: `${audioMin}분 ${audioRemSec}초`,
+    audioPercent: audioPercent.toFixed(1),
+    audioRemainingFormatted: `${audioRemHours}시간 ${String(audioRemMins).padStart(2, "0")}분`,
+    ttsChars: data.ttsChars,
+    ttsPercent: ttsPercent.toFixed(1),
+    ttsRemainingFormatted: `${ttsRemainingChars.toLocaleString()}자`,
+    requestCount: data.requestCount,
+  };
+}
+
+function saveAzureMonthlyUsage(data) {
+  try {
+    localStorage.setItem(AZURE_USAGE_STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {}
+}
+
+function addAzureAudioUsage(seconds) {
+  const currentMonth = getCurrentYearMonth();
+  let data = {
+    month: currentMonth,
+    audioSeconds: 0,
+    ttsChars: 0,
+    requestCount: 0,
+  };
+  try {
+    const raw = localStorage.getItem(AZURE_USAGE_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.month === currentMonth) data = parsed;
+    }
+  } catch (e) {}
+
+  data.audioSeconds = (Number(data.audioSeconds) || 0) + seconds;
+  data.requestCount = (Number(data.requestCount) || 0) + 1;
+  saveAzureMonthlyUsage(data);
+  updateAzureUsageUI();
+}
+
+function addAzureTtsUsage(chars) {
+  const currentMonth = getCurrentYearMonth();
+  let data = {
+    month: currentMonth,
+    audioSeconds: 0,
+    ttsChars: 0,
+    requestCount: 0,
+  };
+  try {
+    const raw = localStorage.getItem(AZURE_USAGE_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.month === currentMonth) data = parsed;
+    }
+  } catch (e) {}
+
+  data.ttsChars = (Number(data.ttsChars) || 0) + chars;
+  saveAzureMonthlyUsage(data);
+  updateAzureUsageUI();
+}
+
+function resetAzureMonthlyUsage() {
+  const currentMonth = getCurrentYearMonth();
+  const data = {
+    month: currentMonth,
+    audioSeconds: 0,
+    ttsChars: 0,
+    requestCount: 0,
+  };
+  saveAzureMonthlyUsage(data);
+  updateAzureUsageUI();
+}
+
+function updateAzureUsageUI() {
+  const usage = getAzureMonthlyUsage();
+
+  const monthBadge = document.getElementById("azureUsageMonthBadge");
+  const audioText = document.getElementById("azureAudioUsageText");
+  const audioBar = document.getElementById("azureAudioUsageBar");
+  const audioRemaining = document.getElementById("azureAudioRemainingText");
+
+  const ttsText = document.getElementById("azureTtsUsageText");
+  const ttsBar = document.getElementById("azureTtsUsageBar");
+  const ttsRemaining = document.getElementById("azureTtsRemainingText");
+
+  if (monthBadge) monthBadge.textContent = usage.monthLabel;
+  if (audioText) {
+    audioText.textContent = `${usage.audioFormatted} / 300분 (${usage.audioPercent}%)`;
+  }
+  if (audioBar) {
+    audioBar.style.width = `${usage.audioPercent}%`;
+    const pct = parseFloat(usage.audioPercent);
+    audioBar.className =
+      "metric-bar-fill " + (pct >= 90 ? "low" : pct >= 70 ? "mid" : "high");
+  }
+  if (audioRemaining) {
+    audioRemaining.textContent = `남은 시간: ${usage.audioRemainingFormatted}`;
+  }
+
+  if (ttsText) {
+    ttsText.textContent = `${usage.ttsChars.toLocaleString()}자 / 500,000자 (${usage.ttsPercent}%)`;
+  }
+  if (ttsBar) {
+    ttsBar.style.width = `${usage.ttsPercent}%`;
+    const pct = parseFloat(usage.ttsPercent);
+    ttsBar.className =
+      "metric-bar-fill " + (pct >= 90 ? "low" : pct >= 70 ? "mid" : "high");
+  }
+  if (ttsRemaining) {
+    ttsRemaining.textContent = `남은 글자: ${usage.ttsRemainingFormatted}`;
+  }
+}
+
+// TTS 모달 UI 이벤트 바인딩 및 캐시/사용량 통계 갱신
 function initTtsSettingsModal() {
   const modal = document.getElementById("ttsSettingsModal");
   if (!modal) return;
@@ -183,6 +362,7 @@ function initTtsSettingsModal() {
   const azureSection = document.getElementById("azureSettingsSection");
   const cacheBadge = document.getElementById("cacheStatsBadge");
   const clearCacheBtn = document.getElementById("clearCacheBtn");
+  const resetUsageBtn = document.getElementById("resetAzureUsageBtn");
   const azureTestBtn = document.getElementById("azureTestBtn");
 
   // 캐시 통계 업데이트
@@ -209,6 +389,7 @@ function initTtsSettingsModal() {
     }
 
     refreshCacheStats();
+    updateAzureUsageUI();
     modal.classList.add("show");
   }
 
@@ -227,6 +408,15 @@ function initTtsSettingsModal() {
   if (engineSelect && azureSection) {
     engineSelect.addEventListener("change", (e) => {
       azureSection.style.display = e.target.value === "azure" ? "flex" : "none";
+    });
+  }
+
+  // 사용량 초기화 버튼
+  if (resetUsageBtn) {
+    resetUsageBtn.addEventListener("click", () => {
+      if (confirm("이번 달의 Azure Speech 누적 사용량(시간 및 글자 수) 기록을 0으로 초기화하시겠습니까?")) {
+        resetAzureMonthlyUsage();
+      }
     });
   }
 
@@ -496,6 +686,9 @@ async function fetchAzureTtsAudio(
     throw new Error(`Azure TTS Error (${res.status}): ${errText}`);
   }
 
+  // 이번 달 Azure Neural TTS 글자 수 사용량 누적
+  addAzureTtsUsage(text.length);
+
   return await res.blob();
 }
 
@@ -738,7 +931,11 @@ function clearRecordedVoice(mode = "practice") {
 }
 
 // 사용자의 실제 녹음 목소리 재생 (녹음본 없으면 TTS 폴백)
-async function playRecordedVoice(mode = "practice", btn = null, fallbackText = "") {
+async function playRecordedVoice(
+  mode = "practice",
+  btn = null,
+  fallbackText = "",
+) {
   const blob = getRecordedVoiceBlob(mode);
   if (blob) {
     if (currentSpeakingBtn === btn && activeAudio) {
@@ -750,7 +947,10 @@ async function playRecordedVoice(mode = "practice", btn = null, fallbackText = "
     try {
       await playAudioBlob(blob, btn, reqId);
     } catch (e) {
-      console.warn("[Voice] Real audio playback failed, falling back to TTS:", e);
+      console.warn(
+        "[Voice] Real audio playback failed, falling back to TTS:",
+        e,
+      );
       if (fallbackText) speakText(fallbackText, "en-US", btn);
     }
   } else if (fallbackText) {
@@ -869,6 +1069,10 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     throw new Error(`Azure 발음 평가 오류 (${res.status}): ${errText}`);
   }
 
+  // 이번 달 Azure 발음 평가 처리 오디오 길이(초) 사용량 누적 (16kHz 16bit Mono = 32,000 bytes/sec)
+  const audioSec = Math.max(0.5, (wavBuffer.byteLength - 44) / 32000);
+  addAzureAudioUsage(audioSec);
+
   const data = await res.json();
   if (data.RecognitionStatus !== "Success" || !data.NBest || !data.NBest[0]) {
     throw new Error(`음성 인식 실패 (${data.RecognitionStatus || "No match"})`);
@@ -882,19 +1086,47 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
   const completenessScore = Math.round(nbest.CompletenessScore || 0);
 
   // OPIc 예상 등급 산출
-  let opicGrade = { grade: "NH", label: "🌱 Novice High", gradeClass: "grade-il" };
+  let opicGrade = {
+    grade: "NH",
+    label: "🌱 Novice High",
+    gradeClass: "grade-il",
+  };
   if (pronScore >= 90) {
-    opicGrade = { grade: "AL", label: "🏆 AL (Advanced Low)", gradeClass: "grade-al" };
+    opicGrade = {
+      grade: "AL",
+      label: "🏆 AL (Advanced Low)",
+      gradeClass: "grade-al",
+    };
   } else if (pronScore >= 80) {
-    opicGrade = { grade: "IH", label: "🥇 IH (Intermediate High)", gradeClass: "grade-ih" };
+    opicGrade = {
+      grade: "IH",
+      label: "🥇 IH (Intermediate High)",
+      gradeClass: "grade-ih",
+    };
   } else if (pronScore >= 70) {
-    opicGrade = { grade: "IM3", label: "🥈 IM3 (Intermediate Mid 3)", gradeClass: "grade-im" };
+    opicGrade = {
+      grade: "IM3",
+      label: "🥈 IM3 (Intermediate Mid 3)",
+      gradeClass: "grade-im",
+    };
   } else if (pronScore >= 60) {
-    opicGrade = { grade: "IM2", label: "🥈 IM2 (Intermediate Mid 2)", gradeClass: "grade-im" };
+    opicGrade = {
+      grade: "IM2",
+      label: "🥈 IM2 (Intermediate Mid 2)",
+      gradeClass: "grade-im",
+    };
   } else if (pronScore >= 50) {
-    opicGrade = { grade: "IM1", label: "🥈 IM1 (Intermediate Mid 1)", gradeClass: "grade-im" };
+    opicGrade = {
+      grade: "IM1",
+      label: "🥈 IM1 (Intermediate Mid 1)",
+      gradeClass: "grade-im",
+    };
   } else if (pronScore >= 40) {
-    opicGrade = { grade: "IL", label: "🥉 IL (Intermediate Low)", gradeClass: "grade-il" };
+    opicGrade = {
+      grade: "IL",
+      label: "🥉 IL (Intermediate Low)",
+      gradeClass: "grade-il",
+    };
   }
 
   const words = (nbest.Words || []).map((w) => ({
@@ -909,13 +1141,17 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
 
   let feedback = "";
   if (pronScore >= 85) {
-    feedback = "🌟 원어민 수준의 자연스러운 억양과 발음입니다! OPIc 시험에서 최상위 등급(IH~AL)을 기대할 수 있어요.";
+    feedback =
+      "🌟 원어민 수준의 자연스러운 억양과 발음입니다! OPIc 시험에서 최상위 등급(IH~AL)을 기대할 수 있어요.";
   } else if (pronScore >= 70) {
-    feedback = "👍 명확하고 훌륭한 발음이에요! 주황색/빨간색 단어의 음소와 억양을 조금만 더 보완해보세요.";
+    feedback =
+      "👍 명확하고 훌륭한 발음이에요! 주황색/빨간색 단어의 음소와 억양을 조금만 더 보완해보세요.";
   } else if (pronScore >= 50) {
-    feedback = "💪 기본 전달력이 좋아요! 단어 끝 소리와 모음 장단음에 주의해서 한 번 더 말해보세요.";
+    feedback =
+      "💪 기본 전달력이 좋아요! 단어 끝 소리와 모음 장단음에 주의해서 한 번 더 말해보세요.";
   } else {
-    feedback = "🌱 천천히 또박또박 모범 답안 발음을 먼저 듣고 따라 말해보세요.";
+    feedback =
+      "🌱 천천히 또박또박 모범 답안 발음을 먼저 듣고 따라 말해보세요.";
   }
 
   return {
@@ -1040,11 +1276,17 @@ async function renderPronunciationAssessment({
     if (feedbackEl) feedbackEl.textContent = "";
 
     try {
-      const azureResult = await assessPronunciationWithAzure(wavBuffer, referenceText);
+      const azureResult = await assessPronunciationWithAzure(
+        wavBuffer,
+        referenceText,
+      );
       renderAzureResultUI(azureResult);
       return;
     } catch (azureErr) {
-      console.warn("[PronAssessment] Azure AI failed, falling back to local:", azureErr.message);
+      console.warn(
+        "[PronAssessment] Azure AI failed, falling back to local:",
+        azureErr.message,
+      );
     }
   }
 
@@ -1053,10 +1295,12 @@ async function renderPronunciationAssessment({
   renderLocalResultUI(localResult);
 
   function renderAzureResultUI(res) {
+    const usage = getAzureMonthlyUsage();
     if (badgeEl) {
       badgeEl.innerHTML = `
         <span class="opic-grade-badge ${res.opicGrade.gradeClass}">${res.opicGrade.label}</span>
         <span class="eval-score-badge ${res.pronScore >= 80 ? "high" : res.pronScore >= 50 ? "mid" : "low"}">${res.pronScore}점</span>
+        <span class="azure-usage-pill" style="font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:12px;background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe;" title="이번 달 남은 무료 발음 평가 시간">⏳ ${usage.audioRemainingFormatted} 남음</span>
       `;
     }
 

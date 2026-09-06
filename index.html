@@ -1081,7 +1081,11 @@
               autocomplete="off"
             />
             <span class="form-sublabel"
-              >Azure Speech Key를 등록하면 최고급 원어민 Neural TTS뿐만 아니라 <strong>Azure AI 발음 정밀 진단 (정확도·유창성·운율·완성도·단어별 음소 분석)</strong>이 자동 활성화됩니다. (매달 무료 티어 F0 제공)</span
+              >Azure Speech Key를 등록하면 최고급 원어민 Neural TTS뿐만 아니라
+              <strong
+                >Azure AI 발음 정밀 진단 (정확도·유창성·운율·완성도·단어별 음소
+                분석)</strong
+              >이 자동 활성화됩니다. (매달 무료 티어 F0 제공)</span
             >
           </div>
 
@@ -1173,6 +1177,147 @@
           >
             🔊 발음 & 연결 테스트
           </button>
+        </div>
+
+        <!-- Azure F0 무료 한도 실시간 사용량 추적기 -->
+        <div
+          class="cache-box"
+          id="azureUsageBox"
+          style="
+            margin-top: 14px;
+            border-color: rgba(99, 102, 241, 0.25);
+            background: #fafbff;
+          "
+        >
+          <div class="cache-info-row">
+            <span
+              class="form-label"
+              style="margin: 0; display: flex; align-items: center; gap: 6px"
+            >
+              📊 이번 달 무료 한도 사용량
+              <span
+                class="badge-f0"
+                style="
+                  font-size: 10px;
+                  font-weight: 700;
+                  background: #e0e7ff;
+                  color: #4338ca;
+                  padding: 2px 6px;
+                  border-radius: 4px;
+                "
+                >F0 Free Tier</span
+              >
+            </span>
+            <span class="cache-badge" id="azureUsageMonthBadge" style="font-weight: 600"
+              >2026년 9월</span
+            >
+          </div>
+
+          <!-- 발음 평가 5시간 프로그레스 바 -->
+          <div style="margin-top: 10px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 12px;
+                margin-bottom: 4px;
+              "
+            >
+              <span style="font-weight: 600; color: var(--text-main)"
+                >🎙️ 발음 정밀 평가 (5시간 한도)</span
+              >
+              <span
+                id="azureAudioUsageText"
+                style="
+                  font-family: var(--font-mono);
+                  font-weight: 700;
+                  color: #4f46e5;
+                "
+                >0분 0초 / 300분 (0%)</span
+              >
+            </div>
+            <div class="metric-bar-bg" style="height: 7px">
+              <div
+                class="metric-bar-fill high"
+                id="azureAudioUsageBar"
+                style="width: 0%"
+              ></div>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                font-size: 11px;
+                color: var(--text-muted);
+                margin-top: 3px;
+              "
+            >
+              <span id="azureAudioRemainingText">남은 시간: 5시간 00분</span>
+              <span>매월 1일 자동 리셋</span>
+            </div>
+          </div>
+
+          <!-- TTS 50만자 프로그레스 바 -->
+          <div style="margin-top: 12px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 12px;
+                margin-bottom: 4px;
+              "
+            >
+              <span style="font-weight: 600; color: var(--text-main)"
+                >🔊 원어민 TTS (50만 자 한도)</span
+              >
+              <span
+                id="azureTtsUsageText"
+                style="
+                  font-family: var(--font-mono);
+                  font-weight: 700;
+                  color: #4f46e5;
+                "
+                >0자 / 500,000자 (0%)</span
+              >
+            </div>
+            <div class="metric-bar-bg" style="height: 7px">
+              <div
+                class="metric-bar-fill high"
+                id="azureTtsUsageBar"
+                style="width: 0%"
+              ></div>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                font-size: 11px;
+                color: var(--text-muted);
+                margin-top: 3px;
+              "
+            >
+              <span id="azureTtsRemainingText">남은 글자: 500,000자</span>
+              <span style="color: #10b981">💡 로컬 캐시로 0자 절약 중</span>
+            </div>
+          </div>
+
+          <div class="btn-row-flex" style="margin-top: 10px">
+            <button
+              type="button"
+              class="ghost"
+              id="resetAzureUsageBtn"
+              style="
+                height: 30px;
+                min-height: 30px;
+                font-size: 11px;
+                color: var(--text-muted);
+              "
+            >
+              🔄 이번 달 사용량 초기화
+            </button>
+          </div>
         </div>
 
         <!-- IndexedDB 영구 캐시 관리 영역 -->
