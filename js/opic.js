@@ -452,16 +452,16 @@ function revealOpic() {
   els.opicRateRow.style.display = "flex";
   els.opicRetrySameLink.style.display = "inline-flex";
 
-  // 발음 및 일치도 평가
+  // 발음 및 나만의 답변 실전 평가 (모범 답안과 비교하지 않고 내 답변 자체를 평가)
   const userText = els.opicUserInput.value.trim();
-  if (els.opicSpeechEvalBox && item.answer_en) {
+  if (els.opicSpeechEvalBox) {
     renderPronunciationAssessment({
       boxEl: els.opicSpeechEvalBox,
       badgeEl: els.opicEvalScoreBadge,
       diffEl: els.opicEvalDiff,
       feedbackEl: els.opicEvalFeedback,
       mode: "opic",
-      referenceText: item.answer_en,
+      referenceText: userText, // 평가 기준을 모범 답안이 아닌 '내 실제 답변'으로 설정
       userText: userText,
       voiceBtn: els.ttsOpicUserInputBtn,
     });

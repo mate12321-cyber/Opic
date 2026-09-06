@@ -414,7 +414,11 @@ function initTtsSettingsModal() {
   // 사용량 초기화 버튼
   if (resetUsageBtn) {
     resetUsageBtn.addEventListener("click", () => {
-      if (confirm("이번 달의 Azure Speech 누적 사용량(시간 및 글자 수) 기록을 0으로 초기화하시겠습니까?")) {
+      if (
+        confirm(
+          "이번 달의 Azure Speech 누적 사용량(시간 및 글자 수) 기록을 0으로 초기화하시겠습니까?",
+        )
+      ) {
         resetAzureMonthlyUsage();
       }
     });
@@ -1150,8 +1154,7 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     feedback =
       "💪 기본 전달력이 좋아요! 단어 끝 소리와 모음 장단음에 주의해서 한 번 더 말해보세요.";
   } else {
-    feedback =
-      "🌱 천천히 또박또박 모범 답안 발음을 먼저 듣고 따라 말해보세요.";
+    feedback = "🌱 천천히 또박또박 모범 답안 발음을 먼저 듣고 따라 말해보세요.";
   }
 
   return {
@@ -1177,7 +1180,7 @@ function normalizeForEval(text) {
     .trim();
 }
 
-// 로컬 텍스트 일치도 폴백 평가
+// 로컬 텍스트 일치도 폴백 평가 (문장 변환 모드 전용)
 function evaluateSpeech(userInput, modelAnswer) {
   const normUser = normalizeForEval(userInput);
   const normModel = normalizeForEval(modelAnswer);
@@ -1245,7 +1248,69 @@ function evaluateSpeech(userInput, modelAnswer) {
   return { isAzure: false, score, diffHtml: diffParts.join(" "), feedback };
 }
 
-// 발음 평가 UI 통합 렌더링 (Azure AI 4대 지표 / 로컬 매칭 하이브리드)
+// OPIc 실전 나만의 답변 발화 평가 (모범 답안과 비교하지 않고 내 답변 자체를 평가)
+function evaluateOpicSpeaking(userInput) {
+  const normUser = normalizeForEval(userInput);
+  if (!normUser) {
+    return {
+      score: 0,
+      diffHtml: "<span class='eval-word miss'>입력된 음성이 없습니다.</span>",
+      feedback: "마이크를 누르고 영어로 나만의 답변을 자유롭게 말해보세요.",
+      opicGrade: { grade: "IL", label: "🥉 IL (Intermediate Low)", gradeClass: "grade-il" },
+    };
+  }
+
+  const userTokens = normUser.split(" ").filter(Boolean);
+  const wordCount = userTokens.length;
+  const sentenceCount = Math.max(
+    1,
+    (userInput.match(/[.!?]+/g) || []).length || Math.ceil(wordCount / 10),
+  );
+
+  let score = 50;
+  let opicGrade = { grade: "IM1", label: "🥈 IM1 (Intermediate Mid 1)", gradeClass: "grade-im" };
+  let feedback = "";
+
+  if (wordCount >= 45 && sentenceCount >= 4) {
+    score = 88;
+    opicGrade = { grade: "IH", label: "🥇 IH (Intermediate High)", gradeClass: "grade-ih" };
+    feedback = "🌟 훌륭합니다! 45단어 이상의 풍부한 발화량과 문장 전개로 OPIc IH 수준을 만족하는 답변입니다.";
+  } else if (wordCount >= 30) {
+    score = 75;
+    opicGrade = { grade: "IM2", label: "🥈 IM2 (Intermediate Mid 2)", gradeClass: "grade-im" };
+    feedback = "👍 좋습니다! 핵심 내용이 명확합니다. 세부 묘사나 느낌 문장을 1~2개 더 덧붙이면 IH/AL 고득점에 유리합니다.";
+  } else if (wordCount >= 15) {
+    score = 60;
+    opicGrade = { grade: "IM1", label: "🥈 IM1 (Intermediate Mid 1)", gradeClass: "grade-im" };
+    feedback = "💪 기본 전달력이 좋습니다. [이유/생각/과거 경험]을 추가하여 4~5문장 이상으로 답변을 확장해보세요.";
+  } else {
+    score = 40;
+    opicGrade = { grade: "IL", label: "🥉 IL (Intermediate Low)", gradeClass: "grade-il" };
+    feedback = "🌱 답변 분량이 다소 짧습니다. 질문에 대해 3~4문장 이상으로 조금 더 길게 말해보세요.";
+  }
+
+  const wordsHtml = userTokens
+    .map((t) => `<span class="eval-word match">${escapeHtml(t)}</span>`)
+    .join(" ");
+
+  const statsHtml = `
+    <div style="display: flex; gap: 14px; margin-bottom: 8px; font-size: 12px; color: var(--text-muted); padding: 6px 10px; background: var(--surface-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+      <span>📝 발화 단어 수: <strong style="color: var(--text-main);">${wordCount}단어</strong></span>
+      <span>📑 문장 수: <strong style="color: var(--text-main);">약 ${sentenceCount}문장</strong></span>
+      <span>⏱️ 평가 기준: <strong style="color: #4f46e5;">나만의 답변 자체 진단</strong></span>
+    </div>
+  `;
+
+  return {
+    isAzure: false,
+    score,
+    opicGrade,
+    diffHtml: statsHtml + `<div class="eval-diff">${wordsHtml}</div>`,
+    feedback,
+  };
+}
+
+// 발음 평가 UI 통합 렌더링 (Azure AI 4대 지표 / 나만의 답변 & 로컬 하이브리드)
 async function renderPronunciationAssessment({
   boxEl,
   badgeEl,
@@ -1261,15 +1326,17 @@ async function renderPronunciationAssessment({
   boxEl.style.display = "block";
 
   const wavBuffer = lastRecordedWavs[mode];
-  const hasRecordedAudio = !!lastRecordedBlobs[mode];
+  const isOpic = mode === "opic";
+  // OPIc 실전 모드는 모범 답안과 비교하지 않고 '내 실제 답변(userText)'을 기준으로 발음/유창성/운율을 정밀 진단!
+  const targetAssessmentText = isOpic ? (userText || "").trim() : (referenceText || userText || "").trim();
 
-  // 1. Azure AI 평가 가능한 상태 (WAV 음성 데이터 + Azure API Key 유효)
-  if (azureApiKey && azureApiKey.trim() && wavBuffer && referenceText) {
+  // 1. Azure AI 평가 가능한 상태 (WAV 음성 데이터 + Azure API Key 유효 + 발화 텍스트 있음)
+  if (azureApiKey && azureApiKey.trim() && wavBuffer && targetAssessmentText) {
     if (diffEl) {
       diffEl.innerHTML = `
         <div class="eval-loading-wrap">
           <div class="eval-spinner"></div>
-          <span>Azure AI로 발음(정확도·유창성·운율) 정밀 진단 중...</span>
+          <span>Azure AI로 내 답변 발음·유창성·운율 정밀 진단 중...</span>
         </div>
       `;
     }
@@ -1278,7 +1345,7 @@ async function renderPronunciationAssessment({
     try {
       const azureResult = await assessPronunciationWithAzure(
         wavBuffer,
-        referenceText,
+        targetAssessmentText,
       );
       renderAzureResultUI(azureResult);
       return;
@@ -1290,9 +1357,14 @@ async function renderPronunciationAssessment({
     }
   }
 
-  // 2. 로컬 텍스트 일치도 폴백 렌더링
-  const localResult = evaluateSpeech(userText, referenceText);
-  renderLocalResultUI(localResult);
+  // 2. 로컬 텍스트 폴백 렌더링
+  if (isOpic) {
+    const opicLocalResult = evaluateOpicSpeaking(userText);
+    renderLocalOpicResultUI(opicLocalResult);
+  } else {
+    const localResult = evaluateSpeech(userText, referenceText);
+    renderLocalResultUI(localResult);
+  }
 
   function renderAzureResultUI(res) {
     const usage = getAzureMonthlyUsage();
@@ -1304,7 +1376,18 @@ async function renderPronunciationAssessment({
       `;
     }
 
+    const wordsCount = res.words.length;
+    const opicStatsBar = isOpic
+      ? `
+      <div style="display: flex; gap: 14px; margin-bottom: 10px; font-size: 12px; color: var(--text-muted); padding: 6px 10px; background: var(--surface-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+        <span>📝 발화 단어 수: <strong style="color: var(--text-main);">${wordsCount}단어</strong></span>
+        <span>🎯 발화 방식: <strong style="color: #4f46e5;">나만의 답변 정밀 진단</strong></span>
+      </div>
+    `
+      : "";
+
     const metricsHtml = `
+      ${opicStatsBar}
       <div class="eval-metrics-grid">
         <div class="metric-card">
           <div class="metric-header">
@@ -1347,7 +1430,7 @@ async function renderPronunciationAssessment({
 
     let wordsHtml = `<div class="eval-words-section">
       <div class="eval-words-label">
-        <span>단어별 정밀 발음 진단</span>
+        <span>${isOpic ? "내 답변 단어별 발음 진단" : "단어별 정밀 발음 진단"}</span>
         <span class="sub">💡 단어를 누르면 음소별 점수가 표시됩니다</span>
       </div>
       <div class="eval-words-wrap">`;
@@ -1374,6 +1457,26 @@ async function renderPronunciationAssessment({
     wordsHtml += `</div></div>`;
 
     if (diffEl) diffEl.innerHTML = metricsHtml + wordsHtml;
+    if (feedbackEl) feedbackEl.textContent = res.feedback;
+  }
+
+  function renderLocalOpicResultUI(res) {
+    if (badgeEl) {
+      badgeEl.innerHTML = `
+        <span class="opic-grade-badge ${res.opicGrade.gradeClass}">${res.opicGrade.label}</span>
+        <span class="eval-score-badge ${res.score >= 80 ? "high" : res.score >= 50 ? "mid" : "low"}">${res.score}점</span>
+      `;
+    }
+    if (diffEl) {
+      diffEl.innerHTML = `
+        ${res.diffHtml}
+        ${
+          !azureApiKey
+            ? `<div style="font-size:11px;color:var(--text-muted);margin-top:8px">💡 <strong>⚙️ 음성 설정</strong>에서 Azure Speech API 키를 등록하면 내 답변의 정확도·유창성·운율·음소 정밀 진단이 지원됩니다.</div>`
+            : ""
+        }
+      `;
+    }
     if (feedbackEl) feedbackEl.textContent = res.feedback;
   }
 
