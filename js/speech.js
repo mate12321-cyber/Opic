@@ -2637,6 +2637,68 @@ async function renderPronunciationAssessment({
       </div>
     `;
 
+// Arpabet / IPA 음소 기호를 직관적인 한글 발음 및 기호 설명으로 변환
+const PHONEME_KOREAN_MAP = {
+  // 모음 (Vowels)
+  aa: "아",
+  ae: "애(입크게)",
+  ah: "어(짧은어)",
+  ao: "오/어-(깊은소리)",
+  aw: "아우",
+  ay: "아이",
+  eh: "에",
+  er: "얼(혀굴림)",
+  ey: "에이",
+  ih: "이(짧은이)",
+  iy: "이-(장모음)",
+  ow: "오우",
+  oy: "오이",
+  uh: "우(짧은우)",
+  uw: "우-(장모음)",
+  ax: "어(약모음)",
+  ix: "이(약모음)",
+  axr: "얼(약모음)",
+
+  // 자음 (Consonants)
+  b: "ㅂ",
+  ch: "ㅊ",
+  d: "ㄷ",
+  dh: "유성th(혀문 드)",
+  dx: "플랩(ㄹ/ㄷ)",
+  el: "받침l",
+  em: "받침m",
+  en: "받침n",
+  f: "f(윗니+아랫입술 ㅍ)",
+  g: "ㄱ",
+  hh: "ㅎ",
+  h: "ㅎ",
+  jh: "ㅈ",
+  k: "ㅋ",
+  l: "l(ㄹ)",
+  m: "ㅁ",
+  n: "ㄴ",
+  ng: "ㅇ(받침 이응)",
+  p: "ㅍ",
+  r: "r(혀당긴 ㄹ)",
+  s: "ㅅ",
+  sh: "쉬",
+  t: "ㅌ",
+  th: "무성th(혀문 쓰)",
+  v: "v(윗니+아랫입술 ㅂ)",
+  w: "w(입술오므린 우)",
+  wh: "hw(휘)",
+  y: "y(이)",
+  z: "z(떨리는 ㅈ)",
+  zh: "zh(부드러운 쥐)",
+};
+
+function getPhonemeKoreanDesc(phoneme) {
+  if (!phoneme) return "";
+  const cleanKey = String(phoneme).toLowerCase().replace(/[0-9]/g, "");
+  const desc = PHONEME_KOREAN_MAP[cleanKey];
+  return desc ? `${phoneme}(${desc})` : phoneme;
+}
+
     let wordsHtml = `<div class="eval-words-section">
       <div class="eval-words-label">
         <span>${isOpic ? "내 답변 단어별 발음 진단" : "단어별 정밀 발음 진단"}</span>
@@ -2652,11 +2714,15 @@ async function renderPronunciationAssessment({
       else if (w.accuracyScore < 80) scoreClass = "score-warn";
 
       const phonemeList = (w.phonemes || [])
-        .map((p) => `/${p.phoneme}/: ${p.accuracyScore}점`)
+        .map((p) => `${getPhonemeKoreanDesc(p.phoneme)}: ${p.accuracyScore}점`)
         .join(" · ");
 
+      const tooltipText = phonemeList
+        ? `${w.word} (${w.accuracyScore}점) - ${phonemeList}`
+        : `${w.word}: ${w.accuracyScore}점`;
+
       wordsHtml += `
-        <div class="azure-word-chip ${scoreClass}" tabindex="0" title="${escapeHtml(w.word)}: ${w.accuracyScore}점">
+        <div class="azure-word-chip ${scoreClass}" tabindex="0" title="${escapeHtml(tooltipText)}">
           <span>${escapeHtml(w.word)}</span>
           <span class="word-score">${w.accuracyScore > 0 ? w.accuracyScore : ""}</span>
           ${phonemeList ? `<div class="phoneme-popover">${escapeHtml(phonemeList)}</div>` : ""}
