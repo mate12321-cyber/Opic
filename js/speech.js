@@ -1272,27 +1272,61 @@ function evaluateOpicSpeaking(userInput) {
     (userInput.match(/[.!?]+/g) || []).length || Math.ceil(wordCount / 10),
   );
 
-  // 1. 논리 연결어 (Connectors & Transitions) 감지
+  // 1. 논리 연결어 & 접속사 & 전환구 (Connectors & Transitions) - 40+ 항목
   const CONNECTORS = [
-    "because", "so", "however", "although", "when", "while", "after", "before",
-    "especially", "first", "second", "then", "finally", "also", "besides",
-    "therefore", "even though", "as a result", "for example"
+    // 인과 / 이유
+    "because", "since", "so", "therefore", "thus", "as a result", "due to", "thanks to", "that's why", "for that reason",
+    // 대조 / 양보
+    "however", "although", "even though", "though", "but", "on the other hand", "instead", "while", "whereas", "despite", "in contrast", "yet", "nevertheless",
+    // 시간 / 순서
+    "when", "whenever", "as soon as", "after that", "afterwards", "before", "first of all", "first", "secondly", "second", "third", "then", "next", "later on", "later", "in the end", "finally", "at first", "since then", "meanwhile",
+    // 추가 / 강조
+    "also", "besides", "in addition", "furthermore", "moreover", "plus", "what's more", "not only", "especially", "particularly", "above all",
+    // 예시 / 인용
+    "for example", "for instance", "such as", "in fact", "as i mentioned", "speaking of"
   ];
-  const foundConnectors = CONNECTORS.filter((c) => normUser.includes(c));
 
-  // 2. 자연스러운 필러 및 구어체 담화 표지어 (Fillers & Discourse Markers) 감지
+  // 2. 자연스러운 구어체 필러 & 담화 표지어 (Discourse Markers & Fillers) - 30+ 항목
   const FILLERS = [
-    "you know", "i think", "actually", "honestly", "to be honest", "in my opinion",
-    "as far as i know", "well", "basically", "i mean", "like"
+    // 생각 / 의견 제시
+    "i think", "i believe", "i guess", "i suppose", "in my opinion", "from my perspective", "as far as i know", "to be honest", "honestly", "frankly speaking", "frankly", "to be frank", "to tell the truth", "personally", "to be specific",
+    // 공감 / 호흡 조절
+    "you know", "i mean", "you see", "as you know", "what i mean is", "if you know what i mean",
+    // 화제 도입 / 전환
+    "actually", "basically", "literally", "by the way", "anyway", "overall", "well", "you know what", "like i said",
+    // 기억 환기 / 시간 벌기
+    "if i remember correctly", "as i recall", "let me see", "let me think", "how should i say"
   ];
-  const foundFillers = FILLERS.filter((f) => normUser.includes(f));
 
-  // 3. 과거 시제 동사 감지 (경험/일과 서술 평가)
+  // 3. 과거 시제 동사 & 불규칙 과거형 & 과거 완료 (Past Verbs & Irregular Past Tense) - 60+ 항목
   const PAST_VERBS = [
-    "went", "was", "were", "had", "liked", "enjoyed", "saw", "played", "visited",
-    "ate", "bought", "felt", "walked", "started", "decided", "loved", "took"
+    // 이동 / 활동
+    "went", "came", "arrived", "left", "walked", "ran", "drove", "rode", "flew", "traveled", "travelled", "visited", "stayed", "moved", "stopped", "hung out",
+    // 상태 / 감정
+    "was", "were", "had", "felt", "liked", "loved", "enjoyed", "hated", "missed", "preferred", "wanted", "needed", "hoped", "wished", "seemed", "became", "used to",
+    // 인지 / 판단
+    "thought", "knew", "understood", "realized", "noticed", "remembered", "forgot", "decided", "chose", "learned", "found", "discovered", "planned",
+    // 일상 행위 / 대화
+    "ate", "drank", "bought", "sold", "paid", "spent", "woke", "slept", "got", "took", "gave", "brought", "made", "did", "used", "put", "read", "watched", "listened", "heard", "saw", "looked", "met", "talked", "spoke", "said", "told", "asked", "answered", "called", "worked", "studied", "cleaned", "cooked", "played", "exercised", "worked out"
   ];
-  const foundPastVerbs = PAST_VERBS.filter((pv) => userTokens.includes(pv));
+
+  // 단어 경계(Word Boundary) 기반 고정밀 매칭 헬퍼
+  function findAccurateMatches(text, list) {
+    const matches = [];
+    const lower = text.toLowerCase();
+    for (const item of list) {
+      const escaped = item.replace(/['’]/g, "['’]?").replace(/\s+/g, "\\s+");
+      const regex = new RegExp("(?:^|\\s|[,.!?])" + escaped + "(?:$|\\s|[,.!?])", "i");
+      if (regex.test(lower)) {
+        matches.push(item);
+      }
+    }
+    return matches;
+  }
+
+  const foundConnectors = findAccurateMatches(userInput, CONNECTORS);
+  const foundFillers = findAccurateMatches(userInput, FILLERS);
+  const foundPastVerbs = findAccurateMatches(userInput, PAST_VERBS);
 
   // 4. ACTFL OPIc 종합 등급 판정 알고리즘
   let score = 50;
@@ -1355,13 +1389,13 @@ function evaluateOpicSpeaking(userInput) {
 
   const tags = [];
   if (foundConnectors.length > 0) {
-    tags.push(`🔗 연결어: ${foundConnectors.slice(0, 3).join(", ")}`);
+    tags.push(`🔗 연결어(${foundConnectors.length}개): ${foundConnectors.slice(0, 4).join(", ")}`);
   }
   if (foundFillers.length > 0) {
-    tags.push(`💬 필러: ${foundFillers.slice(0, 2).join(", ")}`);
+    tags.push(`💬 필러(${foundFillers.length}개): ${foundFillers.slice(0, 3).join(", ")}`);
   }
   if (foundPastVerbs.length > 0) {
-    tags.push(`⏳ 과거시제: ${foundPastVerbs.slice(0, 2).join(", ")}`);
+    tags.push(`⏳ 과거시제(${foundPastVerbs.length}개): ${foundPastVerbs.slice(0, 3).join(", ")}`);
   }
 
   const statsHtml = `
