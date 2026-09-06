@@ -183,6 +183,7 @@ function startOpicPractice(wrongOnly = false) {
 function renderOpicCard() {
   stopTTS();
   stopSpeakingTimer();
+  clearRecordedVoice("opic");
   opicSpeakingSeconds = 0;
   updateSpeakingTimerDisplay();
 
@@ -453,8 +454,17 @@ function revealOpic() {
 
   // 발음 및 일치도 평가
   const userText = els.opicUserInput.value.trim();
-  if (userText && els.opicSpeechEvalBox) {
-    evaluateOpicSpeech(userText, item.answer_en);
+  if (els.opicSpeechEvalBox && item.answer_en) {
+    renderPronunciationAssessment({
+      boxEl: els.opicSpeechEvalBox,
+      badgeEl: els.opicEvalScoreBadge,
+      diffEl: els.opicEvalDiff,
+      feedbackEl: els.opicEvalFeedback,
+      mode: "opic",
+      referenceText: item.answer_en,
+      userText: userText,
+      voiceBtn: els.ttsOpicUserInputBtn,
+    });
   }
 
   // 자동 재생 설정 시 전체 모범답안 TTS 재생
@@ -463,29 +473,10 @@ function revealOpic() {
   }
 }
 
-// 발음 일치도 평가
-function evaluateOpicSpeech(userText, targetText) {
-  const result = evaluatePronunciation(userText, targetText);
-  els.opicSpeechEvalBox.style.display = "block";
-
-  if (els.opicEvalScoreBadge) {
-    els.opicEvalScoreBadge.textContent = `${result.accuracy}% 일치`;
-    if (result.accuracy >= 75) {
-      els.opicEvalScoreBadge.className = "eval-score-badge eval-score-high";
-    } else if (result.accuracy >= 45) {
-      els.opicEvalScoreBadge.className = "eval-score-badge eval-score-mid";
-    } else {
-      els.opicEvalScoreBadge.className = "eval-score-badge eval-score-low";
-    }
-  }
-
-  if (els.opicEvalDiff) els.opicEvalDiff.innerHTML = result.diffHtml;
-  if (els.opicEvalFeedback) els.opicEvalFeedback.textContent = result.feedback;
-}
-
 // 문제 평가 (잘했어요 / 다시 연습)
 function rateOpic(rating) {
   stopTTS();
+  clearRecordedVoice("opic");
   const currentQuestionIdx = opicOrder[opicCur];
 
   if (rating === "good") {

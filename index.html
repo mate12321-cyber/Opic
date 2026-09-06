@@ -1071,7 +1071,7 @@
         >
           <div class="form-group">
             <label class="form-label" for="azureApiKeyInput"
-              >Azure Speech API Key (무료 티어)</label
+              >Azure Speech API Key (원어민 TTS & 발음 정밀 평가)</label
             >
             <input
               type="password"
@@ -1081,8 +1081,7 @@
               autocomplete="off"
             />
             <span class="form-sublabel"
-              >매달 50만 자 무료(F0) 키. 브라우저 로컬에만 안전하게
-              보관됩니다.</span
+              >Azure Speech Key를 등록하면 최고급 원어민 Neural TTS뿐만 아니라 <strong>Azure AI 발음 정밀 진단 (정확도·유창성·운율·완성도·단어별 음소 분석)</strong>이 자동 활성화됩니다. (매달 무료 티어 F0 제공)</span
             >
           </div>
 
@@ -1219,6 +1218,8 @@
       </div>
     </div>
 
+    <!-- Microsoft Cognitive Services Speech SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
     <script src="js/audio-cache.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/speech.js"></script>

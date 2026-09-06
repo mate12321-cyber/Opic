@@ -708,8 +708,231 @@ async function speakText(text, lang = "en-US", btn = null) {
   playNativeTTS(cleanText, lang, btn, thisRequestId);
 }
 
-// ── 발음 및 문장 일치도 평가 시스템 ──────────────────────────────────
-// 평가 비교를 위한 텍스트 정규화 (소문자화 및 특수문자 제거)
+// ── 발음 및 Azure AI 정밀 평가 시스템 ──────────────────────────────────
+let lastRecordedBlobs = { practice: null, opic: null };
+let lastRecordedWavs = { practice: null, opic: null };
+let currentMediaRecorder = null;
+let currentMediaStream = null;
+let recordedAudioChunks = [];
+let currentRecordingMode = "practice"; // "practice" | "opic"
+
+// 녹음된 오디오 Blob 조회
+function getRecordedVoiceBlob(mode = "practice") {
+  return lastRecordedBlobs[mode] || null;
+}
+
+// 녹음된 오디오 Blob 저장
+function setRecordedVoiceBlob(mode, blob) {
+  lastRecordedBlobs[mode] = blob;
+}
+
+// 녹음된 WAV 버퍼 저장
+function setRecordedWavBuffer(mode, buffer) {
+  lastRecordedWavs[mode] = buffer;
+}
+
+// 녹음 상태 초기화
+function clearRecordedVoice(mode = "practice") {
+  lastRecordedBlobs[mode] = null;
+  lastRecordedWavs[mode] = null;
+}
+
+// 사용자의 실제 녹음 목소리 재생 (녹음본 없으면 TTS 폴백)
+async function playRecordedVoice(mode = "practice", btn = null, fallbackText = "") {
+  const blob = getRecordedVoiceBlob(mode);
+  if (blob) {
+    if (currentSpeakingBtn === btn && activeAudio) {
+      stopTTS();
+      return;
+    }
+    stopTTS();
+    const reqId = currentTtsRequestId;
+    try {
+      await playAudioBlob(blob, btn, reqId);
+    } catch (e) {
+      console.warn("[Voice] Real audio playback failed, falling back to TTS:", e);
+      if (fallbackText) speakText(fallbackText, "en-US", btn);
+    }
+  } else if (fallbackText) {
+    speakText(fallbackText, "en-US", btn);
+  }
+}
+
+// 브라우저 오디오 Blob을 Azure 호환 16kHz 16-bit Mono WAV Buffer로 변환
+async function blobTo16kHzWav(blob) {
+  if (!blob) return null;
+  try {
+    const arrayBuffer = await blob.arrayBuffer();
+    const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtxClass) return null;
+    const audioCtx = new AudioCtxClass();
+    let audioBuffer = null;
+    try {
+      audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+    } catch (decodeErr) {
+      console.warn("[Audio] decodeAudioData failed:", decodeErr);
+      return null;
+    } finally {
+      try {
+        await audioCtx.close();
+      } catch (e) {}
+    }
+
+    if (!audioBuffer) return null;
+
+    const targetSampleRate = 16000;
+    const duration = audioBuffer.duration;
+    const length = Math.ceil(duration * targetSampleRate);
+    if (length <= 0) return null;
+
+    const offlineCtx = new OfflineAudioContext(1, length, targetSampleRate);
+    const source = offlineCtx.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(offlineCtx.destination);
+    source.start(0);
+    const rendered = await offlineCtx.startRendering();
+
+    const pcmData = rendered.getChannelData(0);
+    const wavBuffer = new ArrayBuffer(44 + pcmData.length * 2);
+    const view = new DataView(wavBuffer);
+
+    function writeString(v, offset, str) {
+      for (let i = 0; i < str.length; i++) {
+        v.setUint8(offset + i, str.charCodeAt(i));
+      }
+    }
+
+    writeString(view, 0, "RIFF");
+    view.setUint32(4, 36 + pcmData.length * 2, true);
+    writeString(view, 8, "WAVE");
+    writeString(view, 12, "fmt ");
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true); // PCM
+    view.setUint16(22, 1, true); // Mono
+    view.setUint32(24, targetSampleRate, true);
+    view.setUint32(28, targetSampleRate * 2, true);
+    view.setUint16(32, 2, true);
+    view.setUint16(34, 16, true);
+    writeString(view, 36, "data");
+    view.setUint32(40, pcmData.length * 2, true);
+
+    let offset = 44;
+    for (let i = 0; i < pcmData.length; i++) {
+      const s = Math.max(-1, Math.min(1, pcmData[i]));
+      view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7fff, true);
+      offset += 2;
+    }
+
+    return wavBuffer;
+  } catch (err) {
+    console.warn("[Audio] WAV conversion error:", err);
+    return null;
+  }
+}
+
+// Azure AI Speech Pronunciation Assessment REST API 호출
+async function assessPronunciationWithAzure(wavBuffer, referenceText) {
+  if (!azureApiKey || !azureApiKey.trim()) {
+    throw new Error("Azure API Key가 설정되지 않았습니다.");
+  }
+  if (!wavBuffer || wavBuffer.byteLength < 100) {
+    throw new Error("평가할 오디오 데이터가 부족합니다.");
+  }
+
+  const cleanRef = referenceText.trim();
+  const region = (azureRegion || "eastus").trim();
+  const endpoint = `https://${region}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US&format=detailed`;
+
+  const pronConfig = {
+    ReferenceText: cleanRef,
+    GradingSystem: "HundredMark",
+    Granularity: "Phoneme",
+    Dimension: "Comprehensive",
+    EnableProsodyAssessment: "True",
+  };
+  const pronHeader = btoa(JSON.stringify(pronConfig));
+
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Ocp-Apim-Subscription-Key": azureApiKey.trim(),
+      "Content-Type": "audio/wav; codecs=audio/pcm; samplerate=16000",
+      Accept: "application/json",
+      "Pronunciation-Assessment": pronHeader,
+      "User-Agent": "OPIc-Trainer-PronAssessment",
+    },
+    body: wavBuffer,
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => "");
+    throw new Error(`Azure 발음 평가 오류 (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  if (data.RecognitionStatus !== "Success" || !data.NBest || !data.NBest[0]) {
+    throw new Error(`음성 인식 실패 (${data.RecognitionStatus || "No match"})`);
+  }
+
+  const nbest = data.NBest[0];
+  const pronScore = Math.round(nbest.PronScore || 0);
+  const accuracyScore = Math.round(nbest.AccuracyScore || 0);
+  const fluencyScore = Math.round(nbest.FluencyScore || 0);
+  const prosodyScore = Math.round(nbest.ProsodyScore || 0);
+  const completenessScore = Math.round(nbest.CompletenessScore || 0);
+
+  // OPIc 예상 등급 산출
+  let opicGrade = { grade: "NH", label: "🌱 Novice High", gradeClass: "grade-il" };
+  if (pronScore >= 90) {
+    opicGrade = { grade: "AL", label: "🏆 AL (Advanced Low)", gradeClass: "grade-al" };
+  } else if (pronScore >= 80) {
+    opicGrade = { grade: "IH", label: "🥇 IH (Intermediate High)", gradeClass: "grade-ih" };
+  } else if (pronScore >= 70) {
+    opicGrade = { grade: "IM3", label: "🥈 IM3 (Intermediate Mid 3)", gradeClass: "grade-im" };
+  } else if (pronScore >= 60) {
+    opicGrade = { grade: "IM2", label: "🥈 IM2 (Intermediate Mid 2)", gradeClass: "grade-im" };
+  } else if (pronScore >= 50) {
+    opicGrade = { grade: "IM1", label: "🥈 IM1 (Intermediate Mid 1)", gradeClass: "grade-im" };
+  } else if (pronScore >= 40) {
+    opicGrade = { grade: "IL", label: "🥉 IL (Intermediate Low)", gradeClass: "grade-il" };
+  }
+
+  const words = (nbest.Words || []).map((w) => ({
+    word: w.Word,
+    accuracyScore: Math.round(w.AccuracyScore || 0),
+    errorType: w.ErrorType || "None",
+    phonemes: (w.Phonemes || []).map((p) => ({
+      phoneme: p.Phoneme,
+      accuracyScore: Math.round(p.AccuracyScore || 0),
+    })),
+  }));
+
+  let feedback = "";
+  if (pronScore >= 85) {
+    feedback = "🌟 원어민 수준의 자연스러운 억양과 발음입니다! OPIc 시험에서 최상위 등급(IH~AL)을 기대할 수 있어요.";
+  } else if (pronScore >= 70) {
+    feedback = "👍 명확하고 훌륭한 발음이에요! 주황색/빨간색 단어의 음소와 억양을 조금만 더 보완해보세요.";
+  } else if (pronScore >= 50) {
+    feedback = "💪 기본 전달력이 좋아요! 단어 끝 소리와 모음 장단음에 주의해서 한 번 더 말해보세요.";
+  } else {
+    feedback = "🌱 천천히 또박또박 모범 답안 발음을 먼저 듣고 따라 말해보세요.";
+  }
+
+  return {
+    isAzure: true,
+    pronScore,
+    accuracyScore,
+    fluencyScore,
+    prosodyScore,
+    completenessScore,
+    opicGrade,
+    words,
+    feedback,
+    recognizedText: nbest.Display || "",
+  };
+}
+
+// 평가 비교를 위한 텍스트 정규화
 function normalizeForEval(text) {
   return String(text || "")
     .toLowerCase()
@@ -718,7 +941,7 @@ function normalizeForEval(text) {
     .trim();
 }
 
-// 유저 입력값과 모범 답안 토큰을 비교하여 일치도 점수(0~100%) 및 Diff HTML 산출
+// 로컬 텍스트 일치도 폴백 평가
 function evaluateSpeech(userInput, modelAnswer) {
   const normUser = normalizeForEval(userInput);
   const normModel = normalizeForEval(modelAnswer);
@@ -783,10 +1006,152 @@ function evaluateSpeech(userInput, modelAnswer) {
       "💪 좋아요! 빨간색으로 표시된 단어에 유의해서 다시 연습해 보세요.";
   else feedback = "🌱 천천히 또박또박 모범 답안 발음을 듣고 따라 해보세요.";
 
-  return { score, diffHtml: diffParts.join(" "), feedback };
+  return { isAzure: false, score, diffHtml: diffParts.join(" "), feedback };
 }
 
-// 발음 평가 점수 뱃지 및 차이점 피드백 UI 렌더링
+// 발음 평가 UI 통합 렌더링 (Azure AI 4대 지표 / 로컬 매칭 하이브리드)
+async function renderPronunciationAssessment({
+  boxEl,
+  badgeEl,
+  diffEl,
+  feedbackEl,
+  mode = "practice",
+  referenceText = "",
+  userText = "",
+  voiceBtn = null,
+}) {
+  if (!boxEl) return;
+  boxEl.classList.add("show");
+  boxEl.style.display = "block";
+
+  const wavBuffer = lastRecordedWavs[mode];
+  const hasRecordedAudio = !!lastRecordedBlobs[mode];
+
+  // 1. Azure AI 평가 가능한 상태 (WAV 음성 데이터 + Azure API Key 유효)
+  if (azureApiKey && azureApiKey.trim() && wavBuffer && referenceText) {
+    if (diffEl) {
+      diffEl.innerHTML = `
+        <div class="eval-loading-wrap">
+          <div class="eval-spinner"></div>
+          <span>Azure AI로 발음(정확도·유창성·운율) 정밀 진단 중...</span>
+        </div>
+      `;
+    }
+    if (feedbackEl) feedbackEl.textContent = "";
+
+    try {
+      const azureResult = await assessPronunciationWithAzure(wavBuffer, referenceText);
+      renderAzureResultUI(azureResult);
+      return;
+    } catch (azureErr) {
+      console.warn("[PronAssessment] Azure AI failed, falling back to local:", azureErr.message);
+    }
+  }
+
+  // 2. 로컬 텍스트 일치도 폴백 렌더링
+  const localResult = evaluateSpeech(userText, referenceText);
+  renderLocalResultUI(localResult);
+
+  function renderAzureResultUI(res) {
+    if (badgeEl) {
+      badgeEl.innerHTML = `
+        <span class="opic-grade-badge ${res.opicGrade.gradeClass}">${res.opicGrade.label}</span>
+        <span class="eval-score-badge ${res.pronScore >= 80 ? "high" : res.pronScore >= 50 ? "mid" : "low"}">${res.pronScore}점</span>
+      `;
+    }
+
+    const metricsHtml = `
+      <div class="eval-metrics-grid">
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-name">🎯 발음 정확도</span>
+            <span class="metric-score">${res.accuracyScore}%</span>
+          </div>
+          <div class="metric-bar-bg">
+            <div class="metric-bar-fill ${res.accuracyScore >= 80 ? "high" : res.accuracyScore >= 50 ? "mid" : "low"}" style="width:${res.accuracyScore}%"></div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-name">🌊 말하기 유창성</span>
+            <span class="metric-score">${res.fluencyScore}%</span>
+          </div>
+          <div class="metric-bar-bg">
+            <div class="metric-bar-fill ${res.fluencyScore >= 80 ? "high" : res.fluencyScore >= 50 ? "mid" : "low"}" style="width:${res.fluencyScore}%"></div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-name">🎵 운율 & 억양</span>
+            <span class="metric-score">${res.prosodyScore}%</span>
+          </div>
+          <div class="metric-bar-bg">
+            <div class="metric-bar-fill ${res.prosodyScore >= 80 ? "high" : res.prosodyScore >= 50 ? "mid" : "low"}" style="width:${res.prosodyScore}%"></div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-name">📋 문장 완성도</span>
+            <span class="metric-score">${res.completenessScore}%</span>
+          </div>
+          <div class="metric-bar-bg">
+            <div class="metric-bar-fill ${res.completenessScore >= 80 ? "high" : res.completenessScore >= 50 ? "mid" : "low"}" style="width:${res.completenessScore}%"></div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    let wordsHtml = `<div class="eval-words-section">
+      <div class="eval-words-label">
+        <span>단어별 정밀 발음 진단</span>
+        <span class="sub">💡 단어를 누르면 음소별 점수가 표시됩니다</span>
+      </div>
+      <div class="eval-words-wrap">`;
+
+    res.words.forEach((w) => {
+      let scoreClass = "score-good";
+      if (w.errorType === "Omission") scoreClass = "omission";
+      else if (w.errorType === "Insertion") scoreClass = "insertion";
+      else if (w.accuracyScore < 60) scoreClass = "score-bad";
+      else if (w.accuracyScore < 80) scoreClass = "score-warn";
+
+      const phonemeList = (w.phonemes || [])
+        .map((p) => `/${p.phoneme}/: ${p.accuracyScore}점`)
+        .join(" · ");
+
+      wordsHtml += `
+        <div class="azure-word-chip ${scoreClass}" tabindex="0" title="${escapeHtml(w.word)}: ${w.accuracyScore}점">
+          <span>${escapeHtml(w.word)}</span>
+          <span class="word-score">${w.accuracyScore > 0 ? w.accuracyScore : ""}</span>
+          ${phonemeList ? `<div class="phoneme-popover">${escapeHtml(phonemeList)}</div>` : ""}
+        </div>
+      `;
+    });
+    wordsHtml += `</div></div>`;
+
+    if (diffEl) diffEl.innerHTML = metricsHtml + wordsHtml;
+    if (feedbackEl) feedbackEl.textContent = res.feedback;
+  }
+
+  function renderLocalResultUI(res) {
+    if (badgeEl) {
+      badgeEl.innerHTML = `<span class="eval-score-badge ${res.score >= 80 ? "high" : res.score >= 50 ? "mid" : "low"}">${res.score}% 일치</span>`;
+    }
+    if (diffEl) {
+      diffEl.innerHTML = `
+        <div class="eval-diff">${res.diffHtml}</div>
+        ${
+          !azureApiKey
+            ? `<div style="font-size:11px;color:var(--text-muted);margin-top:8px">💡 <strong>⚙️ 음성 설정</strong>에서 Azure Speech API 키를 등록하면 정확도·유창성·운율·음소 정밀 진단이 지원됩니다.</div>`
+            : ""
+        }
+      `;
+    }
+    if (feedbackEl) feedbackEl.textContent = res.feedback;
+  }
+}
+
+// 하위 호환성 래퍼
 function renderSpeechEvaluation(evalData) {
   if (
     !els.speechEvalBox ||
@@ -885,7 +1250,7 @@ async function runLiveTranslate(text) {
   }
 }
 
-// ── STT (음성 인식) 시스템 ──────────────────────────────────────────
+// ── STT (음성 인식) 및 실제 음성 캡처 시스템 ──────────────────────────
 let recognition = null;
 let listening = false;
 let micStartTimer = null;
@@ -940,7 +1305,7 @@ function stopListeningUI() {
   if (els.opicMicBtn) els.opicMicBtn.classList.remove("listening");
 }
 
-// 음성 인식 중단
+// 음성 인식 및 녹음 중단
 function stopSpeechRecognition() {
   stopListeningUI();
   if (recognition) {
@@ -948,6 +1313,20 @@ function stopSpeechRecognition() {
       recognition.stop();
     } catch (e) {}
   }
+
+  // MediaRecorder 중지 및 오디오 저장
+  if (currentMediaRecorder && currentMediaRecorder.state !== "inactive") {
+    try {
+      currentMediaRecorder.stop();
+    } catch (e) {}
+  }
+  if (currentMediaStream) {
+    try {
+      currentMediaStream.getTracks().forEach((track) => track.stop());
+    } catch (e) {}
+    currentMediaStream = null;
+  }
+
   activeTarget = null;
 }
 
@@ -965,7 +1344,7 @@ function armStartupWatchdog() {
 }
 
 // 음성 인식 토글 함수 (문장 연습 및 OPIc 실전 모드 공용)
-function toggleSpeechRecognition(
+async function toggleSpeechRecognition(
   targetInput,
   targetBtn,
   targetError,
@@ -997,6 +1376,10 @@ function toggleSpeechRecognition(
   }
 
   clearMicError(targetError);
+  const mode = isOpic ? "opic" : "practice";
+  currentRecordingMode = mode;
+  clearRecordedVoice(mode);
+
   activeTarget = {
     input: targetInput,
     btn: targetBtn,
@@ -1014,6 +1397,40 @@ function toggleSpeechRecognition(
 
   if (isOpic && typeof startSpeakingTimer === "function") {
     startSpeakingTimer();
+  }
+
+  // 실제 음성 녹음을 위한 MediaRecorder 시작
+  recordedAudioChunks = [];
+  try {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      currentMediaStream = stream;
+      const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+        ? "audio/webm;codecs=opus"
+        : MediaRecorder.isTypeSupported("audio/webm")
+          ? "audio/webm"
+          : "audio/mp4";
+
+      currentMediaRecorder = new MediaRecorder(stream, { mimeType: mime });
+      currentMediaRecorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) {
+          recordedAudioChunks.push(e.data);
+        }
+      };
+      currentMediaRecorder.onstop = async () => {
+        if (recordedAudioChunks.length > 0) {
+          const rawBlob = new Blob(recordedAudioChunks, { type: mime });
+          setRecordedVoiceBlob(mode, rawBlob);
+          const wav = await blobTo16kHzWav(rawBlob);
+          if (wav) {
+            setRecordedWavBuffer(mode, wav);
+          }
+        }
+      };
+      currentMediaRecorder.start(100);
+    }
+  } catch (mediaErr) {
+    console.warn("[MediaRecorder] Microphone stream failed:", mediaErr);
   }
 
   try {

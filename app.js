@@ -130,7 +130,7 @@ els.ttsEnBtn.addEventListener("click", () => {
 if (els.ttsUserInputBtn) {
   els.ttsUserInputBtn.addEventListener("click", () => {
     const text = els.userInput.value.trim();
-    if (text) speakText(text, "en-US", els.ttsUserInputBtn);
+    playRecordedVoice("practice", els.ttsUserInputBtn, text);
   });
 }
 
@@ -174,7 +174,7 @@ if (els.ttsOpicAllBtn) {
 if (els.ttsOpicUserInputBtn) {
   els.ttsOpicUserInputBtn.addEventListener("click", () => {
     const text = els.opicUserInput.value.trim();
-    if (text) speakText(text, "en-US", els.ttsOpicUserInputBtn);
+    playRecordedVoice("opic", els.ttsOpicUserInputBtn, text);
   });
 }
 

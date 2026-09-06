@@ -102,9 +102,17 @@ function reveal() {
     speakText(currentSentence.en, "en-US", els.ttsEnBtn);
   }
 
-  if (userText && currentSentence) {
-    const evalData = evaluateSpeech(userText, currentSentence.en);
-    renderSpeechEvaluation(evalData);
+  if (currentSentence) {
+    renderPronunciationAssessment({
+      boxEl: els.speechEvalBox,
+      badgeEl: els.evalScoreBadge,
+      diffEl: els.evalDiff,
+      feedbackEl: els.evalFeedback,
+      mode: "practice",
+      referenceText: currentSentence.en,
+      userText: userText,
+      voiceBtn: els.ttsUserInputBtn,
+    });
   }
 
   if (userText) {
@@ -117,6 +125,7 @@ function reveal() {
 // 현재 문제를 채점 전 상태로 리셋하고 다시 풀기
 function retrySameQuestion() {
   stopTTS();
+  clearRecordedVoice("practice");
   delete results[order[cur]];
   revealed = false;
   els.answerBox.classList.remove("show");
@@ -135,6 +144,7 @@ function retrySameQuestion() {
 
 // 문제 채점 ('good' | 'bad') 후 다음 문제로 진행
 function rate(val) {
+  clearRecordedVoice("practice");
   results[order[cur]] = val;
   cur++;
   saveProgress();

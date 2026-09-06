@@ -160,35 +160,85 @@ textarea::placeholder {
   border: 1px solid var(--border-light);
 }
 
-/* ── 발음 및 문장 일치도 평가 박스 ── */
+/* ── 발음 및 AI 정밀 평가 박스 ── */
 .speech-eval {
   display: none;
-  margin-top: 14px;
-  padding: 14px;
+  margin-top: 16px;
+  padding: 16px;
   background: #ffffff;
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
 }
 .speech-eval.show {
   display: block;
 }
+
+/* 로딩 스피너 */
+.eval-loading-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 0;
+  color: var(--primary);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.eval-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(79, 70, 229, 0.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .eval-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-light);
 }
 .eval-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text-main);
   letter-spacing: -0.01em;
 }
+.eval-title .badge-azure {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #0078d4 0%, #00bcf2 100%);
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.eval-header-scores {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .eval-score-badge {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 700;
   padding: 3px 10px;
   border-radius: var(--radius-full);
@@ -211,8 +261,215 @@ textarea::placeholder {
   border: 1px solid var(--danger-border);
 }
 
+/* OPIc 등급 뱃지 */
+.opic-grade-badge {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.opic-grade-badge.grade-al {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.3);
+}
+.opic-grade-badge.grade-ih {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
+}
+.opic-grade-badge.grade-im {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
+}
+.opic-grade-badge.grade-il {
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+  color: #ffffff;
+}
+
+/* 4대 정밀 지표 그리드 */
+.eval-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 12px 0 14px 0;
+  background: var(--surface-subtle);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+@media (max-width: 480px) {
+  .eval-metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+}
+.metric-name {
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.metric-score {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-main);
+  font-size: 12px;
+}
+.metric-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+.metric-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.metric-bar-fill.high {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+.metric-bar-fill.mid {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+.metric-bar-fill.low {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+/* 단어별 정밀 발음 & 음소 하이라이트 */
+.eval-words-section {
+  margin: 12px 0;
+}
+.eval-words-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.eval-words-label .sub {
+  font-size: 11px;
+  font-weight: normal;
+  color: var(--text-muted);
+}
+.eval-words-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  line-height: 1.6;
+}
+
+.azure-word-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+  user-select: none;
+}
+.azure-word-chip:hover,
+.azure-word-chip:focus {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+.azure-word-chip .word-score {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  opacity: 0.85;
+  margin-top: 1px;
+}
+
+.azure-word-chip.score-good {
+  background: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+.azure-word-chip.score-warn {
+  background: #fffbeb;
+  color: #92400e;
+  border-color: #fde68a;
+}
+.azure-word-chip.score-bad {
+  background: #fef2f2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+.azure-word-chip.omission {
+  background: #f1f5f9;
+  color: #94a3b8;
+  text-decoration: line-through;
+  border-color: #cbd5e1;
+}
+.azure-word-chip.insertion {
+  background: #faf5ff;
+  color: #6b21a8;
+  font-style: italic;
+  border-color: #e9d5ff;
+}
+
+/* 음소 분해 툴팁 */
+.phoneme-popover {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: #ffffff;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+  z-index: 50;
+  pointer-events: none;
+}
+.phoneme-popover::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #1e293b;
+}
+.azure-word-chip:hover .phoneme-popover,
+.azure-word-chip.active .phoneme-popover {
+  display: block;
+}
+
+/* 로컬 Diff 폴백 뷰 */
 .eval-diff {
-  font-size: 14.5px;
+  font-size: 14px;
   line-height: 1.6;
   margin-top: 6px;
   color: var(--text-main);
@@ -242,16 +499,49 @@ textarea::placeholder {
   border: 1px solid var(--warning-border);
   font-style: italic;
 }
+
 .eval-feedback {
   font-size: 12.5px;
-  color: var(--text-muted);
-  margin-top: 8px;
-  line-height: 1.5;
+  color: var(--text-body);
+  margin-top: 10px;
+  line-height: 1.55;
+  padding: 8px 12px;
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--primary);
 }
+
 .eval-actions {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
-  margin-top: 10px;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.eval-voice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  font-size: 12.5px;
+  font-weight: 600;
+  background: var(--surface-card);
+  color: var(--primary);
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.eval-voice-btn:hover {
+  background: var(--surface-subtle);
+  border-color: var(--primary);
+}
+.eval-voice-btn.playing {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+  border-color: var(--danger-border);
 }
 
 /* ── 문법 오류 검사 박스 ── */
