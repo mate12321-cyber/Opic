@@ -11,22 +11,34 @@ let order = []; // 출제 인덱스 순서 배열
 let cur = 0; // 현재 문제 인덱스
 let results = {}; // 채점 결과 { sentenceIndex: 'good' | 'bad' }
 let revealed = false; // 정답 확인 여부 플래그
+let savedUserInputs = {}; // 문제별 입력 답변 캐시
 
-// 상단 진행 상태 인디케이터 점(Dot) 목록 생성
+// 상단 진행 상태 인디케이터 점(Dot) 목록 생성 (20개 초과 시 간결한 텍스트로 반응형 축약)
 function buildDots() {
   els.progressDots.innerHTML = "";
-  order.forEach((idx, i) => {
-    const d = document.createElement("div");
-    d.className =
-      "dot" +
-      (results[idx] === "good"
-        ? " done"
-        : results[idx] === "bad"
-          ? " miss"
-          : "") +
-      (i === cur ? " cur" : "");
-    els.progressDots.appendChild(d);
-  });
+  const total = order.length;
+  const maxDots = 20;
+
+  if (total <= maxDots) {
+    order.forEach((idx, i) => {
+      const d = document.createElement("div");
+      d.className =
+        "dot" +
+        (results[idx] === "good"
+          ? " done"
+          : results[idx] === "bad"
+            ? " miss"
+            : "") +
+        (i === cur ? " cur" : "");
+      els.progressDots.appendChild(d);
+    });
+  } else {
+    const text = document.createElement("span");
+    text.className = "progress-text";
+    const doneCount = Object.keys(results).length;
+    text.textContent = `진행: ${cur + 1} / ${total} (완료 ${doneCount}개)`;
+    els.progressDots.appendChild(text);
+  }
 }
 
 // 현재 순서의 문장 카드를 렌더링 (세트 종료 시 완료 화면 표시)
@@ -72,7 +84,10 @@ function renderCard() {
   els.enText.textContent = item.en;
   els.tipText.textContent = item.tip ? `💡 ${item.tip}` : "";
   els.tipText.style.display = item.tip ? "block" : "none";
-  els.userInput.value = "";
+
+  // 이전 작성 답변 복원
+  const previousInput = savedUserInputs[order[cur]] || "";
+  els.userInput.value = previousInput;
   if (typeof autoResizeTextarea === "function") {
     autoResizeTextarea(els.userInput);
   }
@@ -82,10 +97,20 @@ function renderCard() {
   els.liveTranslate.classList.remove("show");
   els.liveTranslateText.textContent = "";
   if (els.speechEvalBox) els.speechEvalBox.classList.remove("show");
-  els.revealRow.style.display = "flex";
-  els.rateRow.style.display = "none";
-  els.retrySameLink.style.display = "none";
-  revealed = false;
+
+  // 이미 풀었던 문제로 돌아왔을 경우 모범답안 및 채점 상태 복원
+  if (results[order[cur]]) {
+    revealed = true;
+    els.answerBox.classList.add("show");
+    els.revealRow.style.display = "none";
+    els.rateRow.style.display = "flex";
+    els.retrySameLink.style.display = "block";
+  } else {
+    revealed = false;
+    els.revealRow.style.display = "flex";
+    els.rateRow.style.display = "none";
+    els.retrySameLink.style.display = "none";
+  }
   buildDots();
 }
 
@@ -148,6 +173,7 @@ function retrySameQuestion() {
 // 문제 채점 ('good' | 'bad') 후 다음 문제로 진행
 function rate(val) {
   clearRecordedVoice("practice");
+  savedUserInputs[order[cur]] = els.userInput.value.trim();
   results[order[cur]] = val;
   cur++;
   saveProgress();
@@ -157,6 +183,7 @@ function rate(val) {
 
 // 채점 없이 다음 문제로 건너뛰기
 function skip() {
+  savedUserInputs[order[cur]] = els.userInput.value.trim();
   cur++;
   saveProgress();
   renderCard();
@@ -165,6 +192,7 @@ function skip() {
 // 이전 문제로 되돌아가기
 function prevQuestion() {
   if (cur > 0) {
+    savedUserInputs[order[cur]] = els.userInput.value.trim();
     cur--;
     saveProgress();
     renderCard();
@@ -181,6 +209,7 @@ function startPractice() {
   );
   cur = 0;
   results = {};
+  savedUserInputs = {};
   hideAllScreens();
   els.practiceCard.style.display = "block";
   saveProgress();
@@ -194,6 +223,7 @@ async function saveProgress() {
       order,
       cur,
       results,
+      savedUserInputs,
       cats: Array.from(selectedCats),
     };
     await storage.set(STORAGE_KEY, JSON.stringify(data), false);
@@ -209,6 +239,7 @@ async function loadProgress() {
     if (res && res.value) {
       const data = JSON.parse(res.value);
       results = data.results || {};
+      savedUserInputs = data.savedUserInputs || {};
       if (Array.isArray(data.cats) && data.cats.length) {
         selectedCats = new Set(data.cats.filter((c) => CATEGORIES.includes(c)));
       }

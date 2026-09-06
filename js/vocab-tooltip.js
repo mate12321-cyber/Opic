@@ -17,81 +17,339 @@
 
   // 📖 Tier 1: OPIc 빈출 및 기초 영단어 내장 딕셔너리 (네트워크 0회, 429 원천 차단)
   const BUILTIN_DICT = {
-    best: { meaning: "가장 좋은, 최고의", posList: [{ pos: "형용사", meanings: ["최고의", "가장 좋은", "으뜸가는"] }, { pos: "명사", meanings: ["최선", "최고"] }] },
-    better: { meaning: "더 좋은, 더 나은", posList: [{ pos: "형용사", meanings: ["더 좋은", "호전된"] }] },
-    good: { meaning: "좋은, 훌륭한", posList: [{ pos: "형용사", meanings: ["좋은", "착한", "적절한"] }] },
-    give: { meaning: "주다, 제공하다", posList: [{ pos: "동사", meanings: ["주다", "제공하다", "넘겨주다"] }] },
-    gives: { meaning: "주다 (3인칭 단수)", posList: [{ pos: "동사", meanings: ["주다", "제공하다"] }] },
-    given: { meaning: "주어진, 주입된", posList: [{ pos: "형용사", meanings: ["주어진", "소정의"] }] },
-    take: { meaning: "가지다, 데려가다, (시간이) 걸리다", posList: [{ pos: "동사", meanings: ["취하다", "데려가다", "받아들이다"] }] },
-    takes: { meaning: "걸리다, 가지다", posList: [{ pos: "동사", meanings: ["걸리다", "가지다"] }] },
-    taking: { meaning: "가져가는 것, 수령", posList: [{ pos: "동사", meanings: ["가져가기", "복용하기"] }] },
-    work: { meaning: "일하다, 작동하다, 직장", posList: [{ pos: "동사", meanings: ["일하다", "작동하다"] }, { pos: "명사", meanings: ["일", "직장", "업무"] }] },
-    working: { meaning: "근무하는, 일하는", posList: [{ pos: "동사", meanings: ["일하는 중"] }, { pos: "형용사", meanings: ["근무의", "효과적인"] }] },
-    shift: { meaning: "근무 조, 교대, 이동", posList: [{ pos: "명사", meanings: ["교대 근무", "변화", "전환"] }] },
-    shifts: { meaning: "교대근무들", posList: [{ pos: "명사", meanings: ["교대 근무조"] }] },
-    rotating: { meaning: "교대하는, 회전하는", posList: [{ pos: "형용사", meanings: ["순환하는", "교대하는"] }] },
-    company: { meaning: "회사, 동료, 함께 있음", posList: [{ pos: "명사", meanings: ["회사", "동료", "친구"] }] },
-    manage: { meaning: "관리하다, 경영하다", posList: [{ pos: "동사", meanings: ["관리하다", "다루다", "어떻게든 해내다"] }] },
-    managing: { meaning: "관리하는 것", posList: [{ pos: "동사", meanings: ["관리하기", "운영하기"] }] },
-    equipment: { meaning: "장비, 설비, 기구", posList: [{ pos: "명사", meanings: ["장비", "설비", "기기"] }] },
-    electrical: { meaning: "전기의, 전열의", posList: [{ pos: "형용사", meanings: ["전기의", "전기 공학의"] }] },
-    prefer: { meaning: "선호하다, 더 좋아하다", posList: [{ pos: "동사", meanings: ["더 좋아하다", "선호하다"] }] },
-    usually: { meaning: "보통, 대개, 평소에", posList: [{ pos: "부사", meanings: ["보통", "대체로", "늘"] }] },
-    often: { meaning: "자주, 종종", posList: [{ pos: "부사", meanings: ["자주", "흔히", "종종"] }] },
-    always: { meaning: "항상, 언제나", posList: [{ pos: "부사", meanings: ["항상", "늘", "언제나"] }] },
-    sometimes: { meaning: "때때로, 가끔", posList: [{ pos: "부사", meanings: ["때때로", "가끔"] }] },
-    rarely: { meaning: "드물게, 거의 ~않다", posList: [{ pos: "부사", meanings: ["드물게", "좀처럼 ~않는"] }] },
-    never: { meaning: "결코 ~않다, 전혀 없다", posList: [{ pos: "부사", meanings: ["결코 ~않다", "전혀"] }] },
-    favorite: { meaning: "가장 좋아하는, 마음에 드는", posList: [{ pos: "형용사", meanings: ["가장 좋아하는"] }, { pos: "명사", meanings: ["인기 있는 사람/물건"] }] },
-    because: { meaning: "~때문에, 왜냐하면", posList: [{ pos: "접속사", meanings: ["~때문에", "왜냐하면"] }] },
-    although: { meaning: "비록 ~일지라도", posList: [{ pos: "접속사", meanings: ["비록 ~이지만", "~에도 불구하고"] }] },
-    however: { meaning: "그러나, 하지만", posList: [{ pos: "부사", meanings: ["그러나", "그렇지만"] }] },
-    recommend: { meaning: "추천하다, 권하다", posList: [{ pos: "동사", meanings: ["추천하다", "권고하다"] }] },
-    experience: { meaning: "경험, 체험, 겪다", posList: [{ pos: "명사", meanings: ["경험", "체험"] }, { pos: "동사", meanings: ["경험하다", "겪다"] }] },
-    memorable: { meaning: "기억에 남는, 인상적인", posList: [{ pos: "형용사", meanings: ["기억할 만한", "인상 깊은"] }] },
-    delicious: { meaning: "맛있는, 아주 좋은", posList: [{ pos: "형용사", meanings: ["맛있는", "향긋한"] }] },
-    travel: { meaning: "여행하다, 이동하다, 여행", posList: [{ pos: "동사", meanings: ["여행하다", "이동하다"] }, { pos: "명사", meanings: ["여행", "출장"] }] },
-    trip: { meaning: "여행, 나들이, 걸려 넘어지다", posList: [{ pos: "명사", meanings: ["여행", "이동"] }] },
-    weekend: { meaning: "주말", posList: [{ pos: "명사", meanings: ["주말", "토일요일"] }] },
-    weekends: { meaning: "주말마다", posList: [{ pos: "명사", meanings: ["주말마다"] }] },
-    holiday: { meaning: "휴일, 명절, 휴가", posList: [{ pos: "명사", meanings: ["휴일", "공휴일", "휴가"] }] },
-    family: { meaning: "가족, 가문", posList: [{ pos: "명사", meanings: ["가족", "식구"] }] },
-    friend: { meaning: "친구, 벗", posList: [{ pos: "명사", meanings: ["친구", "동료"] }] },
-    friends: { meaning: "친구들", posList: [{ pos: "명사", meanings: ["친구들"] }] },
-    movie: { meaning: "영화", posList: [{ pos: "명사", meanings: ["영화", "필름"] }] },
-    movies: { meaning: "영화(감상)", posList: [{ pos: "명사", meanings: ["영화들"] }] },
-    park: { meaning: "공원, 주차하다", posList: [{ pos: "명사", meanings: ["공원", "유원지"] }, { pos: "동사", meanings: ["주차하다"] }] },
-    coffee: { meaning: "커피", posList: [{ pos: "명사", meanings: ["커피", "원두"] }] },
-    relax: { meaning: "휴식을 취하다, 긴장을 풀다", posList: [{ pos: "동사", meanings: ["쉬다", "안정을 취하다"] }] },
-    weather: { meaning: "날씨, 기상", posList: [{ pos: "명사", meanings: ["날씨", "기후"] }] },
-    season: { meaning: "계절, 시즌", posList: [{ pos: "명사", meanings: ["계절", "시기"] }] },
-    convenient: { meaning: "편리한, 간편한", posList: [{ pos: "형용사", meanings: ["편리한", "가까운", "알맞은"] }] },
-    comfortable: { meaning: "편안한, 쾌적한", posList: [{ pos: "형용사", meanings: ["편안한", "안락한"] }] },
-    popular: { meaning: "인기 있는, 대중적인", posList: [{ pos: "형용사", meanings: ["인기 있는", "유명한"] }] },
-    important: { meaning: "중요한, 중대한", posList: [{ pos: "형용사", meanings: ["중요한", "유력한"] }] },
-    special: { meaning: "특별한, 특수한", posList: [{ pos: "형용사", meanings: ["특별한", "특급의"] }] },
-    place: { meaning: "장소, 곳, 두다", posList: [{ pos: "명사", meanings: ["장소", "위치", "곳"] }, { pos: "동사", meanings: ["놓다", "배치하다"] }] },
-    routine: { meaning: "일상, 루틴, 규칙적인 일", posList: [{ pos: "명사", meanings: ["일상적인 일", "판에 박힌 일"] }] },
-    around: { meaning: "주위에, 약, 대략", posList: [{ pos: "전치사", meanings: ["~주위에", "~대략", "~쯤"] }] },
-    almost: { meaning: "거의, 하마터면", posList: [{ pos: "부사", meanings: ["거의", "대부분"] }] },
-    together: { meaning: "함께, 같이", posList: [{ pos: "부사", meanings: ["함께", "동시에"] }] },
-    especially: { meaning: "특히, 특별히", posList: [{ pos: "부사", meanings: ["특히", "각별히"] }] },
-    recently: { meaning: "최근에, 요즈음", posList: [{ pos: "부사", meanings: ["최근에", "얼마 전에"] }] },
-    lately: { meaning: "최근에, 요새", posList: [{ pos: "부사", meanings: ["최근에", "요즈음"] }] },
-    usually: { meaning: "보통, 대개", posList: [{ pos: "부사", meanings: ["보통", "평소에"] }] },
-    start: { meaning: "시작하다, 출발하다", posList: [{ pos: "동사", meanings: ["시작하다", "착수하다"] }] },
-    finish: { meaning: "끝내다, 마치다", posList: [{ pos: "동사", meanings: ["끝마치다", "완료하다"] }] },
-    enjoy: { meaning: "즐기다, 누리다", posList: [{ pos: "동사", meanings: ["즐기다", "만끽하다"] }] },
-    listen: { meaning: "듣다, 귀를 기울이다", posList: [{ pos: "동사", meanings: ["듣다", "청취하다"] }] },
-    watch: { meaning: "보다, 지켜보다, 시계", posList: [{ pos: "동사", meanings: ["보다", "관람하다"] }] },
-    order: { meaning: "주문하다, 명령하다, 순서", posList: [{ pos: "동사", meanings: ["주문하다"] }, { pos: "명사", meanings: ["주문", "순서"] }] },
-    vibe: { meaning: "분위기, 느낌", posList: [{ pos: "명사", meanings: ["분위기", "느낌", "기운"] }] },
-    vibes: { meaning: "분위기, 감정들", posList: [{ pos: "명사", meanings: ["분위기", "느낌"] }] },
-    amazing: { meaning: "놀라운, 대단한, 아주 멋진", posList: [{ pos: "형용사", meanings: ["놀라운", "굉장한", "멋진"] }] },
-    awesome: { meaning: "굉장한, 아주 좋은", posList: [{ pos: "형용사", meanings: ["멋진", "대단한", "최고인"] }] },
-    truly: { meaning: "진정으로, 정말로, 참으로", posList: [{ pos: "부사", meanings: ["진정으로", "정말로", "참으로"] }] },
-    really: { meaning: "정말로, 아주, 진짜로", posList: [{ pos: "부사", meanings: ["정말", "진짜로", "매우"] }] }
+    best: {
+      meaning: "가장 좋은, 최고의",
+      posList: [
+        { pos: "형용사", meanings: ["최고의", "가장 좋은", "으뜸가는"] },
+        { pos: "명사", meanings: ["최선", "최고"] },
+      ],
+    },
+    better: {
+      meaning: "더 좋은, 더 나은",
+      posList: [{ pos: "형용사", meanings: ["더 좋은", "호전된"] }],
+    },
+    good: {
+      meaning: "좋은, 훌륭한",
+      posList: [{ pos: "형용사", meanings: ["좋은", "착한", "적절한"] }],
+    },
+    give: {
+      meaning: "주다, 제공하다",
+      posList: [{ pos: "동사", meanings: ["주다", "제공하다", "넘겨주다"] }],
+    },
+    gives: {
+      meaning: "주다 (3인칭 단수)",
+      posList: [{ pos: "동사", meanings: ["주다", "제공하다"] }],
+    },
+    given: {
+      meaning: "주어진, 주입된",
+      posList: [{ pos: "형용사", meanings: ["주어진", "소정의"] }],
+    },
+    take: {
+      meaning: "가지다, 데려가다, (시간이) 걸리다",
+      posList: [
+        { pos: "동사", meanings: ["취하다", "데려가다", "받아들이다"] },
+      ],
+    },
+    takes: {
+      meaning: "걸리다, 가지다",
+      posList: [{ pos: "동사", meanings: ["걸리다", "가지다"] }],
+    },
+    taking: {
+      meaning: "가져가는 것, 수령",
+      posList: [{ pos: "동사", meanings: ["가져가기", "복용하기"] }],
+    },
+    work: {
+      meaning: "일하다, 작동하다, 직장",
+      posList: [
+        { pos: "동사", meanings: ["일하다", "작동하다"] },
+        { pos: "명사", meanings: ["일", "직장", "업무"] },
+      ],
+    },
+    working: {
+      meaning: "근무하는, 일하는",
+      posList: [
+        { pos: "동사", meanings: ["일하는 중"] },
+        { pos: "형용사", meanings: ["근무의", "효과적인"] },
+      ],
+    },
+    shift: {
+      meaning: "근무 조, 교대, 이동",
+      posList: [{ pos: "명사", meanings: ["교대 근무", "변화", "전환"] }],
+    },
+    shifts: {
+      meaning: "교대근무들",
+      posList: [{ pos: "명사", meanings: ["교대 근무조"] }],
+    },
+    rotating: {
+      meaning: "교대하는, 회전하는",
+      posList: [{ pos: "형용사", meanings: ["순환하는", "교대하는"] }],
+    },
+    company: {
+      meaning: "회사, 동료, 함께 있음",
+      posList: [{ pos: "명사", meanings: ["회사", "동료", "친구"] }],
+    },
+    manage: {
+      meaning: "관리하다, 경영하다",
+      posList: [
+        { pos: "동사", meanings: ["관리하다", "다루다", "어떻게든 해내다"] },
+      ],
+    },
+    managing: {
+      meaning: "관리하는 것",
+      posList: [{ pos: "동사", meanings: ["관리하기", "운영하기"] }],
+    },
+    equipment: {
+      meaning: "장비, 설비, 기구",
+      posList: [{ pos: "명사", meanings: ["장비", "설비", "기기"] }],
+    },
+    electrical: {
+      meaning: "전기의, 전열의",
+      posList: [{ pos: "형용사", meanings: ["전기의", "전기 공학의"] }],
+    },
+    prefer: {
+      meaning: "선호하다, 더 좋아하다",
+      posList: [{ pos: "동사", meanings: ["더 좋아하다", "선호하다"] }],
+    },
+    usually: {
+      meaning: "보통, 대개, 평소에",
+      posList: [{ pos: "부사", meanings: ["보통", "대체로", "늘"] }],
+    },
+    often: {
+      meaning: "자주, 종종",
+      posList: [{ pos: "부사", meanings: ["자주", "흔히", "종종"] }],
+    },
+    always: {
+      meaning: "항상, 언제나",
+      posList: [{ pos: "부사", meanings: ["항상", "늘", "언제나"] }],
+    },
+    sometimes: {
+      meaning: "때때로, 가끔",
+      posList: [{ pos: "부사", meanings: ["때때로", "가끔"] }],
+    },
+    rarely: {
+      meaning: "드물게, 거의 ~않다",
+      posList: [{ pos: "부사", meanings: ["드물게", "좀처럼 ~않는"] }],
+    },
+    never: {
+      meaning: "결코 ~않다, 전혀 없다",
+      posList: [{ pos: "부사", meanings: ["결코 ~않다", "전혀"] }],
+    },
+    favorite: {
+      meaning: "가장 좋아하는, 마음에 드는",
+      posList: [
+        { pos: "형용사", meanings: ["가장 좋아하는"] },
+        { pos: "명사", meanings: ["인기 있는 사람/물건"] },
+      ],
+    },
+    because: {
+      meaning: "~때문에, 왜냐하면",
+      posList: [{ pos: "접속사", meanings: ["~때문에", "왜냐하면"] }],
+    },
+    although: {
+      meaning: "비록 ~일지라도",
+      posList: [
+        { pos: "접속사", meanings: ["비록 ~이지만", "~에도 불구하고"] },
+      ],
+    },
+    however: {
+      meaning: "그러나, 하지만",
+      posList: [{ pos: "부사", meanings: ["그러나", "그렇지만"] }],
+    },
+    recommend: {
+      meaning: "추천하다, 권하다",
+      posList: [{ pos: "동사", meanings: ["추천하다", "권고하다"] }],
+    },
+    experience: {
+      meaning: "경험, 체험, 겪다",
+      posList: [
+        { pos: "명사", meanings: ["경험", "체험"] },
+        { pos: "동사", meanings: ["경험하다", "겪다"] },
+      ],
+    },
+    memorable: {
+      meaning: "기억에 남는, 인상적인",
+      posList: [{ pos: "형용사", meanings: ["기억할 만한", "인상 깊은"] }],
+    },
+    delicious: {
+      meaning: "맛있는, 아주 좋은",
+      posList: [{ pos: "형용사", meanings: ["맛있는", "향긋한"] }],
+    },
+    travel: {
+      meaning: "여행하다, 이동하다, 여행",
+      posList: [
+        { pos: "동사", meanings: ["여행하다", "이동하다"] },
+        { pos: "명사", meanings: ["여행", "출장"] },
+      ],
+    },
+    trip: {
+      meaning: "여행, 나들이, 걸려 넘어지다",
+      posList: [{ pos: "명사", meanings: ["여행", "이동"] }],
+    },
+    weekend: {
+      meaning: "주말",
+      posList: [{ pos: "명사", meanings: ["주말", "토일요일"] }],
+    },
+    weekends: {
+      meaning: "주말마다",
+      posList: [{ pos: "명사", meanings: ["주말마다"] }],
+    },
+    holiday: {
+      meaning: "휴일, 명절, 휴가",
+      posList: [{ pos: "명사", meanings: ["휴일", "공휴일", "휴가"] }],
+    },
+    family: {
+      meaning: "가족, 가문",
+      posList: [{ pos: "명사", meanings: ["가족", "식구"] }],
+    },
+    friend: {
+      meaning: "친구, 벗",
+      posList: [{ pos: "명사", meanings: ["친구", "동료"] }],
+    },
+    friends: {
+      meaning: "친구들",
+      posList: [{ pos: "명사", meanings: ["친구들"] }],
+    },
+    movie: {
+      meaning: "영화",
+      posList: [{ pos: "명사", meanings: ["영화", "필름"] }],
+    },
+    movies: {
+      meaning: "영화(감상)",
+      posList: [{ pos: "명사", meanings: ["영화들"] }],
+    },
+    park: {
+      meaning: "공원, 주차하다",
+      posList: [
+        { pos: "명사", meanings: ["공원", "유원지"] },
+        { pos: "동사", meanings: ["주차하다"] },
+      ],
+    },
+    coffee: {
+      meaning: "커피",
+      posList: [{ pos: "명사", meanings: ["커피", "원두"] }],
+    },
+    relax: {
+      meaning: "휴식을 취하다, 긴장을 풀다",
+      posList: [{ pos: "동사", meanings: ["쉬다", "안정을 취하다"] }],
+    },
+    weather: {
+      meaning: "날씨, 기상",
+      posList: [{ pos: "명사", meanings: ["날씨", "기후"] }],
+    },
+    season: {
+      meaning: "계절, 시즌",
+      posList: [{ pos: "명사", meanings: ["계절", "시기"] }],
+    },
+    convenient: {
+      meaning: "편리한, 간편한",
+      posList: [{ pos: "형용사", meanings: ["편리한", "가까운", "알맞은"] }],
+    },
+    comfortable: {
+      meaning: "편안한, 쾌적한",
+      posList: [{ pos: "형용사", meanings: ["편안한", "안락한"] }],
+    },
+    popular: {
+      meaning: "인기 있는, 대중적인",
+      posList: [{ pos: "형용사", meanings: ["인기 있는", "유명한"] }],
+    },
+    important: {
+      meaning: "중요한, 중대한",
+      posList: [{ pos: "형용사", meanings: ["중요한", "유력한"] }],
+    },
+    special: {
+      meaning: "특별한, 특수한",
+      posList: [{ pos: "형용사", meanings: ["특별한", "특급의"] }],
+    },
+    place: {
+      meaning: "장소, 곳, 두다",
+      posList: [
+        { pos: "명사", meanings: ["장소", "위치", "곳"] },
+        { pos: "동사", meanings: ["놓다", "배치하다"] },
+      ],
+    },
+    routine: {
+      meaning: "일상, 루틴, 규칙적인 일",
+      posList: [{ pos: "명사", meanings: ["일상적인 일", "판에 박힌 일"] }],
+    },
+    around: {
+      meaning: "주위에, 약, 대략",
+      posList: [{ pos: "전치사", meanings: ["~주위에", "~대략", "~쯤"] }],
+    },
+    almost: {
+      meaning: "거의, 하마터면",
+      posList: [{ pos: "부사", meanings: ["거의", "대부분"] }],
+    },
+    together: {
+      meaning: "함께, 같이",
+      posList: [{ pos: "부사", meanings: ["함께", "동시에"] }],
+    },
+    especially: {
+      meaning: "특히, 특별히",
+      posList: [{ pos: "부사", meanings: ["특히", "각별히"] }],
+    },
+    recently: {
+      meaning: "최근에, 요즈음",
+      posList: [{ pos: "부사", meanings: ["최근에", "얼마 전에"] }],
+    },
+    lately: {
+      meaning: "최근에, 요새",
+      posList: [{ pos: "부사", meanings: ["최근에", "요즈음"] }],
+    },
+    usually: {
+      meaning: "보통, 대개",
+      posList: [{ pos: "부사", meanings: ["보통", "평소에"] }],
+    },
+    start: {
+      meaning: "시작하다, 출발하다",
+      posList: [{ pos: "동사", meanings: ["시작하다", "착수하다"] }],
+    },
+    finish: {
+      meaning: "끝내다, 마치다",
+      posList: [{ pos: "동사", meanings: ["끝마치다", "완료하다"] }],
+    },
+    enjoy: {
+      meaning: "즐기다, 누리다",
+      posList: [{ pos: "동사", meanings: ["즐기다", "만끽하다"] }],
+    },
+    listen: {
+      meaning: "듣다, 귀를 기울이다",
+      posList: [{ pos: "동사", meanings: ["듣다", "청취하다"] }],
+    },
+    watch: {
+      meaning: "보다, 지켜보다, 시계",
+      posList: [{ pos: "동사", meanings: ["보다", "관람하다"] }],
+    },
+    order: {
+      meaning: "주문하다, 명령하다, 순서",
+      posList: [
+        { pos: "동사", meanings: ["주문하다"] },
+        { pos: "명사", meanings: ["주문", "순서"] },
+      ],
+    },
+    vibe: {
+      meaning: "분위기, 느낌",
+      posList: [{ pos: "명사", meanings: ["분위기", "느낌", "기운"] }],
+    },
+    vibes: {
+      meaning: "분위기, 감정들",
+      posList: [{ pos: "명사", meanings: ["분위기", "느낌"] }],
+    },
+    amazing: {
+      meaning: "놀라운, 대단한, 아주 멋진",
+      posList: [{ pos: "형용사", meanings: ["놀라운", "굉장한", "멋진"] }],
+    },
+    awesome: {
+      meaning: "굉장한, 아주 좋은",
+      posList: [{ pos: "형용사", meanings: ["멋진", "대단한", "최고인"] }],
+    },
+    truly: {
+      meaning: "진정으로, 정말로, 참으로",
+      posList: [{ pos: "부사", meanings: ["진정으로", "정말로", "참으로"] }],
+    },
+    really: {
+      meaning: "정말로, 아주, 진짜로",
+      posList: [{ pos: "부사", meanings: ["정말", "진짜로", "매우"] }],
+    },
   };
 
   let tooltipEl = null;
@@ -258,13 +516,23 @@
     tooltipEl.addEventListener("mouseleave", () => {
       isMouseInsideTooltip = false;
     });
-    tooltipEl.addEventListener("touchstart", (e) => {
-      e.stopPropagation();
-      isMouseInsideTooltip = true;
-    }, { passive: true });
-    tooltipEl.addEventListener("touchend", () => {
-      setTimeout(() => { isMouseInsideTooltip = false; }, 300);
-    }, { passive: true });
+    tooltipEl.addEventListener(
+      "touchstart",
+      (e) => {
+        e.stopPropagation();
+        isMouseInsideTooltip = true;
+      },
+      { passive: true },
+    );
+    tooltipEl.addEventListener(
+      "touchend",
+      () => {
+        setTimeout(() => {
+          isMouseInsideTooltip = false;
+        }, 300);
+      },
+      { passive: true },
+    );
 
     document.getElementById("vocabCloseBtn").addEventListener("click", (e) => {
       e.stopPropagation();
@@ -296,7 +564,9 @@
       if (!currentWordData) return;
       const isSaved = toggleSaveWord(currentWordData);
       updateStarBtnUI(isSaved);
-      showToast(isSaved ? "⭐ 단어장에 저장되었어요!" : "단어장에서 삭제되었어요.");
+      showToast(
+        isSaved ? "⭐ 단어장에 저장되었어요!" : "단어장에서 삭제되었어요.",
+      );
     });
 
     return tooltipEl;
@@ -356,7 +626,10 @@
     }
 
     const arrowEl = document.getElementById("vocabTooltipArrow");
-    const arrowLeft = Math.max(16, Math.min(tooltipWidth - 16, targetCenterX - left));
+    const arrowLeft = Math.max(
+      16,
+      Math.min(tooltipWidth - 16, targetCenterX - left),
+    );
 
     if (arrowEl) {
       arrowEl.style.left = `${arrowLeft - 5}px`;
@@ -412,7 +685,10 @@
     }
 
     // 최종 위치 안전 클램핑 (화면 밖으로 삐져나가지 않도록 보장)
-    top = Math.max(screenPadding, Math.min(top, window.innerHeight - actualHeight - screenPadding));
+    top = Math.max(
+      screenPadding,
+      Math.min(top, window.innerHeight - actualHeight - screenPadding),
+    );
 
     tooltipEl.setAttribute("data-placement", placement);
     tooltipEl.style.left = `${Math.round(left)}px`;
@@ -636,7 +912,12 @@
         let start = Math.min(Math.max(0, offset), text.length);
 
         // 클릭 위치가 공백이면 앞이나 뒤의 글자로 이동
-        if (start < text.length && !/[a-zA-Z]/.test(text[start]) && start > 0 && /[a-zA-Z]/.test(text[start - 1])) {
+        if (
+          start < text.length &&
+          !/[a-zA-Z]/.test(text[start]) &&
+          start > 0 &&
+          /[a-zA-Z]/.test(text[start - 1])
+        ) {
           start--;
         }
 
@@ -649,7 +930,10 @@
           wordEnd++;
         }
 
-        const word = text.substring(wordStart, wordEnd).trim().replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
+        const word = text
+          .substring(wordStart, wordEnd)
+          .trim()
+          .replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
         if (word && word.length >= 1 && /[a-zA-Z]/.test(word)) {
           try {
             const wordRange = document.createRange();
@@ -692,7 +976,9 @@
               y >= rect.top - 8 &&
               y <= rect.bottom + 8
             ) {
-              const word = match[0].trim().replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
+              const word = match[0]
+                .trim()
+                .replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
               if (word && /[a-zA-Z]/.test(word)) {
                 return { word, rect };
               }
@@ -800,8 +1086,14 @@
     ) {
       // 💡 띄어쓰기 단위 단어 보정
       snapInputToWordBoundaries(activeEl);
-      const raw = activeEl.value.substring(activeEl.selectionStart, activeEl.selectionEnd);
-      cleanText = raw.trim().replace(/^[^a-zA-Z0-9"'(]+|[^a-zA-Z0-9"').!?;]+$/g, "").trim();
+      const raw = activeEl.value.substring(
+        activeEl.selectionStart,
+        activeEl.selectionEnd,
+      );
+      cleanText = raw
+        .trim()
+        .replace(/^[^a-zA-Z0-9"'(]+|[^a-zA-Z0-9"').!?;]+$/g, "")
+        .trim();
       if (cleanText && /[a-zA-Z]/.test(cleanText) && cleanText.length <= 1500) {
         rect = activeEl.getBoundingClientRect();
       }
@@ -820,8 +1112,15 @@
             selection.addRange(snappedRange);
 
             const rawText = snappedRange.toString();
-            cleanText = rawText.trim().replace(/^[^a-zA-Z0-9"'(]+|[^a-zA-Z0-9"').!?;]+$/g, "").trim();
-            if (cleanText && cleanText.length <= 1500 && /[a-zA-Z]/.test(cleanText)) {
+            cleanText = rawText
+              .trim()
+              .replace(/^[^a-zA-Z0-9"'(]+|[^a-zA-Z0-9"').!?;]+$/g, "")
+              .trim();
+            if (
+              cleanText &&
+              cleanText.length <= 1500 &&
+              /[a-zA-Z]/.test(cleanText)
+            ) {
               if (cleanText.length > 1 || /^[aAiI]$/.test(cleanText)) {
                 const r = snappedRange.getBoundingClientRect();
                 if (r && (r.width > 0 || r.height > 0)) {
@@ -871,105 +1170,131 @@
     let isTouchMoving = false;
 
     // 3. 모바일 전용 롱프레스(380ms) 및 더블탭 제스처 리스너
-    document.addEventListener("touchstart", (e) => {
-      isTouchMoving = false;
-      if (tooltipEl && tooltipEl.contains(e.target)) return;
+    document.addEventListener(
+      "touchstart",
+      (e) => {
+        isTouchMoving = false;
+        if (tooltipEl && tooltipEl.contains(e.target)) return;
 
-      // 두 손가락 이상(핀치 줌)일 경우 롱프레스 취소
-      if (e.touches.length !== 1) {
-        if (longPressTimer) clearTimeout(longPressTimer);
-        lastTouchEndTime = 0;
-        lastTouchPoint = null;
-        return;
-      }
-
-      const touch = e.touches[0];
-      touchStartPos = { x: touch.clientX, y: touch.clientY };
-      isLongPressTriggered = false;
-
-      // 380ms 동안 손가락을 대고 있으면 커스텀 롱프레스 발동
-      if (longPressTimer) clearTimeout(longPressTimer);
-      longPressTimer = setTimeout(() => {
-        if (!touchStartPos || isTouchMoving) return;
-        const detected = getWordAtPoint(touchStartPos.x, touchStartPos.y);
-        if (detected) {
-          isLongPressTriggered = true;
-          lastShownTime = Date.now();
-          if (navigator.vibrate) {
-            try { navigator.vibrate(20); } catch (v) {}
-          }
-          showVocabTooltip(detected.word, detected.rect);
-        }
-      }, 380);
-    }, { passive: true });
-
-    // 터치 이동 시 (스크롤 동작): 롱프레스 취소 및 더블탭 메모리 즉시 무효화
-    document.addEventListener("touchmove", (e) => {
-      if (touchStartPos && e.touches && e.touches[0]) {
-        const touch = e.touches[0];
-        const dist = Math.hypot(touch.clientX - touchStartPos.x, touch.clientY - touchStartPos.y);
-        if (dist > 8) {
-          isTouchMoving = true;
+        // 두 손가락 이상(핀치 줌)일 경우 롱프레스 취소
+        if (e.touches.length !== 1) {
+          if (longPressTimer) clearTimeout(longPressTimer);
           lastTouchEndTime = 0;
           lastTouchPoint = null;
-          if (longPressTimer) {
-            clearTimeout(longPressTimer);
-            longPressTimer = null;
-          }
+          return;
         }
-      }
-    }, { passive: true });
 
-    // 터치 종료 (touchend): 스크롤이 아닐 때만 더블탭 감지 & 롱프레스 타이머 정리
-    document.addEventListener("touchend", (e) => {
-      if (longPressTimer) {
-        clearTimeout(longPressTimer);
-        longPressTimer = null;
-      }
+        const touch = e.touches[0];
+        touchStartPos = { x: touch.clientX, y: touch.clientY };
+        isLongPressTriggered = false;
 
-      if (tooltipEl && tooltipEl.contains(e.target)) return;
-      if (isLongPressTriggered) return;
-
-      // ⚡ 손가락을 움직여 스크롤한 경우 무시
-      if (isTouchMoving) {
-        lastTouchEndTime = 0;
-        lastTouchPoint = null;
-        return;
-      }
-
-      const now = Date.now();
-      const touch = e.changedTouches && e.changedTouches[0];
-
-      // 📱 모바일 순수 더블 탭 감지 (움직이지 않고 400ms 이내 동일 지점 30px 반경 연속 탭)
-      if (touch && now - lastTouchEndTime < 400 && lastTouchPoint) {
-        const dist = Math.hypot(touch.clientX - lastTouchPoint.x, touch.clientY - lastTouchPoint.y);
-        if (dist < 30) {
-          const detected = getWordAtPoint(touch.clientX, touch.clientY);
+        // 380ms 동안 손가락을 대고 있으면 커스텀 롱프레스 발동
+        if (longPressTimer) clearTimeout(longPressTimer);
+        longPressTimer = setTimeout(() => {
+          if (!touchStartPos || isTouchMoving) return;
+          const detected = getWordAtPoint(touchStartPos.x, touchStartPos.y);
           if (detected) {
+            isLongPressTriggered = true;
             lastShownTime = Date.now();
             if (navigator.vibrate) {
-              try { navigator.vibrate(20); } catch (v) {}
+              try {
+                navigator.vibrate(20);
+              } catch (v) {}
             }
             showVocabTooltip(detected.word, detected.rect);
+          }
+        }, 380);
+      },
+      { passive: true },
+    );
+
+    // 터치 이동 시 (스크롤 동작): 롱프레스 취소 및 더블탭 메모리 즉시 무효화
+    document.addEventListener(
+      "touchmove",
+      (e) => {
+        if (touchStartPos && e.touches && e.touches[0]) {
+          const touch = e.touches[0];
+          const dist = Math.hypot(
+            touch.clientX - touchStartPos.x,
+            touch.clientY - touchStartPos.y,
+          );
+          if (dist > 8) {
+            isTouchMoving = true;
             lastTouchEndTime = 0;
             lastTouchPoint = null;
-            return;
+            if (longPressTimer) {
+              clearTimeout(longPressTimer);
+              longPressTimer = null;
+            }
           }
         }
-      }
+      },
+      { passive: true },
+    );
 
-      if (touch) {
-        lastTouchPoint = { x: touch.clientX, y: touch.clientY };
-      }
-      lastTouchEndTime = now;
-    }, { passive: true });
+    // 터치 종료 (touchend): 스크롤이 아닐 때만 더블탭 감지 & 롱프레스 타이머 정리
+    document.addEventListener(
+      "touchend",
+      (e) => {
+        if (longPressTimer) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+        }
+
+        if (tooltipEl && tooltipEl.contains(e.target)) return;
+        if (isLongPressTriggered) return;
+
+        // ⚡ 손가락을 움직여 스크롤한 경우 무시
+        if (isTouchMoving) {
+          lastTouchEndTime = 0;
+          lastTouchPoint = null;
+          return;
+        }
+
+        const now = Date.now();
+        const touch = e.changedTouches && e.changedTouches[0];
+
+        // 📱 모바일 순수 더블 탭 감지 (움직이지 않고 400ms 이내 동일 지점 30px 반경 연속 탭)
+        if (touch && now - lastTouchEndTime < 400 && lastTouchPoint) {
+          const dist = Math.hypot(
+            touch.clientX - lastTouchPoint.x,
+            touch.clientY - lastTouchPoint.y,
+          );
+          if (dist < 30) {
+            const detected = getWordAtPoint(touch.clientX, touch.clientY);
+            if (detected) {
+              lastShownTime = Date.now();
+              if (navigator.vibrate) {
+                try {
+                  navigator.vibrate(20);
+                } catch (v) {}
+              }
+              showVocabTooltip(detected.word, detected.rect);
+              lastTouchEndTime = 0;
+              lastTouchPoint = null;
+              return;
+            }
+          }
+        }
+
+        if (touch) {
+          lastTouchPoint = { x: touch.clientX, y: touch.clientY };
+        }
+        lastTouchEndTime = now;
+      },
+      { passive: true },
+    );
 
     // 4. 화면 스크롤 시 열려있는 툴팁 닫기
-    window.addEventListener("scroll", () => {
-      if (Date.now() - lastShownTime > 800) {
-        hideTooltip();
-      }
-    }, { passive: true });
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (Date.now() - lastShownTime > 800) {
+          hideTooltip();
+        }
+      },
+      { passive: true },
+    );
 
     // 5. 키보드 ESC 닫기
     document.addEventListener("keydown", (e) => {
@@ -986,14 +1311,139 @@
     };
 
     document.addEventListener("mousedown", handleOutsideDismiss);
-    document.addEventListener("touchstart", handleOutsideDismiss, { passive: true });
+    document.addEventListener("touchstart", handleOutsideDismiss, {
+      passive: true,
+    });
+  }
+
+  // ── 📚 내 단어장 모달 관리 시스템 ──────────────────────────────────
+  function updateSavedWordsBadge() {
+    const list = getSavedWords();
+    const count = list.length;
+    const badge = document.getElementById("savedWordsBadge");
+    if (badge) {
+      badge.textContent = count > 0 ? `${count}개` : "0개";
+    }
+    const countHeader = document.getElementById("vocabModalCount");
+    if (countHeader) {
+      countHeader.textContent = `(${count}개 저장됨)`;
+    }
+  }
+
+  function renderSavedWordsList() {
+    const list = getSavedWords();
+    const container = document.getElementById("savedWordsListContainer");
+    if (!container) return;
+
+    if (!list.length) {
+      container.innerHTML = `
+        <div class="vocab-empty-state">
+          <div style="font-size: 36px; margin-bottom: 8px;">⭐</div>
+          <p style="font-weight: 600; color: var(--text-main); margin-bottom: 4px;">저장된 단어가 없습니다.</p>
+          <p style="font-size: 13px; color: var(--text-muted); margin: 0;">문장 연습이나 모범 답안에서 단어를 드래그/더블클릭한 후 별표(⭐)를 눌러 단어장에 추가해보세요!</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = list
+      .map(
+        (item, idx) => `
+      <div class="saved-word-item" data-word="${escapeHtml(item.word)}">
+        <div class="sw-main">
+          <div class="sw-word-row">
+            <span class="sw-word">${escapeHtml(item.word)}</span>
+            <button type="button" class="sw-speak-btn" data-word="${escapeHtml(item.word)}" title="발음 듣기">🔊</button>
+          </div>
+          <div class="sw-meaning">${escapeHtml(item.meaning || "")}</div>
+        </div>
+        <button type="button" class="sw-del-btn" data-word="${escapeHtml(item.word)}" title="단어장에서 삭제">✕</button>
+      </div>
+    `,
+      )
+      .join("");
+
+    // 발음 버튼 이벤트 바인딩
+    container.querySelectorAll(".sw-speak-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const w = btn.dataset.word;
+        if (w) {
+          if (typeof speakText === "function") {
+            speakText(w, "en-US", btn);
+          } else if ("speechSynthesis" in window) {
+            const u = new SpeechSynthesisUtterance(w);
+            u.lang = "en-US";
+            window.speechSynthesis.speak(u);
+          }
+        }
+      });
+    });
+
+    // 삭제 버튼 이벤트 바인딩
+    container.querySelectorAll(".sw-del-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const w = btn.dataset.word;
+        if (w) {
+          deleteSavedWord(w);
+        }
+      });
+    });
+  }
+
+  function deleteSavedWord(word) {
+    let list = getSavedWords();
+    list = list.filter(
+      (item) => item.word.toLowerCase() !== word.toLowerCase(),
+    );
+    try {
+      localStorage.setItem(SAVED_WORDS_KEY, JSON.stringify(list));
+    } catch (e) {}
+    renderSavedWordsList();
+    updateSavedWordsBadge();
+    if (
+      currentTargetWord &&
+      currentTargetWord.toLowerCase() === word.toLowerCase()
+    ) {
+      updateStarBtnUI(false);
+    }
+  }
+
+  function clearAllSavedWords() {
+    if (!confirm("단어장에 저장된 모든 단어를 삭제하시겠습니까?")) return;
+    try {
+      localStorage.removeItem(SAVED_WORDS_KEY);
+    } catch (e) {}
+    renderSavedWordsList();
+    updateSavedWordsBadge();
+    updateStarBtnUI(false);
+  }
+
+  function openVocabModal() {
+    const modal = document.getElementById("vocabModal");
+    if (!modal) return;
+    renderSavedWordsList();
+    updateSavedWordsBadge();
+    modal.classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeVocabModal() {
+    const modal = document.getElementById("vocabModal");
+    if (modal) {
+      modal.classList.remove("show");
+      document.body.style.overflow = "";
+    }
   }
 
   // 즉시 초기화 & DOM 준비 시 재확인
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initVocabTooltip);
+    document.addEventListener("DOMContentLoaded", () => {
+      initVocabTooltip();
+      updateSavedWordsBadge();
+    });
   } else {
     initVocabTooltip();
+    updateSavedWordsBadge();
   }
 
   // 브라우저 전역 노출
@@ -1001,4 +1451,8 @@
   window.showVocabTooltip = showVocabTooltip;
   window.hideVocabTooltip = hideTooltip;
   window.getSavedWords = getSavedWords;
+  window.openVocabModal = openVocabModal;
+  window.closeVocabModal = closeVocabModal;
+  window.clearAllSavedWords = clearAllSavedWords;
+  window.updateSavedWordsBadge = updateSavedWordsBadge;
 })();

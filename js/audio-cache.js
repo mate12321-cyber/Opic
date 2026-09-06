@@ -76,6 +76,42 @@ const AudioCache = (() => {
     }
   }
 
+  const MAX_CACHE_ITEMS = 500;
+  const MAX_CACHE_BYTES = 30 * 1024 * 1024; // 30MB
+
+  // 용량 또는 개수 초과 시 오래된 캐시 자동 정리 (LRU Eviction)
+  async function evictIfNeeded() {
+    try {
+      const stats = await getStats();
+      if (
+        stats.count <= MAX_CACHE_ITEMS &&
+        stats.sizeBytes <= MAX_CACHE_BYTES
+      ) {
+        return;
+      }
+      const db = await openDB();
+      if (!db) return;
+
+      const deleteCount = Math.max(20, Math.floor(stats.count * 0.15));
+      const tx = db.transaction(STORE_NAME, "readwrite");
+      const store = tx.objectStore(STORE_NAME);
+      const index = store.index("createdAt");
+      const req = index.openCursor(); // 오래된 순(오름차순)
+
+      let deleted = 0;
+      req.onsuccess = (e) => {
+        const cursor = e.target.result;
+        if (cursor && deleted < deleteCount) {
+          cursor.delete();
+          deleted++;
+          cursor.continue();
+        }
+      };
+    } catch (err) {
+      console.warn("[AudioCache] Eviction error:", err);
+    }
+  }
+
   // 오디오 Blob 영구 저장
   async function saveAudio(key, blob, text = "") {
     try {
@@ -92,7 +128,10 @@ const AudioCache = (() => {
           createdAt: Date.now(),
         };
         store.put(data);
-        tx.oncomplete = () => resolve(true);
+        tx.oncomplete = () => {
+          evictIfNeeded();
+          resolve(true);
+        };
         tx.onerror = () => resolve(false);
       });
     } catch (err) {

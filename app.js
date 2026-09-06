@@ -411,8 +411,77 @@ if (els.opicMicBtn) {
   );
 }
 
+// ── 🌙 다크 모드 토글 ──────────────────────────────────────────────
+const themeToggleBtn = document.getElementById("themeToggleBtn");
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener("click", () => {
+    if (typeof toggleTheme === "function") toggleTheme();
+  });
+}
+
+// ── 📚 내 단어장 모달 이벤트 ───────────────────────────────────────
+const openVocabModalBtn = document.getElementById("openVocabModalBtn");
+const closeVocabModalBtn = document.getElementById("closeVocabModalBtn");
+const closeVocabModalBtn2 = document.getElementById("closeVocabModalBtn2");
+const clearAllVocabBtn = document.getElementById("clearAllVocabBtn");
+const vocabModal = document.getElementById("vocabModal");
+
+if (openVocabModalBtn) {
+  openVocabModalBtn.addEventListener("click", () => {
+    if (typeof openVocabModal === "function") openVocabModal();
+  });
+}
+if (closeVocabModalBtn) {
+  closeVocabModalBtn.addEventListener("click", () => {
+    if (typeof closeVocabModal === "function") closeVocabModal();
+  });
+}
+if (closeVocabModalBtn2) {
+  closeVocabModalBtn2.addEventListener("click", () => {
+    if (typeof closeVocabModal === "function") closeVocabModal();
+  });
+}
+if (clearAllVocabBtn) {
+  clearAllVocabBtn.addEventListener("click", () => {
+    if (typeof clearAllSavedWords === "function") clearAllSavedWords();
+  });
+}
+if (vocabModal) {
+  vocabModal.addEventListener("click", (e) => {
+    if (e.target === vocabModal) {
+      if (typeof closeVocabModal === "function") closeVocabModal();
+    }
+  });
+}
+
+// ── 💾 학습 데이터 백업 & 복원 이벤트 ─────────────────────────────────
+const exportBackupBtn = document.getElementById("exportBackupBtn");
+const importBackupBtn = document.getElementById("importBackupBtn");
+const importBackupInput = document.getElementById("importBackupInput");
+
+if (exportBackupBtn) {
+  exportBackupBtn.addEventListener("click", async () => {
+    if (typeof exportAllDataJson === "function") {
+      await exportAllDataJson();
+    }
+  });
+}
+if (importBackupBtn && importBackupInput) {
+  importBackupBtn.addEventListener("click", () => {
+    importBackupInput.click();
+  });
+  importBackupInput.addEventListener("change", async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file && typeof importDataJson === "function") {
+      await importDataJson(file);
+    }
+    importBackupInput.value = "";
+  });
+}
+
 // ── 앱 부트스트랩 및 초기 데이터 로딩 ──────────────────────────────
 async function initDashboard() {
+  if (typeof initTheme === "function") initTheme();
   await loadData();
   initTTS();
   loadTtsSettings();
@@ -425,9 +494,13 @@ async function initDashboard() {
   if (typeof renderPatternTopics === "function") {
     renderPatternTopics();
   }
+  if (typeof updateSavedWordsBadge === "function") {
+    updateSavedWordsBadge();
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (typeof initTheme === "function") initTheme();
   initSpeechRecognition();
   if (typeof initVocabTooltip === "function") initVocabTooltip();
   initDashboard();

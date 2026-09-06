@@ -20,6 +20,7 @@ let opicSpeakingSeconds = 0;
 let opicViewMode = "breakdown"; // "breakdown" (문장별) | "full" (전체 문단)
 let opicEnRevealed = false; // 영어 질문 블라인드 해제 여부
 let opicPlayMode = "random"; // "random" (일반 무작위) | "combo" (실전 3단 콤보)
+let savedOpicInputs = {}; // 문제별 입력 답변 캐시
 
 // 로컬 스토리지에서 진행 상태 로드
 async function loadOpicProgress() {
@@ -34,6 +35,7 @@ async function loadOpicProgress() {
         opicWrongList = data.wrongList || [];
         opicGoodCount = data.goodCount || 0;
         opicBadCount = data.badCount || 0;
+        savedOpicInputs = data.savedOpicInputs || {};
         if (data.playMode) opicPlayMode = data.playMode;
       }
     }
@@ -56,6 +58,7 @@ async function saveOpicProgress() {
       wrongList: opicWrongList,
       goodCount: opicGoodCount,
       badCount: opicBadCount,
+      savedOpicInputs: savedOpicInputs,
       playMode: opicPlayMode,
     };
     await storage.set(OPIC_STORAGE_KEY, JSON.stringify(data), false);
@@ -298,8 +301,9 @@ function renderOpicCard() {
   // 청취 횟수 리셋
   updateEvaReplayBadge();
 
-  // 입력창 및 실시간 번역 리셋
-  els.opicUserInput.value = "";
+  // 입력창 및 실시간 번역 복원
+  const previousInput = savedOpicInputs[opicOrder[opicCur]] || "";
+  els.opicUserInput.value = previousInput;
   if (typeof autoResizeTextarea === "function") {
     autoResizeTextarea(els.opicUserInput);
   }
@@ -637,6 +641,9 @@ function rateOpic(rating) {
   stopTTS();
   clearRecordedVoice("opic");
   const currentQuestionIdx = opicOrder[opicCur];
+  if (els.opicUserInput) {
+    savedOpicInputs[currentQuestionIdx] = els.opicUserInput.value.trim();
+  }
 
   if (rating === "good") {
     opicGoodCount++;
@@ -662,6 +669,10 @@ function retrySameOpicQuestion() {
 // 건너뛰기
 function skipOpic() {
   stopTTS();
+  const currentQuestionIdx = opicOrder[opicCur];
+  if (els.opicUserInput) {
+    savedOpicInputs[currentQuestionIdx] = els.opicUserInput.value.trim();
+  }
   opicCur++;
   saveOpicProgress();
   renderOpicCard();
@@ -671,6 +682,10 @@ function skipOpic() {
 function prevOpicQuestion() {
   if (opicCur > 0) {
     stopTTS();
+    const currentQuestionIdx = opicOrder[opicCur];
+    if (els.opicUserInput) {
+      savedOpicInputs[currentQuestionIdx] = els.opicUserInput.value.trim();
+    }
     opicCur--;
     saveOpicProgress();
     renderOpicCard();

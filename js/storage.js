@@ -186,3 +186,91 @@ async function loadData() {
     console.error("데이터 전체 로드 처리 중 오류:", e);
   }
 }
+
+// ── 학습 데이터 백업 (JSON 파일 다운로드) ──────────────────────────
+async function exportAllDataJson() {
+  try {
+    const backupData = {
+      version: "1.0",
+      exportDate: new Date().toISOString(),
+      dailyLog: dailyLog,
+      progress: {
+        sentence: localStorage.getItem(STORAGE_KEY),
+        word: localStorage.getItem(WORD_STORAGE_KEY),
+        opic: localStorage.getItem(OPIC_STORAGE_KEY),
+        pattern: localStorage.getItem(PATTERN_STORAGE_KEY),
+      },
+      savedWords: localStorage.getItem("ko-en-opic-saved-words"),
+      ttsSettings: localStorage.getItem("ko-en-opic-tts-settings"),
+      theme: localStorage.getItem("ko-en-opic-theme"),
+    };
+
+    const blob = new Blob([JSON.stringify(backupData, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `OPIc_Study_Backup_${todayKey()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    return true;
+  } catch (err) {
+    console.error("데이터 백업 실패:", err);
+    alert("데이터 백업 중 오류가 발생했습니다: " + err.message);
+    return false;
+  }
+}
+
+// ── 학습 데이터 복원 (JSON 파일 업로드 및 적용) ──────────────────────
+async function importDataJson(file) {
+  if (!file) return false;
+  try {
+    const text = await file.text();
+    const data = JSON.parse(text);
+
+    if (!data || !data.version) {
+      throw new Error("올바른 OPIc 백업 파일 형식이 아닙니다.");
+    }
+
+    if (data.dailyLog) {
+      await storage.set(DAILY_LOG_KEY, JSON.stringify(data.dailyLog), false);
+    }
+    if (data.progress) {
+      if (data.progress.sentence) {
+        await storage.set(STORAGE_KEY, data.progress.sentence, false);
+      }
+      if (data.progress.word) {
+        await storage.set(WORD_STORAGE_KEY, data.progress.word, false);
+      }
+      if (data.progress.opic) {
+        await storage.set(OPIC_STORAGE_KEY, data.progress.opic, false);
+      }
+      if (data.progress.pattern) {
+        await storage.set(PATTERN_STORAGE_KEY, data.progress.pattern, false);
+      }
+    }
+    if (data.savedWords) {
+      localStorage.setItem("ko-en-opic-saved-words", data.savedWords);
+    }
+    if (data.ttsSettings) {
+      localStorage.setItem("ko-en-opic-tts-settings", data.ttsSettings);
+    }
+    if (data.theme) {
+      localStorage.setItem("ko-en-opic-theme", data.theme);
+    }
+
+    alert("🎉 학습 데이터가 성공적으로 복원되었습니다! 앱을 새로고침합니다.");
+    window.location.reload();
+    return true;
+  } catch (err) {
+    console.error("데이터 복원 실패:", err);
+    alert("데이터 복원 실패: " + err.message);
+    return false;
+  }
+}
+
+window.exportAllDataJson = exportAllDataJson;
+window.importDataJson = importDataJson;

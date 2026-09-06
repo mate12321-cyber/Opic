@@ -12,21 +12,32 @@ let wordCur = 0; // 현재 문제 인덱스
 let wordResults = {}; // 채점 결과 { itemIndex: 'good' | 'bad' }
 let wordAnswered = false; // 답변 완료 여부 플래그
 
-// 문법 퀴즈 진행 상태 인디케이터 점(Dot) 목록 생성
+// 문법 퀴즈 진행 상태 인디케이터 점(Dot) 목록 생성 (20개 초과 시 간결한 텍스트로 반응형 축약)
 function buildWordDots() {
   els.wordProgressDots.innerHTML = "";
-  wordOrder.forEach((idx, i) => {
-    const d = document.createElement("div");
-    d.className =
-      "dot" +
-      (wordResults[idx] === "good"
-        ? " done"
-        : wordResults[idx] === "bad"
-          ? " miss"
-          : "") +
-      (i === wordCur ? " cur" : "");
-    els.wordProgressDots.appendChild(d);
-  });
+  const total = wordOrder.length;
+  const maxDots = 20;
+
+  if (total <= maxDots) {
+    wordOrder.forEach((idx, i) => {
+      const d = document.createElement("div");
+      d.className =
+        "dot" +
+        (wordResults[idx] === "good"
+          ? " done"
+          : wordResults[idx] === "bad"
+            ? " miss"
+            : "") +
+        (i === wordCur ? " cur" : "");
+      els.wordProgressDots.appendChild(d);
+    });
+  } else {
+    const text = document.createElement("span");
+    text.className = "progress-text";
+    const doneCount = Object.keys(wordResults).length;
+    text.textContent = `진행: ${wordCur + 1} / ${total} (완료 ${doneCount}개)`;
+    els.wordProgressDots.appendChild(text);
+  }
 }
 
 // 현재 순서의 문법 퀴즈 카드 렌더링 (세트 종료 시 완료 화면 표시)
