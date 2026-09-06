@@ -413,25 +413,29 @@ function getBestVoice(lang = "en-US") {
   return exact || langVoices[0];
 }
 
-// 진행 중인 모든 TTS 음성 재생 중단
+// 전역 TTS 세션 및 오디오 상태 관리
+let currentTtsRequestId = 0; // 비동기 네트워크 지연 중복 재생 방지용 고유 요청 ID
+
+// 진행 중인 모든 TTS 음성 재생 중단 (오디오 엘리먼트 + Web Speech API + 대기 중인 모든 비동기 요청 취소)
 function stopTTS() {
+  currentTtsRequestId++; // ⚡ 진행 중이던 모든 비동기 캐시/네트워크 요청 즉시 무효화
+
   if (activeAudio) {
     try {
       activeAudio.pause();
       activeAudio.currentTime = 0;
+      activeAudio.onended = null;
+      activeAudio.onerror = null;
       activeAudio.src = "";
     } catch (e) {}
     activeAudio = null;
   }
   if ("speechSynthesis" in window) {
-    speechSynthesis.cancel();
+    try {
+      speechSynthesis.cancel();
+    } catch (e) {}
   }
-  if (currentSpeakingBtn) {
-    currentSpeakingBtn.classList.remove("playing");
-    const label = currentSpeakingBtn.dataset.originalLabel;
-    if (label) currentSpeakingBtn.innerHTML = label;
-    currentSpeakingBtn = null;
-  }
+  resetCurrentButton();
 }
 
 // 버튼 상태를 '재생 중'으로 시작
@@ -506,10 +510,33 @@ async function fetchGoogleTtsAudio(text, lang = "en-US") {
   return await res.blob();
 }
 
-// Audio Blob을 HTMLAudioElement로 재생
-function playAudioBlob(blob, btn) {
+// Audio Blob을 HTMLAudioElement로 재생 (중복 재생 원천 차단)
+function playAudioBlob(blob, btn, requestId) {
   return new Promise((resolve, reject) => {
+    // ⚡ 대기 중에 다른 TTS가 요청되었다면 즉시 파기
+    if (requestId !== undefined && requestId !== currentTtsRequestId) {
+      resolve();
+      return;
+    }
+
     try {
+      // 기존 재생 중인 오디오 확실히 정리
+      if (activeAudio) {
+        try {
+          activeAudio.pause();
+          activeAudio.currentTime = 0;
+          activeAudio.onended = null;
+          activeAudio.onerror = null;
+          activeAudio.src = "";
+        } catch (e) {}
+        activeAudio = null;
+      }
+      if ("speechSynthesis" in window) {
+        try {
+          speechSynthesis.cancel();
+        } catch (e) {}
+      }
+
       const audioUrl = URL.createObjectURL(blob);
       const audio = new Audio(audioUrl);
       activeAudio = audio;
@@ -517,20 +544,26 @@ function playAudioBlob(blob, btn) {
 
       audio.onended = () => {
         URL.revokeObjectURL(audioUrl);
-        activeAudio = null;
-        resetCurrentButton();
+        if (activeAudio === audio) {
+          activeAudio = null;
+          resetCurrentButton();
+        }
         resolve();
       };
       audio.onerror = (e) => {
         URL.revokeObjectURL(audioUrl);
-        activeAudio = null;
-        resetCurrentButton();
+        if (activeAudio === audio) {
+          activeAudio = null;
+          resetCurrentButton();
+        }
         reject(e);
       };
       audio.play().catch((err) => {
         URL.revokeObjectURL(audioUrl);
-        activeAudio = null;
-        resetCurrentButton();
+        if (activeAudio === audio) {
+          activeAudio = null;
+          resetCurrentButton();
+        }
         reject(err);
       });
     } catch (err) {
@@ -540,12 +573,22 @@ function playAudioBlob(blob, btn) {
   });
 }
 
-// Web Speech API (브라우저 기본 TTS) 폴백 재생
-function playNativeTTS(text, lang = "en-US", btn = null) {
+// Web Speech API (브라우저 기본 TTS) 폴백 재생 (중복 재생 원천 차단)
+function playNativeTTS(text, lang = "en-US", btn = null, requestId) {
+  // ⚡ 대기 중에 다른 TTS가 요청되었다면 즉시 파기
+  if (requestId !== undefined && requestId !== currentTtsRequestId) {
+    return;
+  }
+
   if (!("speechSynthesis" in window) || !text) {
     resetCurrentButton();
     return;
   }
+
+  try {
+    speechSynthesis.cancel();
+  } catch (e) {}
+
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = lang;
   utterance.rate = ttsRate;
@@ -557,18 +600,26 @@ function playNativeTTS(text, lang = "en-US", btn = null) {
 
   setButtonPlaying(btn);
 
-  utterance.onend = () => resetCurrentButton();
-  utterance.onerror = () => resetCurrentButton();
+  utterance.onend = () => {
+    if (requestId === undefined || requestId === currentTtsRequestId) {
+      resetCurrentButton();
+    }
+  };
+  utterance.onerror = () => {
+    if (requestId === undefined || requestId === currentTtsRequestId) {
+      resetCurrentButton();
+    }
+  };
 
   speechSynthesis.speak(utterance);
 }
 
-// 텍스트를 음성으로 재생하는 메인 하이브리드 함수
+// 텍스트를 음성으로 재생하는 메인 하이브리드 함수 (모든 중복/동시 재생 100% 방지)
 async function speakText(text, lang = "en-US", btn = null) {
   if (!text || !text.trim()) return;
   const cleanText = text.trim();
 
-  // 재생 중인 버튼을 다시 누르면 즉시 정지
+  // 재생 중인 버튼을 다시 누르면 즉시 정지 (토글)
   if (
     currentSpeakingBtn === btn &&
     (activeAudio || (window.speechSynthesis && speechSynthesis.speaking))
@@ -576,7 +627,10 @@ async function speakText(text, lang = "en-US", btn = null) {
     stopTTS();
     return;
   }
+
+  // ⚡ 새로운 발음 재생 시작 전, 기존 오디오/TTS 중지 및 새 요청 세션 ID 발급
   stopTTS();
+  const thisRequestId = currentTtsRequestId;
 
   const isKorean = lang.startsWith("ko");
   const effectiveEngine = isKorean ? "google" : ttsEngine;
@@ -590,14 +644,18 @@ async function speakText(text, lang = "en-US", btn = null) {
   if (cacheKey && window.AudioCache) {
     try {
       const cachedBlob = await window.AudioCache.getAudio(cacheKey);
+      if (thisRequestId !== currentTtsRequestId) return; // ⚡ 비동기 대기 중 다른 요청 발생 시 취소
+
       if (cachedBlob) {
-        await playAudioBlob(cachedBlob, btn);
+        await playAudioBlob(cachedBlob, btn, thisRequestId);
         return;
       }
     } catch (e) {
       console.warn("[TTS] Cache lookup failed:", e);
     }
   }
+
+  if (thisRequestId !== currentTtsRequestId) return;
 
   // 2단계: Azure Neural TTS 시도 (영어이고 Azure 설정 유효 시)
   if (
@@ -608,10 +666,12 @@ async function speakText(text, lang = "en-US", btn = null) {
   ) {
     try {
       const blob = await fetchAzureTtsAudio(cleanText, voiceName, ttsRate);
+      if (thisRequestId !== currentTtsRequestId) return; // ⚡ 비동기 대기 중 다른 요청 발생 시 취소
+
       if (window.AudioCache && cacheKey) {
         window.AudioCache.saveAudio(cacheKey, blob, cleanText);
       }
-      await playAudioBlob(blob, btn);
+      await playAudioBlob(blob, btn, thisRequestId);
       return;
     } catch (err) {
       console.warn(
@@ -621,14 +681,18 @@ async function speakText(text, lang = "en-US", btn = null) {
     }
   }
 
+  if (thisRequestId !== currentTtsRequestId) return;
+
   // 3단계: Google TTS 시도 (짧은 단어 및 200자 이하 문장)
   if (cleanText.length <= 200) {
     try {
       const blob = await fetchGoogleTtsAudio(cleanText, lang);
+      if (thisRequestId !== currentTtsRequestId) return; // ⚡ 비동기 대기 중 다른 요청 발생 시 취소
+
       if (window.AudioCache && cacheKey) {
         window.AudioCache.saveAudio(cacheKey, blob, cleanText);
       }
-      await playAudioBlob(blob, btn);
+      await playAudioBlob(blob, btn, thisRequestId);
       return;
     } catch (err) {
       console.warn(
@@ -638,8 +702,10 @@ async function speakText(text, lang = "en-US", btn = null) {
     }
   }
 
+  if (thisRequestId !== currentTtsRequestId) return;
+
   // 4단계: 브라우저 기본 Web Speech API 최종 폴백
-  playNativeTTS(cleanText, lang, btn);
+  playNativeTTS(cleanText, lang, btn, thisRequestId);
 }
 
 // ── 발음 및 문장 일치도 평가 시스템 ──────────────────────────────────
@@ -915,6 +981,9 @@ function toggleSpeechRecognition(
       return;
     }
   }
+
+  // ⚡ 마이크 시작 시 재생 중인 모든 TTS 즉시 정지
+  stopTTS();
 
   // 이미 듣고 있는 상태에서 같은 버튼을 눌렀을 때 -> 정지
   if (listening && activeTarget && activeTarget.btn === targetBtn) {

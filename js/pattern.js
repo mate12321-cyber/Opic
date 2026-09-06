@@ -59,6 +59,7 @@ window.selectPattern = selectPattern;
 
 // 특정 주제 변형(슬롯) 선택
 function selectPatternVariation(vIdx) {
+  stopTTS();
   const parsed = parseInt(vIdx, 10);
   if (!isNaN(parsed)) {
     patternVarCur = parsed;
@@ -290,6 +291,7 @@ function renderPatternVariation() {
 
 // 다음 패턴으로 이동
 function nextPattern() {
+  stopTTS();
   const pat = PATTERN_ITEMS[patternCur];
   if (pat) {
     patternProgress[pat.id] = true;
@@ -311,6 +313,7 @@ function nextPattern() {
 
 // 이전 패턴으로 이동
 function prevPattern() {
+  stopTTS();
   if (patternCur > 0) {
     patternCur--;
     patternVarCur = 0;
