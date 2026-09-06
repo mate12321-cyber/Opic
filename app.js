@@ -249,11 +249,16 @@ if (els.btnPrevOpic) {
 if (els.opicEvalBtn) {
   els.opicEvalBtn.addEventListener("click", evaluateOpicAnswer);
 }
+if (els.opicReEvalBtn) {
+  els.opicReEvalBtn.addEventListener("click", evaluateOpicAnswer);
+}
 if (els.opicRevealBtn) {
-  els.opicRevealBtn.addEventListener("click", revealOpicModelAnswer);
+  els.opicRevealBtn.addEventListener("click", () => toggleOpicModelAnswer());
 }
 if (els.opicRevealAfterEvalBtn) {
-  els.opicRevealAfterEvalBtn.addEventListener("click", revealOpicModelAnswer);
+  els.opicRevealAfterEvalBtn.addEventListener("click", () =>
+    toggleOpicModelAnswer(),
+  );
 }
 if (els.opicSkipBtn) els.opicSkipBtn.addEventListener("click", skipOpic);
 if (els.opicGoodBtn)

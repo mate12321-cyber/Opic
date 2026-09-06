@@ -150,7 +150,8 @@ document.addEventListener("keydown", (e) => {
 
   // 4. OPIc 실전 질문 & 답변 모드 단축키
   const isOpicInputFocused = document.activeElement === els.opicUserInput;
-  const isKeyM = e.code === "KeyM" || e.key === "m" || e.key === "M" || e.key === "ㅡ";
+  const isKeyM =
+    e.code === "KeyM" || e.key === "m" || e.key === "M" || e.key === "ㅡ";
   if (
     els.opicCard &&
     els.opicCard.style.display !== "none" &&
@@ -163,14 +164,17 @@ document.addEventListener("keydown", (e) => {
       return;
     }
 
-    if (!opicEvaluated && !opicModelRevealed) {
-      // 채점 전: Enter (내 답변 채점하기), M (모범답안 보기), K / ㅏ (건너뛰기), Space (에바 질문 듣기)
+    if (isKeyM && !isOpicInputFocused) {
+      e.preventDefault();
+      toggleOpicModelAnswer();
+      return;
+    }
+
+    if (!opicEvaluated) {
+      // 채점 전 (모범답안을 봤거나 안 봤거나 모두 해당): Enter (내 답변 채점하기), K / ㅏ (건너뛰기), Space (에바 질문 듣기)
       if (isEnter && (!isOpicInputFocused || !e.shiftKey)) {
         e.preventDefault();
         evaluateOpicAnswer();
-      } else if (isKeyM && !isOpicInputFocused) {
-        e.preventDefault();
-        revealOpicModelAnswer();
       } else if (isKeyK && !isOpicInputFocused) {
         e.preventDefault();
         skipOpic();
@@ -179,16 +183,18 @@ document.addEventListener("keydown", (e) => {
         playEvaQuestion(false);
       }
     } else {
-      // 채점 또는 모범답안 확인 후: 1/G/ㅎ (잘함), 2/B/ㅠ (다시), M (모범답안 토글), R/ㄱ (재도전), K/ㅏ (건너뛰기), Space (모범답안 듣기)
-      if (isGoodKey) {
+      // 이미 채점한 후:
+      // - 입력창에서 Enter 입력 시: 수정된 답변으로 [다시 채점하기]
+      // - 비포커스 상태 Enter: 1(잘했어요)과 동일하게 다음 문제로 이동
+      if (isEnter && isOpicInputFocused && !e.shiftKey) {
+        e.preventDefault();
+        evaluateOpicAnswer();
+      } else if (isGoodKey) {
         e.preventDefault();
         rateOpic("good");
       } else if (isBadKey) {
         e.preventDefault();
         rateOpic("bad");
-      } else if (isKeyM && !isOpicInputFocused) {
-        e.preventDefault();
-        revealOpicModelAnswer();
       } else if (isKeyR) {
         e.preventDefault();
         retrySameOpicQuestion();

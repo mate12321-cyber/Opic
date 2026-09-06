@@ -316,8 +316,8 @@ function renderOpicCard() {
   // 버튼 상태 리셋
   els.opicRevealRow.style.display = "flex";
   els.opicRateRow.style.display = "none";
-  if (els.opicRevealAfterEvalBtn) els.opicRevealAfterEvalBtn.style.display = "none";
   els.opicRetrySameLink.style.display = "none";
+  updateOpicButtonsState();
 
   // 진행 점(Dots) 렌더링
   renderOpicProgressDots();
@@ -505,9 +505,32 @@ function renderKeywordChips(keywords) {
   });
 }
 
-// ── 내 답변 채점하기 (모범 답안 공개 없이 내 발화만 진단) ────────
+// 버튼 상태 및 토글 텍스트 동기화
+function updateOpicButtonsState() {
+  const isModelVisible =
+    els.opicAnswerBox && els.opicAnswerBox.style.display === "block";
+
+  const modelBtnHtml = isModelVisible
+    ? '<span>💡 모범 답안 숨기기</span><kbd class="shortcut-key">M</kbd>'
+    : '<span>💡 모범 답안 보기</span><kbd class="shortcut-key">M</kbd>';
+
+  if (els.opicRevealBtn) {
+    els.opicRevealBtn.innerHTML = modelBtnHtml;
+  }
+  if (els.opicRevealAfterEvalBtn) {
+    els.opicRevealAfterEvalBtn.innerHTML = modelBtnHtml;
+  }
+
+  if (els.opicReEvalBtn) {
+    const reEvalText = opicEvaluated
+      ? "📊 다시 채점하기"
+      : "📊 내 답변 채점하기";
+    els.opicReEvalBtn.innerHTML = `<span>${reEvalText}</span><kbd class="shortcut-key">↵</kbd>`;
+  }
+}
+
+// ── 내 답변 채점하기 (모범 답안 공개 여부와 무관하게 언제든 채점 및 재채점 가능) ────────
 function evaluateOpicAnswer() {
-  if (opicEvaluated) return;
   opicEvaluated = true;
   stopSpeakingTimer();
 
@@ -543,46 +566,62 @@ function evaluateOpicAnswer() {
     });
   }
 
-  // 버튼 상태 전환: [채점] 행 숨김 -> [모범답안 확인 버튼 포함 평가 행] 표시
+  // 버튼 상태 전환: [채점] 행 숨김 -> [모범답안 확인/재채점 버튼 포함 평가 행] 표시
   if (els.opicRevealRow) els.opicRevealRow.style.display = "none";
   if (els.opicRateRow) els.opicRateRow.style.display = "flex";
-  if (els.opicRevealAfterEvalBtn) {
-    els.opicRevealAfterEvalBtn.style.display = opicModelRevealed ? "none" : "inline-flex";
-  }
-  if (els.opicRetrySameLink) els.opicRetrySameLink.style.display = "inline-flex";
+  if (els.opicRetrySameLink)
+    els.opicRetrySameLink.style.display = "inline-flex";
+
+  updateOpicButtonsState();
 }
 
-// ── 모범 답안 보기 (에바 질문의 5~7문장 모범 답변 공개) ────────
-function revealOpicModelAnswer() {
-  opicModelRevealed = true;
-  stopSpeakingTimer();
-
+// ── 모범 답안 보기 / 숨기기 토글 ────────
+function toggleOpicModelAnswer(forceShow = null) {
   const item = OPIC_QUESTIONS[opicOrder[opicCur]];
   if (!item) return;
 
-  // 모범 답안 렌더링
-  renderSentenceBreakdownList(item.sentences);
-  if (els.opicFullEn) els.opicFullEn.textContent = item.answer_en;
-  if (els.opicFullKo) els.opicFullKo.textContent = item.answer_ko;
-  if (els.opicTipText) els.opicTipText.textContent = item.tip;
-  renderKeywordChips(item.keywords);
+  const isCurrentlyOpen =
+    els.opicAnswerBox && els.opicAnswerBox.style.display === "block";
+  const shouldOpen = forceShow !== null ? forceShow : !isCurrentlyOpen;
 
-  // 정답 확인 시 영어 질문 텍스트 블라인드 자동 해제
-  toggleEvaEn(true);
+  if (shouldOpen) {
+    opicModelRevealed = true;
+    stopSpeakingTimer();
 
-  // 기본 뷰 모드 설정 (문장별 분할 뷰)
-  switchOpicAnswerView("breakdown");
+    // 모범 답안 렌더링
+    renderSentenceBreakdownList(item.sentences);
+    if (els.opicFullEn) els.opicFullEn.textContent = item.answer_en;
+    if (els.opicFullKo) els.opicFullKo.textContent = item.answer_ko;
+    if (els.opicTipText) els.opicTipText.textContent = item.tip;
+    renderKeywordChips(item.keywords);
 
-  if (els.opicAnswerBox) els.opicAnswerBox.style.display = "block";
+    // 정답 확인 시 영어 질문 텍스트 블라인드 자동 해제
+    toggleEvaEn(true);
+
+    // 기본 뷰 모드 설정 (문장별 분할 뷰)
+    switchOpicAnswerView("breakdown");
+
+    if (els.opicAnswerBox) els.opicAnswerBox.style.display = "block";
+
+    // 자동 재생 설정 시 전체 모범답안 TTS 재생
+    if (els.autoPlayTts && els.autoPlayTts.checked) {
+      speakText(item.answer_en, "en-US", els.ttsOpicAllBtn);
+    }
+  } else {
+    if (els.opicAnswerBox) els.opicAnswerBox.style.display = "none";
+  }
+
+  // 모범 답안을 본 상태에서도 버튼 행은 opicRateRow로 전환하여 [📊 내 답변 채점하기] 버튼이 상시 노출되도록 함
   if (els.opicRevealRow) els.opicRevealRow.style.display = "none";
   if (els.opicRateRow) els.opicRateRow.style.display = "flex";
-  if (els.opicRevealAfterEvalBtn) els.opicRevealAfterEvalBtn.style.display = "none";
-  if (els.opicRetrySameLink) els.opicRetrySameLink.style.display = "inline-flex";
+  if (els.opicRetrySameLink)
+    els.opicRetrySameLink.style.display = "inline-flex";
 
-  // 자동 재생 설정 시 전체 모범답안 TTS 재생
-  if (els.autoPlayTts && els.autoPlayTts.checked) {
-    speakText(item.answer_en, "en-US", els.ttsOpicAllBtn);
-  }
+  updateOpicButtonsState();
+}
+
+function revealOpicModelAnswer() {
+  toggleOpicModelAnswer(true);
 }
 
 // 하위 호환용 래퍼

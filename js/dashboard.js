@@ -159,6 +159,7 @@ const els = {
   opicRevealRow: document.getElementById("opicRevealRow"),
   opicEvalBtn: document.getElementById("opicEvalBtn"),
   opicRevealBtn: document.getElementById("opicRevealBtn"),
+  opicReEvalBtn: document.getElementById("opicReEvalBtn"),
   opicRevealAfterEvalBtn: document.getElementById("opicRevealAfterEvalBtn"),
   opicSkipBtn: document.getElementById("opicSkipBtn"),
   opicRateRow: document.getElementById("opicRateRow"),
