@@ -314,7 +314,7 @@ function renderOpicCard() {
   if (els.opicGrammarContent) els.opicGrammarContent.innerHTML = "";
 
   // 버튼 상태 리셋
-  els.opicRevealRow.style.display = "flex";
+  els.opicRevealRow.style.display = "grid";
   els.opicRateRow.style.display = "none";
   els.opicRetrySameLink.style.display = "none";
   updateOpicButtonsState();
@@ -511,8 +511,8 @@ function updateOpicButtonsState() {
     els.opicAnswerBox && els.opicAnswerBox.style.display === "block";
 
   const modelBtnHtml = isModelVisible
-    ? '<span>💡 모범 답안 숨기기</span><kbd class="shortcut-key">M</kbd>'
-    : '<span>💡 모범 답안 보기</span><kbd class="shortcut-key">M</kbd>';
+    ? '<span>답안 닫기</span><kbd class="shortcut-key">M</kbd>'
+    : '<span>모범 답안</span><kbd class="shortcut-key">M</kbd>';
 
   if (els.opicRevealBtn) {
     els.opicRevealBtn.innerHTML = modelBtnHtml;
@@ -522,9 +522,7 @@ function updateOpicButtonsState() {
   }
 
   if (els.opicReEvalBtn) {
-    const reEvalText = opicEvaluated
-      ? "📊 다시 채점하기"
-      : "📊 내 답변 채점하기";
+    const reEvalText = opicEvaluated ? "재채점" : "채점";
     els.opicReEvalBtn.innerHTML = `<span>${reEvalText}</span><kbd class="shortcut-key">↵</kbd>`;
   }
 }
@@ -566,9 +564,9 @@ function evaluateOpicAnswer() {
     });
   }
 
-  // 버튼 상태 전환: [채점] 행 숨김 -> [모범답안 확인/재채점 버튼 포함 평가 행] 표시
+  // 버튼 상태 전환: [채점] 행 숨김 -> [모범답안 확인/재채점 버튼 포함 2x2 평가 행] 표시
   if (els.opicRevealRow) els.opicRevealRow.style.display = "none";
-  if (els.opicRateRow) els.opicRateRow.style.display = "flex";
+  if (els.opicRateRow) els.opicRateRow.style.display = "grid";
   if (els.opicRetrySameLink)
     els.opicRetrySameLink.style.display = "inline-flex";
 
@@ -611,9 +609,9 @@ function toggleOpicModelAnswer(forceShow = null) {
     if (els.opicAnswerBox) els.opicAnswerBox.style.display = "none";
   }
 
-  // 모범 답안을 본 상태에서도 버튼 행은 opicRateRow로 전환하여 [📊 내 답변 채점하기] 버튼이 상시 노출되도록 함
+  // 모범 답안을 본 상태에서도 버튼 행은 opicRateRow로 전환하여 [채점] 버튼이 상시 노출되도록 함
   if (els.opicRevealRow) els.opicRevealRow.style.display = "none";
-  if (els.opicRateRow) els.opicRateRow.style.display = "flex";
+  if (els.opicRateRow) els.opicRateRow.style.display = "grid";
   if (els.opicRetrySameLink)
     els.opicRetrySameLink.style.display = "inline-flex";
 

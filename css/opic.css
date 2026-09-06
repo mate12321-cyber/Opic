@@ -775,3 +775,78 @@
   border-color: #94a3b8;
   color: #0f172a;
 }
+
+/* ── OPIc 컨트롤 버튼 레이아웃 (텍스트 잘림 방지 및 2x2 그리드) ── */
+.opic-btn-row-3 {
+  display: grid;
+  grid-template-columns: 1.2fr 1.1fr 0.9fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.opic-rate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.opic-btn-row-3 button,
+.opic-rate-grid button {
+  width: 100%;
+  min-width: 0;
+  height: 46px;
+  min-height: 46px;
+  padding: 0 12px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.opic-btn-row-3 button span,
+.opic-rate-grid button span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+.opic-retry-link {
+  margin-top: 12px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+@media (max-width: 600px) {
+  .opic-btn-row-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .opic-rate-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .opic-btn-row-3 button,
+  .opic-rate-grid button {
+    padding: 0 6px;
+    font-size: 13px;
+    height: 40px;
+    min-height: 40px;
+    gap: 4px;
+  }
+
+  .opic-btn-row-3 button .shortcut-key,
+  .opic-rate-grid button .shortcut-key {
+    padding: 1px 4px;
+    font-size: 9px;
+  }
+}
