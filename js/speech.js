@@ -1034,6 +1034,32 @@ async function blobTo16kHzWav(blob) {
   }
 }
 
+// 프랑스어/스페인어 차용어 악센트(é, è, ê, á, ñ 등)를 표준 영어 ASCII 알파벳으로 변환
+function sanitizeEnglishText(text) {
+  if (!text) return "";
+  return String(text)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // 결합 악센트 기호 제거
+    .replace(/[éèêë]/gi, "e")
+    .replace(/[áàâäãå]/gi, "a")
+    .replace(/[íìîï]/gi, "i")
+    .replace(/[óòôöõ]/gi, "o")
+    .replace(/[úùûü]/gi, "u")
+    .replace(/[ñ]/gi, "n")
+    .replace(/[ç]/gi, "c")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// UTF-8 안전 Base64 인코더 (Azure HTTP Header 전달 시 깨짐 방지)
+function utf8ToBase64(str) {
+  return btoa(
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) =>
+      String.fromCharCode(parseInt(p1, 16)),
+    ),
+  );
+}
+
 // Azure AI Speech Pronunciation Assessment REST API 호출
 async function assessPronunciationWithAzure(wavBuffer, referenceText) {
   if (!azureApiKey || !azureApiKey.trim()) {
@@ -1043,7 +1069,8 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     throw new Error("평가할 오디오 데이터가 부족합니다.");
   }
 
-  const cleanRef = referenceText.trim();
+  // 악센트 문자(café, cafés 등)를 표준 영어 ASCII 단어로 정규화
+  const cleanRef = sanitizeEnglishText(referenceText.trim());
   const region = (azureRegion || "eastus").trim();
   const endpoint = `https://${region}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US&format=detailed`;
 
@@ -1054,7 +1081,7 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     Dimension: "Comprehensive",
     EnableProsodyAssessment: "True",
   };
-  const pronHeader = btoa(JSON.stringify(pronConfig));
+  const pronHeader = utf8ToBase64(JSON.stringify(pronConfig));
 
   const res = await fetch(endpoint, {
     method: "POST",
@@ -1173,7 +1200,7 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
 
 // 평가 비교를 위한 텍스트 정규화
 function normalizeForEval(text) {
-  return String(text || "")
+  return sanitizeEnglishText(text || "")
     .toLowerCase()
     .replace(/[^a-z0-9'\s]/g, " ")
     .replace(/\s+/g, " ")
@@ -2952,23 +2979,38 @@ const PHONETIC_CORRECTION_RULES = [
   { reg: /\bone\s+of\s+the\s+best\s+thing\b/gi, rep: "one of the best things" },
 
   // 한국 주요 지명 및 동/구 고유명사 오인식 보정 규칙
-  { reg: /\b(?:bull|bool|pull|full)\s*(?:dang|tang)\s*(?:dong|tong)?\b/gi, rep: "Buldang-dong" },
+  {
+    reg: /\b(?:bull|bool|pull|full)\s*(?:dang|tang)\s*(?:dong|tong)?\b/gi,
+    rep: "Buldang-dong",
+  },
   { reg: /\bbuilding\s+dong\b/gi, rep: "Buldang-dong" },
   { reg: /\b(?:chun\s*an|cheon\s*an|chun\s*ahn)\b/gi, rep: "Cheonan" },
-  { reg: /\b(?:ssang\s*yong|sang\s*yong)\s*(?:dong)?\b/gi, rep: "Ssangyong-dong" },
+  {
+    reg: /\b(?:ssang\s*yong|sang\s*yong)\s*(?:dong)?\b/gi,
+    rep: "Ssangyong-dong",
+  },
   { reg: /\b(?:gang\s*nam|kang\s*nam)\s*(?:dong|gu)?\b/gi, rep: "Gangnam" },
   { reg: /\b(?:hong\s*dae|hong\s*day)\b/gi, rep: "Hongdae" },
   { reg: /\b(?:yeo\s*ui\s*do|yeoui\s*do)\b/gi, rep: "Yeouido" },
   { reg: /\b(?:sin\s*chon|shin\s*chon)\b/gi, rep: "Sinchon" },
   { reg: /\b(?:han\s*river|hangang|han\s*gang)\b/gi, rep: "the Han River" },
+
+  // 외래어 악센트 및 단어 쪼개짐 보정
+  { reg: /\bcaf[eé]\s*s\b/gi, rep: "cafes" },
+  { reg: /\bcaf\s+s\b/gi, rep: "cafes" },
+  { reg: /\bcaf[eé]s?\b/gi, (match) => match.toLowerCase().endsWith("s") ? "cafes" : "cafe" },
 ];
 
 // 음성 인식 텍스트 자동 보정기
 function correctSttPhoneticErrors(text) {
   if (!text) return "";
-  let corrected = text;
+  let corrected = sanitizeEnglishText(text);
   for (const rule of PHONETIC_CORRECTION_RULES) {
-    corrected = corrected.replace(rule.reg, rule.rep);
+    if (typeof rule.rep === "function") {
+      corrected = corrected.replace(rule.reg, rule.rep);
+    } else {
+      corrected = corrected.replace(rule.reg, rule.rep);
+    }
   }
   return corrected;
 }
