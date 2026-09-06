@@ -306,6 +306,23 @@
   line-height: 1.4;
 }
 
+/* ── 전체 스크립트 연결 영역 (문장별 줄바꿈) ── */
+#patternFullEn {
+  white-space: pre-line;
+  line-height: 1.65;
+  margin-bottom: 10px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+#patternFullKo {
+  white-space: pre-line;
+  line-height: 1.55;
+  color: var(--text-muted);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
 /* ── 모바일 반응형 ── */
 @media (max-width: 540px) {
   .pattern-select-card {

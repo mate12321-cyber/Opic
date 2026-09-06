@@ -255,26 +255,27 @@ function renderPatternVariation() {
     });
   }
 
-  // 전체 답변 텍스트 구성
-  const fullEn = curVar.sentences.map((s) => s.en).join(" ");
-  const fullKo = curVar.sentences.map((s) => s.ko).join(" ");
+  // 전체 답변 텍스트 구성 (문장별 줄바꿈)
+  const fullEnFormatted = curVar.sentences.map((s) => s.en).join("\n");
+  const fullKoFormatted = curVar.sentences.map((s) => s.ko).join("\n");
+  const fullEnSpeech = curVar.sentences.map((s) => s.en).join(" ");
 
   const fullEnEl = document.getElementById("patternFullEn");
-  if (fullEnEl) fullEnEl.textContent = fullEn;
+  if (fullEnEl) fullEnEl.textContent = fullEnFormatted;
 
   const fullKoEl = document.getElementById("patternFullKo");
-  if (fullKoEl) fullKoEl.textContent = fullKo;
+  if (fullKoEl) fullKoEl.textContent = fullKoFormatted;
 
   // 전체 TTS 버튼
   const allTtsBtn = document.getElementById("patternTtsAllBtn");
   if (allTtsBtn) {
-    allTtsBtn.onclick = () => speakText(fullEn, "en-US", allTtsBtn);
+    allTtsBtn.onclick = () => speakText(fullEnSpeech, "en-US", allTtsBtn);
   }
 
   // 전체 복사 버튼
   const copyBtn = document.getElementById("patternCopyAllBtn");
   if (copyBtn) {
-    copyBtn.onclick = () => copyText(fullEn, copyBtn);
+    copyBtn.onclick = () => copyText(fullEnFormatted, copyBtn);
   }
 }
 
