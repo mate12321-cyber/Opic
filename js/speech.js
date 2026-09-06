@@ -1253,128 +1253,665 @@ function evaluateSpeech(userInput, modelAnswer) {
 // OPIc 주요 토픽별 핵심 연관 어휘 맵
 const TOPIC_VOCABULARY_MAP = {
   home: [
-    "home", "house", "apartment", "flat", "room", "bedroom", "living room", "kitchen",
-    "bathroom", "balcony", "furniture", "sofa", "bed", "desk", "chair", "table",
-    "closet", "window", "door", "floor", "wall", "clean", "organize", "live", "stay",
-    "cozy", "spacious", "renovate", "decorate", "appliance", "refrigerator", "tv", "curtain"
+    "home",
+    "house",
+    "apartment",
+    "flat",
+    "room",
+    "bedroom",
+    "living room",
+    "kitchen",
+    "bathroom",
+    "balcony",
+    "furniture",
+    "sofa",
+    "bed",
+    "desk",
+    "chair",
+    "table",
+    "closet",
+    "window",
+    "door",
+    "floor",
+    "wall",
+    "clean",
+    "organize",
+    "live",
+    "stay",
+    "cozy",
+    "spacious",
+    "renovate",
+    "decorate",
+    "appliance",
+    "refrigerator",
+    "tv",
+    "curtain",
   ],
   neighborhood: [
-    "neighborhood", "neighbor", "neighbors", "street", "building", "convenience store",
-    "mart", "supermarket", "bakery", "pharmacy", "subway station", "bus stop", "quiet",
-    "crowded", "peaceful", "convenient", "nearby", "around", "locate", "located", "community", "block"
+    "neighborhood",
+    "neighbor",
+    "neighbors",
+    "street",
+    "building",
+    "convenience store",
+    "mart",
+    "supermarket",
+    "bakery",
+    "pharmacy",
+    "subway station",
+    "bus stop",
+    "quiet",
+    "crowded",
+    "peaceful",
+    "convenient",
+    "nearby",
+    "around",
+    "locate",
+    "located",
+    "community",
+    "block",
   ],
   travel: [
-    "travel", "trip", "vacation", "flight", "airplane", "airport", "passport", "luggage",
-    "baggage", "tour", "tourist", "destination", "sightseeing", "visit", "abroad", "overseas",
-    "domestic", "beach", "island", "mountain", "country", "city", "hotel", "resort",
-    "memorable", "experience", "souvenir", "scenery", "view", "packing", "traveling"
+    "travel",
+    "trip",
+    "vacation",
+    "flight",
+    "airplane",
+    "airport",
+    "passport",
+    "luggage",
+    "baggage",
+    "tour",
+    "tourist",
+    "destination",
+    "sightseeing",
+    "visit",
+    "abroad",
+    "overseas",
+    "domestic",
+    "beach",
+    "island",
+    "mountain",
+    "country",
+    "city",
+    "hotel",
+    "resort",
+    "memorable",
+    "experience",
+    "souvenir",
+    "scenery",
+    "view",
+    "packing",
+    "traveling",
   ],
   hotel: [
-    "hotel", "room", "lobby", "check in", "check out", "reservation", "booking", "bed",
-    "view", "ocean view", "breakfast", "service", "staff", "amenities", "pool", "swimming",
-    "stay", "night", "comfortable", "facility", "clean", "front desk"
+    "hotel",
+    "room",
+    "lobby",
+    "check in",
+    "check out",
+    "reservation",
+    "booking",
+    "bed",
+    "view",
+    "ocean view",
+    "breakfast",
+    "service",
+    "staff",
+    "amenities",
+    "pool",
+    "swimming",
+    "stay",
+    "night",
+    "comfortable",
+    "facility",
+    "clean",
+    "front desk",
   ],
   park: [
-    "park", "walk", "walking", "jogging", "run", "running", "stroll", "bench", "tree",
-    "trees", "flower", "flowers", "lake", "river", "path", "trail", "fresh air", "breeze",
-    "relax", "relaxing", "nature", "exercise", "dog", "pets", "grass", "fountain"
+    "park",
+    "walk",
+    "walking",
+    "jogging",
+    "run",
+    "running",
+    "stroll",
+    "bench",
+    "tree",
+    "trees",
+    "flower",
+    "flowers",
+    "lake",
+    "river",
+    "path",
+    "trail",
+    "fresh air",
+    "breeze",
+    "relax",
+    "relaxing",
+    "nature",
+    "exercise",
+    "dog",
+    "pets",
+    "grass",
+    "fountain",
   ],
   music: [
-    "music", "song", "songs", "listen", "listening", "singer", "artist", "band", "concert",
-    "live", "genre", "kpop", "pop", "classical", "jazz", "rock", "hiphop", "r&b", "ballad",
-    "melody", "lyrics", "earphones", "headphones", "speaker", "instrument", "guitar", "piano", "favorite"
+    "music",
+    "song",
+    "songs",
+    "listen",
+    "listening",
+    "singer",
+    "artist",
+    "band",
+    "concert",
+    "live",
+    "genre",
+    "kpop",
+    "pop",
+    "classical",
+    "jazz",
+    "rock",
+    "hiphop",
+    "r&b",
+    "ballad",
+    "melody",
+    "lyrics",
+    "earphones",
+    "headphones",
+    "speaker",
+    "instrument",
+    "guitar",
+    "piano",
+    "favorite",
   ],
   movie: [
-    "movie", "movies", "cinema", "theater", "film", "watch", "watching", "actor", "actress",
-    "director", "genre", "action", "comedy", "romance", "thriller", "sci-fi", "popcorn",
-    "ticket", "screen", "ending", "scene", "plot", "story", "release", "character", "soundtrack"
+    "movie",
+    "movies",
+    "cinema",
+    "theater",
+    "film",
+    "watch",
+    "watching",
+    "actor",
+    "actress",
+    "director",
+    "genre",
+    "action",
+    "comedy",
+    "romance",
+    "thriller",
+    "sci-fi",
+    "popcorn",
+    "ticket",
+    "screen",
+    "ending",
+    "scene",
+    "plot",
+    "story",
+    "release",
+    "character",
+    "soundtrack",
   ],
   shopping: [
-    "shopping", "mall", "outlet", "department store", "market", "store", "shop", "buy",
-    "bought", "purchase", "clothes", "shoes", "bag", "item", "items", "discount", "sale",
-    "price", "expensive", "cheap", "affordable", "online shopping", "delivery", "refund", "exchange", "try on"
+    "shopping",
+    "mall",
+    "outlet",
+    "department store",
+    "market",
+    "store",
+    "shop",
+    "buy",
+    "bought",
+    "purchase",
+    "clothes",
+    "shoes",
+    "bag",
+    "item",
+    "items",
+    "discount",
+    "sale",
+    "price",
+    "expensive",
+    "cheap",
+    "affordable",
+    "online shopping",
+    "delivery",
+    "refund",
+    "exchange",
+    "try on",
   ],
   restaurant: [
-    "restaurant", "cafe", "coffee", "food", "eat", "ate", "dining", "meal", "dinner",
-    "lunch", "breakfast", "menu", "order", "ordered", "taste", "tasty", "delicious",
-    "flavor", "spicy", "sweet", "cook", "cooking", "chef", "atmosphere", "vibe", "table",
-    "dish", "dishes", "dessert", "drink", "beverage"
+    "restaurant",
+    "cafe",
+    "coffee",
+    "food",
+    "eat",
+    "ate",
+    "dining",
+    "meal",
+    "dinner",
+    "lunch",
+    "breakfast",
+    "menu",
+    "order",
+    "ordered",
+    "taste",
+    "tasty",
+    "delicious",
+    "flavor",
+    "spicy",
+    "sweet",
+    "cook",
+    "cooking",
+    "chef",
+    "atmosphere",
+    "vibe",
+    "table",
+    "dish",
+    "dishes",
+    "dessert",
+    "drink",
+    "beverage",
   ],
   exercise: [
-    "exercise", "workout", "working out", "gym", "fitness", "health", "healthy", "jogging",
-    "running", "swimming", "cycling", "bike", "bicycle", "pilates", "yoga", "weight",
-    "weights", "cardio", "stretch", "stretching", "sweat", "routine", "coach", "trainer", "muscle", "energy"
+    "exercise",
+    "workout",
+    "working out",
+    "gym",
+    "fitness",
+    "health",
+    "healthy",
+    "jogging",
+    "running",
+    "swimming",
+    "cycling",
+    "bike",
+    "bicycle",
+    "pilates",
+    "yoga",
+    "weight",
+    "weights",
+    "cardio",
+    "stretch",
+    "stretching",
+    "sweat",
+    "routine",
+    "coach",
+    "trainer",
+    "muscle",
+    "energy",
   ],
   weather: [
-    "weather", "season", "spring", "summer", "fall", "autumn", "winter", "sunny", "rain",
-    "raining", "rainy", "snow", "snowing", "snowy", "cloudy", "windy", "humid", "hot",
-    "cold", "warm", "cool", "temperature", "forecast", "typhoon", "umbrella"
+    "weather",
+    "season",
+    "spring",
+    "summer",
+    "fall",
+    "autumn",
+    "winter",
+    "sunny",
+    "rain",
+    "raining",
+    "rainy",
+    "snow",
+    "snowing",
+    "snowy",
+    "cloudy",
+    "windy",
+    "humid",
+    "hot",
+    "cold",
+    "warm",
+    "cool",
+    "temperature",
+    "forecast",
+    "typhoon",
+    "umbrella",
   ],
   roleplay: [
-    "hello", "hi", "excuse me", "question", "ask", "calling", "call", "inquire", "reservation",
-    "book", "cancel", "postpone", "reschedule", "problem", "issue", "situation", "refund",
-    "exchange", "alternative", "suggest", "option", "available", "possible", "help", "information", "price", "ticket"
+    "hello",
+    "hi",
+    "excuse me",
+    "question",
+    "ask",
+    "calling",
+    "call",
+    "inquire",
+    "reservation",
+    "book",
+    "cancel",
+    "postpone",
+    "reschedule",
+    "problem",
+    "issue",
+    "situation",
+    "refund",
+    "exchange",
+    "alternative",
+    "suggest",
+    "option",
+    "available",
+    "possible",
+    "help",
+    "information",
+    "price",
+    "ticket",
   ],
   routine: [
-    "routine", "habit", "usually", "normally", "typically", "always", "every day", "morning",
-    "afternoon", "evening", "night", "weekend", "weekday", "first", "then", "after", "before",
-    "wake up", "go to bed", "regularly", "schedule"
+    "routine",
+    "habit",
+    "usually",
+    "normally",
+    "typically",
+    "always",
+    "every day",
+    "morning",
+    "afternoon",
+    "evening",
+    "night",
+    "weekend",
+    "weekday",
+    "first",
+    "then",
+    "after",
+    "before",
+    "wake up",
+    "go to bed",
+    "regularly",
+    "schedule",
   ],
   past_experience: [
-    "remember", "memory", "memorable", "unforgettable", "happened", "first time", "last time",
-    "last year", "ago", "when i was", "experience", "special", "incident", "never forget",
-    "embarrassing", "trouble", "difficulty", "unexpected"
-  ]
+    "remember",
+    "memory",
+    "memorable",
+    "unforgettable",
+    "happened",
+    "first time",
+    "last time",
+    "last year",
+    "ago",
+    "when i was",
+    "experience",
+    "special",
+    "incident",
+    "never forget",
+    "embarrassing",
+    "trouble",
+    "difficulty",
+    "unexpected",
+  ],
 };
 
 // 영어 불용어 (Stop Words)
 const EVAL_STOP_WORDS = new Set([
-  "a", "an", "the", "is", "are", "was", "were", "am", "be", "been", "being",
-  "to", "of", "in", "for", "on", "with", "at", "by", "from", "up", "about",
-  "into", "over", "after", "i", "you", "he", "she", "it", "we", "they",
-  "me", "him", "her", "us", "them", "my", "your", "his", "their", "our",
-  "mine", "yours", "this", "that", "these", "those", "and", "or", "but",
-  "so", "as", "if", "than", "too", "very", "can", "could", "will", "would",
-  "should", "do", "does", "did", "have", "has", "had", "just", "really",
-  "well", "uh", "um", "ah", "oh", "like"
+  "a",
+  "an",
+  "the",
+  "is",
+  "are",
+  "was",
+  "were",
+  "am",
+  "be",
+  "been",
+  "being",
+  "to",
+  "of",
+  "in",
+  "for",
+  "on",
+  "with",
+  "at",
+  "by",
+  "from",
+  "up",
+  "about",
+  "into",
+  "over",
+  "after",
+  "i",
+  "you",
+  "he",
+  "she",
+  "it",
+  "we",
+  "they",
+  "me",
+  "him",
+  "her",
+  "us",
+  "them",
+  "my",
+  "your",
+  "his",
+  "their",
+  "our",
+  "mine",
+  "yours",
+  "this",
+  "that",
+  "these",
+  "those",
+  "and",
+  "or",
+  "but",
+  "so",
+  "as",
+  "if",
+  "than",
+  "too",
+  "very",
+  "can",
+  "could",
+  "will",
+  "would",
+  "should",
+  "do",
+  "does",
+  "did",
+  "have",
+  "has",
+  "had",
+  "just",
+  "really",
+  "well",
+  "uh",
+  "um",
+  "ah",
+  "oh",
+  "like",
 ]);
 
 // 1. 논리 연결어 & 접속사 & 전환구 (Connectors & Transitions) - 40+ 항목
 const OPIC_CONNECTORS = [
-  "because", "since", "so", "therefore", "thus", "as a result", "due to", "thanks to",
-  "that's why", "for that reason", "however", "although", "even though", "though",
-  "but", "on the other hand", "instead", "while", "whereas", "despite", "in contrast",
-  "yet", "nevertheless", "when", "whenever", "as soon as", "after that", "afterwards",
-  "before", "first of all", "first", "secondly", "second", "third", "then", "next",
-  "later on", "later", "in the end", "finally", "at first", "since then", "meanwhile",
-  "also", "besides", "in addition", "furthermore", "moreover", "plus", "what's more",
-  "not only", "especially", "particularly", "above all", "for example", "for instance",
-  "such as", "in fact", "as i mentioned", "speaking of"
+  "because",
+  "since",
+  "so",
+  "therefore",
+  "thus",
+  "as a result",
+  "due to",
+  "thanks to",
+  "that's why",
+  "for that reason",
+  "however",
+  "although",
+  "even though",
+  "though",
+  "but",
+  "on the other hand",
+  "instead",
+  "while",
+  "whereas",
+  "despite",
+  "in contrast",
+  "yet",
+  "nevertheless",
+  "when",
+  "whenever",
+  "as soon as",
+  "after that",
+  "afterwards",
+  "before",
+  "first of all",
+  "first",
+  "secondly",
+  "second",
+  "third",
+  "then",
+  "next",
+  "later on",
+  "later",
+  "in the end",
+  "finally",
+  "at first",
+  "since then",
+  "meanwhile",
+  "also",
+  "besides",
+  "in addition",
+  "furthermore",
+  "moreover",
+  "plus",
+  "what's more",
+  "not only",
+  "especially",
+  "particularly",
+  "above all",
+  "for example",
+  "for instance",
+  "such as",
+  "in fact",
+  "as i mentioned",
+  "speaking of",
 ];
 
 // 2. 자연스러운 구어체 필러 & 담화 표지어 (Discourse Markers & Fillers) - 30+ 항목
 const OPIC_FILLERS = [
-  "i think", "i believe", "i guess", "i suppose", "in my opinion", "from my perspective",
-  "as far as i know", "to be honest", "honestly", "frankly speaking", "frankly",
-  "to be frank", "to tell the truth", "personally", "to be specific", "you know",
-  "i mean", "you see", "as you know", "what i mean is", "if you know what i mean",
-  "actually", "basically", "literally", "by the way", "anyway", "overall", "well",
-  "you know what", "like i said", "if i remember correctly", "as i recall",
-  "let me see", "let me think", "how should i say"
+  "i think",
+  "i believe",
+  "i guess",
+  "i suppose",
+  "in my opinion",
+  "from my perspective",
+  "as far as i know",
+  "to be honest",
+  "honestly",
+  "frankly speaking",
+  "frankly",
+  "to be frank",
+  "to tell the truth",
+  "personally",
+  "to be specific",
+  "you know",
+  "i mean",
+  "you see",
+  "as you know",
+  "what i mean is",
+  "if you know what i mean",
+  "actually",
+  "basically",
+  "literally",
+  "by the way",
+  "anyway",
+  "overall",
+  "well",
+  "you know what",
+  "like i said",
+  "if i remember correctly",
+  "as i recall",
+  "let me see",
+  "let me think",
+  "how should i say",
 ];
 
 // 3. 과거 시제 동사 & 불규칙 과거형 & 과거 완료 (Past Verbs & Irregular Past Tense) - 60+ 항목
 const OPIC_PAST_VERBS = [
-  "went", "came", "arrived", "left", "walked", "ran", "drove", "rode", "flew",
-  "traveled", "travelled", "visited", "stayed", "moved", "stopped", "hung out",
-  "was", "were", "had", "felt", "liked", "loved", "enjoyed", "hated", "missed",
-  "preferred", "wanted", "needed", "hoped", "wished", "seemed", "became", "used to",
-  "thought", "knew", "understood", "realized", "noticed", "remembered", "forgot",
-  "decided", "chose", "learned", "found", "discovered", "planned", "ate", "drank",
-  "bought", "sold", "paid", "spent", "woke", "slept", "got", "took", "gave",
-  "brought", "made", "did", "used", "put", "read", "watched", "listened", "heard",
-  "saw", "looked", "met", "talked", "spoke", "said", "told", "asked", "answered",
-  "called", "worked", "studied", "cleaned", "cooked", "played", "exercised", "worked out"
+  "went",
+  "came",
+  "arrived",
+  "left",
+  "walked",
+  "ran",
+  "drove",
+  "rode",
+  "flew",
+  "traveled",
+  "travelled",
+  "visited",
+  "stayed",
+  "moved",
+  "stopped",
+  "hung out",
+  "was",
+  "were",
+  "had",
+  "felt",
+  "liked",
+  "loved",
+  "enjoyed",
+  "hated",
+  "missed",
+  "preferred",
+  "wanted",
+  "needed",
+  "hoped",
+  "wished",
+  "seemed",
+  "became",
+  "used to",
+  "thought",
+  "knew",
+  "understood",
+  "realized",
+  "noticed",
+  "remembered",
+  "forgot",
+  "decided",
+  "chose",
+  "learned",
+  "found",
+  "discovered",
+  "planned",
+  "ate",
+  "drank",
+  "bought",
+  "sold",
+  "paid",
+  "spent",
+  "woke",
+  "slept",
+  "got",
+  "took",
+  "gave",
+  "brought",
+  "made",
+  "did",
+  "used",
+  "put",
+  "read",
+  "watched",
+  "listened",
+  "heard",
+  "saw",
+  "looked",
+  "met",
+  "talked",
+  "spoke",
+  "said",
+  "told",
+  "asked",
+  "answered",
+  "called",
+  "worked",
+  "studied",
+  "cleaned",
+  "cooked",
+  "played",
+  "exercised",
+  "worked out",
 ];
 
 // 단어 경계 기반 고정밀 매칭 유틸
@@ -1383,7 +1920,10 @@ function matchWordList(text, list) {
   const lower = (text || "").toLowerCase();
   for (const item of list) {
     const escaped = item.replace(/['’]/g, "['’]?").replace(/\s+/g, "\\s+");
-    const regex = new RegExp("(?:^|\\s|[,.!?])" + escaped + "(?:$|\\s|[,.!?])", "i");
+    const regex = new RegExp(
+      "(?:^|\\s|[,.!?])" + escaped + "(?:$|\\s|[,.!?])",
+      "i",
+    );
     if (regex.test(lower)) {
       matches.push(item);
     }
@@ -1399,7 +1939,7 @@ function evaluateTopicRelevance(userInput, questionItem) {
       status: "empty",
       statusLabel: "답변 없음",
       matchedKeywords: [],
-      feedback: "마이크를 누르고 질문에 대한 답변을 말씀해보세요."
+      feedback: "마이크를 누르고 질문에 대한 답변을 말씀해보세요.",
     };
   }
 
@@ -1407,7 +1947,7 @@ function evaluateTopicRelevance(userInput, questionItem) {
   const userTokens = cleanUser
     .replace(/[^a-z0-9\s]/g, " ")
     .split(/\s+/)
-    .filter(t => t.length > 1 && !EVAL_STOP_WORDS.has(t));
+    .filter((t) => t.length > 1 && !EVAL_STOP_WORDS.has(t));
 
   if (!questionItem) {
     // 질문 메타데이터가 없는 일반 환경
@@ -1416,7 +1956,7 @@ function evaluateTopicRelevance(userInput, questionItem) {
       status: "moderate",
       statusLabel: "주제 연관",
       matchedKeywords: [],
-      feedback: "질문에 알맞게 답변을 이어가고 있습니다."
+      feedback: "질문에 알맞게 답변을 이어가고 있습니다.",
     };
   }
 
@@ -1425,55 +1965,105 @@ function evaluateTopicRelevance(userInput, questionItem) {
   const qTokens = qEnText
     .replace(/[^a-z0-9\s]/g, " ")
     .split(/\s+/)
-    .filter(t => t.length > 2 && !EVAL_STOP_WORDS.has(t));
+    .filter((t) => t.length > 2 && !EVAL_STOP_WORDS.has(t));
 
-  const directKeywords = (questionItem.keywords || []).map(k => k.toLowerCase().trim());
+  const directKeywords = (questionItem.keywords || []).map((k) =>
+    k.toLowerCase().trim(),
+  );
   const category = (questionItem.cat || "").toLowerCase();
 
   // 2. 카테고리 기반 토픽 어휘 풀 수집
   const topicPool = new Set([...qTokens, ...directKeywords]);
-  
-  if (category.includes("집") || category.includes("가구") || category.includes("인테리어")) {
-    TOPIC_VOCABULARY_MAP.home.forEach(w => topicPool.add(w));
+
+  if (
+    category.includes("집") ||
+    category.includes("가구") ||
+    category.includes("인테리어")
+  ) {
+    TOPIC_VOCABULARY_MAP.home.forEach((w) => topicPool.add(w));
   }
   if (category.includes("동네") || category.includes("이웃")) {
-    TOPIC_VOCABULARY_MAP.neighborhood.forEach(w => topicPool.add(w));
+    TOPIC_VOCABULARY_MAP.neighborhood.forEach((w) => topicPool.add(w));
   }
-  if (category.includes("여행") || category.includes("휴가") || category.includes("해외") || category.includes("국내")) {
-    TOPIC_VOCABULARY_MAP.travel.forEach(w => topicPool.add(w));
+  if (
+    category.includes("여행") ||
+    category.includes("휴가") ||
+    category.includes("해외") ||
+    category.includes("국내")
+  ) {
+    TOPIC_VOCABULARY_MAP.travel.forEach((w) => topicPool.add(w));
   }
   if (category.includes("호텔") || category.includes("숙소")) {
-    TOPIC_VOCABULARY_MAP.hotel.forEach(w => topicPool.add(w));
+    TOPIC_VOCABULARY_MAP.hotel.forEach((w) => topicPool.add(w));
   }
-  if (category.includes("공원") || category.includes("산책") || category.includes("자연")) {
-    TOPIC_VOCABULARY_MAP.park.forEach(w => topicPool.add(w));
+  if (
+    category.includes("공원") ||
+    category.includes("산책") ||
+    category.includes("자연")
+  ) {
+    TOPIC_VOCABULARY_MAP.park.forEach((w) => topicPool.add(w));
   }
-  if (category.includes("음악") || category.includes("콘서트") || category.includes("노래")) {
-    TOPIC_VOCABULARY_MAP.music.forEach(w => topicPool.add(w));
+  if (
+    category.includes("음악") ||
+    category.includes("콘서트") ||
+    category.includes("노래")
+  ) {
+    TOPIC_VOCABULARY_MAP.music.forEach((w) => topicPool.add(w));
   }
-  if (category.includes("영화") || category.includes("공연") || category.includes("배우")) {
-    TOPIC_VOCABULARY_MAP.movie.forEach(w => topicPool.add(w));
+  if (
+    category.includes("영화") ||
+    category.includes("공연") ||
+    category.includes("배우")
+  ) {
+    TOPIC_VOCABULARY_MAP.movie.forEach((w) => topicPool.add(w));
   }
-  if (category.includes("쇼핑") || category.includes("구매") || category.includes("매장")) {
-    TOPIC_VOCABULARY_MAP.shopping.forEach(w => topicPool.add(w));
+  if (
+    category.includes("쇼핑") ||
+    category.includes("구매") ||
+    category.includes("매장")
+  ) {
+    TOPIC_VOCABULARY_MAP.shopping.forEach((w) => topicPool.add(w));
   }
-  if (category.includes("식당") || category.includes("카페") || category.includes("음식") || category.includes("요리")) {
-    TOPIC_VOCABULARY_MAP.restaurant.forEach(w => topicPool.add(w));
+  if (
+    category.includes("식당") ||
+    category.includes("카페") ||
+    category.includes("음식") ||
+    category.includes("요리")
+  ) {
+    TOPIC_VOCABULARY_MAP.restaurant.forEach((w) => topicPool.add(w));
   }
-  if (category.includes("운동") || category.includes("헬스") || category.includes("조깅") || category.includes("자전거")) {
-    TOPIC_VOCABULARY_MAP.exercise.forEach(w => topicPool.add(w));
+  if (
+    category.includes("운동") ||
+    category.includes("헬스") ||
+    category.includes("조깅") ||
+    category.includes("자전거")
+  ) {
+    TOPIC_VOCABULARY_MAP.exercise.forEach((w) => topicPool.add(w));
   }
   if (category.includes("날씨") || category.includes("계절")) {
-    TOPIC_VOCABULARY_MAP.weather.forEach(w => topicPool.add(w));
+    TOPIC_VOCABULARY_MAP.weather.forEach((w) => topicPool.add(w));
   }
-  if (category.includes("롤플레이") || category.includes("질문") || category.includes("문의") || category.includes("문제")) {
-    TOPIC_VOCABULARY_MAP.roleplay.forEach(w => topicPool.add(w));
+  if (
+    category.includes("롤플레이") ||
+    category.includes("질문") ||
+    category.includes("문의") ||
+    category.includes("문제")
+  ) {
+    TOPIC_VOCABULARY_MAP.roleplay.forEach((w) => topicPool.add(w));
   }
-  if (category.includes("과거") || category.includes("기억") || category.includes("경험")) {
-    TOPIC_VOCABULARY_MAP.past_experience.forEach(w => topicPool.add(w));
+  if (
+    category.includes("과거") ||
+    category.includes("기억") ||
+    category.includes("경험")
+  ) {
+    TOPIC_VOCABULARY_MAP.past_experience.forEach((w) => topicPool.add(w));
   }
-  if (category.includes("루틴") || category.includes("습관") || category.includes("일과")) {
-    TOPIC_VOCABULARY_MAP.routine.forEach(w => topicPool.add(w));
+  if (
+    category.includes("루틴") ||
+    category.includes("습관") ||
+    category.includes("일과")
+  ) {
+    TOPIC_VOCABULARY_MAP.routine.forEach((w) => topicPool.add(w));
   }
 
   // 3. 사용자 발화와 주제 단어 풀 매칭
@@ -1511,7 +2101,8 @@ function evaluateTopicRelevance(userInput, questionItem) {
     relevanceScore = 95;
     status = "high";
     statusLabel = "🌟 주제 완벽 부합";
-    feedback = "질문의 핵심 주제와 완벽히 일치하며 관련 어휘를 풍부하게 사용했습니다.";
+    feedback =
+      "질문의 핵심 주제와 완벽히 일치하며 관련 어휘를 풍부하게 사용했습니다.";
   } else if (wordCount >= 3 && matchCount >= 2) {
     relevanceScore = 80;
     status = "moderate";
@@ -1521,7 +2112,8 @@ function evaluateTopicRelevance(userInput, questionItem) {
     relevanceScore = 55;
     status = "low";
     statusLabel = "⚠️ 연관성 다소 부족";
-    feedback = "질문과의 연관 어휘가 다소 부족합니다. 질문 속 핵심 단어들을 답변에 적극 활용해보세요.";
+    feedback =
+      "질문과의 연관 어휘가 다소 부족합니다. 질문 속 핵심 단어들을 답변에 적극 활용해보세요.";
   }
 
   return {
@@ -1529,7 +2121,7 @@ function evaluateTopicRelevance(userInput, questionItem) {
     status,
     statusLabel,
     matchedKeywords,
-    feedback
+    feedback,
   };
 }
 
@@ -1547,12 +2139,21 @@ function calculateComprehensiveOpicScore({
   if (!normUser) {
     return {
       finalScore: 0,
-      opicGrade: { grade: "IL", label: "🥉 IL (Intermediate Low)", gradeClass: "grade-il" },
+      opicGrade: {
+        grade: "IL",
+        label: "🥉 IL (Intermediate Low)",
+        gradeClass: "grade-il",
+      },
       volumeScore: 0,
-      topicRelevance: { relevanceScore: 0, status: "empty", statusLabel: "답변 없음", matchedKeywords: [] },
+      topicRelevance: {
+        relevanceScore: 0,
+        status: "empty",
+        statusLabel: "답변 없음",
+        matchedKeywords: [],
+      },
       feedback: "마이크를 누르고 영어로 나만의 답변을 자유롭게 말해보세요.",
       volumeCapApplied: false,
-      volumeWarning: null
+      volumeWarning: null,
     };
   }
 
@@ -1561,7 +2162,7 @@ function calculateComprehensiveOpicScore({
   const uniqueWords = new Set(userTokens).size;
   const sentenceCount = Math.max(
     1,
-    (userText.match(/[.!?]+/g) || []).length || Math.ceil(wordCount / 10)
+    (userText.match(/[.!?]+/g) || []).length || Math.ceil(wordCount / 10),
   );
 
   const foundConnectors = matchWordList(userText, OPIC_CONNECTORS);
@@ -1571,35 +2172,69 @@ function calculateComprehensiveOpicScore({
   // 1. 주제 적합도 분석
   const topicRelevance = evaluateTopicRelevance(userText, questionItem);
 
-  // 2. 발화량(Volume) 엄격한 점수 및 등급 상한선(Hard Cap)
-  // OPIc은 문단(Paragraph) 구성 능력을 측정하므로 단문(1문장/15단어 미만)은 AL/IH/IM 불가
-  let volumeScore = 35;
+  // 2. 실제 ACTFL OPIc 시험 기준 발화량(Volume) 및 문단(Paragraph) 다면 평가
+  // 실제 OPIc 시험 기준:
+  // - AL (Advanced Low): 14문장 이상 (130단어 이상, 1분 30초~2분) - 완전한 복수 문단 및 상세 서술
+  // - IH (Intermediate High): 10~13문장 (95~129단어, 1분 15초~1분 30초) - 유기적 문단 구성 + 시제/연결어
+  // - IM3 (Intermediate Mid 3): 8~9문장 (75~94단어, 약 1분 15초) - 준문단 구성
+  // - IM2 (Intermediate Mid 2): 6~7문장 (55~74단어, 약 1분) - 일상 묘사/루틴
+  // - IM1 (Intermediate Mid 1): 5~6문장 (35~54단어, 약 45초) - 단순 문장 결합
+  // - IL (Intermediate Low): 3~4문장 (19~34단어, 약 30초) - 단순 단문 나열
+  // - Novice / 미흡: 1~2문장 (18단어 미만, 20초 미만) - 단답형 / 파편화된 구문
+
+  const effectiveSentences = Math.max(
+    sentenceCount,
+    Math.round(wordCount / 9)
+  );
+
+  let volumeScore = 25;
   let volumeCapGrade = "IL";
-  let volumeCapMaxScore = 45;
+  let volumeCapMaxScore = 35;
   let volumeWarning = null;
   let volumeCapApplied = false;
 
-  if (wordCount < 15 || sentenceCount <= 1) {
-    volumeScore = 35;
+  if (wordCount < 19 || effectiveSentences <= 2) {
+    // Novice / 초미흡 (1~2문장)
+    volumeScore = 25;
     volumeCapGrade = "IL";
-    volumeCapMaxScore = 45;
+    volumeCapMaxScore = 35;
     volumeCapApplied = true;
-    volumeWarning = `⚠️ 발화량 부족 (단문 1문장 / ${wordCount}단어): OPIc 실전에서는 아무리 발음이 좋아도 1문장 답변은 IL(Intermediate Low) 이하로 엄격히 제한됩니다. 4~5문장 이상의 문단(Paragraph)을 완성해보세요!`;
-  } else if (wordCount < 28 || sentenceCount <= 2) {
+    volumeWarning = `⚠️ 발화량 현저히 부족 (1~2문장 / ${wordCount}단어): OPIc 실전에서는 1~2문장의 단답형 발화 시 아무리 발음이 좋아도 Novice~IL 등급에 머뭅니다. 최소 5~7문장 이상으로 답변을 확장해보세요! (실전 권장: AL 14문장+ / IH 10문장+ / IM 6~8문장)`;
+  } else if (wordCount < 35 || effectiveSentences <= 4) {
+    // IL (3~4문장, 19~34단어)
+    volumeScore = 45;
+    volumeCapGrade = "IL";
+    volumeCapMaxScore = 48;
+    volumeCapApplied = true;
+    volumeWarning = `🌱 초급 수준 발화량 (3~4문장 / ${wordCount}단어): 단순 단문 나열 수준(IL)입니다. IM 등급으로 도약하려면 이유('because')나 시간 순서('then, after that')를 덧붙여 5~7문장(35단어 이상)으로 늘려보세요.`;
+  } else if (wordCount < 55 || effectiveSentences <= 6) {
+    // IM1 (5~6문장, 35~54단어)
     volumeScore = 58;
     volumeCapGrade = "IM1";
-    volumeCapMaxScore = 65;
+    volumeCapMaxScore = 63;
     volumeCapApplied = true;
-    volumeWarning = `💡 문단 확장 필요 (2~3문장 / ${wordCount}단어): 기본 전달력은 양호하나 IH/AL 등급을 받기 위해 [이유, 생각, 구체적 예시]를 덧붙여 4문장 이상으로 확장해보세요.`;
-  } else if (wordCount < 40 || sentenceCount <= 3) {
-    volumeScore = 75;
+    volumeWarning = `🥉 IM1 수준 발화량 (5~6문장 / ${wordCount}단어): 기본 의사전달이 가능하나 문단 확장이 필요합니다. 'also, however' 등의 연결어를 사용해 7~9문장(55단어 이상)으로 답변을 확장해보세요.`;
+  } else if (wordCount < 75 || effectiveSentences <= 7) {
+    // IM2 (6~7문장, 55~74단어)
+    volumeScore = 68;
+    volumeCapGrade = "IM2";
+    volumeCapMaxScore = 74;
+    volumeCapApplied = true;
+    volumeWarning = `🥈 IM2 수준 발화량 (6~7문장 / ${wordCount}단어): 일상 대화 전달력이 안정적입니다. 과거 시제 경험이나 구체적인 에피소드를 덧붙여 8~9문장(75단어 이상)으로 확장하면 IM3~IH 도약이 가능합니다.`;
+  } else if (wordCount < 95 || effectiveSentences <= 9) {
+    // IM3 (8~9문장, 75~94단어)
+    volumeScore = 78;
     volumeCapGrade = "IM3";
-    volumeCapMaxScore = 78;
-  } else if (wordCount < 50 || sentenceCount <= 4) {
+    volumeCapMaxScore = 82;
+    volumeCapApplied = true;
+    volumeWarning = `🥈 IM3 수준 발화량 (8~9문장 / ${wordCount}단어): IH 등급 진입 직전입니다! 서론-본론-결론의 유기적인 문단 구조와 자연스러운 필러('you know, honestly')를 더해 10문장(95단어 이상)을 완성해보세요.`;
+  } else if (wordCount < 130 || effectiveSentences <= 13) {
+    // IH (10~13문장, 95~129단어)
     volumeScore = 88;
     volumeCapGrade = "IH";
-    volumeCapMaxScore = 88;
+    volumeCapMaxScore = 92;
   } else {
+    // AL (14문장 이상, 130단어 이상)
     volumeScore = 98;
     volumeCapGrade = "AL";
     volumeCapMaxScore = 100;
@@ -1617,14 +2252,16 @@ function calculateComprehensiveOpicScore({
   const speechScore = isAzure ? pronScore : 70;
   const discourseBonus = Math.min(
     100,
-    foundConnectors.length * 25 + foundFillers.length * 20 + foundPastVerbs.length * 15
+    foundConnectors.length * 25 +
+      foundFillers.length * 20 +
+      foundPastVerbs.length * 15,
   );
 
   const rawTotalScore = Math.round(
     speechScore * 0.35 +
-    volumeScore * 0.35 +
-    topicRelevance.relevanceScore * 0.20 +
-    discourseBonus * 0.10
+      volumeScore * 0.35 +
+      topicRelevance.relevanceScore * 0.2 +
+      discourseBonus * 0.1,
   );
 
   // 상한선(Hard Cap) 적용
@@ -1637,13 +2274,21 @@ function calculateComprehensiveOpicScore({
     gradeClass: "grade-il",
   };
 
-  if (finalScore >= 90 && volumeCapGrade === "AL" && topicRelevance.status !== "off-topic") {
+  if (
+    finalScore >= 90 &&
+    volumeCapGrade === "AL" &&
+    topicRelevance.status !== "off-topic"
+  ) {
     opicGrade = {
       grade: "AL",
       label: "🏆 AL (Advanced Low)",
       gradeClass: "grade-al",
     };
-  } else if (finalScore >= 80 && (volumeCapGrade === "AL" || volumeCapGrade === "IH") && topicRelevance.status !== "off-topic") {
+  } else if (
+    finalScore >= 80 &&
+    (volumeCapGrade === "AL" || volumeCapGrade === "IH") &&
+    topicRelevance.status !== "off-topic"
+  ) {
     opicGrade = {
       grade: "IH",
       label: "🥇 IH (Intermediate High)",
@@ -1655,13 +2300,19 @@ function calculateComprehensiveOpicScore({
       label: "🥈 IM3 (Intermediate Mid 3)",
       gradeClass: "grade-im",
     };
-  } else if (finalScore >= 60 && ["AL", "IH", "IM3", "IM2"].includes(volumeCapGrade)) {
+  } else if (
+    finalScore >= 60 &&
+    ["AL", "IH", "IM3", "IM2"].includes(volumeCapGrade)
+  ) {
     opicGrade = {
       grade: "IM2",
       label: "🥈 IM2 (Intermediate Mid 2)",
       gradeClass: "grade-im",
     };
-  } else if (finalScore >= 50 && ["AL", "IH", "IM3", "IM2", "IM1"].includes(volumeCapGrade)) {
+  } else if (
+    finalScore >= 50 &&
+    ["AL", "IH", "IM3", "IM2", "IM1"].includes(volumeCapGrade)
+  ) {
     opicGrade = {
       grade: "IM1",
       label: "🥈 IM1 (Intermediate Mid 1)",
@@ -1682,13 +2333,17 @@ function calculateComprehensiveOpicScore({
   } else if (volumeWarning) {
     feedback = volumeWarning;
   } else if (opicGrade.grade === "AL") {
-    feedback = "🌟 탁월합니다! 풍부한 발화량, 자연스러운 연결어 및 담화 표지어 활용으로 완벽한 문단(Paragraph)을 구성했습니다. OPIc 최고 등급(AL) 수준입니다.";
+    feedback =
+      "🌟 탁월합니다! 풍부한 발화량, 자연스러운 연결어 및 담화 표지어 활용으로 완벽한 문단(Paragraph)을 구성했습니다. OPIc 최고 등급(AL) 수준입니다.";
   } else if (opicGrade.grade === "IH") {
-    feedback = "🥇 훌륭합니다! 문장들이 접속사로 매끄럽게 연결되며 안정적인 문단을 형성하고 있습니다. OPIc IH 기준을 확실하게 충족합니다.";
+    feedback =
+      "🥇 훌륭합니다! 문장들이 접속사로 매끄럽게 연결되며 안정적인 문단을 형성하고 있습니다. OPIc IH 기준을 확실하게 충족합니다.";
   } else if (opicGrade.grade.startsWith("IM")) {
-    feedback = "👍 좋습니다! 핵심 의사전달이 명확합니다. 'because, when, also' 같은 논리 연결어와 과거 경험을 1~2문장 더 덧붙이면 IH/AL로 즉시 도약할 수 있습니다.";
+    feedback =
+      "👍 좋습니다! 핵심 의사전달이 명확합니다. 'because, when, also' 같은 논리 연결어와 과거 경험을 1~2문장 더 덧붙이면 IH/AL로 즉시 도약할 수 있습니다.";
   } else {
-    feedback = "🌱 답변 분량을 3~4문장 이상으로 늘리고, 질문 주제에 맞추어 이유나 느낌을 덧붙여보세요.";
+    feedback =
+      "🌱 답변 분량을 3~4문장 이상으로 늘리고, 질문 주제에 맞추어 이유나 느낌을 덧붙여보세요.";
   }
 
   return {
@@ -1738,23 +2393,29 @@ function evaluateOpicSpeaking(userInput, questionItem = null) {
 
   const tags = [];
   if (compResult.foundConnectors.length > 0) {
-    tags.push(`🔗 연결어(${compResult.foundConnectors.length}개): ${compResult.foundConnectors.slice(0, 4).join(", ")}`);
+    tags.push(
+      `🔗 연결어(${compResult.foundConnectors.length}개): ${compResult.foundConnectors.slice(0, 4).join(", ")}`,
+    );
   }
   if (compResult.foundFillers.length > 0) {
-    tags.push(`💬 필러(${compResult.foundFillers.length}개): ${compResult.foundFillers.slice(0, 3).join(", ")}`);
+    tags.push(
+      `💬 필러(${compResult.foundFillers.length}개): ${compResult.foundFillers.slice(0, 3).join(", ")}`,
+    );
   }
   if (compResult.foundPastVerbs.length > 0) {
-    tags.push(`⏳ 과거시제(${compResult.foundPastVerbs.length}개): ${compResult.foundPastVerbs.slice(0, 3).join(", ")}`);
+    tags.push(
+      `⏳ 과거시제(${compResult.foundPastVerbs.length}개): ${compResult.foundPastVerbs.slice(0, 3).join(", ")}`,
+    );
   }
 
   const topicBadgeColor =
     compResult.topicRelevance.status === "high"
       ? "#059669"
       : compResult.topicRelevance.status === "moderate"
-      ? "#4f46e5"
-      : compResult.topicRelevance.status === "low"
-      ? "#d97706"
-      : "#dc2626";
+        ? "#4f46e5"
+        : compResult.topicRelevance.status === "low"
+          ? "#d97706"
+          : "#dc2626";
 
   const statsHtml = `
     <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; padding: 10px 12px; background: var(--surface-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
@@ -1762,6 +2423,7 @@ function evaluateOpicSpeaking(userInput, questionItem = null) {
         <span>📝 발화 단어: <strong style="color: var(--text-main);">${compResult.wordCount}단어 (${compResult.uniqueWords}개 고유어)</strong></span>
         <span>📑 문장 수: <strong style="color: var(--text-main);">약 ${compResult.sentenceCount}문장</strong></span>
         <span>🎯 주제 적합도: <strong style="color: ${topicBadgeColor};">${escapeHtml(compResult.topicRelevance.statusLabel)}</strong></span>
+        <span style="font-size: 11px; color: var(--text-muted); background: var(--surface-default); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border-light);" title="ACTFL 실전 권장 발화량">📊 실전 기준: AL 130단어+ · IH 95단어+ · IM 55~85단어</span>
       </div>
       ${
         compResult.volumeWarning
@@ -1850,7 +2512,7 @@ async function renderPronunciationAssessment({
 
   function renderAzureResultUI(res) {
     const usage = getAzureMonthlyUsage();
-    
+
     // OPIc 모드일 경우 Azure 음향 지표 + 발화량 + 주제적합도를 결합한 실전 종합 점수 산출
     let compOpic = null;
     let finalGrade = res.opicGrade;
@@ -1885,20 +2547,26 @@ async function renderPronunciationAssessment({
         compOpic.topicRelevance.status === "high"
           ? "#059669"
           : compOpic.topicRelevance.status === "moderate"
-          ? "#4f46e5"
-          : compOpic.topicRelevance.status === "low"
-          ? "#d97706"
-          : "#dc2626";
+            ? "#4f46e5"
+            : compOpic.topicRelevance.status === "low"
+              ? "#d97706"
+              : "#dc2626";
 
       const tags = [];
       if (compOpic.foundConnectors.length > 0) {
-        tags.push(`🔗 연결어(${compOpic.foundConnectors.length}개): ${compOpic.foundConnectors.slice(0, 4).join(", ")}`);
+        tags.push(
+          `🔗 연결어(${compOpic.foundConnectors.length}개): ${compOpic.foundConnectors.slice(0, 4).join(", ")}`,
+        );
       }
       if (compOpic.foundFillers.length > 0) {
-        tags.push(`💬 필러(${compOpic.foundFillers.length}개): ${compOpic.foundFillers.slice(0, 3).join(", ")}`);
+        tags.push(
+          `💬 필러(${compOpic.foundFillers.length}개): ${compOpic.foundFillers.slice(0, 3).join(", ")}`,
+        );
       }
       if (compOpic.foundPastVerbs.length > 0) {
-        tags.push(`⏳ 과거시제(${compOpic.foundPastVerbs.length}개): ${compOpic.foundPastVerbs.slice(0, 3).join(", ")}`);
+        tags.push(
+          `⏳ 과거시제(${compOpic.foundPastVerbs.length}개): ${compOpic.foundPastVerbs.slice(0, 3).join(", ")}`,
+        );
       }
 
       opicStatsBar = `
@@ -1907,7 +2575,7 @@ async function renderPronunciationAssessment({
             <span>📝 발화 단어: <strong style="color: var(--text-main);">${wordsCount}단어</strong></span>
             <span>📑 문장 수: <strong style="color: var(--text-main);">약 ${compOpic.sentenceCount}문장</strong></span>
             <span>🎯 주제 적합도: <strong style="color: ${topicBadgeColor};">${escapeHtml(compOpic.topicRelevance.statusLabel)}</strong></span>
-            <span>⏱️ 평가: <strong style="color: #4f46e5;">OPIc 실전 종합 다면 채점</strong></span>
+            <span style="font-size: 11px; color: var(--text-muted); background: var(--surface-default); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border-light);" title="ACTFL 실전 권장 발화량">📊 실전 기준: AL 130단어+ · IH 95단어+ · IM 55~85단어</span>
           </div>
           ${
             compOpic.volumeWarning
@@ -1998,7 +2666,8 @@ async function renderPronunciationAssessment({
     wordsHtml += `</div></div>`;
 
     if (diffEl) diffEl.innerHTML = metricsHtml + wordsHtml;
-    if (feedbackEl) feedbackEl.textContent = compOpic ? compOpic.feedback : res.feedback;
+    if (feedbackEl)
+      feedbackEl.textContent = compOpic ? compOpic.feedback : res.feedback;
   }
 
   function renderLocalOpicResultUI(res) {
