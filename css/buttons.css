@@ -771,14 +771,26 @@ body.dark-theme #retrySameLink:hover {
 
 body.dark-theme button.google-ai-btn,
 body.dark-theme .google-ai-btn {
-  background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 50%, #3b0764 100%) !important;
+  background: linear-gradient(
+    135deg,
+    #1e1b4b 0%,
+    #2e1065 50%,
+    #3b0764 100%
+  ) !important;
   color: #c7d2fe !important;
   border-color: #4f46e5 !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 body.dark-theme button.google-ai-btn:hover,
 body.dark-theme .google-ai-btn:hover {
-  background: linear-gradient(135deg, #312e81 0%, #3b0764 50%, #4c0519 100%) !important;
+  background: linear-gradient(
+    135deg,
+    #312e81 0%,
+    #3b0764 50%,
+    #4c0519 100%
+  ) !important;
   border-color: #818cf8 !important;
   color: #ffffff !important;
 }
@@ -806,4 +818,3 @@ body.dark-theme .settings-trigger-btn:hover {
   border-color: #6366f1;
   color: #f9fafb;
 }
-
