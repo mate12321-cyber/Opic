@@ -330,7 +330,8 @@ function navigateTo(screen, params = {}, pushHistory = true) {
     const isSame =
       currentState &&
       currentState.screen === screen &&
-      JSON.stringify(currentState.params || {}) === JSON.stringify(params || {});
+      JSON.stringify(currentState.params || {}) ===
+        JSON.stringify(params || {});
     if (!isSame) {
       window.history.pushState({ screen, params }, "", "");
     }
@@ -403,7 +404,11 @@ function navigateTo(screen, params = {}, pushHistory = true) {
     case "patternCard":
       if (els.patternCard) {
         els.patternCard.style.display = "block";
-        if (params && typeof params.idx === "number" && typeof patternCur !== "undefined") {
+        if (
+          params &&
+          typeof params.idx === "number" &&
+          typeof patternCur !== "undefined"
+        ) {
           patternCur = params.idx;
           if (typeof patternVarCur !== "undefined") patternVarCur = 0;
         }
@@ -415,7 +420,11 @@ function navigateTo(screen, params = {}, pushHistory = true) {
       const fCard = document.getElementById("fillerCard");
       if (fCard) {
         fCard.style.display = "block";
-        if (params && typeof params.targetIdx === "number" && typeof fillerCur !== "undefined") {
+        if (
+          params &&
+          typeof params.targetIdx === "number" &&
+          typeof fillerCur !== "undefined"
+        ) {
           fillerCur = params.targetIdx;
         }
         if (typeof renderFillerCard === "function") renderFillerCard();

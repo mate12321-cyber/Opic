@@ -54,7 +54,7 @@ function selectPattern(idx) {
     patternCur = parsed;
   }
   patternVarCur = 0;
-  showPatternCard();
+  showPatternCard(patternCur);
 }
 window.selectPattern = selectPattern;
 

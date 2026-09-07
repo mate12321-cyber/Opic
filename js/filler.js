@@ -57,7 +57,11 @@ async function saveFillerProgress() {
 
 // 필러 화면 열기
 function showFillerScreen(targetIdx = 0, pushHistory = true) {
-  if (typeof targetIdx === "number" && targetIdx >= 0 && targetIdx < (FILLER_ITEMS.length || 16)) {
+  if (
+    typeof targetIdx === "number" &&
+    targetIdx >= 0 &&
+    targetIdx < (FILLER_ITEMS.length || 16)
+  ) {
     fillerCur = targetIdx;
   }
   if (typeof navigateTo === "function") {
@@ -94,8 +98,10 @@ function renderFillerCard() {
   // 1. 상단 메타 라벨
   const catLabel = document.getElementById("fillerCatLabel");
   const idxLabel = document.getElementById("fillerIdxLabel");
-  if (catLabel) catLabel.textContent = `${f.categoryIcon || "💬"} ${f.categoryName || "필러 훈련"}`;
-  if (idxLabel) idxLabel.textContent = `${String(fillerCur + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+  if (catLabel)
+    catLabel.textContent = `${f.categoryIcon || "💬"} ${f.categoryName || "필러 훈련"}`;
+  if (idxLabel)
+    idxLabel.textContent = `${String(fillerCur + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
 
   // 2. 상단 빠른 이동 칩 바 렌더링
   const chipsContainer = document.getElementById("fillerSwitcherChips");
@@ -103,7 +109,10 @@ function renderFillerCard() {
     chipsContainer.innerHTML = FILLER_ITEMS.map((item, idx) => {
       const isActive = idx === fillerCur;
       const isDone = !!fillerProgress[item.id];
-      const shortPhrase = item.phrase.split("/")[0].replace(/[\.\.\.]/g, "").trim();
+      const shortPhrase = item.phrase
+        .split("/")[0]
+        .replace(/[\.\.\.]/g, "")
+        .trim();
       return `
         <button
           type="button"
@@ -122,7 +131,11 @@ function renderFillerCard() {
     setTimeout(() => {
       const activeChip = chipsContainer.querySelector(".filler-chip.active");
       if (activeChip) {
-        activeChip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        activeChip.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
       }
     }, 50);
   }
@@ -134,7 +147,8 @@ function renderFillerCard() {
   const masterBtn = document.getElementById("fillerMasterMainBtn");
   const ttsBtn = document.getElementById("fillerTtsMainBtn");
 
-  if (phraseEl) phraseEl.innerHTML = `<span>${f.categoryIcon || "💬"} ${escapeFillerHtml(f.phrase)}</span>`;
+  if (phraseEl)
+    phraseEl.innerHTML = `<span>${f.categoryIcon || "💬"} ${escapeFillerHtml(f.phrase)}</span>`;
   if (pronounceEl) pronounceEl.textContent = f.pronunciation || "";
   if (meaningEl) meaningEl.textContent = f.meaning || "";
 
@@ -152,7 +166,8 @@ function renderFillerCard() {
   // 4. 💡 사용 시점 & 타이밍 가이드
   const timingBody = document.getElementById("fillerTimingBody");
   if (timingBody) {
-    timingBody.textContent = f.timingGuide || "자연스러운 호흡과 생각 시간을 벌 때 사용합니다.";
+    timingBody.textContent =
+      f.timingGuide || "자연스러운 호흡과 생각 시간을 벌 때 사용합니다.";
   }
 
   // 5. 🍯 꿀팁 박스
@@ -170,9 +185,10 @@ function renderFillerCard() {
   // 6. 🗣️ 실전 OPIc 활용 예문
   const examplesList = document.getElementById("fillerExamplesList");
   if (examplesList && f.examples) {
-    examplesList.innerHTML = f.examples.map((ex) => {
-      const highlightedEn = highlightFillerWords(ex.en, f.phrase);
-      return `
+    examplesList.innerHTML = f.examples
+      .map((ex) => {
+        const highlightedEn = highlightFillerWords(ex.en, f.phrase);
+        return `
         <div class="filler-ex-card">
           ${ex.context ? `<span class="filler-ex-tag">📌 ${escapeFillerHtml(ex.context)}</span>` : ""}
           <div class="filler-ex-en-row">
@@ -189,7 +205,8 @@ function renderFillerCard() {
           <div class="filler-ex-ko">${escapeFillerHtml(ex.ko)}</div>
         </div>
       `;
-    }).join("");
+      })
+      .join("");
   }
 
   // 7. 🎤 따라 말하기 STT 영역 초기화
@@ -260,7 +277,11 @@ function prevFiller() {
 
 // 특정 인덱스 필러 선택
 function selectFiller(idx) {
-  if (typeof idx === "number" && idx >= 0 && idx < (FILLER_ITEMS.length || 16)) {
+  if (
+    typeof idx === "number" &&
+    idx >= 0 &&
+    idx < (FILLER_ITEMS.length || 16)
+  ) {
     fillerCur = idx;
     renderFillerCard();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -284,7 +305,7 @@ async function toggleCurrentFillerMaster() {
 function highlightFillerWords(text, phrase) {
   if (!text) return "";
   let cleanText = escapeFillerHtml(text);
-  
+
   const phrases = phrase
     .split("/")
     .map((p) => p.replace(/[\.\.\.]/g, "").trim())
@@ -310,7 +331,9 @@ function playFillerTTS(text, btn = null) {
 // 현재 보고 있는 필러 발음 재생 (단축키 Space용)
 function playCurrentFillerTTS() {
   if (!FILLER_ITEMS || !FILLER_ITEMS[fillerCur]) return;
-  const cleanPhrase = FILLER_ITEMS[fillerCur].phrase.replace(/[\.\.\.\/]/g, "").trim();
+  const cleanPhrase = FILLER_ITEMS[fillerCur].phrase
+    .replace(/[\.\.\.\/]/g, "")
+    .trim();
   const ttsBtn = document.getElementById("fillerTtsMainBtn");
   playFillerTTS(cleanPhrase, ttsBtn);
 }
@@ -329,7 +352,8 @@ function toggleFillerMic(fillerId, targetPhrase) {
     return;
   }
 
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
     if (sttBox) {
       sttBox.innerHTML = `<span style="color: var(--danger); font-size: 13px;">❌ 브라우저가 음성 인식을 지원하지 않습니다. (Chrome 추천)</span>`;
@@ -437,7 +461,9 @@ function evaluateFillerSpeech(spokenText, targetPhrase, feedbackEl, fillerId) {
       // 상단 칩 갱신
       const chipsContainer = document.getElementById("fillerSwitcherChips");
       if (chipsContainer) {
-        const currentChip = chipsContainer.querySelector(`[data-fidx="${fillerCur}"]`);
+        const currentChip = chipsContainer.querySelector(
+          `[data-fidx="${fillerCur}"]`,
+        );
         if (currentChip && !currentChip.querySelector(".filler-chip-check")) {
           const checkSpan = document.createElement("span");
           checkSpan.className = "filler-chip-check";
