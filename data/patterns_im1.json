@@ -2,153 +2,153 @@
   {
     "id": "pat_01",
     "name": "장소 & 선호 묘사 만능 템플릿",
-    "category": "집 앞 카페, 아름드리 공원, 아파트 헬스장, 드라이브 코스 등",
+    "category": "집 앞 카페, 아름드리 공원, 아파트 헬스장, 근교 드라이브 등",
     "icon": "🏠",
-    "desc": "어떤 장소나 선호하는 대상을 묘사하라는 질문이 나왔을 때, 6개 문장 뼈대에 장소명과 특징 단어만 갈아끼워 완벽하게 답변하는 패턴입니다.",
+    "desc": "어떤 장소나 선호 대상을 묘사하라는 질문이 나왔을 때, 6개 문장 뼈대에 1~2개 단어만 갈아끼워 완벽하게 답변하는 만능 공식입니다.",
     "skeleton": [
       {
         "en": "1. Whenever I think of [주제/분야], there is a special place I really love called [장소명].",
-        "ko": "[주제/분야]를 생각할 때마다, 제가 정말 좋아하는 [장소명]이라는 특별한 장소가 있어요."
+        "ko": "1. [주제/분야]를 생각할 때마다, 제가 정말 좋아하는 [장소명]이라는 특별한 장소가 있어요."
       },
       {
         "en": "2. It is located [위치/거리], so it is super easy to get there.",
-        "ko": "[위치/거리]에 위치해 있어서 찾아가기가 정말 편합니다."
+        "ko": "2. [위치/거리]에 위치해 있어서 찾아가기가 정말 편합니다."
       },
       {
-        "en": "3. Inside the place, the vibe is very clean, cozy, and modern.",
-        "ko": "그곳 내부는 분위기가 매우 깨끗하고 아늑하며 현대적이에요."
+        "en": "3. Inside the place, the vibe is very clean, cozy, and peaceful.",
+        "ko": "3. 그곳 내부는 분위기가 매우 깨끗하고 아늑하며 평화로워요."
       },
       {
-        "en": "4. There are [주요 시설/특징], so people can gather and relax comfortably.",
-        "ko": "[주요 시설/특징]이 갖춰져 있어서 사람들이 편안하게 모여 쉴 수 있습니다."
+        "en": "4. There are [핵심 특징 1] and [핵심 특징 2], so people can relax comfortably.",
+        "ko": "4. [핵심 특징 1]과 [핵심 특징 2]가 있어서 사람들이 편안하게 쉴 수 있습니다."
       },
       {
-        "en": "5. What I love most about this place is that it helps me relieve all my stress.",
-        "ko": "이곳에서 가장 마음에 드는 점은 모든 스트레스를 해소하는 데 큰 도움이 된다는 것입니다."
+        "en": "5. What I love most about this place is that [핵심 활동] helps me relieve all my stress.",
+        "ko": "5. 이곳에서 가장 마음에 드는 점은 [핵심 활동]이 모든 스트레스를 푸는 데 큰 도움이 된다는 것입니다."
       },
       {
         "en": "6. Overall, it is really my favorite place, and I always feel happy whenever I go there.",
-        "ko": "전반적으로 이곳은 제가 가장 좋아하는 장소이며, 갈 때마다 항상 행복해요."
+        "ko": "6. 전반적으로 이곳은 제가 가장 좋아하는 장소이며, 갈 때마다 항상 행복해요."
       }
     ],
     "variations": [
       {
         "topic": "☕ 카페",
-        "keyword": "Starbucks & Twosome in Buldang-dong",
+        "keyword": "Starbucks in Buldang-dong",
         "sentences": [
           {
-            "en": "Whenever I think of cafes, there are special places I really love called Starbucks and A Twosome Place in front of my apartment.",
-            "ko": "카페를 생각할 때마다, 제 아파트 바로 앞에 있는 스타벅스와 투썸플레이스라는 특별한 장소가 생각나요."
+            "en": "Whenever I think of cafes, there is a special place I really love called Starbucks in Buldang-dong.",
+            "ko": "카페를 생각할 때마다, 제가 정말 좋아하는 불당동 스타벅스라는 특별한 장소가 있어요."
           },
           {
-            "en": "They are located just a two-minute walk from my home in Buldang-dong, so it is super easy to get there.",
-            "ko": "불당동 집에서 걸어서 2분 거리에 위치해 있어서 찾아가기가 정말 편합니다."
+            "en": "It is located right near my apartment, so it is super easy to get there.",
+            "ko": "제 아파트 바로 근처에 위치해 있어서 찾아가기가 정말 편합니다."
           },
           {
-            "en": "Inside the cafe, the vibe is very clean, cozy, and modern.",
-            "ko": "카페 내부는 분위기가 매우 깨끗하고 아늑하며 현대적이에요."
+            "en": "Inside the place, the vibe is very clean, cozy, and peaceful.",
+            "ko": "그곳 내부는 분위기가 매우 깨끗하고 아늑하며 평화로워요."
           },
           {
-            "en": "There are large windows with warm sunlight and comfortable seats where I can relax with my wife.",
-            "ko": "따스한 햇살이 들어오는 큰 창문과 아내와 함께 편히 쉴 수 있는 편안한 좌석들이 마련되어 있습니다."
+            "en": "There are large windows and comfortable seats, so people can relax comfortably.",
+            "ko": "큰 창문과 편안한 좌석이 마련되어 있어서 사람들이 편안하게 쉴 수 있습니다."
           },
           {
-            "en": "What I love most about this place is that drinking coffee helps me relieve all my work stress.",
-            "ko": "이곳에서 가장 좋은 점은 커피를 마시며 회사 업무 스트레스를 말끔히 풀 수 있다는 것입니다."
+            "en": "What I love most about this place is that drinking iced coffee helps me relieve all my stress.",
+            "ko": "이곳에서 가장 마음에 드는 점은 아이스 커피를 마시는 것이 모든 스트레스를 푸는 데 큰 도움이 된다는 것입니다."
           },
           {
-            "en": "Overall, it is really my favorite cafe spot, and I always feel happy whenever I visit there.",
-            "ko": "전반적으로 이곳은 제가 가장 좋아하는 카페 공간이며, 방문할 때마다 항상 행복해요."
+            "en": "Overall, it is really my favorite place, and I always feel happy whenever I go there.",
+            "ko": "전반적으로 이곳은 제가 가장 좋아하는 장소이며, 갈 때마다 항상 행복해요."
           }
         ]
       },
       {
         "topic": "🌳 공원",
-        "keyword": "Areumdri Park right in front of apartment",
+        "keyword": "Areumdri Park across the street",
         "sentences": [
           {
-            "en": "Whenever I think of parks, there is a special place I really love called Areumdri Park right in front of my apartment.",
-            "ko": "공원을 생각할 때마다, 제 아파트 바로 앞에 있는 아름드리 공원이라는 특별한 장소가 생각나요."
+            "en": "Whenever I think of parks, there is a special place I really love called Areumdri Park.",
+            "ko": "공원을 생각할 때마다, 제가 정말 좋아하는 아름드리 공원이라는 특별한 장소가 있어요."
           },
           {
-            "en": "It is located just across the street from my home, so it is super easy to get there anytime.",
-            "ko": "집 바로 길 건너편에 위치해 있어서 언제든지 찾아가기가 정말 편합니다."
+            "en": "It is located just across the street, so it is super easy to get there.",
+            "ko": "바로 길 건너편에 위치해 있어서 찾아가기가 정말 편합니다."
           },
           {
-            "en": "Inside the park, the vibe is very clean, peaceful, and green.",
-            "ko": "공원 내부는 분위기가 매우 깨끗하고 평화로우며 푸르릅니다."
+            "en": "Inside the place, the vibe is very clean, cozy, and peaceful.",
+            "ko": "그곳 내부는 분위기가 매우 깨끗하고 아늑하며 평화로워요."
           },
           {
-            "en": "There are well-maintained walking trails, tall green trees, and benches where people can rest.",
-            "ko": "잘 가꿔진 산책로와 푸른 나무들, 사람들이 쉴 수 있는 벤치들이 잘 조성되어 있어요."
+            "en": "There are tall green trees and nice walking trails, so people can relax comfortably.",
+            "ko": "키 큰 푸른 나무들과 멋진 산책로가 있어서 사람들이 편안하게 쉴 수 있습니다."
           },
           {
-            "en": "What I love most about this park is that taking a walk helps me breathe fresh air and clear my head.",
-            "ko": "이 공원에서 가장 좋은 점은 산책하며 맑은 공기를 마시고 머리를 식힐 수 있다는 것입니다."
+            "en": "What I love most about this place is that taking a fresh walk helps me relieve all my stress.",
+            "ko": "이곳에서 가장 마음에 드는 점은 상쾌한 산책을 하는 것이 모든 스트레스를 푸는 데 큰 도움이 된다는 것입니다."
           },
           {
-            "en": "Overall, it is really my favorite park, and I always feel refreshed whenever I go there with my wife.",
-            "ko": "전반적으로 이곳은 제가 가장 좋아하는 공원이며, 아내와 함께 갈 때마다 항상 상쾌함을 느낍니다."
+            "en": "Overall, it is really my favorite place, and I always feel happy whenever I go there.",
+            "ko": "전반적으로 이곳은 제가 가장 좋아하는 장소이며, 갈 때마다 항상 행복해요."
           }
         ]
       },
       {
         "topic": "🏋️ 헬스장",
-        "keyword": "gym in my apartment complex",
+        "keyword": "community gym in apartment complex",
         "sentences": [
           {
-            "en": "Whenever I think of working out, there is a special place I really love called the fitness center in my apartment complex.",
-            "ko": "운동을 생각할 때마다, 제가 정말 좋아하는 아파트 단지 내 헬스장이라는 특별한 장소가 생각나요."
+            "en": "Whenever I think of working out, there is a special place I really love called our community gym.",
+            "ko": "운동을 생각할 때마다, 제가 정말 좋아하는 우리 아파트 헬스장이라는 특별한 장소가 있어요."
           },
           {
-            "en": "It is located right downstairs in our community building, so it is super easy and convenient to access.",
-            "ko": "아파트 커뮤니티 건물 바로 아래층에 위치해 있어서 이용하기가 정말 쉽고 편리합니다."
+            "en": "It is located in our apartment building, so it is super easy to get there.",
+            "ko": "우리 아파트 단지 안에 위치해 있어서 찾아가기가 정말 편합니다."
           },
           {
-            "en": "Inside the fitness center, the vibe is very clean, bright, and energetic.",
-            "ko": "헬스장 내부는 분위기가 매우 깨끗하고 밝으며 활기가 넘쳐요."
+            "en": "Inside the place, the vibe is very clean, bright, and modern.",
+            "ko": "그곳 내부는 분위기가 매우 깨끗하고 밝으며 현대적이에요."
           },
           {
-            "en": "There are modern weight machines, clean treadmills, and stretching zones for residents.",
-            "ko": "입주민들을 위한 최신 웨이트 기구들과 깨끗한 러닝머신, 스트레칭 존이 잘 갖춰져 있습니다."
+            "en": "There are modern machines and clean stretching zones, so people can exercise comfortably.",
+            "ko": "최신 운동 기구들과 깨끗한 스트레칭 구역이 있어서 사람들이 편안하게 운동할 수 있습니다."
           },
           {
-            "en": "What I love most about this gym is that it helps me stay in good shape and boost my stamina after work.",
-            "ko": "이 헬스장에서 가장 좋은 점은 퇴근 후 좋은 체력을 유지하고 건강을 챙길 수 있다는 것입니다."
+            "en": "What I love most about this place is that lifting weights helps me relieve all my stress.",
+            "ko": "이곳에서 가장 마음에 드는 점은 웨이트 트레이닝을 하는 것이 모든 스트레스를 푸는 데 큰 도움이 된다는 것입니다."
           },
           {
-            "en": "Overall, it is really my favorite place to work out, and I always feel energized there.",
-            "ko": "전반적으로 이곳은 제가 운동하기 가장 좋아하는 장소이며, 갈 때마다 항상 활력을 얻습니다."
+            "en": "Overall, it is really my favorite place, and I always feel happy whenever I go there.",
+            "ko": "전반적으로 이곳은 제가 가장 좋아하는 장소이며, 갈 때마다 항상 행복해요."
           }
         ]
       },
       {
         "topic": "🚗 드라이브",
-        "keyword": "scenic countryside drive with wife",
+        "keyword": "scenic countryside drive route",
         "sentences": [
           {
-            "en": "Whenever I think of relaxation, there is a special activity I really love called going for a scenic drive with my wife.",
-            "ko": "휴식을 생각할 때마다, 아내와 함께 경치 좋은 곳으로 드라이브를 떠나는 특별한 시간을 정말 좋아해요."
+            "en": "Whenever I think of relaxation, there is a special route I really love called the countryside drive course.",
+            "ko": "힐링을 생각할 때마다, 제가 정말 좋아하는 시골길 드라이브 코스라는 특별한 코스가 있어요."
           },
           {
-            "en": "We usually drive around the scenic countryside roads near Cheonan, so it is easy to reach within thirty minutes.",
-            "ko": "보통 천안 근교의 경치 좋은 시골길 드라이브 코스를 달리는데, 30분 이내로 쉽게 갈 수 있습니다."
+            "en": "It is located near Cheonan, so it is super easy to get there.",
+            "ko": "천안 근교에 위치해 있어서 찾아가기가 정말 편합니다."
           },
           {
-            "en": "Along the route, the vibe is very peaceful, open, and refreshing.",
-            "ko": "드라이브 코스를 따라 펼쳐지는 분위기는 매우 평화롭고 탁 트여 있으며 상쾌해요."
+            "en": "Inside the car, the vibe is very clean, cozy, and peaceful.",
+            "ko": "차 안 분위기는 매우 쾌적하고 아늑하며 평화로워요."
           },
           {
-            "en": "There are beautiful natural views and cozy cafes where we can stop for a cup of tea.",
-            "ko": "아름다운 자연 풍경과 차 한잔 마시며 쉬어갈 수 있는 아늑한 카페들이 있습니다."
+            "en": "There are scenic views and open quiet roads, so people can relax comfortably.",
+            "ko": "멋진 풍경과 탁 트인 한적한 도로가 있어서 편안하게 쉴 수 있습니다."
           },
           {
-            "en": "What I love most about driving is that listening to good music in the car relieves all my stress.",
-            "ko": "드라이브에서 가장 좋은 점은 차 안에서 좋은 음악을 들으며 모든 스트레스를 날려버릴 수 있다는 것입니다."
+            "en": "What I love most about this place is that listening to good music helps me relieve all my stress.",
+            "ko": "이 코스에서 가장 마음에 드는 점은 좋은 음악을 듣는 것이 모든 스트레스를 푸는 데 큰 도움이 된다는 것입니다."
           },
           {
-            "en": "Overall, it is really my favorite weekend getaway, and we always create happy memories together.",
-            "ko": "전반적으로 이것은 제가 가장 좋아하는 주말 힐링이며, 언제나 함께 행복한 추억을 만듭니다."
+            "en": "Overall, it is really my favorite route, and I always feel happy whenever I go there.",
+            "ko": "전반적으로 이곳은 제가 가장 좋아하는 코스이며, 갈 때마다 항상 행복해요."
           }
         ]
       }
@@ -157,153 +157,153 @@
   {
     "id": "pat_02",
     "name": "일상 & 활동 루틴 만능 템플릿",
-    "category": "카페 일과, 아름드리 공원 산책, 주말 요리, 저녁 코딩 & 휴식 등",
+    "category": "카페 일과, 아름드리 공원 산책, 주말 요리, 취미 코딩 등",
     "icon": "⏰",
-    "desc": "주말이나 평소에 무엇을 하는지 일과/루틴을 묻는 질문에 처음부터 끝까지 시간 순서대로 막힘없이 전개하는 패턴입니다.",
+    "desc": "주말이나 평소에 무엇을 하는지 일과/루틴을 묻는 질문에 처음부터 끝까지 시간 순서대로 1~2단어만 바꿔 막힘없이 전개하는 패턴입니다.",
     "skeleton": [
       {
-        "en": "1. Usually, whenever I have some free time on weekends, I love to [주제 활동].",
-        "ko": "보통 주말에 여유 시간이 생길 때마다, 저는 [주제 활동]하는 것을 아주 좋아해요."
+        "en": "1. Usually, whenever I have free time on weekends, I love to [활동/일과].",
+        "ko": "1. 보통 주말에 여유 시간이 생길 때마다, 저는 [활동/일과]하는 것을 정말 좋아해요."
       },
       {
-        "en": "2. First of all, I put on comfortable clothes and head out to [장소].",
-        "ko": "우선 편한 옷을 입고 [장소]로 향합니다."
+        "en": "2. First of all, I put on comfortable clothes and head to [장소].",
+        "ko": "2. 우선 편안한 옷을 입고 [장소]로 향합니다."
       },
       {
-        "en": "3. When I arrive there, I usually [핵심 행동 1 (주문 / 걷기 / 운동 / 요리)].",
-        "ko": "그곳에 도착하면 보통 [핵심 행동 1]을 합니다."
+        "en": "3. When I arrive there, I usually [핵심 행동 1].",
+        "ko": "3. 그곳에 도착하면, 저는 보통 [핵심 행동 1]을 합니다."
       },
       {
-        "en": "4. While doing that, I also enjoy [핵심 행동 2 (유튜브 / 음악 감상 / 대화)].",
-        "ko": "그것을 하면서 동시에 [핵심 행동 2]를 즐겨요."
+        "en": "4. While doing that, I also really enjoy [핵심 행동 2].",
+        "ko": "4. 그것을 하면서, 저는 동시에 [핵심 행동 2]를 즐겨요."
       },
       {
-        "en": "5. After spending about one or two hours there, I feel totally relaxed and recharged.",
-        "ko": "그곳에서 1~2시간 정도 시간을 보내고 나면 완전히 편안해지고 재충전됩니다."
+        "en": "5. After spending about one or two hours there, I feel totally relaxed and refreshed.",
+        "ko": "5. 그곳에서 1~2시간 정도 시간을 보내고 나면, 완전히 편안해지고 재충전돼요."
       },
       {
-        "en": "6. It is the best way for me to relieve stress after a busy week, so I do it on a regular basis.",
-        "ko": "바쁜 한 주를 보낸 뒤 스트레스를 풀기에 가장 좋은 방법이라 정기적으로 하고 있어요."
+        "en": "6. It is the best way for me to relieve stress, so I do it on a regular basis.",
+        "ko": "6. 스트레스를 풀기에 가장 좋은 방법이라서, 저는 정기적으로 이것을 합니다."
       }
     ],
     "variations": [
       {
         "topic": "☕ 카페",
-        "keyword": "Starbucks in Buldang-dong with wife",
+        "keyword": "visit Starbucks with wife",
         "sentences": [
           {
-            "en": "Usually, whenever I have some free time on weekends, I love to visit Starbucks in front of my apartment with my wife.",
-            "ko": "보통 주말에 여유 시간이 생길 때마다, 저는 아내와 함께 집 앞 스타벅스를 찾는 것을 좋아해요."
+            "en": "Usually, whenever I have free time on weekends, I love to visit a local cafe with my wife.",
+            "ko": "보통 주말에 여유 시간이 생길 때마다, 저는 아내와 집 앞 카페를 찾는 것을 정말 좋아해요."
           },
           {
-            "en": "First of all, we put on casual clothes and walk to the cafe just across the street.",
-            "ko": "우선 편한 옷을 입고 바로 길 건너 카페로 걸어갑니다."
+            "en": "First of all, I put on comfortable clothes and head to Starbucks.",
+            "ko": "우선 편안한 옷을 입고 스타벅스로 향합니다."
           },
           {
-            "en": "When we arrive there, I usually order an iced Americano and find a quiet table by the window.",
-            "ko": "도착하면 보통 아이스 아메리카노를 주문하고 창가의 조용한 테이블에 자리를 잡아요."
+            "en": "When I arrive there, I usually order an iced Americano and find a seat.",
+            "ko": "그곳에 도착하면, 저는 보통 아이스 아메리카노를 주문하고 자리를 잡습니다."
           },
           {
-            "en": "While drinking our coffee, we enjoy talking about our week or listening to soft music together.",
-            "ko": "커피를 마시면서 한 주 동안 있었던 이야기를 도란도란 나누거나 잔잔한 음악을 함께 감상합니다."
+            "en": "While doing that, I also really enjoy talking about our week.",
+            "ko": "커피를 마시면서, 저는 동시에 한 주 동안의 이야기를 나누는 것을 즐겨요."
           },
           {
-            "en": "After spending about an hour or two there, I feel totally relaxed and recharged.",
-            "ko": "그곳에서 한두 시간 정도 시간을 보내고 나면 완전히 편안해지고 재충전돼요."
+            "en": "After spending about one or two hours there, I feel totally relaxed and refreshed.",
+            "ko": "그곳에서 1~2시간 정도 시간을 보내고 나면, 완전히 편안해지고 재충전돼요."
           },
           {
-            "en": "It is the best way for me to relieve stress after a busy work week, so we do it regularly.",
-            "ko": "바쁜 업무 주간 끝에 스트레스를 풀기에 가장 좋은 방법이라 정기적으로 방문합니다."
+            "en": "It is the best way for me to relieve stress, so I do it on a regular basis.",
+            "ko": "스트레스를 풀기에 가장 좋은 방법이라서, 저는 정기적으로 이것을 합니다."
           }
         ]
       },
       {
         "topic": "🚶 공원 산책",
-        "keyword": "walking & listening to Roy Kim or Beatles",
+        "keyword": "walk in Areumdri Park",
         "sentences": [
           {
-            "en": "Usually, whenever I have some free time in the evening, I love to take a walk in Areumdri Park.",
-            "ko": "보통 저녁에 여유 시간이 생길 때마다, 저는 집 앞 아름드리 공원에서 산책하는 것을 좋아해요."
+            "en": "Usually, whenever I have free time in the evening, I love to take a walk in the park.",
+            "ko": "보통 저녁에 여유 시간이 생길 때마다, 저는 공원에서 산책하는 것을 정말 좋아해요."
           },
           {
-            "en": "First of all, I put on comfortable sneakers and grab my wireless earphones.",
-            "ko": "우선 편안한 운동화를 신고 무선 이어폰을 챙깁니다."
+            "en": "First of all, I put on comfortable clothes and head to Areumdri Park.",
+            "ko": "우선 편안한 옷을 입고 아름드리 공원으로 향합니다."
           },
           {
-            "en": "When I arrive at the park, I walk along the walking trails at a nice, steady pace.",
-            "ko": "공원에 도착하면 기분 좋은 속도로 산책로를 따라 천천히 걷습니다."
+            "en": "When I arrive there, I usually walk along the quiet trails.",
+            "ko": "그곳에 도착하면, 저는 보통 한적한 산책로를 따라 걷습니다."
           },
           {
-            "en": "While walking, I really enjoy listening to emotional ballads by Roy Kim or classic songs by The Beatles.",
-            "ko": "걸으면서 로이킴의 감미로운 발라드나 비틀즈의 명곡들을 듣는 것을 정말 즐깁니다."
+            "en": "While doing that, I also really enjoy listening to ballad songs.",
+            "ko": "걸으면서, 저는 동시에 발라드 노래를 듣는 것을 즐겨요."
           },
           {
-            "en": "After walking for about forty minutes, I feel totally refreshed, healthy, and calm.",
-            "ko": "약 40분 정도 걷고 나면 몸이 아주 개운해지고 마음도 편안해져요."
+            "en": "After spending about one or two hours there, I feel totally relaxed and refreshed.",
+            "ko": "그곳에서 1~2시간 정도 시간을 보내고 나면, 완전히 편안해지고 재충전돼요."
           },
           {
-            "en": "It is the best way for me to refresh my mind after my shifts, so I do it on a regular basis.",
-            "ko": "교대근무 후 머리를 맑게 식히기에 가장 좋은 방법이라 정기적으로 산책합니다."
+            "en": "It is the best way for me to relieve stress, so I do it on a regular basis.",
+            "ko": "스트레스를 풀기에 가장 좋은 방법이라서, 저는 정기적으로 이것을 합니다."
           }
         ]
       },
       {
         "topic": "🍳 요리",
-        "keyword": "cooking delicious meals with wife",
+        "keyword": "cook delicious pasta at home",
         "sentences": [
           {
-            "en": "Usually, whenever I have some free time on weekends, I love to cook delicious food at home for my wife.",
-            "ko": "보통 주말에 여유 시간이 생길 때마다, 저는 집에서 아내를 위해 맛있는 요리를 만들어 먹는 것을 좋아해요."
+            "en": "Usually, whenever I have free time on weekends, I love to cook delicious meals at home.",
+            "ko": "보통 주말에 여유 시간이 생길 때마다, 저는 집에서 맛있는 요리를 만드는 것을 정말 좋아해요."
           },
           {
-            "en": "My favorite dishes to make are simple pasta or savory fried rice with fresh ingredients.",
-            "ko": "제가 가장 좋아하는 요리는 신선한 재료를 듬뿍 넣은 간단한 파스타나 고소한 볶음밥입니다."
+            "en": "First of all, I put on comfortable clothes and head to the kitchen.",
+            "ko": "우선 편안한 옷을 입고 주방으로 향합니다."
           },
           {
-            "en": "First, I prepare the ingredients, chop garlic and onions, and stir-fry them in an olive oil pan.",
-            "ko": "먼저 재료를 손질하고 마늘과 양파를 썰어 올리브유를 두른 팬에 볶습니다."
+            "en": "When I start cooking, I usually make simple pasta or fried rice.",
+            "ko": "요리를 시작하면, 저는 보통 간단한 파스타나 볶음밥을 만듭니다."
           },
           {
-            "en": "While cooking, I enjoy playing relaxing background music in the kitchen.",
-            "ko": "요리하는 동안 주방에 편안한 배경음악을 틀어놓는 것을 즐깁니다."
+            "en": "While doing that, I also really enjoy listening to relaxing background music.",
+            "ko": "요리하면서, 저는 동시에 잔잔한 배경음악을 듣는 것을 즐겨요."
           },
           {
-            "en": "Eating a warm homemade meal together makes us feel totally happy, cozy, and satisfied.",
-            "ko": "함께 따뜻한 집밥을 먹으면 정말 포근하고 행복하며 큰 만족감을 느껴요."
+            "en": "After spending about one or two hours there, I feel totally relaxed and refreshed.",
+            "ko": "그곳에서 1~2시간 정도 시간을 보내고 나면, 완전히 편안해지고 재충전돼요."
           },
           {
-            "en": "It is the best way for me to enjoy my weekend at home, so I cook on a regular basis.",
-            "ko": "집에서 주말을 즐기는 최고의 방법이라 정기적으로 요리를 즐깁니다."
+            "en": "It is the best way for me to relieve stress, so I do it on a regular basis.",
+            "ko": "스트레스를 풀기에 가장 좋은 방법이라서, 저는 정기적으로 이것을 합니다."
           }
         ]
       },
       {
         "topic": "💻 코딩",
-        "keyword": "coding hobby projects on PC",
+        "keyword": "coding web projects at desk",
         "sentences": [
           {
-            "en": "Usually, whenever I have some quiet time in the evening, I love to work on small coding projects.",
-            "ko": "보통 저녁에 조용한 시간이 생길 때마다, 저는 가벼운 코딩 프로젝트를 하는 것을 좋아해요."
+            "en": "Usually, whenever I have free time in the evening, I love to work on coding projects.",
+            "ko": "보통 저녁에 여유 시간이 생길 때마다, 저는 코딩 프로젝트를 하는 것을 정말 좋아해요."
           },
           {
-            "en": "First of all, I sit at my clean desk at home and turn on my dual-monitor computer.",
-            "ko": "우선 집 서재의 깔끔한 책상에 앉아 듀얼 모니터 컴퓨터를 켭니다."
+            "en": "First of all, I put on comfortable clothes and head to my study desk.",
+            "ko": "우선 편안한 옷을 입고 제 서재 책상으로 향합니다."
           },
           {
-            "en": "When I start coding, I usually build useful tools or study new software and electrical technologies.",
-            "ko": "코딩을 시작하면 보통 실생활에 유용한 웹 도구를 만들거나 새로운 기술을 공부합니다."
+            "en": "When I sit down, I usually turn on my PC and build web tools.",
+            "ko": "자리에 앉으면, 저는 보통 컴퓨터를 켜고 웹 도구를 만듭니다."
           },
           {
-            "en": "While coding, I enjoy sipping warm tea and listening to lo-fi instrumental music.",
-            "ko": "코딩하면서 따뜻한 차를 마시고 잔잔한 연주곡을 듣는 것을 즐겨요."
+            "en": "While doing that, I also really enjoy drinking a cup of warm tea.",
+            "ko": "코딩하면서, 저는 동시에 따뜻한 차 한 잔을 마시는 것을 즐겨요."
           },
           {
-            "en": "After solving a tricky problem, I feel a huge sense of accomplishment and satisfaction.",
-            "ko": "까다로운 문제를 해결하고 나면 엄청난 성취감과 뿌듯함을 느낍니다."
+            "en": "After spending about one or two hours there, I feel totally relaxed and refreshed.",
+            "ko": "그곳에서 1~2시간 정도 시간을 보내고 나면, 완전히 편안해지고 재충전돼요."
           },
           {
-            "en": "It is the best way for me to upgrade my skills and relax, so I do it regularly.",
-            "ko": "제 역량을 키우며 힐링하기에 가장 좋은 방법이라 정기적으로 하고 있습니다."
+            "en": "It is the best way for me to relieve stress, so I do it on a regular basis.",
+            "ko": "스트레스를 풀기에 가장 좋은 방법이라서, 저는 정기적으로 이것을 합니다."
           }
         ]
       }
@@ -312,123 +312,123 @@
   {
     "id": "pat_03",
     "name": "과거 경험 & 기억에 남는 일 템플릿",
-    "category": "영화 '트루먼 쇼', 홍천 국군의 날 축제, 새 아파트 이사 경험 등",
+    "category": "영화 트루먼 쇼, 홍천 국군의 날 축제, 새 아파트 이사 등",
     "icon": "✨",
-    "desc": "과거에 있었던 특별한 사건이나 잊을 수 없는 추억을 묻는 질문에 생생한 감정과 구체적 디테일을 곁들여 유창하게 말하는 패턴입니다.",
+    "desc": "과거에 있었던 특별한 사건이나 잊을 수 없는 추억을 묻는 질문에 구체적 명사 1~2개만 갈아끼워 완벽하게 답변하는 패턴입니다.",
     "skeleton": [
       {
         "en": "1. I remember a very special and memorable experience related to [주제].",
-        "ko": "[주제]와 관련하여 매우 특별하고 기억에 남는 경험이 하나 생각납니다."
+        "ko": "1. [주제]와 관련하여 매우 특별하고 기억에 남는 경험이 하나 생각납니다."
       },
       {
-        "en": "2. Some time ago, I [경험한 사건 / 장소 방문] with [함께한 사람].",
-        "ko": "얼마 전 [함께한 사람]과 함께 [경험한 사건 / 장소 방문]을 했어요."
+        "en": "2. Some time ago, I experienced [특별한 활동/사건] with [함께한 사람].",
+        "ko": "2. 얼마 전 [함께한 사람]과 함께 [특별한 활동/사건]을 경험했어요."
       },
       {
-        "en": "3. The whole vibe was really wonderful, exciting, and unforgettable.",
-        "ko": "전체적인 분위기가 정말 멋지고 흥미진진하며 잊을 수 없을 정도로 좋았습니다."
+        "en": "3. The overall vibe was really wonderful, exciting, and unforgettable.",
+        "ko": "3. 전체적인 분위기가 정말 멋지고 흥미진진하며 잊을 수 없을 정도로 좋았습니다."
       },
       {
-        "en": "4. We spent time [주요 활동 내용] and experienced so many meaningful moments.",
-        "ko": "우리는 [주요 활동 내용]을 하며 뜻깊은 순간들을 많이 경험했어요."
+        "en": "4. We spent time [핵심 행동], and it was so much fun.",
+        "ko": "4. 우리는 [핵심 행동]을 하며 시간을 보냈고, 정말 재미있었습니다."
       },
       {
-        "en": "5. We shared great conversations and felt deep emotions throughout that time.",
-        "ko": "그 시간 내내 좋은 대화를 나누며 깊은 감동과 유대감을 느꼈습니다."
+        "en": "5. We shared great conversations and took a lot of nice pictures together.",
+        "ko": "5. 우리는 좋은 대화를 나누고 함께 멋진 사진도 많이 찍었어요."
       },
       {
-        "en": "6. It was one of the most unforgettable experiences in my life, and I will never forget it.",
-        "ko": "제 인생에서 가장 잊지 못할 경험 중 하나였으며, 영원히 잊지 못할 거예요."
+        "en": "6. It was one of the most memorable experiences in my life, and I will never forget it.",
+        "ko": "6. 제 인생에서 가장 기억에 남는 경험 중 하나였으며, 영원히 잊지 못할 거예요."
       }
     ],
     "variations": [
       {
         "topic": "🎬 영화",
-        "keyword": "The Truman Show starring Jim Carrey",
+        "keyword": "The Truman Show with wife",
         "sentences": [
           {
             "en": "I remember a very special and memorable experience related to watching a classic movie.",
-            "ko": "명작 영화를 감상했던 것과 관련하여 매우 특별하고 기억에 남는 경험이 하나 생각납니다."
+            "ko": "명작 영화를 본 것과 관련하여 매우 특별하고 기억에 남는 경험이 하나 생각납니다."
           },
           {
-            "en": "Some time ago, I watched the masterpiece film 'The Truman Show' on my big screen at home with my wife.",
-            "ko": "얼마 전 집에서 아내와 함께 대형 화면으로 명작 영화 '트루먼 쇼'를 보았어요."
+            "en": "Some time ago, I experienced watching The Truman Show at home with my wife.",
+            "ko": "얼마 전 아내와 함께 집에서 영화 트루먼 쇼를 보는 것을 경험했어요."
           },
           {
-            "en": "The acting by Jim Carrey was really amazing, and the storyline was deeply touching.",
-            "ko": "주연 짐 캐리의 연기는 숨이 멎을 정도로 훌륭했고, 줄거리도 깊은 감동을 주었습니다."
+            "en": "The overall vibe was really wonderful, touching, and unforgettable.",
+            "ko": "전체적인 분위기가 정말 멋지고 감동적이며 잊을 수 없을 정도로 좋았습니다."
           },
           {
-            "en": "We were really focused on Truman's journey as he discovered the truth about his life and sought freedom.",
-            "ko": "트루먼이 자신의 삶에 대한 진실을 깨닫고 진정한 자유를 찾아가는 여정에 완전히 몰입했어요."
+            "en": "We spent time focusing on the amazing acting and story, and it was so much fun.",
+            "ko": "우리는 놀라운 연기와 줄거리에 몰입하며 시간을 보냈고, 정말 재미있었습니다."
           },
           {
-            "en": "After the movie ended, we shared deep conversations about life and freedom for hours.",
-            "ko": "영화가 끝난 후에도 삶과 자유에 대해 몇 시간 동안 깊은 대화를 나누었습니다."
+            "en": "We shared great conversations and talked deeply about life together.",
+            "ko": "우리는 좋은 대화를 나누고 함께 삶에 대해 깊은 이야기를 나눴어요."
           },
           {
-            "en": "It was one of the most meaningful and touching movies in my life, and I will never forget it.",
-            "ko": "제 인생에서 가장 뜻깊고 깊은 여운을 준 영화 중 하나였으며, 영원히 잊지 못할 거예요."
+            "en": "It was one of the most memorable experiences in my life, and I will never forget it.",
+            "ko": "제 인생에서 가장 기억에 남는 경험 중 하나였으며, 영원히 잊지 못할 거예요."
           }
         ]
       },
       {
         "topic": "🎪 축제",
-        "keyword": "Armed Forces Day festival in Hongcheon",
+        "keyword": "Hongcheon festival with friends",
         "sentences": [
           {
-            "en": "I remember a very special and memorable experience related to a local festival in Hongcheon.",
-            "ko": "홍천에서 열렸던 지역 축제와 관련하여 매우 특별하고 기억에 남는 경험이 하나 생각납니다."
+            "en": "I remember a very special and memorable experience related to a local festival.",
+            "ko": "지역 축제와 관련하여 매우 특별하고 기억에 남는 경험이 하나 생각납니다."
           },
           {
-            "en": "Some time ago, I visited the Armed Forces Day festival held in Hongcheon on an exciting weekend.",
-            "ko": "얼마 전 활기찬 주말에 홍천에서 개최된 국군의 날 축제 현장을 방문했어요."
+            "en": "Some time ago, I experienced visiting the Armed Forces Day festival in Hongcheon with my friends.",
+            "ko": "얼마 전 친구들과 함께 홍천 국군의 날 축제 현장 방문을 경험했어요."
           },
           {
-            "en": "The whole stadium vibe was energetic, and the military band performances were amazing.",
-            "ko": "축제장 전체 분위기가 활기로 가득했고, 군악대의 웅장한 연주와 퍼포먼스는 숨이 멎을 정도였습니다."
+            "en": "The overall vibe was really wonderful, exciting, and unforgettable.",
+            "ko": "전체적인 분위기가 정말 멋지고 흥미진진하며 잊을 수 없을 정도로 좋았습니다."
           },
           {
-            "en": "We watched exciting honor guard shows, enjoyed street food, and took lots of great photos.",
-            "ko": "멋진 의장대 시범을 관람하고 맛있는 축제 음식도 먹으며 멋진 사진들을 많이 찍었어요."
+            "en": "We spent time watching the military band performances, and it was so much fun.",
+            "ko": "우리는 군악대 공연을 관람하며 시간을 보냈고, 정말 재미있었습니다."
           },
           {
-            "en": "The crowd cheered with excitement, and everyone shared a wonderful feeling of unity.",
-            "ko": "관중들의 환호성이 가득했고, 모두가 하나 되는 뜻깊은 감정을 함께 나누었습니다."
+            "en": "We shared great conversations and took a lot of nice pictures together.",
+            "ko": "우리는 좋은 대화를 나누고 함께 멋진 사진도 많이 찍었어요."
           },
           {
-            "en": "It was one of the most unique, lively, and unforgettable festivals in my life, and I will never forget it.",
-            "ko": "제 인생에서 가장 이색적이고 활기차며 잊을 수 없는 축제 중 하나였으며, 영원히 기억에 남을 것입니다."
+            "en": "It was one of the most memorable experiences in my life, and I will never forget it.",
+            "ko": "제 인생에서 가장 기억에 남는 경험 중 하나였으며, 영원히 잊지 못할 거예요."
           }
         ]
       },
       {
         "topic": "🏡 새집 이사",
-        "keyword": "moving into our own apartment in Buldang-dong",
+        "keyword": "moving into Buldang-dong apartment",
         "sentences": [
           {
-            "en": "I remember a very special and memorable experience when we moved into our new apartment in Buldang-dong.",
-            "ko": "천안 불당동의 우리 새 아파트로 이사했을 때의 매우 특별하고 잊지 못할 경험이 생각납니다."
+            "en": "I remember a very special and memorable experience related to moving into our new home.",
+            "ko": "새집으로 이사한 것과 관련하여 매우 특별하고 기억에 남는 경험이 하나 생각납니다."
           },
           {
-            "en": "We bought our own home and spent weeks carefully planning the interior design and furniture.",
-            "ko": "우리만의 보금자리를 마련하고 몇 주 동안 인테리어 디자인과 가구 배치를 꼼꼼히 계획했어요."
+            "en": "Some time ago, I experienced moving into our new apartment in Buldang-dong with my wife.",
+            "ko": "얼마 전 아내와 함께 불당동 새 아파트 입주를 경험했어요."
           },
           {
-            "en": "The whole process was busy, but seeing our cozy living space come together was so exciting.",
-            "ko": "전체 과정이 바쁘긴 했지만, 아늑한 우리 집이 완성되어 가는 모습을 보는 것은 정말 설레었습니다."
+            "en": "The overall vibe was really wonderful, exciting, and unforgettable.",
+            "ko": "전체적인 분위기가 정말 멋지고 설레며 잊을 수 없을 정도로 좋았습니다."
           },
           {
-            "en": "We organized the electrical appliances, styled the warm lighting, and set up our comfortable living room.",
-            "ko": "가전제품을 깔끔하게 정리하고 따뜻한 조명을 달며 편안한 거실을 꾸몄어요."
+            "en": "We spent time decorating our cozy living room and kitchen, and it was so much fun.",
+            "ko": "우리는 아늑한 거실과 주방을 꾸미며 시간을 보냈고, 정말 재미있었습니다."
           },
           {
-            "en": "When we finally relaxed on our sofa on the first night, my wife and I felt so happy and proud.",
-            "ko": "첫날 밤 마침내 소파에 나란히 앉아 쉴 때, 아내와 저는 정말 행복하고 뿌듯했습니다."
+            "en": "We shared great conversations and celebrated our first night together.",
+            "ko": "우리는 좋은 대화를 나누고 첫날 밤을 함께 축하했어요."
           },
           {
-            "en": "It was one of the most meaningful milestones in my life, and I will always cherish that memory.",
-            "ko": "제 인생에서 가장 뜻깊은 이정표 중 하나였으며, 그 기억을 항상 소중히 간직할 것입니다."
+            "en": "It was one of the most memorable experiences in my life, and I will never forget it.",
+            "ko": "제 인생에서 가장 기억에 남는 경험 중 하나였으며, 영원히 잊지 못할 거예요."
           }
         ]
       }
@@ -437,123 +437,123 @@
   {
     "id": "pat_04",
     "name": "문제 해결 & 돌발 상황 만능 템플릿",
-    "category": "에어컨 설치 및 고장 수리, 아름드리 공원 지인 만남, 주방 연기 대처 등",
+    "category": "에어컨 고장 수리, 공원 지인 우연한 만남, 주방 요리 연기 대처 등",
     "icon": "⚡",
-    "desc": "예상치 못한 문제나 돌발 상황이 발생했을 때 당황 ➡️ 침착한 대처 ➡️ 문제 해결 ➡️ 값진 교훈 순서로 전개하는 만능 위기 탈출 공식입니다.",
+    "desc": "돌발 상황이나 위기 발생 질문에 당황 ➡️ 침착 대처 ➡️ 순조로운 해결 순서로 1~2단어만 바꿔 클리어하는 만능 공식입니다.",
     "skeleton": [
       {
-        "en": "1. I remember a very unexpected and memorable situation I experienced when [상황/활동 중].",
-        "ko": "[상황/활동 중]에 겪었던 아주 뜻밖이고 기억에 남는 상황이 하나 생각납니다."
+        "en": "1. I remember an unexpected problem I experienced while [활동 중].",
+        "ko": "1. [활동 중]에 겪었던 예상치 못한 문제가 하나 기억납니다."
       },
       {
-        "en": "2. Suddenly, [돌발 상황 발생 (에어컨 고장 / 지인 마주침 / 요리 연기)].",
-        "ko": "갑자기 [돌발 상황 발생]이 일어났어요."
+        "en": "2. Suddenly, [돌발 상황 발생].",
+        "ko": "2. 갑자기 [돌발 상황]이 일어났어요."
       },
       {
-        "en": "3. I was quite surprised and worried at first because it happened without any warning.",
-        "ko": "아무런 예고 없이 일어난 일이라 처음에는 꽤 당황스럽고 걱정이 되었습니다."
+        "en": "3. I was quite surprised and worried at first because it happened so suddenly.",
+        "ko": "3. 너무 갑작스럽게 일어난 일이라 처음에는 꽤 놀라고 걱정이 되었습니다."
       },
       {
-        "en": "4. However, I tried to stay calm and immediately [대처 행동 (수리 요청 / 반갑게 인사 / 환기)].",
-        "ko": "하지만 침착함을 유지하려 노력했고, 즉시 [대처 행동]을 취했습니다."
+        "en": "4. However, I tried to stay calm and immediately [대처/해결 행동].",
+        "ko": "4. 하지만 침착함을 유지하려 노력했고, 즉시 [대처/해결 행동]을 취했습니다."
       },
       {
-        "en": "5. Fortunately, the situation was handled smoothly without any trouble.",
-        "ko": "다행히 아무런 문제 없이 상황이 순조롭게 해결되었어요."
+        "en": "5. Fortunately, the problem was solved quickly and smoothly.",
+        "ko": "5. 다행히 문제가 빠르고 순조롭게 해결되었어요."
       },
       {
-        "en": "6. It was a surprising moment, but it became a valuable and pleasant memory for me.",
-        "ko": "깜짝 놀란 순간이었지만, 저에게는 값지고 기분 좋은 추억이 되었습니다."
+        "en": "6. It was a surprising moment, but it became a valuable lesson and a good memory.",
+        "ko": "6. 놀라운 순간이었지만, 값진 교훈이자 좋은 추억이 되었습니다."
       }
     ],
     "variations": [
       {
-        "topic": "❄️ 에어컨 수리",
-        "keyword": "air conditioner not cooling properly after moving",
+        "topic": "❄️ 에어컨 고장",
+        "keyword": "AC stopped working in summer",
         "sentences": [
           {
-            "en": "I remember an unexpected problem I experienced right after moving into our new apartment.",
-            "ko": "새 아파트로 이사한 직후에 겪었던 예상치 못한 문제가 하나 기억납니다."
+            "en": "I remember an unexpected problem I experienced while staying at home in summer.",
+            "ko": "여름에 집에서 쉬던 중에 겪었던 예상치 못한 문제가 하나 기억납니다."
           },
           {
-            "en": "In the middle of hot summer, our newly installed air conditioner suddenly stopped blowing cold air.",
-            "ko": "한여름에 새로 설치한 거실 에어컨에서 갑자기 찬 바람이 나오지 않고 멈췄어요."
+            "en": "Suddenly, our air conditioner stopped blowing cold air.",
+            "ko": "갑자기 에어컨에서 찬 바람이 나오지 않고 멈췄어요."
           },
           {
-            "en": "The weather was very hot, so my wife and I were quite surprised and worried at first.",
-            "ko": "날씨가 너무 더워서 처음에는 아내와 저 모두 꽤 당황스럽고 걱정이 되었습니다."
+            "en": "I was quite surprised and worried at first because it happened so suddenly.",
+            "ko": "너무 갑작스럽게 일어난 일이라 처음에는 꽤 놀라고 걱정이 되었습니다."
           },
           {
-            "en": "However, I stayed calm and immediately contacted the installation service center to explain the issue.",
-            "ko": "하지만 침착하게 즉시 설치 서비스 센터에 연락하여 문제 상황을 설명했습니다."
+            "en": "However, I tried to stay calm and immediately called the service center for repair.",
+            "ko": "하지만 침착함을 유지하려 노력했고, 즉시 서비스 센터에 전화해 수리를 요청했습니다."
           },
           {
-            "en": "Fortunately, a skilled technician visited the next morning and fixed the electrical connection quickly.",
-            "ko": "다행히 숙련된 기사님이 다음 날 아침 일찍 방문하셔서 전기 연결 문제를 빠르게 해결해 주셨어요."
+            "en": "Fortunately, the problem was solved quickly and smoothly.",
+            "ko": "다행히 문제가 빠르고 순조롭게 해결되었어요."
           },
           {
-            "en": "It was a stressful moment, but it taught me the importance of checking home appliances carefully.",
-            "ko": "잠깐 스트레스를 받긴 했지만, 가전제품을 꼼꼼히 점검하는 것의 중요성을 배운 값진 경험이 되었습니다."
+            "en": "It was a surprising moment, but it became a valuable lesson and a good memory.",
+            "ko": "놀라운 순간이었지만, 값진 교훈이자 좋은 추억이 되었습니다."
           }
         ]
       },
       {
         "topic": "👥 지인 만남",
-        "keyword": "running into an old colleague while walking in park",
+        "keyword": "running into old coworker in park",
         "sentences": [
           {
-            "en": "I remember a very unexpected and pleasant surprise I experienced at Areumdri Park.",
-            "ko": "집 앞 아름드리 공원에서 겪었던 아주 뜻밖이고 반가웠던 상황이 하나 생각납니다."
+            "en": "I remember an unexpected situation I experienced while taking a walk in the park.",
+            "ko": "공원을 산책하던 중에 겪었던 뜻밖의 상황이 하나 기억납니다."
           },
           {
-            "en": "A few weeks ago, while taking a walk in the evening, I suddenly ran into an old friend from my past company.",
-            "ko": "몇 주 전 저녁에 공원을 산책하던 중, 예전 직장에서 함께 일했던 옛 친구를 우연히 마주쳤어요."
+            "en": "Suddenly, I ran into an old coworker from my past company.",
+            "ko": "갑자기 예전 직장의 옛 동료를 우연히 마주쳤어요."
           },
           {
-            "en": "I was quite surprised and startled at first because I had not seen him for several years.",
-            "ko": "몇 년 동안 연락이 닿지 않던 친구여서 처음에는 깜짝 놀라고 신기했습니다."
+            "en": "I was quite surprised and excited at first because it happened so suddenly.",
+            "ko": "너무 갑작스럽게 일어난 일이라 처음에는 꽤 놀라고 신기했습니다."
           },
           {
-            "en": "However, we immediately smiled, greeted each other warmly, and realized we now live in the same neighborhood.",
-            "ko": "하지만 우리는 곧바로 환하게 웃으며 반갑게 인사했고, 같은 동네에 살고 있다는 사실을 알게 되었어요."
+            "en": "However, I tried to stay calm and immediately greeted him with a big smile.",
+            "ko": "하지만 침착하게 반가움을 전하며 즉시 환한 미소로 인사를 건넸습니다."
           },
           {
-            "en": "We went to a nearby cafe, drank iced coffee, and happily caught up on each other's recent news.",
-            "ko": "우리는 근처 카페로 가서 아이스 커피를 마시며 그동안의 근황을 즐겁게 나누었습니다."
+            "en": "Fortunately, we went to a nearby cafe and caught up smoothly.",
+            "ko": "다행히 근처 카페로 가서 서로의 근황을 순조롭게 나눴어요."
           },
           {
-            "en": "It was an unexpected encounter, but it brought back great memories and made my day so special.",
-            "ko": "예상치 못한 만남이었지만, 옛 추억을 되살려주고 하루를 매우 특별하게 만들어 준 기분 좋은 일이었습니다."
+            "en": "It was a surprising moment, but it became a valuable and pleasant memory.",
+            "ko": "놀라운 순간이었지만, 값지고 기분 좋은 추억이 되었습니다."
           }
         ]
       },
       {
         "topic": "🍳 요리 연기",
-        "keyword": "smoke alarm while grilling steak",
+        "keyword": "smoke while grilling steak",
         "sentences": [
           {
-            "en": "I remember an unexpected little accident I experienced while cooking dinner at home.",
-            "ko": "집에서 저녁을 요리하던 중 겪었던 예상치 못한 작은 돌발 상황이 기억납니다."
+            "en": "I remember an unexpected problem I experienced while cooking dinner in the kitchen.",
+            "ko": "주방에서 저녁을 요리하던 중에 겪었던 예상치 못한 문제가 하나 기억납니다."
           },
           {
-            "en": "While grilling a steak on high heat, a lot of smoke suddenly filled the kitchen.",
-            "ko": "센 불에 스테이크를 굽던 중 갑자기 주방에 연기가 가득 차올랐어요."
+            "en": "Suddenly, a lot of smoke filled the room while grilling steak.",
+            "ko": "갑자기 스테이크를 굽던 중 방 안에 연기가 가득 찼어요."
           },
           {
-            "en": "I was quite panicked at first because the smoke alarm started beeping loudly.",
-            "ko": "화재경보기가 요란하게 울리기 시작해서 처음에는 꽤 당황스럽고 놀랐습니다."
+            "en": "I was quite surprised and worried at first because it happened so suddenly.",
+            "ko": "너무 갑작스럽게 일어난 일이라 처음에는 꽤 놀라고 걱정이 되었습니다."
           },
           {
-            "en": "However, I stayed calm, turned off the stove immediately, and opened all our living room windows.",
-            "ko": "하지만 침착하게 즉시 가스레인지를 끄고 거실의 모든 창문을 활짝 열었습니다."
+            "en": "However, I tried to stay calm and immediately turned off the stove and opened all the windows.",
+            "ko": "하지만 침착함을 유지하려 노력했고, 즉시 가스레인지를 끄고 모든 창문을 활짝 열었습니다."
           },
           {
-            "en": "I turned on the ventilation hood at full power, and the smoke cleared out completely in a few minutes.",
-            "ko": "환풍기를 최대로 작동시켰고, 몇 분 만에 연기가 말끔하게 빠져나갔어요."
+            "en": "Fortunately, the problem was solved quickly and smoothly.",
+            "ko": "다행히 문제가 빠르고 순조롭게 해결되었어요."
           },
           {
-            "en": "Fortunately, the steak turned out delicious, and it became a funny and memorable cooking lesson.",
-            "ko": "다행히 스테이크는 정말 맛있게 완성되었고, 즐겁고 기억에 남는 요리 에피소드가 되었습니다."
+            "en": "It was a surprising moment, but it became a valuable lesson and a good memory.",
+            "ko": "놀라운 순간이었지만, 값진 교훈이자 좋은 추억이 되었습니다."
           }
         ]
       }
@@ -562,123 +562,123 @@
   {
     "id": "pat_05",
     "name": "과거 vs 현재 변화 & 비교 템플릿",
-    "category": "불당동 카페 변화, 영화/음악 감상 방식 변화, 주거 환경 & 스마트홈 등",
+    "category": "카페의 변화, 영화 감상 방식의 변화, 아파트 주거 환경의 변화 등",
     "icon": "🔄",
-    "desc": "과거와 현재의 차이점이나 시설/기술의 발전을 비교하여 설명하는 고득점(IM1~IH) 빈출 비교 패턴입니다.",
+    "desc": "과거와 현재의 차이점이나 시설 발전을 묻는 고득점 빈출 비교 질문에 1~2개 핵심 키워드만 바꿔 막힘없이 답변하는 패턴입니다.",
     "skeleton": [
       {
         "en": "1. Compared to the past, I think [주제] has changed a lot in many ways.",
-        "ko": "과거와 비교했을 때, [주제]는 여러 방면에서 정말 많이 변했다고 생각해요."
+        "ko": "1. 과거와 비교했을 때, [주제]는 여러 방면에서 정말 많이 변했다고 생각해요."
       },
       {
-        "en": "2. In the past, [주제] was quite simple and there were not many modern options.",
-        "ko": "과거에는 [주제]가 단순했고 현대적인 선택지가 많지 않았습니다."
+        "en": "2. In the past, [주제] was quite simple and options were limited.",
+        "ko": "2. 과거에는 [주제]가 단순했고 선택지가 제한적이었습니다."
       },
       {
-        "en": "3. However, nowadays, everything has become much more convenient, high-tech, and comfortable.",
-        "ko": "하지만 요즘에는 모든 것이 훨씬 더 편리하고 첨단화되었으며 쾌적해졌어요."
+        "en": "3. However, nowadays, everything has become much more convenient, modern, and high-tech.",
+        "ko": "3. 하지만 요즘에는 모든 것이 훨씬 더 편리하고 현대적이며 첨단화되었어요."
       },
       {
-        "en": "4. For example, we can easily use smart mobile apps and enjoy great facilities.",
-        "ko": "예를 들어 스마트폰 앱을 쉽게 이용하고 훌륭한 시설들을 즐길 수 있습니다."
+        "en": "4. For example, we can easily use [스마트 앱/최신 기능] and enjoy [핵심 혜택/콘텐츠].",
+        "ko": "4. 예를 들어 우리는 [스마트 앱/최신 기능]을 쉽게 이용하고 [핵심 혜택/콘텐츠]를 즐길 수 있습니다."
       },
       {
         "en": "5. Because of these great changes, people can enjoy a much better and happier lifestyle.",
-        "ko": "이러한 훌륭한 변화 덕분에 사람들은 훨씬 더 나아지고 행복한 라이프스타일을 누릴 수 있어요."
+        "ko": "5. 이러한 훌륭한 변화 덕분에 사람들은 훨씬 더 나아지고 행복한 라이프스타일을 누릴 수 있어요."
       },
       {
         "en": "6. Overall, I am really satisfied with these modern changes and I enjoy them even more.",
-        "ko": "전반적으로 저는 이러한 현대적인 변화에 매우 만족하며 더욱 즐겨 찾고 있습니다."
+        "ko": "6. 전반적으로 저는 이러한 현대적인 변화에 매우 만족하며 더욱 즐겨 찾고 있습니다."
       }
     ],
     "variations": [
       {
         "topic": "☕ 카페의 변화",
-        "keyword": "mobile ordering & bakery desserts",
+        "keyword": "mobile order apps & bakery desserts",
         "sentences": [
           {
             "en": "Compared to the past, I think cafes in Korea have changed a lot in many ways.",
             "ko": "과거와 비교했을 때, 한국의 카페는 여러 방면에서 정말 많이 변했다고 생각해요."
           },
           {
-            "en": "In the past, cafes were simple and people only went there just to drink a cup of coffee.",
-            "ko": "과거에는 카페가 단순했고 사람들은 단순히 커피 한잔만 마시러 갔습니다."
+            "en": "In the past, cafes were quite simple and options were limited.",
+            "ko": "과거에는 카페가 단순했고 선택지가 제한적이었습니다."
           },
           {
-            "en": "However, nowadays, cafes in Buldang-dong have become stylish cultural spaces with premium bakeries.",
-            "ko": "하지만 요즘 불당동의 카페들은 고급 베이커리를 갖춘 세련된 문화 공간이 되었어요."
+            "en": "However, nowadays, everything has become much more convenient, modern, and high-tech.",
+            "ko": "하지만 요즘에는 모든 것이 훨씬 더 편리하고 현대적이며 첨단화되었어요."
           },
           {
-            "en": "For example, we can easily order through mobile apps and enjoy comfortable seating for reading or talking.",
-            "ko": "예를 들어 모바일 앱으로 간편하게 주문할 수 있고 독서나 대화를 위한 편안한 좌석이 마련되어 있습니다."
+            "en": "For example, we can easily use mobile order apps and enjoy premium bakery desserts.",
+            "ko": "예를 들어 우리는 모바일 주문 앱을 쉽게 이용하고 고급 베이커리 디저트를 즐길 수 있습니다."
           },
           {
-            "en": "Because of these great changes, people can relax, work, or date in a much more pleasant vibe.",
-            "ko": "이러한 훌륭한 변화 덕분에 사람들은 훨씬 더 쾌적한 분위기에서 휴식을 취하거나 데이트를 즐길 수 있어요."
+            "en": "Because of these great changes, people can enjoy a much better and happier lifestyle.",
+            "ko": "이러한 훌륭한 변화 덕분에 사람들은 훨씬 더 나아지고 행복한 라이프스타일을 누릴 수 있어요."
           },
           {
-            "en": "Overall, I am very satisfied with these modern changes and I love visiting cafes with my wife.",
-            "ko": "전반적으로 저는 이러한 현대적인 변화에 매우 만족하며 아내와 함께 카페를 더욱 즐겨 찾습니다."
+            "en": "Overall, I am really satisfied with these modern changes and I enjoy them even more.",
+            "ko": "전반적으로 저는 이러한 현대적인 변화에 매우 만족하며 더욱 즐겨 찾고 있습니다."
           }
         ]
       },
       {
         "topic": "🎬 영화의 변화",
-        "keyword": "smart TVs & streaming platforms",
+        "keyword": "online streaming & 4K smart TVs",
         "sentences": [
           {
-            "en": "Compared to the past, I think the way we watch movies has changed a lot.",
-            "ko": "과거와 비교했을 때, 우리가 영화를 감상하는 방식은 정말 많이 달라졌다고 생각해요."
+            "en": "Compared to the past, I think watching movies has changed a lot in many ways.",
+            "ko": "과거와 비교했을 때, 영화 감상은 여러 방면에서 정말 많이 변했다고 생각해요."
           },
           {
-            "en": "In the past, we always had to go to the cinema or rent DVDs to watch our favorite films.",
-            "ko": "과거에는 좋아하는 영화를 보려면 항상 극장에 직접 가거나 DVD를 빌려봐야 했습니다."
+            "en": "In the past, watching movies was quite simple and options were limited.",
+            "ko": "과거에는 영화 감상이 단순했고 선택지가 제한적이었습니다."
           },
           {
-            "en": "However, nowadays, high-definition streaming platforms and large 4K TVs are everywhere.",
-            "ko": "하지만 요즘은 고화질 스트리밍 플랫폼과 대형 4K TV가 보편화되었어요."
+            "en": "However, nowadays, everything has become much more convenient, modern, and high-tech.",
+            "ko": "하지만 요즘에는 모든 것이 훨씬 더 편리하고 현대적이며 첨단화되었어요."
           },
           {
-            "en": "For example, we can watch classics like 'The Truman Show' comfortably on our living room couch anytime.",
-            "ko": "예를 들어 '트루먼 쇼' 같은 명작 영화를 언제든 거실 소파에서 편안하게 감상할 수 있습니다."
+            "en": "For example, we can easily use online streaming apps and enjoy large 4K smart TVs at home.",
+            "ko": "예를 들어 우리는 온라인 스트리밍 앱을 쉽게 이용하고 집에서 대형 4K 스마트 TV를 즐길 수 있습니다."
           },
           {
-            "en": "Because of these convenient technologies, we can enjoy cinema-quality entertainment right at home.",
-            "ko": "이러한 편리한 기술 덕분에 우리는 집에서도 극장 못지않은 고품격 엔터테인먼트를 즐길 수 있어요."
+            "en": "Because of these great changes, people can enjoy a much better and happier lifestyle.",
+            "ko": "이러한 훌륭한 변화 덕분에 사람들은 훨씬 더 나아지고 행복한 라이프스타일을 누릴 수 있어요."
           },
           {
-            "en": "Overall, I am really satisfied with this convenience, and home movie nights are my favorite.",
-            "ko": "전반적으로 저는 이러한 편의성에 매우 만족하며, 집에서 즐기는 영화의 밤을 가장 좋아합니다."
+            "en": "Overall, I am really satisfied with these modern changes and I enjoy them even more.",
+            "ko": "전반적으로 저는 이러한 현대적인 변화에 매우 만족하며 더욱 즐겨 찾고 있습니다."
           }
         ]
       },
       {
         "topic": "🏡 주거의 변화",
-        "keyword": "smart home systems & community gym",
+        "keyword": "smart home apps & resident gyms",
         "sentences": [
           {
-            "en": "Compared to the past, I think apartment living environments have become much more advanced.",
-            "ko": "과거와 비교했을 때, 아파트 주거 환경은 훨씬 더 발전했다고 생각합니다."
+            "en": "Compared to the past, I think apartments in my town have changed a lot in many ways.",
+            "ko": "과거와 비교했을 때, 우리 동네 아파트는 여러 방면에서 정말 많이 변했다고 생각해요."
           },
           {
-            "en": "In the past, apartments were just residential buildings with standard parking and basic facilities.",
-            "ko": "과거에는 아파트가 표준적인 주차 공간과 기본 시설만 갖춘 단순한 거주 건물이었어요."
+            "en": "In the past, apartments were quite simple and options were limited.",
+            "ko": "과거에는 아파트가 단순했고 선택지가 제한적이었습니다."
           },
           {
-            "en": "However, modern apartments in Buldang-dong offer amazing smart home systems and community facilities.",
-            "ko": "하지만 요즘 불당동의 신축 아파트는 놀라운 스마트홈 시스템과 최고급 커뮤니티 시설을 제공합니다."
+            "en": "However, nowadays, everything has become much more convenient, modern, and high-tech.",
+            "ko": "하지만 요즘에는 모든 것이 훨씬 더 편리하고 현대적이며 첨단화되었어요."
           },
           {
-            "en": "For example, we can control lighting and heating with smartphones and use the private resident fitness center.",
-            "ko": "예를 들어 스마트폰으로 조명과 난방을 제어할 수 있고, 입주민 전용 헬스장을 자유롭게 이용할 수 있습니다."
+            "en": "For example, we can easily use smart home phone apps and enjoy private community fitness centers.",
+            "ko": "예를 들어 우리는 스마트홈 스마트폰 앱을 쉽게 이용하고 단지 내 입주민 헬스장을 즐길 수 있습니다."
           },
           {
-            "en": "Because of these smart facilities, daily life has become much safer, healthier, and more convenient.",
-            "ko": "이러한 스마트 시설 덕분에 일상생활이 훨씬 더 안전하고 건강하며 편리해졌어요."
+            "en": "Because of these great changes, people can enjoy a much better and happier lifestyle.",
+            "ko": "이러한 훌륭한 변화 덕분에 사람들은 훨씬 더 나아지고 행복한 라이프스타일을 누릴 수 있어요."
           },
           {
-            "en": "Overall, I am very proud of my home and really satisfied with our modern lifestyle.",
-            "ko": "전반적으로 저는 우리 집에 대한 자부심이 크며, 현대적인 라이프스타일에 매우 만족하고 있습니다."
+            "en": "Overall, I am really satisfied with these modern changes and I enjoy them even more.",
+            "ko": "전반적으로 저는 이러한 현대적인 변화에 매우 만족하며 더욱 즐겨 찾고 있습니다."
           }
         ]
       }
@@ -687,21 +687,21 @@
   {
     "id": "pat_06",
     "name": "롤플레이 (Role-play) 만능 공식",
-    "category": "축제/공연 티켓 문의, 약속 지연 시 배려 제안, 가전/가구 교환 & 환불 등",
+    "category": "티켓/일정 문의, 약속 지연 시 대안 제안, 제품 교환 및 환불 등",
     "icon": "🎭",
-    "desc": "롤플레이 상황에서 정보 문의 3~4가지, 약속 지연 시 상대방을 배려하는 대안 제시, 불만/교환 시 정중한 요청을 6문장으로 완벽하게 클리어하는 패턴입니다.",
+    "desc": "롤플레이 3대 핵심 시나리오(정보 문의, 약속 지연, 제품 교환/환불)를 6문장으로 깔끔하게 클리어하는 만능 공식입니다.",
     "skeleton": [
       {
-        "en": "1) [정보 문의] Hello, I'm calling to ask a few questions about [주제]. (일정/좌석 ➔ 가격/할인 ➔ 주차 ➔ 예약 ➔ 감사)",
-        "ko": "1) [정보 문의] 안녕하세요, [주제]에 대해 몇 가지 문의드리려고 전화드렸습니다. (일정/좌석 확인 ➔ 가격/할인 ➔ 무료 주차 ➔ 즉시 예약 ➔ 감사 인사)"
+        "en": "1) [정보 문의 6문장] 1. 전화 목적 ➔ 2. 일정/옵션 문의 ➔ 3. 가격/할인 확인 ➔ 4. 주차 여부 ➔ 5. 즉시 예약 ➔ 6. 감사 인사",
+        "ko": "1) [정보 문의 6문장] 1. 전화 목적 ➔ 2. 일정/옵션 문의 ➔ 3. 가격/할인 확인 ➔ 4. 주차 여부 ➔ 5. 즉시 예약 ➔ 6. 감사 인사"
       },
       {
-        "en": "2) [약속 지연] Hi, I'm really sorry, but something unexpected came up at work. (지연 설명 ➔ 시간 미루기 ➔ 먼저 커피 사먹어라 ➔ 일정 재조정 ➔ 사과)",
-        "ko": "2) [약속 지연] 안녕, 정말 미안한데 회사에 갑작스러운 일이 생겼어. (교통/업무 지연 ➔ 30분 늦춤 ➔ 커피 먼저 마셔라 내가 살게 ➔ 내일 재약속 대안 ➔ 사과)"
+        "en": "2) [약속 지연 6문장] 1. 돌발 상황 설명 ➔ 2. 지연 시간 전달 ➔ 3. 시간 미루기 제안 ➔ 4. 카페 대기 & 커피 대접 ➔ 5. 재조정 대안 ➔ 6. 정중한 사과",
+        "ko": "2) [약속 지연 6문장] 1. 돌발 상황 설명 ➔ 2. 지연 시간 전달 ➔ 3. 시간 미루기 제안 ➔ 4. 카페 대기 & 커피 대접 ➔ 5. 재조정 대안 ➔ 6. 정중한 사과"
       },
       {
-        "en": "3) [교환/환불] Hello, I'm calling regarding the product I purchased earlier this week. (하자 발견 ➔ 영수증 보유 ➔ 새 제품 교환 ➔ 전액 환불 ➔ 감사)",
-        "ko": "3) [교환/환불] 안녕하세요, 이번 주 초 구매한 제품 관련해 문의드립니다. (스크래치/결함 설명 ➔ 영수증 확인 ➔ 새 제품 교환 ➔ 전액 환불 요청 ➔ 감사 인사)"
+        "en": "3) [교환/환불 6문장] 1. 구매 제품 언급 ➔ 2. 결함/흠집 설명 ➔ 3. 영수증/보증서 제시 ➔ 4. 새 제품 교환 요청 ➔ 5. 전액 환불 대안 ➔ 6. 감사 인사",
+        "ko": "3) [교환/환불 6문장] 1. 구매 제품 언급 ➔ 2. 결함/흠집 설명 ➔ 3. 영수증/보증서 제시 ➔ 4. 새 제품 교환 요청 ➔ 5. 전액 환불 대안 ➔ 6. 감사 인사"
       }
     ],
     "variations": [
@@ -710,88 +710,88 @@
         "keyword": "dates, prices, parking, booking",
         "sentences": [
           {
-            "en": "Hello, I am calling to ask a few questions about the upcoming festival tickets and schedule.",
-            "ko": "안녕하세요, 다가오는 축제 티켓과 일정에 대해 몇 가지 문의드리려고 전화드렸습니다."
+            "en": "Hello, I am calling to ask a few questions about the upcoming festival tickets.",
+            "ko": "안녕하세요, 다가오는 축제 티켓에 대해 몇 가지 문의드리려고 전화드렸습니다."
           },
           {
-            "en": "First of all, could you tell me what dates and seating sections are currently available?",
-            "ko": "우선 현재 어떤 날짜와 좌석 구역이 예매 가능한지 알려주시겠어요?"
+            "en": "First of all, could you tell me what dates and options are currently available?",
+            "ko": "우선 현재 어떤 날짜와 옵션이 예매 가능한지 알려주시겠어요?"
           },
           {
-            "en": "Also, how much is the admission fee per person, and are there any special couple or group discounts?",
-            "ko": "그리고 1인당 입장료는 얼마이며 혹시 커플이나 단체 특별 할인 혜택이 있나요?"
+            "en": "Also, how much is the price, and are there any special discounts?",
+            "ko": "그리고 가격은 얼마이며 혹시 특별 할인 혜택이 있나요?"
           },
           {
-            "en": "By the way, is free parking available at the venue for ticket holders?",
-            "ko": "참고로 티켓 소지자에게 행사장 무료 주차가 지원되나요?"
+            "en": "By the way, is free parking available at the place?",
+            "ko": "참고로 그곳에 무료 주차가 가능한가요?"
           },
           {
-            "en": "If two good seats in the center are available, I would like to book them right now.",
-            "ko": "만약 중앙에 좋은 자리 2석이 남아 있다면 지금 바로 예약하고 싶습니다."
+            "en": "If it is possible, I would like to book it right now.",
+            "ko": "가능하다면, 지금 바로 예약하고 싶습니다."
           },
           {
-            "en": "Thank you so much for your kind assistance. Have a wonderful day!",
-            "ko": "친절하게 안내해 주셔서 정말 감사합니다. 좋은 하루 보내세요!"
+            "en": "Thank you so much for your kind help. Have a wonderful day!",
+            "ko": "친절한 도움에 정말 감사드립니다. 좋은 하루 보내세요!"
           }
         ]
       },
       {
         "topic": "🚗 약속 지연",
-        "keyword": "work shift delay & treat coffee",
+        "keyword": "traffic delay & treat coffee",
         "sentences": [
           {
-            "en": "Hi Minsoo, it's Hyosang! I'm really sorry, but something unexpected just came up at work.",
-            "ko": "안녕 민수야, 효상이야! 정말 미안한데 회사에서 예상치 못한 업무 인수인계가 조금 늦어졌어."
+            "en": "Hi Minsoo, it's Hyosang! I'm really sorry, but something unexpected came up at work.",
+            "ko": "안녕 민수야, 나 효상이야! 정말 미안한데 회사에 갑작스러운 일이 생겼어."
           },
           {
-            "en": "Due to unexpected traffic on the road right now, I think I will be about thirty minutes late.",
-            "ko": "지금 도로에 갑작스러운 교통 체증까지 겹쳐서 약 30분 정도 늦을 것 같아."
+            "en": "Due to sudden traffic on the road, I think I will be about thirty minutes late.",
+            "ko": "갑작스러운 도로 교통 체증 때문에 30분 정도 늦을 것 같아."
           },
           {
-            "en": "Is it okay if we push back our meeting time slightly so you don't have to wait outside?",
-            "ko": "밖에서 기다리지 않도록 우리 약속 시간을 조금만 늦춰도 괜찮을까?"
+            "en": "Is it okay if we push back our meeting time a little bit?",
+            "ko": "우리 만나는 시간을 조금만 뒤로 늦춰도 괜찮을까?"
           },
           {
-            "en": "Please go into Starbucks in front of my apartment first and order your favorite coffee and dessert on my treat!",
-            "ko": "우리 집 앞 스타벅스에 먼저 들어가서 좋아하는 커피랑 디저트 시켜서 먹고 있어, 내가 쏠게!"
+            "en": "Please go inside Starbucks first and order a coffee on my treat!",
+            "ko": "먼저 스타벅스에 들어가서 커피 시켜 마시고 있어, 내가 살게!"
           },
           {
-            "en": "If you are too tired today, we can easily reschedule our meeting for tomorrow evening.",
-            "ko": "만약 오늘 너무 피곤하면 내일 저녁으로 약속을 다시 잡아도 괜찮아."
+            "en": "If you are too tired today, we can easily reschedule for tomorrow.",
+            "ko": "만약 오늘 너무 피곤하면 내일로 약속을 다시 잡아도 괜찮아."
           },
           {
-            "en": "I really apologize for this delay, and I'll get there as fast and safely as I can!",
-            "ko": "늦어져서 정말 미안하고, 최대한 빠르고 안전하게 갈게!"
+            "en": "I apologize again for the delay, and I'll get there as fast as I can!",
+            "ko": "늦어서 다시 한번 미안하고, 최대한 빨리 갈게!"
           }
         ]
       },
       {
         "topic": "🛍️ 교환/환불",
-        "keyword": "defect found on newly delivered appliance",
+        "keyword": "defect found & request replacement",
         "sentences": [
           {
-            "en": "Hello, I am calling regarding the home appliance I purchased at your store earlier this week.",
-            "ko": "안녕하세요, 이번 주 초 귀사 매장에서 구매한 가전제품 관련해서 문의드리려고 전화드렸습니다."
+            "en": "Hello, I am calling regarding the home appliance I purchased earlier this week.",
+            "ko": "안녕하세요, 이번 주 초 구매한 가전제품 관련하여 전화드렸습니다."
           },
           {
-            "en": "When it was delivered and inspected, I noticed a scratch on the surface and a loose power button.",
-            "ko": "배송을 받고 확인해 보니 표면에 흠집이 있고 전원 버튼이 헐겁게 조립되어 있더라고요."
+            "en": "When I opened the package, I noticed a scratch and a defect on it.",
+            "ko": "포장을 열어보니 흠집과 결함이 있는 것을 발견했습니다."
           },
           {
-            "en": "I have the original purchase receipt, and the warranty card is securely kept.",
-            "ko": "구매 영수증을 그대로 보관하고 있으며 품질 보증서도 잘 보관되어 있습니다."
+            "en": "I have the original purchase receipt and the warranty card with me.",
+            "ko": "구매 영수증과 품질 보증서를 그대로 가지고 있습니다."
           },
           {
-            "en": "If you have another brand-new unit in stock, I would like to exchange it as soon as possible.",
-            "ko": "혹시 매장에 새 제품 재고가 있다면 가능한 한 빨리 새 상품으로 교환받고 싶습니다."
+            "en": "If you have another one in stock, I would like to exchange it for a new one.",
+            "ko": "혹시 매장에 재고가 있다면 새 제품으로 교환받고 싶습니다."
           },
           {
-            "en": "If an immediate replacement is difficult, could you please process a full refund for me?",
-            "ko": "만약 즉시 교환이 어렵다면 전액 환불로 처리해 주실 수 있나요?"
+            "en": "If that is not possible, could you please process a full refund for me?",
+            "ko": "만약 그것이 어렵다면, 전액 환불로 처리해 주실 수 있나요?"
           },
           {
-            "en": "Thank you very much for your understanding and prompt help. I look forward to your reply.",
-            "ko": "이해해 주시고 신속하게 도와주셔서 감사드리며, 확인 후 답변 부탁드립니다."
+            "en": "Thank you very much for your understanding and prompt help.",
+            "ko": "이해해 주시고 신속하게 도와주셔서 정말 감사드립니다."
           }
         ]
       }

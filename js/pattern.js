@@ -47,6 +47,13 @@ function safeEscapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
+// 뼈대 대괄호 [슬롯] 하이라이트 포맷터
+function formatSlotText(str) {
+  if (!str) return "";
+  const escaped = safeEscapeHtml(str);
+  return escaped.replace(/\[([^\]]+)\]/g, '<span class="pattern-slot-tag">[$1]</span>');
+}
+
 // 특정 패턴 직접 선택 및 진입
 function selectPattern(idx) {
   const parsed = parseInt(idx, 10);
@@ -184,12 +191,12 @@ function renderPatternCard() {
         if (typeof item === "object" && item && item.en) {
           return `
             <div class="skeleton-item">
-              <div class="skeleton-en">${safeEscapeHtml(item.en)}</div>
-              ${item.ko ? `<div class="skeleton-ko">${safeEscapeHtml(item.ko)}</div>` : ""}
+              <div class="skeleton-en">${formatSlotText(item.en)}</div>
+              ${item.ko ? `<div class="skeleton-ko">${formatSlotText(item.ko)}</div>` : ""}
             </div>
           `;
         }
-        return `<div class="skeleton-item"><div class="skeleton-en">${safeEscapeHtml(item)}</div></div>`;
+        return `<div class="skeleton-item"><div class="skeleton-en">${formatSlotText(item)}</div></div>`;
       })
       .join("");
   }

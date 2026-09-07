@@ -221,6 +221,24 @@
   opacity: 0.88;
 }
 
+.pattern-slot-tag {
+  display: inline-block;
+  background: #f3e8ff;
+  color: #6b21a8;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 4px;
+  margin: 0 2px;
+  border: 1px solid #d8b4fe;
+  font-size: 0.95em;
+}
+
+body.dark-theme .pattern-slot-tag {
+  background: #1e293b;
+  color: #93c5fd;
+  border-color: #475569;
+}
+
 /* ── 인터랙티브 슬롯 스위처 (Slot Switcher) ── */
 .switcher-wrap {
   margin-bottom: 18px;
