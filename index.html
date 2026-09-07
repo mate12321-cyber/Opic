@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="css/grammar.css" />
     <link rel="stylesheet" href="css/opic.css" />
     <link rel="stylesheet" href="css/pattern.css" />
+    <link rel="stylesheet" href="css/filler.css" />
     <link rel="stylesheet" href="css/vocab-tooltip.css" />
   </head>
   <body>
@@ -95,6 +96,27 @@
               >
               <span class="nav-card-sub" id="navPatternSub"
                 >6대 만능 템플릿으로 모든 질문 정복</span
+              >
+            </span>
+            <span class="nav-card-arrow">›</span>
+          </button>
+          <button class="nav-card" id="navFiller">
+            <span class="nav-card-icon">💬</span>
+            <span class="nav-card-body">
+              <span class="nav-card-title"
+                >필러(Filler) 집중 훈련
+                <span
+                  style="
+                    font-size: 11px;
+                    color: #059669;
+                    font-weight: 700;
+                    margin-left: 4px;
+                  "
+                  >유창성 UP 🔥</span
+                ></span
+              >
+              <span class="nav-card-sub" id="navFillerSub"
+                >16개 핵심 필러 · 시점별 가이드 & 실전 연습</span
               >
             </span>
             <span class="nav-card-arrow">›</span>
@@ -1234,6 +1256,84 @@
       </div>
     </div>
 
+    <!-- 💬 필러(Filler Words) 집중 훈련 화면 -->
+    <div class="filler-screen" id="fillerScreen" style="display: none">
+      <div class="mode-switch-row">
+        <span class="mode-switch" id="homeFromFiller">🏠 홈</span>
+        <span class="mode-switch" id="toPatternFromFiller"
+          >만능 패턴 훈련 →</span
+        >
+      </div>
+
+      <div class="filler-header-box">
+        <div class="filler-header-title">
+          <span>💬 OPIc 필러(Filler Words) 집중 훈련</span>
+          <span
+            class="cache-badge"
+            id="fillerMasteredCountBadge"
+            style="margin-left: auto; font-weight: 700; color: #166534; background: #dcfce7;"
+            >0 / 16개 숙달 완료 ✓</span
+          >
+        </div>
+        <p class="filler-header-desc">
+          외운 티를 없애고 자연스러운 원어민 구어체 대화 느낌을 주는 핵심 필러 16선입니다. 
+          상황별 <strong>사용 시점 가이드</strong>를 익히고, 원어민 발음(🔊)과 마이크(🎤)로 입에 익혀보세요!
+        </p>
+      </div>
+
+      <!-- 카테고리 탭 (시점별 분류) -->
+      <div class="filler-tabs">
+        <button
+          type="button"
+          class="filler-tab-btn active"
+          data-tab="all"
+          onclick="selectFillerTab('all')"
+        >
+          <span>🌟 전체 보기</span>
+          <span class="filler-tab-badge">16</span>
+        </button>
+        <button
+          type="button"
+          class="filler-tab-btn"
+          data-tab="start"
+          onclick="selectFillerTab('start')"
+        >
+          <span>⏱️ 1. 시작/생각시간</span>
+          <span class="filler-tab-badge">5</span>
+        </button>
+        <button
+          type="button"
+          class="filler-tab-btn"
+          data-tab="bridge"
+          onclick="selectFillerTab('bridge')"
+        >
+          <span>🔄 2. 문장연결/단어고르기</span>
+          <span class="filler-tab-badge">5</span>
+        </button>
+        <button
+          type="button"
+          class="filler-tab-btn"
+          data-tab="emotion"
+          onclick="selectFillerTab('emotion')"
+        >
+          <span>💡 3. 감정/강조</span>
+          <span class="filler-tab-badge">4</span>
+        </button>
+        <button
+          type="button"
+          class="filler-tab-btn"
+          data-tab="finish"
+          onclick="selectFillerTab('finish')"
+        >
+          <span>🏁 4. 깔끔한 마무리</span>
+          <span class="filler-tab-badge">2</span>
+        </button>
+      </div>
+
+      <!-- 필러 카드 목록 컨테이너 -->
+      <div class="filler-list" id="fillerListContainer"></div>
+    </div>
+
     <!-- 🎧 TTS & 오디오 캐시 설정 모달 -->
     <div class="modal-backdrop" id="ttsSettingsModal">
       <div class="modal-card">
@@ -1651,6 +1751,7 @@
     <script src="js/grammar.js"></script>
     <script src="js/opic.js"></script>
     <script src="js/pattern.js"></script>
+    <script src="js/filler.js"></script>
     <script src="js/shortcuts.js"></script>
     <script src="js/vocab-tooltip.js"></script>
     <script src="app.js"></script>

@@ -1,0 +1,547 @@
+/**
+ * [filler.css] OPIc 필러(Filler Words) 집중 훈련 전용 스타일
+ */
+
+.filler-screen {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+
+/* ── 상단 헤더 & 설명 ── */
+.filler-header-box {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.filler-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #166534;
+  margin-bottom: 6px;
+}
+
+.filler-header-desc {
+  font-size: 13px;
+  color: #15803d;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── 카테고리 필터 탭 ── */
+.filler-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filler-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-sub);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.filler-tab-btn:hover {
+  border-color: #16a34a;
+  color: #16a34a;
+  background: #f0fdf4;
+}
+
+.filler-tab-btn.active {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
+}
+
+.filler-tab-badge {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.08);
+  font-weight: 700;
+}
+
+.filler-tab-btn.active .filler-tab-badge {
+  background: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+/* ── 필러 카드 리스트 ── */
+.filler-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.filler-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.filler-card:hover {
+  border-color: #86efac;
+  box-shadow: var(--shadow-md);
+}
+
+.filler-card.mastered {
+  border-left: 5px solid #16a34a;
+}
+
+/* 카드 상단 */
+.filler-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.filler-phrase-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.filler-phrase {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: -0.01em;
+}
+
+.filler-pronounce {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #16a34a;
+}
+
+.filler-meaning {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.filler-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn-filler-tts {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.btn-filler-tts:hover {
+  background: #dcfce7;
+  border-color: #86efac;
+}
+
+.btn-filler-master {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-filler-master:hover {
+  background: #e5e7eb;
+}
+
+.btn-filler-master.active {
+  background: #dcfce7;
+  border-color: #86efac;
+  color: #15803d;
+  font-weight: 700;
+}
+
+/* ── 💡 타이밍 가이드 박스 (핵심) ── */
+.filler-timing-box {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filler-timing-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1d4ed8;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.filler-timing-content {
+  font-size: 13px;
+  color: #1e40af;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+/* ── 팁 박스 ── */
+.filler-tip-box {
+  background: #fefce8;
+  border: 1px solid #fef08a;
+  border-radius: var(--radius-sm);
+  padding: 9px 13px;
+  font-size: 12.5px;
+  color: #854d0e;
+  line-height: 1.4;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.filler-tip-box span {
+  flex-shrink: 0;
+}
+
+/* ── 실전 예문 섹션 ── */
+.filler-examples-wrap {
+  border-top: 1px dashed var(--border-color);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filler-examples-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.filler-example-item {
+  background: var(--bg-hover);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+}
+
+.filler-example-context {
+  font-size: 11px;
+  font-weight: 700;
+  color: #059669;
+  background: #d1fae5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.filler-example-en {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.45;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.filler-example-en mark {
+  background: #bbf7d0;
+  color: #14532d;
+  font-weight: 800;
+  padding: 0 3px;
+  border-radius: 3px;
+}
+
+.filler-example-ko {
+  font-size: 12px;
+  color: var(--text-sub);
+  line-height: 1.4;
+}
+
+.btn-example-tts {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: var(--text-sub);
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.btn-example-tts:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #16a34a;
+}
+
+/* ── 따라 말하기 (STT Practice) ── */
+.filler-practice-box {
+  margin-top: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filler-practice-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filler-practice-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.filler-mic-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filler-mic-btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.filler-mic-btn.listening {
+  background: #ef4444;
+  border-color: #dc2626;
+  color: #ffffff;
+  animation: pulse-red 1.5s infinite;
+}
+
+.filler-stt-result {
+  font-size: 13px;
+  color: #0f172a;
+  min-height: 22px;
+  line-height: 1.4;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.filler-stt-feedback {
+  font-size: 11.5px;
+  font-weight: 700;
+  display: none;
+}
+
+.filler-stt-feedback.pass {
+  display: block;
+  color: #15803d;
+}
+
+.filler-stt-feedback.miss {
+  display: block;
+  color: #b45309;
+}
+
+/* ── 다크 모드 지원 ── */
+body.dark-theme .filler-header-box {
+  background: rgba(22, 101, 52, 0.25);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+body.dark-theme .filler-header-title {
+  color: #86efac;
+}
+
+body.dark-theme .filler-header-desc {
+  color: #bbf7d0;
+}
+
+body.dark-theme .filler-tab-btn {
+  background: #1f2937;
+  border-color: #374151;
+  color: #9ca3af;
+}
+
+body.dark-theme .filler-tab-btn:hover {
+  background: #374151;
+  border-color: #22c55e;
+  color: #86efac;
+}
+
+body.dark-theme .filler-tab-btn.active {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #ffffff;
+}
+
+body.dark-theme .filler-card {
+  background: #111827;
+  border-color: #374151;
+}
+
+body.dark-theme .filler-phrase {
+  color: #f9fafb;
+}
+
+body.dark-theme .filler-meaning {
+  color: #9ca3af;
+}
+
+body.dark-theme .btn-filler-tts {
+  background: rgba(22, 163, 74, 0.2);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #86efac;
+}
+
+body.dark-theme .btn-filler-tts:hover {
+  background: rgba(22, 163, 74, 0.35);
+}
+
+body.dark-theme .btn-filler-master {
+  background: #1f2937;
+  border-color: #374151;
+  color: #9ca3af;
+}
+
+body.dark-theme .btn-filler-master.active {
+  background: rgba(22, 163, 74, 0.25);
+  border-color: #22c55e;
+  color: #86efac;
+}
+
+body.dark-theme .filler-timing-box {
+  background: rgba(30, 58, 138, 0.3);
+  border-color: rgba(96, 165, 250, 0.35);
+}
+
+body.dark-theme .filler-timing-label {
+  color: #93c5fd;
+}
+
+body.dark-theme .filler-timing-content {
+  color: #bfdbfe;
+}
+
+body.dark-theme .filler-tip-box {
+  background: rgba(133, 77, 14, 0.25);
+  border-color: rgba(250, 204, 21, 0.35);
+  color: #fde047;
+}
+
+body.dark-theme .filler-example-item {
+  background: #1f2937;
+}
+
+body.dark-theme .filler-example-context {
+  background: rgba(5, 150, 105, 0.3);
+  color: #6ee7b7;
+}
+
+body.dark-theme .filler-example-en mark {
+  background: #15803d;
+  color: #dcfce7;
+}
+
+body.dark-theme .btn-example-tts:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #86efac;
+}
+
+body.dark-theme .filler-practice-box {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+body.dark-theme .filler-practice-label {
+  color: #94a3b8;
+}
+
+body.dark-theme .filler-mic-btn {
+  background: #334155;
+  border-color: #475569;
+  color: #e2e8f0;
+}
+
+body.dark-theme .filler-mic-btn:hover {
+  background: #475569;
+}
+
+body.dark-theme .filler-stt-result {
+  color: #f1f5f9;
+}
+
+body.dark-theme .filler-stt-feedback.pass {
+  color: #4ade80;
+}
+
+body.dark-theme .filler-stt-feedback.miss {
+  color: #fbbf24;
+}

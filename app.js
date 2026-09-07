@@ -430,6 +430,26 @@ if (patternChangeListBtn) {
   });
 }
 
+if (els.navFiller) {
+  els.navFiller.addEventListener("click", () => {
+    if (typeof showFillerScreen === "function") {
+      showFillerScreen();
+    }
+  });
+}
+
+const toPatternFromFiller = document.getElementById("toPatternFromFiller");
+if (toPatternFromFiller) {
+  toPatternFromFiller.addEventListener("click", () => {
+    hideAllScreens();
+    if (els.patternTopicScreen) {
+      els.patternTopicScreen.style.display = "block";
+      renderPatternTopics();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+}
+
 [
   els.homeFromTopic,
   els.homeFromWordTopic,
@@ -442,6 +462,7 @@ if (patternChangeListBtn) {
   els.homeFromOpicDone,
   homeFromPatternTopic,
   homeFromPatternCard,
+  document.getElementById("homeFromFiller"),
 ].forEach((el) => el && el.addEventListener("click", showHomeScreen));
 
 // ── 마이크 음성 입력(STT) 토글 연동 ────────────────────────────────
@@ -561,6 +582,9 @@ async function initDashboard() {
   await loadWordProgress();
   await loadOpicProgress();
   await loadPatternProgress();
+  if (typeof loadFillerProgress === "function") {
+    await loadFillerProgress();
+  }
   await loadProgress();
   renderHomeDashboard();
   if (typeof renderPatternTopics === "function") {

@@ -37,6 +37,7 @@ let WORD_CATEGORIES = []; // 문법 카테고리 목록
 let OPIC_QUESTIONS = []; // OPIc 실전 질문 목록
 let OPIC_CATEGORIES = []; // OPIc 실전 카테고리 목록
 let PATTERN_ITEMS = []; // 만능 패턴 목록
+let FILLER_ITEMS = []; // OPIc 핵심 필러 목록
 
 // 문장 번역 주제 대분류 그룹 정의
 const GROUPS = {
@@ -77,6 +78,7 @@ const STORAGE_KEY = "ko-en-opic-progress";
 const WORD_STORAGE_KEY = "ko-en-opic-word-progress";
 const OPIC_STORAGE_KEY = "ko-en-opic-qa-progress";
 const PATTERN_STORAGE_KEY = "ko-en-opic-pattern-progress";
+const FILLER_STORAGE_KEY = "ko-en-opic-filler-progress";
 const DAILY_LOG_KEY = "ko-en-opic-daily-log";
 
 // 요일 라벨 및 일별 학습 기록 객체 { "YYYY-MM-DD": 풀이문제수 }
@@ -159,12 +161,13 @@ async function loadData() {
   };
 
   try {
-    const [sentencesData, grammarData, opicData, patternData] =
+    const [sentencesData, grammarData, opicData, patternData, fillerData] =
       await Promise.all([
         fetchJson("data/sentences_im1.json"),
         fetchJson("data/grammar_im1.json"),
         fetchJson("data/questions_im1.json"),
         fetchJson("data/patterns_im1.json"),
+        fetchJson("data/fillers_im1.json"),
       ]);
 
     if (sentencesData && Array.isArray(sentencesData)) {
@@ -181,6 +184,9 @@ async function loadData() {
     }
     if (patternData && Array.isArray(patternData)) {
       PATTERN_ITEMS = patternData;
+    }
+    if (fillerData && Array.isArray(fillerData)) {
+      FILLER_ITEMS = fillerData;
     }
   } catch (e) {
     console.error("데이터 전체 로드 처리 중 오류:", e);
@@ -199,6 +205,7 @@ async function exportAllDataJson() {
         word: localStorage.getItem(WORD_STORAGE_KEY),
         opic: localStorage.getItem(OPIC_STORAGE_KEY),
         pattern: localStorage.getItem(PATTERN_STORAGE_KEY),
+        filler: localStorage.getItem(FILLER_STORAGE_KEY),
       },
       savedWords: localStorage.getItem("ko-en-opic-saved-words"),
       ttsSettings: localStorage.getItem("ko-en-opic-tts-settings"),
@@ -250,6 +257,9 @@ async function importDataJson(file) {
       }
       if (data.progress.pattern) {
         await storage.set(PATTERN_STORAGE_KEY, data.progress.pattern, false);
+      }
+      if (data.progress.filler) {
+        await storage.set(FILLER_STORAGE_KEY, data.progress.filler, false);
       }
     }
     if (data.savedWords) {

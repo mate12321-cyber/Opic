@@ -204,6 +204,11 @@ const els = {
   homeFromPatternCard: document.getElementById("homeFromPatternCard"),
   patternChangeListBtn: document.getElementById("patternChangeListBtn"),
   toOpicFromPattern: document.getElementById("toOpicFromPattern"),
+  navFiller: document.getElementById("navFiller"),
+  navFillerSub: document.getElementById("navFillerSub"),
+  fillerScreen: document.getElementById("fillerScreen"),
+  homeFromFiller: document.getElementById("homeFromFiller"),
+  toPatternFromFiller: document.getElementById("toPatternFromFiller"),
 };
 
 // 모든 서브 화면을 숨기고 실행 중인 음성/마이크를 초기화
@@ -211,6 +216,9 @@ function hideAllScreens() {
   stopTTS();
   if (typeof stopSpeakingTimer === "function") {
     stopSpeakingTimer();
+  }
+  if (typeof stopFillerMic === "function") {
+    stopFillerMic();
   }
   if (listening && recognition) {
     recognition.onend = null;
@@ -233,6 +241,7 @@ function hideAllScreens() {
   }
   if (els.patternTopicScreen) els.patternTopicScreen.style.display = "none";
   if (els.patternCard) els.patternCard.style.display = "none";
+  if (els.fillerScreen) els.fillerScreen.style.display = "none";
 }
 
 // 문장 번역 연습 주제 선택 카드 렌더링
@@ -408,6 +417,14 @@ function renderHomeDashboard() {
       doneCount > 0
         ? `학습 중 · 6개 중 ${doneCount}개 완료 ✓`
         : `6대 핵심 템플릿으로 모든 질문 정복`;
+  }
+
+  if (els.navFillerSub) {
+    const masteredCount = Object.keys(fillerProgress || {}).length;
+    els.navFillerSub.textContent =
+      masteredCount > 0
+        ? `학습 중 · ${FILLER_ITEMS.length}개 중 ${masteredCount}개 숙달 완료 ✓`
+        : `16개 핵심 필러 · 시점별 가이드 & 실전 연습`;
   }
 }
 

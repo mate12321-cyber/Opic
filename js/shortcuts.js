@@ -14,6 +14,7 @@ document.addEventListener("keydown", (e) => {
   // 1. 전역 Esc: 음성 재생 및 마이크 인식 즉시 중단
   if (e.key === "Escape" || e.code === "Escape") {
     stopTTS();
+    if (typeof stopFillerMic === "function") stopFillerMic();
     if (listening && recognition) {
       recognition.stop();
       stopListeningUI();
