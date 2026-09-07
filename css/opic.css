@@ -890,20 +890,20 @@ body.dark-theme .eva-blind-box .blind-text {
 }
 
 body.dark-theme .btn-reveal-blind {
-  background: #1e1b4b;
-  border-color: #3730a3;
-  color: #a5b4fc;
+  background: #1e293b;
+  border-color: #475569;
+  color: #f1f5f9;
 }
 body.dark-theme .btn-reveal-blind:hover {
-  background: #312e81;
-  border-color: #6366f1;
-  color: #c7d2fe;
+  background: #334155;
+  border-color: #64748b;
+  color: #ffffff;
 }
 
 body.dark-theme .eva-q-ko {
   background: rgba(17, 24, 39, 0.85);
   color: #cbd5e1;
-  border-left-color: #6366f1;
+  border-left-color: #64748b;
 }
 
 body.dark-theme .btn-play-mode {
@@ -916,9 +916,9 @@ body.dark-theme .btn-play-mode:hover {
   color: #f9fafb;
 }
 body.dark-theme .btn-play-mode.active {
-  background: #1e1b4b;
-  border-color: #6366f1;
-  color: #a5b4fc;
+  background: #334155;
+  border-color: #64748b;
+  color: #f1f5f9;
 }
 
 body.dark-theme .speaking-timer-box {
@@ -968,7 +968,7 @@ body.dark-theme .view-tab-btn {
 }
 body.dark-theme .view-tab-btn.active {
   background: #111827;
-  color: #a5b4fc;
+  color: #f1f5f9;
 }
 
 body.dark-theme .sentence-card {
@@ -976,17 +976,17 @@ body.dark-theme .sentence-card {
   border-color: #374151;
 }
 body.dark-theme .sentence-card:hover {
-  border-color: #6366f1;
+  border-color: #64748b;
 }
 body.dark-theme .sentence-index-badge {
-  background: #1e1b4b;
-  color: #a5b4fc;
+  background: #334155;
+  color: #f1f5f9;
 }
 body.dark-theme .sentence-play-btn {
-  color: #a5b4fc;
+  color: #cbd5e1;
 }
 body.dark-theme .sentence-play-btn:hover {
-  background: #1e1b4b;
+  background: #334155;
 }
 
 body.dark-theme .full-paragraph-view {
@@ -1005,9 +1005,9 @@ body.dark-theme .keywords-header {
   color: #fde68a;
 }
 body.dark-theme .keyword-chip {
-  background: #1e1b4b;
-  border-color: #3730a3;
-  color: #a5b4fc;
+  background: #334155;
+  border-color: #475569;
+  color: #f1f5f9;
 }
 
 body.dark-theme .btn-toggle-model {

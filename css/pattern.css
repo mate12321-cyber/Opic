@@ -500,23 +500,23 @@ body.dark-theme .pattern-select-card {
   color: #e5e7eb;
 }
 body.dark-theme .pattern-select-card:hover {
-  background: #2e1065;
-  border-color: #6366f1;
+  background: #1e293b;
+  border-color: #64748b;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 body.dark-theme .pattern-select-card:active {
-  background: #3b0764;
-  border-color: #818cf8;
+  background: #334155;
+  border-color: #94a3b8;
 }
 
 body.dark-theme .pattern-select-icon {
-  background: #1e1b4b;
-  color: #a5b4fc;
+  background: #334155;
+  color: #f1f5f9;
 }
 
 body.dark-theme .pattern-select-badge {
-  background: #1e1b4b;
-  color: #a5b4fc;
+  background: #334155;
+  color: #f1f5f9;
 }
 
 body.dark-theme .pattern-select-cats {
@@ -531,24 +531,24 @@ body.dark-theme .pattern-header-box {
 }
 
 body.dark-theme .skeleton-box {
-  background: rgba(88, 28, 135, 0.2);
-  border-color: rgba(217, 70, 239, 0.35);
+  background: #1e293b;
+  border-color: #475569;
 }
 body.dark-theme .skeleton-box-header {
-  color: #f0abfc;
+  color: #f1f5f9;
 }
 body.dark-theme .skeleton-list {
-  color: #e879f9;
+  color: #cbd5e1;
 }
 body.dark-theme .skeleton-item {
-  background: #111827;
-  border-left-color: #d946ef;
+  background: #0f172a;
+  border-left-color: #94a3b8;
 }
 body.dark-theme .skeleton-en {
-  color: #fdf4ff;
+  color: #f8fafc;
 }
 body.dark-theme .skeleton-ko {
-  color: #d8b4fe;
+  color: #cbd5e1;
 }
 
 body.dark-theme .switcher-chip {
@@ -557,15 +557,15 @@ body.dark-theme .switcher-chip {
   color: #e5e7eb;
 }
 body.dark-theme .switcher-chip:hover {
-  background: #374151;
-  border-color: #6366f1;
-  color: #818cf8;
+  background: #334155;
+  border-color: #64748b;
+  color: #f1f5f9;
 }
 body.dark-theme .switcher-chip.active {
-  background: #6366f1;
-  border-color: #6366f1;
+  background: #475569;
+  border-color: #64748b;
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 2px 8px rgba(71, 85, 105, 0.4);
 }
 
 body.dark-theme .pattern-sentence-item {
@@ -573,18 +573,19 @@ body.dark-theme .pattern-sentence-item {
   border-color: #374151;
 }
 body.dark-theme .pattern-sentence-item:hover {
-  border-color: #6366f1;
+  border-color: #64748b;
 }
 body.dark-theme .ps-num {
-  background: #1e1b4b;
-  color: #a5b4fc;
+  background: #334155;
+  color: #f1f5f9;
 }
 
 body.dark-theme #patternRetrySameLink {
-  background: #1e1b4b;
-  border-color: #3730a3;
-  color: #a5b4fc;
+  background: #334155;
+  border-color: #475569;
+  color: #e2e8f0;
 }
 body.dark-theme #patternRetrySameLink:hover {
-  background: #312e81;
+  background: #475569;
+  color: #ffffff;
 }

@@ -73,11 +73,11 @@ body.dark-theme {
   --surface-subtle: #1f2937;
   --surface-hover: #374151;
 
-  --primary: #6366f1;
-  --primary-hover: #818cf8;
-  --primary-active: #4f46e5;
-  --primary-subtle: #1e1b4b;
-  --primary-border: #3730a3;
+  --primary: #64748b;
+  --primary-hover: #94a3b8;
+  --primary-active: #475569;
+  --primary-subtle: #1e293b;
+  --primary-border: #475569;
 
   --text-main: #f9fafb;
   --text-body: #e5e7eb;
@@ -117,7 +117,7 @@ body.dark-theme select {
 body.dark-theme input:focus,
 body.dark-theme textarea:focus,
 body.dark-theme select:focus {
-  border-color: #6366f1;
+  border-color: #64748b;
   background-color: #111827;
 }
 

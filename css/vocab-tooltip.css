@@ -387,8 +387,8 @@ body.dark-theme .vocab-header {
 }
 
 body.dark-theme .vocab-tag {
-  background: #1e1b4b;
-  color: #a5b4fc;
+  background: #334155;
+  color: #f1f5f9;
 }
 
 body.dark-theme .vocab-dict-def {
@@ -412,7 +412,7 @@ body.dark-theme .saved-word-item {
 }
 body.dark-theme .saved-word-item:hover {
   background: #374151;
-  border-color: #6366f1;
+  border-color: #64748b;
 }
 
 body.dark-theme .vocab-empty-state {
