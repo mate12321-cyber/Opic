@@ -176,8 +176,16 @@ function renderPatternCard() {
   const skeletonWrap = document.getElementById("patternSkeletonList");
   if (skeletonWrap && pat.skeleton) {
     skeletonWrap.innerHTML = pat.skeleton
-      .map((line) => {
-        return `<div class="skeleton-item">${safeEscapeHtml(line)}</div>`;
+      .map((item) => {
+        if (typeof item === "object" && item && item.en) {
+          return `
+            <div class="skeleton-item">
+              <div class="skeleton-en">${safeEscapeHtml(item.en)}</div>
+              ${item.ko ? `<div class="skeleton-ko">${safeEscapeHtml(item.ko)}</div>` : ""}
+            </div>
+          `;
+        }
+        return `<div class="skeleton-item"><div class="skeleton-en">${safeEscapeHtml(item)}</div></div>`;
       })
       .join("");
   }
@@ -319,7 +327,9 @@ async function evaluatePatternAnswer() {
   const userText = userInputEl ? userInputEl.value.trim() : "";
 
   if (!userText) {
-    alert("마이크(🎤)를 누르고 패턴을 말씀하시거나 직접 입력한 후 채점하기를 눌러주세요.");
+    alert(
+      "마이크(🎤)를 누르고 패턴을 말씀하시거나 직접 입력한 후 채점하기를 눌러주세요.",
+    );
     if (userInputEl) userInputEl.focus();
     return;
   }
@@ -350,7 +360,10 @@ async function evaluatePatternAnswer() {
   // 문법 검사 실행
   const grammarBox = document.getElementById("patternGrammarBox");
   const grammarContent = document.getElementById("patternGrammarContent");
-  if (typeof checkGrammar === "function" && typeof renderGrammarResults === "function") {
+  if (
+    typeof checkGrammar === "function" &&
+    typeof renderGrammarResults === "function"
+  ) {
     checkGrammar(userText).then((matches) => {
       renderGrammarResults(matches, userText, grammarBox, grammarContent);
     });
@@ -449,4 +462,3 @@ function prevPattern() {
   }
 }
 window.prevPattern = prevPattern;
-

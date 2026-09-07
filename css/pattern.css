@@ -199,7 +199,26 @@
   box-shadow: 0 1px 3px rgba(112, 26, 117, 0.07);
   word-break: keep-all;
   overflow-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.skeleton-en {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #701a75;
+  line-height: 1.45;
+}
+
+.skeleton-ko {
+  font-family: var(--font-sans);
+  font-size: 12px;
   font-weight: 500;
+  color: #86198f;
+  line-height: 1.4;
+  opacity: 0.88;
 }
 
 /* ── 인터랙티브 슬롯 스위처 (Slot Switcher) ── */
@@ -524,7 +543,12 @@ body.dark-theme .skeleton-list {
 body.dark-theme .skeleton-item {
   background: #111827;
   border-left-color: #d946ef;
-  color: #f9fafb;
+}
+body.dark-theme .skeleton-en {
+  color: #fdf4ff;
+}
+body.dark-theme .skeleton-ko {
+  color: #d8b4fe;
 }
 
 body.dark-theme .switcher-chip {
@@ -564,4 +588,3 @@ body.dark-theme #patternRetrySameLink {
 body.dark-theme #patternRetrySameLink:hover {
   background: #312e81;
 }
-
