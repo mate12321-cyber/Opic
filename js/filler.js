@@ -5,11 +5,23 @@
  * - 원어민 TTS 음성 재생 & 마이크 STT 따라 말하기 인터랙션
  */
 
-// 필러 데이터 및 상태 관리
-let FILLER_ITEMS = [];
+// 필러 상태 관리 (FILLER_ITEMS와 FILLER_STORAGE_KEY는 storage.js에 정의됨)
 let fillerCurrentTab = "all";
 let fillerProgress = {}; // { fil_01: true, ... }
-const FILLER_STORAGE_KEY = "ko-en-opic-filler-progress";
+
+// HTML escape 헬퍼 함수 (전역 함수가 없을 때 대비)
+function escapeFillerHtml(str) {
+  if (typeof safeEscapeHtml === "function") {
+    return safeEscapeHtml(str);
+  }
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
 // 필러 진행 상황 로드
 async function loadFillerProgress() {
@@ -123,7 +135,7 @@ function renderFillerList() {
   container.innerHTML = filtered
     .map((f, idx) => {
       const isMastered = !!fillerProgress[f.id];
-      const escapedPhrase = safeEscapeHtml(f.phrase);
+      const escapedPhrase = escapeFillerHtml(f.phrase);
       const cleanPhraseForTts = f.phrase.replace(/[\.\.\.\/]/g, "").trim();
 
       return `
@@ -132,9 +144,9 @@ function renderFillerList() {
           <div class="filler-phrase-wrap">
             <div class="filler-phrase">
               <span>${f.categoryIcon || "💬"} ${escapedPhrase}</span>
-              <span class="filler-pronounce">${safeEscapeHtml(f.pronunciation || "")}</span>
+              <span class="filler-pronounce">${escapeFillerHtml(f.pronunciation || "")}</span>
             </div>
-            <div class="filler-meaning">${safeEscapeHtml(f.meaning)}</div>
+            <div class="filler-meaning">${escapeFillerHtml(f.meaning)}</div>
           </div>
           <div class="filler-card-actions">
             <button
@@ -161,7 +173,7 @@ function renderFillerList() {
           <div class="filler-timing-label">
             <span>💡 사용 시점 & 타이밍 가이드</span>
           </div>
-          <div class="filler-timing-content">${safeEscapeHtml(f.timingGuide)}</div>
+          <div class="filler-timing-content">${escapeFillerHtml(f.timingGuide)}</div>
         </div>
 
         <!-- 꿀팁 박스 -->
@@ -170,7 +182,7 @@ function renderFillerList() {
             ? `
           <div class="filler-tip-box">
             <span>🍯</span>
-            <div><strong>Tip:</strong> ${safeEscapeHtml(f.tip)}</div>
+            <div><strong>Tip:</strong> ${escapeFillerHtml(f.tip)}</div>
           </div>
         `
             : ""
@@ -187,7 +199,7 @@ function renderFillerList() {
               const highlightedEn = highlightFillerWords(ex.en, f.phrase);
               return `
               <div class="filler-example-item">
-                ${ex.context ? `<span class="filler-example-context">📌 ${safeEscapeHtml(ex.context)}</span>` : ""}
+                ${ex.context ? `<span class="filler-example-context">📌 ${escapeFillerHtml(ex.context)}</span>` : ""}
                 <div class="filler-example-en">
                   <div>${highlightedEn}</div>
                   <button
@@ -199,7 +211,7 @@ function renderFillerList() {
                     🔊
                   </button>
                 </div>
-                <div class="filler-example-ko">${safeEscapeHtml(ex.ko)}</div>
+                <div class="filler-example-ko">${escapeFillerHtml(ex.ko)}</div>
               </div>
             `;
             })
@@ -234,7 +246,7 @@ function renderFillerList() {
 // 필러 문구 하이라이트 헬퍼 함수
 function highlightFillerWords(text, phrase) {
   if (!text) return "";
-  let cleanText = safeEscapeHtml(text);
+  let cleanText = escapeFillerHtml(text);
   
   // phrase에서 핵심 키워드들 추출 (예: "Let me see... / Let's see..." -> ["Let me see", "Let's see"])
   const phrases = phrase
