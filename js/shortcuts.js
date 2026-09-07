@@ -213,14 +213,23 @@ document.addEventListener("keydown", (e) => {
 
   // 5. 만능 패턴 훈련 모드 단축키
   const patternCard = document.getElementById("patternCard");
+  const isPatternInputFocused = document.activeElement === els.patternUserInput;
   if (patternCard && patternCard.style.display !== "none") {
-    if (isEnter) {
+    if (isEnter && (!isPatternInputFocused || !e.shiftKey)) {
       e.preventDefault();
-      if (typeof nextPattern === "function") nextPattern();
+      if (typeof evaluatePatternAnswer === "function") evaluatePatternAnswer();
       return;
-    } else if (isKeyP) {
+    } else if (isKeyP && !isPatternInputFocused) {
       e.preventDefault();
       if (typeof prevPattern === "function") prevPattern();
+      return;
+    } else if (isKeyR && !isPatternInputFocused) {
+      e.preventDefault();
+      if (typeof retryPatternQuestion === "function") retryPatternQuestion();
+      return;
+    } else if (isSpace && !isPatternInputFocused) {
+      e.preventDefault();
+      if (els.patternTtsAllBtn) els.patternTtsAllBtn.click();
       return;
     }
   }

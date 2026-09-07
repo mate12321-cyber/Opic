@@ -1081,43 +1081,148 @@
           <div class="switcher-chips" id="patternSwitcherChips"></div>
         </div>
 
-        <!-- 단계별 6문장 리스트 -->
-        <div class="lbl-row" style="margin-top: 10px; margin-bottom: 8px">
-          <div class="lbl">단계별 문장 훈련</div>
+        <!-- 단계별 6문장 리스트 (연결 듣기 및 복사 버튼 포함) -->
+        <div class="lbl-row" style="margin-top: 14px; margin-bottom: 8px; align-items: center;">
+          <div class="lbl" style="margin-bottom: 0;">단계별 문장 훈련</div>
+          <div class="action-btn-group">
+            <button
+              class="tts-btn tts-btn-primary"
+              id="patternTtsAllBtn"
+              type="button"
+              title="전체 6문장 연속으로 듣기"
+            >
+              🔊 전체 연결 듣기
+            </button>
+            <button
+              class="copy-btn"
+              id="patternCopyAllBtn"
+              title="전체 6문장 스크립트 복사"
+            >
+              전체 복사
+            </button>
+          </div>
         </div>
         <div class="pattern-sentences-wrap" id="patternSentenceList"></div>
 
-        <!-- 전체 답변 및 오디오 -->
-        <div class="answer" style="display: block; margin-top: 16px">
-          <div class="lbl-row">
-            <div class="lbl">전체 스크립트 연결 듣기</div>
-            <div class="action-btn-group">
-              <button
-                class="tts-btn tts-btn-primary"
-                id="patternTtsAllBtn"
-                type="button"
-                title="전체 답변 원어민 발음 듣기"
-              >
-                🔊 전체 발음 듣기
-              </button>
-              <button
-                class="copy-btn"
-                id="patternCopyAllBtn"
-                title="전체 답변 복사"
-              >
-                복사
-              </button>
-            </div>
-          </div>
-          <div id="patternFullContent" class="pattern-full-content"></div>
+        <!-- 🎙️ 만능 패턴 직접 말하기 녹음 & 실전 채점 영역 -->
+        <div class="lbl-row" style="margin-top: 18px; margin-bottom: 8px;">
+          <div class="lbl" style="margin-bottom: 0;">🎙️ 패턴 직접 말해보기 & 채점</div>
+        </div>
+        <div class="input-wrap">
+          <textarea
+            id="patternUserInput"
+            placeholder="마이크(🎤)를 누르고 완성된 6문장 패턴을 직접 소리 내어 말해보거나 입력해보세요"
+          ></textarea>
+          <button
+            class="mic-btn"
+            id="patternMicBtn"
+            type="button"
+            title="음성으로 답변 말하기"
+          >
+            🎤
+          </button>
+        </div>
+        <div class="mic-error" id="patternMicError"></div>
+        <div class="live-translate" id="patternLiveTranslate">
+          <span class="lt-label">→ 실시간 번역</span>
+          <span class="lt-text" id="patternLiveTranslateText"></span>
+        </div>
+        <div class="input-actions">
+          <button class="copy-btn" id="patternCopyInput" title="내 답변 복사">
+            내 답변 복사
+          </button>
         </div>
 
-        <!-- 버튼 영역 -->
+        <!-- 발음 및 일치도 평가 박스 -->
+        <div class="speech-eval" id="patternSpeechEvalBox" style="display: none">
+          <div class="eval-header">
+            <div class="eval-title">🎙️ 내 패턴 발화 & 발음 진단</div>
+            <span class="eval-score-badge" id="patternEvalScoreBadge">0% 일치</span>
+          </div>
+          <div class="eval-diff" id="patternEvalDiff"></div>
+          <div class="eval-feedback" id="patternEvalFeedback"></div>
+          <div class="eval-actions">
+            <button
+              class="tts-btn"
+              id="ttsPatternUserInputBtn"
+              type="button"
+              title="내가 녹음한 발음 다시 듣기"
+            >
+              🔊 내 발음 다시 듣기
+            </button>
+          </div>
+        </div>
+
+        <!-- 문법 검사 및 교정 영역 -->
+        <div class="grammar" id="patternGrammarBox" style="display: none">
+          <div class="lbl">내 답변 문법 & 표현 분석</div>
+          <div id="patternGrammarContent"></div>
+          <div class="google-ask-row" id="patternGoogleAskRow" style="display: none; margin-top: 10px">
+            <button
+              class="google-ai-btn"
+              id="patternGoogleAskLink"
+              type="button"
+              title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 피드백을 띄웁니다"
+            >
+              <svg
+                class="google-ai-icon"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 2C12 7.523 7.523 12 2 12C7.523 12 12 16.477 12 22C12 16.477 16.477 12 22 12C16.477 12 12 7.523 12 2Z"
+                  fill="#4285f4"
+                />
+                <path
+                  d="M19 2C19 4.209 17.209 6 15 6C17.209 6 19 7.791 19 10C19 7.791 20.791 6 23 6C20.791 6 19 4.209 19 2Z"
+                  fill="#ea4335"
+                />
+                <circle cx="19.5" cy="18.5" r="2.5" fill="#fbbc05" />
+              </svg>
+              <span>Google AI 피드백</span>
+            </button>
+            <button
+              class="google-copy-btn"
+              id="patternGoogleAskCopy"
+              type="button"
+            >
+              <svg
+                class="google-copy-icon"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path
+                  d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                ></path>
+              </svg>
+              <span>피드백 질문 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 컨트롤 버튼 영역 -->
         <div class="row" style="margin-top: 18px">
-          <button class="primary" id="patternNextBtn" style="width: 100%">
-            <span>이 패턴 완료 & 다음 패턴으로 →</span>
+          <button class="primary" id="patternEvalBtn" style="flex: 1">
+            <span>채점하기</span>
             <kbd class="shortcut-key">↵</kbd>
           </button>
+          <button class="primary" id="patternNextBtn" style="flex: 1.2">
+            <span>완료 & 다음 패턴 →</span>
+          </button>
+        </div>
+        <div class="change-topic" id="patternRetrySameLink" style="display: none; margin: 12px auto 0; width: fit-content;">
+          <span>↺ 다시 풀기</span>
+          <kbd class="shortcut-key">R</kbd>
         </div>
 
         <div class="change-topic-row" style="margin-top: 14px">

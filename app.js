@@ -22,6 +22,11 @@ if (els.copyOpicInput) {
     copyText(els.opicUserInput.value.trim(), els.copyOpicInput);
   });
 }
+if (els.copyPatternInput) {
+  els.copyPatternInput.addEventListener("click", () => {
+    copyText(els.patternUserInput.value.trim(), els.copyPatternInput);
+  });
+}
 if (els.copyOpicAll) {
   els.copyOpicAll.addEventListener("click", () => {
     const item = OPIC_QUESTIONS[opicOrder[opicCur]];
@@ -58,6 +63,30 @@ if (els.opicUserInput) {
         if (translated) {
           els.opicLiveTranslateText.textContent = translated;
           els.opicLiveTranslate.classList.add("show");
+        }
+      } catch (e) {
+        /* best effort */
+      }
+    }, 700);
+  });
+}
+
+if (els.patternUserInput) {
+  els.patternUserInput.addEventListener("input", () => {
+    autoResizeTextarea(els.patternUserInput);
+    const text = els.patternUserInput.value.trim();
+    clearTimeout(translateTimer);
+    if (!text) {
+      els.patternLiveTranslate.classList.remove("show");
+      els.patternLiveTranslateText.textContent = "";
+      return;
+    }
+    translateTimer = setTimeout(async () => {
+      try {
+        const translated = await translateToKorean(text);
+        if (translated) {
+          els.patternLiveTranslateText.textContent = translated;
+          els.patternLiveTranslate.classList.add("show");
         }
       } catch (e) {
         /* best effort */
@@ -109,6 +138,21 @@ if (els.opicGoogleAskLink) {
 if (els.opicGoogleAskCopy) {
   els.opicGoogleAskCopy.addEventListener("click", () => {
     copyText(buildOpicGoogleQuery(), els.opicGoogleAskCopy);
+  });
+}
+
+if (els.patternGoogleAskLink) {
+  els.patternGoogleAskLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    const url =
+      "https://www.google.com/search?udm=50&q=" +
+      encodeURIComponent(buildPatternGoogleQuery());
+    openSidePopup(url, "GoogleAI_Pattern");
+  });
+}
+if (els.patternGoogleAskCopy) {
+  els.patternGoogleAskCopy.addEventListener("click", () => {
+    copyText(buildPatternGoogleQuery(), els.patternGoogleAskCopy);
   });
 }
 
@@ -171,6 +215,12 @@ if (els.ttsOpicUserInputBtn) {
   els.ttsOpicUserInputBtn.addEventListener("click", () => {
     const text = els.opicUserInput.value.trim();
     playRecordedVoice("opic", els.ttsOpicUserInputBtn, text);
+  });
+}
+if (els.ttsPatternUserInputBtn) {
+  els.ttsPatternUserInputBtn.addEventListener("click", () => {
+    const text = els.patternUserInput.value.trim();
+    playRecordedVoice("pattern", els.ttsPatternUserInputBtn, text);
   });
 }
 
@@ -409,6 +459,28 @@ if (els.opicMicBtn) {
       true,
     ),
   );
+}
+if (els.patternMicBtn) {
+  els.patternMicBtn.addEventListener("click", () =>
+    toggleSpeechRecognition(
+      els.patternUserInput,
+      els.patternMicBtn,
+      els.patternMicError,
+      "pattern",
+    ),
+  );
+}
+
+// ── 만능 패턴 채점 & 재도전 이벤트 ────────────────────────────────
+if (els.patternEvalBtn) {
+  els.patternEvalBtn.addEventListener("click", () => {
+    if (typeof evaluatePatternAnswer === "function") evaluatePatternAnswer();
+  });
+}
+if (els.patternRetrySameLink) {
+  els.patternRetrySameLink.addEventListener("click", () => {
+    if (typeof retryPatternQuestion === "function") retryPatternQuestion();
+  });
 }
 
 // ── 🌙 다크 모드 토글 ──────────────────────────────────────────────

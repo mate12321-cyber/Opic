@@ -306,42 +306,17 @@
   line-height: 1.4;
 }
 
-/* ── 전체 스크립트 연결 영역 (문장별 영어 ➡️ 한글 번역 순서 배치) ── */
-.pattern-full-content {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 6px;
-}
-
-.pattern-full-pair {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding-bottom: 10px;
-  border-bottom: 1px dashed var(--border-light, #e2e8f0);
-}
-
-.pattern-full-pair:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-.pattern-full-en {
-  font-size: 15px;
+#patternRetrySameLink {
+  display: inline-flex;
+  margin: 14px auto 0;
+  width: auto;
+  background: var(--primary-subtle);
+  border-color: var(--primary-border);
+  color: var(--primary);
   font-weight: 600;
-  color: var(--text-main, #0f172a);
-  line-height: 1.5;
-  word-break: keep-all;
-  overflow-wrap: break-word;
 }
-
-.pattern-full-ko {
-  font-size: 13.5px;
-  color: var(--text-muted, #64748b);
-  line-height: 1.45;
-  word-break: keep-all;
-  overflow-wrap: break-word;
+#patternRetrySameLink:hover {
+  background: #e0e7ff;
 }
 
 /* ── 모바일 반응형 ── */
@@ -581,6 +556,12 @@ body.dark-theme .ps-num {
   color: #a5b4fc;
 }
 
-body.dark-theme .pattern-full-pair {
-  border-bottom-color: #374151;
+body.dark-theme #patternRetrySameLink {
+  background: #1e1b4b;
+  border-color: #3730a3;
+  color: #a5b4fc;
 }
+body.dark-theme #patternRetrySameLink:hover {
+  background: #312e81;
+}
+

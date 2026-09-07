@@ -908,12 +908,12 @@ async function speakText(text, lang = "en-US", btn = null) {
 }
 
 // ── 발음 및 Azure AI 정밀 평가 시스템 ──────────────────────────────────
-let lastRecordedBlobs = { practice: null, opic: null };
-let lastRecordedWavs = { practice: null, opic: null };
+let lastRecordedBlobs = { practice: null, opic: null, pattern: null };
+let lastRecordedWavs = { practice: null, opic: null, pattern: null };
 let currentMediaRecorder = null;
 let currentMediaStream = null;
 let recordedAudioChunks = [];
-let currentRecordingMode = "practice"; // "practice" | "opic"
+let currentRecordingMode = "practice"; // "practice" | "opic" | "pattern"
 
 // 녹음된 오디오 Blob 조회
 function getRecordedVoiceBlob(mode = "practice") {
@@ -2486,6 +2486,7 @@ function stopListeningUI() {
   }
   if (els.micBtn) els.micBtn.classList.remove("listening");
   if (els.opicMicBtn) els.opicMicBtn.classList.remove("listening");
+  if (els.patternMicBtn) els.patternMicBtn.classList.remove("listening");
 }
 
 // 음성 인식 및 녹음 중단
@@ -2527,12 +2528,12 @@ function armStartupWatchdog() {
   }, 3500);
 }
 
-// 음성 인식 토글 함수 (문장 연습 및 OPIc 실전 모드 공용)
+// 음성 인식 토글 함수 (문장 연습, OPIc 실전, 만능 패턴 모드 공용)
 async function toggleSpeechRecognition(
   targetInput,
   targetBtn,
   targetError,
-  isOpic = false,
+  modeOrIsOpic = false,
 ) {
   if (!recognition) {
     initSpeechRecognition();
@@ -2560,7 +2561,13 @@ async function toggleSpeechRecognition(
   }
 
   clearMicError(targetError);
-  const mode = isOpic ? "opic" : "practice";
+  let mode = "practice";
+  if (typeof modeOrIsOpic === "string") {
+    mode = modeOrIsOpic;
+  } else if (modeOrIsOpic === true) {
+    mode = "opic";
+  }
+  const isOpic = mode === "opic";
   currentRecordingMode = mode;
   clearRecordedVoice(mode);
 
@@ -2568,6 +2575,7 @@ async function toggleSpeechRecognition(
     input: targetInput,
     btn: targetBtn,
     error: targetError,
+    mode,
     isOpic,
   };
 

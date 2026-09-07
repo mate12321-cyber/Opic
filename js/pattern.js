@@ -10,6 +10,7 @@ let patternCur = 0; // 현재 선택된 패턴 인덱스
 let patternVarCur = 0; // 현재 선택된 주제 변형(슬롯) 인덱스
 let patternOrder = [0, 1, 2, 3, 4, 5];
 let patternProgress = {};
+let savedPatternUserInputs = {}; // 패턴/변형별 입력 답변 캐시
 
 // 패턴 진도 로컬스토리지 로드
 async function loadPatternProgress() {
@@ -118,9 +119,9 @@ async function renderPatternTopics() {
     `;
   }).join("");
 
-  // 이벤트 리스너 이중 바인딩으로 터치/클릭 100% 보장
+  // 이벤트 리스너 바인딩
   container.querySelectorAll(".pattern-select-card").forEach((card) => {
-    card.addEventListener("click", (e) => {
+    card.addEventListener("click", () => {
       const idx = parseInt(card.dataset.idx, 10);
       if (!isNaN(idx)) {
         selectPattern(idx);
@@ -214,6 +215,7 @@ function renderPatternVariation() {
   if (!pat || !pat.variations || !pat.variations[patternVarCur]) return;
 
   const curVar = pat.variations[patternVarCur];
+  const slotKey = `${patternCur}_${patternVarCur}`;
 
   // 칩 활성화 상태 업데이트
   document.querySelectorAll(".switcher-chip").forEach((chip) => {
@@ -256,38 +258,162 @@ function renderPatternVariation() {
     });
   }
 
-  // 전체 답변 텍스트 구성 (문장별 영어 -> 한글 순서 배치)
-  const fullContentEl = document.getElementById("patternFullContent");
-  if (fullContentEl && curVar.sentences) {
-    fullContentEl.innerHTML = curVar.sentences
-      .map(
-        (s) => `
-        <div class="pattern-full-pair">
-          <div class="pattern-full-en">${safeEscapeHtml(s.en)}</div>
-          <div class="pattern-full-ko">${safeEscapeHtml(s.ko)}</div>
-        </div>
-      `,
-      )
-      .join("");
-  }
-
   const fullEnSpeech = curVar.sentences.map((s) => s.en).join(" ");
   const copyFormatted = curVar.sentences
-    .map((s) => `${s.en}\n${s.ko}`)
+    .map((s, i) => `${i + 1}. ${s.en}\n   (${s.ko})`)
     .join("\n\n");
 
-  // 전체 TTS 버튼
+  // 전체 연결 듣기 버튼 (단계별 문장 훈련 헤더에 위치)
   const allTtsBtn = document.getElementById("patternTtsAllBtn");
   if (allTtsBtn) {
     allTtsBtn.onclick = () => speakText(fullEnSpeech, "en-US", allTtsBtn);
   }
 
-  // 전체 복사 버튼
+  // 전체 복사 버튼 (단계별 문장 훈련 헤더에 위치)
   const copyBtn = document.getElementById("patternCopyAllBtn");
   if (copyBtn) {
     copyBtn.onclick = () => copyText(copyFormatted, copyBtn);
   }
+
+  // 입력창 및 평가 박스 초기화 / 복원
+  const userInput = document.getElementById("patternUserInput");
+  if (userInput) {
+    userInput.value = savedPatternUserInputs[slotKey] || "";
+    if (typeof autoResizeTextarea === "function") {
+      autoResizeTextarea(userInput);
+    }
+  }
+
+  const evalBox = document.getElementById("patternSpeechEvalBox");
+  if (evalBox) evalBox.style.display = "none";
+
+  const grammarBox = document.getElementById("patternGrammarBox");
+  if (grammarBox) grammarBox.style.display = "none";
+
+  const googleAskRow = document.getElementById("patternGoogleAskRow");
+  if (googleAskRow) googleAskRow.style.display = "none";
+
+  const retryLink = document.getElementById("patternRetrySameLink");
+  if (retryLink) retryLink.style.display = "none";
+
+  const liveTranslate = document.getElementById("patternLiveTranslate");
+  if (liveTranslate) liveTranslate.classList.remove("show");
+
+  clearRecordedVoice("pattern");
+  clearMicError(document.getElementById("patternMicError"));
 }
+
+// ── 만능 패턴 답변 채점 및 정밀 진단 ─────────────────────────────────
+async function evaluatePatternAnswer() {
+  stopTTS();
+  if (listening) {
+    stopSpeechRecognition();
+  }
+
+  const pat = PATTERN_ITEMS[patternCur];
+  if (!pat || !pat.variations || !pat.variations[patternVarCur]) return;
+
+  const curVar = pat.variations[patternVarCur];
+  const slotKey = `${patternCur}_${patternVarCur}`;
+  const userInputEl = document.getElementById("patternUserInput");
+  const userText = userInputEl ? userInputEl.value.trim() : "";
+
+  if (!userText) {
+    alert("마이크(🎤)를 누르고 패턴을 말씀하시거나 직접 입력한 후 채점하기를 눌러주세요.");
+    if (userInputEl) userInputEl.focus();
+    return;
+  }
+
+  savedPatternUserInputs[slotKey] = userText;
+  const fullEnSpeech = curVar.sentences.map((s) => s.en).join(" ");
+
+  const evalBox = document.getElementById("patternSpeechEvalBox");
+  const badgeEl = document.getElementById("patternEvalScoreBadge");
+  const diffEl = document.getElementById("patternEvalDiff");
+  const feedbackEl = document.getElementById("patternEvalFeedback");
+  const voiceBtn = document.getElementById("ttsPatternUserInputBtn");
+
+  // 발음 및 일치도 평가 실행
+  if (typeof renderPronunciationAssessment === "function") {
+    renderPronunciationAssessment({
+      boxEl: evalBox,
+      badgeEl: badgeEl,
+      diffEl: diffEl,
+      feedbackEl: feedbackEl,
+      mode: "pattern",
+      referenceText: fullEnSpeech,
+      userText: userText,
+      voiceBtn: voiceBtn,
+    });
+  }
+
+  // 문법 검사 실행
+  const grammarBox = document.getElementById("patternGrammarBox");
+  const grammarContent = document.getElementById("patternGrammarContent");
+  if (typeof checkGrammar === "function" && typeof renderGrammarResults === "function") {
+    checkGrammar(userText).then((matches) => {
+      renderGrammarResults(matches, userText, grammarBox, grammarContent);
+    });
+  }
+
+  // Google AI 피드백 버튼 표시
+  const googleAskRow = document.getElementById("patternGoogleAskRow");
+  if (googleAskRow) googleAskRow.style.display = "flex";
+
+  const retryLink = document.getElementById("patternRetrySameLink");
+  if (retryLink) retryLink.style.display = "inline-flex";
+
+  // 학습 이벤트 기록
+  if (typeof logPracticeEvent === "function") {
+    logPracticeEvent();
+  }
+}
+window.evaluatePatternAnswer = evaluatePatternAnswer;
+
+// 패턴 재도전 / 다시 풀기
+function retryPatternQuestion() {
+  stopTTS();
+  clearRecordedVoice("pattern");
+  const slotKey = `${patternCur}_${patternVarCur}`;
+  delete savedPatternUserInputs[slotKey];
+
+  const userInput = document.getElementById("patternUserInput");
+  if (userInput) {
+    userInput.value = "";
+    if (typeof autoResizeTextarea === "function") {
+      autoResizeTextarea(userInput);
+    }
+    userInput.focus();
+  }
+
+  const evalBox = document.getElementById("patternSpeechEvalBox");
+  if (evalBox) evalBox.style.display = "none";
+
+  const grammarBox = document.getElementById("patternGrammarBox");
+  if (grammarBox) grammarBox.style.display = "none";
+
+  const googleAskRow = document.getElementById("patternGoogleAskRow");
+  if (googleAskRow) googleAskRow.style.display = "none";
+
+  const retryLink = document.getElementById("patternRetrySameLink");
+  if (retryLink) retryLink.style.display = "none";
+
+  const liveTranslate = document.getElementById("patternLiveTranslate");
+  if (liveTranslate) liveTranslate.classList.remove("show");
+
+  clearMicError(document.getElementById("patternMicError"));
+}
+window.retryPatternQuestion = retryPatternQuestion;
+
+// 패턴 모드용 Google AI 쿼리 생성
+function buildPatternGoogleQuery() {
+  const pat = PATTERN_ITEMS[patternCur];
+  const userInput = document.getElementById("patternUserInput");
+  const text = userInput ? userInput.value.trim() : "";
+  const patName = pat ? pat.name : "만능 패턴";
+  return `"${patName}" 만능 템플릿을 적용해서 영어로 "${text}"라고 말했는데, 이 영어 답변의 문법과 OPIc AL/IH 관점의 자연스러움을 피드백해줘`;
+}
+window.buildPatternGoogleQuery = buildPatternGoogleQuery;
 
 // 다음 패턴으로 이동
 function nextPattern() {
@@ -296,7 +422,7 @@ function nextPattern() {
   if (pat) {
     patternProgress[pat.id] = true;
     savePatternProgress();
-    logPracticeEvent();
+    if (typeof logPracticeEvent === "function") logPracticeEvent();
   }
 
   if (patternCur < PATTERN_ITEMS.length - 1) {
@@ -310,6 +436,7 @@ function nextPattern() {
     showHomeScreen();
   }
 }
+window.nextPattern = nextPattern;
 
 // 이전 패턴으로 이동
 function prevPattern() {
@@ -321,3 +448,5 @@ function prevPattern() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }
+window.prevPattern = prevPattern;
+
