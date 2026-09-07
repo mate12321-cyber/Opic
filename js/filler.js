@@ -1,15 +1,14 @@
 /**
- * [filler.js] OPIc 핵심 필러(Filler Words) 집중 훈련 모듈
- * - 사용하기 쉬운 16대 필러 및 시점별(타이밍) 가이드
- * - 카테고리별 탭 필터링 & 마스터(완료) 체크
- * - 원어민 TTS 음성 재생 & 마이크 STT 따라 말하기 인터랙션
+ * [filler.js] OPIc 필러(Filler Words) 1개씩 집중 훈련 컨트롤러
+ * - 1개씩 카드 형태로 집중 학습 (이전 / 다음 / 바로가기 칩)
+ * - 사용 시점(타이밍) 가이드, 꿀팁, 실전 OPIc 활용 예문
+ * - 원어민 발음(TTS) 및 마이크 따라 말하기(STT) 실전 테스트
  */
 
-// 필러 상태 관리 (FILLER_ITEMS와 FILLER_STORAGE_KEY는 storage.js에 정의됨)
-let fillerCurrentTab = "all";
+let fillerCur = 0; // 현재 필러 인덱스 (0 ~ 15)
 let fillerProgress = {}; // { fil_01: true, ... }
 
-// HTML escape 헬퍼 함수 (전역 함수가 없을 때 대비)
+// HTML 이스케이프 헬퍼 함수
 function escapeFillerHtml(str) {
   if (typeof safeEscapeHtml === "function") {
     return safeEscapeHtml(str);
@@ -21,6 +20,11 @@ function escapeFillerHtml(str) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function safeEscapeForJs(str) {
+  if (!str) return "";
+  return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
 }
 
 // 필러 진행 상황 로드
@@ -51,211 +55,238 @@ async function saveFillerProgress() {
   }
 }
 
-// 필러 마스터(완료) 상태 토글
-async function toggleFillerMaster(id) {
-  if (fillerProgress[id]) {
-    delete fillerProgress[id];
+// 필러 화면 열기
+function showFillerScreen(targetIdx = 0) {
+  hideAllScreens();
+  const card = document.getElementById("fillerCard");
+  if (card) {
+    card.style.display = "block";
+    if (typeof targetIdx === "number" && targetIdx >= 0 && targetIdx < (FILLER_ITEMS.length || 16)) {
+      fillerCur = targetIdx;
+    }
+    renderFillerCard();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+// 현재 1개 필러 카드 렌더링
+function renderFillerCard() {
+  if (!FILLER_ITEMS || FILLER_ITEMS.length === 0) {
+    const box = document.getElementById("fillerHeroMeaning");
+    if (box) box.textContent = "필러 데이터를 불러오는 중입니다...";
+    return;
+  }
+
+  // 인덱스 범위 안전 보정
+  if (fillerCur < 0) fillerCur = 0;
+  if (fillerCur >= FILLER_ITEMS.length) fillerCur = FILLER_ITEMS.length - 1;
+
+  const f = FILLER_ITEMS[fillerCur];
+  if (!f) return;
+
+  const isMastered = !!fillerProgress[f.id];
+  const total = FILLER_ITEMS.length;
+
+  // 1. 상단 메타 라벨
+  const catLabel = document.getElementById("fillerCatLabel");
+  const idxLabel = document.getElementById("fillerIdxLabel");
+  if (catLabel) catLabel.textContent = `${f.categoryIcon || "💬"} ${f.categoryName || "필러 훈련"}`;
+  if (idxLabel) idxLabel.textContent = `${String(fillerCur + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+
+  // 2. 상단 빠른 이동 칩 바 렌더링
+  const chipsContainer = document.getElementById("fillerSwitcherChips");
+  if (chipsContainer) {
+    chipsContainer.innerHTML = FILLER_ITEMS.map((item, idx) => {
+      const isActive = idx === fillerCur;
+      const isDone = !!fillerProgress[item.id];
+      const shortPhrase = item.phrase.split("/")[0].replace(/[\.\.\.]/g, "").trim();
+      return `
+        <button
+          type="button"
+          class="filler-chip ${isActive ? "active" : ""} ${isDone ? "mastered" : ""}"
+          data-fidx="${idx}"
+          onclick="selectFiller(${idx})"
+          title="${escapeFillerHtml(item.phrase)} (${escapeFillerHtml(item.meaning)})"
+        >
+          <span>${idx + 1}. ${escapeFillerHtml(shortPhrase)}</span>
+          ${isDone ? '<span class="filler-chip-check">✓</span>' : ""}
+        </button>
+      `;
+    }).join("");
+
+    // 활성 칩으로 자동 스크롤
+    setTimeout(() => {
+      const activeChip = chipsContainer.querySelector(".filler-chip.active");
+      if (activeChip) {
+        activeChip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      }
+    }, 50);
+  }
+
+  // 3. 메인 히어로 박스 (핵심 표현, 발음, 의미)
+  const phraseEl = document.getElementById("fillerHeroPhrase");
+  const pronounceEl = document.getElementById("fillerHeroPronounce");
+  const meaningEl = document.getElementById("fillerHeroMeaning");
+  const masterBtn = document.getElementById("fillerMasterMainBtn");
+  const ttsBtn = document.getElementById("fillerTtsMainBtn");
+
+  if (phraseEl) phraseEl.innerHTML = `<span>${f.categoryIcon || "💬"} ${escapeFillerHtml(f.phrase)}</span>`;
+  if (pronounceEl) pronounceEl.textContent = f.pronunciation || "";
+  if (meaningEl) meaningEl.textContent = f.meaning || "";
+
+  if (masterBtn) {
+    masterBtn.className = `btn-filler-master-large ${isMastered ? "active" : ""}`;
+    masterBtn.innerHTML = isMastered ? "✓ 숙달 완료" : "+ 마스터";
+    masterBtn.onclick = () => toggleCurrentFillerMaster();
+  }
+
+  if (ttsBtn) {
+    const cleanPhrase = f.phrase.replace(/[\.\.\.\/]/g, "").trim();
+    ttsBtn.onclick = () => playFillerTTS(cleanPhrase);
+  }
+
+  // 4. 💡 사용 시점 & 타이밍 가이드
+  const timingBody = document.getElementById("fillerTimingBody");
+  if (timingBody) {
+    timingBody.textContent = f.timingGuide || "자연스러운 호흡과 생각 시간을 벌 때 사용합니다.";
+  }
+
+  // 5. 🍯 꿀팁 박스
+  const tipSection = document.getElementById("fillerTipSection");
+  const tipBody = document.getElementById("fillerTipBody");
+  if (tipSection && tipBody) {
+    if (f.tip) {
+      tipSection.style.display = "flex";
+      tipBody.innerHTML = `<strong>Tip:</strong> ${escapeFillerHtml(f.tip)}`;
+    } else {
+      tipSection.style.display = "none";
+    }
+  }
+
+  // 6. 🗣️ 실전 OPIc 활용 예문
+  const examplesList = document.getElementById("fillerExamplesList");
+  if (examplesList && f.examples) {
+    examplesList.innerHTML = f.examples.map((ex) => {
+      const highlightedEn = highlightFillerWords(ex.en, f.phrase);
+      return `
+        <div class="filler-ex-card">
+          ${ex.context ? `<span class="filler-ex-tag">📌 ${escapeFillerHtml(ex.context)}</span>` : ""}
+          <div class="filler-ex-en-row">
+            <div class="filler-ex-en">${highlightedEn}</div>
+            <button
+              type="button"
+              class="btn-ex-tts"
+              onclick="playFillerTTS('${safeEscapeForJs(ex.en)}')"
+              title="문장 원어민 음성 듣기"
+            >
+              🔊 듣기
+            </button>
+          </div>
+          <div class="filler-ex-ko">${escapeFillerHtml(ex.ko)}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  // 7. 🎤 따라 말하기 STT 영역 초기화
+  stopFillerMic();
+  const sttBox = document.getElementById("fillerSttBox");
+  const sttEvalMsg = document.getElementById("fillerSttEvalMsg");
+  const micBtn = document.getElementById("fillerMicBtnMain");
+
+  if (sttBox) {
+    sttBox.innerHTML = `<span style="color: var(--text-muted); font-size: 13px;">마이크를 누르고 "${escapeFillerHtml(f.phrase)}" 또는 위 예문을 말해보세요.</span>`;
+  }
+  if (sttEvalMsg) {
+    sttEvalMsg.style.display = "none";
+    sttEvalMsg.className = "filler-stt-eval-msg";
+  }
+  if (micBtn) {
+    micBtn.classList.remove("listening");
+    micBtn.innerHTML = `🎤 마이크 켜기`;
+    micBtn.onclick = () => toggleFillerMic(f.id, f.phrase);
+  }
+
+  // 8. 이전 / 다음 버튼 상태
+  const prevBtnTop = document.getElementById("btnPrevFillerTop");
+  const prevBtnBottom = document.getElementById("btnPrevFillerBottom");
+  const nextBtnBottom = document.getElementById("btnNextFillerBottom");
+
+  const isFirst = fillerCur === 0;
+  const isLast = fillerCur === total - 1;
+
+  if (prevBtnTop) {
+    prevBtnTop.disabled = isFirst;
+    prevBtnTop.style.opacity = isFirst ? "0.4" : "1";
+    prevBtnTop.onclick = prevFiller;
+  }
+  if (prevBtnBottom) {
+    prevBtnBottom.disabled = isFirst;
+    prevBtnBottom.onclick = prevFiller;
+  }
+  if (nextBtnBottom) {
+    nextBtnBottom.innerHTML = isLast
+      ? `<span>처음부터 다시 복습 ↺</span><kbd class="shortcut-key">↵</kbd>`
+      : `<span>다음 필러 →</span><kbd class="shortcut-key">↵</kbd>`;
+    nextBtnBottom.onclick = nextFiller;
+  }
+}
+
+// 다음 필러로 이동
+function nextFiller() {
+  if (!FILLER_ITEMS || FILLER_ITEMS.length === 0) return;
+  if (fillerCur < FILLER_ITEMS.length - 1) {
+    fillerCur++;
   } else {
-    fillerProgress[id] = true;
+    fillerCur = 0; // 끝에 도달하면 처음으로 순환
+  }
+  renderFillerCard();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// 이전 필러로 이동
+function prevFiller() {
+  if (!FILLER_ITEMS || FILLER_ITEMS.length === 0) return;
+  if (fillerCur > 0) {
+    fillerCur--;
+    renderFillerCard();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+// 특정 인덱스 필러 선택
+function selectFiller(idx) {
+  if (typeof idx === "number" && idx >= 0 && idx < (FILLER_ITEMS.length || 16)) {
+    fillerCur = idx;
+    renderFillerCard();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+// 현재 필러 마스터 토글
+async function toggleCurrentFillerMaster() {
+  if (!FILLER_ITEMS || !FILLER_ITEMS[fillerCur]) return;
+  const curId = FILLER_ITEMS[fillerCur].id;
+  if (fillerProgress[curId]) {
+    delete fillerProgress[curId];
+  } else {
+    fillerProgress[curId] = true;
   }
   await saveFillerProgress();
-  renderFillerList();
-  updateFillerTabsCount();
+  renderFillerCard();
 }
 
-// 카테고리 탭 변경
-function selectFillerTab(tabKey) {
-  fillerCurrentTab = tabKey;
-  
-  document.querySelectorAll(".filler-tab-btn").forEach((btn) => {
-    if (btn.dataset.tab === tabKey) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
-    }
-  });
-
-  renderFillerList();
-}
-
-// 카테고리별 탭 카운트 업데이트
-function updateFillerTabsCount() {
-  const counts = {
-    all: FILLER_ITEMS.length,
-    start: FILLER_ITEMS.filter((f) => f.category === "start").length,
-    bridge: FILLER_ITEMS.filter((f) => f.category === "bridge").length,
-    emotion: FILLER_ITEMS.filter((f) => f.category === "emotion").length,
-    finish: FILLER_ITEMS.filter((f) => f.category === "finish").length,
-  };
-
-  const masteredCount = Object.keys(fillerProgress).length;
-
-  document.querySelectorAll(".filler-tab-btn").forEach((btn) => {
-    const tab = btn.dataset.tab;
-    const badge = btn.querySelector(".filler-tab-badge");
-    if (badge && counts[tab] !== undefined) {
-      badge.textContent = counts[tab];
-    }
-  });
-
-  const countBadge = document.getElementById("fillerMasteredCountBadge");
-  if (countBadge) {
-    countBadge.textContent = `${masteredCount} / ${FILLER_ITEMS.length}개 숙달 완료 ✓`;
-  }
-}
-
-// 필러 리스트 렌더링
-function renderFillerList() {
-  const container = document.getElementById("fillerListContainer");
-  if (!container) return;
-
-  if (!FILLER_ITEMS || FILLER_ITEMS.length === 0) {
-    container.innerHTML = `
-      <div style="text-align: center; padding: 32px 16px; color: var(--text-sub); font-size: 14px;">
-        ⏳ 필러 데이터를 불러오는 중입니다...
-      </div>
-    `;
-    return;
-  }
-
-  const filtered =
-    fillerCurrentTab === "all"
-      ? FILLER_ITEMS
-      : FILLER_ITEMS.filter((f) => f.category === fillerCurrentTab);
-
-  if (filtered.length === 0) {
-    container.innerHTML = `
-      <div style="text-align: center; padding: 32px 16px; color: var(--text-sub); font-size: 14px;">
-        해당 카테고리의 필러가 없습니다.
-      </div>
-    `;
-    return;
-  }
-
-  container.innerHTML = filtered
-    .map((f, idx) => {
-      const isMastered = !!fillerProgress[f.id];
-      const escapedPhrase = escapeFillerHtml(f.phrase);
-      const cleanPhraseForTts = f.phrase.replace(/[\.\.\.\/]/g, "").trim();
-
-      return `
-      <div class="filler-card ${isMastered ? "mastered" : ""}" id="card_${f.id}">
-        <div class="filler-card-top">
-          <div class="filler-phrase-wrap">
-            <div class="filler-phrase">
-              <span>${f.categoryIcon || "💬"} ${escapedPhrase}</span>
-              <span class="filler-pronounce">${escapeFillerHtml(f.pronunciation || "")}</span>
-            </div>
-            <div class="filler-meaning">${escapeFillerHtml(f.meaning)}</div>
-          </div>
-          <div class="filler-card-actions">
-            <button
-              type="button"
-              class="btn-filler-tts"
-              onclick="playFillerTTS('${safeEscapeForJs(cleanPhraseForTts)}')"
-              title="원어민 발음 듣기"
-            >
-              🔊 발음
-            </button>
-            <button
-              type="button"
-              class="btn-filler-master ${isMastered ? "active" : ""}"
-              onclick="toggleFillerMaster('${f.id}')"
-              title="마스터 완료 여부 토글"
-            >
-              ${isMastered ? "✓ 숙달됨" : "+ 마스터"}
-            </button>
-          </div>
-        </div>
-
-        <!-- 💡 사용 시점 & 타이밍 가이드 -->
-        <div class="filler-timing-box">
-          <div class="filler-timing-label">
-            <span>💡 사용 시점 & 타이밍 가이드</span>
-          </div>
-          <div class="filler-timing-content">${escapeFillerHtml(f.timingGuide)}</div>
-        </div>
-
-        <!-- 꿀팁 박스 -->
-        ${
-          f.tip
-            ? `
-          <div class="filler-tip-box">
-            <span>🍯</span>
-            <div><strong>Tip:</strong> ${escapeFillerHtml(f.tip)}</div>
-          </div>
-        `
-            : ""
-        }
-
-        <!-- 실전 OPIc 예문 -->
-        <div class="filler-examples-wrap">
-          <div class="filler-examples-title">
-            <span>🗣️ 실전 OPIc 활용 예문</span>
-          </div>
-          ${(f.examples || [])
-            .map((ex) => {
-              // 필러 단어 하이라이트 처리
-              const highlightedEn = highlightFillerWords(ex.en, f.phrase);
-              return `
-              <div class="filler-example-item">
-                ${ex.context ? `<span class="filler-example-context">📌 ${escapeFillerHtml(ex.context)}</span>` : ""}
-                <div class="filler-example-en">
-                  <div>${highlightedEn}</div>
-                  <button
-                    type="button"
-                    class="btn-example-tts"
-                    onclick="playFillerTTS('${safeEscapeForJs(ex.en)}')"
-                    title="전체 문장 원어민 음성 듣기"
-                  >
-                    🔊
-                  </button>
-                </div>
-                <div class="filler-example-ko">${escapeFillerHtml(ex.ko)}</div>
-              </div>
-            `;
-            })
-            .join("")}
-        </div>
-
-        <!-- 따라 말하기 (STT Practice) -->
-        <div class="filler-practice-box">
-          <div class="filler-practice-header">
-            <span class="filler-practice-label">🎤 따라 말하기 연습</span>
-            <button
-              type="button"
-              class="filler-mic-btn"
-              id="micBtn_${f.id}"
-              onclick="toggleFillerMic('${f.id}', '${safeEscapeForJs(f.phrase)}')"
-              title="마이크로 발음해보기"
-            >
-              🎤 마이크 켜기
-            </button>
-          </div>
-          <div class="filler-stt-result" id="sttResult_${f.id}">
-            <span style="color: var(--text-sub); font-size: 12px;">마이크를 누르고 이 필러나 예문을 말해보세요.</span>
-          </div>
-          <div class="filler-stt-feedback" id="sttFeedback_${f.id}"></div>
-        </div>
-      </div>
-    `;
-    })
-    .join("");
-}
-
-// 필러 문구 하이라이트 헬퍼 함수
+// 필러 문구 하이라이트 함수
 function highlightFillerWords(text, phrase) {
   if (!text) return "";
   let cleanText = escapeFillerHtml(text);
   
-  // phrase에서 핵심 키워드들 추출 (예: "Let me see... / Let's see..." -> ["Let me see", "Let's see"])
   const phrases = phrase
     .split("/")
     .map((p) => p.replace(/[\.\.\.]/g, "").trim())
     .filter(Boolean);
 
   phrases.forEach((p) => {
-    // 대소문자 무시하고 매칭
     const escaped = p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const reg = new RegExp(`(${escaped})`, "gi");
     cleanText = cleanText.replace(reg, "<mark>$1</mark>");
@@ -264,46 +295,39 @@ function highlightFillerWords(text, phrase) {
   return cleanText;
 }
 
-// JS 문자열용 escape 헬퍼
-function safeEscapeForJs(str) {
-  if (!str) return "";
-  return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
-}
-
 // 필러 전용 TTS 재생 함수
 function playFillerTTS(text) {
   if (!text) return;
   stopTTS();
-  const speed =
-    typeof currentTtsSpeed !== "undefined" ? currentTtsSpeed : 1.0;
+  const speed = typeof currentTtsSpeed !== "undefined" ? currentTtsSpeed : 1.0;
   speakEn(text, speed);
 }
 
-// ── 필러 전용 STT (Speech to Text) 마이크 인터랙션 ──
-let fillerActiveMicId = null;
+// 현재 보고 있는 필러 발음 재생 (단축키 Space용)
+function playCurrentFillerTTS() {
+  if (!FILLER_ITEMS || !FILLER_ITEMS[fillerCur]) return;
+  const cleanPhrase = FILLER_ITEMS[fillerCur].phrase.replace(/[\.\.\.\/]/g, "").trim();
+  playFillerTTS(cleanPhrase);
+}
+
+// ── 마이크 STT (따라 말하기) ─────────────────────────
 let fillerRecognition = null;
+let fillerIsListening = false;
 
 function toggleFillerMic(fillerId, targetPhrase) {
-  const btn = document.getElementById(`micBtn_${fillerId}`);
-  const resultEl = document.getElementById(`sttResult_${fillerId}`);
-  const feedbackEl = document.getElementById(`sttFeedback_${fillerId}`);
+  const micBtn = document.getElementById("fillerMicBtnMain");
+  const sttBox = document.getElementById("fillerSttBox");
+  const feedbackEl = document.getElementById("fillerSttEvalMsg");
 
-  // 이미 켜져있는 마이크가 있다면 중단
-  if (fillerActiveMicId && fillerActiveMicId === fillerId) {
+  if (fillerIsListening) {
     stopFillerMic();
     return;
   }
 
-  // 이전 마이크 끄기
-  if (fillerActiveMicId) {
-    stopFillerMic();
-  }
-
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
-    if (resultEl) {
-      resultEl.innerHTML = `<span style="color: var(--danger-text); font-size: 12px;">❌ 이 브라우저는 음성 인식을 지원하지 않습니다. (Chrome 추천)</span>`;
+    if (sttBox) {
+      sttBox.innerHTML = `<span style="color: var(--danger); font-size: 13px;">❌ 브라우저가 음성 인식을 지원하지 않습니다. (Chrome 추천)</span>`;
     }
     return;
   }
@@ -314,17 +338,17 @@ function toggleFillerMic(fillerId, targetPhrase) {
     fillerRecognition.continuous = false;
     fillerRecognition.interimResults = true;
 
-    fillerActiveMicId = fillerId;
-    if (btn) {
-      btn.classList.add("listening");
-      btn.innerHTML = `🔴 듣는 중...`;
+    fillerIsListening = true;
+    if (micBtn) {
+      micBtn.classList.add("listening");
+      micBtn.innerHTML = `🔴 듣는 중... (말씀하세요)`;
     }
-    if (resultEl) {
-      resultEl.innerHTML = `<span style="color: #16a34a; font-size: 12px;">말씀하세요... (음성을 듣고 있습니다)</span>`;
+    if (sttBox) {
+      sttBox.innerHTML = `<span style="color: #059669; font-weight: 600;">듣고 있습니다... 발음해 보세요!</span>`;
     }
     if (feedbackEl) {
       feedbackEl.style.display = "none";
-      feedbackEl.className = "filler-stt-feedback";
+      feedbackEl.className = "filler-stt-eval-msg";
     }
 
     fillerRecognition.onresult = (event) => {
@@ -333,11 +357,10 @@ function toggleFillerMic(fillerId, targetPhrase) {
         transcript += event.results[i][0].transcript;
       }
 
-      if (resultEl) {
-        resultEl.textContent = `🗣️ "${transcript}"`;
+      if (sttBox) {
+        sttBox.innerHTML = `🗣️ <strong style="color: var(--text-main); font-size: 14px;">"${escapeFillerHtml(transcript)}"</strong>`;
       }
 
-      // 최종 인식 시 검증
       if (event.results[0].isFinal) {
         evaluateFillerSpeech(transcript, targetPhrase, feedbackEl, fillerId);
       }
@@ -345,8 +368,8 @@ function toggleFillerMic(fillerId, targetPhrase) {
 
     fillerRecognition.onerror = (event) => {
       console.warn("필러 STT 오류:", event.error);
-      if (resultEl) {
-        resultEl.innerHTML = `<span style="color: var(--danger-text); font-size: 12px;">음성 인식 오류 (${event.error})</span>`;
+      if (sttBox) {
+        sttBox.innerHTML = `<span style="color: var(--danger); font-size: 13px;">음성 인식 오류 (${event.error})</span>`;
       }
       stopFillerMic();
     };
@@ -369,13 +392,11 @@ function stopFillerMic() {
     } catch (e) {}
     fillerRecognition = null;
   }
-  if (fillerActiveMicId) {
-    const btn = document.getElementById(`micBtn_${fillerActiveMicId}`);
-    if (btn) {
-      btn.classList.remove("listening");
-      btn.innerHTML = `🎤 마이크 켜기`;
-    }
-    fillerActiveMicId = null;
+  fillerIsListening = false;
+  const micBtn = document.getElementById("fillerMicBtnMain");
+  if (micBtn) {
+    micBtn.classList.remove("listening");
+    micBtn.innerHTML = `🎤 마이크 켜기`;
   }
 }
 
@@ -390,44 +411,40 @@ function evaluateFillerSpeech(spokenText, targetPhrase, feedbackEl, fillerId) {
     .filter(Boolean);
 
   const isMatched = targetKeywords.some((keyword) => {
-    // 키워드의 핵심 단어들이 포함되어 있는지 검사
     const words = keyword.split(" ").filter(Boolean);
     return words.every((w) => spokenLower.includes(w));
   });
 
   if (isMatched) {
-    feedbackEl.innerHTML = `🎉 멋져요! 필러 표현이 자연스럽게 인식되었습니다.`;
-    feedbackEl.className = "filler-stt-feedback pass";
+    feedbackEl.innerHTML = `🎉 완벽해요! 필러 표현("${escapeFillerHtml(targetPhrase)}")이 정확하게 인식되었습니다. (숙달 완료 ✓)`;
+    feedbackEl.className = "filler-stt-eval-msg pass";
     feedbackEl.style.display = "block";
 
-    // 자동으로 마스터 상태로 승급
+    // 자동으로 마스터 완료 처리
     if (!fillerProgress[fillerId]) {
       fillerProgress[fillerId] = true;
       saveFillerProgress();
-      const card = document.getElementById(`card_${fillerId}`);
-      if (card) card.classList.add("mastered");
-      const masterBtn = card ? card.querySelector(".btn-filler-master") : null;
+      const masterBtn = document.getElementById("fillerMasterMainBtn");
       if (masterBtn) {
-        masterBtn.classList.add("active");
-        masterBtn.textContent = "✓ 숙달됨";
+        masterBtn.className = "btn-filler-master-large active";
+        masterBtn.innerHTML = "✓ 숙달 완료";
       }
-      updateFillerTabsCount();
+      // 상단 칩 갱신
+      const chipsContainer = document.getElementById("fillerSwitcherChips");
+      if (chipsContainer) {
+        const currentChip = chipsContainer.querySelector(`[data-fidx="${fillerCur}"]`);
+        if (currentChip && !currentChip.querySelector(".filler-chip-check")) {
+          const checkSpan = document.createElement("span");
+          checkSpan.className = "filler-chip-check";
+          checkSpan.textContent = "✓";
+          currentChip.appendChild(checkSpan);
+          currentChip.classList.add("mastered");
+        }
+      }
     }
   } else {
-    feedbackEl.innerHTML = `💡 필러 표현("${targetPhrase}")을 포함하여 조금 더 또렷하게 발음해보세요!`;
-    feedbackEl.className = "filler-stt-feedback miss";
+    feedbackEl.innerHTML = `💡 필러 표현("${escapeFillerHtml(targetPhrase)}")을 포함하여 조금 더 또렷하게 발음해보세요!`;
+    feedbackEl.className = "filler-stt-eval-msg miss";
     feedbackEl.style.display = "block";
-  }
-}
-
-// 필러 화면 열기
-function showFillerScreen() {
-  hideAllScreens();
-  const screen = document.getElementById("fillerScreen");
-  if (screen) {
-    screen.style.display = "block";
-    renderFillerList();
-    updateFillerTabsCount();
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }

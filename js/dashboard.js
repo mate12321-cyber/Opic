@@ -206,6 +206,7 @@ const els = {
   toOpicFromPattern: document.getElementById("toOpicFromPattern"),
   navFiller: document.getElementById("navFiller"),
   navFillerSub: document.getElementById("navFillerSub"),
+  fillerCard: document.getElementById("fillerCard"),
   fillerScreen: document.getElementById("fillerScreen"),
   homeFromFiller: document.getElementById("homeFromFiller"),
   toPatternFromFiller: document.getElementById("toPatternFromFiller"),
@@ -241,6 +242,7 @@ function hideAllScreens() {
   }
   if (els.patternTopicScreen) els.patternTopicScreen.style.display = "none";
   if (els.patternCard) els.patternCard.style.display = "none";
+  if (els.fillerCard) els.fillerCard.style.display = "none";
   if (els.fillerScreen) els.fillerScreen.style.display = "none";
 }
 

@@ -1,547 +1,589 @@
 /**
- * [filler.css] OPIc 필러(Filler Words) 집중 훈련 전용 스타일
+ * [filler.css] OPIc 필러(Filler Words) 1개씩 집중 훈련 전용 스타일
  */
 
 .filler-screen {
   width: 100%;
   max-width: 680px;
   margin: 0 auto;
-  padding-bottom: 60px;
 }
 
-/* ── 상단 헤더 & 설명 ── */
-.filler-header-box {
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-  border: 1px solid #bbf7d0;
-  border-radius: var(--radius-md);
-  padding: 18px 20px;
-  margin-bottom: 20px;
-  box-shadow: var(--shadow-sm);
+/* ── 필러 카드 컨테이너 ── */
+.filler-card-wrap {
+  width: 100%;
 }
 
-.filler-header-title {
+/* ── 상단 필러 스위처 칩 바 ── */
+.filler-switcher-bar {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #166534;
-  margin-bottom: 6px;
-}
-
-.filler-header-desc {
-  font-size: 13px;
-  color: #15803d;
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* ── 카테고리 필터 탭 ── */
-.filler-tabs {
-  display: flex;
-  gap: 8px;
+  gap: 6px;
   overflow-x: auto;
-  padding-bottom: 6px;
-  margin-bottom: 20px;
+  padding: 4px 2px 10px 2px;
+  margin-bottom: 16px;
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
 }
 
-.filler-tab-btn {
+.filler-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 9999px;
-  font-size: 13px;
+  gap: 5px;
+  padding: 6px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-full);
+  font-size: 12.5px;
   font-weight: 600;
-  color: var(--text-sub);
+  color: var(--text-body);
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
 }
 
-.filler-tab-btn:hover {
-  border-color: #16a34a;
-  color: #16a34a;
+.filler-chip:hover {
+  border-color: #10b981;
+  color: #047857;
   background: #f0fdf4;
 }
 
-.filler-tab-btn.active {
-  background: #16a34a;
-  border-color: #16a34a;
+.filler-chip.active {
+  background: #10b981;
+  border-color: #059669;
   color: #ffffff;
-  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
-}
-
-.filler-tab-badge {
-  font-size: 11px;
-  padding: 1px 6px;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.35);
   font-weight: 700;
 }
 
-.filler-tab-btn.active .filler-tab-badge {
-  background: rgba(255, 255, 255, 0.3);
+.filler-chip.mastered:not(.active) {
+  border-color: #86efac;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.filler-chip-check {
+  font-size: 11px;
+  color: #10b981;
+  font-weight: 700;
+}
+
+.filler-chip.active .filler-chip-check {
   color: #ffffff;
 }
 
-/* ── 필러 카드 리스트 ── */
-.filler-list {
+/* ── 메인 히어로 박스 (핵심 표현) ── */
+.filler-hero-box {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  border: 1px solid #a7f3d0;
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
-.filler-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 20px;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.filler-card:hover {
-  border-color: #86efac;
-  box-shadow: var(--shadow-md);
-}
-
-.filler-card.mastered {
-  border-left: 5px solid #16a34a;
-}
-
-/* 카드 상단 */
-.filler-card-top {
+.filler-hero-top {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
 }
 
-.filler-phrase-wrap {
+.filler-hero-text-wrap {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
-.filler-phrase {
+.filler-hero-phrase {
   font-family: var(--font-sans);
-  font-size: 20px;
+  font-size: 26px;
   font-weight: 800;
-  color: #111827;
+  color: #064e3b;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.2;
+}
+
+.filler-hero-pronounce {
+  font-size: 13px;
+  font-weight: 700;
+  color: #059669;
+  background: #d1fae5;
+  padding: 2px 8px;
+  border-radius: 6px;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.filler-hero-meaning {
+  font-size: 16px;
+  font-weight: 600;
+  color: #047857;
+  margin-top: 4px;
+}
+
+.filler-hero-actions {
   display: flex;
   align-items: center;
   gap: 8px;
-  letter-spacing: -0.01em;
-}
-
-.filler-pronounce {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: #16a34a;
-}
-
-.filler-meaning {
-  font-size: 14px;
-  font-weight: 600;
-  color: #4b5563;
-}
-
-.filler-card-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
   flex-shrink: 0;
 }
 
-.btn-filler-tts {
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  color: #166534;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
+.btn-filler-tts-large {
+  background: #10b981;
+  color: #ffffff;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
 }
 
-.btn-filler-tts:hover {
-  background: #dcfce7;
-  border-color: #86efac;
+.btn-filler-tts-large:hover {
+  background: #059669;
+  transform: translateY(-1px);
 }
 
-.btn-filler-master {
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  color: #6b7280;
-  font-size: 12px;
+.btn-filler-master-large {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: var(--text-body);
+  font-size: 13px;
   font-weight: 600;
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   transition: all 0.15s ease;
 }
 
-.btn-filler-master:hover {
-  background: #e5e7eb;
+.btn-filler-master-large:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
 }
 
-.btn-filler-master.active {
+.btn-filler-master-large.active {
   background: #dcfce7;
   border-color: #86efac;
   color: #15803d;
   font-weight: 700;
 }
 
-/* ── 💡 타이밍 가이드 박스 (핵심) ── */
-.filler-timing-box {
+/* ── 💡 사용 시점 & 타이밍 가이드 박스 ── */
+.filler-timing-section {
   background: #eff6ff;
   border: 1px solid #bfdbfe;
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  margin-bottom: 12px;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-bottom: 18px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
-.filler-timing-label {
+.filler-timing-header {
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 12px;
+  gap: 6px;
+  font-size: 13px;
   font-weight: 700;
   color: #1d4ed8;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
 }
 
-.filler-timing-content {
-  font-size: 13px;
+.filler-timing-body {
+  font-size: 14px;
   color: #1e40af;
-  line-height: 1.45;
+  line-height: 1.5;
   font-weight: 500;
 }
 
-/* ── 팁 박스 ── */
-.filler-tip-box {
+/* 🍯 팁 박스 */
+.filler-tip-section {
   background: #fefce8;
   border: 1px solid #fef08a;
-  border-radius: var(--radius-sm);
-  padding: 9px 13px;
-  font-size: 12.5px;
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 13px;
   color: #854d0e;
-  line-height: 1.4;
-  margin-bottom: 14px;
+  line-height: 1.45;
+  margin-bottom: 18px;
   display: flex;
   align-items: flex-start;
-  gap: 6px;
+  gap: 8px;
 }
 
-.filler-tip-box span {
+.filler-tip-section span {
   flex-shrink: 0;
+  font-size: 15px;
 }
 
-/* ── 실전 예문 섹션 ── */
-.filler-examples-wrap {
-  border-top: 1px dashed var(--border-color);
-  padding-top: 14px;
+/* ── 🗣️ 실전 OPIc 예문 영역 ── */
+.filler-examples-container {
+  border-top: 1px solid var(--border-light);
+  padding-top: 16px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filler-examples-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+
+.filler-ex-card {
+  background: var(--surface-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.15s ease;
+}
+
+.filler-ex-card:hover {
+  border-color: #a7f3d0;
+}
+
+.filler-ex-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #047857;
+  background: #d1fae5;
+  padding: 2px 7px;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.filler-ex-en-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.filler-ex-en {
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+.filler-ex-en mark {
+  background: #a7f3d0;
+  color: #064e3b;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.filler-ex-ko {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.btn-ex-tts {
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.btn-ex-tts:hover {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #047857;
+}
+
+/* ── 🎤 따라 말하기 실전 테스트 영역 ── */
+.filler-stt-section {
+  background: var(--surface-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.filler-examples-title {
-  font-size: 12px;
-  font-weight: 700;
-  color: #6b7280;
+.filler-stt-hdr {
   display: flex;
   align-items: center;
-  gap: 5px;
-}
-
-.filler-example-item {
-  background: var(--bg-hover);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  position: relative;
-}
-
-.filler-example-context {
-  font-size: 11px;
-  font-weight: 700;
-  color: #059669;
-  background: #d1fae5;
-  padding: 2px 6px;
-  border-radius: 4px;
-  align-self: flex-start;
-}
-
-.filler-example-en {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--text-main);
-  line-height: 1.45;
-  display: flex;
-  align-items: flex-start;
   justify-content: space-between;
-  gap: 8px;
 }
 
-.filler-example-en mark {
-  background: #bbf7d0;
-  color: #14532d;
-  font-weight: 800;
-  padding: 0 3px;
-  border-radius: 3px;
-}
-
-.filler-example-ko {
-  font-size: 12px;
-  color: var(--text-sub);
-  line-height: 1.4;
-}
-
-.btn-example-tts {
-  background: transparent;
-  border: none;
+.filler-stt-title {
   font-size: 13px;
-  cursor: pointer;
-  padding: 2px 4px;
-  border-radius: 4px;
-  color: var(--text-sub);
-  flex-shrink: 0;
-  transition: all 0.15s ease;
-}
-
-.btn-example-tts:hover {
-  background: rgba(0, 0, 0, 0.05);
-  color: #16a34a;
-}
-
-/* ── 따라 말하기 (STT Practice) ── */
-.filler-practice-box {
-  margin-top: 12px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.filler-practice-header {
+  font-weight: 700;
+  color: var(--text-main);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 6px;
 }
 
-.filler-practice-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: #475569;
-}
-
-.filler-mic-btn {
+.filler-mic-btn-main {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  font-size: 12px;
-  font-weight: 600;
-  border-radius: 9999px;
+  gap: 5px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: var(--radius-full);
   border: 1px solid #cbd5e1;
   background: #ffffff;
-  color: #334155;
+  color: var(--text-main);
   cursor: pointer;
   transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
 }
 
-.filler-mic-btn:hover {
-  background: #f1f5f9;
+.filler-mic-btn-main:hover {
+  background: #f8fafc;
   border-color: #94a3b8;
 }
 
-.filler-mic-btn.listening {
+.filler-mic-btn-main.listening {
   background: #ef4444;
   border-color: #dc2626;
   color: #ffffff;
   animation: pulse-red 1.5s infinite;
 }
 
-.filler-stt-result {
-  font-size: 13px;
-  color: #0f172a;
-  min-height: 22px;
-  line-height: 1.4;
-  font-weight: 500;
-  word-break: break-word;
+.filler-stt-box {
+  min-height: 38px;
+  background: var(--surface);
+  border: 1px dashed var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 13.5px;
+  color: var(--text-main);
+  line-height: 1.45;
+  display: flex;
+  align-items: center;
 }
 
-.filler-stt-feedback {
-  font-size: 11.5px;
+.filler-stt-eval-msg {
+  font-size: 12.5px;
   font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 6px;
   display: none;
 }
 
-.filler-stt-feedback.pass {
+.filler-stt-eval-msg.pass {
   display: block;
-  color: #15803d;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
 }
 
-.filler-stt-feedback.miss {
+.filler-stt-eval-msg.miss {
   display: block;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
   color: #b45309;
 }
 
-/* ── 다크 모드 지원 ── */
-body.dark-theme .filler-header-box {
-  background: rgba(22, 101, 52, 0.25);
-  border-color: rgba(34, 197, 94, 0.35);
+/* ── 하단 컨트롤 네비게이션 ── */
+.filler-nav-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-body.dark-theme .filler-header-title {
-  color: #86efac;
+.filler-btn-prev,
+.filler-btn-next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  height: 44px;
+  transition: all 0.15s ease;
 }
 
-body.dark-theme .filler-header-desc {
-  color: #bbf7d0;
+.filler-btn-prev {
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-body);
+  flex: 1;
 }
 
-body.dark-theme .filler-tab-btn {
-  background: #1f2937;
-  border-color: #374151;
-  color: #9ca3af;
+.filler-btn-prev:hover:not(:disabled) {
+  background: var(--surface-hover);
 }
 
-body.dark-theme .filler-tab-btn:hover {
-  background: #374151;
-  border-color: #22c55e;
-  color: #86efac;
+.filler-btn-prev:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
-body.dark-theme .filler-tab-btn.active {
-  background: #16a34a;
-  border-color: #16a34a;
+.filler-btn-next {
+  background: #10b981;
+  border: 1px solid #059669;
   color: #ffffff;
+  flex: 1.6;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
-body.dark-theme .filler-card {
-  background: #111827;
-  border-color: #374151;
+.filler-btn-next:hover {
+  background: #059669;
 }
 
-body.dark-theme .filler-phrase {
+/* ── 다크 테마 지원 ── */
+body.dark-theme .filler-hero-box {
+  background: rgba(6, 78, 59, 0.35);
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+body.dark-theme .filler-hero-phrase {
   color: #f9fafb;
 }
 
-body.dark-theme .filler-meaning {
-  color: #9ca3af;
+body.dark-theme .filler-hero-pronounce {
+  background: rgba(16, 185, 129, 0.25);
+  color: #a7f3d0;
 }
 
-body.dark-theme .btn-filler-tts {
-  background: rgba(22, 163, 74, 0.2);
-  border-color: rgba(34, 197, 94, 0.4);
-  color: #86efac;
+body.dark-theme .filler-hero-meaning {
+  color: #a7f3d0;
 }
 
-body.dark-theme .btn-filler-tts:hover {
-  background: rgba(22, 163, 74, 0.35);
-}
-
-body.dark-theme .btn-filler-master {
+body.dark-theme .btn-filler-master-large {
   background: #1f2937;
   border-color: #374151;
-  color: #9ca3af;
+  color: #d1d5db;
 }
 
-body.dark-theme .btn-filler-master.active {
-  background: rgba(22, 163, 74, 0.25);
-  border-color: #22c55e;
-  color: #86efac;
+body.dark-theme .btn-filler-master-large.active {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: #10b981;
+  color: #a7f3d0;
 }
 
-body.dark-theme .filler-timing-box {
+body.dark-theme .filler-timing-section {
   background: rgba(30, 58, 138, 0.3);
   border-color: rgba(96, 165, 250, 0.35);
 }
 
-body.dark-theme .filler-timing-label {
+body.dark-theme .filler-timing-header {
   color: #93c5fd;
 }
 
-body.dark-theme .filler-timing-content {
+body.dark-theme .filler-timing-body {
   color: #bfdbfe;
 }
 
-body.dark-theme .filler-tip-box {
+body.dark-theme .filler-tip-section {
   background: rgba(133, 77, 14, 0.25);
   border-color: rgba(250, 204, 21, 0.35);
   color: #fde047;
 }
 
-body.dark-theme .filler-example-item {
+body.dark-theme .filler-ex-card {
   background: #1f2937;
+  border-color: #374151;
 }
 
-body.dark-theme .filler-example-context {
-  background: rgba(5, 150, 105, 0.3);
+body.dark-theme .filler-ex-tag {
+  background: rgba(6, 78, 59, 0.4);
   color: #6ee7b7;
 }
 
-body.dark-theme .filler-example-en mark {
-  background: #15803d;
-  color: #dcfce7;
+body.dark-theme .filler-ex-en mark {
+  background: #047857;
+  color: #ecfdf5;
 }
 
-body.dark-theme .btn-example-tts:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #86efac;
+body.dark-theme .btn-ex-tts {
+  background: #111827;
+  border-color: #374151;
+  color: #d1d5db;
 }
 
-body.dark-theme .filler-practice-box {
-  background: #1e293b;
-  border-color: #334155;
+body.dark-theme .btn-ex-tts:hover {
+  background: rgba(16, 185, 129, 0.2);
+  color: #a7f3d0;
 }
 
-body.dark-theme .filler-practice-label {
-  color: #94a3b8;
+body.dark-theme .filler-stt-section {
+  background: #1f2937;
+  border-color: #374151;
 }
 
-body.dark-theme .filler-mic-btn {
-  background: #334155;
-  border-color: #475569;
-  color: #e2e8f0;
+body.dark-theme .filler-stt-box {
+  background: #111827;
+  border-color: #374151;
+  color: #f9fafb;
 }
 
-body.dark-theme .filler-mic-btn:hover {
-  background: #475569;
+body.dark-theme .filler-mic-btn-main {
+  background: #111827;
+  border-color: #374151;
+  color: #f3f4f6;
 }
 
-body.dark-theme .filler-stt-result {
-  color: #f1f5f9;
+body.dark-theme .filler-mic-btn-main:hover {
+  background: #374151;
 }
 
-body.dark-theme .filler-stt-feedback.pass {
-  color: #4ade80;
+body.dark-theme .filler-chip {
+  background: #1f2937;
+  border-color: #374151;
+  color: #9ca3af;
 }
 
-body.dark-theme .filler-stt-feedback.miss {
-  color: #fbbf24;
+body.dark-theme .filler-chip:hover {
+  background: #374151;
+  border-color: #10b981;
+  color: #a7f3d0;
+}
+
+body.dark-theme .filler-chip.active {
+  background: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+body.dark-theme .filler-btn-prev {
+  background: #1f2937;
+  border-color: #374151;
+  color: #d1d5db;
 }

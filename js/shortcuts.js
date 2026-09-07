@@ -235,7 +235,25 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  // 6. 완료 화면 단축키
+  // 6. 필러 집중 훈련 모드 단축키
+  const fillerCard = document.getElementById("fillerCard");
+  if (fillerCard && fillerCard.style.display !== "none") {
+    if (isEnter) {
+      e.preventDefault();
+      if (typeof nextFiller === "function") nextFiller();
+      return;
+    } else if (isKeyP) {
+      e.preventDefault();
+      if (typeof prevFiller === "function") prevFiller();
+      return;
+    } else if (isSpace) {
+      e.preventDefault();
+      if (typeof playCurrentFillerTTS === "function") playCurrentFillerTTS();
+      return;
+    }
+  }
+
+  // 7. 완료 화면 단축키
   if (els.doneScreen && els.doneScreen.classList.contains("show")) {
     if (isEnter) {
       e.preventDefault();
