@@ -238,6 +238,11 @@ function startOpicPractice(wrongOnly = false) {
   opicBadCount = 0;
   saveOpicProgress();
 
+  if (typeof navigateTo === "function") {
+    navigateTo("opicCard", {}, true);
+    return;
+  }
+
   hideAllScreens();
   els.opicCard.style.display = "block";
   renderOpicCard();

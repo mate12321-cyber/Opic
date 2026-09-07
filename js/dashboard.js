@@ -321,118 +321,158 @@ function renderChips() {
     selectedCats.size === 0 ? "not-allowed" : "pointer";
 }
 
-// 문장 번역 주제 선택 화면 열기
-function showTopicScreen() {
+// ── SPA 브라우저 히스토리 (뒤로가기 / 앞으로가기) 라우팅 시스템 ────────────
+let isNavigatingHistory = false;
+
+function navigateTo(screen, params = {}, pushHistory = true) {
+  if (pushHistory && !isNavigatingHistory) {
+    const currentState = window.history.state;
+    const isSame =
+      currentState &&
+      currentState.screen === screen &&
+      JSON.stringify(currentState.params || {}) === JSON.stringify(params || {});
+    if (!isSame) {
+      window.history.pushState({ screen, params }, "", "");
+    }
+  }
+
   hideAllScreens();
-  els.topicScreen.style.display = "block";
-  renderChips();
+
+  switch (screen) {
+    case "home":
+      els.homeScreen.style.display = "flex";
+      renderHomeDashboard();
+      break;
+
+    case "topic":
+      els.topicScreen.style.display = "block";
+      renderChips();
+      break;
+
+    case "practice":
+      els.practiceCard.style.display = "block";
+      if (typeof renderCard === "function") renderCard();
+      break;
+
+    case "done":
+      els.doneScreen.classList.add("show");
+      break;
+
+    case "wordTopic":
+      els.wordTopicScreen.style.display = "block";
+      renderWordChips();
+      break;
+
+    case "wordCard":
+      els.wordCard.style.display = "block";
+      if (typeof renderWordCard === "function") renderWordCard();
+      break;
+
+    case "wordDone":
+      els.wordDoneScreen.classList.add("show");
+      break;
+
+    case "opicTopic":
+      if (els.opicTopicScreen) {
+        els.opicTopicScreen.style.display = "block";
+        if (typeof renderOpicChips === "function") renderOpicChips();
+      }
+      break;
+
+    case "opicCard":
+      if (els.opicCard) {
+        els.opicCard.style.display = "block";
+        if (typeof renderOpicCard === "function") renderOpicCard();
+      }
+      break;
+
+    case "opicDone":
+      if (els.opicDoneScreen) {
+        els.opicDoneScreen.style.display = "block";
+        els.opicDoneScreen.classList.add("show");
+      }
+      break;
+
+    case "patternTopic":
+      if (els.patternTopicScreen) {
+        els.patternTopicScreen.style.display = "block";
+        if (typeof renderPatternTopics === "function") renderPatternTopics();
+      }
+      break;
+
+    case "patternCard":
+      if (els.patternCard) {
+        els.patternCard.style.display = "block";
+        if (params && typeof params.idx === "number" && typeof patternCur !== "undefined") {
+          patternCur = params.idx;
+          if (typeof patternVarCur !== "undefined") patternVarCur = 0;
+        }
+        if (typeof renderPatternCard === "function") renderPatternCard();
+      }
+      break;
+
+    case "filler":
+      const fCard = document.getElementById("fillerCard");
+      if (fCard) {
+        fCard.style.display = "block";
+        if (params && typeof params.targetIdx === "number" && typeof fillerCur !== "undefined") {
+          fillerCur = params.targetIdx;
+        }
+        if (typeof renderFillerCard === "function") renderFillerCard();
+      }
+      break;
+
+    default:
+      els.homeScreen.style.display = "flex";
+      renderHomeDashboard();
+      break;
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// 문법 포인트 퀴즈 유형 선택 카드 렌더링
-function renderWordChips() {
-  els.wordTopicChips.innerHTML = "";
-
-  const isAllSelected =
-    wordSelectedCats.size === WORD_CATEGORIES.length &&
-    WORD_CATEGORIES.length > 0;
-  if (els.allWordTopicToggleBtn) {
-    els.allWordTopicToggleBtn.textContent = isAllSelected
-      ? "전체 해제"
-      : "전체 선택";
-    els.allWordTopicToggleBtn.onclick = () => {
-      wordSelectedCats = isAllSelected ? new Set() : new Set(WORD_CATEGORIES);
-      renderWordChips();
-    };
+// 브라우저 뒤로가기 / 앞으로가기 popstate 이벤트 리스너
+window.addEventListener("popstate", (event) => {
+  isNavigatingHistory = true;
+  try {
+    if (event.state && event.state.screen) {
+      navigateTo(event.state.screen, event.state.params || {}, false);
+    } else {
+      navigateTo("home", {}, false);
+    }
+  } finally {
+    isNavigatingHistory = false;
   }
+});
 
-  WORD_CATEGORIES.forEach((cat) => {
-    const chip = document.createElement("button");
-    chip.type = "button";
-    chip.className = "chip" + (wordSelectedCats.has(cat) ? " active" : "");
-    chip.textContent = cat;
-    chip.onclick = () => {
-      if (wordSelectedCats.has(cat)) wordSelectedCats.delete(cat);
-      else wordSelectedCats.add(cat);
-      renderWordChips();
-    };
-    els.wordTopicChips.appendChild(chip);
-  });
-
-  const count = WORD_ITEMS.filter((w) => wordSelectedCats.has(w.cat)).length;
-  els.wordTopicCount.textContent = wordSelectedCats.size
-    ? `(${count}문제 · ${wordSelectedCats.size}개 유형)`
-    : "(유형을 선택하세요)";
-  els.wordStartBtn.disabled = wordSelectedCats.size === 0;
-  els.wordStartBtn.style.opacity = wordSelectedCats.size === 0 ? ".45" : "1";
-  els.wordStartBtn.style.cursor =
-    wordSelectedCats.size === 0 ? "not-allowed" : "pointer";
+// 문장 번역 주제 선택 화면 열기
+function showTopicScreen(pushHistory = true) {
+  navigateTo("topic", {}, pushHistory);
 }
 
-// 홈 대시보드 통계 숫자 및 7일간의 학습 막대 차트 렌더링
-function renderHomeDashboard() {
-  const days = last7Days();
-  const today = dailyLog[days[days.length - 1].key] || 0;
-  const week = days.reduce((sum, d) => sum + (dailyLog[d.key] || 0), 0);
+// 문법 포인트 주제 선택 화면 열기
+function showWordTopicScreen(pushHistory = true) {
+  navigateTo("wordTopic", {}, pushHistory);
+}
 
-  els.homeDate.textContent = new Date().toLocaleDateString("ko-KR", {
-    month: "long",
-    day: "numeric",
-    weekday: "short",
-  });
-  els.statToday.textContent = today;
-  els.statWeek.textContent = week;
-  els.statStreak.textContent = computeStreak();
+// OPIc 실전 주제 선택 화면 열기
+function showOpicTopicScreen(pushHistory = true) {
+  navigateTo("opicTopic", {}, pushHistory);
+}
 
-  const max = Math.max(1, ...days.map((d) => dailyLog[d.key] || 0));
-  els.homeChart.innerHTML = days
-    .map((d) => {
-      const count = dailyLog[d.key] || 0;
-      const h = Math.max(3, Math.round((count / max) * 44));
-      return `<div class="bar-col${d.isToday ? " is-today" : ""}" title="${d.label}요일: ${count}문제">
-      <div class="bar-tooltip">${count}문제</div>
-      <div class="bar${d.isToday ? " today" : ""}" style="height:${h}px"></div>
-      <div class="bar-label">${d.label}</div>
-    </div>`;
-    })
-    .join("");
-
-  const sentenceResumable = order.length > 0 && cur < order.length;
-  els.navSentenceSub.textContent = sentenceResumable
-    ? `이어하기 · ${cur}/${order.length}문제 진행 중`
-    : `${SENTENCES.length}문장 · ${CATEGORIES.length}개 주제`;
-
-  const wordResumable = wordOrder.length > 0 && wordCur < wordOrder.length;
-  els.navWordSub.textContent = wordResumable
-    ? `이어하기 · ${wordCur}/${wordOrder.length}문제 진행 중`
-    : `${WORD_ITEMS.length}문제 · ${WORD_CATEGORIES.length}개 유형`;
-
-  const opicResumable = opicOrder.length > 0 && opicCur < opicOrder.length;
-  if (els.navOpicSub) {
-    els.navOpicSub.textContent = opicResumable
-      ? `이어하기 · ${opicCur}/${opicOrder.length}질문 진행 중`
-      : `${OPIC_QUESTIONS.length}개 예상 질문 · IM1 5~7문장 답변`;
-  }
-
-  if (els.navPatternSub) {
-    const doneCount = Object.keys(patternProgress || {}).length;
-    els.navPatternSub.textContent =
-      doneCount > 0
-        ? `학습 중 · 6개 중 ${doneCount}개 완료 ✓`
-        : `6대 핵심 템플릿으로 모든 질문 정복`;
-  }
-
-  if (els.navFillerSub) {
-    const masteredCount = Object.keys(fillerProgress || {}).length;
-    els.navFillerSub.textContent =
-      masteredCount > 0
-        ? `학습 중 · ${FILLER_ITEMS.length}개 중 ${masteredCount}개 숙달 완료 ✓`
-        : `16개 핵심 필러 · 시점별 가이드 & 실전 연습`;
-  }
+// 만능 패턴 목록 화면 열기
+function showPatternTopics(pushHistory = true) {
+  navigateTo("patternTopic", {}, pushHistory);
 }
 
 // 홈 대시보드 화면 열기
-function showHomeScreen() {
-  hideAllScreens();
-  els.homeScreen.style.display = "flex";
-  renderHomeDashboard();
+function showHomeScreen(pushHistory = true) {
+  navigateTo("home", {}, pushHistory);
 }
+
+window.navigateTo = navigateTo;
+window.showHomeScreen = showHomeScreen;
+window.showTopicScreen = showTopicScreen;
+window.showWordTopicScreen = showWordTopicScreen;
+window.showOpicTopicScreen = showOpicTopicScreen;
+window.showPatternTopics = showPatternTopics;

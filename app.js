@@ -264,14 +264,10 @@ els.wordNextBtn.addEventListener("click", () => {
 els.wordStartBtn.addEventListener("click", startWordPractice);
 els.wordRestartBtn.addEventListener("click", startWordPractice);
 els.wordChangeTopicBtn.addEventListener("click", () => {
-  hideAllScreens();
-  els.wordTopicScreen.style.display = "block";
-  renderWordChips();
+  showWordTopicScreen();
 });
 els.wordChangeTopicBtn2.addEventListener("click", () => {
-  hideAllScreens();
-  els.wordTopicScreen.style.display = "block";
-  renderWordChips();
+  showWordTopicScreen();
 });
 
 // ── OPIc 실전 질문 & 답변 모드 버튼 이벤트 ─────────────────────────
@@ -323,24 +319,18 @@ if (els.opicRetryWrongBtn)
   );
 if (els.opicChangeTopicBtn) {
   els.opicChangeTopicBtn.addEventListener("click", () => {
-    hideAllScreens();
-    els.opicTopicScreen.style.display = "block";
-    renderOpicChips();
+    showOpicTopicScreen();
   });
 }
 if (els.opicChangeTopicBtn2) {
   els.opicChangeTopicBtn2.addEventListener("click", () => {
-    hideAllScreens();
-    els.opicTopicScreen.style.display = "block";
-    renderOpicChips();
+    showOpicTopicScreen();
   });
 }
 
 // ── 학습 모드 전환 및 홈 화면 내비게이션 연결 ──────────────────────
 els.toWordModeLink.addEventListener("click", () => {
-  hideAllScreens();
-  els.wordTopicScreen.style.display = "block";
-  renderWordChips();
+  showWordTopicScreen();
 });
 
 els.toSentenceModeLink.addEventListener("click", () => {
@@ -354,48 +344,34 @@ if (els.toSentenceFromOpic) {
 }
 
 els.navSentence.addEventListener("click", () => {
-  hideAllScreens();
   if (order.length > 0 && cur < order.length) {
-    els.practiceCard.style.display = "block";
-    renderCard();
+    navigateTo("practice");
   } else {
-    els.topicScreen.style.display = "block";
-    renderChips();
+    showTopicScreen();
   }
 });
 
 els.navWord.addEventListener("click", () => {
-  hideAllScreens();
   if (wordOrder.length > 0 && wordCur < wordOrder.length) {
-    els.wordCard.style.display = "block";
-    renderWordCard();
+    navigateTo("wordCard");
   } else {
-    els.wordTopicScreen.style.display = "block";
-    renderWordChips();
+    showWordTopicScreen();
   }
 });
 
 if (els.navOpic) {
   els.navOpic.addEventListener("click", () => {
-    hideAllScreens();
     if (opicOrder.length > 0 && opicCur < opicOrder.length) {
-      els.opicCard.style.display = "block";
-      renderOpicCard();
+      navigateTo("opicCard");
     } else {
-      els.opicTopicScreen.style.display = "block";
-      renderOpicChips();
+      showOpicTopicScreen();
     }
   });
 }
 
 if (els.navPattern) {
   els.navPattern.addEventListener("click", () => {
-    hideAllScreens();
-    if (els.patternTopicScreen) {
-      els.patternTopicScreen.style.display = "block";
-      renderPatternTopics();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    showPatternTopics();
   });
 }
 
@@ -408,12 +384,7 @@ const btnPrevPattern = document.getElementById("btnPrevPattern");
 
 if (toOpicFromPattern) {
   toOpicFromPattern.addEventListener("click", () => {
-    hideAllScreens();
-    if (els.opicTopicScreen) {
-      els.opicTopicScreen.style.display = "block";
-      renderOpicChips();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    showOpicTopicScreen();
   });
 }
 
@@ -421,32 +392,20 @@ if (patternNextBtn) patternNextBtn.addEventListener("click", nextPattern);
 if (btnPrevPattern) btnPrevPattern.addEventListener("click", prevPattern);
 if (patternChangeListBtn) {
   patternChangeListBtn.addEventListener("click", () => {
-    hideAllScreens();
-    if (els.patternTopicScreen) {
-      els.patternTopicScreen.style.display = "block";
-      renderPatternTopics();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    showPatternTopics();
   });
 }
 
 if (els.navFiller) {
   els.navFiller.addEventListener("click", () => {
-    if (typeof showFillerScreen === "function") {
-      showFillerScreen();
-    }
+    showFillerScreen(0);
   });
 }
 
 const toPatternFromFiller = document.getElementById("toPatternFromFiller");
 if (toPatternFromFiller) {
   toPatternFromFiller.addEventListener("click", () => {
-    hideAllScreens();
-    if (els.patternTopicScreen) {
-      els.patternTopicScreen.style.display = "block";
-      renderPatternTopics();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    showPatternTopics();
   });
 }
 
@@ -463,7 +422,7 @@ if (toPatternFromFiller) {
   homeFromPatternTopic,
   homeFromPatternCard,
   document.getElementById("homeFromFiller"),
-].forEach((el) => el && el.addEventListener("click", showHomeScreen));
+].forEach((el) => el && el.addEventListener("click", () => showHomeScreen()));
 
 // ── 마이크 음성 입력(STT) 토글 연동 ────────────────────────────────
 if (els.micBtn) {
@@ -574,6 +533,9 @@ if (importBackupBtn && importBackupInput) {
 
 // ── 앱 부트스트랩 및 초기 데이터 로딩 ──────────────────────────────
 async function initDashboard() {
+  if (!window.history.state) {
+    window.history.replaceState({ screen: "home", params: {} }, "", "");
+  }
   if (typeof initTheme === "function") initTheme();
   await loadData();
   initTTS();

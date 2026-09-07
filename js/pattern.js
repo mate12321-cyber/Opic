@@ -131,7 +131,7 @@ async function renderPatternTopics() {
 }
 
 // 패턴 학습 화면으로 전환
-function showPatternCard(idx) {
+function showPatternCard(idx, pushHistory = true) {
   if (
     typeof idx === "number" &&
     !isNaN(idx) &&
@@ -140,6 +140,10 @@ function showPatternCard(idx) {
   ) {
     patternCur = idx;
     patternVarCur = 0;
+  }
+  if (typeof navigateTo === "function") {
+    navigateTo("patternCard", { idx: patternCur }, pushHistory);
+    return;
   }
   hideAllScreens();
   const card = document.getElementById("patternCard");

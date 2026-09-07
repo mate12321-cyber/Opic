@@ -210,9 +210,13 @@ function startPractice() {
   cur = 0;
   results = {};
   savedUserInputs = {};
+  saveProgress();
+  if (typeof navigateTo === "function") {
+    navigateTo("practice", {}, true);
+    return;
+  }
   hideAllScreens();
   els.practiceCard.style.display = "block";
-  saveProgress();
   renderCard();
 }
 

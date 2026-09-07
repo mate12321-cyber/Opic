@@ -56,14 +56,18 @@ async function saveFillerProgress() {
 }
 
 // 필러 화면 열기
-function showFillerScreen(targetIdx = 0) {
+function showFillerScreen(targetIdx = 0, pushHistory = true) {
+  if (typeof targetIdx === "number" && targetIdx >= 0 && targetIdx < (FILLER_ITEMS.length || 16)) {
+    fillerCur = targetIdx;
+  }
+  if (typeof navigateTo === "function") {
+    navigateTo("filler", { targetIdx: fillerCur }, pushHistory);
+    return;
+  }
   hideAllScreens();
   const card = document.getElementById("fillerCard");
   if (card) {
     card.style.display = "block";
-    if (typeof targetIdx === "number" && targetIdx >= 0 && targetIdx < (FILLER_ITEMS.length || 16)) {
-      fillerCur = targetIdx;
-    }
     renderFillerCard();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -142,7 +146,7 @@ function renderFillerCard() {
 
   if (ttsBtn) {
     const cleanPhrase = f.phrase.replace(/[\.\.\.\/]/g, "").trim();
-    ttsBtn.onclick = () => playFillerTTS(cleanPhrase);
+    ttsBtn.onclick = () => playFillerTTS(cleanPhrase, ttsBtn);
   }
 
   // 4. 💡 사용 시점 & 타이밍 가이드
@@ -176,7 +180,7 @@ function renderFillerCard() {
             <button
               type="button"
               class="btn-ex-tts"
-              onclick="playFillerTTS('${safeEscapeForJs(ex.en)}')"
+              onclick="playFillerTTS('${safeEscapeForJs(ex.en)}', this)"
               title="문장 원어민 음성 듣기"
             >
               🔊 듣기
@@ -296,18 +300,19 @@ function highlightFillerWords(text, phrase) {
 }
 
 // 필러 전용 TTS 재생 함수
-function playFillerTTS(text) {
+function playFillerTTS(text, btn = null) {
   if (!text) return;
-  stopTTS();
-  const speed = typeof currentTtsSpeed !== "undefined" ? currentTtsSpeed : 1.0;
-  speakEn(text, speed);
+  if (typeof speakText === "function") {
+    speakText(text, "en-US", btn);
+  }
 }
 
 // 현재 보고 있는 필러 발음 재생 (단축키 Space용)
 function playCurrentFillerTTS() {
   if (!FILLER_ITEMS || !FILLER_ITEMS[fillerCur]) return;
   const cleanPhrase = FILLER_ITEMS[fillerCur].phrase.replace(/[\.\.\.\/]/g, "").trim();
-  playFillerTTS(cleanPhrase);
+  const ttsBtn = document.getElementById("fillerTtsMainBtn");
+  playFillerTTS(cleanPhrase, ttsBtn);
 }
 
 // ── 마이크 STT (따라 말하기) ─────────────────────────

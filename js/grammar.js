@@ -145,9 +145,13 @@ function startWordPractice() {
   );
   wordCur = 0;
   wordResults = {};
+  saveWordProgress();
+  if (typeof navigateTo === "function") {
+    navigateTo("wordCard", {}, true);
+    return;
+  }
   hideAllScreens();
   els.wordCard.style.display = "block";
-  saveWordProgress();
   renderWordCard();
 }
 

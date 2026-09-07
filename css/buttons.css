@@ -772,11 +772,7 @@ body.dark-theme #retrySameLink:hover {
 
 body.dark-theme button.google-ai-btn,
 body.dark-theme .google-ai-btn {
-  background: linear-gradient(
-    135deg,
-    #1e293b 0%,
-    #334155 100%
-  ) !important;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%) !important;
   color: #f1f5f9 !important;
   border-color: #475569 !important;
   box-shadow:
@@ -785,11 +781,7 @@ body.dark-theme .google-ai-btn {
 }
 body.dark-theme button.google-ai-btn:hover,
 body.dark-theme .google-ai-btn:hover {
-  background: linear-gradient(
-    135deg,
-    #334155 0%,
-    #475569 100%
-  ) !important;
+  background: linear-gradient(135deg, #334155 0%, #475569 100%) !important;
   border-color: #64748b !important;
   color: #ffffff !important;
 }
