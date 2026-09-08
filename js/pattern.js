@@ -252,15 +252,17 @@ function renderPatternVariation() {
       .join("");
 
     // 개별 문장 TTS 바인딩
-    sentenceList.querySelectorAll(".tts-btn:not(.ps-mic-btn)").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const sIdx = parseInt(btn.dataset.senIdx, 10);
-        const sentence = curVar.sentences[sIdx];
-        if (sentence && sentence.en) {
-          speakText(sentence.en, "en-US", btn);
-        }
+    sentenceList
+      .querySelectorAll(".tts-btn:not(.ps-mic-btn)")
+      .forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const sIdx = parseInt(btn.dataset.senIdx, 10);
+          const sentence = curVar.sentences[sIdx];
+          if (sentence && sentence.en) {
+            speakText(sentence.en, "en-US", btn);
+          }
+        });
       });
-    });
 
     // 개별 문장 마이크(말하기) 바인딩
     sentenceList.querySelectorAll(".ps-mic-btn").forEach((btn) => {

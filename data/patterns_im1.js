@@ -19,7 +19,7 @@ window.PATTERNS_DATA = [
         "ko": "3. 그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
       },
       {
-        "en": "4. There are [특징 1] and [특징 2], so I can relax comfortably.",
+        "en": "4. There are [특징 1] and [특징 2], so I can just relax.",
         "ko": "4. [특징 1]과 [특징 2]가 있어서 편안하게 쉴 수 있어요."
       },
       {
@@ -49,7 +49,7 @@ window.PATTERNS_DATA = [
             "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
           },
           {
-            "en": "There are large windows and comfortable seats, so I can relax comfortably.",
+            "en": "There are large windows and nice seats, so I can just relax.",
             "ko": "큰 창문과 편안한 좌석이 있어서 편안하게 쉴 수 있어요."
           },
           {
@@ -79,7 +79,7 @@ window.PATTERNS_DATA = [
             "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
           },
           {
-            "en": "There are green trees and comfortable benches, so I can relax comfortably.",
+            "en": "There are green trees and nice benches, so I can just relax.",
             "ko": "푸른 나무들과 편안한 벤치가 있어서 편안하게 쉴 수 있어요."
           },
           {
@@ -109,7 +109,7 @@ window.PATTERNS_DATA = [
             "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
           },
           {
-            "en": "There are clean machines and free weights, so I can relax comfortably.",
+            "en": "There are clean machines and free weights, so I can just relax.",
             "ko": "깨끗한 머신들과 프리웨이트가 있어서 편안하게 쉴 수 있어요."
           },
           {
@@ -139,7 +139,7 @@ window.PATTERNS_DATA = [
             "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
           },
           {
-            "en": "There are scenic views and quiet roads, so I can relax comfortably.",
+            "en": "There are scenic views and quiet roads, so I can just relax.",
             "ko": "멋진 풍경과 한적한 도로가 있어서 편안하게 쉴 수 있어요."
           },
           {
@@ -166,8 +166,8 @@ window.PATTERNS_DATA = [
         "ko": "1. 보통 주말에 여유 시간이 있을 때, 저는 [활동]하는 것을 정말 좋아해요."
       },
       {
-        "en": "2. First, I wear comfortable clothes and go to [장소].",
-        "ko": "2. 먼저 편안한 옷을 입고 [장소]로 갑니다."
+        "en": "2. First, I wear casual clothes and go to [장소].",
+        "ko": "2. 먼저 편한 평상복을 입고 [장소]로 갑니다."
       },
       {
         "en": "3. When I arrive there, I usually [핵심 행동 1].",
@@ -196,8 +196,8 @@ window.PATTERNS_DATA = [
             "ko": "보통 주말에 여유 시간이 있을 때, 저는 혼자 카페에 가는 것을 정말 좋아해요."
           },
           {
-            "en": "First, I wear comfortable clothes and go to Starbucks.",
-            "ko": "먼저 편안한 옷을 입고 스타벅스로 갑니다."
+            "en": "First, I wear casual clothes and go to Starbucks.",
+            "ko": "먼저 편한 평상복을 입고 스타벅스로 갑니다."
           },
           {
             "en": "When I arrive there, I order an iced Americano and find a seat.",
@@ -226,8 +226,8 @@ window.PATTERNS_DATA = [
             "ko": "보통 저녁에 여유 시간이 있을 때, 저는 공원을 걷는 것을 정말 좋아해요."
           },
           {
-            "en": "First, I wear comfortable clothes and go to the park.",
-            "ko": "먼저 편안한 옷을 입고 공원으로 갑니다."
+            "en": "First, I wear casual clothes and go to the park.",
+            "ko": "먼저 편한 평상복을 입고 공원으로 갑니다."
           },
           {
             "en": "When I arrive there, I usually walk slowly along the quiet trail.",
@@ -256,8 +256,8 @@ window.PATTERNS_DATA = [
             "ko": "보통 주말에 여유 시간이 있을 때, 저는 집에서 맛있는 요리를 하는 것을 정말 좋아해요."
           },
           {
-            "en": "First, I wear comfortable clothes and go to the kitchen.",
-            "ko": "먼저 편안한 옷을 입고 주방으로 갑니다."
+            "en": "First, I wear casual clothes and go to the kitchen.",
+            "ko": "먼저 편한 평상복을 입고 주방으로 갑니다."
           },
           {
             "en": "When I start cooking, I usually make simple pasta or fried rice.",
@@ -286,8 +286,8 @@ window.PATTERNS_DATA = [
             "ko": "보통 저녁에 여유 시간이 있을 때, 저는 코딩 공부하는 것을 정말 좋아해요."
           },
           {
-            "en": "First, I wear comfortable clothes and sit at my desk.",
-            "ko": "먼저 편안한 옷을 입고 책상에 앉습니다."
+            "en": "First, I wear casual clothes and sit at my desk.",
+            "ko": "먼저 편한 평상복을 입고 책상에 앉습니다."
           },
           {
             "en": "When I sit down, I turn on my computer and make simple web tools.",
@@ -583,7 +583,7 @@ window.PATTERNS_DATA = [
         "ko": "4. 예를 들어 우리는 스마트폰 앱을 아주 쉽게 써요."
       },
       {
-        "en": "5. So, people can live much more comfortably.",
+        "en": "5. So, people can live much more easily.",
         "ko": "5. 그래서 사람들은 훨씬 더 편안하게 살 수 있어요."
       },
       {

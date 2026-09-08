@@ -644,7 +644,7 @@ window.SENTENCES_DATA = [
   {
     "cat": "영화보기",
     "ko": "요즘 OTT 스트리밍 서비스 덕분에 집에서도 편하게 영화를 봐요.",
-    "en": "Thanks to streaming services, we can watch movies comfortably at home.",
+    "en": "Thanks to streaming services, we can watch movies easily at home.",
     "tip": "'Thanks to ~'로 편리해진 환경을 설명해요."
   },
   {
@@ -1232,7 +1232,7 @@ window.SENTENCES_DATA = [
   {
     "cat": "걷기",
     "ko": "발이 편한 워킹화는 오래 걸어도 발바닥 피로를 덜어줘요.",
-    "en": "Comfortable walking shoes reduce foot fatigue even after long walks.",
+    "en": "Good walking shoes reduce foot fatigue even after long walks.",
     "tip": "'reduce foot fatigue'는 발의 피로를 덜어준다는 표현이에요."
   },
   {

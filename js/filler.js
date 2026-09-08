@@ -414,7 +414,12 @@ function toggleFillerMic(fillerId, targetPhrase) {
     fillerRecognition.onend = () => {
       if (!evaluated && lastSpokenText.trim()) {
         evaluated = true;
-        evaluateFillerSpeech(lastSpokenText, targetPhrase, feedbackEl, fillerId);
+        evaluateFillerSpeech(
+          lastSpokenText,
+          targetPhrase,
+          feedbackEl,
+          fillerId,
+        );
       }
       stopFillerMic();
     };

@@ -2577,7 +2577,10 @@ function toggleSpeechRecognition(
     console.warn("[SpeechRecognition] Initial start failed:", e);
     // 이미 시작되어 있는 상태라면 무시
     if (!e.message || !e.message.includes("already started")) {
-      showMicError("마이크를 시작하지 못했어요. 다시 시도해주세요.", targetError);
+      showMicError(
+        "마이크를 시작하지 못했어요. 다시 시도해주세요.",
+        targetError,
+      );
       stopSpeechRecognition();
       return;
     }
@@ -2590,7 +2593,11 @@ function toggleSpeechRecognition(
     );
 
   recordedAudioChunks = [];
-  if (!isMobile && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+  if (
+    !isMobile &&
+    navigator.mediaDevices &&
+    navigator.mediaDevices.getUserMedia
+  ) {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
@@ -2749,7 +2756,9 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
-    alert("이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 브라우저를 사용해주세요.");
+    alert(
+      "이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 브라우저를 사용해주세요.",
+    );
     return;
   }
 

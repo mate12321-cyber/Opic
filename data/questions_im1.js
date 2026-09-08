@@ -107,7 +107,7 @@ window.QUESTIONS_DATA = [
         "ko": "방 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
       },
       {
-        "en": "There are a soft sofa and a big TV, so I can relax comfortably.",
+        "en": "There are a soft sofa and a big TV, so I can just relax.",
         "ko": "폭신한 소파와 큰 TV가 있어서 편안하게 쉴 수 있어요."
       },
       {
@@ -143,8 +143,8 @@ window.QUESTIONS_DATA = [
         "ko": "보통 퇴근 후 집에 오면 간단한 저녁 루틴을 보냅니다."
       },
       {
-        "en": "First, I wash my hands and change into comfortable clothes.",
-        "ko": "먼저 손을 씻고 편안한 옷으로 갈아입어요."
+        "en": "First, I wash my hands and change into casual clothes.",
+        "ko": "먼저 손을 씻고 편한 옷으로 갈아입어요."
       },
       {
         "en": "Then, I cook a simple dinner like fried rice and eat alone.",
@@ -165,7 +165,7 @@ window.QUESTIONS_DATA = [
     ],
     "keywords": [
       "simple evening routine",
-      "comfortable clothes",
+      "casual clothes",
       "simple dinner alone",
       "watch YouTube videos",
       "warm shower and sofa",
@@ -239,8 +239,8 @@ window.QUESTIONS_DATA = [
         "ko": "하지만 지금 제 새 아파트는 아주 깔끔하고 현대적이에요."
       },
       {
-        "en": "For example, I bought a comfortable sofa and a warm mood light.",
-        "ko": "예를 들어 편안한 소파와 따뜻한 무드등을 샀습니다."
+        "en": "For example, I bought a cozy sofa and a warm mood light.",
+        "ko": "예를 들어 아늑한 소파와 따뜻한 무드등을 샀습니다."
       },
       {
         "en": "So, resting at home after work feels much more healing and fun.",
@@ -255,7 +255,7 @@ window.QUESTIONS_DATA = [
       "very different from now",
       "room was small and old",
       "clean and modern",
-      "comfortable sofa and mood light",
+      "cozy sofa and mood light",
       "resting at home after work",
       "very happy"
     ],
@@ -283,8 +283,8 @@ window.QUESTIONS_DATA = [
         "ko": "사무실 안은 분위기가 아주 깔끔하고 밝으며 잘 정돈되어 있어요."
       },
       {
-        "en": "There are comfortable desks and dual-screen computers, so we can work comfortably.",
-        "ko": "편안한 책상과 듀얼 모니터 컴퓨터가 있어서 편안하게 일할 수 있어요."
+        "en": "There are nice desks and dual-screen computers, so we can work easily.",
+        "ko": "좋은 책상과 듀얼 모니터 컴퓨터가 있어서 편하게 일할 수 있어요."
       },
       {
         "en": "I love this place because my colleagues are very kind and friendly.",
@@ -299,7 +299,7 @@ window.QUESTIONS_DATA = [
       "office near my house",
       "easy to commute",
       "clean, bright, and well-organized",
-      "comfortable desks and computers",
+      "nice desks and computers",
       "kind and friendly colleagues",
       "happy and proud"
     ],
@@ -459,8 +459,8 @@ window.QUESTIONS_DATA = [
         "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
       },
       {
-        "en": "There are large windows and comfortable seats, so I can relax comfortably.",
-        "ko": "큰 창문과 편안한 좌석이 있어서 편안하게 쉴 수 있어요."
+        "en": "There are large windows and nice seats, so I can just relax.",
+        "ko": "큰 창문과 좋은 좌석이 있어서 편안하게 쉴 수 있어요."
       },
       {
         "en": "I love this place because drinking coffee relieves all my stress after work.",
@@ -475,7 +475,7 @@ window.QUESTIONS_DATA = [
       "Starbucks near my house",
       "easy to get there",
       "clean, quiet, and cozy",
-      "large windows and comfortable seats",
+      "large windows and nice seats",
       "drinking coffee relieves stress",
       "happy and relaxed"
     ],
@@ -635,8 +635,8 @@ window.QUESTIONS_DATA = [
         "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
       },
       {
-        "en": "There are green trees and comfortable benches, so I can relax comfortably.",
-        "ko": "푸른 나무들과 편안한 벤치가 있어서 편안하게 쉴 수 있어요."
+        "en": "There are green trees and nice benches, so I can just relax.",
+        "ko": "푸른 나무들과 좋은 벤치가 있어서 편안하게 쉴 수 있어요."
       },
       {
         "en": "I love this place because walking alone relieves all my stress after work.",
@@ -651,7 +651,7 @@ window.QUESTIONS_DATA = [
       "park near my house",
       "easy to get there",
       "clean, quiet, and cozy",
-      "green trees and comfortable benches",
+      "green trees and nice benches",
       "walking alone relieves stress",
       "happy and relaxed"
     ],
@@ -671,7 +671,7 @@ window.QUESTIONS_DATA = [
         "ko": "보통 저녁에 저는 집 근처 공원에서 걷는 것을 정말 좋아해요."
       },
       {
-        "en": "First, I wear comfortable sneakers and wireless earphones.",
+        "en": "First, I wear light sneakers and wireless earphones.",
         "ko": "먼저 편안한 운동화를 신추고 무선 이어폰을 챙깁니다."
       },
       {
@@ -693,7 +693,7 @@ window.QUESTIONS_DATA = [
     ],
     "keywords": [
       "walk in the park near my house",
-      "comfortable sneakers and earphones",
+      "light sneakers and earphones",
       "walk slowly along green trail",
       "listening to soft ballad music",
       "stretching on a bench",
@@ -855,8 +855,8 @@ window.QUESTIONS_DATA = [
         "ko": "그 다음 주방에서 팝콘과 시원한 음료를 준비합니다."
       },
       {
-        "en": "I sit on my comfortable sofa and focus on the story.",
-        "ko": "편안한 소파에 앉아서 줄거리에 푹 빠져서 봅니다."
+        "en": "I sit on my cozy sofa and focus on the story.",
+        "ko": "아늑한 소파에 앉아서 줄거리에 푹 빠져서 봅니다."
       },
       {
         "en": "Watching movies alone in my quiet room makes me feel very peaceful.",
@@ -871,7 +871,7 @@ window.QUESTIONS_DATA = [
       "watch movies on TV at home",
       "choose movie on Netflix",
       "popcorn and cold drink",
-      "comfortable sofa and focus",
+      "cozy sofa and focus",
       "quiet room very peaceful",
       "relieves all my stress"
     ],
@@ -947,7 +947,7 @@ window.QUESTIONS_DATA = [
         "ko": "예를 들어 집에서 언제든 넷플릭스로 어떤 영화든 볼 수 있어요."
       },
       {
-        "en": "Also, movie theaters now have comfortable recliner seats and big screens.",
+        "en": "Also, movie theaters now have soft recliner seats and big screens.",
         "ko": "또한 영화관도 이제 편안한 리클라이너 좌석과 큰 스크린이 있어요."
       },
       {
@@ -1119,7 +1119,7 @@ window.QUESTIONS_DATA = [
         "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
       },
       {
-        "en": "There are clean machines and free weights, so I can relax comfortably.",
+        "en": "There are clean machines and free weights, so I can just relax.",
         "ko": "깨끗한 머신들과 프리웨이트가 있어서 편안하게 쉴 수 있어요."
       },
       {
@@ -1383,7 +1383,7 @@ window.QUESTIONS_DATA = [
         "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
       },
       {
-        "en": "There are scenic views and quiet roads, so I can relax comfortably.",
+        "en": "There are scenic views and quiet roads, so I can just relax.",
         "ko": "멋진 풍경과 한적한 도로가 있어서 편안하게 쉴 수 있어요."
       },
       {
@@ -1467,15 +1467,15 @@ window.QUESTIONS_DATA = [
         "ko": "먼저 날씨를 확인하고 스마트폰에 간단한 짐 싸기 목록을 적어요."
       },
       {
-        "en": "Then, I pack comfortable clothes, chargers, and toiletries into my backpack.",
-        "ko": "그 다음 편안한 옷, 충전기, 세면도구를 배낭에 챙깁니다."
+        "en": "Then, I pack casual clothes, chargers, and toiletries into my backpack.",
+        "ko": "그 다음 편한 옷, 충전기, 세면도구를 배낭에 챙깁니다."
       },
       {
         "en": "Before leaving home, I make sure the windows are closed and gas is turned off.",
         "ko": "집을 나서기 전 창문이 닫혔는지와 가스 밸브를 확인해요."
       },
       {
-        "en": "Preparing carefully makes my trip safe and comfortable.",
+        "en": "Preparing carefully makes my trip safe and happy.",
         "ko": "꼼꼼하게 준비하면 여행이 안전하고 편안해집니다."
       },
       {
@@ -1488,7 +1488,7 @@ window.QUESTIONS_DATA = [
       "check weather and packing list",
       "pack clothes and chargers",
       "check windows and gas",
-      "safe and comfortable",
+      "safe and happy",
       "excited to start trip"
     ],
     "tip": "[초간단 여행 준비] 날씨 확인 및 스마트폰 체크리스트 → 옷/충전기/세면도구 패킹 → 창문/가스 밸브 확인 → 안전하고 설레는 출발.",
@@ -1515,7 +1515,7 @@ window.QUESTIONS_DATA = [
         "ko": "캠핑장 안은 분위기가 아주 깔끔하고 조용하며 평화로워요."
       },
       {
-        "en": "There are tall green trees and a clean lake, so I can relax comfortably.",
+        "en": "There are tall green trees and a clean lake, so I can just relax.",
         "ko": "키 큰 푸른 나무들과 깨끗한 호수가 있어서 편안하게 쉴 수 있어요."
       },
       {
