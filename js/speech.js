@@ -335,7 +335,30 @@ function initTtsSettingsModal() {
 
   if (engineSelect && azureSection) {
     engineSelect.addEventListener("change", (e) => {
+      ttsEngine = e.target.value;
       azureSection.style.display = e.target.value === "azure" ? "flex" : "none";
+      saveTtsSettings();
+    });
+  }
+
+  if (azureVoiceSelect) {
+    azureVoiceSelect.addEventListener("change", (e) => {
+      azureVoice = e.target.value;
+      saveTtsSettings();
+    });
+  }
+
+  if (azureKeyInput) {
+    azureKeyInput.addEventListener("change", (e) => {
+      azureApiKey = e.target.value.trim();
+      saveTtsSettings();
+    });
+  }
+
+  if (azureRegionInput) {
+    azureRegionInput.addEventListener("change", (e) => {
+      azureRegion = e.target.value.trim() || "eastus";
+      saveTtsSettings();
     });
   }
 
@@ -426,6 +449,14 @@ function initTtsSettingsModal() {
         azureTestBtn.innerHTML = "🔊 재생 중...";
         await playAudioBlob(blob, null);
         azureTestBtn.innerHTML = "✅ 연결 및 재생 성공!";
+
+        // ⚡ 테스트 성공 시 입력된 설정값 즉시 전역 반영 및 영구 저장
+        azureApiKey = tempKey;
+        azureRegion = tempRegion;
+        azureVoice = tempVoice;
+        if (engineSelect) ttsEngine = engineSelect.value;
+        saveTtsSettings();
+
         setTimeout(() => {
           azureTestBtn.innerHTML = originalText;
           azureTestBtn.disabled = false;
@@ -585,34 +616,42 @@ function resetCurrentButton() {
 // Azure Cognitive Services Speech REST API 호출 및 Audio 캐싱
 async function fetchAzureTtsAudio(
   text,
-  lang = "en-US",
   voiceName = "en-US-JennyNeural",
   rate = 1.0,
+  lang = null,
 ) {
   if (!azureApiKey || !azureApiKey.trim()) {
     throw new Error("Azure API Key is not set.");
   }
 
+  const selectedVoice = voiceName || azureVoice || "en-US-JennyNeural";
+  const selectedLang =
+    lang ||
+    selectedVoice.split("-").slice(0, 2).join("-") ||
+    "en-US";
+  const selectedRate =
+    typeof rate === "number" ? rate : parseFloat(rate) || 1.0;
+
   // 1. IndexedDB 캐시 조회 (속도/보이스/텍스트 키)
-  const cacheKey = AudioCache.makeKey(
-    "azure",
-    voiceName || azureVoice,
-    text,
-    rate,
-  );
-  const cachedBlob = await AudioCache.getAudio(cacheKey);
-  if (cachedBlob) {
-    return cachedBlob;
+  const cacheKey = window.AudioCache
+    ? window.AudioCache.makeKey("azure", selectedVoice, text, selectedRate)
+    : null;
+  if (cacheKey && window.AudioCache) {
+    const cachedBlob = await window.AudioCache.getAudio(cacheKey);
+    if (cachedBlob) {
+      return cachedBlob;
+    }
   }
 
   // 2. 캐시 미스 시 Azure REST API 직접 호출
   const url = `https://${azureRegion}.tts.speech.microsoft.com/cognitiveservices/v1`;
+  const ratePercent = Math.round((selectedRate - 1.0) * 100);
   const ssmlRate =
-    rate === 1.0
+    selectedRate === 1.0
       ? "default"
-      : `${rate > 1 ? "+" : ""}${Math.round((rate - 1) * 100)}%`;
+      : `${ratePercent >= 0 ? "+" : ""}${ratePercent}%`;
 
-  const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='${escapeXml(lang)}'><voice name='${escapeXml(voiceName || azureVoice)}'><prosody rate='${ssmlRate}'>${escapeXml(text)}</prosody></voice></speak>`;
+  const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='${escapeXml(selectedLang)}'><voice name='${escapeXml(selectedVoice)}'><prosody rate='${ssmlRate}'>${escapeXml(text)}</prosody></voice></speak>`;
 
   const res = await fetch(url, {
     method: "POST",
@@ -626,14 +665,19 @@ async function fetchAzureTtsAudio(
   });
 
   if (!res.ok) {
-    throw new Error(`Azure TTS Error: ${res.status} ${res.statusText}`);
+    const errBody = await res.text().catch(() => "");
+    throw new Error(
+      `Azure TTS Error (${res.status}): ${res.statusText} ${errBody}`,
+    );
   }
 
   const blob = await res.blob();
   addAzureTtsUsage(text.length);
 
   // 3. 응답받은 오디오 Blob을 IndexedDB에 영구 캐시
-  AudioCache.saveAudio(cacheKey, blob, text).catch(() => {});
+  if (window.AudioCache && cacheKey) {
+    window.AudioCache.saveAudio(cacheKey, blob, text).catch(() => {});
+  }
   return blob;
 }
 
@@ -820,9 +864,6 @@ async function speakText(text, lang = "en-US", btn = null) {
       const blob = await fetchAzureTtsAudio(cleanText, voiceName, ttsRate);
       if (thisRequestId !== currentTtsRequestId) return; // ⚡ 비동기 대기 중 다른 요청 발생 시 취소
 
-      if (window.AudioCache && cacheKey) {
-        window.AudioCache.saveAudio(cacheKey, blob, cleanText);
-      }
       await playAudioBlob(blob, btn, thisRequestId);
       return;
     } catch (err) {
@@ -841,9 +882,6 @@ async function speakText(text, lang = "en-US", btn = null) {
       const blob = await fetchGoogleTtsAudio(cleanText, lang);
       if (thisRequestId !== currentTtsRequestId) return; // ⚡ 비동기 대기 중 다른 요청 발생 시 취소
 
-      if (window.AudioCache && cacheKey) {
-        window.AudioCache.saveAudio(cacheKey, blob, cleanText);
-      }
       await playAudioBlob(blob, btn, thisRequestId);
       return;
     } catch (err) {
