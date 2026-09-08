@@ -11,8 +11,8 @@ window.PATTERNS_DATA = [
         "ko": "1. [주제]를 생각할 때마다, [장소명]이 진짜 제 최애 장소예요."
       },
       {
-        "en": "2. It is located near my house, so it is very easy to get there.",
-        "ko": "2. 저희 집 근처에 있어서, 찾아가기가 정말 편해요."
+        "en": "2. It is located near my house, so it is just five minutes.",
+        "ko": "2. 저희 집 근처에 있어서, 딱 5분 거리예요."
       },
       {
         "en": "3. Inside the place, the vibe is very clean, quiet, and cozy.",
@@ -41,8 +41,8 @@ window.PATTERNS_DATA = [
             "ko": "카페를 생각할 때마다, 스타벅스가 진짜 제 최애 장소예요."
           },
           {
-            "en": "It is located near my house, so it is very easy to get there.",
-            "ko": "저희 집 근처에 있어서, 찾아가기가 정말 편해요."
+            "en": "It is located near my house, so it is just five minutes.",
+            "ko": "저희 집 근처에 있어서, 딱 5분 거리예요."
           },
           {
             "en": "Inside the place, the vibe is very clean, quiet, and cozy.",
@@ -71,8 +71,8 @@ window.PATTERNS_DATA = [
             "ko": "공원을 생각할 때마다, 공원이 진짜 제 최애 장소예요."
           },
           {
-            "en": "It is located near my house, so it is very easy to get there.",
-            "ko": "저희 집 근처에 있어서, 찾아가기가 정말 편해요."
+            "en": "It is located near my house, so it is just five minutes.",
+            "ko": "저희 집 근처에 있어서, 딱 5분 거리예요."
           },
           {
             "en": "Inside the place, the vibe is very clean, quiet, and cozy.",
@@ -101,8 +101,8 @@ window.PATTERNS_DATA = [
             "ko": "운동을 생각할 때마다, 헬스장이 진짜 제 최애 장소예요."
           },
           {
-            "en": "It is located near my house, so it is very easy to get there.",
-            "ko": "저희 집 근처에 있어서, 찾아가기가 정말 편해요."
+            "en": "It is located near my house, so it is just five minutes.",
+            "ko": "저희 집 근처에 있어서, 딱 5분 거리예요."
           },
           {
             "en": "Inside the place, the vibe is very clean, quiet, and cozy.",
@@ -131,8 +131,8 @@ window.PATTERNS_DATA = [
             "ko": "휴식을 생각할 때마다, 한적한 드라이브 코스가 진짜 제 최애 장소예요."
           },
           {
-            "en": "It is located near my house, so it is very easy to get there.",
-            "ko": "저희 집 근처에 있어서, 찾아가기가 정말 편해요."
+            "en": "It is located near my house, so it is just five minutes.",
+            "ko": "저희 집 근처에 있어서, 딱 5분 거리예요."
           },
           {
             "en": "Inside the place, the vibe is very clean, quiet, and cozy.",
