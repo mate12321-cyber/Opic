@@ -15,8 +15,8 @@ window.PATTERNS_DATA = [
         "ko": "2. 저희 집 근처에 있어서, 딱 5분 거리예요."
       },
       {
-        "en": "3. Inside the place, the vibe is very clean, quiet, and cozy.",
-        "ko": "3. 그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
+        "en": "3. And the vibe is very clean, quiet, and cozy.",
+        "ko": "3. 그리고 분위기가 아주 깔끔하고 조용하며 아늑해요."
       },
       {
         "en": "4. There are [특징 1] and [특징 2], so I can just relax.",
@@ -45,8 +45,8 @@ window.PATTERNS_DATA = [
             "ko": "저희 집 근처에 있어서, 딱 5분 거리예요."
           },
           {
-            "en": "Inside the place, the vibe is very clean, quiet, and cozy.",
-            "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
+            "en": "And the vibe is very clean, quiet, and cozy.",
+            "ko": "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요."
           },
           {
             "en": "There are large windows and nice seats, so I can just relax.",
@@ -75,8 +75,8 @@ window.PATTERNS_DATA = [
             "ko": "저희 집 근처에 있어서, 딱 5분 거리예요."
           },
           {
-            "en": "Inside the place, the vibe is very clean, quiet, and cozy.",
-            "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
+            "en": "And the vibe is very clean, quiet, and cozy.",
+            "ko": "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요."
           },
           {
             "en": "There are green trees and nice benches, so I can just relax.",
@@ -105,8 +105,8 @@ window.PATTERNS_DATA = [
             "ko": "저희 집 근처에 있어서, 딱 5분 거리예요."
           },
           {
-            "en": "Inside the place, the vibe is very clean, quiet, and cozy.",
-            "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
+            "en": "And the vibe is very clean, quiet, and cozy.",
+            "ko": "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요."
           },
           {
             "en": "There are clean machines and free weights, so I can just relax.",
@@ -135,8 +135,8 @@ window.PATTERNS_DATA = [
             "ko": "저희 집 근처에 있어서, 딱 5분 거리예요."
           },
           {
-            "en": "Inside the place, the vibe is very clean, quiet, and cozy.",
-            "ko": "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요."
+            "en": "And the vibe is very clean, quiet, and cozy.",
+            "ko": "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요."
           },
           {
             "en": "There are scenic views and quiet roads, so I can just relax.",

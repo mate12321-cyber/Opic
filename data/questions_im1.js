@@ -103,8 +103,8 @@ window.QUESTIONS_DATA = [
         ko: "회사 근처에 있어서, 출퇴근하기가 정말 편해요.",
       },
       {
-        en: "Inside the room, the vibe is very clean, quiet, and cozy.",
-        ko: "방 안은 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "And the vibe is very clean, quiet, and cozy.",
+        ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
       },
       {
         en: "There are a soft sofa and a big TV, so I can just relax.",
@@ -279,8 +279,8 @@ window.QUESTIONS_DATA = [
         ko: "저희 회사는 집 근처에 있어서, 출퇴근하기가 정말 편해요.",
       },
       {
-        en: "Inside the office, the vibe is very clean, bright, and well-organized.",
-        ko: "사무실 안은 분위기가 아주 깔끔하고 밝으며 잘 정돈되어 있어요.",
+        en: "And the vibe is very clean, bright, and well-organized.",
+        ko: "그리고 분위기가 아주 깔끔하고 밝으며 잘 정돈되어 있어요.",
       },
       {
         en: "There are nice desks and dual-screen computers, so we can work easily.",
@@ -455,8 +455,8 @@ window.QUESTIONS_DATA = [
         ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
       },
       {
-        en: "Inside the place, the vibe is very clean, quiet, and cozy.",
-        ko: "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "And the vibe is very clean, quiet, and cozy.",
+        ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
       },
       {
         en: "There are large windows and nice seats, so I can just relax.",
@@ -631,8 +631,8 @@ window.QUESTIONS_DATA = [
         ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
       },
       {
-        en: "Inside the place, the vibe is very clean, quiet, and cozy.",
-        ko: "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "And the vibe is very clean, quiet, and cozy.",
+        ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
       },
       {
         en: "There are green trees and nice benches, so I can just relax.",
@@ -1115,8 +1115,8 @@ window.QUESTIONS_DATA = [
         ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
       },
       {
-        en: "Inside the place, the vibe is very clean, quiet, and cozy.",
-        ko: "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "And the vibe is very clean, quiet, and cozy.",
+        ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
       },
       {
         en: "There are clean machines and free weights, so I can just relax.",
@@ -1379,8 +1379,8 @@ window.QUESTIONS_DATA = [
         ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
       },
       {
-        en: "Inside the place, the vibe is very clean, quiet, and cozy.",
-        ko: "그곳 안은 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "And the vibe is very clean, quiet, and cozy.",
+        ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
       },
       {
         en: "There are scenic views and quiet roads, so I can just relax.",
@@ -1511,8 +1511,8 @@ window.QUESTIONS_DATA = [
         ko: "저희 집에서 차로 1시간 정도 걸려서, 가기 편해요.",
       },
       {
-        en: "Inside the campsite, the vibe is very clean, quiet, and peaceful.",
-        ko: "캠핑장 안은 분위기가 아주 깔끔하고 조용하며 평화로워요.",
+        en: "And the vibe is very clean, quiet, and peaceful.",
+        ko: "그리고 분위기가 아주 깔끔하고 조용하며 평화로워요.",
       },
       {
         en: "There are tall green trees and a clean lake, so I can just relax.",
