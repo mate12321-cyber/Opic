@@ -2,7 +2,7 @@ window.PATTERNS_DATA = [
   {
     "id": "pat_01",
     "name": "장소 & 선호 묘사 만능 템플릿",
-    "category": "집 앞 카페, 집 근처 공원, 집 근처 헬스장, 근교 드라이브 등",
+    "category": "내 방, 카페, 공원, 영화관, 헬스장, 마트, 드라이브, 캠핑 등",
     "icon": "🏠",
     "desc": "어떤 장소나 좋아하는 곳을 말할 때, 6개 쉬운 문장으로 1~2단어만 바꿔서 바로 끝내는 만능 공식입니다.",
     "skeleton": [
@@ -32,6 +32,36 @@ window.PATTERNS_DATA = [
       }
     ],
     "variations": [
+      {
+        "topic": "🏠 내 방 (집)",
+        "keyword": "my room in my apartment",
+        "sentences": [
+          {
+            "en": "Whenever I think of my home, my room is really my favorite place.",
+            "ko": "집을 생각할 때마다, 제 방이 진짜 제 최애 장소예요."
+          },
+          {
+            "en": "It is located near my office, so it is just five minutes.",
+            "ko": "회사 근처에 있어서, 딱 5분 거리예요."
+          },
+          {
+            "en": "And the vibe is very clean, quiet, and cozy.",
+            "ko": "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요."
+          },
+          {
+            "en": "There are a soft bed and a nice desk, so I can just relax.",
+            "ko": "푹신한 침대와 좋은 책상이 있어서 편안하게 쉴 수 있어요."
+          },
+          {
+            "en": "I love this place because it makes me relaxed.",
+            "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
+          },
+          {
+            "en": "So, I stay there all the time.",
+            "ko": "그래서 저는 거기서 맨날 시간을 보내요."
+          }
+        ]
+      },
       {
         "topic": "☕ 카페",
         "keyword": "Starbucks near my house",
@@ -93,6 +123,36 @@ window.PATTERNS_DATA = [
         ]
       },
       {
+        "topic": "🎬 영화관",
+        "keyword": "Megabox near my house",
+        "sentences": [
+          {
+            "en": "Whenever I think of movies, Megabox is really my favorite place.",
+            "ko": "영화를 생각할 때마다, 메가박스가 진짜 제 최애 장소예요."
+          },
+          {
+            "en": "It is located near my house, so it is just five minutes.",
+            "ko": "저희 집 근처에 있어서, 딱 5분 거리예요."
+          },
+          {
+            "en": "And the vibe is very clean, quiet, and cozy.",
+            "ko": "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요."
+          },
+          {
+            "en": "There are large screens and nice seats, so I can just relax.",
+            "ko": "큰 스크린과 편안한 좌석이 있어서 편안하게 쉴 수 있어요."
+          },
+          {
+            "en": "I love this place because it makes me relaxed.",
+            "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
+          },
+          {
+            "en": "So, I go there all the time.",
+            "ko": "그래서 저는 거기를 맨날(자주) 가요."
+          }
+        ]
+      },
+      {
         "topic": "🏋️ 헬스장",
         "keyword": "the gym near my house",
         "sentences": [
@@ -123,6 +183,36 @@ window.PATTERNS_DATA = [
         ]
       },
       {
+        "topic": "🛒 대형마트",
+        "keyword": "E-Mart near my house",
+        "sentences": [
+          {
+            "en": "Whenever I think of shopping, E-Mart is really my favorite place.",
+            "ko": "쇼핑을 생각할 때마다, 이마트가 진짜 제 최애 장소예요."
+          },
+          {
+            "en": "It is located near my house, so it is just five minutes.",
+            "ko": "저희 집 근처에 있어서, 딱 5분 거리예요."
+          },
+          {
+            "en": "And the vibe is very clean, quiet, and cozy.",
+            "ko": "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요."
+          },
+          {
+            "en": "There are fresh food and nice snacks, so I can just relax.",
+            "ko": "신선한 음식과 맛있는 간식이 있어서 편안하게 쉴 수 있어요."
+          },
+          {
+            "en": "I love this place because it makes me relaxed.",
+            "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
+          },
+          {
+            "en": "So, I go there all the time.",
+            "ko": "그래서 저는 거기를 맨날(자주) 가요."
+          }
+        ]
+      },
+      {
         "topic": "🚗 드라이브",
         "keyword": "the quiet countryside route",
         "sentences": [
@@ -141,6 +231,36 @@ window.PATTERNS_DATA = [
           {
             "en": "There are scenic views and quiet roads, so I can just relax.",
             "ko": "멋진 풍경과 한적한 도로가 있어서 편안하게 쉴 수 있어요."
+          },
+          {
+            "en": "I love this place because it makes me relaxed.",
+            "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
+          },
+          {
+            "en": "So, I go there all the time.",
+            "ko": "그래서 저는 거기를 맨날(자주) 가요."
+          }
+        ]
+      },
+      {
+        "topic": "🏕️ 캠핑장",
+        "keyword": "the campsite near the lake",
+        "sentences": [
+          {
+            "en": "Whenever I think of camping, the campsite is really my favorite place.",
+            "ko": "캠핑을 생각할 때마다, 캠핑장이 진짜 제 최애 장소예요."
+          },
+          {
+            "en": "It is located near my house, so it is just five minutes.",
+            "ko": "저희 집 근처에 있어서, 딱 5분 거리예요."
+          },
+          {
+            "en": "And the vibe is very clean, quiet, and cozy.",
+            "ko": "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요."
+          },
+          {
+            "en": "There are tall green trees and a clean lake, so I can just relax.",
+            "ko": "키 큰 푸른 나무들과 깨끗한 호수가 있어서 편안하게 쉴 수 있어요."
           },
           {
             "en": "I love this place because it makes me relaxed.",
