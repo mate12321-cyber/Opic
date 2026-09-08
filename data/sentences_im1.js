@@ -1,20 +1,20 @@
-[
+window.SENTENCES_DATA = [
   {
     "cat": "자기소개",
-    "ko": "저는 회사에서 3교대로 근무하고 있어요.",
-    "en": "I work rotating three shifts at my company.",
+    "ko": "저는 회사에서 보통 9시부터 6시까지 일해요.",
+    "en": "I usually work at my office from nine to six.",
     "tip": "근무 형태처럼 늘 그런 사실은 현재시제로 말해요."
   },
   {
     "cat": "자기소개",
-    "ko": "저희 가족은 충남 천안에 살고 있습니다.",
-    "en": "My family lives in Cheonan, in South Chungcheong Province.",
-    "tip": "'My family'는 단수 취급하여 동사에 -s(lives)가 붙어요."
+    "ko": "저는 혼자 아늑한 아파트에 살고 있습니다.",
+    "en": "I live alone in a cozy apartment.",
+    "tip": "'live alone'은 혼자 산다는 뜻이에요."
   },
   {
     "cat": "자기소개",
-    "ko": "제 주요 업무는 전기 설비를 관리하는 일이에요.",
-    "en": "My main job is managing electrical equipment.",
+    "ko": "제 주요 업무는 이메일과 문서를 처리하는 일이에요.",
+    "en": "My main job is handling emails and documents.",
     "tip": "'My main job is -ing'로 담당 업무를 설명해요."
   },
   {
@@ -50,26 +50,26 @@
   {
     "cat": "집/주거",
     "ko": "저희 집 거실에는 큰 창문이 하나 있어요.",
-    "en": "There's a big window in our living room.",
-    "tip": "존재 표현은 'There's a ~'로 시작하면 자연스러워요."
+    "en": "There's a big window in my living room.",
+    "tip": "'There's a ~'로 거실 창문을 묘사해요."
   },
   {
     "cat": "집/주거",
-    "ko": "저희 가족은 최근에 새 아파트로 이사했어요.",
-    "en": "My family recently moved into a new apartment.",
+    "ko": "저는 최근에 새 아파트로 이사했어요.",
+    "en": "I recently moved into a new apartment.",
     "tip": "'move into + 장소'는 ~로 이사하다라는 뜻이에요."
   },
   {
     "cat": "집/주거",
-    "ko": "저희 아파트는 방이 세 개 있어요.",
-    "en": "Our apartment has three bedrooms.",
-    "tip": "'has' 뒤에 단순히 방 개수만 붙이면 돼요."
+    "ko": "제 아파트는 방이 두 개 있어요.",
+    "en": "My apartment has two bedrooms.",
+    "tip": "'has' 뒤에 방 개수만 붙이면 돼요."
   },
   {
     "cat": "집/주거",
-    "ko": "저희는 주말마다 집을 대청소해요.",
-    "en": "We clean the house thoroughly every weekend.",
-    "tip": "'clean the house thoroughly'는 집을 대청소한다는 뜻이에요."
+    "ko": "저는 주말마다 집을 깨끗이 청소해요.",
+    "en": "I clean my house every weekend.",
+    "tip": "'clean my house'로 청소 습관을 말해요."
   },
   {
     "cat": "집/주거",
@@ -85,8 +85,8 @@
   },
   {
     "cat": "집/주거",
-    "ko": "아파트 단지 주변에는 편의시설이 많아요.",
-    "en": "There are many convenient facilities around our apartment complex.",
+    "ko": "제 아파트 주변에는 편의시설이 많아요.",
+    "en": "There are many convenient stores around my apartment.",
     "tip": "'There are many ~'로 주변 편의시설을 설명해요."
   },
   {
@@ -109,8 +109,8 @@
   },
   {
     "cat": "직장/업무",
-    "ko": "야간 근무는 가끔 피곤하지만 보람이 있어요.",
-    "en": "Night shifts are sometimes tiring, but rewarding.",
+    "ko": "야근은 가끔 피곤하지만 보람이 있어요.",
+    "en": "Working overtime is sometimes tiring, but rewarding.",
     "tip": "'rewarding'은 보람 있는, 뿌듯한이라는 뜻이에요."
   },
   {
@@ -205,9 +205,9 @@
   },
   {
     "cat": "일상",
-    "ko": "교대 근무 때문에 제 일정은 매주 바뀌어요.",
-    "en": "My schedule changes every week because of my shift work.",
-    "tip": "'schedule changes'로 일정 변경을 표현해요."
+    "ko": "규칙적인 일정 덕분에 매일 퇴근 후 여유를 즐겨요.",
+    "en": "Thanks to my regular schedule, I enjoy my free time after work every day.",
+    "tip": "'regular schedule'로 규칙적인 일정을 표현해요."
   },
   {
     "cat": "일상",
@@ -223,15 +223,15 @@
   },
   {
     "cat": "일상",
-    "ko": "저희는 매일 아침 간단하게 식사를 챙겨 먹어요.",
-    "en": "We have a simple breakfast together every morning.",
+    "ko": "저는 매일 아침 간단하게 식사를 챙겨 먹어요.",
+    "en": "I have a simple breakfast every morning.",
     "tip": "'have a simple breakfast'는 간단한 아침식사를 뜻해요."
   },
   {
     "cat": "일상",
-    "ko": "저녁 시간은 주로 가족들과 대화하며 보내요.",
-    "en": "Evenings are usually spent chatting with my family.",
-    "tip": "'be spent -ing'로 시간을 보내는 방식을 표현해요."
+    "ko": "저녁 시간은 주로 집에서 편하게 쉬며 보내요.",
+    "en": "I usually spend my evenings relaxing at home.",
+    "tip": "'spend evenings relaxing'으로 저녁 휴식을 표현해요."
   },
   {
     "cat": "일상",
@@ -241,15 +241,15 @@
   },
   {
     "cat": "여가/주말",
-    "ko": "주말은 가족과 시간을 보내기에 가장 좋은 시간이에요.",
-    "en": "Weekends are the best time to spend with family.",
-    "tip": "'the best time to + 동사'로 주말의 소중함을 표현해요."
+    "ko": "주말은 나만의 휴식을 취하기에 가장 좋은 시간이에요.",
+    "en": "Weekends are the best time to take a rest.",
+    "tip": "'the best time to take a rest'로 주말 휴식을 표현해요."
   },
   {
     "cat": "여가/주말",
-    "ko": "저희 부부는 지난 주말에 쇼핑몰에 다녀왔어요.",
-    "en": "My spouse and I went to the shopping mall last weekend.",
-    "tip": "'My spouse and I'로 부부 주어를 표현해요."
+    "ko": "저는 지난 주말에 친구와 쇼핑몰에 다녀왔어요.",
+    "en": "I went to the shopping mall with my friend last weekend.",
+    "tip": "'went to ~ with my friend'로 친구와의 외출을 표현해요."
   },
   {
     "cat": "여가/주말",
@@ -265,9 +265,9 @@
   },
   {
     "cat": "여가/주말",
-    "ko": "우리 가족은 일요일마다 공원으로 소풍을 가요.",
-    "en": "Our family goes on a picnic to the park every Sunday.",
-    "tip": "'go on a picnic'은 소풍을 간다는 표현이에요."
+    "ko": "저는 일요일마다 공원으로 산책을 가요.",
+    "en": "I go for a walk in the park every Sunday.",
+    "tip": "'go for a walk'는 산책을 간다는 표현이에요."
   },
   {
     "cat": "여가/주말",
@@ -385,9 +385,9 @@
   },
   {
     "cat": "쇼핑",
-    "ko": "저희 가족은 주말에 대형 마트에서 장을 봐요.",
-    "en": "Our family shops for groceries at a supermarket on weekends.",
-    "tip": "'shop for groceries'는 장을 본다는 뜻이에요."
+    "ko": "저는 주말에 집 근처 마트에서 장을 봐요.",
+    "en": "I buy groceries at the supermarket near my house on weekends.",
+    "tip": "'buy groceries near my house'로 집 근처 장보기를 표현해요."
   },
   {
     "cat": "쇼핑",
@@ -397,9 +397,9 @@
   },
   {
     "cat": "여행",
-    "ko": "저희 가족은 작년에 제주도로 가족 여행을 다녀왔어요.",
-    "en": "Our family went on a family trip to Jeju Island last year.",
-    "tip": "'go on a family trip to ~'로 가족 여행을 표현해요."
+    "ko": "저는 작년에 제주도로 여행을 다녀왔어요.",
+    "en": "I went on a trip to Jeju Island last year.",
+    "tip": "'went on a trip to ~'로 여행 경험을 표현해요."
   },
   {
     "cat": "여행",
@@ -487,9 +487,9 @@
   },
   {
     "cat": "카페가기",
-    "ko": "저희는 식사 후 항상 카페에서 조각 케이크를 나눠 먹어요.",
-    "en": "We always share a slice of cake at a cafe after meals.",
-    "tip": "'share a slice of cake'는 케이크를 나눠 먹는다는 뜻이에요."
+    "ko": "저는 식사 후 카페에서 조각 케이크를 꼭 먹어요.",
+    "en": "I always eat a slice of cake at a cafe after meals.",
+    "tip": "'eat a slice of cake'로 디저트 습관을 표현해요."
   },
   {
     "cat": "카페가기",
@@ -547,9 +547,9 @@
   },
   {
     "cat": "공원가기",
-    "ko": "저희 가족은 주말마다 공원으로 산책하러 가요.",
-    "en": "Our family goes to the park for a walk every weekend.",
-    "tip": "'go for a walk'는 산책하러 가다라는 표현이에요."
+    "ko": "저는 주말마다 공원으로 산책하러 가요.",
+    "en": "I go to the park for a walk every weekend.",
+    "tip": "'go for a walk'로 산책 습관을 표현해요."
   },
   {
     "cat": "공원가기",
@@ -607,9 +607,9 @@
   },
   {
     "cat": "영화보기",
-    "ko": "저희는 한 달에 한 번씩 영화관을 찾아요.",
-    "en": "We visit the movie theater about once a month.",
-    "tip": "'once a month'로 관람 빈도를 나타내요."
+    "ko": "저는 한 달에 한 번 정도 영화관에 가요.",
+    "en": "I visit the movie theater about once a month.",
+    "tip": "'about once a month'로 빈도를 표현해요."
   },
   {
     "cat": "영화보기",
@@ -697,9 +697,9 @@
   },
   {
     "cat": "음악감상",
-    "ko": "저희 가족은 드라이브할 때 항상 신나는 노래를 틀어요.",
-    "en": "Our family always plays upbeat songs when going for a drive.",
-    "tip": "'go for a drive'는 드라이브를 간다는 뜻이에요."
+    "ko": "저는 드라이브할 때 항상 신나는 노래를 틀어요.",
+    "en": "I always play exciting music when driving.",
+    "tip": "'play exciting music'으로 드라이브 음악을 표현해요."
   },
   {
     "cat": "음악감상",
@@ -805,9 +805,9 @@
   },
   {
     "cat": "요리하기",
-    "ko": "저희 가족은 주말 저녁마다 다 함께 모여 요리를 준비해요.",
-    "en": "Our family gathers and prepares dinner together every weekend evening.",
-    "tip": "'gather and prepare'는 모여서 준비한다는 뜻이에요."
+    "ko": "저는 주말 저녁마다 집에서 맛있는 요리를 준비해요.",
+    "en": "I cook delicious food at home on weekend evenings.",
+    "tip": "'cook delicious food'로 주말 요리를 표현해요."
   },
   {
     "cat": "요리하기",
@@ -913,9 +913,9 @@
   },
   {
     "cat": "반려동물",
-    "ko": "저희 가족 모두는 강아지를 친동생처럼 아끼고 사랑해요.",
-    "en": "All my family members cherish and love our dog like a real sibling.",
-    "tip": "'cherish and love'는 소중히 아끼고 사랑한다는 뜻이에요."
+    "ko": "저는 제 강아지를 정말 아끼고 사랑해요.",
+    "en": "I really love and take good care of my dog.",
+    "tip": "'take good care of'로 애정을 표현해요."
   },
   {
     "cat": "반려동물",
@@ -985,9 +985,9 @@
   },
   {
     "cat": "콘서트 보기",
-    "ko": "저희는 일 년에 두 번 정도 좋아하는 가수의 콘서트에 가요.",
-    "en": "We go to our favorite singer's concert about twice a year.",
-    "tip": "'about twice a year'로 대략적인 연간 빈도를 표현해요."
+    "ko": "저는 일 년에 두 번 정도 좋아하는 가수의 콘서트에 가요.",
+    "en": "I go to my favorite singer's concert about twice a year.",
+    "tip": "'about twice a year'로 빈도를 표현해요."
   },
   {
     "cat": "콘서트 보기",
@@ -1033,9 +1033,9 @@
   },
   {
     "cat": "캠핑하기",
-    "ko": "저희 가족은 날씨가 따뜻한 봄가을에 캠핑을 자주 떠나요.",
-    "en": "Our family often goes camping in the warm spring and fall.",
-    "tip": "'go camping'은 캠핑을 간다는 표현이에요."
+    "ko": "저는 날씨가 따뜻한 봄가을에 캠핑을 자주 떠나요.",
+    "en": "I often go camping in the warm spring and fall.",
+    "tip": "'often go camping'으로 캠핑 취미를 표현해요."
   },
   {
     "cat": "캠핑하기",
@@ -1105,9 +1105,9 @@
   },
   {
     "cat": "해변가기",
-    "ko": "저희는 깊은 물에 들어가지 않고 시원한 바닷물에 발만 담가요.",
-    "en": "We don't go into deep water, but just dip our feet in the cool sea.",
-    "tip": "'dip our feet'는 발을 담근다는 표현이에요."
+    "ko": "깊은 물에는 들어가지 않고 시원한 바닷물에 발만 담가요.",
+    "en": "I don't go into deep water, but just dip my feet in the cool sea.",
+    "tip": "'dip my feet'는 발을 담근다는 표현이에요."
   },
   {
     "cat": "해변가기",
@@ -1201,9 +1201,9 @@
   },
   {
     "cat": "걷기",
-    "ko": "저희 가족은 저녁 식사를 마친 후 동네 한 바퀴를 같이 걸어요.",
-    "en": "Our family takes a walk around the neighborhood together after dinner.",
-    "tip": "'take a walk around the neighborhood'는 동네를 한 바퀴 산책한다는 뜻이에요."
+    "ko": "저는 저녁 식사를 마친 후 집 근처를 한 바퀴 걸어요.",
+    "en": "I take a walk near my house after dinner.",
+    "tip": "'take a walk near my house'로 산책을 표현해요."
   },
   {
     "cat": "걷기",
@@ -1247,4 +1247,4 @@
     "en": "I love the time walking along forest trails and breathing in fresh phytoncides.",
     "tip": "'forest trails'는 숲길 산책로를 뜻해요."
   }
-]
+];

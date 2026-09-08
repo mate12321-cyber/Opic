@@ -227,23 +227,33 @@ function hideAllScreens() {
     initSpeechRecognition();
     stopListeningUI();
   }
-  els.homeScreen.style.display = "none";
-  els.topicScreen.style.display = "none";
-  els.practiceCard.style.display = "none";
-  els.doneScreen.classList.remove("show");
-  els.wordTopicScreen.style.display = "none";
-  els.wordCard.style.display = "none";
-  els.wordDoneScreen.classList.remove("show");
-  if (els.opicTopicScreen) els.opicTopicScreen.style.display = "none";
-  if (els.opicCard) els.opicCard.style.display = "none";
-  if (els.opicDoneScreen) {
-    els.opicDoneScreen.style.display = "none";
-    els.opicDoneScreen.classList.remove("show");
+  // 공통 .app-screen 컨테이너 일괄 은닉 및 클래스 초기화
+  const screens = document.querySelectorAll(".app-screen");
+  if (screens.length > 0) {
+    screens.forEach((screen) => {
+      screen.style.display = "none";
+      screen.classList.remove("show");
+    });
+  } else {
+    // 폴백 (클래스 미적용 시 하위 호환)
+    els.homeScreen.style.display = "none";
+    els.topicScreen.style.display = "none";
+    els.practiceCard.style.display = "none";
+    els.doneScreen.classList.remove("show");
+    els.wordTopicScreen.style.display = "none";
+    els.wordCard.style.display = "none";
+    els.wordDoneScreen.classList.remove("show");
+    if (els.opicTopicScreen) els.opicTopicScreen.style.display = "none";
+    if (els.opicCard) els.opicCard.style.display = "none";
+    if (els.opicDoneScreen) {
+      els.opicDoneScreen.style.display = "none";
+      els.opicDoneScreen.classList.remove("show");
+    }
+    if (els.patternTopicScreen) els.patternTopicScreen.style.display = "none";
+    if (els.patternCard) els.patternCard.style.display = "none";
+    if (els.fillerCard) els.fillerCard.style.display = "none";
+    if (els.fillerScreen) els.fillerScreen.style.display = "none";
   }
-  if (els.patternTopicScreen) els.patternTopicScreen.style.display = "none";
-  if (els.patternCard) els.patternCard.style.display = "none";
-  if (els.fillerCard) els.fillerCard.style.display = "none";
-  if (els.fillerScreen) els.fillerScreen.style.display = "none";
 }
 
 // 문장 번역 연습 주제 선택 카드 렌더링
@@ -474,6 +484,11 @@ function showPatternTopics(pushHistory = true) {
   navigateTo("patternTopic", {}, pushHistory);
 }
 
+// 필러 집중 훈련 화면 열기
+function showFillerScreen(targetIdx = 0, pushHistory = true) {
+  navigateTo("filler", { targetIdx }, pushHistory);
+}
+
 // 홈 대시보드 화면 열기
 function showHomeScreen(pushHistory = true) {
   navigateTo("home", {}, pushHistory);
@@ -485,3 +500,4 @@ window.showTopicScreen = showTopicScreen;
 window.showWordTopicScreen = showWordTopicScreen;
 window.showOpicTopicScreen = showOpicTopicScreen;
 window.showPatternTopics = showPatternTopics;
+window.showFillerScreen = showFillerScreen;

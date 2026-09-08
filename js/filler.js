@@ -10,16 +10,7 @@ let fillerProgress = {}; // { fil_01: true, ... }
 
 // HTML 이스케이프 헬퍼 함수
 function escapeFillerHtml(str) {
-  if (typeof safeEscapeHtml === "function") {
-    return safeEscapeHtml(str);
-  }
-  if (!str) return "";
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+  return escapeHtml(str);
 }
 
 function safeEscapeForJs(str) {

@@ -6,81 +6,6 @@
  * - 실시간 번역 및 Google AI 보조 팝업 창 연동
  */
 
-// HTML 특수문자 이스케이프 유틸
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-// 클립보드 텍스트 복사 및 버튼 피드백 토글
-function copyText(text, btn) {
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        if (btn) {
-          const original = btn.innerHTML;
-          btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>복사됨 ✓</span>`;
-          btn.classList.add("copied");
-          setTimeout(() => {
-            btn.innerHTML = original;
-            btn.classList.remove("copied");
-          }, 1500);
-        }
-      })
-      .catch(() => fallbackCopy(text, btn));
-  } else {
-    fallbackCopy(text, btn);
-  }
-}
-
-// 클립보드 API 미지원 환경용 대체 복사 함수
-function fallbackCopy(text, btn) {
-  const ta = document.createElement("textarea");
-  ta.value = text;
-  ta.style.position = "fixed";
-  ta.style.top = "0";
-  ta.style.left = "0";
-  ta.style.opacity = "0";
-  document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
-  try {
-    document.execCommand("copy");
-    if (btn) {
-      const original = btn.innerHTML;
-      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>복사됨 ✓</span>`;
-      btn.classList.add("copied");
-      setTimeout(() => {
-        btn.innerHTML = original;
-        btn.classList.remove("copied");
-      }, 1500);
-    }
-  } catch (err) {
-    alert("복사하지 못했어요: " + text);
-  }
-  document.body.removeChild(ta);
-}
-
-// PC/맥북 화면 우측에 고정 너비로 Google AI 사이드 팝업창 띄우기
-function openSidePopup(url, title = "GoogleAI_Popup") {
-  const width = 640;
-  const height = 750;
-  const screenWidth = window.screen.availWidth || window.innerWidth;
-  const screenHeight = window.screen.availHeight || window.innerHeight;
-  const left = Math.max(0, screenWidth - width - 30);
-  const top = Math.max(0, Math.floor((screenHeight - height) / 2));
-  const features = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,status=no,menubar=no,toolbar=no`;
-  const popup = window.open(url, title, features);
-  if (popup && popup.focus) {
-    popup.focus();
-  }
-  return popup;
-}
-
 // 문장 번역용 Google AI 검색 프롬프트 쿼리 생성
 function buildGoogleQuery() {
   const answer = els.userInput.value.trim();
@@ -102,6 +27,7 @@ let azureRegion = "eastus"; // Azure Speech Region
 let azureVoice = "en-US-JennyNeural"; // "en-US-JennyNeural" | "en-US-AriaNeural" | "en-US-GuyNeural"
 let currentSpeakingBtn = null; // 현재 재생 중인 버튼 엘리먼트
 let activeAudio = null; // 현재 재생 중인 Audio 인스턴스
+let activeAudioUrl = null; // 현재 재생 중인 Audio Blob URL (메모리 해제용)
 const TTS_SETTINGS_KEY = "ko-en-opic-tts-settings";
 
 // XML 이스케이프 유틸
@@ -612,7 +538,7 @@ function getBestVoice(lang = "en-US") {
 // 전역 TTS 세션 및 오디오 상태 관리
 let currentTtsRequestId = 0; // 비동기 네트워크 지연 중복 재생 방지용 고유 요청 ID
 
-// 진행 중인 모든 TTS 음성 재생 중단 (오디오 엘리먼트 + Web Speech API + 대기 중인 모든 비동기 요청 취소)
+/// 진행 중인 모든 TTS 음성 재생 중단 (오디오 엘리먼트 + Web Speech API + 대기 중인 모든 비동기 요청 취소)
 function stopTTS() {
   currentTtsRequestId++; // ⚡ 진행 중이던 모든 비동기 캐시/네트워크 요청 즉시 무효화
 
@@ -626,6 +552,12 @@ function stopTTS() {
     } catch (e) {}
     activeAudio = null;
   }
+  if (activeAudioUrl) {
+    try {
+      URL.revokeObjectURL(activeAudioUrl);
+    } catch (e) {}
+    activeAudioUrl = null;
+  }
   if ("speechSynthesis" in window) {
     try {
       speechSynthesis.cancel();
@@ -634,82 +566,95 @@ function stopTTS() {
   resetCurrentButton();
 }
 
-// 버튼 상태를 '재생 중'으로 시작
+// 음성 재생 중 UI 상태 적용
 function setButtonPlaying(btn) {
   if (!btn) return;
+  resetCurrentButton();
   currentSpeakingBtn = btn;
-  if (!btn.dataset.originalLabel) {
-    btn.dataset.originalLabel = btn.innerHTML;
-  }
-  btn.classList.add("playing");
-  btn.innerHTML = "⏹ 정지";
+  btn.classList.add("speaking");
 }
 
-// 버튼 상태를 원래대로 복원
+// 음성 재생 중단 시 UI 원래대로 복구
 function resetCurrentButton() {
   if (currentSpeakingBtn) {
-    currentSpeakingBtn.classList.remove("playing");
-    if (currentSpeakingBtn.dataset.originalLabel) {
-      currentSpeakingBtn.innerHTML = currentSpeakingBtn.dataset.originalLabel;
-    }
+    currentSpeakingBtn.classList.remove("speaking");
     currentSpeakingBtn = null;
   }
 }
 
-// Azure Speech REST API 호출 (Blob 반환)
+// Azure Cognitive Services Speech REST API 호출 및 Audio 캐싱
 async function fetchAzureTtsAudio(
   text,
-  voice = "en-US-JennyNeural",
+  lang = "en-US",
+  voiceName = "en-US-JennyNeural",
   rate = 1.0,
 ) {
   if (!azureApiKey || !azureApiKey.trim()) {
-    throw new Error("Azure API Key가 설정되지 않았습니다.");
+    throw new Error("Azure API Key is not set.");
   }
-  const endpoint = `https://${azureRegion.trim()}.tts.speech.microsoft.com/cognitiveservices/v1`;
-  const ratePercent = Math.round((rate - 1.0) * 100);
-  const rateStr = ratePercent >= 0 ? `+${ratePercent}%` : `${ratePercent}%`;
 
-  const voiceLang = voice.split("-").slice(0, 2).join("-") || "en-US";
-  const ssml =
-    `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='${voiceLang}'>` +
-    `<voice name='${voice}'>` +
-    `<prosody rate='${rateStr}'>${escapeXml(text)}</prosody>` +
-    `</voice></speak>`;
+  // 1. IndexedDB 캐시 조회 (속도/보이스/텍스트 키)
+  const cacheKey = AudioCache.makeKey(
+    "azure",
+    voiceName || azureVoice,
+    text,
+    rate,
+  );
+  const cachedBlob = await AudioCache.getAudio(cacheKey);
+  if (cachedBlob) {
+    return cachedBlob;
+  }
 
-  const res = await fetch(endpoint, {
+  // 2. 캐시 미스 시 Azure REST API 직접 호출
+  const url = `https://${azureRegion}.tts.speech.microsoft.com/cognitiveservices/v1`;
+  const ssmlRate =
+    rate === 1.0
+      ? "default"
+      : `${rate > 1 ? "+" : ""}${Math.round((rate - 1) * 100)}%`;
+
+  const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='${escapeXml(lang)}'><voice name='${escapeXml(voiceName || azureVoice)}'><prosody rate='${ssmlRate}'>${escapeXml(text)}</prosody></voice></speak>`;
+
+  const res = await fetch(url, {
     method: "POST",
     headers: {
       "Ocp-Apim-Subscription-Key": azureApiKey.trim(),
       "Content-Type": "application/ssml+xml",
       "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-      "User-Agent": "OPIc-Trainer-App",
+      "User-Agent": "OPIcStudyApp",
     },
     body: ssml,
   });
 
   if (!res.ok) {
-    const errText = await res.text().catch(() => "");
-    throw new Error(`Azure TTS Error (${res.status}): ${errText}`);
+    throw new Error(`Azure TTS Error: ${res.status} ${res.statusText}`);
   }
 
-  // 이번 달 Azure Neural TTS 글자 수 사용량 누적
+  const blob = await res.blob();
   addAzureTtsUsage(text.length);
 
-  return await res.blob();
+  // 3. 응답받은 오디오 Blob을 IndexedDB에 영구 캐시
+  AudioCache.saveAudio(cacheKey, blob, text).catch(() => {});
+  return blob;
 }
 
-// Google Translate TTS 호출 (Blob 반환)
+// Google 번역 무료 TTS 엔드포인트 호출 및 Audio 캐싱
 async function fetchGoogleTtsAudio(text, lang = "en-US") {
-  const cleanLang = lang.startsWith("ko") ? "ko" : "en";
-  const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${cleanLang}&client=tw-ob&q=${encodeURIComponent(text.slice(0, 200))}`;
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`Google TTS Error (${res.status})`);
+  const cacheKey = AudioCache.makeKey("google", "default", text, 1.0);
+  const cachedBlob = await AudioCache.getAudio(cacheKey);
+  if (cachedBlob) {
+    return cachedBlob;
   }
-  return await res.blob();
+
+  const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${encodeURIComponent(lang)}&client=tw-ob&q=${encodeURIComponent(text)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Google TTS Fetch failed");
+
+  const blob = await res.blob();
+  AudioCache.saveAudio(cacheKey, blob, text).catch(() => {});
+  return blob;
 }
 
-// Audio Blob을 HTMLAudioElement로 재생 (중복 재생 원천 차단)
+// 오디오 Blob 재생 헬퍼 (IndexedDB 캐시된 오디오 및 네트워크 오디오 공통)
 function playAudioBlob(blob, btn, requestId) {
   return new Promise((resolve, reject) => {
     // ⚡ 대기 중에 다른 TTS가 요청되었다면 즉시 파기
@@ -730,6 +675,12 @@ function playAudioBlob(blob, btn, requestId) {
         } catch (e) {}
         activeAudio = null;
       }
+      if (activeAudioUrl) {
+        try {
+          URL.revokeObjectURL(activeAudioUrl);
+        } catch (e) {}
+        activeAudioUrl = null;
+      }
       if ("speechSynthesis" in window) {
         try {
           speechSynthesis.cancel();
@@ -737,32 +688,34 @@ function playAudioBlob(blob, btn, requestId) {
       }
 
       const audioUrl = URL.createObjectURL(blob);
+      activeAudioUrl = audioUrl;
       const audio = new Audio(audioUrl);
       activeAudio = audio;
       setButtonPlaying(btn);
 
-      audio.onended = () => {
-        URL.revokeObjectURL(audioUrl);
+      const cleanup = () => {
+        if (activeAudioUrl === audioUrl) {
+          try {
+            URL.revokeObjectURL(audioUrl);
+          } catch (e) {}
+          activeAudioUrl = null;
+        }
         if (activeAudio === audio) {
           activeAudio = null;
           resetCurrentButton();
         }
+      };
+
+      audio.onended = () => {
+        cleanup();
         resolve();
       };
       audio.onerror = (e) => {
-        URL.revokeObjectURL(audioUrl);
-        if (activeAudio === audio) {
-          activeAudio = null;
-          resetCurrentButton();
-        }
+        cleanup();
         reject(e);
       };
       audio.play().catch((err) => {
-        URL.revokeObjectURL(audioUrl);
-        if (activeAudio === audio) {
-          activeAudio = null;
-          resetCurrentButton();
-        }
+        cleanup();
         reject(err);
       });
     } catch (err) {
@@ -2418,17 +2371,6 @@ function correctSttPhoneticErrors(text) {
   return corrected;
 }
 
-// 텍스트 길이에 따라 textarea 높이를 실시간 자동 확장 (스크롤바 없이 한눈에 보기)
-function autoResizeTextarea(el) {
-  if (!el) return;
-  el.style.height = "auto";
-  const isOpic = el.id === "opicUserInput";
-  const minHeight = isOpic ? 110 : 84;
-  // 스크롤이 생기기 전 6px 여유 공간을 미리 확보하여 부드럽게 확장
-  const newHeight = Math.max(minHeight, el.scrollHeight + 6);
-  el.style.height = `${newHeight}px`;
-}
-
 // 구두점이 없는 긴 STT 발화 텍스트를 접속사/필러 기준으로 가상 분절하는 지능형 문장 분절기
 function splitIntoVirtualSentences(text) {
   if (!text || !text.trim()) return [];
@@ -2721,44 +2663,3 @@ function initSpeechRecognition() {
     stopListeningUI();
   };
 }
-
-// ── 다크 모드 (Dark Theme) 관리 시스템 ─────────────────────────────
-const THEME_STORAGE_KEY = "ko-en-opic-theme";
-
-function initTheme() {
-  try {
-    const saved = localStorage.getItem(THEME_STORAGE_KEY);
-    const prefersDark =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const isDark = saved ? saved === "dark" : prefersDark;
-    applyTheme(isDark);
-  } catch (e) {
-    applyTheme(false);
-  }
-}
-
-function applyTheme(isDark) {
-  if (isDark) {
-    document.body.classList.add("dark-theme");
-  } else {
-    document.body.classList.remove("dark-theme");
-  }
-  const btn = document.getElementById("themeToggleBtn");
-  if (btn) {
-    btn.innerHTML = isDark ? "☀️" : "🌙";
-    btn.title = isDark ? "라이트 모드로 전환" : "다크 모드로 전환";
-  }
-}
-
-function toggleTheme() {
-  const isDark = document.body.classList.contains("dark-theme");
-  const nextState = !isDark;
-  applyTheme(nextState);
-  try {
-    localStorage.setItem(THEME_STORAGE_KEY, nextState ? "dark" : "light");
-  } catch (e) {}
-}
-
-window.initTheme = initTheme;
-window.toggleTheme = toggleTheme;

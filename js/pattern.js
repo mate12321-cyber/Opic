@@ -35,23 +35,14 @@ async function savePatternProgress() {
   }
 }
 
-// 안전한 HTML 이스케이프 헬퍼
-function safeEscapeHtml(str) {
-  if (typeof escapeHtml === "function") return escapeHtml(str);
-  if (!str) return "";
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
 // 뼈대 대괄호 [슬롯] 하이라이트 포맷터
 function formatSlotText(str) {
   if (!str) return "";
-  const escaped = safeEscapeHtml(str);
-  return escaped.replace(/\[([^\]]+)\]/g, '<span class="pattern-slot-tag">[$1]</span>');
+  const escaped = escapeHtml(str);
+  return escaped.replace(
+    /\[([^\]]+)\]/g,
+    '<span class="pattern-slot-tag">[$1]</span>',
+  );
 }
 
 // 특정 패턴 직접 선택 및 진입
@@ -82,24 +73,13 @@ async function renderPatternTopics() {
   if (!container) return;
 
   if (!PATTERN_ITEMS || !PATTERN_ITEMS.length) {
-    container.innerHTML = `
-      <div style="text-align: center; padding: 24px 16px; color: var(--text-muted); font-size: 14px;">
-        ⏳ 만능 패턴 데이터를 불러오는 중입니다...
-      </div>
-    `;
-    try {
-      const res = await fetch("data/patterns_im1.json");
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length) {
-          PATTERN_ITEMS = data;
-        }
-      }
-    } catch (e) {
-      console.error("패턴 데이터 직접 로드 실패:", e);
-    }
-
-    if (!PATTERN_ITEMS || !PATTERN_ITEMS.length) {
+    if (
+      window.PATTERNS_DATA &&
+      Array.isArray(window.PATTERNS_DATA) &&
+      window.PATTERNS_DATA.length
+    ) {
+      PATTERN_ITEMS = window.PATTERNS_DATA;
+    } else {
       container.innerHTML = `
         <div style="text-align: center; padding: 24px 16px; color: var(--danger-text); font-size: 14px;">
           ❌ 만능 패턴 데이터를 불러오지 못했습니다. 새로고침을 시도해 보세요.

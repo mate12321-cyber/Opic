@@ -147,49 +147,29 @@ function last7Days() {
   return days;
 }
 
-// 외부 JSON 데이터 파일 비동기 로딩 (문장, 문법 퀴즈, OPIc 실전 질문, 만능 패턴)
+// 정적 데이터 모듈 즉시 동기 로딩 (문장, 문법 퀴즈, OPIc 실전 질문, 만능 패턴, 필러)
 async function loadData() {
-  const fetchJson = async (url) => {
-    try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch (err) {
-      console.error(`[loadData] ${url} 로드 실패:`, err);
-      return null;
-    }
-  };
-
   try {
-    const [sentencesData, grammarData, opicData, patternData, fillerData] =
-      await Promise.all([
-        fetchJson("data/sentences_im1.json"),
-        fetchJson("data/grammar_im1.json"),
-        fetchJson("data/questions_im1.json"),
-        fetchJson("data/patterns_im1.json"),
-        fetchJson("data/fillers_im1.json"),
-      ]);
-
-    if (sentencesData && Array.isArray(sentencesData)) {
-      SENTENCES = sentencesData;
+    if (window.SENTENCES_DATA && Array.isArray(window.SENTENCES_DATA)) {
+      SENTENCES = window.SENTENCES_DATA;
       CATEGORIES = [...new Set(SENTENCES.map((s) => s.cat))];
     }
-    if (grammarData && Array.isArray(grammarData)) {
-      WORD_ITEMS = grammarData;
+    if (window.GRAMMAR_DATA && Array.isArray(window.GRAMMAR_DATA)) {
+      WORD_ITEMS = window.GRAMMAR_DATA;
       WORD_CATEGORIES = [...new Set(WORD_ITEMS.map((w) => w.cat))];
     }
-    if (opicData && Array.isArray(opicData)) {
-      OPIC_QUESTIONS = opicData;
+    if (window.QUESTIONS_DATA && Array.isArray(window.QUESTIONS_DATA)) {
+      OPIC_QUESTIONS = window.QUESTIONS_DATA;
       OPIC_CATEGORIES = [...new Set(OPIC_QUESTIONS.map((q) => q.cat))];
     }
-    if (patternData && Array.isArray(patternData)) {
-      PATTERN_ITEMS = patternData;
+    if (window.PATTERNS_DATA && Array.isArray(window.PATTERNS_DATA)) {
+      PATTERN_ITEMS = window.PATTERNS_DATA;
     }
-    if (fillerData && Array.isArray(fillerData)) {
-      FILLER_ITEMS = fillerData;
+    if (window.FILLERS_DATA && Array.isArray(window.FILLERS_DATA)) {
+      FILLER_ITEMS = window.FILLERS_DATA;
     }
   } catch (e) {
-    console.error("데이터 전체 로드 처리 중 오류:", e);
+    console.error("데이터 초기화 중 오류:", e);
   }
 }
 

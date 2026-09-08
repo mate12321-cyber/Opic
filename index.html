@@ -30,16 +30,23 @@
   </head>
   <body>
     <div class="wrap">
-      <div class="home-screen" id="homeScreen">
+      <div class="home-screen app-screen" id="homeScreen">
         <div class="home-header">
           <div class="home-eyebrow">OPIc 연습</div>
-          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              flex-wrap: wrap;
+            "
+          >
             <button
               type="button"
               class="settings-trigger-btn"
               id="themeToggleBtn"
               title="다크 모드 / 라이트 모드 전환"
-              style="padding: 4px 8px; font-size: 13px;"
+              style="padding: 4px 8px; font-size: 13px"
             >
               🌙
             </button>
@@ -49,7 +56,12 @@
               id="openVocabModalBtn"
               title="저장된 단어 모아보기"
             >
-              📚 단어장 <span id="savedWordsBadge" style="font-weight: 700; color: #4f46e5; margin-left: 2px;">0개</span>
+              📚 단어장
+              <span
+                id="savedWordsBadge"
+                style="font-weight: 700; color: #4f46e5; margin-left: 2px"
+                >0개</span
+              >
             </button>
             <button
               type="button"
@@ -148,7 +160,11 @@
         </div>
       </div>
 
-      <div class="topic-screen" id="topicScreen" style="display: none">
+      <div
+        class="topic-screen app-screen"
+        id="topicScreen"
+        style="display: none"
+      >
         <div class="mode-switch-row">
           <span class="mode-switch" id="homeFromTopic">🏠 홈</span>
           <span class="mode-switch" id="toWordModeLink"
@@ -173,7 +189,7 @@
         </button>
       </div>
 
-      <div class="card" id="practiceCard" style="display: none">
+      <div class="card app-screen" id="practiceCard" style="display: none">
         <div class="cardtop">
           <span class="cat" id="catLabel">CATEGORY</span>
           <div class="cardtop-right">
@@ -402,7 +418,7 @@
         </div>
       </div>
 
-      <div class="done-screen" id="doneScreen">
+      <div class="done-screen app-screen" id="doneScreen">
         <h2>오늘 세트 완료!</h2>
         <p id="doneSummary"></p>
         <button
@@ -422,7 +438,11 @@
         </div>
       </div>
 
-      <div class="topic-screen" id="wordTopicScreen" style="display: none">
+      <div
+        class="topic-screen app-screen"
+        id="wordTopicScreen"
+        style="display: none"
+      >
         <div class="mode-switch-row">
           <span class="mode-switch" id="homeFromWordTopic">🏠 홈</span>
           <span class="mode-switch" id="toSentenceModeLink"
@@ -452,7 +472,7 @@
         </button>
       </div>
 
-      <div class="card" id="wordCard" style="display: none">
+      <div class="card app-screen" id="wordCard" style="display: none">
         <div class="cardtop">
           <span class="cat" id="wordCatLabel">CATEGORY</span>
           <div class="cardtop-right">
@@ -556,7 +576,7 @@
         </div>
       </div>
 
-      <div class="done-screen" id="wordDoneScreen">
+      <div class="done-screen app-screen" id="wordDoneScreen">
         <h2>문법 포인트 연습 완료!</h2>
         <p id="wordDoneSummary"></p>
         <button
@@ -578,7 +598,11 @@
 
       <!-- ── [신규] 실전 질문 & 5~7문장 답변 연습 화면들 ── -->
       <!-- 1. 실전 질문 주제 선택 화면 -->
-      <div class="topic-screen" id="opicTopicScreen" style="display: none">
+      <div
+        class="topic-screen app-screen"
+        id="opicTopicScreen"
+        style="display: none"
+      >
         <div class="mode-switch-row">
           <span class="mode-switch" id="homeFromOpicTopic">🏠 홈</span>
           <span class="mode-switch" id="toSentenceFromOpic">문장 연습 →</span>
@@ -632,7 +656,7 @@
       </div>
 
       <!-- 2. 실전 질문 & 답변 연습 카드 -->
-      <div class="card" id="opicCard" style="display: none">
+      <div class="card app-screen" id="opicCard" style="display: none">
         <div class="cardtop">
           <div
             style="
@@ -810,11 +834,7 @@
 
         <!-- 1. 내 답변 발음 진단 / 문법 분석 / AI 피드백 독립 영역 -->
         <!-- 발음 및 일치도 평가 -->
-        <div
-          class="speech-eval"
-          id="opicSpeechEvalBox"
-          style="display: none"
-        >
+        <div class="speech-eval" id="opicSpeechEvalBox" style="display: none">
           <div class="eval-header">
             <div class="eval-title">🎙️ 내 답변 실전 발화 & 발음 진단</div>
             <span class="eval-score-badge" id="opicEvalScoreBadge"
@@ -842,7 +862,11 @@
         </div>
 
         <!-- Google AI 질문 연동 -->
-        <div class="google-ask-row" id="opicGoogleAskRow" style="display: none; margin-top: 10px">
+        <div
+          class="google-ask-row"
+          id="opicGoogleAskRow"
+          style="display: none; margin-top: 10px"
+        >
           <button
             class="google-ai-btn"
             id="opicGoogleAskLink"
@@ -869,11 +893,7 @@
             </svg>
             <span>Google AI 피드백</span>
           </button>
-          <button
-            class="google-copy-btn"
-            id="opicGoogleAskCopy"
-            type="button"
-          >
+          <button class="google-copy-btn" id="opicGoogleAskCopy" type="button">
             <svg
               class="google-copy-icon"
               width="14"
@@ -989,7 +1009,11 @@
             <kbd class="shortcut-key">2</kbd>
           </button>
         </div>
-        <div class="change-topic opic-retry-link" id="opicRetrySameLink" style="display: none">
+        <div
+          class="change-topic opic-retry-link"
+          id="opicRetrySameLink"
+          style="display: none"
+        >
           <span>↺ 다시 풀기</span>
           <kbd class="shortcut-key">R</kbd>
         </div>
@@ -1001,18 +1025,28 @@
         </div>
         <div class="shortcut-helper desktop-only-tip">
           <span class="sk-item"><kbd class="shortcut-key">↵</kbd> 채점</span>
-          <span class="sk-item"><kbd class="shortcut-key">M</kbd> 모범답안</span>
-          <span class="sk-item"><kbd class="shortcut-key">1</kbd> 잘했어요</span>
+          <span class="sk-item"
+            ><kbd class="shortcut-key">M</kbd> 모범답안</span
+          >
+          <span class="sk-item"
+            ><kbd class="shortcut-key">1</kbd> 잘했어요</span
+          >
           <span class="sk-item"><kbd class="shortcut-key">2</kbd> 다시</span>
-          <span class="sk-item"><kbd class="shortcut-key">R</kbd> 다시풀기</span>
-          <span class="sk-item"><kbd class="shortcut-key">K</kbd> 건너뛰기</span>
+          <span class="sk-item"
+            ><kbd class="shortcut-key">R</kbd> 다시풀기</span
+          >
+          <span class="sk-item"
+            ><kbd class="shortcut-key">K</kbd> 건너뛰기</span
+          >
           <span class="sk-item"><kbd class="shortcut-key">P</kbd> 이전</span>
-          <span class="sk-item"><kbd class="shortcut-key">Space</kbd> 발음</span>
+          <span class="sk-item"
+            ><kbd class="shortcut-key">Space</kbd> 발음</span
+          >
         </div>
       </div>
 
       <!-- 3. 실전 질문 완료 화면 -->
-      <div class="done-screen" id="opicDoneScreen">
+      <div class="done-screen app-screen" id="opicDoneScreen">
         <h2>실전 질문 연습 세트 완료!</h2>
         <p id="opicDoneSummary"></p>
         <button
@@ -1033,7 +1067,11 @@
       </div>
 
       <!-- 4. 🧩 만능 패턴 선택 화면 (Pattern Screen) -->
-      <div class="topic-screen" id="patternTopicScreen" style="display: none">
+      <div
+        class="topic-screen app-screen"
+        id="patternTopicScreen"
+        style="display: none"
+      >
         <div class="mode-switch-row">
           <span class="mode-switch" id="homeFromPatternTopic">🏠 홈</span>
           <span class="mode-switch" id="toOpicFromPattern"
@@ -1062,7 +1100,7 @@
       </div>
 
       <!-- 5. 🧩 만능 패턴 학습 카드 (Pattern Card) -->
-      <div class="card" id="patternCard" style="display: none">
+      <div class="card app-screen" id="patternCard" style="display: none">
         <div class="cardtop">
           <span class="cat" id="patternIdxLabel">PATTERN 01 / 06</span>
           <div class="cardtop-right">
@@ -1104,8 +1142,11 @@
         </div>
 
         <!-- 단계별 6문장 리스트 (연결 듣기 및 복사 버튼 포함) -->
-        <div class="lbl-row" style="margin-top: 14px; margin-bottom: 8px; align-items: center;">
-          <div class="lbl" style="margin-bottom: 0;">단계별 문장 훈련</div>
+        <div
+          class="lbl-row"
+          style="margin-top: 14px; margin-bottom: 8px; align-items: center"
+        >
+          <div class="lbl" style="margin-bottom: 0">단계별 문장 훈련</div>
           <div class="action-btn-group">
             <button
               class="tts-btn tts-btn-primary"
@@ -1127,8 +1168,10 @@
         <div class="pattern-sentences-wrap" id="patternSentenceList"></div>
 
         <!-- 🎙️ 만능 패턴 직접 말하기 녹음 & 실전 채점 영역 -->
-        <div class="lbl-row" style="margin-top: 18px; margin-bottom: 8px;">
-          <div class="lbl" style="margin-bottom: 0;">🎙️ 패턴 직접 말해보기 & 채점</div>
+        <div class="lbl-row" style="margin-top: 18px; margin-bottom: 8px">
+          <div class="lbl" style="margin-bottom: 0">
+            🎙️ 패턴 직접 말해보기 & 채점
+          </div>
         </div>
         <div class="input-wrap">
           <textarea
@@ -1156,10 +1199,16 @@
         </div>
 
         <!-- 발음 및 일치도 평가 박스 -->
-        <div class="speech-eval" id="patternSpeechEvalBox" style="display: none">
+        <div
+          class="speech-eval"
+          id="patternSpeechEvalBox"
+          style="display: none"
+        >
           <div class="eval-header">
             <div class="eval-title">🎙️ 내 패턴 발화 & 발음 진단</div>
-            <span class="eval-score-badge" id="patternEvalScoreBadge">0% 일치</span>
+            <span class="eval-score-badge" id="patternEvalScoreBadge"
+              >0% 일치</span
+            >
           </div>
           <div class="eval-diff" id="patternEvalDiff"></div>
           <div class="eval-feedback" id="patternEvalFeedback"></div>
@@ -1179,7 +1228,11 @@
         <div class="grammar" id="patternGrammarBox" style="display: none">
           <div class="lbl">내 답변 문법 & 표현 분석</div>
           <div id="patternGrammarContent"></div>
-          <div class="google-ask-row" id="patternGoogleAskRow" style="display: none; margin-top: 10px">
+          <div
+            class="google-ask-row"
+            id="patternGoogleAskRow"
+            style="display: none; margin-top: 10px"
+          >
             <button
               class="google-ai-btn"
               id="patternGoogleAskLink"
@@ -1242,7 +1295,11 @@
             <span>완료 & 다음 패턴 →</span>
           </button>
         </div>
-        <div class="change-topic" id="patternRetrySameLink" style="display: none; margin: 12px auto 0; width: fit-content;">
+        <div
+          class="change-topic"
+          id="patternRetrySameLink"
+          style="display: none; margin: 12px auto 0; width: fit-content"
+        >
           <span>↺ 다시 풀기</span>
           <kbd class="shortcut-key">R</kbd>
         </div>
@@ -1256,8 +1313,8 @@
       </div>
 
       <!-- 💬 필러(Filler Words) 1개씩 집중 훈련 화면 -->
-      <div class="card" id="fillerCard" style="display: none">
-        <div class="mode-switch-row" style="margin-bottom: 14px;">
+      <div class="card app-screen" id="fillerCard" style="display: none">
+        <div class="mode-switch-row" style="margin-bottom: 14px">
           <span class="mode-switch" id="homeFromFiller">🏠 홈</span>
           <span class="mode-switch" id="toPatternFromFiller"
             >만능 패턴 훈련 →</span
@@ -1265,7 +1322,9 @@
         </div>
 
         <div class="cardtop">
-          <span class="cat" id="fillerCatLabel">⏱️ 1. 시작 & 생각 시간 벌기</span>
+          <span class="cat" id="fillerCatLabel"
+            >⏱️ 1. 시작 & 생각 시간 벌기</span
+          >
           <div class="cardtop-right">
             <button
               type="button"
@@ -1289,8 +1348,12 @@
               <div class="filler-hero-phrase" id="fillerHeroPhrase">
                 <span>Well...</span>
               </div>
-              <div class="filler-hero-pronounce" id="fillerHeroPronounce">[웰~]</div>
-              <div class="filler-hero-meaning" id="fillerHeroMeaning">음, 글쎄요...</div>
+              <div class="filler-hero-pronounce" id="fillerHeroPronounce">
+                [웰~]
+              </div>
+              <div class="filler-hero-meaning" id="fillerHeroMeaning">
+                음, 글쎄요...
+              </div>
             </div>
             <div class="filler-hero-actions">
               <button
@@ -1331,7 +1394,14 @@
         <div class="filler-examples-container">
           <div class="filler-examples-hdr">
             <span>🗣️ 실전 OPIc 활용 예문</span>
-            <span style="font-size: 11px; color: var(--text-muted); font-weight: 500;">소리 내어 따라 읽어보세요</span>
+            <span
+              style="
+                font-size: 11px;
+                color: var(--text-muted);
+                font-weight: 500;
+              "
+              >소리 내어 따라 읽어보세요</span
+            >
           </div>
           <div id="fillerExamplesList"></div>
         </div>
@@ -1350,18 +1420,28 @@
             </button>
           </div>
           <div class="filler-stt-box" id="fillerSttBox">
-            <span style="color: var(--text-muted); font-size: 13px;">마이크를 누르고 이 필러나 예문을 말해보세요.</span>
+            <span style="color: var(--text-muted); font-size: 13px"
+              >마이크를 누르고 이 필러나 예문을 말해보세요.</span
+            >
           </div>
           <div class="filler-stt-eval-msg" id="fillerSttEvalMsg"></div>
         </div>
 
         <!-- 하단 컨트롤 버튼 -->
         <div class="filler-nav-row">
-          <button type="button" class="filler-btn-prev" id="btnPrevFillerBottom">
+          <button
+            type="button"
+            class="filler-btn-prev"
+            id="btnPrevFillerBottom"
+          >
             <span>‹ 이전 필러</span>
             <kbd class="shortcut-key">P</kbd>
           </button>
-          <button type="button" class="filler-btn-next" id="btnNextFillerBottom">
+          <button
+            type="button"
+            class="filler-btn-next"
+            id="btnNextFillerBottom"
+          >
             <span>다음 필러 →</span>
             <kbd class="shortcut-key">↵</kbd>
           </button>
@@ -1722,19 +1802,22 @@
         </div>
 
         <!-- 데이터 백업 & 복원 영역 -->
-        <div class="cache-box" style="margin-top: 12px;">
+        <div class="cache-box" style="margin-top: 12px">
           <div class="cache-info-row">
-            <span class="form-label" style="margin: 0">💾 학습 데이터 백업 & 복원</span>
+            <span class="form-label" style="margin: 0"
+              >💾 학습 데이터 백업 & 복원</span
+            >
           </div>
           <span class="form-sublabel">
-            학습 진행도, 스트릭, 오답노트, 단어장, 음성 설정을 파일로 안전하게 백업하거나 다른 기기로 복원할 수 있습니다.
+            학습 진행도, 스트릭, 오답노트, 단어장, 음성 설정을 파일로 안전하게
+            백업하거나 다른 기기로 복원할 수 있습니다.
           </span>
-          <div class="btn-row-flex" style="gap: 8px; margin-top: 8px;">
+          <div class="btn-row-flex" style="gap: 8px; margin-top: 8px">
             <button
               type="button"
               class="ghost"
               id="exportBackupBtn"
-              style="flex: 1; height: 34px; min-height: 34px; font-size: 12px;"
+              style="flex: 1; height: 34px; min-height: 34px; font-size: 12px"
             >
               📥 데이터 백업 (JSON)
             </button>
@@ -1742,11 +1825,16 @@
               type="button"
               class="ghost"
               id="importBackupBtn"
-              style="flex: 1; height: 34px; min-height: 34px; font-size: 12px;"
+              style="flex: 1; height: 34px; min-height: 34px; font-size: 12px"
             >
               📤 데이터 복원 (JSON)
             </button>
-            <input type="file" id="importBackupInput" accept=".json" style="display: none;" />
+            <input
+              type="file"
+              id="importBackupInput"
+              accept=".json"
+              style="display: none"
+            />
           </div>
         </div>
 
@@ -1765,7 +1853,7 @@
 
     <!-- 📚 내 단어장 모달 -->
     <div class="modal-backdrop" id="vocabModal">
-      <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-card" style="max-width: 480px">
         <div class="modal-header">
           <div class="modal-title">
             <span>📚 내 단어장</span>
@@ -1781,12 +1869,20 @@
           </button>
         </div>
         <div class="saved-words-list" id="savedWordsListContainer"></div>
-        <div class="btn-row-flex" style="margin-top: 12px; justify-content: space-between;">
+        <div
+          class="btn-row-flex"
+          style="margin-top: 12px; justify-content: space-between"
+        >
           <button
             type="button"
             class="ghost"
             id="clearAllVocabBtn"
-            style="height: 34px; min-height: 34px; font-size: 12px; color: var(--danger-text);"
+            style="
+              height: 34px;
+              min-height: 34px;
+              font-size: 12px;
+              color: var(--danger-text);
+            "
           >
             🗑️ 단어장 비우기
           </button>
@@ -1794,7 +1890,12 @@
             type="button"
             class="primary"
             id="closeVocabModalBtn2"
-            style="height: 34px; min-height: 34px; font-size: 12px; padding: 0 16px;"
+            style="
+              height: 34px;
+              min-height: 34px;
+              font-size: 12px;
+              padding: 0 16px;
+            "
           >
             닫기
           </button>
@@ -1804,8 +1905,16 @@
 
     <!-- Microsoft Cognitive Services Speech SDK -->
     <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/theme.js"></script>
     <script src="js/audio-cache.js"></script>
     <script src="js/eval-dict.js"></script>
+    <!-- Static Data Modules (Zero-Latency Loading & file:/// Support) -->
+    <script src="data/sentences_im1.js"></script>
+    <script src="data/grammar_im1.js"></script>
+    <script src="data/questions_im1.js"></script>
+    <script src="data/patterns_im1.js"></script>
+    <script src="data/fillers_im1.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/speech.js"></script>
     <script src="js/dashboard.js"></script>
@@ -1819,4 +1928,3 @@
     <script src="app.js"></script>
   </body>
 </html>
-

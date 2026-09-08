@@ -1,4 +1,4 @@
-[
+window.GRAMMAR_DATA = [
   {
     "cat": "전치사",
     "prompt": "정확한 시각 앞에 쓰는 전치사는?",
@@ -890,4 +890,4 @@
     "answer": "sometimes",
     "tip": "'가끔'이라는 빈도부사는 sometimes예요. sometime(언젠가)과 헷갈리지 않도록 주의하세요."
   }
-]
+];
