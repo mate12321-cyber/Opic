@@ -115,8 +115,8 @@ window.QUESTIONS_DATA = [
         ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
       },
       {
-        en: "So, I always feel happy and relaxed whenever I stay there.",
-        ko: "그래서 집에 머물 때마다 저는 항상 행복하고 편안함을 느껴요.",
+        en: "So, I stay there all the time.",
+        ko: "그래서 저는 거기서 맨날 시간을 보내요.",
       },
     ],
     keywords: [
@@ -125,7 +125,7 @@ window.QUESTIONS_DATA = [
       "clean, quiet, and cozy",
       "soft sofa and big TV",
       "watching YouTube",
-      "happy and relaxed",
+      "stay there all the time",
     ],
     tip: "[만능 집 묘사] 거실 최애 장소 → 회사 근처 편리함 → 깔끔하고 아늑한 분위기 → 소파와 TV → 유튜브 힐링 → 편안함.",
     combo_step: 1,
@@ -467,8 +467,8 @@ window.QUESTIONS_DATA = [
         ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
       },
       {
-        en: "So, I always feel happy and relaxed whenever I go there.",
-        ko: "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요.",
+        en: "So, I go there all the time.",
+        ko: "그래서 저는 거기를 맨날(자주) 가요.",
       },
     ],
     keywords: [
@@ -477,7 +477,7 @@ window.QUESTIONS_DATA = [
       "clean, quiet, and cozy",
       "large windows and nice seats",
       "makes me relaxed",
-      "happy and relaxed",
+      "go there all the time",
     ],
     tip: "[만능 카페 묘사] 스타벅스 최애 장소 → 집 근처 편리함 → 깔끔 조용 아늑한 분위기 → 큰 창문과 편한 좌석 → 퇴근 후 커피 힐링 → 편안함.",
     combo_step: 1,
@@ -643,8 +643,8 @@ window.QUESTIONS_DATA = [
         ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
       },
       {
-        en: "So, I always feel happy and relaxed whenever I go there.",
-        ko: "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요.",
+        en: "So, I go there all the time.",
+        ko: "그래서 저는 거기를 맨날(자주) 가요.",
       },
     ],
     keywords: [
@@ -653,7 +653,7 @@ window.QUESTIONS_DATA = [
       "clean, quiet, and cozy",
       "green trees and nice benches",
       "makes me relaxed",
-      "happy and relaxed",
+      "go there all the time",
     ],
     tip: "[만능 공원 묘사] 집 근처 공원 → 접근성 편함 → 깔끔하고 아늑함 → 푸른 나무와 벤치 → 퇴근 후 혼자 산책 힐링 → 편안함.",
     combo_step: 1,
@@ -1127,8 +1127,8 @@ window.QUESTIONS_DATA = [
         ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
       },
       {
-        en: "So, I always feel happy and relaxed whenever I go there.",
-        ko: "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요.",
+        en: "So, I go there all the time.",
+        ko: "그래서 저는 거기를 맨날(자주) 가요.",
       },
     ],
     keywords: [
@@ -1137,7 +1137,7 @@ window.QUESTIONS_DATA = [
       "clean, quiet, and cozy",
       "clean machines and free weights",
       "makes me relaxed",
-      "happy and relaxed",
+      "go there all the time",
     ],
     tip: "[만능 헬스장 묘사] 집 근처 헬스장 → 접근성 편함 → 깔끔 조용 아늑한 분위기 → 머신과 프리웨이트 → 퇴근 후 운동 힐링 → 편안함.",
     combo_step: 1,
@@ -1391,8 +1391,8 @@ window.QUESTIONS_DATA = [
         ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
       },
       {
-        en: "So, I always feel happy and relaxed whenever I go there.",
-        ko: "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요.",
+        en: "So, I go there all the time.",
+        ko: "그래서 저는 거기를 맨날(자주) 가요.",
       },
     ],
     keywords: [
@@ -1401,7 +1401,7 @@ window.QUESTIONS_DATA = [
       "clean, quiet, and cozy",
       "scenic views and quiet roads",
       "makes me relaxed",
-      "happy and relaxed",
+      "go there all the time",
     ],
     tip: "[만능 드라이브 묘사] 집 근처 한적한 길 → 접근성 편리함 → 조용하고 아늑함 → 멋진 풍경과 도로 → 퇴근 후 드라이브 힐링 → 편안함.",
     combo_step: 1,
@@ -1523,8 +1523,8 @@ window.QUESTIONS_DATA = [
         ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
       },
       {
-        en: "So, I always feel happy and relaxed whenever I go there.",
-        ko: "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요.",
+        en: "So, I go there all the time.",
+        ko: "그래서 저는 거기를 맨날(자주) 가요.",
       },
     ],
     keywords: [
@@ -1533,7 +1533,7 @@ window.QUESTIONS_DATA = [
       "clean, quiet, and peaceful",
       "tall green trees and clean lake",
       "makes me relaxed",
-      "happy and relaxed",
+      "go there all the time",
     ],
     tip: "[만능 캠핑장 묘사] 호숫가 캠핑장 → 차로 1시간 거리 → 조용하고 평화로운 자연 → 나무와 호수 → 자연 속 힐링 → 편안함.",
     combo_step: 1,

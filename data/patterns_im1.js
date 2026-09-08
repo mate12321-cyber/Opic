@@ -27,8 +27,8 @@ window.PATTERNS_DATA = [
         "ko": "5. 여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
       },
       {
-        "en": "6. So, I always feel happy and relaxed whenever I go there.",
-        "ko": "6. 그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+        "en": "6. So, I go there all the time.",
+        "ko": "6. 그래서 저는 거기를 맨날(자주) 가요."
       }
     ],
     "variations": [
@@ -57,8 +57,8 @@ window.PATTERNS_DATA = [
             "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
           },
           {
-            "en": "So, I always feel happy and relaxed whenever I go there.",
-            "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+            "en": "So, I go there all the time.",
+            "ko": "그래서 저는 거기를 맨날(자주) 가요."
           }
         ]
       },
@@ -87,8 +87,8 @@ window.PATTERNS_DATA = [
             "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
           },
           {
-            "en": "So, I always feel happy and relaxed whenever I go there.",
-            "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+            "en": "So, I go there all the time.",
+            "ko": "그래서 저는 거기를 맨날(자주) 가요."
           }
         ]
       },
@@ -117,8 +117,8 @@ window.PATTERNS_DATA = [
             "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
           },
           {
-            "en": "So, I always feel happy and relaxed whenever I go there.",
-            "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+            "en": "So, I go there all the time.",
+            "ko": "그래서 저는 거기를 맨날(자주) 가요."
           }
         ]
       },
@@ -147,8 +147,8 @@ window.PATTERNS_DATA = [
             "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
           },
           {
-            "en": "So, I always feel happy and relaxed whenever I go there.",
-            "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+            "en": "So, I go there all the time.",
+            "ko": "그래서 저는 거기를 맨날(자주) 가요."
           }
         ]
       }
