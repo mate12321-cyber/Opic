@@ -626,9 +626,7 @@ async function fetchAzureTtsAudio(
 
   const selectedVoice = voiceName || azureVoice || "en-US-JennyNeural";
   const selectedLang =
-    lang ||
-    selectedVoice.split("-").slice(0, 2).join("-") ||
-    "en-US";
+    lang || selectedVoice.split("-").slice(0, 2).join("-") || "en-US";
   const selectedRate =
     typeof rate === "number" ? rate : parseFloat(rate) || 1.0;
 
@@ -2495,21 +2493,21 @@ function stopSpeechRecognition() {
   activeTarget = null;
 }
 
-// 마이크 응답 없음 감시 타이머 (Watchdog)
+// 마이크 응답 없음 감시 타이머 (Watchdog - 모바일 권한 승인 대기시간 고려 7초로 여유 확대)
 function armStartupWatchdog() {
   if (micStartTimer) clearTimeout(micStartTimer);
   micStartTimer = setTimeout(() => {
     if (listening && !micStarted) {
       showMicError(
-        "마이크가 시작되지 않았어요. 브라우저 설정에서 마이크 권한을 확인해주세요.",
+        "마이크 응답이 지연되고 있어요. 브라우저 설정에서 마이크 권한이 허용되어 있는지 확인해주세요.",
       );
       stopSpeechRecognition();
     }
-  }, 3500);
+  }, 7000);
 }
 
 // 음성 인식 토글 함수 (문장 연습, OPIc 실전, 만능 패턴 모드 공용)
-async function toggleSpeechRecognition(
+function toggleSpeechRecognition(
   targetInput,
   targetBtn,
   targetError,
@@ -2572,45 +2570,62 @@ async function toggleSpeechRecognition(
     startSpeakingTimer();
   }
 
-  // 실제 음성 녹음을 위한 MediaRecorder 시작
-  recordedAudioChunks = [];
-  try {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      currentMediaStream = stream;
-      const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
-        ? "audio/webm;codecs=opus"
-        : MediaRecorder.isTypeSupported("audio/webm")
-          ? "audio/webm"
-          : "audio/mp4";
-
-      currentMediaRecorder = new MediaRecorder(stream, { mimeType: mime });
-      currentMediaRecorder.ondataavailable = (e) => {
-        if (e.data && e.data.size > 0) {
-          recordedAudioChunks.push(e.data);
-        }
-      };
-      currentMediaRecorder.onstop = async () => {
-        if (recordedAudioChunks.length > 0) {
-          const rawBlob = new Blob(recordedAudioChunks, { type: mime });
-          setRecordedVoiceBlob(mode, rawBlob);
-          const wav = await blobTo16kHzWav(rawBlob);
-          if (wav) {
-            setRecordedWavBuffer(mode, wav);
-          }
-        }
-      };
-      currentMediaRecorder.start(100);
-    }
-  } catch (mediaErr) {
-    console.warn("[MediaRecorder] Microphone stream failed:", mediaErr);
-  }
-
+  // ⚡ 1. 모바일 사용자 제스처 유지를 위해 recognition.start()를 즉시 동기 실행!
   try {
     recognition.start();
   } catch (e) {
-    showMicError("마이크를 시작하지 못했어요. 다시 시도해주세요.", targetError);
-    stopSpeechRecognition();
+    console.warn("[SpeechRecognition] Initial start failed:", e);
+    // 이미 시작되어 있는 상태라면 무시
+    if (!e.message || !e.message.includes("already started")) {
+      showMicError("마이크를 시작하지 못했어요. 다시 시도해주세요.", targetError);
+      stopSpeechRecognition();
+      return;
+    }
+  }
+
+  // ⚡ 2. 실제 오디오 녹음(MediaRecorder)은 모바일 하드웨어 충돌 방지를 위해 데스크톱 환경에서만 비동기로 실행
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
+
+  recordedAudioChunks = [];
+  if (!isMobile && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        if (!listening) {
+          stream.getTracks().forEach((t) => t.stop());
+          return;
+        }
+        currentMediaStream = stream;
+        const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+          ? "audio/webm;codecs=opus"
+          : MediaRecorder.isTypeSupported("audio/webm")
+            ? "audio/webm"
+            : "audio/mp4";
+
+        currentMediaRecorder = new MediaRecorder(stream, { mimeType: mime });
+        currentMediaRecorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) {
+            recordedAudioChunks.push(e.data);
+          }
+        };
+        currentMediaRecorder.onstop = async () => {
+          if (recordedAudioChunks.length > 0) {
+            const rawBlob = new Blob(recordedAudioChunks, { type: mime });
+            setRecordedVoiceBlob(mode, rawBlob);
+            const wav = await blobTo16kHzWav(rawBlob);
+            if (wav) {
+              setRecordedWavBuffer(mode, wav);
+            }
+          }
+        };
+        currentMediaRecorder.start(100);
+      })
+      .catch((mediaErr) => {
+        console.warn("[MediaRecorder] Microphone stream skipped:", mediaErr);
+      });
   }
 }
 
@@ -2620,9 +2635,15 @@ function initSpeechRecognition() {
     window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) return;
 
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
+
   recognition = new SpeechRecognition();
   recognition.lang = "en-US";
-  recognition.continuous = true;
+  // 안드로이드/모바일 브라우저는 continuous=true 설정 시 마이크가 바로 꺼지는 심각한 버그가 있어 continuous=false 적용
+  recognition.continuous = !isMobile;
   recognition.interimResults = true;
   recognition.maxAlternatives = 1;
 
@@ -2670,6 +2691,7 @@ function initSpeechRecognition() {
   };
 
   recognition.onerror = (e) => {
+    console.warn("[SpeechRecognition] error:", e.error);
     if (e.error === "aborted" || e.error === "no-speech") {
       // 침묵이나 일시적 중단은 무시하고 자동 재연결에 맡김
       return;
@@ -2701,3 +2723,156 @@ function initSpeechRecognition() {
     stopListeningUI();
   };
 }
+
+// ── 🎯 [신규] 개별 문장(1~6번) 따라 말하기 및 즉각 발음 채점 엔진 ──────
+let activeSingleSentenceRec = null;
+
+function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
+  stopTTS();
+
+  // 이미 해당 버튼이 듣는 중이면 토글 정지
+  if (activeSingleSentenceRec && activeSingleSentenceRec.btn === micBtn) {
+    stopSingleSentenceSpeech();
+    return;
+  }
+
+  // 다른 개별 문장 마이크가 켜져 있으면 중지
+  if (activeSingleSentenceRec) {
+    stopSingleSentenceSpeech();
+  }
+
+  // 전역 STT 실행 중이면 중지
+  if (typeof listening !== "undefined" && listening) {
+    stopSpeechRecognition();
+  }
+
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 브라우저를 사용해주세요.");
+    return;
+  }
+
+  try {
+    const rec = new SpeechRecognition();
+    rec.lang = "en-US";
+    rec.continuous = false;
+    rec.interimResults = true;
+    rec.maxAlternatives = 1;
+
+    activeSingleSentenceRec = { rec, btn: micBtn, box: evalBoxEl, targetText };
+
+    micBtn.classList.add("listening");
+    const origHtml = micBtn.innerHTML;
+    micBtn.setAttribute("data-orig-html", origHtml);
+    micBtn.innerHTML = "🔴 듣는 중...";
+
+    if (evalBoxEl) {
+      evalBoxEl.style.display = "block";
+      evalBoxEl.innerHTML = `<div class="single-sen-eval-status">🎙️ 귀 기울여 듣고 있습니다. 문장을 소리 내어 말씀해보세요...</div>`;
+    }
+
+    let spokenTranscript = "";
+    let isEvaluated = false;
+
+    rec.onresult = (e) => {
+      let text = "";
+      let isFinal = false;
+      for (let i = 0; i < e.results.length; i++) {
+        text += e.results[i][0].transcript;
+        if (e.results[i].isFinal) isFinal = true;
+      }
+      spokenTranscript = text;
+
+      if (evalBoxEl) {
+        evalBoxEl.innerHTML = `<div class="single-sen-spoken">🗣️ "${escapeHtml(text)}"</div>`;
+      }
+
+      if (isFinal && !isEvaluated) {
+        isEvaluated = true;
+        renderSingleSentenceResult(targetText, spokenTranscript, evalBoxEl);
+      }
+    };
+
+    rec.onerror = (e) => {
+      console.warn("[SingleSentenceMic] Error:", e.error);
+      if (e.error === "no-speech") {
+        if (evalBoxEl && !spokenTranscript) {
+          evalBoxEl.innerHTML = `<div class="single-sen-eval-status" style="color:var(--text-muted);">목소리가 감지되지 않았어요. 마이크를 누르고 다시 말씀해보세요.</div>`;
+        }
+      } else if (e.error !== "aborted") {
+        if (evalBoxEl) {
+          evalBoxEl.innerHTML = `<div class="single-sen-eval-status" style="color:var(--danger);">마이크 오류 (${e.error}) - 마이크 권한을 확인해주세요.</div>`;
+        }
+      }
+      stopSingleSentenceSpeech();
+    };
+
+    rec.onend = () => {
+      if (!isEvaluated && spokenTranscript && spokenTranscript.trim()) {
+        isEvaluated = true;
+        renderSingleSentenceResult(targetText, spokenTranscript, evalBoxEl);
+      }
+      stopSingleSentenceSpeech();
+    };
+
+    rec.start();
+  } catch (err) {
+    console.error("[SingleSentenceMic] Start failed:", err);
+    stopSingleSentenceSpeech();
+  }
+}
+
+function stopSingleSentenceSpeech() {
+  if (!activeSingleSentenceRec) return;
+  const { rec, btn } = activeSingleSentenceRec;
+  if (rec) {
+    try {
+      rec.stop();
+    } catch (e) {}
+  }
+  if (btn) {
+    btn.classList.remove("listening");
+    const origHtml = btn.getAttribute("data-orig-html") || "🎤 말하기";
+    btn.innerHTML = origHtml;
+  }
+  activeSingleSentenceRec = null;
+}
+
+function renderSingleSentenceResult(targetText, spokenText, evalBoxEl) {
+  if (!evalBoxEl) return;
+  const result = evaluateSpeech(spokenText, targetText);
+  const score = result.score || 0;
+  let badgeColor = "#ef4444";
+  let badgeIcon = "💡";
+  let badgeLabel = "다시 시도";
+
+  if (score >= 85) {
+    badgeColor = "#10b981";
+    badgeIcon = "🎉";
+    badgeLabel = "완벽한 발음";
+  } else if (score >= 70) {
+    badgeColor = "#3b82f6";
+    badgeIcon = "👍";
+    badgeLabel = "좋은 발음";
+  } else if (score >= 50) {
+    badgeColor = "#f59e0b";
+    badgeIcon = "⚡";
+    badgeLabel = "조금 더 또렷하게";
+  }
+
+  evalBoxEl.innerHTML = `
+    <div class="single-sen-eval-card">
+      <div class="single-sen-eval-header">
+        <span class="single-sen-badge" style="background:${badgeColor}20; color:${badgeColor}; border:1px solid ${badgeColor}60;">
+          ${badgeIcon} ${badgeLabel} (${score}점)
+        </span>
+      </div>
+      <div class="single-sen-spoken">🗣️ "<strong>${escapeHtml(spokenText)}</strong>"</div>
+      <div class="single-sen-diff">${result.diffHtml}</div>
+    </div>
+  `;
+}
+
+window.practiceSingleSentenceSpeech = practiceSingleSentenceSpeech;
+window.stopSingleSentenceSpeech = stopSingleSentenceSpeech;

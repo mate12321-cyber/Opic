@@ -607,3 +607,39 @@ body.dark-theme #patternRetrySameLink:hover {
   background: #475569;
   color: #ffffff;
 }
+
+/* ── 패턴 개별 문장 말하기 버튼 & 평가 박스 ── */
+.ps-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ps-mic-btn {
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-body);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ps-mic-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-subtle);
+}
+
+.ps-mic-btn.listening {
+  background: #fee2e2 !important;
+  border-color: #ef4444 !important;
+  color: #dc2626 !important;
+  animation: micPulse 1.2s infinite;
+}
+
+body.dark-theme .ps-mic-btn {
+  background: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+

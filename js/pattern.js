@@ -234,24 +234,46 @@ function renderPatternVariation() {
         <div class="pattern-sentence-item">
           <div class="ps-header">
             <span class="ps-num">문장 ${sIdx + 1}</span>
-            <button type="button" class="tts-btn tts-btn-sm" data-sen-idx="${sIdx}" title="이 문장 발음 듣기">
-              🔊 발음
-            </button>
+            <div class="ps-actions">
+              <button type="button" class="tts-btn tts-btn-sm" data-sen-idx="${sIdx}" title="이 문장 발음 듣기">
+                🔊 발음
+              </button>
+              <button type="button" class="tts-btn tts-btn-sm ps-mic-btn" data-sen-idx="${sIdx}" title="이 문장 직접 소리 내어 말해보기">
+                🎤 말하기
+              </button>
+            </div>
           </div>
           <div class="ps-en">${safeEscapeHtml(s.en)}</div>
           <div class="ps-ko">${safeEscapeHtml(s.ko)}</div>
+          <div class="single-sen-eval-box ps-eval-box" id="psEvalBox_${sIdx}" style="display:none;"></div>
         </div>
       `;
       })
       .join("");
 
     // 개별 문장 TTS 바인딩
-    sentenceList.querySelectorAll(".tts-btn").forEach((btn) => {
+    sentenceList.querySelectorAll(".tts-btn:not(.ps-mic-btn)").forEach((btn) => {
       btn.addEventListener("click", () => {
         const sIdx = parseInt(btn.dataset.senIdx, 10);
         const sentence = curVar.sentences[sIdx];
         if (sentence && sentence.en) {
           speakText(sentence.en, "en-US", btn);
+        }
+      });
+    });
+
+    // 개별 문장 마이크(말하기) 바인딩
+    sentenceList.querySelectorAll(".ps-mic-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const sIdx = parseInt(btn.dataset.senIdx, 10);
+        const sentence = curVar.sentences[sIdx];
+        const evalBox = document.getElementById(`psEvalBox_${sIdx}`);
+        if (
+          sentence &&
+          sentence.en &&
+          typeof practiceSingleSentenceSpeech === "function"
+        ) {
+          practiceSingleSentenceSpeech(sentence.en, btn, evalBox);
         }
       });
     });

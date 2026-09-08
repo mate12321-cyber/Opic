@@ -469,6 +469,10 @@ function renderSentenceBreakdownList(sentences) {
     badge.className = "sentence-index-badge";
     badge.textContent = idx + 1;
 
+    const mainCol = document.createElement("div");
+    mainCol.style.cssText =
+      "flex: 1; display: flex; flex-direction: column; gap: 4px;";
+
     const texts = document.createElement("div");
     texts.className = "sentence-texts";
 
@@ -482,6 +486,15 @@ function renderSentenceBreakdownList(sentences) {
 
     texts.appendChild(enP);
     texts.appendChild(koP);
+    mainCol.appendChild(texts);
+
+    const evalBox = document.createElement("div");
+    evalBox.className = "single-sen-eval-box";
+    evalBox.style.display = "none";
+    mainCol.appendChild(evalBox);
+
+    const actionsWrap = document.createElement("div");
+    actionsWrap.className = "sentence-actions-wrap";
 
     const playBtn = document.createElement("button");
     playBtn.type = "button";
@@ -492,9 +505,23 @@ function renderSentenceBreakdownList(sentences) {
       speakText(s.en, "en-US", playBtn);
     });
 
+    const micBtn = document.createElement("button");
+    micBtn.type = "button";
+    micBtn.className = "sentence-mic-btn";
+    micBtn.title = "이 문장 직접 소리 내어 말해보기";
+    micBtn.innerHTML = "🎤";
+    micBtn.addEventListener("click", () => {
+      if (typeof practiceSingleSentenceSpeech === "function") {
+        practiceSingleSentenceSpeech(s.en, micBtn, evalBox);
+      }
+    });
+
+    actionsWrap.appendChild(playBtn);
+    actionsWrap.appendChild(micBtn);
+
     card.appendChild(badge);
-    card.appendChild(texts);
-    card.appendChild(playBtn);
+    card.appendChild(mainCol);
+    card.appendChild(actionsWrap);
     els.sentenceBreakdownList.appendChild(card);
   });
 }

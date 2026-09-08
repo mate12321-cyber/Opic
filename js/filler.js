@@ -343,6 +343,9 @@ function toggleFillerMic(fillerId, targetPhrase) {
     return;
   }
 
+  // ⚡ 마이크 시작 시 재생 중인 TTS 정지
+  if (typeof stopTTS === "function") stopTTS();
+
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
@@ -357,14 +360,18 @@ function toggleFillerMic(fillerId, targetPhrase) {
     fillerRecognition.lang = "en-US";
     fillerRecognition.continuous = false;
     fillerRecognition.interimResults = true;
+    fillerRecognition.maxAlternatives = 1;
 
     fillerIsListening = true;
+    let evaluated = false;
+    let lastSpokenText = "";
+
     if (micBtn) {
       micBtn.classList.add("listening");
       micBtn.innerHTML = `🔴 듣는 중... (말씀하세요)`;
     }
     if (sttBox) {
-      sttBox.innerHTML = `<span style="color: #059669; font-weight: 600;">듣고 있습니다... 발음해 보세요!</span>`;
+      sttBox.innerHTML = `<span style="color: #059669; font-weight: 600;">듣고 있습니다... 소리 내어 말해보세요!</span>`;
     }
     if (feedbackEl) {
       feedbackEl.style.display = "none";
@@ -373,28 +380,42 @@ function toggleFillerMic(fillerId, targetPhrase) {
 
     fillerRecognition.onresult = (event) => {
       let transcript = "";
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
+      let isFinal = false;
+      for (let i = 0; i < event.results.length; ++i) {
         transcript += event.results[i][0].transcript;
+        if (event.results[i].isFinal) isFinal = true;
       }
 
+      lastSpokenText = transcript;
       if (sttBox) {
         sttBox.innerHTML = `🗣️ <strong style="color: var(--text-main); font-size: 14px;">"${escapeFillerHtml(transcript)}"</strong>`;
       }
 
-      if (event.results[0].isFinal) {
+      if (isFinal && !evaluated) {
+        evaluated = true;
         evaluateFillerSpeech(transcript, targetPhrase, feedbackEl, fillerId);
       }
     };
 
     fillerRecognition.onerror = (event) => {
-      console.warn("필러 STT 오류:", event.error);
-      if (sttBox) {
-        sttBox.innerHTML = `<span style="color: var(--danger); font-size: 13px;">음성 인식 오류 (${event.error})</span>`;
+      console.warn("필러 STT 상태:", event.error);
+      if (event.error === "no-speech") {
+        if (sttBox) {
+          sttBox.innerHTML = `<span style="color: var(--text-muted); font-size: 13px;">목소리가 감지되지 않았어요. 마이크를 켜고 다시 말씀해보세요.</span>`;
+        }
+      } else if (event.error !== "aborted") {
+        if (sttBox) {
+          sttBox.innerHTML = `<span style="color: var(--danger); font-size: 13px;">음성 인식 오류 (${event.error}) - 마이크 권한을 확인해주세요.</span>`;
+        }
       }
       stopFillerMic();
     };
 
     fillerRecognition.onend = () => {
+      if (!evaluated && lastSpokenText.trim()) {
+        evaluated = true;
+        evaluateFillerSpeech(lastSpokenText, targetPhrase, feedbackEl, fillerId);
+      }
       stopFillerMic();
     };
 
