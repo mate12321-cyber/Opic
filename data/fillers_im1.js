@@ -42,8 +42,8 @@ window.FILLERS_DATA = [
       },
       {
         context: "스트레스 해소법을 말할 때",
-        en: "You know, walking in the park is really the best way for me to relieve all my stress.",
-        ko: "아시다시피, 공원을 걷는 것은 제가 모든 스트레스를 푸는 데 정말 최고의 방법이에요.",
+        en: "You know, walking in the park is really the best way to make me relaxed.",
+        ko: "아시다시피, 공원을 걷는 것은 마음을 편안하게 만드는 데 정말 최고의 방법이에요.",
       },
     ],
   },

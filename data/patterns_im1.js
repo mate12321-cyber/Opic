@@ -23,8 +23,8 @@ window.PATTERNS_DATA = [
         "ko": "4. [특징 1]과 [특징 2]가 있어서 편안하게 쉴 수 있어요."
       },
       {
-        "en": "5. I love this place because [활동] relieves all my stress after work.",
-        "ko": "5. 퇴근 후 [활동]을 하면 스트레스가 싹 풀려서 여길 너무 좋아해요."
+        "en": "5. I love this place because it makes me relaxed.",
+        "ko": "5. 여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
       },
       {
         "en": "6. So, I always feel happy and relaxed whenever I go there.",
@@ -53,8 +53,8 @@ window.PATTERNS_DATA = [
             "ko": "큰 창문과 편안한 좌석이 있어서 편안하게 쉴 수 있어요."
           },
           {
-            "en": "I love this place because drinking coffee relieves all my stress after work.",
-            "ko": "퇴근 후 커피를 마시면 스트레스가 싹 풀려서 여길 너무 좋아해요."
+            "en": "I love this place because it makes me relaxed.",
+            "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
           },
           {
             "en": "So, I always feel happy and relaxed whenever I go there.",
@@ -83,8 +83,8 @@ window.PATTERNS_DATA = [
             "ko": "푸른 나무들과 편안한 벤치가 있어서 편안하게 쉴 수 있어요."
           },
           {
-            "en": "I love this place because walking alone relieves all my stress after work.",
-            "ko": "퇴근 후 혼자 걸으면 스트레스가 싹 풀려서 여길 너무 좋아해요."
+            "en": "I love this place because it makes me relaxed.",
+            "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
           },
           {
             "en": "So, I always feel happy and relaxed whenever I go there.",
@@ -113,8 +113,8 @@ window.PATTERNS_DATA = [
             "ko": "깨끗한 머신들과 프리웨이트가 있어서 편안하게 쉴 수 있어요."
           },
           {
-            "en": "I love this place because exercising alone relieves all my stress after work.",
-            "ko": "퇴근 후 혼자 운동하면 스트레스가 싹 풀려서 여길 너무 좋아해요."
+            "en": "I love this place because it makes me relaxed.",
+            "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
           },
           {
             "en": "So, I always feel happy and relaxed whenever I go there.",
@@ -143,8 +143,8 @@ window.PATTERNS_DATA = [
             "ko": "멋진 풍경과 한적한 도로가 있어서 편안하게 쉴 수 있어요."
           },
           {
-            "en": "I love this place because driving alone relieves all my stress after work.",
-            "ko": "퇴근 후 혼자 드라이브를 하면 스트레스가 싹 풀려서 여길 너무 좋아해요."
+            "en": "I love this place because it makes me relaxed.",
+            "ko": "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요."
           },
           {
             "en": "So, I always feel happy and relaxed whenever I go there.",
@@ -182,8 +182,8 @@ window.PATTERNS_DATA = [
         "ko": "5. 1~2시간 뒤면, 저는 아주 행복하고 편안해져요."
       },
       {
-        "en": "6. It relieves all my stress, so I do it often.",
-        "ko": "6. 스트레스가 다 풀려서, 저는 이것을 자주 해요."
+        "en": "6. It makes me relaxed, so I do it often.",
+        "ko": "6. 마음이 편안해져서, 저는 이것을 자주 해요."
       }
     ],
     "variations": [
@@ -212,8 +212,8 @@ window.PATTERNS_DATA = [
             "ko": "1~2시간 뒤면, 저는 아주 행복하고 편안해져요."
           },
           {
-            "en": "It relieves all my stress, so I do it often.",
-            "ko": "스트레스가 다 풀려서, 저는 이것을 자주 해요."
+            "en": "It makes me relaxed, so I do it often.",
+            "ko": "마음이 편안해져서, 저는 이것을 자주 해요."
           }
         ]
       },
@@ -242,8 +242,8 @@ window.PATTERNS_DATA = [
             "ko": "1~2시간 뒤면, 저는 아주 행복하고 편안해져요."
           },
           {
-            "en": "It relieves all my stress, so I do it often.",
-            "ko": "스트레스가 다 풀려서, 저는 이것을 자주 해요."
+            "en": "It makes me relaxed, so I do it often.",
+            "ko": "마음이 편안해져서, 저는 이것을 자주 해요."
           }
         ]
       },
@@ -272,8 +272,8 @@ window.PATTERNS_DATA = [
             "ko": "1~2시간 뒤면, 저는 아주 행복하고 편안해져요."
           },
           {
-            "en": "It relieves all my stress, so I do it often.",
-            "ko": "스트레스가 다 풀려서, 저는 이것을 자주 해요."
+            "en": "It makes me relaxed, so I do it often.",
+            "ko": "마음이 편안해져서, 저는 이것을 자주 해요."
           }
         ]
       },
@@ -302,8 +302,8 @@ window.PATTERNS_DATA = [
             "ko": "1~2시간 뒤면, 저는 아주 행복하고 편안해져요."
           },
           {
-            "en": "It relieves all my stress, so I do it often.",
-            "ko": "스트레스가 다 풀려서, 저는 이것을 자주 해요."
+            "en": "It makes me relaxed, so I do it often.",
+            "ko": "마음이 편안해져서, 저는 이것을 자주 해요."
           }
         ]
       }
