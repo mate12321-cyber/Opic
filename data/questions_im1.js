@@ -71,8 +71,8 @@ window.QUESTIONS_DATA = [
         "ko": "이렇게 조용한 시간을 보내면 모든 스트레스가 다 풀려요."
       },
       {
-        "en": "Overall, I really like my simple and happy life.",
-        "ko": "전반적으로 저는 저의 단순하고 행복한 삶을 정말 좋아합니다."
+        "en": "So, I really like my simple and happy life.",
+        "ko": "그래서 저는 저의 단순하고 행복한 삶을 정말 좋아합니다."
       }
     ],
     "keywords": [
@@ -115,8 +115,8 @@ window.QUESTIONS_DATA = [
         "ko": "퇴근 후 유튜브를 보면 스트레스가 싹 풀려서 여길 너무 좋아해요."
       },
       {
-        "en": "Overall, I always feel happy and relaxed whenever I stay there.",
-        "ko": "전반적으로 집에 머물 때마다 저는 항상 행복하고 편안함을 느껴요."
+        "en": "So, I always feel happy and relaxed whenever I stay there.",
+        "ko": "그래서 집에 머물 때마다 저는 항상 행복하고 편안함을 느껴요."
       }
     ],
     "keywords": [
@@ -247,8 +247,8 @@ window.QUESTIONS_DATA = [
         "ko": "그래서 퇴근 후 집에서 쉬는 게 훨씬 더 힐링되고 즐거워요."
       },
       {
-        "en": "Overall, I really like my new house and I am very happy.",
-        "ko": "전반적으로 저는 새집이 정말 마음에 들고 아주 행복합니다."
+        "en": "So, I really like my new house and I am very happy.",
+        "ko": "그래서 저는 새집이 정말 마음에 들고 아주 행복합니다."
       }
     ],
     "keywords": [
@@ -291,8 +291,8 @@ window.QUESTIONS_DATA = [
         "ko": "동료들이 매우 친절하고 상냥해서 이 직장을 너무 좋아해요."
       },
       {
-        "en": "Overall, I always feel happy and proud whenever I work there.",
-        "ko": "전반적으로 일할 때마다 저는 항상 보람과 자부심을 느껴요."
+        "en": "So, I always feel happy and proud whenever I work there.",
+        "ko": "그래서 일할 때마다 저는 항상 보람과 자부심을 느껴요."
       }
     ],
     "keywords": [
@@ -467,8 +467,8 @@ window.QUESTIONS_DATA = [
         "ko": "퇴근 후 커피를 마시면 스트레스가 싹 풀려서 여길 너무 좋아해요."
       },
       {
-        "en": "Overall, I always feel happy and relaxed whenever I go there.",
-        "ko": "전반적으로 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+        "en": "So, I always feel happy and relaxed whenever I go there.",
+        "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
       }
     ],
     "keywords": [
@@ -599,8 +599,8 @@ window.QUESTIONS_DATA = [
         "ko": "또한 맛있는 빵과 고급 디저트를 즐길 수 있습니다."
       },
       {
-        "en": "Overall, I really like these nice changes.",
-        "ko": "전반적으로 저는 이런 좋은 변화들이 정말 마음에 들어요."
+        "en": "So, I really like these nice changes.",
+        "ko": "그래서 저는 이런 좋은 변화들이 정말 마음에 들어요."
       }
     ],
     "keywords": [
@@ -643,8 +643,8 @@ window.QUESTIONS_DATA = [
         "ko": "퇴근 후 혼자 걸으면 스트레스가 싹 풀려서 여길 너무 좋아해요."
       },
       {
-        "en": "Overall, I always feel happy and relaxed whenever I go there.",
-        "ko": "전반적으로 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+        "en": "So, I always feel happy and relaxed whenever I go there.",
+        "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
       }
     ],
     "keywords": [
@@ -819,8 +819,8 @@ window.QUESTIONS_DATA = [
         "ko": "퇴근 후 집에서 감동적인 이야기를 보면 스트레스가 다 풀려요."
       },
       {
-        "en": "Overall, watching good movies is my favorite hobby.",
-        "ko": "전반적으로 좋은 영화를 보는 것은 제가 가장 좋아하는 취미입니다."
+        "en": "So, watching good movies is my favorite hobby.",
+        "ko": "그래서 좋은 영화를 보는 것은 제가 가장 좋아하는 취미입니다."
       }
     ],
     "keywords": [
@@ -951,8 +951,8 @@ window.QUESTIONS_DATA = [
         "ko": "또한 영화관도 이제 편안한 리클라이너 좌석과 큰 스크린이 있어요."
       },
       {
-        "en": "Overall, I really like these nice changes.",
-        "ko": "전반적으로 저는 이런 좋은 변화들이 정말 마음에 들어요."
+        "en": "So, I really like these nice changes.",
+        "ko": "그래서 저는 이런 좋은 변화들이 정말 마음에 들어요."
       }
     ],
     "keywords": [
@@ -995,8 +995,8 @@ window.QUESTIONS_DATA = [
         "ko": "퇴근 후 잔잔한 음악을 들으면 스트레스가 싹 풀려요."
       },
       {
-        "en": "Overall, music is an important part of my daily life, and it always makes me happy.",
-        "ko": "전반적으로 음악은 제 일상의 중요한 부분이고, 항상 저를 행복하게 해줍니다."
+        "en": "So, music is an important part of my daily life, and it always makes me happy.",
+        "ko": "그래서 음악은 제 일상의 중요한 부분이고, 항상 저를 행복하게 해줍니다."
       }
     ],
     "keywords": [
@@ -1127,8 +1127,8 @@ window.QUESTIONS_DATA = [
         "ko": "퇴근 후 혼자 운동하면 스트레스가 싹 풀려서 여길 너무 좋아해요."
       },
       {
-        "en": "Overall, I always feel happy and relaxed whenever I go there.",
-        "ko": "전반적으로 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+        "en": "So, I always feel happy and relaxed whenever I go there.",
+        "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
       }
     ],
     "keywords": [
@@ -1391,8 +1391,8 @@ window.QUESTIONS_DATA = [
         "ko": "퇴근 후 혼자 드라이브를 하면 스트레스가 싹 풀려서 여길 너무 좋아해요."
       },
       {
-        "en": "Overall, I always feel happy and relaxed whenever I go there.",
-        "ko": "전반적으로 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+        "en": "So, I always feel happy and relaxed whenever I go there.",
+        "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
       }
     ],
     "keywords": [
@@ -1523,8 +1523,8 @@ window.QUESTIONS_DATA = [
         "ko": "자연 속에서 쉬면 퇴근 후 스트레스가 싹 풀려서 여길 너무 좋아해요."
       },
       {
-        "en": "Overall, I always feel happy and relaxed whenever I go there.",
-        "ko": "전반적으로 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+        "en": "So, I always feel happy and relaxed whenever I go there.",
+        "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
       }
     ],
     "keywords": [

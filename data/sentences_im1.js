@@ -133,8 +133,8 @@ window.SENTENCES_DATA = [
   },
   {
     "cat": "직장/업무",
-    "ko": "회사 분위기는 전반적으로 매우 자유로워요.",
-    "en": "The vibe at my company is overall very open.",
+    "ko": "회사 분위기는 정말 매우 자유로워요.",
+    "en": "The vibe at my company is really very open.",
     "tip": "'vibe'는 직장 분위기(vibe)를 뜻해요."
   },
   {

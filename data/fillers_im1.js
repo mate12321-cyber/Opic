@@ -345,7 +345,7 @@ window.FILLERS_DATA = [
     meaning: "어쨌든, 아무튼...",
     timingGuide:
       "경험이나 세부 묘사가 길어졌을 때 메인 주제로 돌아오거나 답변을 슬슬 마무리 지으려 할 때 사용합니다.",
-    tip: "'Anyway, overall...' 형태로 결론 문장과 연결하면 자연스러운 전환(Transition)이 완성됩니다.",
+    tip: "'Anyway, so...' 형태로 결론 문장과 연결하면 자연스러운 전환(Transition)이 완성됩니다.",
     examples: [
       {
         context: "과거 경험 이야기 후 마무리할 때",

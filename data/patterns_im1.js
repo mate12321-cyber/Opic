@@ -27,8 +27,8 @@ window.PATTERNS_DATA = [
         "ko": "5. 퇴근 후 [활동]을 하면 스트레스가 싹 풀려서 여길 너무 좋아해요."
       },
       {
-        "en": "6. Overall, I always feel happy and relaxed whenever I go there.",
-        "ko": "6. 전반적으로 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+        "en": "6. So, I always feel happy and relaxed whenever I go there.",
+        "ko": "6. 그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
       }
     ],
     "variations": [
@@ -57,8 +57,8 @@ window.PATTERNS_DATA = [
             "ko": "퇴근 후 커피를 마시면 스트레스가 싹 풀려서 여길 너무 좋아해요."
           },
           {
-            "en": "Overall, I always feel happy and relaxed whenever I go there.",
-            "ko": "전반적으로 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+            "en": "So, I always feel happy and relaxed whenever I go there.",
+            "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
           }
         ]
       },
@@ -87,8 +87,8 @@ window.PATTERNS_DATA = [
             "ko": "퇴근 후 혼자 걸으면 스트레스가 싹 풀려서 여길 너무 좋아해요."
           },
           {
-            "en": "Overall, I always feel happy and relaxed whenever I go there.",
-            "ko": "전반적으로 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+            "en": "So, I always feel happy and relaxed whenever I go there.",
+            "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
           }
         ]
       },
@@ -117,8 +117,8 @@ window.PATTERNS_DATA = [
             "ko": "퇴근 후 혼자 운동하면 스트레스가 싹 풀려서 여길 너무 좋아해요."
           },
           {
-            "en": "Overall, I always feel happy and relaxed whenever I go there.",
-            "ko": "전반적으로 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+            "en": "So, I always feel happy and relaxed whenever I go there.",
+            "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
           }
         ]
       },
@@ -147,8 +147,8 @@ window.PATTERNS_DATA = [
             "ko": "퇴근 후 혼자 드라이브를 하면 스트레스가 싹 풀려서 여길 너무 좋아해요."
           },
           {
-            "en": "Overall, I always feel happy and relaxed whenever I go there.",
-            "ko": "전반적으로 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
+            "en": "So, I always feel happy and relaxed whenever I go there.",
+            "ko": "그래서 갈 때마다 저는 항상 행복하고 편안함을 느껴요."
           }
         ]
       }
@@ -587,8 +587,8 @@ window.PATTERNS_DATA = [
         "ko": "5. 그래서 사람들은 훨씬 더 편안하게 살 수 있어요."
       },
       {
-        "en": "6. Overall, I really like these nice changes.",
-        "ko": "6. 전반적으로 저는 이런 좋은 변화들이 정말 마음에 들어요."
+        "en": "6. So, I really like these nice changes.",
+        "ko": "6. 그래서 저는 이런 좋은 변화들이 정말 마음에 들어요."
       }
     ],
     "variations": [
@@ -617,8 +617,8 @@ window.PATTERNS_DATA = [
             "ko": "그래서 사람들은 맛있는 커피와 빵을 즐길 수 있어요."
           },
           {
-            "en": "Overall, I really like these nice changes.",
-            "ko": "전반적으로 저는 이런 좋은 변화들이 정말 마음에 들어요."
+            "en": "So, I really like these nice changes.",
+            "ko": "그래서 저는 이런 좋은 변화들이 정말 마음에 들어요."
           }
         ]
       },
@@ -647,8 +647,8 @@ window.PATTERNS_DATA = [
             "ko": "그래서 사람들은 집에서 언제든 멋진 영화를 즐길 수 있어요."
           },
           {
-            "en": "Overall, I really like these nice changes.",
-            "ko": "전반적으로 저는 이런 좋은 변화들이 정말 마음에 들어요."
+            "en": "So, I really like these nice changes.",
+            "ko": "그래서 저는 이런 좋은 변화들이 정말 마음에 들어요."
           }
         ]
       },
@@ -677,8 +677,8 @@ window.PATTERNS_DATA = [
             "ko": "또한 아파트 안에 깨끗한 헬스장도 있어요."
           },
           {
-            "en": "Overall, I really like these nice changes.",
-            "ko": "전반적으로 저는 이런 좋은 변화들이 정말 마음에 들어요."
+            "en": "So, I really like these nice changes.",
+            "ko": "그래서 저는 이런 좋은 변화들이 정말 마음에 들어요."
           }
         ]
       }
