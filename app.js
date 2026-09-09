@@ -396,6 +396,12 @@ if (patternChangeListBtn) {
   });
 }
 
+if (els.navSpeechPractice) {
+  els.navSpeechPractice.addEventListener("click", () => {
+    navigateTo("speechPractice");
+  });
+}
+
 if (els.navFiller) {
   els.navFiller.addEventListener("click", () => {
     showFillerScreen(0);
@@ -422,6 +428,7 @@ if (toPatternFromFiller) {
   homeFromPatternTopic,
   homeFromPatternCard,
   document.getElementById("homeFromFiller"),
+  els.homeFromSpeechPractice,
 ].forEach((el) => el && el.addEventListener("click", () => showHomeScreen()));
 
 // ── 마이크 음성 입력(STT) 토글 연동 ────────────────────────────────
@@ -561,5 +568,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeof initTheme === "function") initTheme();
   initSpeechRecognition();
   if (typeof initVocabTooltip === "function") initVocabTooltip();
+  if (typeof initSpeechPractice === "function") initSpeechPractice();
   initDashboard();
 });

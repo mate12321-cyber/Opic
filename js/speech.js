@@ -897,12 +897,22 @@ async function speakText(text, lang = "en-US", btn = null) {
 }
 
 // ── 발음 및 Azure AI 정밀 평가 시스템 ──────────────────────────────────
-let lastRecordedBlobs = { practice: null, opic: null, pattern: null };
-let lastRecordedWavs = { practice: null, opic: null, pattern: null };
+let lastRecordedBlobs = {
+  practice: null,
+  opic: null,
+  pattern: null,
+  speechPractice: null,
+};
+let lastRecordedWavs = {
+  practice: null,
+  opic: null,
+  pattern: null,
+  speechPractice: null,
+};
 let currentMediaRecorder = null;
 let currentMediaStream = null;
 let recordedAudioChunks = [];
-let currentRecordingMode = "practice"; // "practice" | "opic" | "pattern"
+let currentRecordingMode = "practice"; // "practice" | "opic" | "pattern" | "speechPractice"
 
 // 녹음된 오디오 Blob 조회
 function getRecordedVoiceBlob(mode = "practice") {
@@ -2465,6 +2475,10 @@ function stopListeningUI() {
   if (els.micBtn) els.micBtn.classList.remove("listening");
   if (els.opicMicBtn) els.opicMicBtn.classList.remove("listening");
   if (els.patternMicBtn) els.patternMicBtn.classList.remove("listening");
+  const spMicBtn = document.getElementById("speechPracticeMicBtn");
+  if (spMicBtn) spMicBtn.classList.remove("listening");
+  if (typeof updateSpeechPracticeMicUI === "function")
+    updateSpeechPracticeMicUI(false);
 }
 
 // 음성 인식 및 녹음 중단
@@ -2625,6 +2639,12 @@ function toggleSpeechRecognition(
             const wav = await blobTo16kHzWav(rawBlob);
             if (wav) {
               setRecordedWavBuffer(mode, wav);
+            }
+            if (
+              mode === "speechPractice" &&
+              typeof onSpeechPracticeRecordingDone === "function"
+            ) {
+              onSpeechPracticeRecordingDone(rawBlob);
             }
           }
         };

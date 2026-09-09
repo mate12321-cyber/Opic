@@ -32,6 +32,7 @@ OPIc/
 │   ├── opic.js                 # OPIc 실전 질문 답변 모드 (이전 답변 복원, 에바 질문, 분할 뷰, 타이머)
 │   ├── pattern.js              # 만능 패턴 집중 훈련 모드 컨트롤러 (슬롯 스위처, 단계별 TTS/STT)
 │   ├── filler.js               # [NEW] 16개 핵심 필러 1개씩 집중 훈련 컨트롤러 (타이밍 가이드, 실전 예문)
+│   ├── speech-practice.js      # [NEW] 🗣️ 발화 연습 컨트롤러 (자유 발화 입력, 마이크 녹음, 녹음본 청취, 채점)
 │   ├── vocab-tooltip.js        # 인라인 번역 툴팁 및 📚 내 단어장 모달/복습 관리 시스템
 │   └── shortcuts.js            # 맥북/PC 데스크톱 키보드 단축키 핸들러
 │
@@ -44,6 +45,7 @@ OPIc/
     ├── opic.css                # OPIc 실전 질문 답변 연습 카드 및 분할 뷰 스타일
     ├── pattern.css             # 만능 패턴 집중 훈련 카드 및 슬롯 스위처 스타일
     ├── filler.css              # [NEW] 필러 집중 훈련 카드 및 타이밍 칩 스타일
+    ├── speech-practice.css     # [NEW] 🗣️ 발화 연습 화면 스타일 (녹음본 플레이어, 채점 결과 박스)
     └── vocab-tooltip.css       # 플로팅 번역 툴팁 및 📚 내 단어장 모달 스타일
 ```
 

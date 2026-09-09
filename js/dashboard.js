@@ -210,6 +210,9 @@ const els = {
   fillerScreen: document.getElementById("fillerScreen"),
   homeFromFiller: document.getElementById("homeFromFiller"),
   toPatternFromFiller: document.getElementById("toPatternFromFiller"),
+  navSpeechPractice: document.getElementById("navSpeechPractice"),
+  speechPracticeCard: document.getElementById("speechPracticeCard"),
+  homeFromSpeechPractice: document.getElementById("homeFromSpeechPractice"),
 };
 
 // 모든 서브 화면을 숨기고 실행 중인 음성/마이크를 초기화
@@ -220,6 +223,10 @@ function hideAllScreens() {
   }
   if (typeof stopFillerMic === "function") {
     stopFillerMic();
+  }
+  const spAudio = document.getElementById("speechPracticeAudioPlayer");
+  if (spAudio) {
+    spAudio.pause();
   }
   if (listening && recognition) {
     recognition.onend = null;
@@ -253,6 +260,7 @@ function hideAllScreens() {
     if (els.patternCard) els.patternCard.style.display = "none";
     if (els.fillerCard) els.fillerCard.style.display = "none";
     if (els.fillerScreen) els.fillerScreen.style.display = "none";
+    if (els.speechPracticeCard) els.speechPracticeCard.style.display = "none";
   }
 }
 
@@ -441,6 +449,15 @@ function navigateTo(screen, params = {}, pushHistory = true) {
       }
       break;
 
+    case "speechPractice":
+      if (typeof showSpeechPracticeScreen === "function") {
+        showSpeechPracticeScreen(false);
+      } else if (els.speechPracticeCard) {
+        els.speechPracticeCard.style.display = "block";
+        els.speechPracticeCard.classList.add("show");
+      }
+      break;
+
     default:
       els.homeScreen.style.display = "flex";
       renderHomeDashboard();
@@ -494,6 +511,11 @@ function showHomeScreen(pushHistory = true) {
   navigateTo("home", {}, pushHistory);
 }
 
+// 발화 연습 화면 열기
+function showSpeechPractice(pushHistory = true) {
+  navigateTo("speechPractice", {}, pushHistory);
+}
+
 window.navigateTo = navigateTo;
 window.showHomeScreen = showHomeScreen;
 window.showTopicScreen = showTopicScreen;
@@ -501,3 +523,4 @@ window.showWordTopicScreen = showWordTopicScreen;
 window.showOpicTopicScreen = showOpicTopicScreen;
 window.showPatternTopics = showPatternTopics;
 window.showFillerScreen = showFillerScreen;
+window.showSpeechPractice = showSpeechPractice;

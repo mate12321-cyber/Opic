@@ -253,6 +253,23 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
+  // 6-2. 발화 연습 모드 단축키
+  const spCard = document.getElementById("speechPracticeCard");
+  const spInput = document.getElementById("speechPracticeInput");
+  if (spCard && spCard.style.display !== "none") {
+    const isSpInputFocused = document.activeElement === spInput;
+    if (
+      (isEnter && !isSpInputFocused) ||
+      ((e.ctrlKey || e.metaKey) && isEnter)
+    ) {
+      e.preventDefault();
+      if (typeof evaluateSpeechPracticeAnswer === "function") {
+        evaluateSpeechPracticeAnswer();
+      }
+      return;
+    }
+  }
+
   // 7. 완료 화면 단축키
   if (els.doneScreen && els.doneScreen.classList.contains("show")) {
     if (isEnter) {
