@@ -1,50 +1,134 @@
 /**
  * [speech-practice.css] 발화 연습 모드 전용 스타일
- * - 기존 OPIc 디자인 시스템(card, input-wrap, speech-eval)을 상속 및 확장
+ * - 완벽한 대칭 그리드 및 시각적 위계의 통합 액션 시스템
  */
 
-/* 발화 연습 액션 패널 */
-.sp-action-panel {
-  margin-top: 14px;
+/* 입력창 하단 유틸리티 바 */
+.sp-input-footer {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.sp-word-count-badge {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-family: var(--font-mono);
+}
+
+.sp-footer-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 🎧 음성 청취 전용 카드 */
+.sp-audio-card {
+  margin-top: 14px;
   background: var(--surface-subtle);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
   padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   box-sizing: border-box;
 }
 
-/* 음성 청취 바 (내 녹음 + 상태 칩 + 원어민 발음) */
-.sp-listen-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
+/* 버튼 2열 균등 배치 */
+.sp-audio-btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
-.sp-listen-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+@media (max-width: 380px) {
+  .sp-audio-btn-row {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* 녹음 상태 뱃지 */
-.sp-status-chip {
+.sp-audio-action-btn {
+  height: 42px;
+  min-height: 42px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 600;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-muted);
-  background: var(--surface-default);
-  border: 1px solid var(--border-light);
-  padding: 4px 10px;
-  border-radius: 14px;
+  justify-content: center;
+  gap: 7px;
+  border: 1.5px solid var(--border-light);
+  background: var(--surface);
+  color: var(--text-body);
+  cursor: pointer;
   transition: all 0.2s ease;
+  user-select: none;
+  box-shadow: var(--shadow-sm);
+  box-sizing: border-box;
+}
+
+.sp-audio-action-btn:hover:not(:disabled) {
+  border-color: var(--primary-border);
+  background: var(--surface-hover);
+  color: var(--text-main);
+}
+
+.sp-audio-action-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.sp-audio-action-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background: var(--surface);
+  border-color: var(--border-light);
+  color: var(--text-muted);
+  box-shadow: none;
+}
+
+/* 내 녹음본 준비 완료 시 강조 스타일 */
+.sp-audio-action-btn.has-recording {
+  background: var(--primary-subtle);
+  border-color: var(--primary-border);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.sp-audio-action-btn.has-recording:hover {
+  background: #e0e7ff;
+  border-color: var(--primary);
+}
+
+body.dark-theme .sp-audio-action-btn.has-recording {
+  background: rgba(79, 70, 229, 0.2);
+  border-color: var(--primary);
+  color: #a5b4fc;
+}
+
+.sp-audio-action-btn.playing {
+  background: #ef4444 !important;
+  border-color: #dc2626 !important;
+  color: #ffffff !important;
+}
+
+/* 상태 인디케이터 바 */
+.sp-audio-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 0 4px;
+}
+
+.sp-status-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .sp-status-dot {
@@ -54,34 +138,48 @@
   background: #94a3b8;
   display: inline-block;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
-.sp-status-chip.ready {
-  color: #059669;
-  border-color: #a7f3d0;
-  background: #ecfdf5;
-  font-weight: 600;
+.sp-status-dot.recording {
+  background: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
+  animation: spDotPulse 1.2s infinite;
 }
 
-.sp-status-chip.ready .sp-status-dot {
+.sp-status-dot.ready {
   background: #10b981;
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
 }
 
-body.dark-theme .sp-status-chip.ready {
-  color: #34d399;
-  border-color: #065f46;
-  background: rgba(6, 95, 70, 0.25);
+@keyframes spDotPulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.8; }
 }
 
-/* 메인 채점 버튼 */
-.sp-main-eval-btn {
+/* 💯 메인 채점하기 버튼 래퍼 */
+.sp-eval-btn-wrap {
+  margin-top: 12px;
+}
+
+.sp-eval-submit-btn {
   width: 100%;
   height: 48px;
-  font-size: 15.5px;
+  min-height: 48px;
+  font-size: 16px;
   font-weight: 700;
-  border-radius: var(--radius-md);
-  margin-top: 2px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+  box-sizing: border-box;
+}
+
+.sp-eval-submit-btn:hover {
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
 }
 
 /* 발화 통계 4단 그리드 */

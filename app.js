@@ -562,6 +562,12 @@ async function initDashboard() {
   if (typeof updateSavedWordsBadge === "function") {
     updateSavedWordsBadge();
   }
+  const urlParams = new URLSearchParams(window.location.search);
+  const targetScreen =
+    urlParams.get("screen") || window.location.hash.replace("#", "");
+  if (targetScreen && typeof navigateTo === "function") {
+    navigateTo(targetScreen, {}, false);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
