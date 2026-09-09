@@ -432,21 +432,21 @@ window.PATTERNS_DATA = [
   {
     "id": "pat_03",
     "name": "과거 경험 & 기억에 남는 일 템플릿",
-    "category": "영화 감상, 지역 축제 방문, 새 아파트 이사 등",
+    "category": "영화 감상, 지역 축제 방문, 새 아파트 이사, 캠핑, 카페 등",
     "icon": "✨",
     "desc": "과거에 있었던 기억에 남는 일을 묻는 질문에 단문 위주로 쉽게 답변하는 패턴입니다.",
     "skeleton": [
       {
-        "en": "1. I remember a very special day about [주제].",
-        "ko": "1. [주제]와 관련하여 아주 특별했던 하루가 기억나요."
+        "en": "1. I remember a special day about [주제].",
+        "ko": "1. [주제]와 관련하여 특별했던 하루가 기억나요."
       },
       {
-        "en": "2. A few months ago, I [과거 행동] alone.",
-        "ko": "2. 몇 달 전, 저는 혼자 [과거 행동]을 했어요."
+        "en": "2. Last year, I [과거 행동] alone.",
+        "ko": "2. 작년에, 저는 혼자 [과거 행동]을 했어요."
       },
       {
-        "en": "3. The vibe was really great, exciting, and fun.",
-        "ko": "3. 분위기가 정말 좋고 신나고 재미있었어요."
+        "en": "3. The vibe was really great and exciting.",
+        "ko": "3. 분위기가 정말 좋고 신났어요."
       },
       {
         "en": "4. I [구체적 활동], and it was so much fun.",
@@ -457,8 +457,8 @@ window.PATTERNS_DATA = [
         "ko": "5. 사진도 많이 찍고 정말 좋은 시간을 보냈어요."
       },
       {
-        "en": "6. It was a wonderful memory, and I will never forget it.",
-        "ko": "6. 정말 멋진 추억이었고, 영원히 잊지 못할 거예요."
+        "en": "6. It was a great day, and I was so happy.",
+        "ko": "6. 정말 멋진 하루였고, 저는 너무 행복했어요."
       }
     ],
     "variations": [
@@ -467,16 +467,16 @@ window.PATTERNS_DATA = [
         "keyword": "The Truman Show at home",
         "sentences": [
           {
-            "en": "I remember a very special day about watching a movie.",
-            "ko": "영화 본 것과 관련하여 아주 특별했던 하루가 기억나요."
+            "en": "I remember a special day about watching a movie.",
+            "ko": "영화 본 것과 관련하여 특별했던 하루가 기억나요."
           },
           {
-            "en": "A few months ago, I watched The Truman Show at home alone.",
-            "ko": "몇 달 전, 저는 집에서 혼자 영화 트루먼 쇼를 보았어요."
+            "en": "Last year, I watched The Truman Show at home alone.",
+            "ko": "작년에, 저는 집에서 혼자 영화 트루먼 쇼를 보았어요."
           },
           {
-            "en": "The vibe was really great, touching, and fun.",
-            "ko": "분위기가 정말 좋고 감동적이며 재미있었어요."
+            "en": "The vibe was really great and touching.",
+            "ko": "분위기가 정말 좋고 감동적이었어요."
           },
           {
             "en": "I focused on the story, and it was so much fun.",
@@ -487,8 +487,8 @@ window.PATTERNS_DATA = [
             "ko": "소파에서 편안하게 쉬며 정말 좋은 시간을 보냈어요."
           },
           {
-            "en": "It was a wonderful memory, and I will never forget it.",
-            "ko": "정말 멋진 추억이었고, 영원히 잊지 못할 거예요."
+            "en": "It was a great day, and I was so happy.",
+            "ko": "정말 멋진 하루였고, 저는 너무 행복했어요."
           }
         ]
       },
@@ -497,16 +497,16 @@ window.PATTERNS_DATA = [
         "keyword": "Hongcheon festival with friends",
         "sentences": [
           {
-            "en": "I remember a very special day about a local festival.",
-            "ko": "지역 축제와 관련하여 아주 특별했던 하루가 기억나요."
+            "en": "I remember a special day about a local festival.",
+            "ko": "지역 축제와 관련하여 특별했던 하루가 기억나요."
           },
           {
-            "en": "A few months ago, I went to a festival in Hongcheon with my friends.",
-            "ko": "몇 달 전, 저는 친구들과 함께 홍천 축제에 갔어요."
+            "en": "Last year, I went to a festival in Hongcheon with my friends.",
+            "ko": "작년에, 저는 친구들과 함께 홍천 축제에 갔어요."
           },
           {
-            "en": "The vibe was really great, exciting, and fun.",
-            "ko": "분위기가 정말 좋고 신나고 재미있었어요."
+            "en": "The vibe was really great and exciting.",
+            "ko": "분위기가 정말 좋고 신났어요."
           },
           {
             "en": "We watched the band music, and it was so much fun.",
@@ -517,8 +517,8 @@ window.PATTERNS_DATA = [
             "ko": "사진도 많이 찍고 정말 좋은 시간을 보냈어요."
           },
           {
-            "en": "It was a wonderful memory, and I will never forget it.",
-            "ko": "정말 멋진 추억이었고, 영원히 잊지 못할 거예요."
+            "en": "It was a great day, and I was so happy.",
+            "ko": "정말 멋진 하루였고, 저는 너무 행복했어요."
           }
         ]
       },
@@ -527,16 +527,16 @@ window.PATTERNS_DATA = [
         "keyword": "moving into my new apartment",
         "sentences": [
           {
-            "en": "I remember a very special day about moving into my new home.",
-            "ko": "새집으로 이사한 날과 관련하여 아주 특별했던 하루가 기억나요."
+            "en": "I remember a special day about moving into my new home.",
+            "ko": "새집으로 이사한 날과 관련하여 특별했던 하루가 기억나요."
           },
           {
-            "en": "A few months ago, I moved into my new apartment alone.",
-            "ko": "몇 달 전, 저는 혼자 새 아파트로 이사했어요."
+            "en": "Last year, I moved into my new apartment alone.",
+            "ko": "작년에, 저는 혼자 새 아파트로 이사했어요."
           },
           {
-            "en": "The vibe was really great, exciting, and fun.",
-            "ko": "분위기가 정말 좋고 설레며 재미있었어요."
+            "en": "The vibe was really great and exciting.",
+            "ko": "분위기가 정말 좋고 설레며 신났어요."
           },
           {
             "en": "I decorated my room, and it was so much fun.",
@@ -547,8 +547,68 @@ window.PATTERNS_DATA = [
             "ko": "따뜻한 피자를 먹으며 정말 좋은 시간을 보냈어요."
           },
           {
-            "en": "It was a wonderful memory, and I will never forget it.",
-            "ko": "정말 멋진 추억이었고, 영원히 잊지 못할 거예요."
+            "en": "It was a great day, and I was so happy.",
+            "ko": "정말 멋진 하루였고, 저는 너무 행복했어요."
+          }
+        ]
+      },
+      {
+        "topic": "🏕️ 캠핑",
+        "keyword": "camping near the lake",
+        "sentences": [
+          {
+            "en": "I remember a special day about going camping.",
+            "ko": "캠핑을 갔던 것과 관련하여 특별했던 하루가 기억나요."
+          },
+          {
+            "en": "Last year, I went camping near the lake with my friend.",
+            "ko": "작년에, 저는 친구와 함께 호숫가 근처로 캠핑을 갔어요."
+          },
+          {
+            "en": "The vibe was really great and peaceful.",
+            "ko": "분위기가 정말 좋고 평화로웠어요."
+          },
+          {
+            "en": "We cooked delicious meat, and it was so much fun.",
+            "ko": "맛있는 고기를 구워 먹었는데, 정말 재미있었어요."
+          },
+          {
+            "en": "We took many pictures and had a great time.",
+            "ko": "사진도 많이 찍고 정말 좋은 시간을 보냈어요."
+          },
+          {
+            "en": "It was a great day, and I was so happy.",
+            "ko": "정말 멋진 하루였고, 저는 너무 행복했어요."
+          }
+        ]
+      },
+      {
+        "topic": "☕ 카페",
+        "keyword": "meeting a friend at Starbucks",
+        "sentences": [
+          {
+            "en": "I remember a special day at Starbucks.",
+            "ko": "스타벅스에서 있었던 특별했던 하루가 기억나요."
+          },
+          {
+            "en": "Last year, I met an old friend at Starbucks.",
+            "ko": "작년에, 저는 스타벅스에서 오랜 친구를 만났어요."
+          },
+          {
+            "en": "The vibe was really great and cozy.",
+            "ko": "분위기가 정말 좋고 아늑했어요."
+          },
+          {
+            "en": "We talked for hours, and it was so much fun.",
+            "ko": "몇 시간 동안 대화를 나누었는데, 정말 재미있었어요."
+          },
+          {
+            "en": "We drank coffee and had a great time.",
+            "ko": "커피를 마시며 정말 좋은 시간을 보냈어요."
+          },
+          {
+            "en": "It was a great day, and I was so happy.",
+            "ko": "정말 멋진 하루였고, 저는 너무 행복했어요."
           }
         ]
       }

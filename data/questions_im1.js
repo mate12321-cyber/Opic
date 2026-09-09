@@ -359,8 +359,8 @@ window.QUESTIONS_DATA = [
     q_ko: "직장에서 수행했던 기억에 남는 프로젝트나 해결했던 긴급한 문제에 대해 말씀해 주세요. 어떻게 해결하셨나요?",
     sentences: [
       {
-        en: "I remember an urgent problem I had at work a few months ago.",
-        ko: "몇 달 전 회사에서 겪었던 긴급한 문제가 하나 기억나요.",
+        en: "I remember an urgent problem I had at work last year.",
+        ko: "작년에 회사에서 겪었던 긴급한 문제가 하나 기억나요.",
       },
       {
         en: "Suddenly, my computer showed an error right before an important deadline.",
@@ -535,8 +535,8 @@ window.QUESTIONS_DATA = [
     q_ko: "최근 카페에서 겪었던 기억에 남거나 특별했던 경험에 대해 말씀해 주세요. 무슨 일이 있었고 왜 기억에 남나요?",
     sentences: [
       {
-        en: "I remember a very sweet memory at a cafe a few months ago.",
-        ko: "몇 달 전 카페에서 있었던 아주 달콤한 기억이 하나 있어요.",
+        en: "I remember a sweet memory at a cafe last year.",
+        ko: "작년에 카페에서 있었던 아주 달콤한 기억이 하나 있어요.",
       },
       {
         en: "On my birthday, I went to a pretty dessert cafe near my house alone.",
@@ -555,8 +555,8 @@ window.QUESTIONS_DATA = [
         ko: "음악을 듣고 저 자신을 위해 조용한 휴식을 취했어요.",
       },
       {
-        en: "It was a wonderful memory, and I will never forget it.",
-        ko: "정말 멋진 추억이었고, 영원히 잊지 못할 거예요.",
+        en: "It was a great day, and I was so happy.",
+        ko: "정말 멋진 하루였고, 저는 너무 행복했어요.",
       },
     ],
     keywords: [
@@ -1083,8 +1083,8 @@ window.QUESTIONS_DATA = [
         ko: "라이브 목소리를 들으니 소름이 돋고 정말 행복했습니다.",
       },
       {
-        en: "It was a wonderful memory, and I will never forget it.",
-        ko: "정말 멋진 추억이었고, 영원히 잊지 못할 거예요.",
+        en: "It was a great day, and I was so happy.",
+        ko: "정말 멋진 하루였고, 저는 너무 행복했어요.",
       },
     ],
     keywords: [
@@ -1195,8 +1195,8 @@ window.QUESTIONS_DATA = [
     q_ko: "운동 중 부상을 입거나 예상치 못한 문제를 겪은 적이 있나요? 무슨 일이 있었고 어떻게 대처하셨나요?",
     sentences: [
       {
-        en: "I remember a problem when I was exercising at the gym a few months ago.",
-        ko: "몇 달 전 헬스장에서 운동하다가 겪었던 문제가 하나 기억나요.",
+        en: "I remember a problem when I was exercising at the gym last year.",
+        ko: "작년에 헬스장에서 운동하다가 겪었던 문제가 하나 기억나요.",
       },
       {
         en: "Suddenly, my lower back felt tight and painful while lifting weights.",
@@ -1287,8 +1287,8 @@ window.QUESTIONS_DATA = [
         ko: "친한 친구를 위해 저녁을 만들어 주었던 특별한 하루가 기억나요.",
       },
       {
-        en: "A few months ago, my friend visited my new apartment on the weekend.",
-        ko: "몇 달 전, 주말에 친구가 제 새 아파트에 놀러 왔어요.",
+        en: "Last year, my friend visited my new apartment on the weekend.",
+        ko: "작년에, 주말에 친구가 제 새 아파트에 놀러 왔어요.",
       },
       {
         en: "I made beef steak, creamy pasta, and a fresh green salad for dinner.",
@@ -1591,8 +1591,8 @@ window.QUESTIONS_DATA = [
     q_ko: "캠핑 중에 발생했던 기억에 남거나 예상치 못했던 사건에 대해 말씀해 주세요. 어떻게 대처하셨나요?",
     sentences: [
       {
-        en: "I remember a problem when I was camping near the lake a few months ago.",
-        ko: "몇 달 전 호숫가에서 캠핑을 하던 중 겪었던 문제가 하나 기억나요.",
+        en: "I remember a problem when I was camping near the lake last year.",
+        ko: "작년에 호숫가에서 캠핑을 하던 중 겪었던 문제가 하나 기억나요.",
       },
       {
         en: "In the middle of the night, strong wind began shaking my tent.",
