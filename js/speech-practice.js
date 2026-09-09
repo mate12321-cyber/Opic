@@ -51,7 +51,9 @@ function onSpeechPracticeRecordingDone(blob) {
   const playIcon = document.getElementById("speechPracticePlayRecordIcon");
   const statusDot = document.getElementById("speechPracticeStatusDot");
   const statusText = document.getElementById("speechPracticeAudioStatusText");
-  const bottomRecordBtn = document.getElementById("speechPracticeReplayRecordBtnBottom");
+  const bottomRecordBtn = document.getElementById(
+    "speechPracticeReplayRecordBtnBottom",
+  );
 
   if (!player || !blob) return;
 
@@ -74,7 +76,8 @@ function onSpeechPracticeRecordingDone(blob) {
 
   // 상태 인디케이터 업데이트
   if (statusDot) statusDot.className = "sp-status-dot ready";
-  if (statusText) statusText.textContent = "녹음 완료 · 언제든 내 발화를 다시 들어보세요";
+  if (statusText)
+    statusText.textContent = "녹음 완료 · 언제든 내 발화를 다시 들어보세요";
 
   if (bottomRecordBtn) bottomRecordBtn.style.display = "inline-flex";
 }
@@ -90,12 +93,15 @@ function updateSpeechPracticeMicUI(isListening) {
   if (isListening) {
     btn.classList.add("listening");
     if (statusDot) statusDot.className = "sp-status-dot recording";
-    if (statusText) statusText.textContent = "실시간 음성 녹음 중... (말을 마치면 마이크를 다시 누르세요)";
+    if (statusText)
+      statusText.textContent =
+        "실시간 음성 녹음 중... (말을 마치면 마이크를 다시 누르세요)";
   } else {
     btn.classList.remove("listening");
     if (!speechPracticeRecordedBlob) {
       if (statusDot) statusDot.className = "sp-status-dot";
-      if (statusText) statusText.textContent = "마이크(🎤)로 말하면 녹음본이 생성됩니다";
+      if (statusText)
+        statusText.textContent = "마이크(🎤)로 말하면 녹음본이 생성됩니다";
     }
   }
 }
@@ -106,10 +112,14 @@ function togglePlayRecordedAudio(triggerBtn = null) {
   const playBtn = document.getElementById("speechPracticePlayRecordBtn");
   const playText = document.getElementById("speechPracticePlayRecordText");
   const playIcon = document.getElementById("speechPracticePlayRecordIcon");
-  const bottomBtn = document.getElementById("speechPracticeReplayRecordBtnBottom");
+  const bottomBtn = document.getElementById(
+    "speechPracticeReplayRecordBtnBottom",
+  );
 
   if (!player || !player.src) {
-    alert("녹음된 음성이 없습니다. 먼저 마이크 버튼(🎤)을 눌러 영어로 말해보세요.");
+    alert(
+      "녹음된 음성이 없습니다. 먼저 마이크 버튼(🎤)을 눌러 영어로 말해보세요.",
+    );
     return;
   }
 
@@ -154,9 +164,10 @@ async function evaluateSpeechPracticeAnswer() {
   }
 
   // 발화 평가 진행 (speech.js 내 evaluateOpicSpeaking 활용)
-  const result = typeof evaluateOpicSpeaking === "function"
-    ? evaluateOpicSpeaking(userText, null)
-    : null;
+  const result =
+    typeof evaluateOpicSpeaking === "function"
+      ? evaluateOpicSpeaking(userText, null)
+      : null;
 
   speechPracticeEvaluated = true;
   evalBox.style.display = "block";
@@ -181,8 +192,11 @@ async function evaluateSpeechPracticeAnswer() {
   // 2. 발화량 및 속도 통계 그리드
   const words = userText.split(/\s+/).filter(Boolean);
   const wordCount = words.length;
-  const uniqueWords = new Set(words.map((w) => w.toLowerCase().replace(/[^a-z0-9]/g, ""))).size;
-  const sentenceCount = (userText.match(/[.!?]+/g) || []).length || (wordCount > 0 ? 1 : 0);
+  const uniqueWords = new Set(
+    words.map((w) => w.toLowerCase().replace(/[^a-z0-9]/g, "")),
+  ).size;
+  const sentenceCount =
+    (userText.match(/[.!?]+/g) || []).length || (wordCount > 0 ? 1 : 0);
 
   if (statsGrid) {
     statsGrid.innerHTML = `
@@ -211,22 +225,33 @@ async function evaluateSpeechPracticeAnswer() {
     if (result && result.compResult) {
       const cr = result.compResult;
       if (cr.foundConnectors && cr.foundConnectors.length > 0) {
-        tags.push(`🔗 연결어(${cr.foundConnectors.length}개): ${cr.foundConnectors.slice(0, 5).join(", ")}`);
+        tags.push(
+          `🔗 연결어(${cr.foundConnectors.length}개): ${cr.foundConnectors.slice(0, 5).join(", ")}`,
+        );
       }
       if (cr.foundFillers && cr.foundFillers.length > 0) {
-        tags.push(`💬 필러(${cr.foundFillers.length}개): ${cr.foundFillers.slice(0, 4).join(", ")}`);
+        tags.push(
+          `💬 필러(${cr.foundFillers.length}개): ${cr.foundFillers.slice(0, 4).join(", ")}`,
+        );
       }
       if (cr.foundPastVerbs && cr.foundPastVerbs.length > 0) {
-        tags.push(`⏳ 과거시제(${cr.foundPastVerbs.length}개): ${cr.foundPastVerbs.slice(0, 4).join(", ")}`);
+        tags.push(
+          `⏳ 과거시제(${cr.foundPastVerbs.length}개): ${cr.foundPastVerbs.slice(0, 4).join(", ")}`,
+        );
       }
     }
 
     if (tags.length === 0) {
-      tags.push("💡 필러(Well, You know 등)나 연결어(Because, Also)를 섞어주면 더 자연스러워집니다.");
+      tags.push(
+        "💡 필러(Well, You know 등)나 연결어(Because, Also)를 섞어주면 더 자연스러워집니다.",
+      );
     }
 
     tagsWrap.innerHTML = tags
-      .map((tag) => `<span class="sp-tag-pill">${typeof escapeHtml === "function" ? escapeHtml(tag) : tag}</span>`)
+      .map(
+        (tag) =>
+          `<span class="sp-tag-pill">${typeof escapeHtml === "function" ? escapeHtml(tag) : tag}</span>`,
+      )
       .join("");
   }
 
@@ -234,13 +259,17 @@ async function evaluateSpeechPracticeAnswer() {
   if (feedbackText) {
     let fb = "";
     if (wordCount < 20) {
-      fb = "발화량이 다소 짧습니다. 이유(Why)나 예시(For example)를 1~2문장 덧붙여 최소 30단어 이상 말하는 연습을 추천합니다.";
+      fb =
+        "발화량이 다소 짧습니다. 이유(Why)나 예시(For example)를 1~2문장 덧붙여 최소 30단어 이상 말하는 연습을 추천합니다.";
     } else if (wordCount < 50) {
-      fb = "기본적인 의사 표현이 잘 전달되었습니다! OPIc IM2~IH 수준을 목표로 문장 간 연결어와 필러를 활용해 호흡을 늘려보세요.";
+      fb =
+        "기본적인 의사 표현이 잘 전달되었습니다! OPIc IM2~IH 수준을 목표로 문장 간 연결어와 필러를 활용해 호흡을 늘려보세요.";
     } else if (wordCount < 90) {
-      fb = "충분한 발화량과 안정적인 문장 구성이 돋보입니다! 시제 일치와 다채로운 어휘(동의어, 형용사)를 사용하면 IH 이상 고득점이 가능합니다.";
+      fb =
+        "충분한 발화량과 안정적인 문장 구성이 돋보입니다! 시제 일치와 다채로운 어휘(동의어, 형용사)를 사용하면 IH 이상 고득점이 가능합니다.";
     } else {
-      fb = "훌륭한 발화량과 유창성입니다! AL 목표 기준 발화량(90단어 이상)을 만족하고 있습니다. 디테일한 표현과 발음 억양에 집중해보세요.";
+      fb =
+        "훌륭한 발화량과 유창성입니다! AL 목표 기준 발화량(90단어 이상)을 만족하고 있습니다. 디테일한 표현과 발음 억양에 집중해보세요.";
     }
     feedbackText.textContent = fb;
   }
@@ -257,7 +286,10 @@ async function evaluateSpeechPracticeAnswer() {
           .slice(0, 5)
           .map((m) => {
             const errWord = userText.substring(m.offset, m.offset + m.length);
-            const replacements = (m.replacements || []).slice(0, 3).map((r) => r.value).join(", ");
+            const replacements = (m.replacements || [])
+              .slice(0, 3)
+              .map((r) => r.value)
+              .join(", ");
             return `
               <div class="sp-grammar-item">
                 <span style="color: #dc2626; font-weight: 700; text-decoration: line-through;">${escapeHtml(errWord)}</span>
@@ -289,7 +321,9 @@ function initSpeechPractice() {
   const resetBtn = document.getElementById("speechPracticeResetBtn");
   const evalBtn = document.getElementById("speechPracticeEvalBtn");
   const playBtn = document.getElementById("speechPracticePlayRecordBtn");
-  const replayBtnBottom = document.getElementById("speechPracticeReplayRecordBtnBottom");
+  const replayBtnBottom = document.getElementById(
+    "speechPracticeReplayRecordBtnBottom",
+  );
   const ttsBtn = document.getElementById("speechPracticeTtsBtn");
   const ttsBtnBottom = document.getElementById("speechPracticeTtsBtnBottom");
   const toOpicLink = document.getElementById("toOpicFromSpeechPractice");
@@ -358,7 +392,9 @@ function initSpeechPractice() {
       const playText = document.getElementById("speechPracticePlayRecordText");
       const playIcon = document.getElementById("speechPracticePlayRecordIcon");
       const statusDot = document.getElementById("speechPracticeStatusDot");
-      const statusText = document.getElementById("speechPracticeAudioStatusText");
+      const statusText = document.getElementById(
+        "speechPracticeAudioStatusText",
+      );
 
       if (playBtn) {
         playBtn.disabled = true;
@@ -368,7 +404,8 @@ function initSpeechPractice() {
       if (playText) playText.textContent = "내 녹음 듣기";
       if (playIcon) playIcon.textContent = "▶";
       if (statusDot) statusDot.className = "sp-status-dot";
-      if (statusText) statusText.textContent = "마이크(🎤)로 말하면 녹음본이 생성됩니다";
+      if (statusText)
+        statusText.textContent = "마이크(🎤)로 말하면 녹음본이 생성됩니다";
 
       if (replayBtnBottom) replayBtnBottom.style.display = "none";
 
@@ -401,7 +438,9 @@ function initSpeechPractice() {
     playBtn.addEventListener("click", () => togglePlayRecordedAudio(playBtn));
   }
   if (replayBtnBottom) {
-    replayBtnBottom.addEventListener("click", () => togglePlayRecordedAudio(replayBtnBottom));
+    replayBtnBottom.addEventListener("click", () =>
+      togglePlayRecordedAudio(replayBtnBottom),
+    );
   }
 
   // 8. 채점 버튼
@@ -423,7 +462,8 @@ function initSpeechPractice() {
     }
   };
   if (ttsBtn) ttsBtn.addEventListener("click", () => handleTts(ttsBtn));
-  if (ttsBtnBottom) ttsBtnBottom.addEventListener("click", () => handleTts(ttsBtnBottom));
+  if (ttsBtnBottom)
+    ttsBtnBottom.addEventListener("click", () => handleTts(ttsBtnBottom));
 
   // 10. 실전 모드로 이동 링크
   if (toOpicLink) {

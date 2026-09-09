@@ -567,6 +567,8 @@ async function initDashboard() {
     urlParams.get("screen") || window.location.hash.replace("#", "");
   if (targetScreen && typeof navigateTo === "function") {
     navigateTo(targetScreen, {}, false);
+  } else if (typeof navigateTo === "function") {
+    navigateTo("home", {}, false);
   }
 }
 

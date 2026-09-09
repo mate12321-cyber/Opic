@@ -153,9 +153,18 @@ body.dark-theme .sp-audio-action-btn.has-recording {
 }
 
 @keyframes spDotPulse {
-  0% { transform: scale(0.9); opacity: 0.8; }
-  50% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(0.9); opacity: 0.8; }
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
 }
 
 /* 💯 메인 채점하기 버튼 래퍼 */
