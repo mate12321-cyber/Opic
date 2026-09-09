@@ -1496,12 +1496,12 @@
           </div>
         </div>
 
-        <!-- 1. 입력 창 (마이크 내장) -->
+        <!-- 1. 입력 창 (마이크 내장 & 세로 2배 확대) -->
         <div class="input-wrap">
           <textarea
             id="speechPracticeInput"
             placeholder="마이크(🎤)를 누르고 영어로 자유롭게 말하거나, 여기에 직접 답변을 입력해보세요"
-            style="min-height: 120px"
+            style="min-height: 240px"
           ></textarea>
           <button
             class="mic-btn"
@@ -1549,49 +1549,48 @@
           </div>
         </div>
 
-        <!-- 2. 내 녹음본 듣기 바 -->
-        <div class="sp-audio-hint" id="speechPracticeAudioHint">
-          🎙️ 마이크를 켜고 말한 뒤 끄면, 녹음된 내 목소리를 바로 들을 수
-          있습니다.
-        </div>
-        <div
-          class="sp-audio-bar"
-          id="speechPracticeAudioBar"
-          style="display: none; margin-top: 10px"
-        >
-          <div style="display: flex; align-items: center; gap: 8px">
+        <!-- 2. 음성 청취 & 채점 통합 액션 패널 -->
+        <div class="sp-action-panel">
+          <!-- 상단: 음성 청취 컨트롤 바 (내 녹음 듣기 + 상태 뱃지 + 원어민 발음 듣기) -->
+          <div class="sp-listen-bar">
+            <div class="sp-listen-left">
+              <button
+                type="button"
+                class="tts-btn"
+                id="speechPracticePlayRecordBtn"
+                disabled
+                title="마이크로 발화 후 녹음본 청취 가능"
+              >
+                <span id="speechPracticePlayRecordIcon">▶</span>
+                <span id="speechPracticePlayRecordText">내 녹음 듣기</span>
+              </button>
+              <span class="sp-status-chip" id="speechPracticeAudioStatus">
+                <span class="sp-status-dot"></span>
+                <span id="speechPracticeAudioStatusText">녹음 대기 중</span>
+              </span>
+            </div>
+
             <button
               type="button"
-              class="tts-btn tts-btn-primary"
-              id="speechPracticePlayRecordBtn"
-              title="녹음된 내 실제 목소리 재생"
+              class="tts-btn"
+              id="speechPracticeTtsBtn"
+              title="입력된 내용 원어민 발음(TTS)으로 듣기"
             >
-              ▶ 내 녹음 듣기
+              <span>🔊 원어민 발음 듣기</span>
             </button>
-            <span
-              id="speechPracticeAudioStatus"
-              style="font-size: 12px; color: var(--text-muted)"
-            >
-              녹음본 준비됨
-            </span>
           </div>
-          <button
-            type="button"
-            class="tts-btn"
-            id="speechPracticeTtsBtn"
-            title="원어민 발음(TTS)으로 비교 청취"
-          >
-            🔊 원어민 발음 듣기
-          </button>
-          <audio id="speechPracticeAudioPlayer" style="display: none"></audio>
-        </div>
 
-        <!-- 3. 채점 버튼 행 -->
-        <div class="row" style="margin-top: 18px">
-          <button class="primary" id="speechPracticeEvalBtn" type="button">
-            <span>채점하기</span>
+          <!-- 하단: 메인 채점하기 버튼 -->
+          <button
+            class="primary sp-main-eval-btn"
+            id="speechPracticeEvalBtn"
+            type="button"
+          >
+            <span>💯 채점하기</span>
             <kbd class="shortcut-key">↵</kbd>
           </button>
+
+          <audio id="speechPracticeAudioPlayer" style="display: none"></audio>
         </div>
 
         <!-- 4. 채점 결과 박스 (기존 speech-eval 디자인 시스템 활용) -->

@@ -90,7 +90,8 @@ function autoResizeTextarea(el) {
   if (!el) return;
   el.style.height = "auto";
   const isOpic = el.id === "opicUserInput";
-  const minHeight = isOpic ? 110 : 84;
+  const isSpeechPractice = el.id === "speechPracticeInput";
+  const minHeight = isSpeechPractice ? 240 : isOpic ? 110 : 84;
   // 스크롤이 생기기 전 6px 여유 공간을 미리 확보하여 부드럽게 확장
   const newHeight = Math.max(minHeight, el.scrollHeight + 6);
   el.style.height = `${newHeight}px`;

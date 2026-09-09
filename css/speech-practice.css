@@ -3,25 +3,85 @@
  * - 기존 OPIc 디자인 시스템(card, input-wrap, speech-eval)을 상속 및 확장
  */
 
-/* 내 녹음본 듣기 바 */
-.sp-audio-bar {
+/* 발화 연습 액션 패널 */
+.sp-action-panel {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  box-sizing: border-box;
+}
+
+/* 음성 청취 바 (내 녹음 + 상태 칩 + 원어민 발음) */
+.sp-listen-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sp-listen-left {
+  display: flex;
+  align-items: center;
   gap: 8px;
-  padding: 10px 14px;
-  background: var(--surface-subtle);
+  flex-wrap: wrap;
+}
+
+/* 녹음 상태 뱃지 */
+.sp-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--surface-default);
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
+  padding: 4px 10px;
+  border-radius: 14px;
   transition: all 0.2s ease;
 }
 
-.sp-audio-hint {
-  font-size: 12.5px;
-  color: var(--text-faint);
-  margin-top: 8px;
-  line-height: 1.4;
+.sp-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #94a3b8;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.sp-status-chip.ready {
+  color: #059669;
+  border-color: #a7f3d0;
+  background: #ecfdf5;
+  font-weight: 600;
+}
+
+.sp-status-chip.ready .sp-status-dot {
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+}
+
+body.dark-theme .sp-status-chip.ready {
+  color: #34d399;
+  border-color: #065f46;
+  background: rgba(6, 95, 70, 0.25);
+}
+
+/* 메인 채점 버튼 */
+.sp-main-eval-btn {
+  width: 100%;
+  height: 48px;
+  font-size: 15.5px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  margin-top: 2px;
 }
 
 /* 발화 통계 4단 그리드 */

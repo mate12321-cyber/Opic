@@ -21,6 +21,11 @@ function showSpeechPracticeScreen(pushHistory = true) {
     card.classList.add("show");
   }
 
+  const input = document.getElementById("speechPracticeInput");
+  if (input && typeof autoResizeTextarea === "function") {
+    autoResizeTextarea(input);
+  }
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -41,10 +46,12 @@ function updateSpeechPracticeCount() {
 function onSpeechPracticeRecordingDone(blob) {
   speechPracticeRecordedBlob = blob;
   const player = document.getElementById("speechPracticeAudioPlayer");
-  const audioBar = document.getElementById("speechPracticeAudioBar");
-  const audioHint = document.getElementById("speechPracticeAudioHint");
-  const bottomRecordBtn = document.getElementById("speechPracticeReplayRecordBtnBottom");
   const playBtn = document.getElementById("speechPracticePlayRecordBtn");
+  const playText = document.getElementById("speechPracticePlayRecordText");
+  const playIcon = document.getElementById("speechPracticePlayRecordIcon");
+  const statusChip = document.getElementById("speechPracticeAudioStatus");
+  const statusText = document.getElementById("speechPracticeAudioStatusText");
+  const bottomRecordBtn = document.getElementById("speechPracticeReplayRecordBtnBottom");
 
   if (!player || !blob) return;
 
@@ -55,10 +62,20 @@ function onSpeechPracticeRecordingDone(blob) {
   speechPracticeAudioUrl = URL.createObjectURL(blob);
   player.src = speechPracticeAudioUrl;
 
-  if (audioBar) audioBar.style.display = "flex";
-  if (audioHint) audioHint.style.display = "none";
+  // 내 녹음 듣기 버튼 활성화 및 하이라이트
+  if (playBtn) {
+    playBtn.disabled = false;
+    playBtn.classList.add("tts-btn-primary");
+    playBtn.title = "녹음된 내 목소리 재생하기";
+  }
+  if (playText) playText.textContent = "내 녹음 듣기";
+  if (playIcon) playIcon.textContent = "▶";
+
+  // 상태 칩 업데이트 (초록 펄스 뱃지)
+  if (statusChip) statusChip.classList.add("ready");
+  if (statusText) statusText.textContent = "녹음본 준비됨";
+
   if (bottomRecordBtn) bottomRecordBtn.style.display = "inline-flex";
-  if (playBtn) playBtn.innerHTML = "▶ 내 녹음 듣기";
 }
 
 // 마이크 상태 UI 동기화
@@ -68,6 +85,10 @@ function updateSpeechPracticeMicUI(isListening) {
 
   if (isListening) {
     btn.classList.add("listening");
+    const statusText = document.getElementById("speechPracticeAudioStatusText");
+    const statusChip = document.getElementById("speechPracticeAudioStatus");
+    if (statusChip) statusChip.classList.remove("ready");
+    if (statusText) statusText.textContent = "음성 녹음 중...";
   } else {
     btn.classList.remove("listening");
   }
@@ -76,11 +97,12 @@ function updateSpeechPracticeMicUI(isListening) {
 // 내 녹음본 오디오 재생 / 일시정지 토글
 function togglePlayRecordedAudio(triggerBtn = null) {
   const player = document.getElementById("speechPracticeAudioPlayer");
-  const playBtn = document.getElementById("speechPracticePlayRecordBtn");
+  const playText = document.getElementById("speechPracticePlayRecordText");
+  const playIcon = document.getElementById("speechPracticePlayRecordIcon");
   const bottomBtn = document.getElementById("speechPracticeReplayRecordBtnBottom");
 
   if (!player || !player.src) {
-    alert("녹음된 음성이 없습니다. 먼저 마이크로 말해보세요.");
+    alert("녹음된 음성이 없습니다. 먼저 마이크 버튼(🎤)을 눌러 영어로 말해보세요.");
     return;
   }
 
@@ -90,12 +112,14 @@ function togglePlayRecordedAudio(triggerBtn = null) {
 
   if (player.paused) {
     player.play();
-    if (playBtn) playBtn.innerHTML = "⏹ 재생 중지";
+    if (playText) playText.textContent = "재생 중지";
+    if (playIcon) playIcon.textContent = "⏹";
     if (bottomBtn) bottomBtn.innerHTML = "⏹ 재생 중지";
   } else {
     player.pause();
     player.currentTime = 0;
-    if (playBtn) playBtn.innerHTML = "▶ 내 녹음 듣기";
+    if (playText) playText.textContent = "내 녹음 듣기";
+    if (playIcon) playIcon.textContent = "▶";
     if (bottomBtn) bottomBtn.innerHTML = "🎧 내 녹음 다시 듣기";
   }
 }
@@ -319,10 +343,24 @@ function initSpeechPractice() {
         evalBox.style.display = "none";
         evalBox.classList.remove("show");
       }
-      const audioBar = document.getElementById("speechPracticeAudioBar");
-      const audioHint = document.getElementById("speechPracticeAudioHint");
-      if (audioBar) audioBar.style.display = "none";
-      if (audioHint) audioHint.style.display = "block";
+
+      // 오디오 상태 및 버튼 초기화
+      const playBtn = document.getElementById("speechPracticePlayRecordBtn");
+      const playText = document.getElementById("speechPracticePlayRecordText");
+      const playIcon = document.getElementById("speechPracticePlayRecordIcon");
+      const statusChip = document.getElementById("speechPracticeAudioStatus");
+      const statusText = document.getElementById("speechPracticeAudioStatusText");
+
+      if (playBtn) {
+        playBtn.disabled = true;
+        playBtn.classList.remove("tts-btn-primary");
+        playBtn.title = "마이크로 발화 후 녹음본 청취 가능";
+      }
+      if (playText) playText.textContent = "내 녹음 듣기";
+      if (playIcon) playIcon.textContent = "▶";
+      if (statusChip) statusChip.classList.remove("ready");
+      if (statusText) statusText.textContent = "녹음 대기 중";
+
       if (replayBtnBottom) replayBtnBottom.style.display = "none";
 
       if (player) {
@@ -339,7 +377,10 @@ function initSpeechPractice() {
   // 6. 녹음본 오디오 플레이어 끝났을 때 버튼 라벨 복구
   if (player) {
     player.onended = () => {
-      if (playBtn) playBtn.innerHTML = "▶ 내 녹음 듣기";
+      const playText = document.getElementById("speechPracticePlayRecordText");
+      const playIcon = document.getElementById("speechPracticePlayRecordIcon");
+      if (playText) playText.textContent = "내 녹음 듣기";
+      if (playIcon) playIcon.textContent = "▶";
       if (replayBtnBottom) replayBtnBottom.innerHTML = "🎧 내 녹음 다시 듣기";
     };
   }
