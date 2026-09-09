@@ -22,10 +22,6 @@ function showSpeechPracticeScreen(pushHistory = true) {
   }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
-
-  if (pushHistory && typeof navigateTo === "function") {
-    // 히스토리 관리는 navigateTo를 통해 호출되거나 직접 연동
-  }
 }
 
 // 실시간 단어 및 글자 수 업데이트
@@ -45,7 +41,10 @@ function updateSpeechPracticeCount() {
 function onSpeechPracticeRecordingDone(blob) {
   speechPracticeRecordedBlob = blob;
   const player = document.getElementById("speechPracticeAudioPlayer");
-  const emptyMsg = document.getElementById("speechPracticeAudioEmptyMsg");
+  const audioBar = document.getElementById("speechPracticeAudioBar");
+  const audioHint = document.getElementById("speechPracticeAudioHint");
+  const bottomRecordBtn = document.getElementById("speechPracticeReplayRecordBtnBottom");
+  const playBtn = document.getElementById("speechPracticePlayRecordBtn");
 
   if (!player || !blob) return;
 
@@ -55,22 +54,49 @@ function onSpeechPracticeRecordingDone(blob) {
 
   speechPracticeAudioUrl = URL.createObjectURL(blob);
   player.src = speechPracticeAudioUrl;
-  player.style.display = "block";
-  if (emptyMsg) emptyMsg.style.display = "none";
+
+  if (audioBar) audioBar.style.display = "flex";
+  if (audioHint) audioHint.style.display = "none";
+  if (bottomRecordBtn) bottomRecordBtn.style.display = "inline-flex";
+  if (playBtn) playBtn.innerHTML = "▶ 내 녹음 듣기";
 }
 
 // 마이크 상태 UI 동기화
 function updateSpeechPracticeMicUI(isListening) {
   const btn = document.getElementById("speechPracticeMicBtn");
-  const label = document.getElementById("speechPracticeMicLabel");
-  if (!btn || !label) return;
+  if (!btn) return;
 
   if (isListening) {
     btn.classList.add("listening");
-    label.textContent = "말하기 완료 (정지)";
   } else {
     btn.classList.remove("listening");
-    label.textContent = "말하기 시작";
+  }
+}
+
+// 내 녹음본 오디오 재생 / 일시정지 토글
+function togglePlayRecordedAudio(triggerBtn = null) {
+  const player = document.getElementById("speechPracticeAudioPlayer");
+  const playBtn = document.getElementById("speechPracticePlayRecordBtn");
+  const bottomBtn = document.getElementById("speechPracticeReplayRecordBtnBottom");
+
+  if (!player || !player.src) {
+    alert("녹음된 음성이 없습니다. 먼저 마이크로 말해보세요.");
+    return;
+  }
+
+  if (typeof stopTTS === "function") {
+    stopTTS();
+  }
+
+  if (player.paused) {
+    player.play();
+    if (playBtn) playBtn.innerHTML = "⏹ 재생 중지";
+    if (bottomBtn) bottomBtn.innerHTML = "⏹ 재생 중지";
+  } else {
+    player.pause();
+    player.currentTime = 0;
+    if (playBtn) playBtn.innerHTML = "▶ 내 녹음 듣기";
+    if (bottomBtn) bottomBtn.innerHTML = "🎧 내 녹음 다시 듣기";
   }
 }
 
@@ -95,12 +121,12 @@ async function evaluateSpeechPracticeAnswer() {
   }
 
   // 발화 평가 진행 (speech.js 내 evaluateOpicSpeaking 활용)
-  const result =
-    typeof evaluateOpicSpeaking === "function"
-      ? evaluateOpicSpeaking(userText, null)
-      : null;
+  const result = typeof evaluateOpicSpeaking === "function"
+    ? evaluateOpicSpeaking(userText, null)
+    : null;
 
   speechPracticeEvaluated = true;
+  evalBox.style.display = "block";
   evalBox.classList.add("show");
 
   // 1. 등급 및 점수 배지
@@ -122,11 +148,8 @@ async function evaluateSpeechPracticeAnswer() {
   // 2. 발화량 및 속도 통계 그리드
   const words = userText.split(/\s+/).filter(Boolean);
   const wordCount = words.length;
-  const uniqueWords = new Set(
-    words.map((w) => w.toLowerCase().replace(/[^a-z0-9]/g, "")),
-  ).size;
-  const sentenceCount =
-    (userText.match(/[.!?]+/g) || []).length || (wordCount > 0 ? 1 : 0);
+  const uniqueWords = new Set(words.map((w) => w.toLowerCase().replace(/[^a-z0-9]/g, ""))).size;
+  const sentenceCount = (userText.match(/[.!?]+/g) || []).length || (wordCount > 0 ? 1 : 0);
 
   if (statsGrid) {
     statsGrid.innerHTML = `
@@ -155,33 +178,22 @@ async function evaluateSpeechPracticeAnswer() {
     if (result && result.compResult) {
       const cr = result.compResult;
       if (cr.foundConnectors && cr.foundConnectors.length > 0) {
-        tags.push(
-          `🔗 연결어(${cr.foundConnectors.length}개): ${cr.foundConnectors.slice(0, 5).join(", ")}`,
-        );
+        tags.push(`🔗 연결어(${cr.foundConnectors.length}개): ${cr.foundConnectors.slice(0, 5).join(", ")}`);
       }
       if (cr.foundFillers && cr.foundFillers.length > 0) {
-        tags.push(
-          `💬 필러(${cr.foundFillers.length}개): ${cr.foundFillers.slice(0, 4).join(", ")}`,
-        );
+        tags.push(`💬 필러(${cr.foundFillers.length}개): ${cr.foundFillers.slice(0, 4).join(", ")}`);
       }
       if (cr.foundPastVerbs && cr.foundPastVerbs.length > 0) {
-        tags.push(
-          `⏳ 과거시제(${cr.foundPastVerbs.length}개): ${cr.foundPastVerbs.slice(0, 4).join(", ")}`,
-        );
+        tags.push(`⏳ 과거시제(${cr.foundPastVerbs.length}개): ${cr.foundPastVerbs.slice(0, 4).join(", ")}`);
       }
     }
 
     if (tags.length === 0) {
-      tags.push(
-        "💡 필러(Well, You know 등)나 문장 연결어(Because, However)를 더 추가하면 자연스러워집니다.",
-      );
+      tags.push("💡 필러(Well, You know 등)나 연결어(Because, Also)를 섞어주면 더 자연스러워집니다.");
     }
 
     tagsWrap.innerHTML = tags
-      .map(
-        (tag) =>
-          `<span class="sp-tag-pill">${typeof escapeHtml === "function" ? escapeHtml(tag) : tag}</span>`,
-      )
+      .map((tag) => `<span class="sp-tag-pill">${typeof escapeHtml === "function" ? escapeHtml(tag) : tag}</span>`)
       .join("");
   }
 
@@ -189,17 +201,13 @@ async function evaluateSpeechPracticeAnswer() {
   if (feedbackText) {
     let fb = "";
     if (wordCount < 20) {
-      fb =
-        "발화량이 다소 짧습니다. 이유(Why), 예시(For example), 감정 표현(I feel like...)을 1~2문장 덧붙여 최소 40단어 이상 말하는 연습을 추천합니다.";
+      fb = "발화량이 다소 짧습니다. 이유(Why)나 예시(For example)를 1~2문장 덧붙여 최소 30단어 이상 말하는 연습을 추천합니다.";
     } else if (wordCount < 50) {
-      fb =
-        "기본적인 의사 표현이 잘 이루어졌습니다! OPIc IM2~IH를 목표로 한다면 상황에 어울리는 접속사와 필러를 적절히 섞어 문장 간 호흡을 늘려보세요.";
+      fb = "기본적인 의사 표현이 잘 전달되었습니다! OPIc IM2~IH 수준을 목표로 문장 간 연결어와 필러를 활용해 호흡을 늘려보세요.";
     } else if (wordCount < 90) {
-      fb =
-        "충분한 발화량과 안정적인 문장 구성이 돋보입니다! 시제 일치와 다채로운 어휘(동의어, 형용사)를 사용하면 IH 이상 고득점이 가능합니다.";
+      fb = "충분한 발화량과 안정적인 문장 구성이 돋보입니다! 시제 일치와 다채로운 어휘(동의어, 형용사)를 사용하면 IH 이상 고득점이 가능합니다.";
     } else {
-      fb =
-        "훌륭한 발화량과 유창성입니다! AL 목표 기준 발화량(90단어 이상)을 훌륭하게 만족하고 있습니다. 디테일한 표현과 발음 억양에 집중해보세요.";
+      fb = "훌륭한 발화량과 유창성입니다! AL 목표 기준 발화량(90단어 이상)을 만족하고 있습니다. 디테일한 표현과 발음 억양에 집중해보세요.";
     }
     feedbackText.textContent = fb;
   }
@@ -216,10 +224,7 @@ async function evaluateSpeechPracticeAnswer() {
           .slice(0, 5)
           .map((m) => {
             const errWord = userText.substring(m.offset, m.offset + m.length);
-            const replacements = (m.replacements || [])
-              .slice(0, 3)
-              .map((r) => r.value)
-              .join(", ");
+            const replacements = (m.replacements || []).slice(0, 3).map((r) => r.value).join(", ");
             return `
               <div class="sp-grammar-item">
                 <span style="color: #dc2626; font-weight: 700; text-decoration: line-through;">${escapeHtml(errWord)}</span>
@@ -230,10 +235,10 @@ async function evaluateSpeechPracticeAnswer() {
           })
           .join("");
       } else {
-        grammarList.innerHTML = `<div style="font-size: 13px; color: #059669; font-weight: 600;">✨ 감지된 문법 오류가 없습니다. 깔끔한 문장입니다!</div>`;
+        grammarList.innerHTML = `<div style="font-size: 13px; color: #059669; font-weight: 600;">✨ 감지된 문법 오류가 없습니다. 훌륭한 문장입니다!</div>`;
       }
     } catch (e) {
-      grammarList.innerHTML = `<div style="font-size: 13px; color: var(--text-muted);">문법 검사를 완료하지 못했습니다. (오프라인 상태 또는 네트워크 제한)</div>`;
+      grammarList.innerHTML = `<div style="font-size: 13px; color: var(--text-muted);">문법 검사를 완료하지 못했습니다. (오프라인 상태 또는 일시적 네트워크 지연)</div>`;
     }
   }
 
@@ -250,8 +255,12 @@ function initSpeechPractice() {
   const clearBtn = document.getElementById("speechPracticeClearBtn");
   const resetBtn = document.getElementById("speechPracticeResetBtn");
   const evalBtn = document.getElementById("speechPracticeEvalBtn");
+  const playBtn = document.getElementById("speechPracticePlayRecordBtn");
+  const replayBtnBottom = document.getElementById("speechPracticeReplayRecordBtnBottom");
   const ttsBtn = document.getElementById("speechPracticeTtsBtn");
+  const ttsBtnBottom = document.getElementById("speechPracticeTtsBtnBottom");
   const toOpicLink = document.getElementById("toOpicFromSpeechPractice");
+  const player = document.getElementById("speechPracticeAudioPlayer");
 
   if (!input) return;
 
@@ -268,7 +277,6 @@ function initSpeechPractice() {
     micBtn.addEventListener("click", () => {
       if (typeof toggleSpeechRecognition === "function") {
         toggleSpeechRecognition(input, micBtn, micError, "speechPractice");
-        // 마이크 상태에 따른 UI 라벨 업데이트
         setTimeout(() => {
           updateSpeechPracticeMicUI(micBtn.classList.contains("listening"));
         }, 100);
@@ -308,16 +316,19 @@ function initSpeechPractice() {
       }
       const evalBox = document.getElementById("speechPracticeEvalBox");
       if (evalBox) {
+        evalBox.style.display = "none";
         evalBox.classList.remove("show");
       }
-      const player = document.getElementById("speechPracticeAudioPlayer");
-      const emptyMsg = document.getElementById("speechPracticeAudioEmptyMsg");
+      const audioBar = document.getElementById("speechPracticeAudioBar");
+      const audioHint = document.getElementById("speechPracticeAudioHint");
+      if (audioBar) audioBar.style.display = "none";
+      if (audioHint) audioHint.style.display = "block";
+      if (replayBtnBottom) replayBtnBottom.style.display = "none";
+
       if (player) {
         player.pause();
         player.src = "";
-        player.style.display = "none";
       }
-      if (emptyMsg) emptyMsg.style.display = "block";
       if (typeof clearRecordedVoice === "function") {
         clearRecordedVoice("speechPractice");
       }
@@ -325,28 +336,44 @@ function initSpeechPractice() {
     });
   }
 
-  // 6. 채점 버튼
+  // 6. 녹음본 오디오 플레이어 끝났을 때 버튼 라벨 복구
+  if (player) {
+    player.onended = () => {
+      if (playBtn) playBtn.innerHTML = "▶ 내 녹음 듣기";
+      if (replayBtnBottom) replayBtnBottom.innerHTML = "🎧 내 녹음 다시 듣기";
+    };
+  }
+
+  // 7. 내 녹음 듣기 버튼들
+  if (playBtn) {
+    playBtn.addEventListener("click", () => togglePlayRecordedAudio(playBtn));
+  }
+  if (replayBtnBottom) {
+    replayBtnBottom.addEventListener("click", () => togglePlayRecordedAudio(replayBtnBottom));
+  }
+
+  // 8. 채점 버튼
   if (evalBtn) {
     evalBtn.addEventListener("click", () => {
       evaluateSpeechPracticeAnswer();
     });
   }
 
-  // 7. 원어민 TTS 비교 청취 버튼
-  if (ttsBtn) {
-    ttsBtn.addEventListener("click", () => {
-      const text = input.value.trim();
-      if (!text) {
-        alert("원어민 발음을 들을 문장을 먼저 입력해주세요.");
-        return;
-      }
-      if (typeof speakText === "function") {
-        speakText(text, "en-US", ttsBtn);
-      }
-    });
-  }
+  // 9. 원어민 TTS 비교 청취 버튼들
+  const handleTts = (btn) => {
+    const text = input.value.trim();
+    if (!text) {
+      alert("원어민 발음을 들을 문장을 먼저 입력해주세요.");
+      return;
+    }
+    if (typeof speakText === "function") {
+      speakText(text, "en-US", btn);
+    }
+  };
+  if (ttsBtn) ttsBtn.addEventListener("click", () => handleTts(ttsBtn));
+  if (ttsBtnBottom) ttsBtnBottom.addEventListener("click", () => handleTts(ttsBtnBottom));
 
-  // 8. 실전 모드로 이동 링크
+  // 10. 실전 모드로 이동 링크
   if (toOpicLink) {
     toOpicLink.addEventListener("click", () => {
       if (typeof navigateTo === "function") {
@@ -364,3 +391,4 @@ window.initSpeechPractice = initSpeechPractice;
 window.showSpeechPracticeScreen = showSpeechPracticeScreen;
 window.onSpeechPracticeRecordingDone = onSpeechPracticeRecordingDone;
 window.evaluateSpeechPracticeAnswer = evaluateSpeechPracticeAnswer;
+window.togglePlayRecordedAudio = togglePlayRecordedAudio;

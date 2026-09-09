@@ -1,364 +1,82 @@
 /**
- * [speech-practice.css] 발화 연습 화면 스타일시트
- * - 자유 발화 입력창 및 툴바
- * - 내 녹음본 청취 오디오 플레이어
- * - 채점 결과 카드 및 OPIc 등급 뱃지, 문법 교정 피드백
+ * [speech-practice.css] 발화 연습 모드 전용 스타일
+ * - 기존 OPIc 디자인 시스템(card, input-wrap, speech-eval)을 상속 및 확장
  */
 
-.speech-practice-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* 상단 안내 박스 */
-.sp-guide-box {
-  background: var(--surface-subtle);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: var(--text-muted);
-}
-
-.sp-guide-icon {
-  font-size: 22px;
-  flex-shrink: 0;
-}
-
-/* 발화 입력 영역 */
-.sp-input-wrap {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.sp-textarea {
-  width: 100%;
-  min-height: 130px;
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
-  border: 1.5px solid var(--border-default);
-  background: var(--surface-default);
-  color: var(--text-main);
-  font-family: inherit;
-  font-size: 15px;
-  line-height: 1.6;
-  resize: vertical;
-  outline: none;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
-  box-sizing: border-box;
-}
-
-.sp-textarea:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
-}
-
-.sp-textarea::placeholder {
-  color: var(--text-placeholder);
-  font-size: 14px;
-}
-
-/* 입력창 하단 툴바 */
-.sp-toolbar {
+/* 내 녹음본 듣기 바 */
+.sp-audio-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
-}
-
-.sp-tool-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sp-tool-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sp-count-badge {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
+  padding: 10px 14px;
   background: var(--surface-subtle);
-  padding: 4px 8px;
-  border-radius: var(--radius-sm);
   border: 1px solid var(--border-light);
-}
-
-/* 마이크 버튼 특화 */
-.sp-mic-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 16px;
-  font-size: 13.5px;
-  font-weight: 600;
   border-radius: var(--radius-md);
-  border: 1.5px solid var(--primary);
-  background: var(--surface-default);
-  color: var(--primary);
-  cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 
-.sp-mic-btn:hover {
-  background: rgba(79, 70, 229, 0.08);
-}
-
-.sp-mic-btn.listening {
-  background: #ef4444 !important;
-  color: #fff !important;
-  border-color: #dc2626 !important;
-  animation: spMicPulse 1.2s infinite;
-}
-
-@keyframes spMicPulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
-  }
-}
-
-/* 마이크 에러/안내 */
-.sp-error-text {
+.sp-audio-hint {
   font-size: 12.5px;
-  color: #dc2626;
-  padding: 4px 8px;
-  background: #fee2e2;
-  border-radius: var(--radius-sm);
-  display: none;
+  color: var(--text-faint);
+  margin-top: 8px;
+  line-height: 1.4;
 }
 
-.sp-error-text.show {
-  display: block;
-}
-
-/* 🎧 내 녹음본 듣기 섹션 */
-.sp-audio-section {
-  background: var(--surface-default);
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.sp-audio-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.sp-audio-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-main);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.sp-audio-player-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.sp-audio-player {
-  flex: 1;
-  min-width: 240px;
-  height: 38px;
-  outline: none;
-}
-
-.sp-audio-empty-msg {
-  font-size: 13px;
-  color: var(--text-muted);
-  padding: 8px 12px;
-  background: var(--surface-subtle);
-  border-radius: var(--radius-sm);
-  display: block;
-}
-
-/* 채점 액션 바 */
-.sp-action-row {
-  display: flex;
-  gap: 10px;
-  margin-top: 4px;
-}
-
-.sp-eval-btn {
-  flex: 1;
-  height: 48px;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: var(--radius-md);
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition:
-    opacity 0.2s,
-    transform 0.1s;
-}
-
-.sp-eval-btn:hover {
-  opacity: 0.95;
-}
-
-.sp-eval-btn:active {
-  transform: scale(0.99);
-}
-
-/* 채점 결과 박스 */
-.sp-eval-box {
-  display: none;
-  flex-direction: column;
-  gap: 14px;
-  background: var(--surface-default);
-  border: 1.5px solid var(--primary-light, #c7d2fe);
-  border-radius: var(--radius-md);
-  padding: 18px;
-  animation: spFadeIn 0.3s ease;
-}
-
-.sp-eval-box.show {
-  display: flex;
-}
-
-@keyframes spFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.sp-eval-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.sp-eval-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-main);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.sp-badges-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* 발화 통계 그리드 */
+/* 발화 통계 4단 그리드 */
 .sp-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 480px) {
+  .sp-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .sp-stat-item {
   background: var(--surface-subtle);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-sm);
-  padding: 10px;
+  padding: 8px 6px;
   text-align: center;
 }
 
 .sp-stat-val {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--primary);
   font-family: "JetBrains Mono", monospace, sans-serif;
 }
 
 .sp-stat-lbl {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-muted);
   margin-top: 2px;
 }
 
-/* 담화 태그 목록 */
-.sp-tags-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
+/* 담화 표지어 태그 */
 .sp-tag-pill {
+  display: inline-block;
   font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 14px;
+  padding: 3px 8px;
+  border-radius: 12px;
   background: var(--surface-subtle);
   border: 1px solid var(--border-light);
   color: var(--text-main);
+  line-height: 1.4;
 }
 
-/* 문법 검사 결과 */
-.sp-grammar-wrap {
-  background: var(--surface-subtle);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.sp-grammar-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-.sp-grammar-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
+/* 문법 교정 아이템 */
 .sp-grammar-item {
   font-size: 13px;
   padding: 8px 10px;
   background: var(--surface-default);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
   border-left: 3px solid #ef4444;
   line-height: 1.5;
 }
@@ -366,15 +84,4 @@
 .sp-grammar-corr {
   color: #059669;
   font-weight: 700;
-}
-
-/* 피드백 박스 */
-.sp-feedback-text {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text-main);
-  background: rgba(79, 70, 229, 0.05);
-  border-radius: var(--radius-sm);
-  padding: 12px;
-  border-left: 3px solid var(--primary);
 }
