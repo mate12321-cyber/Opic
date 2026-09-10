@@ -2529,14 +2529,27 @@ function armStartupWatchdog() {
   }, 7000);
 }
 
-// 음성 인식 토글 함수 (문장 연습, OPIc 실전, 만능 패턴 모드 공용)
+/// 음성 인식 토글 함수 (문장 연습, OPIc 실전, 만능 패턴, 발화 연습 모드 공용)
+// subMode: "both" (STT+녹음 동시) | "stt" (STT 전용) | "record" (음성 녹음 전용)
 function toggleSpeechRecognition(
   targetInput,
   targetBtn,
   targetError,
   modeOrIsOpic = false,
+  subMode = null,
 ) {
-  if (!recognition) {
+  const isMobileDevice =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
+  // 모바일 기본값은 하드웨어 충돌 방지를 위해 "stt", 데스크톱 기본값은 "both"
+  const effectiveSubMode = subMode || (isMobileDevice ? "stt" : "both");
+  const shouldRunStt =
+    effectiveSubMode === "stt" || effectiveSubMode === "both";
+  const shouldRunRecord =
+    effectiveSubMode === "record" || effectiveSubMode === "both";
+
+  if (shouldRunStt && !recognition) {
     initSpeechRecognition();
     if (!recognition) {
       showMicError(
@@ -2570,7 +2583,9 @@ function toggleSpeechRecognition(
   }
   const isOpic = mode === "opic";
   currentRecordingMode = mode;
-  clearRecordedVoice(mode);
+  if (shouldRunRecord) {
+    clearRecordedVoice(mode);
+  }
 
   activeTarget = {
     input: targetInput,
@@ -2578,6 +2593,7 @@ function toggleSpeechRecognition(
     error: targetError,
     mode,
     isOpic,
+    subMode: effectiveSubMode,
   };
 
   baseTranscript = targetInput ? targetInput.value.trim() : "";
@@ -2586,32 +2602,39 @@ function toggleSpeechRecognition(
   micStarted = false;
   userExplicitlyStoppedMic = false;
 
-  armStartupWatchdog();
+  if (shouldRunStt) {
+    armStartupWatchdog();
+  } else {
+    micStarted = true;
+  }
+
   if (targetBtn) targetBtn.classList.add("listening");
 
   if (isOpic && typeof startSpeakingTimer === "function") {
     startSpeakingTimer();
   }
 
-  // ⚡ 1. 모바일 사용자 제스처 유지를 위해 recognition.start()를 즉시 동기 실행!
-  try {
-    recognition.start();
-  } catch (e) {
-    console.warn("[SpeechRecognition] Initial start failed:", e);
-    // 이미 시작되어 있는 상태라면 무시
-    if (!e.message || !e.message.includes("already started")) {
-      showMicError(
-        "마이크를 시작하지 못했어요. 다시 시도해주세요.",
-        targetError,
-      );
-      stopSpeechRecognition();
-      return;
+  // ⚡ 1. STT 실행 모드인 경우 모바일 사용자 제스처 유지를 위해 recognition.start()를 즉시 동기 실행!
+  if (shouldRunStt && recognition) {
+    try {
+      recognition.start();
+    } catch (e) {
+      console.warn("[SpeechRecognition] Initial start failed:", e);
+      if (!e.message || !e.message.includes("already started")) {
+        showMicError(
+          "마이크를 시작하지 못했어요. 다시 시도해주세요.",
+          targetError,
+        );
+        stopSpeechRecognition();
+        return;
+      }
     }
   }
 
   // ⚡ 2. 실제 오디오 녹음(MediaRecorder) - 모바일(갤럭시/아이폰) 및 데스크톱 전 기기 지원
   recordedAudioChunks = [];
   if (
+    shouldRunRecord &&
     navigator.mediaDevices &&
     navigator.mediaDevices.getUserMedia
   ) {
