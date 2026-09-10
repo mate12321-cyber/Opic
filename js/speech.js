@@ -2481,10 +2481,19 @@ function stopListeningUI() {
     updateSpeechPracticeMicUI(false);
 }
 
+// 음성 인식 내부 텍스트 버퍼 리셋 함수 (사용자가 직접 입력창을 비우거나 새로 쓰기를 누를 때 연동)
+function resetBaseTranscript(newText = "") {
+  baseTranscript = newText || "";
+}
+window.resetBaseTranscript = resetBaseTranscript;
+
 // 음성 인식 및 녹음 중단
 function stopSpeechRecognition() {
   userExplicitlyStoppedMic = true;
   stopListeningUI();
+  if (activeTarget && activeTarget.input) {
+    baseTranscript = activeTarget.input.value.trim();
+  }
   if (recognition) {
     try {
       recognition.stop();
@@ -2731,6 +2740,11 @@ function initSpeechRecognition() {
   };
 
   recognition.onend = () => {
+    // ⚡ 발화 중 잠시 쉬어가서 세션이 타임아웃 종료되더라도, 지금까지 입력창에 들어간 내용을 baseTranscript로 보존!
+    if (activeTarget && activeTarget.input) {
+      baseTranscript = activeTarget.input.value.trim();
+    }
+
     // 사용자가 명시적으로 중지하지 않았고, 여전히 듣기 활성 상태라면 브라우저의 침묵 타임아웃 방어를 위해 자동 재연결
     if (listening && !userExplicitlyStoppedMic && activeTarget) {
       setTimeout(() => {
@@ -2742,6 +2756,15 @@ function initSpeechRecognition() {
               "[SpeechRecognition] Auto-restart silent retry failed:",
               err,
             );
+            if (listening && !userExplicitlyStoppedMic) {
+              setTimeout(() => {
+                try {
+                  if (listening && !userExplicitlyStoppedMic && recognition) {
+                    recognition.start();
+                  }
+                } catch (e2) {}
+              }, 300);
+            }
           }
         }
       }, 150);

@@ -331,8 +331,11 @@ function initSpeechPractice() {
 
   if (!input) return;
 
-  // 1. 입력 변경 시 글자/단어 수 카운트 & 높이 조절
-  input.addEventListener("input", () => {
+  // 1. 입력 변경 시 글자/단어 수 카운트 & 높이 조절 & 수동 수정 시 baseTranscript 동기화
+  input.addEventListener("input", (e) => {
+    if (e.isTrusted && typeof resetBaseTranscript === "function") {
+      resetBaseTranscript(input.value.trim());
+    }
     if (typeof autoResizeTextarea === "function") {
       autoResizeTextarea(input);
     }
@@ -366,6 +369,9 @@ function initSpeechPractice() {
   if (clearBtn) {
     clearBtn.addEventListener("click", () => {
       input.value = "";
+      if (typeof resetBaseTranscript === "function") {
+        resetBaseTranscript("");
+      }
       updateSpeechPracticeCount();
       if (typeof autoResizeTextarea === "function") {
         autoResizeTextarea(input);
@@ -377,6 +383,9 @@ function initSpeechPractice() {
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
       input.value = "";
+      if (typeof resetBaseTranscript === "function") {
+        resetBaseTranscript("");
+      }
       updateSpeechPracticeCount();
       if (typeof autoResizeTextarea === "function") {
         autoResizeTextarea(input);
