@@ -1019,16 +1019,16 @@ window.PATTERNS_DATA = [
   {
     id: "pat_06",
     name: "롤플레이 (Role-play) 만능 공식",
-    category: "티켓 문의, 헬스장 등록, 약속 지연 대안, 물건 교환·환불, 예약 시간 변경 등",
+    category: "11번 질문 4단 콤보, 12번 대안 2개 제시, 13번 유사 과거 경험 세트",
     icon: "🎭",
-    desc: "롤플레이 11번(질문 3~4개 문의)과 12번(돌발 문제 및 2가지 대안 제시)을 쉬운 6문장으로 완벽 해결하는 공식입니다.",
+    desc: "롤플레이 3대 핵심(11번 질문 문의 ➔ 12번 돌발 대안 제시 ➔ 13번 과거 유사 경험)을 쉬운 6문장으로 완벽 해결하는 공식입니다.",
     skeleton: [
       {
         en: "1. Hello, I'm calling to ask about [주제].",
         ko: "1. 안녕하세요, [주제]에 대해 여쭤보려고 전화드렸어요.",
       },
       {
-        en: "2. First, where are you located? Is it near the station?",
+        en: "2. First, where are you located? Is it near [역/장소]?",
         ko: "2. 먼저 위치가 어디인가요? 역 근처인가요?",
       },
       {
@@ -1050,8 +1050,34 @@ window.PATTERNS_DATA = [
     ],
     variations: [
       {
-        topic: "🎫 티켓 문의 (11번)",
+        topic: "🎫 티켓 문의 (11번 질문)",
         keyword: "location, hours, price, parking",
+        skeleton: [
+          {
+            en: "1. Hello, I'm calling to ask about [주제].",
+            ko: "1. 안녕하세요, [주제]에 대해 여쭤보려고 전화드렸어요.",
+          },
+          {
+            en: "2. First, where are you located? Is it near [역/장소]?",
+            ko: "2. 먼저 위치가 어디인가요? 역 근처인가요?",
+          },
+          {
+            en: "3. And what are your opening hours today?",
+            ko: "3. 그리고 오늘 운영 시간은 어떻게 되나요?",
+          },
+          {
+            en: "4. Also, how much is the price, and do you have discounts?",
+            ko: "4. 또한 가격은 얼마이고, 혹시 할인이 있나요?",
+          },
+          {
+            en: "5. By the way, is parking free for visitors?",
+            ko: "5. 그런데 방문객 주차는 무료인가요?",
+          },
+          {
+            en: "6. Thank you so much for your help. Have a nice day!",
+            ko: "6. 도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
+          },
+        ],
         sentences: [
           {
             en: "Hello, I'm calling to ask about the festival tickets.",
@@ -1080,8 +1106,34 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏋️ 헬스장 문의 (11번)",
+        topic: "🏋️ 헬스장 문의 (11번 질문)",
         keyword: "gym membership & free parking",
+        skeleton: [
+          {
+            en: "1. Hello, I'm calling to ask about [주제].",
+            ko: "1. 안녕하세요, [주제]에 대해 여쭤보려고 전화드렸어요.",
+          },
+          {
+            en: "2. First, where are you located? Is it near [역/장소]?",
+            ko: "2. 먼저 위치가 어디인가요? 역 근처인가요?",
+          },
+          {
+            en: "3. And what are your opening hours today?",
+            ko: "3. 그리고 오늘 운영 시간은 어떻게 되나요?",
+          },
+          {
+            en: "4. Also, how much is the price, and do you have discounts?",
+            ko: "4. 또한 가격은 얼마이고, 혹시 할인이 있나요?",
+          },
+          {
+            en: "5. By the way, is parking free for visitors?",
+            ko: "5. 그런데 방문객 주차는 무료인가요?",
+          },
+          {
+            en: "6. Thank you so much for your help. Have a nice day!",
+            ko: "6. 도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
+          },
+        ],
         sentences: [
           {
             en: "Hello, I'm calling to ask about the gym membership.",
@@ -1110,8 +1162,34 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🚗 약속 지연 (12번)",
+        topic: "🚗 약속 지연 (12번 친구 대안)",
         keyword: "thirty minutes late & buy coffee",
+        skeleton: [
+          {
+            en: "1. Hi [친구], it's [나]! I'm calling because there is a problem.",
+            ko: "1. 안녕 [친구], 나 [나]야! 문제가 좀 생겨서 전화했어.",
+          },
+          {
+            en: "2. The traffic is very heavy, so I will be thirty minutes late.",
+            ko: "2. 차가 너무 막혀서 30분 정도 늦을 것 같아.",
+          },
+          {
+            en: "3. I was very surprised and worried, and I am really sorry.",
+            ko: "3. 갑자기 차가 막혀서 너무 당황스럽고 미안해.",
+          },
+          {
+            en: "4. Please wait inside Starbucks, and I will buy you coffee!",
+            ko: "4. 스타벅스 안에 들어가 있어, 내가 커피 살게! (대안 1)",
+          },
+          {
+            en: "5. If you are too tired today, we can meet tomorrow instead.",
+            ko: "5. 만약 오늘 피곤하면 대신 내일 만나도 괜찮아. (대안 2)",
+          },
+          {
+            en: "6. I will get there as fast as I can. See you soon!",
+            ko: "6. 최대한 빨리 달려갈게. 곧 보자!",
+          },
+        ],
         sentences: [
           {
             en: "Hi Minsoo, it's Hyosang! I'm calling because there is a problem.",
@@ -1140,8 +1218,34 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🛍️ 교환/환불 (12번)",
+        topic: "🛍️ 교환/환불 (12번 매장 대안)",
         keyword: "scratch on product & full refund",
+        skeleton: [
+          {
+            en: "1. Hello, I [구매/예약], but there is a problem.",
+            ko: "1. 안녕하세요, [구매/예약] 관련하여 문제가 좀 생겼어요.",
+          },
+          {
+            en: "2. [구체적 원인], so [현재 상황 설명].",
+            ko: "2. [구체적 원인] 때문에 [현재 상황 설명].",
+          },
+          {
+            en: "3. I was very surprised and worried.",
+            ko: "3. 저는 너무 놀라고 걱정이 되었어요.",
+          },
+          {
+            en: "4. Can I [대안 1: 새 제품 교환]?",
+            ko: "4. 혹시 [대안 1: 새 제품 교환]할 수 있을까요?",
+          },
+          {
+            en: "5. If that is not possible, can I [대안 2: 전액 환불]?",
+            ko: "5. 만약 그게 어렵다면, [대안 2: 전액 환불]받을 수 있을까요?",
+          },
+          {
+            en: "6. Thank you so much for your help. Have a nice day!",
+            ko: "6. 도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
+          },
+        ],
         sentences: [
           {
             en: "Hello, I bought this product yesterday, but there is a problem.",
@@ -1170,8 +1274,34 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏨 예약 변경 (12번)",
+        topic: "🏨 예약 변경 (12번 매장 대안)",
         keyword: "change reservation time or date",
+        skeleton: [
+          {
+            en: "1. Hello, I [구매/예약], but there is a problem.",
+            ko: "1. 안녕하세요, [구매/예약] 관련하여 문제가 좀 생겼어요.",
+          },
+          {
+            en: "2. [구체적 원인], so [현재 상황 설명].",
+            ko: "2. [구체적 원인] 때문에 [현재 상황 설명].",
+          },
+          {
+            en: "3. I was very surprised and worried.",
+            ko: "3. 저는 너무 놀라고 걱정이 되었어요.",
+          },
+          {
+            en: "4. Can I [대안 1: 시간 연기]?",
+            ko: "4. 혹시 [대안 1: 시간 연기]할 수 있을까요?",
+          },
+          {
+            en: "5. If that is not possible, can I [대안 2: 날짜 변경]?",
+            ko: "5. 만약 그게 어렵다면, [대안 2: 날짜 변경]할 수 있을까요?",
+          },
+          {
+            en: "6. Thank you so much for your help. Have a nice day!",
+            ko: "6. 도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
+          },
+        ],
         sentences: [
           {
             en: "Hello, I have a reservation tonight, but there is a problem.",
@@ -1196,6 +1326,62 @@ window.PATTERNS_DATA = [
           {
             en: "Thank you so much for your help. Have a nice day!",
             ko: "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
+          },
+        ],
+      },
+      {
+        topic: "✨ 티켓 돌발 (13번 과거 경험)",
+        keyword: "server crash & app booking",
+        skeleton: [
+          {
+            en: "1. Whenever I think of [주제], I remember a big problem.",
+            ko: "1. [주제]를 생각할 때마다, 큰 문제가 하나 기억나요.",
+          },
+          {
+            en: "2. Last year, I [활동], and suddenly [돌발 상황].",
+            ko: "2. 작년에, [활동]을 하던 중 갑자기 [돌발 상황]이 일어났어요.",
+          },
+          {
+            en: "3. I was very surprised and worried.",
+            ko: "3. 저는 너무 놀라고 걱정이 되었어요.",
+          },
+          {
+            en: "4. So, I quickly [대처 행동], and fixed it.",
+            ko: "4. 그래서 빠르게 [대처 행동]을 해서 해결했어요.",
+          },
+          {
+            en: "5. It was a hard day for me.",
+            ko: "5. 저한테는 참 힘든 하루였어요.",
+          },
+          {
+            en: "6. So, it became a good memory.",
+            ko: "6. 그래도 결국 좋은 추억이 되었어요.",
+          },
+        ],
+        sentences: [
+          {
+            en: "Whenever I think of tickets, I remember a big problem.",
+            ko: "티켓 예매를 생각할 때마다, 큰 문제가 하나 기억나요.",
+          },
+          {
+            en: "Last year, I tried to book concert tickets, and suddenly the website crashed.",
+            ko: "작년에 콘서트 티켓을 예매하려 했는데, 갑자기 웹사이트 서버가 다운되었어요.",
+          },
+          {
+            en: "I was very surprised and worried.",
+            ko: "저는 너무 놀라고 걱정이 되었어요.",
+          },
+          {
+            en: "So, I quickly opened the smartphone app, and fixed it.",
+            ko: "그래서 빠르게 스마트폰 앱을 켜서 예매를 해결했어요.",
+          },
+          {
+            en: "It was a hard day for me.",
+            ko: "저한테는 참 힘든 하루였어요.",
+          },
+          {
+            en: "So, it became a good memory.",
+            ko: "그래도 결국 좋은 추억이 되었어요.",
           },
         ],
       },

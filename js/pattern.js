@@ -296,6 +296,25 @@ function renderPatternVariation() {
     }
   });
 
+  // 동적 뼈대(Skeleton) 업데이트: 주제별 맞춤 뼈대(curVar.skeleton)가 있으면 우선 적용
+  const skeletonWrap = document.getElementById("patternSkeletonList");
+  const activeSkeleton = curVar.skeleton || pat.skeleton;
+  if (skeletonWrap && activeSkeleton) {
+    skeletonWrap.innerHTML = activeSkeleton
+      .map((item) => {
+        if (typeof item === "object" && item && item.en) {
+          return `
+            <div class="skeleton-item">
+              <div class="skeleton-en">${formatSlotText(item.en)}</div>
+              ${item.ko ? `<div class="skeleton-ko">${formatSlotText(item.ko)}</div>` : ""}
+            </div>
+          `;
+        }
+        return `<div class="skeleton-item"><div class="skeleton-en">${formatSlotText(item)}</div></div>`;
+      })
+      .join("");
+  }
+
   // 문장 목록 렌더링
   const sentenceList = document.getElementById("patternSentenceList");
   if (sentenceList && curVar.sentences) {
