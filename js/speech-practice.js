@@ -90,7 +90,9 @@ async function onSpeechPracticeRecordingDone(blob) {
         const existing = input.value.trim();
         if (!existing) {
           input.value = transcribed;
-        } else if (!existing.toLowerCase().includes(transcribed.toLowerCase())) {
+        } else if (
+          !existing.toLowerCase().includes(transcribed.toLowerCase())
+        ) {
           input.value = `${existing} ${transcribed}`;
         }
         if (typeof autoResizeTextarea === "function") {
@@ -404,12 +406,7 @@ function initSpeechPractice() {
   if (micBtn) {
     micBtn.addEventListener("click", () => {
       if (typeof toggleSpeechRecognition === "function") {
-        toggleSpeechRecognition(
-          input,
-          micBtn,
-          micError,
-          "speechPractice",
-        );
+        toggleSpeechRecognition(input, micBtn, micError, "speechPractice");
         setTimeout(() => {
           updateSpeechPracticeMicUI(micBtn.classList.contains("listening"));
         }, 100);
