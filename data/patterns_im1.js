@@ -833,7 +833,8 @@ window.PATTERNS_DATA = [
   {
     id: "pat_05",
     name: "과거 vs 현재 변화 & 비교 템플릿",
-    category: "카페의 변화, 영화 감상의 변화, 아파트 주거의 변화, 음악 감상의 변화, 온라인 쇼핑의 변화 등",
+    category:
+      "카페의 변화, 영화 감상의 변화, 아파트 주거의 변화, 음악 감상의 변화, 온라인 쇼핑의 변화 등",
     icon: "🔄",
     desc: "과거와 현재의 차이를 묻는 질문에 장소·경험 템플릿과 똑같은 6문장으로 깔끔하게 비교하는 공식입니다.",
     skeleton: [
@@ -1018,47 +1019,59 @@ window.PATTERNS_DATA = [
   {
     id: "pat_06",
     name: "롤플레이 (Role-play) 만능 공식",
-    category: "티켓 문의, 약속 지연 대안 제안, 물건 교환 및 환불",
+    category: "티켓 문의, 헬스장 등록, 약속 지연 대안, 물건 교환·환불, 예약 시간 변경 등",
     icon: "🎭",
-    desc: "롤플레이 3대 상황(문의, 지연, 교환)을 중학교 영어 수준의 쉬운 6문장으로 완벽 해결하는 공식입니다.",
+    desc: "롤플레이 11번(질문 3~4개 문의)과 12번(돌발 문제 및 2가지 대안 제시)을 쉬운 6문장으로 완벽 해결하는 공식입니다.",
     skeleton: [
       {
-        en: "1) [정보 문의] 1. 전화 목적 ➔ 2. 날짜/좌석 ➔ 3. 가격/할인 ➔ 4. 무료 주차 ➔ 5. 2장 예약 ➔ 6. 감사 인사",
-        ko: "1) [정보 문의] 1. 전화 목적 ➔ 2. 날짜/좌석 ➔ 3. 가격/할인 ➔ 4. 무료 주차 ➔ 5. 2장 예약 ➔ 6. 감사 인사",
+        en: "1. Hello, I'm calling to ask about [주제].",
+        ko: "1. 안녕하세요, [주제]에 대해 여쭤보려고 전화드렸어요.",
       },
       {
-        en: "2) [약속 지연] 1. 사과 & 급한 일 ➔ 2. 30분 지연 ➔ 3. 시간 미루기 ➔ 4. 스타벅스 대기 (내가 살게) ➔ 5. 내일 대안 ➔ 6. 감사/사과",
-        ko: "2) [약속 지연] 1. 사과 & 급한 일 ➔ 2. 30분 지연 ➔ 3. 시간 미루기 ➔ 4. 스타벅스 대기 (내가 살게) ➔ 5. 내일 대안 ➔ 6. 감사/사과",
+        en: "2. First, where are you located? Is it near the station?",
+        ko: "2. 먼저 위치가 어디인가요? 역 근처인가요?",
       },
       {
-        en: "3) [교환/환불] 1. 구매 제품 언급 ➔ 2. 흠집/문제 ➔ 3. 영수증 지참 ➔ 4. 새 제품 교환 ➔ 5. 전액 환불 ➔ 6. 감사 인사",
-        ko: "3) [교환/환불] 1. 구매 제품 언급 ➔ 2. 흠집/문제 ➔ 3. 영수증 지참 ➔ 4. 새 제품 교환 ➔ 5. 전액 환불 ➔ 6. 감사 인사",
+        en: "3. And what are your opening hours today?",
+        ko: "3. 그리고 오늘 운영 시간은 어떻게 되나요?",
+      },
+      {
+        en: "4. Also, how much is the price, and do you have discounts?",
+        ko: "4. 또한 가격은 얼마이고, 혹시 할인이 있나요?",
+      },
+      {
+        en: "5. By the way, is parking free for visitors?",
+        ko: "5. 그런데 방문객 주차는 무료인가요?",
+      },
+      {
+        en: "6. Thank you so much for your help. Have a nice day!",
+        ko: "6. 도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
       },
     ],
     variations: [
       {
-        topic: "🎫 티켓 문의",
-        keyword: "dates, prices, parking, booking",
+        topic: "🎫 티켓 문의 (11번)",
+        keyword: "location, hours, price, parking",
         sentences: [
           {
-            en: "Hello, I have a few questions about the festival tickets.",
-            ko: "안녕하세요, 축제 티켓에 대해 몇 가지 질문이 있어요.",
+            en: "Hello, I'm calling to ask about the festival tickets.",
+            ko: "안녕하세요, 축제 티켓에 대해 문의하려고 전화드렸어요.",
           },
           {
-            en: "First, what dates and seats do you have right now?",
-            ko: "먼저, 지금 어떤 날짜와 좌석이 있나요?",
+            en: "First, where is the hall? Is it near the subway station?",
+            ko: "먼저 공연장이 어디인가요? 지하철역 근처인가요?",
           },
           {
-            en: "Also, what is the ticket price, and do you have any discounts?",
-            ko: "그리고 티켓 가격은 얼마이고, 혹시 할인이 있나요?",
+            en: "And what time does the festival start today?",
+            ko: "그리고 축제는 오늘 몇 시에 시작하나요?",
+          },
+          {
+            en: "Also, what is the ticket price, and do you have discounts?",
+            ko: "또한 티켓 가격은 얼마이고, 혹시 할인이 있나요?",
           },
           {
             en: "By the way, is parking free for ticket holders?",
             ko: "그런데 티켓이 있으면 주차는 무료인가요?",
-          },
-          {
-            en: "I would like to book two good seats right now.",
-            ko: "지금 좋은 자리로 2장 예약하고 싶어요.",
           },
           {
             en: "Thank you so much for your help. Have a nice day!",
@@ -1067,62 +1080,122 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🚗 약속 지연",
-        keyword: "heavy traffic & buy coffee",
+        topic: "🏋️ 헬스장 문의 (11번)",
+        keyword: "gym membership & free parking",
         sentences: [
           {
-            en: "Hi Minsoo, it's Hyosang! I'm really sorry, but I have urgent work at the office.",
-            ko: "안녕 민수야, 효상이야! 정말 미안한데 회사에 급한 일이 생겼어.",
+            en: "Hello, I'm calling to ask about the gym membership.",
+            ko: "안녕하세요, 헬스장 회원권에 대해 문의하려고 전화드렸어요.",
           },
           {
-            en: "Because of heavy traffic, I think I will be thirty minutes late.",
-            ko: "차도 너무 막혀서 30분 정도 늦을 것 같아.",
+            en: "First, where are you located? Is it near my station?",
+            ko: "먼저 위치가 어디인가요? 역 근처에 있나요?",
           },
           {
-            en: "Can we meet thirty minutes later so you don't wait outside?",
-            ko: "밖에서 안 기다리게 30분만 늦게 만나도 될까?",
+            en: "And what are your opening hours on weekends?",
+            ko: "그리고 주말 영업 시간은 어떻게 되나요?",
           },
           {
-            en: "Please go into Starbucks near my house first. I will buy you coffee and cake!",
-            ko: "우리 집 근처 스타벅스에 먼저 들어가 있어. 내가 커피랑 케이크 살게!",
+            en: "Also, how much is the price, and do you have discounts?",
+            ko: "또한 가격은 얼마이고, 혹시 할인이 있나요?",
           },
           {
-            en: "If you are tired today, we can meet tomorrow instead.",
-            ko: "만약 오늘 피곤하면 대신 내일 만나도 괜찮아.",
+            en: "By the way, is parking free for gym members?",
+            ko: "그런데 헬스장 회원은 주차가 무료인가요?",
           },
           {
-            en: "I am really sorry, and I will get there as fast as I can!",
-            ko: "정말 미안하고, 최대한 빨리 갈게!",
+            en: "Thank you so much for your help. Have a nice day!",
+            ko: "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
           },
         ],
       },
       {
-        topic: "🛍️ 교환/환불",
-        keyword: "scratch found & ask for a new one",
+        topic: "🚗 약속 지연 (12번)",
+        keyword: "thirty minutes late & buy coffee",
         sentences: [
           {
-            en: "Hello, I bought this product at your store this week.",
-            ko: "안녕하세요, 이번 주에 여기서 이 물건을 샀는데요.",
+            en: "Hi Minsoo, it's Hyosang! I'm calling because there is a problem.",
+            ko: "안녕 민수야, 나 효상이야! 문제가 좀 생겨서 전화했어.",
+          },
+          {
+            en: "The traffic is very heavy, so I will be thirty minutes late.",
+            ko: "차가 너무 막혀서 30분 정도 늦을 것 같아.",
+          },
+          {
+            en: "I was very surprised and worried, and I am really sorry.",
+            ko: "갑자기 차가 막혀서 너무 당황스럽고 미안해.",
+          },
+          {
+            en: "Please wait inside Starbucks near my house, and I will buy coffee!",
+            ko: "우리 집 근처 스타벅스 안에 들어가 있어, 내가 커피 살게!",
+          },
+          {
+            en: "If you are too tired today, we can meet tomorrow instead.",
+            ko: "만약 오늘 너무 피곤하면 대신 내일 만나도 괜찮아.",
+          },
+          {
+            en: "I will get there as fast as I can. See you soon!",
+            ko: "최대한 빨리 달려갈게. 곧 보자!",
+          },
+        ],
+      },
+      {
+        topic: "🛍️ 교환/환불 (12번)",
+        keyword: "scratch on product & full refund",
+        sentences: [
+          {
+            en: "Hello, I bought this product yesterday, but there is a problem.",
+            ko: "안녕하세요, 어제 여기서 이 물건을 샀는데 문제가 있어요.",
           },
           {
             en: "When I opened the box, there was a big scratch on it.",
-            ko: "상자를 열어보니 큰 흠집이 있었어요.",
+            ko: "상자를 열어보니 큰 흠집이 나 있더라고요.",
           },
           {
-            en: "I have the receipt with me right now.",
-            ko: "지금 영수증을 가지고 있습니다.",
+            en: "I was very surprised and worried.",
+            ko: "처음에 보고 너무 놀라고 걱정이 되었어요.",
           },
           {
-            en: "Can I exchange it for a new one?",
-            ko: "새 제품으로 교환할 수 있을까요?",
+            en: "I have the receipt, so can I exchange it for a new one?",
+            ko: "영수증이 있는데, 새 제품으로 교환할 수 있을까요?",
           },
           {
             en: "If that is not possible, can I get a full refund?",
-            ko: "만약 어렵다면, 전액 환불받을 수 있을까요?",
+            ko: "만약 그게 어렵다면, 전액 환불받을 수 있을까요?",
           },
           {
-            en: "Thank you so much for your quick help.",
-            ko: "빠른 도움에 정말 감사드립니다.",
+            en: "Thank you so much for your help. Have a nice day!",
+            ko: "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
+          },
+        ],
+      },
+      {
+        topic: "🏨 예약 변경 (12번)",
+        keyword: "change reservation time or date",
+        sentences: [
+          {
+            en: "Hello, I have a reservation tonight, but there is a problem.",
+            ko: "안녕하세요, 오늘 밤 예약자인데 문제가 좀 생겼어요.",
+          },
+          {
+            en: "I have urgent work at the office, so I cannot arrive on time.",
+            ko: "회사에 급한 야근이 생겨서 제시간에 도착할 수가 없어요.",
+          },
+          {
+            en: "I was very surprised and worried.",
+            ko: "갑자기 일정이 꼬여서 너무 난감하고 걱정되었어요.",
+          },
+          {
+            en: "Can I change my reservation to eight o'clock tonight?",
+            ko: "오늘 밤 8시로 예약 시간을 바꿀 수 있을까요?",
+          },
+          {
+            en: "If that is not possible, can I move it to tomorrow?",
+            ko: "만약 그게 어렵다면, 내일로 날짜를 옮길 수 있을까요?",
+          },
+          {
+            en: "Thank you so much for your help. Have a nice day!",
+            ko: "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
           },
         ],
       },
