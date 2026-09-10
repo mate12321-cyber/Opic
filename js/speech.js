@@ -2542,12 +2542,28 @@ function toggleSpeechRecognition(
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent,
     );
-  // 모바일 기본값은 하드웨어 충돌 방지를 위해 "stt", 데스크톱 기본값은 "both"
-  const effectiveSubMode = subMode || (isMobileDevice ? "stt" : "both");
-  const shouldRunStt =
-    effectiveSubMode === "stt" || effectiveSubMode === "both";
-  const shouldRunRecord =
-    effectiveSubMode === "record" || effectiveSubMode === "both";
+
+  let mode = "practice";
+  if (typeof modeOrIsOpic === "string") {
+    mode = modeOrIsOpic;
+  } else if (modeOrIsOpic === true) {
+    mode = "opic";
+  }
+  const isOpic = mode === "opic";
+
+  // 발화 연습(speechPractice)은 브라우저 내장 Whisper AI가 녹음본으로부터 고품질 텍스트를 전사하므로
+  // 모바일(갤럭시/아이폰)에서는 마이크 하드웨어 충돌을 방지하기 위해 MediaRecorder만 단독 실행
+  let shouldRunStt = true;
+  let shouldRunRecord = true;
+
+  if (mode === "speechPractice") {
+    shouldRunRecord = true;
+    shouldRunStt = !isMobileDevice; // 모바일에서는 녹음 단독 후 Whisper가 텍스트 자동 변환
+  } else if (isMobileDevice) {
+    // 문장 번역 / OPIc 실전 / 만능 패턴 모드는 모바일에서 실시간 STT 단독 배정
+    shouldRunStt = true;
+    shouldRunRecord = false;
+  }
 
   if (shouldRunStt && !recognition) {
     initSpeechRecognition();
@@ -2575,13 +2591,6 @@ function toggleSpeechRecognition(
   }
 
   clearMicError(targetError);
-  let mode = "practice";
-  if (typeof modeOrIsOpic === "string") {
-    mode = modeOrIsOpic;
-  } else if (modeOrIsOpic === true) {
-    mode = "opic";
-  }
-  const isOpic = mode === "opic";
   currentRecordingMode = mode;
   if (shouldRunRecord) {
     clearRecordedVoice(mode);
@@ -2593,7 +2602,6 @@ function toggleSpeechRecognition(
     error: targetError,
     mode,
     isOpic,
-    subMode: effectiveSubMode,
   };
 
   baseTranscript = targetInput ? targetInput.value.trim() : "";

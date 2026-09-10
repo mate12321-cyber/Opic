@@ -43,7 +43,7 @@ function updateSpeechPracticeCount() {
 }
 
 // 마이크 녹음 완료 시 호출되는 콜백 (speech.js의 MediaRecorder onstop에서 호출됨)
-function onSpeechPracticeRecordingDone(blob) {
+async function onSpeechPracticeRecordingDone(blob) {
   speechPracticeRecordedBlob = blob;
   const player = document.getElementById("speechPracticeAudioPlayer");
   const playBtn = document.getElementById("speechPracticePlayRecordBtn");
@@ -54,17 +54,20 @@ function onSpeechPracticeRecordingDone(blob) {
   const bottomRecordBtn = document.getElementById(
     "speechPracticeReplayRecordBtnBottom",
   );
+  const input = document.getElementById("speechPracticeInput");
 
   if (!player || !blob) return;
 
   if (speechPracticeAudioUrl) {
-    URL.revokeObjectURL(speechPracticeAudioUrl);
+    try {
+      URL.revokeObjectURL(speechPracticeAudioUrl);
+    } catch (e) {}
   }
 
   speechPracticeAudioUrl = URL.createObjectURL(blob);
   player.src = speechPracticeAudioUrl;
 
-  // 내 녹음 듣기 버튼 활성화 및 하이라이트
+  // 1. '내 녹음 듣기' 버튼 즉시 활성화 (지연 0초)
   if (playBtn) {
     playBtn.disabled = false;
     playBtn.classList.add("has-recording");
@@ -73,69 +76,47 @@ function onSpeechPracticeRecordingDone(blob) {
   }
   if (playText) playText.textContent = "내 녹음 듣기";
   if (playIcon) playIcon.textContent = "▶";
-
-  // 상태 인디케이터 업데이트
-  if (statusDot) statusDot.className = "sp-status-dot ready";
-  if (statusText)
-    statusText.textContent = "녹음 완료 · 언제든 내 발화를 다시 들어보세요";
-
   if (bottomRecordBtn) bottomRecordBtn.style.display = "inline-flex";
-}
 
-// 모바일(갤럭시/아이폰) 환경 감지 및 기본 모드 결정 (모바일: stt, 데스크톱: both)
-const isMobileDevice =
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-  );
-let currentSpeechPracticeSubMode = isMobileDevice ? "stt" : "both";
+  // 2. 브라우저 내장 Whisper AI 자동 텍스트 변환 실행
+  if (typeof transcribeAudioBlob === "function") {
+    if (statusDot) statusDot.className = "sp-status-dot recording";
+    try {
+      const transcribed = await transcribeAudioBlob(blob, (stepMsg) => {
+        if (statusText) statusText.textContent = stepMsg;
+      });
 
-// 발화 모드(STT / 녹음 / 통합) 변경 함수
-function setSpeechPracticeSubMode(subMode) {
-  currentSpeechPracticeSubMode = subMode;
+      if (transcribed && input) {
+        const existing = input.value.trim();
+        if (!existing) {
+          input.value = transcribed;
+        } else if (!existing.toLowerCase().includes(transcribed.toLowerCase())) {
+          input.value = `${existing} ${transcribed}`;
+        }
+        if (typeof autoResizeTextarea === "function") {
+          autoResizeTextarea(input);
+        }
+        updateSpeechPracticeCount();
+      }
 
-  document.querySelectorAll(".sp-mode-pill").forEach((pill) => {
-    if (pill.dataset.mode === subMode) {
-      pill.classList.add("active");
-    } else {
-      pill.classList.remove("active");
+      if (statusDot) statusDot.className = "sp-status-dot ready";
+      if (statusText) {
+        statusText.textContent =
+          "✅ 녹음 및 AI 텍스트 자동 완성! 내 녹음 듣기나 채점하기를 눌러보세요.";
+      }
+    } catch (asrErr) {
+      console.warn("[SpeechPractice] Whisper transcription failed:", asrErr);
+      if (statusDot) statusDot.className = "sp-status-dot ready";
+      if (statusText) {
+        statusText.textContent =
+          "녹음 완료 · '내 녹음 듣기'로 발화를 확인해보세요";
+      }
     }
-  });
-
-  const micBtn = document.getElementById("speechPracticeMicBtn");
-  const input = document.getElementById("speechPracticeInput");
-  const tip = document.getElementById("spModeTip");
-  const statusText = document.getElementById("speechPracticeAudioStatusText");
-
-  if (subMode === "stt") {
-    if (micBtn) micBtn.title = "마이크 켜기 (✍️ 텍스트 자동 입력)";
-    if (input)
-      input.placeholder =
-        "마이크(🎤)를 누르고 영어로 말하면 텍스트가 실시간으로 자동 입력됩니다.";
-    if (tip)
-      tip.innerHTML =
-        "💡 <strong>[텍스트 자동 입력]</strong>: 영어로 말하면 실시간으로 입력창에 자동 타이핑됩니다.";
-    if (statusText && !speechPracticeRecordedBlob)
-      statusText.textContent = "마이크(🎤)를 누르면 말하는 영어가 자동 입력됩니다";
-  } else if (subMode === "record") {
-    if (micBtn) micBtn.title = "마이크 켜기 (🎙️ 내 발음 녹음)";
-    if (input)
-      input.placeholder =
-        "마이크(🎤)를 누르고 말하면 목소리가 녹음되어 '내 녹음 듣기'로 청취할 수 있습니다.";
-    if (tip)
-      tip.innerHTML =
-        "💡 <strong>[내 발음 녹음]</strong>: 내 목소리를 녹음하여 '내 녹음 듣기'로 직접 들어볼 수 있습니다.";
-    if (statusText && !speechPracticeRecordedBlob)
-      statusText.textContent = "마이크(🎤)로 말하면 녹음본이 생성됩니다";
   } else {
-    if (micBtn) micBtn.title = "마이크 켜기 (⚡ 텍스트 입력 & 동시 녹음)";
-    if (input)
-      input.placeholder =
-        "마이크(🎤)를 누르고 영어로 자유롭게 말해보세요. 텍스트 입력과 녹음이 동시에 진행됩니다.";
-    if (tip)
-      tip.innerHTML =
-        "💡 <strong>[통합 모드]</strong>: 텍스트 자동 입력과 음성 녹음이 동시에 실행됩니다 (PC/데스크톱 권장).";
-    if (statusText && !speechPracticeRecordedBlob)
-      statusText.textContent = "실시간 텍스트 변환과 내 목소리 녹음이 함께 진행됩니다";
+    if (statusDot) statusDot.className = "sp-status-dot ready";
+    if (statusText) {
+      statusText.textContent = "녹음 완료 · 언제든 내 발화를 다시 들어보세요";
+    }
   }
 }
 
@@ -151,31 +132,16 @@ function updateSpeechPracticeMicUI(isListening) {
     btn.classList.add("listening");
     if (statusDot) statusDot.className = "sp-status-dot recording";
     if (statusText) {
-      if (currentSpeechPracticeSubMode === "stt") {
-        statusText.textContent =
-          "✍️ 실시간 음성 인식 중... (영어로 말씀하세요)";
-      } else if (currentSpeechPracticeSubMode === "record") {
-        statusText.textContent =
-          "🎙️ 내 목소리 녹음 중... (마치면 마이크를 다시 누르세요)";
-      } else {
-        statusText.textContent =
-          "⚡ 실시간 텍스트 변환 및 녹음 중... (마치면 마이크를 다시 누르세요)";
-      }
+      statusText.textContent =
+        "🎙️ 발화 녹음 중... (말을 마치면 마이크를 다시 누르세요)";
     }
   } else {
     btn.classList.remove("listening");
     if (!speechPracticeRecordedBlob) {
       if (statusDot) statusDot.className = "sp-status-dot";
       if (statusText) {
-        if (currentSpeechPracticeSubMode === "stt") {
-          statusText.textContent =
-            "마이크(🎤)를 누르면 말하는 영어가 자동 입력됩니다";
-        } else if (currentSpeechPracticeSubMode === "record") {
-          statusText.textContent = "마이크(🎤)로 말하면 녹음본이 생성됩니다";
-        } else {
-          statusText.textContent =
-            "마이크(🎤)로 말하면 텍스트 입력과 녹음이 동시 진행됩니다";
-        }
+        statusText.textContent =
+          "마이크(🎤)를 누르고 말하면 녹음 및 AI 자동 텍스트 변환이 진행됩니다";
       }
     }
   }
@@ -434,7 +400,7 @@ function initSpeechPractice() {
     updateSpeechPracticeCount();
   });
 
-  // 2. 마이크 토글 버튼
+  // 2. 마이크 토글 버튼 (원클릭 녹음 & Whisper AI 자동 텍스트 변환)
   if (micBtn) {
     micBtn.addEventListener("click", () => {
       if (typeof toggleSpeechRecognition === "function") {
@@ -443,7 +409,6 @@ function initSpeechPractice() {
           micBtn,
           micError,
           "speechPractice",
-          currentSpeechPracticeSubMode,
         );
         setTimeout(() => {
           updateSpeechPracticeMicUI(micBtn.classList.contains("listening"));
@@ -451,15 +416,6 @@ function initSpeechPractice() {
       }
     });
   }
-
-  // 2-1. 발화 모드 선택 탭 (STT / 내 발음 녹음 / 통합)
-  document.querySelectorAll(".sp-mode-pill").forEach((pill) => {
-    pill.addEventListener("click", () => {
-      const mode = pill.dataset.mode || "stt";
-      setSpeechPracticeSubMode(mode);
-    });
-  });
-  setSpeechPracticeSubMode(currentSpeechPracticeSubMode);
 
   // 3. 복사 버튼
   if (copyBtn) {
