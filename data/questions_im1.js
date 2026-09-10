@@ -107,12 +107,12 @@ window.QUESTIONS_DATA = [
         ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
       },
       {
-        en: "There are a soft sofa and a big TV, so I can just relax.",
-        ko: "폭신한 소파와 큰 TV가 있어서 편안하게 쉴 수 있어요.",
+        en: "There are a soft sofa and a big TV, so I really like it.",
+        ko: "폭신한 소파와 큰 TV가 있어서 정말 마음에 들어요.",
       },
       {
-        en: "I love this place because it makes me relaxed.",
-        ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
+        en: "It is the best place for me.",
+        ko: "저한테는 여기가 최고의 장소예요.",
       },
       {
         en: "So, I stay there all the time.",
@@ -459,12 +459,12 @@ window.QUESTIONS_DATA = [
         ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
       },
       {
-        en: "There are large windows and nice seats, so I can just relax.",
-        ko: "큰 창문과 좋은 좌석이 있어서 편안하게 쉴 수 있어요.",
+        en: "There are large windows and nice seats, so I really like it.",
+        ko: "큰 창문과 좋은 좌석이 있어서 정말 마음에 들어요.",
       },
       {
-        en: "I love this place because it makes me relaxed.",
-        ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
+        en: "It is the best place for me.",
+        ko: "저한테는 여기가 최고의 장소예요.",
       },
       {
         en: "So, I go there all the time.",
@@ -476,7 +476,7 @@ window.QUESTIONS_DATA = [
       "just five minutes",
       "clean, quiet, and cozy",
       "large windows and nice seats",
-      "makes me relaxed",
+      "best place for me",
       "go there all the time",
     ],
     tip: "[만능 카페 묘사] 스타벅스 최애 장소 → 집 근처 편리함 → 깔끔 조용 아늑한 분위기 → 큰 창문과 편한 좌석 → 퇴근 후 커피 힐링 → 편안함.",
@@ -635,12 +635,12 @@ window.QUESTIONS_DATA = [
         ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
       },
       {
-        en: "There are green trees and nice benches, so I can just relax.",
-        ko: "푸른 나무들과 좋은 벤치가 있어서 편안하게 쉴 수 있어요.",
+        en: "There are green trees and nice benches, so I really like it.",
+        ko: "푸른 나무들과 좋은 벤치가 있어서 정말 마음에 들어요.",
       },
       {
-        en: "I love this place because it makes me relaxed.",
-        ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
+        en: "It is the best place for me.",
+        ko: "저한테는 여기가 최고의 장소예요.",
       },
       {
         en: "So, I go there all the time.",
@@ -652,7 +652,7 @@ window.QUESTIONS_DATA = [
       "just five minutes",
       "clean, quiet, and cozy",
       "green trees and nice benches",
-      "makes me relaxed",
+      "best place for me",
       "go there all the time",
     ],
     tip: "[만능 공원 묘사] 집 근처 공원 → 접근성 편함 → 깔끔하고 아늑함 → 푸른 나무와 벤치 → 퇴근 후 혼자 산책 힐링 → 편안함.",
@@ -1119,12 +1119,12 @@ window.QUESTIONS_DATA = [
         ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
       },
       {
-        en: "There are clean machines and free weights, so I can just relax.",
-        ko: "깨끗한 머신들과 프리웨이트가 있어서 편안하게 쉴 수 있어요.",
+        en: "There are clean machines and free weights, so I really like it.",
+        ko: "깨끗한 머신들과 프리웨이트가 있어서 정말 마음에 들어요.",
       },
       {
-        en: "I love this place because it makes me relaxed.",
-        ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
+        en: "It is the best place for me.",
+        ko: "저한테는 여기가 최고의 장소예요.",
       },
       {
         en: "So, I go there all the time.",
@@ -1136,7 +1136,7 @@ window.QUESTIONS_DATA = [
       "just five minutes",
       "clean, quiet, and cozy",
       "clean machines and free weights",
-      "makes me relaxed",
+      "best place for me",
       "go there all the time",
     ],
     tip: "[만능 헬스장 묘사] 집 근처 헬스장 → 접근성 편함 → 깔끔 조용 아늑한 분위기 → 머신과 프리웨이트 → 퇴근 후 운동 힐링 → 편안함.",
@@ -1383,12 +1383,12 @@ window.QUESTIONS_DATA = [
         ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
       },
       {
-        en: "There are scenic views and quiet roads, so I can just relax.",
-        ko: "멋진 풍경과 한적한 도로가 있어서 편안하게 쉴 수 있어요.",
+        en: "There are scenic views and quiet roads, so I really like it.",
+        ko: "멋진 풍경과 한적한 도로가 있어서 정말 마음에 들어요.",
       },
       {
-        en: "I love this place because it makes me relaxed.",
-        ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
+        en: "It is the best place for me.",
+        ko: "저한테는 여기가 최고의 장소예요.",
       },
       {
         en: "So, I go there all the time.",
@@ -1400,7 +1400,7 @@ window.QUESTIONS_DATA = [
       "near my house just five minutes",
       "clean, quiet, and cozy",
       "scenic views and quiet roads",
-      "makes me relaxed",
+      "best place for me",
       "go there all the time",
     ],
     tip: "[만능 드라이브 묘사] 집 근처 한적한 길 → 접근성 편리함 → 조용하고 아늑함 → 멋진 풍경과 도로 → 퇴근 후 드라이브 힐링 → 편안함.",
@@ -1515,12 +1515,12 @@ window.QUESTIONS_DATA = [
         ko: "그리고 분위기가 아주 깔끔하고 조용하며 평화로워요.",
       },
       {
-        en: "There are tall green trees and a clean lake, so I can just relax.",
-        ko: "키 큰 푸른 나무들과 깨끗한 호수가 있어서 편안하게 쉴 수 있어요.",
+        en: "There are tall green trees and a clean lake, so I really like it.",
+        ko: "키 큰 푸른 나무들과 깨끗한 호수가 있어서 정말 마음에 들어요.",
       },
       {
-        en: "I love this place because it makes me relaxed.",
-        ko: "여기가 저를 편안하게 해주기 때문에 여길 너무 좋아해요.",
+        en: "It is the best place for me.",
+        ko: "저한테는 여기가 최고의 장소예요.",
       },
       {
         en: "So, I go there all the time.",
@@ -1532,7 +1532,7 @@ window.QUESTIONS_DATA = [
       "one hour by car",
       "clean, quiet, and peaceful",
       "tall green trees and clean lake",
-      "makes me relaxed",
+      "best place for me",
       "go there all the time",
     ],
     tip: "[만능 캠핑장 묘사] 호숫가 캠핑장 → 차로 1시간 거리 → 조용하고 평화로운 자연 → 나무와 호수 → 자연 속 힐링 → 편안함.",
