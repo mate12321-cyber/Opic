@@ -13,8 +13,8 @@ window.FILLERS_DATA = [
     examples: [
       {
         context: "좋아하는 카페 질문을 받았을 때",
-        en: "Well, whenever I think of cafes, Starbucks is really my favorite place.",
-        ko: "음, 카페를 생각할 때마다, 스타벅스가 진짜 제 최애 장소예요.",
+        en: "Well, whenever I think of cafes, Starbucks is my favorite place.",
+        ko: "음, 카페를 생각할 때마다, 스타벅스가 제 최애 장소예요.",
       },
       {
         context: "주말 루틴 질문을 받았을 때",
@@ -354,7 +354,7 @@ window.FILLERS_DATA = [
       },
       {
         context: "장소 묘사 후 마무리할 때",
-        en: "Anyway, it is really my favorite place in my neighborhood, and I go there all the time.",
+        en: "Anyway, it is my favorite place in my neighborhood, and I go there all the time.",
         ko: "아무튼, 그곳은 우리 동네에서 제가 가장 좋아하는 장소이고 맨날 가요.",
       },
     ],

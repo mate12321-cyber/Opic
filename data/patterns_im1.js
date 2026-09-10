@@ -7,8 +7,8 @@ window.PATTERNS_DATA = [
     "desc": "어떤 장소나 좋아하는 곳을 말할 때, 6개 쉬운 문장으로 1~2단어만 바꿔서 바로 끝내는 만능 공식입니다.",
     "skeleton": [
       {
-        "en": "1. Whenever I think of [주제], [장소명] is really my favorite place.",
-        "ko": "1. [주제]를 생각할 때마다, [장소명]이 진짜 제 최애 장소예요."
+        "en": "1. Whenever I think of [주제], [장소명] is my favorite place.",
+        "ko": "1. [주제]를 생각할 때마다, [장소명]이 제 최애 장소예요."
       },
       {
         "en": "2. It is located near my house, so it is just five minutes.",
@@ -37,8 +37,8 @@ window.PATTERNS_DATA = [
         "keyword": "my room in my apartment",
         "sentences": [
           {
-            "en": "Whenever I think of my home, my room is really my favorite place.",
-            "ko": "집을 생각할 때마다, 제 방이 진짜 제 최애 장소예요."
+            "en": "Whenever I think of my home, my room is my favorite place.",
+            "ko": "집을 생각할 때마다, 제 방이 제 최애 장소예요."
           },
           {
             "en": "It is located near my office, so it is just five minutes.",
@@ -67,8 +67,8 @@ window.PATTERNS_DATA = [
         "keyword": "Starbucks near my house",
         "sentences": [
           {
-            "en": "Whenever I think of cafes, Starbucks is really my favorite place.",
-            "ko": "카페를 생각할 때마다, 스타벅스가 진짜 제 최애 장소예요."
+            "en": "Whenever I think of cafes, Starbucks is my favorite place.",
+            "ko": "카페를 생각할 때마다, 스타벅스가 제 최애 장소예요."
           },
           {
             "en": "It is located near my house, so it is just five minutes.",
@@ -97,8 +97,8 @@ window.PATTERNS_DATA = [
         "keyword": "the park near my house",
         "sentences": [
           {
-            "en": "Whenever I think of parks, the park is really my favorite place.",
-            "ko": "공원을 생각할 때마다, 공원이 진짜 제 최애 장소예요."
+            "en": "Whenever I think of parks, the park is my favorite place.",
+            "ko": "공원을 생각할 때마다, 공원이 제 최애 장소예요."
           },
           {
             "en": "It is located near my house, so it is just five minutes.",
@@ -127,8 +127,8 @@ window.PATTERNS_DATA = [
         "keyword": "Megabox near my house",
         "sentences": [
           {
-            "en": "Whenever I think of movies, Megabox is really my favorite place.",
-            "ko": "영화를 생각할 때마다, 메가박스가 진짜 제 최애 장소예요."
+            "en": "Whenever I think of movies, Megabox is my favorite place.",
+            "ko": "영화를 생각할 때마다, 메가박스가 제 최애 장소예요."
           },
           {
             "en": "It is located near my house, so it is just five minutes.",
@@ -157,8 +157,8 @@ window.PATTERNS_DATA = [
         "keyword": "the gym near my house",
         "sentences": [
           {
-            "en": "Whenever I think of working out, my gym is really my favorite place.",
-            "ko": "운동을 생각할 때마다, 헬스장이 진짜 제 최애 장소예요."
+            "en": "Whenever I think of working out, my gym is my favorite place.",
+            "ko": "운동을 생각할 때마다, 헬스장이 제 최애 장소예요."
           },
           {
             "en": "It is located near my house, so it is just five minutes.",
@@ -187,8 +187,8 @@ window.PATTERNS_DATA = [
         "keyword": "E-Mart near my house",
         "sentences": [
           {
-            "en": "Whenever I think of shopping, E-Mart is really my favorite place.",
-            "ko": "쇼핑을 생각할 때마다, 이마트가 진짜 제 최애 장소예요."
+            "en": "Whenever I think of shopping, E-Mart is my favorite place.",
+            "ko": "쇼핑을 생각할 때마다, 이마트가 제 최애 장소예요."
           },
           {
             "en": "It is located near my house, so it is just five minutes.",
@@ -217,8 +217,8 @@ window.PATTERNS_DATA = [
         "keyword": "the quiet countryside route",
         "sentences": [
           {
-            "en": "Whenever I think of relaxing, the quiet route is really my favorite place.",
-            "ko": "휴식을 생각할 때마다, 한적한 드라이브 코스가 진짜 제 최애 장소예요."
+            "en": "Whenever I think of relaxing, the quiet route is my favorite place.",
+            "ko": "휴식을 생각할 때마다, 한적한 드라이브 코스가 제 최애 장소예요."
           },
           {
             "en": "It is located near my house, so it is just five minutes.",
@@ -247,8 +247,8 @@ window.PATTERNS_DATA = [
         "keyword": "the campsite near the lake",
         "sentences": [
           {
-            "en": "Whenever I think of camping, the campsite is really my favorite place.",
-            "ko": "캠핑을 생각할 때마다, 캠핑장이 진짜 제 최애 장소예요."
+            "en": "Whenever I think of camping, the campsite is my favorite place.",
+            "ko": "캠핑을 생각할 때마다, 캠핑장이 제 최애 장소예요."
           },
           {
             "en": "It is located near my house, so it is just five minutes.",

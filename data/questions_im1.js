@@ -95,8 +95,8 @@ window.QUESTIONS_DATA = [
     q_ko: "설문에서 아파트에 거주한다고 하셨습니다. 거주하시는 집에 대해 설명해 주세요. 집이 어떻게 생겼나요?",
     sentences: [
       {
-        en: "Whenever I think of my house, the living room is really my favorite place.",
-        ko: "제 집을 생각할 때마다, 거실이 진짜 제 최애 장소예요.",
+        en: "Whenever I think of my house, the living room is my favorite place.",
+        ko: "제 집을 생각할 때마다, 거실이 제 최애 장소예요.",
       },
       {
         en: "It is located near my office, so it is very easy to commute.",
@@ -271,8 +271,8 @@ window.QUESTIONS_DATA = [
     q_ko: "직장에 다닌다고 하셨습니다. 다니시는 회사와 근무지에 대해 말씀해 주세요. 어디에 위치해 있고 어떻게 생겼나요?",
     sentences: [
       {
-        en: "Whenever I think of my workplace, my office is really my favorite place.",
-        ko: "제 직장을 생각할 때마다, 제 사무실이 진짜 가장 정이 가는 곳이에요.",
+        en: "Whenever I think of my workplace, my office is my favorite place.",
+        ko: "제 직장을 생각할 때마다, 제 사무실이 가장 정이 가는 곳이에요.",
       },
       {
         en: "My company is located near my house, so it is very easy to commute there.",
@@ -447,8 +447,8 @@ window.QUESTIONS_DATA = [
     q_ko: "설문에서 카페 가기를 좋아한다고 하셨습니다. 가장 좋아하시는 카페에 대해 자세히 설명해 주세요. 어떤 모습인가요?",
     sentences: [
       {
-        en: "Whenever I think of cafes, Starbucks is really my favorite place.",
-        ko: "카페를 생각할 때마다, 스타벅스가 진짜 제 최애 장소예요.",
+        en: "Whenever I think of cafes, Starbucks is my favorite place.",
+        ko: "카페를 생각할 때마다, 스타벅스가 제 최애 장소예요.",
       },
       {
         en: "It is located near my house, so it is just five minutes.",
@@ -623,8 +623,8 @@ window.QUESTIONS_DATA = [
     q_ko: "설문에서 공원 가기를 좋아한다고 하셨습니다. 자주 가시는 공원에 대해 설명해 주세요. 어디에 있고 어떻게 생겼나요?",
     sentences: [
       {
-        en: "Whenever I think of parks, the park is really my favorite place.",
-        ko: "공원을 생각할 때마다, 공원이 진짜 제 최애 장소예요.",
+        en: "Whenever I think of parks, the park is my favorite place.",
+        ko: "공원을 생각할 때마다, 공원이 제 최애 장소예요.",
       },
       {
         en: "It is located near my house, so it is just five minutes.",
@@ -1107,8 +1107,8 @@ window.QUESTIONS_DATA = [
     q_ko: "설문에서 운동하기를 좋아한다고 하셨습니다. 다니시는 헬스장에 대해 설명해 주세요. 어떤 모습인가요?",
     sentences: [
       {
-        en: "Whenever I think of working out, my gym is really my favorite place.",
-        ko: "운동을 생각할 때마다, 헬스장이 진짜 제 최애 장소예요.",
+        en: "Whenever I think of working out, my gym is my favorite place.",
+        ko: "운동을 생각할 때마다, 헬스장이 제 최애 장소예요.",
       },
       {
         en: "It is located near my house, so it is just five minutes.",
@@ -1371,8 +1371,8 @@ window.QUESTIONS_DATA = [
     q_ko: "설문에서 국내 여행을 좋아한다고 하셨습니다. 가장 좋아하시는 여행지나 드라이브 코스에 대해 설명해 주세요.",
     sentences: [
       {
-        en: "Whenever I think of relaxing, the quiet route is really my favorite place.",
-        ko: "휴식을 생각할 때마다, 한적한 드라이브 코스가 진짜 제 최애 장소예요.",
+        en: "Whenever I think of relaxing, the quiet route is my favorite place.",
+        ko: "휴식을 생각할 때마다, 한적한 드라이브 코스가 제 최애 장소예요.",
       },
       {
         en: "It is located near my house, so it is just five minutes.",
