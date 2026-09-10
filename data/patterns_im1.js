@@ -277,33 +277,33 @@ window.PATTERNS_DATA = [
   {
     id: "pat_02",
     name: "일상 & 활동 루틴 만능 템플릿",
-    category: "카페 일과, 집 근처 공원 산책, 주말 요리, 취미 코딩 등",
+    category: "카페 일과, 공원 산책, 헬스장 운동, 주말 요리, 취미 코딩 등",
     icon: "⏰",
-    desc: "주말이나 평소 일과를 묻는 질문에 시간 순서대로 1~2단어만 바꿔서 쉽게 답하는 패턴입니다.",
+    desc: "주말이나 평소 일과를 묻는 질문에 장소 템플릿과 똑같은 6문장으로 쉽고 자연스럽게 답하는 만능 공식입니다.",
     skeleton: [
       {
-        en: "1. Usually, when I have free time on weekends, I love to [활동].",
-        ko: "1. 보통 주말에 여유 시간이 있을 때, 저는 [활동]하는 것을 정말 좋아해요.",
+        en: "1. Whenever I have free time, I love to [활동/장소].",
+        ko: "1. 여유 시간이 있을 때마다, 저는 [활동/장소]하는 것을 좋아해요.",
       },
       {
-        en: "2. First, I wear casual clothes and go to [장소].",
-        ko: "2. 먼저 편한 평상복을 입고 [장소]로 갑니다.",
+        en: "2. It is located near my house, so it is just five minutes.",
+        ko: "2. 저희 집 근처에 있어서, 딱 5분 거리예요.",
       },
       {
-        en: "3. When I arrive there, I usually [핵심 행동 1].",
-        ko: "3. 그곳에 도착하면, 저는 보통 [핵심 행동 1]을 해요.",
+        en: "3. And the vibe is very clean, quiet, and cozy.",
+        ko: "3. 그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
       },
       {
-        en: "4. At the same time, I also really enjoy [핵심 행동 2].",
-        ko: "4. 동시에, 저는 [핵심 행동 2]도 정말 즐겨요.",
+        en: "4. I usually [행동 1] and [행동 2], so I really like it.",
+        ko: "4. 저는 보통 [행동 1]과 [행동 2]를 하는데, 정말 마음에 들어요.",
       },
       {
-        en: "5. After one or two hours, I feel very happy and relaxed.",
-        ko: "5. 1~2시간 뒤면, 저는 아주 행복하고 편안해져요.",
+        en: "5. It is the best time for me.",
+        ko: "5. 저한테는 최고의 힐링 시간이에요.",
       },
       {
-        en: "6. It makes me relaxed, so I do it often.",
-        ko: "6. 마음이 편안해져서, 저는 이것을 자주 해요.",
+        en: "6. So, I go there all the time.",
+        ko: "6. 그래서 저는 거기를 맨날(자주) 가요.",
       },
     ],
     variations: [
@@ -312,28 +312,28 @@ window.PATTERNS_DATA = [
         keyword: "visit Starbucks alone",
         sentences: [
           {
-            en: "Usually, when I have free time on weekends, I love to go to a cafe alone.",
-            ko: "보통 주말에 여유 시간이 있을 때, 저는 혼자 카페에 가는 것을 정말 좋아해요.",
+            en: "Whenever I have free time, I love to go to Starbucks.",
+            ko: "여유 시간이 있을 때마다, 저는 스타벅스에 가는 것을 좋아해요.",
           },
           {
-            en: "First, I wear casual clothes and go to Starbucks.",
-            ko: "먼저 편한 평상복을 입고 스타벅스로 갑니다.",
+            en: "It is located near my house, so it is just five minutes.",
+            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "When I arrive there, I order an iced Americano and find a seat.",
-            ko: "그곳에 도착하면, 아이스 아메리카노를 주문하고 자리를 잡아요.",
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
           },
           {
-            en: "At the same time, I also really enjoy reading news on my phone.",
-            ko: "동시에, 저는 휴대폰으로 뉴스를 읽는 것도 정말 즐겨요.",
+            en: "I usually drink iced coffee and read news, so I really like it.",
+            ko: "저는 보통 아이스 커피를 마시고 뉴스를 보는데, 정말 마음에 들어요.",
           },
           {
-            en: "After one or two hours, I feel very happy and relaxed.",
-            ko: "1~2시간 뒤면, 저는 아주 행복하고 편안해져요.",
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "It makes me relaxed, so I do it often.",
-            ko: "마음이 편안해져서, 저는 이것을 자주 해요.",
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
           },
         ],
       },
@@ -342,88 +342,118 @@ window.PATTERNS_DATA = [
         keyword: "walk in the park",
         sentences: [
           {
-            en: "Usually, when I have free time in the evening, I love to walk in the park.",
-            ko: "보통 저녁에 여유 시간이 있을 때, 저는 공원을 걷는 것을 정말 좋아해요.",
+            en: "Whenever I have free time, I love to walk in the park.",
+            ko: "여유 시간이 있을 때마다, 저는 공원에서 산책하는 것을 좋아해요.",
           },
           {
-            en: "First, I wear casual clothes and go to the park.",
-            ko: "먼저 편한 평상복을 입고 공원으로 갑니다.",
+            en: "It is located near my house, so it is just five minutes.",
+            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "When I arrive there, I usually walk slowly along the quiet trail.",
-            ko: "그곳에 도착하면, 저는 보통 조용한 길을 따라 천천히 걸어요.",
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
           },
           {
-            en: "At the same time, I also really enjoy listening to soft music.",
-            ko: "동시에, 저는 잔잔한 음악을 듣는 것도 정말 즐겨요.",
+            en: "I usually walk slowly and listen to music, so I really like it.",
+            ko: "저는 보통 천천히 걸으며 음악을 듣는데, 정말 마음에 들어요.",
           },
           {
-            en: "After one or two hours, I feel very happy and relaxed.",
-            ko: "1~2시간 뒤면, 저는 아주 행복하고 편안해져요.",
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "It makes me relaxed, so I do it often.",
-            ko: "마음이 편안해져서, 저는 이것을 자주 해요.",
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+          },
+        ],
+      },
+      {
+        topic: "🏋️ 헬스장 운동",
+        keyword: "work out at the gym",
+        sentences: [
+          {
+            en: "Whenever I have free time, I love to work out at the gym.",
+            ko: "여유 시간이 있을 때마다, 저는 헬스장에서 운동하는 것을 좋아해요.",
+          },
+          {
+            en: "It is located near my house, so it is just five minutes.",
+            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "I usually run on the treadmill and lift weights, so I really like it.",
+            ko: "저는 보통 러닝머신을 뛰고 웨이트를 하는데, 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
+          },
+          {
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
           },
         ],
       },
       {
         topic: "🍳 요리",
-        keyword: "cook pasta at home",
+        keyword: "cook delicious food at home",
         sentences: [
           {
-            en: "Usually, when I have free time on weekends, I love to cook delicious food at home.",
-            ko: "보통 주말에 여유 시간이 있을 때, 저는 집에서 맛있는 요리를 하는 것을 정말 좋아해요.",
+            en: "Whenever I have free time, I love to cook delicious food.",
+            ko: "여유 시간이 있을 때마다, 저는 맛있는 요리를 하는 것을 좋아해요.",
           },
           {
-            en: "First, I wear casual clothes and go to the kitchen.",
-            ko: "먼저 편한 평상복을 입고 주방으로 갑니다.",
+            en: "My kitchen is very clean, so it is just comfortable.",
+            ko: "저희 주방이 아주 깔끔해서, 요리하기 정말 편해요.",
           },
           {
-            en: "When I start cooking, I usually make simple pasta or fried rice.",
-            ko: "요리를 시작하면, 저는 보통 간단한 파스타나 볶음밥을 만들어요.",
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
           },
           {
-            en: "At the same time, I also really enjoy listening to quiet music.",
-            ko: "동시에, 저는 조용한 음악을 듣는 것도 정말 즐겨요.",
+            en: "I usually make simple pasta and eat nicely, so I really like it.",
+            ko: "저는 보통 간단한 파스타를 만들어 맛있게 먹는데, 정말 마음에 들어요.",
           },
           {
-            en: "After one or two hours, I feel very happy and relaxed.",
-            ko: "1~2시간 뒤면, 저는 아주 행복하고 편안해져요.",
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "It makes me relaxed, so I do it often.",
-            ko: "마음이 편안해져서, 저는 이것을 자주 해요.",
+            en: "So, I do it all the time.",
+            ko: "그래서 저는 이걸 맨날(자주) 해요.",
           },
         ],
       },
       {
-        topic: "💻 코딩",
-        keyword: "coding at desk",
+        topic: "💻 취미 코딩",
+        keyword: "study coding at desk",
         sentences: [
           {
-            en: "Usually, when I have free time in the evening, I love to study coding.",
-            ko: "보통 저녁에 여유 시간이 있을 때, 저는 코딩 공부하는 것을 정말 좋아해요.",
+            en: "Whenever I have free time, I love to study coding.",
+            ko: "여유 시간이 있을 때마다, 저는 코딩 공부하는 것을 좋아해요.",
           },
           {
-            en: "First, I wear casual clothes and sit at my desk.",
-            ko: "먼저 편한 평상복을 입고 책상에 앉습니다.",
+            en: "My room has a nice desk, so it is just comfortable.",
+            ko: "제 방에 좋은 책상이 있어서, 공부하기 정말 편해요.",
           },
           {
-            en: "When I sit down, I turn on my computer and make simple web tools.",
-            ko: "자리에 앉으면, 컴퓨터를 켜고 간단한 웹 도구를 만들어요.",
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
           },
           {
-            en: "At the same time, I also really enjoy drinking warm tea.",
-            ko: "동시에, 저는 따뜻한 차를 마시는 것도 정말 즐겨요.",
+            en: "I usually turn on my computer and make web tools, so I really like it.",
+            ko: "저는 보통 컴퓨터를 켜고 웹 도구를 만드는데, 정말 마음에 들어요.",
           },
           {
-            en: "After one or two hours, I feel very happy and relaxed.",
-            ko: "1~2시간 뒤면, 저는 아주 행복하고 편안해져요.",
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "It makes me relaxed, so I do it often.",
-            ko: "마음이 편안해져서, 저는 이것을 자주 해요.",
+            en: "So, I do it all the time.",
+            ko: "그래서 저는 이걸 맨날(자주) 해요.",
           },
         ],
       },
