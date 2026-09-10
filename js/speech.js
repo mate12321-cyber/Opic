@@ -2609,15 +2609,9 @@ function toggleSpeechRecognition(
     }
   }
 
-  // ⚡ 2. 실제 오디오 녹음(MediaRecorder)은 모바일 하드웨어 충돌 방지를 위해 데스크톱 환경에서만 비동기로 실행
-  const isMobile =
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent,
-    );
-
+  // ⚡ 2. 실제 오디오 녹음(MediaRecorder) - 모바일(갤럭시/아이폰) 및 데스크톱 전 기기 지원
   recordedAudioChunks = [];
   if (
-    !isMobile &&
     navigator.mediaDevices &&
     navigator.mediaDevices.getUserMedia
   ) {
@@ -2629,31 +2623,61 @@ function toggleSpeechRecognition(
           return;
         }
         currentMediaStream = stream;
-        const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
-          ? "audio/webm;codecs=opus"
-          : MediaRecorder.isTypeSupported("audio/webm")
-            ? "audio/webm"
-            : "audio/mp4";
 
-        currentMediaRecorder = new MediaRecorder(stream, { mimeType: mime });
+        // 브라우저 및 모바일(갤럭시 크롬/삼성인터넷, 아이폰 사파리) 호환 안전 MIME 타입 자동 선택
+        let mime = "";
+        if (
+          typeof MediaRecorder !== "undefined" &&
+          typeof MediaRecorder.isTypeSupported === "function"
+        ) {
+          if (MediaRecorder.isTypeSupported("audio/webm;codecs=opus")) {
+            mime = "audio/webm;codecs=opus";
+          } else if (MediaRecorder.isTypeSupported("audio/webm")) {
+            mime = "audio/webm";
+          } else if (MediaRecorder.isTypeSupported("audio/mp4")) {
+            mime = "audio/mp4";
+          } else if (MediaRecorder.isTypeSupported("audio/aac")) {
+            mime = "audio/aac";
+          }
+        }
+        const recorderOptions = mime ? { mimeType: mime } : undefined;
+
+        try {
+          currentMediaRecorder = new MediaRecorder(stream, recorderOptions);
+        } catch (recErr) {
+          console.warn("[MediaRecorder] Fallback default constructor:", recErr);
+          currentMediaRecorder = new MediaRecorder(stream);
+        }
+
         currentMediaRecorder.ondataavailable = (e) => {
           if (e.data && e.data.size > 0) {
             recordedAudioChunks.push(e.data);
           }
         };
+
         currentMediaRecorder.onstop = async () => {
           if (recordedAudioChunks.length > 0) {
-            const rawBlob = new Blob(recordedAudioChunks, { type: mime });
+            const actualMime =
+              currentMediaRecorder.mimeType || mime || "audio/webm";
+            const rawBlob = new Blob(recordedAudioChunks, { type: actualMime });
             setRecordedVoiceBlob(mode, rawBlob);
-            const wav = await blobTo16kHzWav(rawBlob);
-            if (wav) {
-              setRecordedWavBuffer(mode, wav);
-            }
+
+            // ⚡ 발화 연습 모드 콜백을 즉시 호출하여 모바일에서도 지연 없이 '내 녹음 듣기' 버튼 활성화!
             if (
               mode === "speechPractice" &&
               typeof onSpeechPracticeRecordingDone === "function"
             ) {
               onSpeechPracticeRecordingDone(rawBlob);
+            }
+
+            // Azure 발음 채점용 16kHz 변환은 백그라운드에서 비동기 처리
+            try {
+              const wav = await blobTo16kHzWav(rawBlob);
+              if (wav) {
+                setRecordedWavBuffer(mode, wav);
+              }
+            } catch (wavErr) {
+              console.warn("[MediaRecorder] wav conversion skipped:", wavErr);
             }
           }
         };
@@ -2730,6 +2754,19 @@ function initSpeechRecognition() {
     console.warn("[SpeechRecognition] error:", e.error);
     if (e.error === "aborted" || e.error === "no-speech") {
       // 침묵이나 일시적 중단은 무시하고 자동 재연결에 맡김
+      return;
+    }
+    // 모바일 환경에서 getUserMedia와 음성 인식이 동시 실행될 때,
+    // 만약 음성 인식(STT)에서 audio-capture가 발생하더라도 실제 오디오 녹음(MediaRecorder)이 진행 중이라면
+    // 사용자 녹음 전체가 강제 종료되지 않도록 보호
+    if (
+      e.error === "audio-capture" &&
+      currentMediaRecorder &&
+      currentMediaRecorder.state === "recording"
+    ) {
+      console.warn(
+        "[SpeechRecognition] audio-capture error ignored because MediaRecorder is active",
+      );
       return;
     }
     const msg =

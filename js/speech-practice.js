@@ -128,11 +128,28 @@ function togglePlayRecordedAudio(triggerBtn = null) {
   }
 
   if (player.paused) {
-    player.play();
-    if (playBtn) playBtn.classList.add("playing");
-    if (playText) playText.textContent = "재생 중지";
-    if (playIcon) playIcon.textContent = "⏹";
-    if (bottomBtn) bottomBtn.innerHTML = "⏹ 재생 중지";
+    const playPromise = player.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          if (playBtn) playBtn.classList.add("playing");
+          if (playText) playText.textContent = "재생 중지";
+          if (playIcon) playIcon.textContent = "⏹";
+          if (bottomBtn) bottomBtn.innerHTML = "⏹ 재생 중지";
+        })
+        .catch((err) => {
+          console.warn("[SpeechPractice] Audio play failed:", err);
+          if (playBtn) playBtn.classList.remove("playing");
+          if (playText) playText.textContent = "내 녹음 듣기";
+          if (playIcon) playIcon.textContent = "▶";
+          if (bottomBtn) bottomBtn.innerHTML = "🎧 내 녹음 다시 듣기";
+        });
+    } else {
+      if (playBtn) playBtn.classList.add("playing");
+      if (playText) playText.textContent = "재생 중지";
+      if (playIcon) playIcon.textContent = "⏹";
+      if (bottomBtn) bottomBtn.innerHTML = "⏹ 재생 중지";
+    }
   } else {
     player.pause();
     player.currentTime = 0;
