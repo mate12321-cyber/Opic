@@ -1195,6 +1195,57 @@
             🎙️ 패턴 직접 말해보기 & 채점
           </div>
         </div>
+
+        <!-- 실시간 발화 시간 게이지 바 & 타이머 -->
+        <div class="speaking-timer-box" id="patternSpeakingTimerBox">
+          <div
+            class="timer-top-row"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 6px;
+            "
+          >
+            <div class="timer-label">
+              <span>⏱️ 발화 시간:</span>
+              <span class="timer-digits" id="patternTimerDigits">00:00</span>
+            </div>
+            <span class="timer-target-tip" id="patternTimerLevelTip"
+              >🌱 6문장 완주 준비 (~20초)</span
+            >
+          </div>
+          <div class="timer-gauge-track">
+            <div
+              class="timer-gauge-bar"
+              id="patternTimerGaugeBar"
+              style="width: 0%"
+            ></div>
+            <div
+              class="timer-marker marker-im"
+              style="left: 33.3%"
+              title="기본 완주 (20초)"
+            ></div>
+            <div
+              class="timer-marker marker-ih"
+              style="left: 58.3%"
+              title="이상적 템포 (35초)"
+            ></div>
+            <div
+              class="timer-marker marker-al"
+              style="left: 83.3%"
+              title="여유로운 발화 (50초+)"
+            ></div>
+          </div>
+          <div class="timer-gauge-labels">
+            <span>0초</span>
+            <span style="left: 33.3%">기본 (20초)</span>
+            <span style="left: 58.3%">적정 (35초)</span>
+            <span style="left: 83.3%">여유 (50초+)</span>
+            <span>60초</span>
+          </div>
+        </div>
+
         <div class="input-wrap">
           <textarea
             id="patternUserInput"

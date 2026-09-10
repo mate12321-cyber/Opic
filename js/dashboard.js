@@ -184,6 +184,9 @@ const els = {
   patternLiveTranslate: document.getElementById("patternLiveTranslate"),
   patternLiveTranslateText: document.getElementById("patternLiveTranslateText"),
   copyPatternInput: document.getElementById("copyPatternInput"),
+  patternTimerDigits: document.getElementById("patternTimerDigits"),
+  patternTimerLevelTip: document.getElementById("patternTimerLevelTip"),
+  patternTimerGaugeBar: document.getElementById("patternTimerGaugeBar"),
   patternSpeechEvalBox: document.getElementById("patternSpeechEvalBox"),
   patternEvalScoreBadge: document.getElementById("patternEvalScoreBadge"),
   patternEvalDiff: document.getElementById("patternEvalDiff"),
@@ -220,6 +223,9 @@ function hideAllScreens() {
   stopTTS();
   if (typeof stopSpeakingTimer === "function") {
     stopSpeakingTimer();
+  }
+  if (typeof stopPatternSpeakingTimer === "function") {
+    stopPatternSpeakingTimer();
   }
   if (typeof stopFillerMic === "function") {
     stopFillerMic();

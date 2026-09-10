@@ -20,16 +20,16 @@ window.PATTERNS_DATA = [
       },
       {
         en: "4. There are [특징 1] and [특징 2], so I really like it.",
-        ko: "4. [특징 1]과 [특징 2]가 있어서 정말 마음에 들어요."
+        ko: "4. [특징 1]과 [특징 2]가 있어서 정말 마음에 들어요.",
       },
       {
         en: "5. It is the best place for me.",
-        ko: "5. 저한테는 여기가 최고의 장소예요."
+        ko: "5. 저한테는 여기가 최고의 장소예요.",
       },
       {
         en: "6. So, I go there all the time.",
-        ko: "6. 그래서 저는 거기를 맨날(자주) 가요."
-      }
+        ko: "6. 그래서 저는 거기를 맨날(자주) 가요.",
+      },
     ],
     variations: [
       {
@@ -165,8 +165,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            "en": "And the vibe is very clean, quiet, and cozy.",
-            "ko": "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요."
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
           },
           {
             en: "There are clean machines and free weights, so I really like it.",

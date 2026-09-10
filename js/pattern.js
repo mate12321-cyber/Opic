@@ -12,6 +12,77 @@ let patternOrder = [0, 1, 2, 3, 4, 5];
 let patternProgress = {};
 let savedPatternUserInputs = {}; // 패턴/변형별 입력 답변 캐시
 
+// 말하기 타이머 상태 (만능 패턴 6문장 완주 훈련)
+let patternSpeakingTimer = null;
+let patternSpeakingSeconds = 0;
+
+// 말하기 타이머 시작
+function startPatternSpeakingTimer() {
+  stopPatternSpeakingTimer();
+  patternSpeakingSeconds = 0;
+  updatePatternSpeakingTimerDisplay();
+  patternSpeakingTimer = setInterval(() => {
+    patternSpeakingSeconds++;
+    updatePatternSpeakingTimerDisplay();
+  }, 1000);
+}
+
+// 말하기 타이머 정지
+function stopPatternSpeakingTimer() {
+  if (patternSpeakingTimer) {
+    clearInterval(patternSpeakingTimer);
+    patternSpeakingTimer = null;
+  }
+}
+
+// 말하기 타이머 리셋
+function resetPatternSpeakingTimer() {
+  stopPatternSpeakingTimer();
+  patternSpeakingSeconds = 0;
+  updatePatternSpeakingTimerDisplay();
+}
+
+// 말하기 타이머 화면 및 실시간 게이지 바 업데이트
+function updatePatternSpeakingTimerDisplay() {
+  const digitsEl = document.getElementById("patternTimerDigits");
+  if (!digitsEl) return;
+  const mins = String(Math.floor(patternSpeakingSeconds / 60)).padStart(2, "0");
+  const secs = String(patternSpeakingSeconds % 60).padStart(2, "0");
+  digitsEl.textContent = `${mins}:${secs}`;
+
+  // 실시간 게이지 바 너비 계산 (최대 60초 기준)
+  const gaugeBarEl = document.getElementById("patternTimerGaugeBar");
+  if (gaugeBarEl) {
+    const pct = Math.min(100, (patternSpeakingSeconds / 60) * 100);
+    gaugeBarEl.style.width = `${pct}%`;
+  }
+
+  // 실시간 목표 팁 업데이트
+  const tipEl = document.getElementById("patternTimerLevelTip");
+  if (tipEl) {
+    tipEl.className = "timer-target-tip";
+    if (patternSpeakingSeconds >= 50) {
+      tipEl.textContent = "🏆 여유롭고 풍부한 발화 (50초+)";
+      tipEl.classList.add("tip-al");
+      digitsEl.style.color = "#d97706";
+    } else if (patternSpeakingSeconds >= 35) {
+      tipEl.textContent = "🥇 이상적인 권장 템포 (35~50초)";
+      tipEl.classList.add("tip-ih");
+      digitsEl.style.color = "#4f46e5";
+    } else if (patternSpeakingSeconds >= 20) {
+      tipEl.textContent = "🥉 기본 완주 달성 (20~35초)";
+      tipEl.classList.add("tip-im");
+      digitsEl.style.color = "#10b981";
+    } else {
+      tipEl.textContent = "🌱 6문장 완주 진행 중 (~20초)";
+      digitsEl.style.color = "var(--primary)";
+    }
+  }
+}
+window.startPatternSpeakingTimer = startPatternSpeakingTimer;
+window.stopPatternSpeakingTimer = stopPatternSpeakingTimer;
+window.resetPatternSpeakingTimer = resetPatternSpeakingTimer;
+
 // 패턴 진도 로컬스토리지 로드
 async function loadPatternProgress() {
   try {
@@ -324,6 +395,7 @@ function renderPatternVariation() {
 
   clearRecordedVoice("pattern");
   clearMicError(document.getElementById("patternMicError"));
+  resetPatternSpeakingTimer();
 }
 
 // ── 만능 패턴 답변 채점 및 정밀 진단 ─────────────────────────────────
@@ -332,6 +404,7 @@ async function evaluatePatternAnswer() {
   if (listening) {
     stopSpeechRecognition();
   }
+  stopPatternSpeakingTimer();
 
   const pat = PATTERN_ITEMS[patternCur];
   if (!pat || !pat.variations || !pat.variations[patternVarCur]) return;
@@ -430,6 +503,7 @@ function retryPatternQuestion() {
   if (liveTranslate) liveTranslate.classList.remove("show");
 
   clearMicError(document.getElementById("patternMicError"));
+  resetPatternSpeakingTimer();
 }
 window.retryPatternQuestion = retryPatternQuestion;
 

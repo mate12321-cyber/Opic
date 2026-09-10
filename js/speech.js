@@ -2479,6 +2479,14 @@ function stopListeningUI() {
   if (spMicBtn) spMicBtn.classList.remove("listening");
   if (typeof updateSpeechPracticeMicUI === "function")
     updateSpeechPracticeMicUI(false);
+
+  // 말하기 타이머 정지 (OPIc 실전 및 만능 패턴)
+  if (typeof stopSpeakingTimer === "function") {
+    stopSpeakingTimer();
+  }
+  if (typeof stopPatternSpeakingTimer === "function") {
+    stopPatternSpeakingTimer();
+  }
 }
 
 // 음성 인식 내부 텍스트 버퍼 리셋 함수 (사용자가 직접 입력창을 비우거나 새로 쓰기를 누를 때 연동)
@@ -2620,6 +2628,11 @@ function toggleSpeechRecognition(
 
   if (isOpic && typeof startSpeakingTimer === "function") {
     startSpeakingTimer();
+  } else if (
+    mode === "pattern" &&
+    typeof startPatternSpeakingTimer === "function"
+  ) {
+    startPatternSpeakingTimer();
   }
 
   // ⚡ 1. STT 실행 모드인 경우 모바일 사용자 제스처 유지를 위해 recognition.start()를 즉시 동기 실행!
