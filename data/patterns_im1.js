@@ -647,7 +647,8 @@ window.PATTERNS_DATA = [
   {
     id: "pat_04",
     name: "문제 해결 & 돌발 상황 만능 템플릿",
-    category: "에어컨 고장 수리, 스마트폰 방전, 요리 연기 대처, 갑작스런 비, 친구 약속 지연 등",
+    category:
+      "에어컨 고장 수리, 스마트폰 방전, 요리 연기 대처, 갑작스런 비, 친구 약속 지연 등",
     icon: "⚡",
     desc: "돌발 문제 질문에 장소·경험 템플릿과 똑같은 6문장으로 쉽고 자연스럽게 답하는 만능 공식입니다.",
     skeleton: [
@@ -832,123 +833,183 @@ window.PATTERNS_DATA = [
   {
     id: "pat_05",
     name: "과거 vs 현재 변화 & 비교 템플릿",
-    category: "카페의 변화, 영화 감상의 변화, 아파트 주거의 변화 등",
+    category: "카페의 변화, 영화 감상의 변화, 아파트 주거의 변화, 음악 감상의 변화, 온라인 쇼핑의 변화 등",
     icon: "🔄",
-    desc: "과거와 현재의 차이를 묻는 질문에 쉬운 단문으로 깔끔하게 비교하는 공식입니다.",
+    desc: "과거와 현재의 차이를 묻는 질문에 장소·경험 템플릿과 똑같은 6문장으로 깔끔하게 비교하는 공식입니다.",
     skeleton: [
       {
-        en: "1. In the past, [주제] was very different from now.",
-        ko: "1. 과거에는 [주제]가 지금과 많이 달랐어요.",
+        en: "1. Whenever I think of [주제], it changed a lot.",
+        ko: "1. [주제]를 생각할 때마다, 정말 많이 변했어요.",
       },
       {
-        en: "2. In the past, [주제] was simple and choices were limited.",
-        ko: "2. 과거에는 [주제]가 단순했고 선택할 것이 별로 없었어요.",
+        en: "2. In the past, [주제] was small and simple.",
+        ko: "2. 과거에는 [주제]가 작고 단순했어요.",
       },
       {
-        en: "3. However, now, everything is very convenient and modern.",
-        ko: "3. 하지만 지금은 모든 것이 아주 편리하고 현대적이에요.",
+        en: "3. However, now, everything is very clean and convenient.",
+        ko: "3. 하지만 지금은 모든 것이 아주 깔끔하고 편리해요.",
       },
       {
-        en: "4. For example, we can use smart phone apps easily.",
-        ko: "4. 예를 들어 우리는 스마트폰 앱을 아주 쉽게 써요.",
+        en: "4. For example, we can use smart phones, so it is very fast.",
+        ko: "4. 예를 들어 우리는 스마트폰을 쓸 수 있어서 아주 빨라요.",
       },
       {
-        en: "5. So, people can live much more easily.",
-        ko: "5. 그래서 사람들은 훨씬 더 편안하게 살 수 있어요.",
+        en: "5. It is the best change for me.",
+        ko: "5. 저한테는 최고의 변화예요.",
       },
       {
-        en: "6. So, I really like these nice changes.",
-        ko: "6. 그래서 저는 이런 좋은 변화들이 정말 마음에 들어요.",
+        en: "6. So, I really like these changes.",
+        ko: "6. 그래서 저는 이런 변화들이 정말 마음에 들어요.",
       },
     ],
     variations: [
       {
         topic: "☕ 카페의 변화",
-        keyword: "order apps and bakeries",
+        keyword: "mobile order apps and bakeries",
         sentences: [
           {
-            en: "In the past, cafes in Korea were very different from now.",
-            ko: "과거에는 한국의 카페가 지금과 많이 달랐어요.",
+            en: "Whenever I think of cafes, it changed a lot.",
+            ko: "카페를 생각할 때마다, 정말 많이 변했어요.",
           },
           {
-            en: "In the past, cafes were simple and choices were limited.",
-            ko: "과거에는 카페가 단순했고 선택할 것이 별로 없었어요.",
+            en: "In the past, cafes were small and simple.",
+            ko: "과거에는 카페가 작고 단순했어요.",
           },
           {
-            en: "However, now, cafes are very convenient and modern.",
-            ko: "하지만 지금은 카페가 아주 편리하고 현대적이에요.",
+            en: "However, now, cafes are very clean and convenient.",
+            ko: "하지만 지금은 카페가 아주 깔끔하고 편리해요.",
           },
           {
-            en: "For example, we can use mobile order apps easily.",
-            ko: "예를 들어 우리는 모바일 주문 앱을 아주 쉽게 써요.",
+            en: "For example, we can use mobile order apps, so it is very fast.",
+            ko: "예를 들어 모바일 주문 앱을 쓸 수 있어서 아주 빨라요.",
           },
           {
-            en: "So, people can enjoy good coffee and delicious bread.",
-            ko: "그래서 사람들은 맛있는 커피와 빵을 즐길 수 있어요.",
+            en: "It is the best change for me.",
+            ko: "저한테는 최고의 변화예요.",
           },
           {
-            en: "So, I really like these nice changes.",
-            ko: "그래서 저는 이런 좋은 변화들이 정말 마음에 들어요.",
+            en: "So, I really like these changes.",
+            ko: "그래서 저는 이런 변화들이 정말 마음에 들어요.",
           },
         ],
       },
       {
-        topic: "🎬 영화의 변화",
-        keyword: "streaming apps and big TVs",
+        topic: "🎬 영화 감상의 변화",
+        keyword: "streaming Netflix at home",
         sentences: [
           {
-            en: "In the past, watching movies was very different from now.",
-            ko: "과거에는 영화 보는 것이 지금과 많이 달랐어요.",
+            en: "Whenever I think of movies, it changed a lot.",
+            ko: "영화를 생각할 때마다, 정말 많이 변했어요.",
           },
           {
-            en: "In the past, we had to go to the theater or rent DVDs.",
-            ko: "과거에는 극장에 가거나 DVD를 빌려봐야만 했어요.",
+            en: "In the past, we had to go to the theater.",
+            ko: "과거에는 무조건 극장에 가야만 했어요.",
           },
           {
-            en: "However, now, watching movies is very convenient and easy.",
-            ko: "하지만 지금은 영화 보기가 아주 편리하고 쉬워요.",
+            en: "However, now, watching movies is very easy and convenient.",
+            ko: "하지만 지금은 영화 보기가 아주 쉽고 편리해요.",
           },
           {
-            en: "For example, we can watch movies on Netflix with our big TV.",
-            ko: "예를 들어 대형 TV로 넷플릭스 영화를 볼 수 있어요.",
+            en: "For example, we can watch Netflix at home, so it is very comfortable.",
+            ko: "예를 들어 집에서 넷플릭스를 볼 수 있어서 아주 편안해요.",
           },
           {
-            en: "So, people can enjoy great movies at home anytime.",
-            ko: "그래서 사람들은 집에서 언제든 멋진 영화를 즐길 수 있어요.",
+            en: "It is the best change for me.",
+            ko: "저한테는 최고의 변화예요.",
           },
           {
-            en: "So, I really like these nice changes.",
-            ko: "그래서 저는 이런 좋은 변화들이 정말 마음에 들어요.",
+            en: "So, I really like these changes.",
+            ko: "그래서 저는 이런 변화들이 정말 마음에 들어요.",
           },
         ],
       },
       {
-        topic: "🏡 주거의 변화",
+        topic: "🏡 아파트 주거의 변화",
         keyword: "smart apartments and gyms",
         sentences: [
           {
-            en: "In the past, apartments were very different from now.",
-            ko: "과거에는 아파트가 지금과 많이 달랐어요.",
+            en: "Whenever I think of apartments, it changed a lot.",
+            ko: "아파트를 생각할 때마다, 정말 많이 변했어요.",
           },
           {
-            en: "In the past, apartments were simple and had few facilities.",
-            ko: "과거에는 아파트가 단순했고 편의 시설이 거의 없었어요.",
+            en: "In the past, apartments were old and simple.",
+            ko: "과거에는 아파트가 낡고 단순했어요.",
           },
           {
-            en: "However, now, apartments are very convenient and smart.",
-            ko: "하지만 지금은 아파트가 아주 편리하고 스마트해요.",
+            en: "However, now, apartments are very clean and modern.",
+            ko: "하지만 지금은 아파트가 아주 깔끔하고 현대적이에요.",
           },
           {
-            en: "For example, we can use smart phone apps to control lights.",
-            ko: "예를 들어 스마트폰 앱으로 조명을 조절할 수 있어요.",
+            en: "For example, we have nice gyms and smart apps, so it is very convenient.",
+            ko: "예를 들어 좋은 헬스장과 스마트 앱이 있어서 아주 편리해요.",
           },
           {
-            en: "Also, there is a clean gym inside the apartment.",
-            ko: "또한 아파트 안에 깨끗한 헬스장도 있어요.",
+            en: "It is the best change for me.",
+            ko: "저한테는 최고의 변화예요.",
           },
           {
-            en: "So, I really like these nice changes.",
-            ko: "그래서 저는 이런 좋은 변화들이 정말 마음에 들어요.",
+            en: "So, I really like these changes.",
+            ko: "그래서 저는 이런 변화들이 정말 마음에 들어요.",
+          },
+        ],
+      },
+      {
+        topic: "🎵 음악 감상의 변화",
+        keyword: "streaming music apps",
+        sentences: [
+          {
+            en: "Whenever I think of music, it changed a lot.",
+            ko: "음악을 생각할 때마다, 정말 많이 변했어요.",
+          },
+          {
+            en: "In the past, we bought CDs and MP3 files.",
+            ko: "과거에는 CD나 MP3 파일을 사야만 했어요.",
+          },
+          {
+            en: "However, now, listening to music is very easy and convenient.",
+            ko: "하지만 지금은 음악 듣기가 아주 쉽고 편리해요.",
+          },
+          {
+            en: "For example, we can stream all music on YouTube, so it is very fast.",
+            ko: "예를 들어 유튜브로 모든 음악을 스트리밍할 수 있어서 아주 빨라요.",
+          },
+          {
+            en: "It is the best change for me.",
+            ko: "저한테는 최고의 변화예요.",
+          },
+          {
+            en: "So, I really like these changes.",
+            ko: "그래서 저는 이런 변화들이 정말 마음에 들어요.",
+          },
+        ],
+      },
+      {
+        topic: "🛒 쇼핑 방식의 변화",
+        keyword: "dawn delivery and online shopping",
+        sentences: [
+          {
+            en: "Whenever I think of shopping, it changed a lot.",
+            ko: "쇼핑을 생각할 때마다, 정말 많이 변했어요.",
+          },
+          {
+            en: "In the past, we had to visit the store in person.",
+            ko: "과거에는 직접 매장에 방문해야만 했어요.",
+          },
+          {
+            en: "However, now, online shopping is very fast and convenient.",
+            ko: "하지만 지금은 온라인 쇼핑이 아주 빠르고 편리해요.",
+          },
+          {
+            en: "For example, we get dawn delivery the next morning, so it is very comfortable.",
+            ko: "예를 들어 다음 날 아침 새벽 배송을 받아서 아주 편안해요.",
+          },
+          {
+            en: "It is the best change for me.",
+            ko: "저한테는 최고의 변화예요.",
+          },
+          {
+            en: "So, I really like these changes.",
+            ko: "그래서 저는 이런 변화들이 정말 마음에 들어요.",
           },
         ],
       },
