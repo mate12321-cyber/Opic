@@ -457,8 +457,8 @@ window.PATTERNS_DATA = [
         ko: "5. 저한테는 최고의 날이었어요.",
       },
       {
-        en: "6. So, I will never forget that day.",
-        ko: "6. 그래서 저는 그날을 결코 잊지 못할 거예요.",
+        en: "6. So, I want to go there again.",
+        ko: "6. 그래서 저는 거기 또 가고 싶어요.",
       },
     ],
     variations: [
@@ -487,8 +487,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I will never forget that day.",
-            ko: "그래서 저는 그날을 결코 잊지 못할 거예요.",
+            en: "So, I want to watch it again.",
+            ko: "그래서 저는 그걸 또 보고 싶어요.",
           },
         ],
       },
@@ -517,8 +517,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I will never forget that day.",
-            ko: "그래서 저는 그날을 결코 잊지 못할 거예요.",
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -547,8 +547,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I will never forget that day.",
-            ko: "그래서 저는 그날을 결코 잊지 못할 거예요.",
+            en: "So, I stay there all the time.",
+            ko: "그래서 저는 거기서 맨날 시간을 보내요.",
           },
         ],
       },
@@ -577,8 +577,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I will never forget that day.",
-            ko: "그래서 저는 그날을 결코 잊지 못할 거예요.",
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -607,8 +607,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I will never forget that day.",
-            ko: "그래서 저는 그날을 결코 잊지 못할 거예요.",
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
           },
         ],
       },
