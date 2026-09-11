@@ -2,7 +2,8 @@ window.PATTERNS_DATA = [
   {
     id: "pat_01",
     name: "장소 & 선호 묘사 만능 템플릿",
-    category: "해변(바닷가), 식당(맛집), 호텔, 도서관, 제주도, 내 방, 카페, 공원, 영화관, 헬스장, 마트 등",
+    category:
+      "해변(바닷가), 식당(맛집), 호텔, 도서관, 제주도, 내 방, 카페, 공원, 영화관, 헬스장, 마트 등",
     icon: "🏠",
     desc: "어떤 장소나 좋아하는 곳을 말할 때, 6개 쉬운 문장으로 1~2단어만 바꿔서 바로 끝내는 만능 공식입니다.",
     skeleton: [
@@ -612,7 +613,7 @@ window.PATTERNS_DATA = [
   {
     id: "pat_03",
     name: "과거 경험 & 기억에 남는 일 템플릿",
-    category: "영화 감상, 지역 축제 방문, 새 아파트 이사, 캠핑, 카페 등",
+    category: "해변(바닷가), 공원, 식당, 호텔, 영화, 헬스장, 마트, 드라이브, 도서관, 캠핑, 제주도 등",
     icon: "✨",
     desc: "어떤 주제든 과거에 있었던 기억에 남는 일을 물을 때, 장소 템플릿과 똑같은 쉬운 6문장으로 완주하는 만능 공식입니다.",
     skeleton: [
@@ -781,6 +782,276 @@ window.PATTERNS_DATA = [
           {
             en: "There were large windows and sweet desserts, so I really liked it.",
             ko: "큰 창문과 달콤한 디저트가 있어서 정말 마음에 들었어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
+          },
+        ],
+      },
+      {
+        topic: "🏖️ 해변 (바닷가)",
+        keyword: "trip to Haeundae beach",
+        sentences: [
+          {
+            en: "Whenever I think of the beach, I remember a special day.",
+            ko: "해변을 생각할 때마다, 특별했던 하루가 기억나요.",
+          },
+          {
+            en: "Last year, I went to Haeundae beach with my friends.",
+            ko: "작년에, 저는 친구들과 함께 해운대 해변에 갔어요.",
+          },
+          {
+            en: "And the vibe was very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+          },
+          {
+            en: "There were blue ocean and soft white sand, so I really liked it.",
+            ko: "푸른 바다와 부드러운 하얀 모래가 있어서 정말 마음에 들었어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
+          },
+        ],
+      },
+      {
+        topic: "🌳 공원",
+        keyword: "walking in the park with friend",
+        sentences: [
+          {
+            en: "Whenever I think of parks, I remember a special day.",
+            ko: "공원을 생각할 때마다, 특별했던 하루가 기억나요.",
+          },
+          {
+            en: "Last year, I walked in the park with my friends.",
+            ko: "작년에, 저는 친구들과 함께 공원을 걸었어요.",
+          },
+          {
+            en: "And the vibe was very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+          },
+          {
+            en: "There were green trees and nice benches, so I really liked it.",
+            ko: "푸른 나무들과 편안한 벤치가 있어서 정말 마음에 들었어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
+          },
+        ],
+      },
+      {
+        topic: "🏋️ 헬스장",
+        keyword: "working out with personal trainer",
+        sentences: [
+          {
+            en: "Whenever I think of working out, I remember a special day.",
+            ko: "운동을 생각할 때마다, 특별했던 하루가 기억나요.",
+          },
+          {
+            en: "Last year, I worked out at the gym with my friend.",
+            ko: "작년에, 저는 친구와 함께 헬스장에서 운동을 했어요.",
+          },
+          {
+            en: "And the vibe was very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+          },
+          {
+            en: "There were clean machines and free weights, so I really liked it.",
+            ko: "깨끗한 머신들과 프리웨이트가 있어서 정말 마음에 들었어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
+          },
+        ],
+      },
+      {
+        topic: "🍽️ 단골 식당 (맛집)",
+        keyword: "delicious dinner at pasta place",
+        sentences: [
+          {
+            en: "Whenever I think of good food, I remember a special day.",
+            ko: "맛있는 음식을 생각할 때마다, 특별했던 하루가 기억나요.",
+          },
+          {
+            en: "Last year, I had delicious dinner at the pasta restaurant.",
+            ko: "작년에, 저는 파스타 식당에서 맛있는 저녁을 먹었어요.",
+          },
+          {
+            en: "And the vibe was very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+          },
+          {
+            en: "There were delicious pasta and nice wine, so I really liked it.",
+            ko: "맛있는 파스타와 좋은 와인이 있어서 정말 마음에 들었어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
+          },
+        ],
+      },
+      {
+        topic: "🏨 호텔 (숙소)",
+        keyword: "staying at Shilla Hotel",
+        sentences: [
+          {
+            en: "Whenever I think of traveling, I remember a special day.",
+            ko: "여행을 생각할 때마다, 특별했던 하루가 기억나요.",
+          },
+          {
+            en: "Last year, I stayed at the Shilla Hotel with my family.",
+            ko: "작년에, 저는 가족과 함께 신라 호텔에 묵었어요.",
+          },
+          {
+            en: "And the vibe was very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+          },
+          {
+            en: "There were a clean swimming pool and a soft bed, so I really liked it.",
+            ko: "깨끗한 수영장과 푹신한 침대가 있어서 정말 마음에 들었어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
+          },
+        ],
+      },
+      {
+        topic: "🛒 대형마트",
+        keyword: "shopping at E-Mart",
+        sentences: [
+          {
+            en: "Whenever I think of shopping, I remember a special day.",
+            ko: "쇼핑을 생각할 때마다, 특별했던 하루가 기억나요.",
+          },
+          {
+            en: "Last year, I went to E-Mart with my friends.",
+            ko: "작년에, 저는 친구들과 함께 이마트에 갔어요.",
+          },
+          {
+            en: "And the vibe was very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+          },
+          {
+            en: "There were fresh food and nice snacks, so I really liked it.",
+            ko: "신선한 음식과 맛있는 간식이 있어서 정말 마음에 들었어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
+          },
+        ],
+      },
+      {
+        topic: "🚗 드라이브",
+        keyword: "scenic drive on weekend",
+        sentences: [
+          {
+            en: "Whenever I think of relaxing, I remember a special day.",
+            ko: "휴식을 생각할 때마다, 특별했던 하루가 기억나요.",
+          },
+          {
+            en: "Last year, I went on a drive with my friend.",
+            ko: "작년에, 저는 친구와 함께 드라이브를 떠났어요.",
+          },
+          {
+            en: "And the vibe was very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+          },
+          {
+            en: "There were scenic views and quiet roads, so I really liked it.",
+            ko: "멋진 풍경과 한적한 도로가 있어서 정말 마음에 들었어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
+          },
+        ],
+      },
+      {
+        topic: "📚 도서관 (스터디카페)",
+        keyword: "reading books at the library",
+        sentences: [
+          {
+            en: "Whenever I think of studying, I remember a special day.",
+            ko: "공부를 생각할 때마다, 특별했던 하루가 기억나요.",
+          },
+          {
+            en: "Last year, I studied at the library with my friend.",
+            ko: "작년에, 저는 친구와 함께 도서관에서 공부했어요.",
+          },
+          {
+            en: "And the vibe was very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+          },
+          {
+            en: "There were lots of books and nice desks, so I really liked it.",
+            ko: "많은 책들과 편안한 책상이 있어서 정말 마음에 들었어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I want to go there again.",
+            ko: "그래서 저는 거기 또 가고 싶어요.",
+          },
+        ],
+      },
+      {
+        topic: "🏝️ 제주도 (국내 여행지)",
+        keyword: "wonderful trip to Jeju Island",
+        sentences: [
+          {
+            en: "Whenever I think of vacations, I remember a special day.",
+            ko: "휴가를 생각할 때마다, 특별했던 하루가 기억나요.",
+          },
+          {
+            en: "Last year, I traveled to Jeju Island with my friends.",
+            ko: "작년에, 저는 친구들과 함께 제주도로 여행을 갔어요.",
+          },
+          {
+            en: "And the vibe was very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+          },
+          {
+            en: "There were beautiful nature and fresh seafood, so I really liked it.",
+            ko: "아름다운 자연과 신선한 해산물이 있어서 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
