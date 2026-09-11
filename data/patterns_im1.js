@@ -2,7 +2,7 @@ window.PATTERNS_DATA = [
   {
     id: "pat_01",
     name: "장소 & 선호 묘사 만능 템플릿",
-    category: "내 방, 카페, 공원, 영화관, 헬스장, 마트, 드라이브, 캠핑 등",
+    category: "해변(바닷가), 식당(맛집), 호텔, 도서관, 제주도, 내 방, 카페, 공원, 영화관, 헬스장, 마트 등",
     icon: "🏠",
     desc: "어떤 장소나 좋아하는 곳을 말할 때, 6개 쉬운 문장으로 1~2단어만 바꿔서 바로 끝내는 만능 공식입니다.",
     skeleton: [
@@ -261,6 +261,156 @@ window.PATTERNS_DATA = [
           {
             en: "There are tall green trees and a clean lake, so I really like it.",
             ko: "키 큰 푸른 나무들과 깨끗한 호수가 있어서 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best place for me.",
+            ko: "저한테는 여기가 최고의 장소예요.",
+          },
+          {
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+          },
+        ],
+      },
+      {
+        topic: "🏖️ 해변 (바닷가)",
+        keyword: "Haeundae beach & blue ocean",
+        sentences: [
+          {
+            en: "Whenever I think of the beach, Haeundae beach is my favorite place.",
+            ko: "해변을 생각할 때마다, 해운대 해변이 제 최애 장소예요.",
+          },
+          {
+            en: "It is located near my hotel, so it is just five minutes.",
+            ko: "제가 묵는 호텔 근처에 있어서, 딱 5분 거리예요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "There are blue ocean and soft white sand, so I really like it.",
+            ko: "푸른 바다와 부드러운 하얀 모래가 있어서 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best place for me.",
+            ko: "저한테는 여기가 최고의 장소예요.",
+          },
+          {
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+          },
+        ],
+      },
+      {
+        topic: "🍽️ 단골 식당 (맛집)",
+        keyword: "Italian pasta restaurant",
+        sentences: [
+          {
+            en: "Whenever I think of good food, the pasta place is my favorite place.",
+            ko: "맛있는 음식을 생각할 때마다, 파스타 식당이 제 최애 장소예요.",
+          },
+          {
+            en: "It is located near my house, so it is just five minutes.",
+            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "There are delicious pasta and nice wine, so I really like it.",
+            ko: "맛있는 파스타와 좋은 와인이 있어서 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best place for me.",
+            ko: "저한테는 여기가 최고의 장소예요.",
+          },
+          {
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+          },
+        ],
+      },
+      {
+        topic: "🏨 호텔 (숙소)",
+        keyword: "clean hotel with swimming pool",
+        sentences: [
+          {
+            en: "Whenever I think of traveling, the Shilla Hotel is my favorite place.",
+            ko: "여행을 생각할 때마다, 신라 호텔이 제 최애 장소예요.",
+          },
+          {
+            en: "It is located near the beach, so it is just five minutes.",
+            ko: "해변 근처에 있어서, 딱 5분 거리예요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "There are a clean swimming pool and a soft bed, so I really like it.",
+            ko: "깨끗한 수영장과 푹신한 침대가 있어서 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best place for me.",
+            ko: "저한테는 여기가 최고의 장소예요.",
+          },
+          {
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+          },
+        ],
+      },
+      {
+        topic: "📚 도서관 (스터디카페)",
+        keyword: "public library near home",
+        sentences: [
+          {
+            en: "Whenever I think of studying, the library is my favorite place.",
+            ko: "공부를 생각할 때마다, 도서관이 제 최애 장소예요.",
+          },
+          {
+            en: "It is located near my house, so it is just five minutes.",
+            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "There are lots of books and nice desks, so I really like it.",
+            ko: "많은 책들과 편안한 책상이 있어서 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best place for me.",
+            ko: "저한테는 여기가 최고의 장소예요.",
+          },
+          {
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+          },
+        ],
+      },
+      {
+        topic: "🏝️ 제주도 (국내 여행지)",
+        keyword: "Jeju island beach & seafood",
+        sentences: [
+          {
+            en: "Whenever I think of vacations, Jeju Island is my favorite place.",
+            ko: "휴가를 생각할 때마다, 제주도가 제 최애 장소예요.",
+          },
+          {
+            en: "It is located in the south, so it is very warm.",
+            ko: "남쪽에 있어서, 날씨가 아주 따뜻해요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "There are beautiful nature and fresh seafood, so I really like it.",
+            ko: "아름다운 자연과 신선한 해산물이 있어서 정말 마음에 들어요.",
           },
           {
             en: "It is the best place for me.",
@@ -1019,7 +1169,8 @@ window.PATTERNS_DATA = [
   {
     id: "pat_06",
     name: "롤플레이 (Role-play) 만능 공식",
-    category: "11번 질문 4단 콤보, 12번 대안 2개 제시, 13번 유사 과거 경험 세트",
+    category:
+      "11번 질문 4단 콤보, 12번 대안 2개 제시, 13번 유사 과거 경험 세트",
     icon: "🎭",
     desc: "롤플레이 3대 핵심(11번 질문 문의 ➔ 12번 돌발 대안 제시 ➔ 13번 과거 유사 경험)을 쉬운 6문장으로 완벽 해결하는 공식입니다.",
     skeleton: [
