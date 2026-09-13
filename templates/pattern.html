@@ -28,6 +28,22 @@
       🧩 6대 만능 패턴 선택
       <span class="topic-count-badge" id="patternCount">6개</span>
     </div>
+    <button
+      type="button"
+      class="btn-select-all"
+      id="openCheatSheetBtnPattern"
+      onclick="
+        if (typeof openCheatSheetModal === 'function') openCheatSheetModal();
+      "
+      title="시험장 직전 3분 압축 만능 뼈대 치트시트 PDF 다운로드 및 인쇄"
+      style="
+        color: var(--primary);
+        font-weight: 700;
+        border-color: var(--primary);
+      "
+    >
+      📄 치트시트 PDF
+    </button>
   </div>
   <p
     style="
@@ -69,6 +85,18 @@
         title="6대 만능 패턴 목록으로 이동"
       >
         📋 패턴 변경
+      </button>
+      <button
+        type="button"
+        class="mode-switch-pill"
+        id="openCheatSheetBtnPatternCard"
+        onclick="
+          if (typeof openCheatSheetModal === 'function') openCheatSheetModal();
+        "
+        title="시험장 직전 3분 압축 만능 뼈대 치트시트 PDF 다운로드/인쇄"
+        style="color: #16a34a; font-weight: 700"
+      >
+        📄 치트시트 PDF
       </button>
     </div>
     <div class="card-nav-right">

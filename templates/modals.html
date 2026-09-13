@@ -463,3 +463,602 @@
   <!-- // .modal-card -->
 </div>
 <!-- // #vocabModal -->
+
+<!-- =========================================================================
+     [Modal 3] 📄 시험장 직전 만능 뼈대 치트시트 모달 (#cheatSheetModal)
+     - 6대 만능 뼈대, 12개 주제별 핵심 치환 키워드, 10대 필러, 채점관 공략 마인드셋
+     - A4 최적화 인쇄 및 PDF 저장(window.print) 완벽 지원
+     ========================================================================= -->
+<div class="modal-backdrop" id="cheatSheetModal" style="display: none">
+  <div class="modal-card cheat-sheet-modal-card">
+    <div class="modal-header cheat-sheet-modal-header">
+      <div class="modal-title">
+        <span>📄 OPIc 시험장 직전 만능 뼈대 치트시트</span>
+        <span class="cheat-badge">IM1 ~ IH 최종 핵심 요약</span>
+      </div>
+      <div
+        style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap"
+      >
+        <button
+          type="button"
+          class="btn-print-pdf-primary"
+          id="btnDownloadCheatSheetPdf"
+          onclick="downloadCheatSheetPDF()"
+          title="OPIc 만능 뼈대 치트시트를 실제 PDF 파일(.pdf)로 즉시 다운로드합니다"
+        >
+          📥 PDF 파일 다운로드
+        </button>
+        <button
+          type="button"
+          class="settings-trigger-btn"
+          id="btnDownloadCheatSheetHtml"
+          onclick="downloadCheatSheetHTML()"
+          title="인터넷 없이도 휴대폰이나 PC에서 언제든 열어볼 수 있는 오프라인 문서 파일 저장"
+        >
+          💾 오프라인 파일 (.html)
+        </button>
+        <button
+          type="button"
+          class="settings-trigger-btn"
+          id="btnPrintCheatSheetModal"
+          onclick="printCheatSheet()"
+          title="브라우저 인쇄 창을 열어 종이로 인쇄하거나 브라우저 기능으로 PDF 저장"
+        >
+          🖨️ 인쇄
+        </button>
+        <button
+          type="button"
+          class="modal-close-btn"
+          id="closeCheatSheetModalBtn"
+          onclick="closeCheatSheetModal()"
+          title="닫기"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <!-- 인쇄 및 화면 공통 치트시트 본문 컨테이너 -->
+    <div class="cheat-sheet-content" id="cheatSheetPrintArea">
+      <!-- 문서 헤더 (인쇄 시 상단 타이틀) -->
+      <div class="print-doc-header">
+        <h1 class="print-doc-title">
+          🎯 OPIc 시험장 직전 만능 뼈대 & 핵심 치트시트
+        </h1>
+        <p class="print-doc-sub">
+          ACTFL OPIc 난이도 4-4 완벽 대비 · 6대 만능 뼈대 & 12대 토픽 핵심
+          키워드 총정리
+        </p>
+      </div>
+
+      <!-- [섹션 1] 시험장 1분 마인드셋 & 채점관 공략 3대 원칙 -->
+      <div class="cs-section">
+        <div class="cs-section-title">
+          🚨 시험장 직전 1분 마인드셋 (채점관 공략 3대 원칙)
+        </div>
+        <div class="cs-rules-grid">
+          <div class="cs-rule-card">
+            <div class="cs-rule-num">1</div>
+            <div class="cs-rule-body">
+              <strong>침묵(Dead Silence) 절대 금지</strong>
+              <p>
+                생각이 안 날 땐 <em>"Well... you know, let me see..."</em>를 툭
+                던져 오디오 공백을 무조건 방어하세요.
+              </p>
+            </div>
+          </div>
+          <div class="cs-rule-card">
+            <div class="cs-rule-num">2</div>
+            <div class="cs-rule-body">
+              <strong>틀려도 절대 멈추지 말고 직진</strong>
+              <p>
+                시제나 단어가 틀려도 한숨 쉬지 마세요! 채점관은 문법 완벽성이
+                아니라 끝까지 말하는 적극성을 봅니다.
+              </p>
+            </div>
+          </div>
+          <div class="cs-rule-card">
+            <div class="cs-rule-num">3</div>
+            <div class="cs-rule-body">
+              <strong>골든 타임 45초 채우고 [Next]</strong>
+              <p>
+                준비된 5~6문장을 천천히 말하면 딱 40~50초가 됩니다. 더 지어내려
+                하지 말고 쿨하게 다음 문제로 이동하세요.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [섹션 2] 6대 만능 뼈대 구조 공식 총정리 -->
+      <div class="cs-section">
+        <div class="cs-section-title">
+          🧩 6대 만능 뼈대 구조 공식 (어떤 주제든 1~2단어만 바꿔 끼우기)
+        </div>
+        <div class="cs-pattern-list">
+          <!-- 1. 장소 & 선호 묘사 -->
+          <div class="cs-pattern-card">
+            <div class="cs-pattern-header">
+              <span class="cs-pattern-badge">pat_01</span>
+              <span class="cs-pattern-name">장소 & 선호 묘사 만능 뼈대</span>
+              <span class="cs-pattern-target"
+                >[1단계 콤보 전용] 집, 방, 카페, 공원, 영화관, 헬스장, 여행지,
+                캠핑장 등</span
+              >
+            </div>
+            <div class="cs-flow-tag">
+              최애 선언 ➔ 접근성(5분) ➔ 분위기 ➔ 구체 특징 2개 ➔ 최고 장소 ➔
+              자주 방문
+            </div>
+            <div class="cs-pattern-lines">
+              <div class="cs-line">
+                <b>1.</b> Whenever I think of <u>[주제]</u>, <u>[장소명]</u> is
+                my favorite place.
+                <span class="ko">(~생각할 때마다 여기가 최애예요)</span>
+              </div>
+              <div class="cs-line">
+                <b>2.</b> It is located near my house, so it is just five
+                minutes. <span class="ko">(집 근처라 딱 5분 거리예요)</span>
+              </div>
+              <div class="cs-line">
+                <b>3.</b> And the vibe is very clean, quiet, and cozy.
+                <span class="ko">(분위기가 깔끔하고 조용하며 아늑해요)</span>
+              </div>
+              <div class="cs-line">
+                <b>4.</b> There are <u>[특징 1]</u> and <u>[특징 2]</u>, so I
+                really like it.
+                <span class="ko">(~와 ~가 있어서 정말 좋아요)</span>
+              </div>
+              <div class="cs-line">
+                <b>5.</b> It is the best healing place for me.
+                <span class="ko">(저에게는 최고의 힐링 장소예요)</span>
+              </div>
+              <div class="cs-line">
+                <b>6.</b> So, I go there all the time.
+                <span class="ko">(그래서 맨날/자주 가요)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. 일상 & 활동 루틴 -->
+          <div class="cs-pattern-card">
+            <div class="cs-pattern-header">
+              <span class="cs-pattern-badge">pat_02</span>
+              <span class="cs-pattern-name">일상 & 활동 루틴 만능 뼈대</span>
+              <span class="cs-pattern-target"
+                >[2단계 콤보 전용] 하루 일과, 청소, 업무, 영화, 음악, 운동,
+                요리, 짐싸기 등</span
+              >
+            </div>
+            <div class="cs-flow-tag">
+              시간대/주기 ➔ 첫 활동(First) ➔ 메인 활동(Then) ➔ 동시 활동(While)
+              ➔ 마무리(After that) ➔ 소감
+            </div>
+            <div class="cs-pattern-lines">
+              <div class="cs-line">
+                <b>1.</b> When I have free time on weekends, I usually enjoy
+                <u>[활동]</u>.
+                <span class="ko">(주말 여유 있을 때 주로 ~를 즐겨요)</span>
+              </div>
+              <div class="cs-line">
+                <b>2.</b> First, I get ready and <u>[첫 번째 준비 활동]</u>.
+                <span class="ko">(먼저 준비를 하고 ~해요)</span>
+              </div>
+              <div class="cs-line">
+                <b>3.</b> Then, I start <u>[메인 활동]</u> for about an hour.
+                <span class="ko">(그런 다음 약 1시간 동안 ~를 해요)</span>
+              </div>
+              <div class="cs-line">
+                <b>4.</b> While doing it, I listen to quiet acoustic music.
+                <span class="ko">(하는 동안 조용한 음악을 들어요)</span>
+              </div>
+              <div class="cs-line">
+                <b>5.</b> After that, I take a rest and drink some cold water.
+                <span class="ko">(그 후에는 휴식을 취하며 물을 마셔요)</span>
+              </div>
+              <div class="cs-line">
+                <b>6.</b> This simple routine always relieves all my stress.
+                <span class="ko">(이 루틴은 항상 스트레스를 풀어줘요)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. 과거 기억 & 경험 -->
+          <div class="cs-pattern-card">
+            <div class="cs-pattern-header">
+              <span class="cs-pattern-badge">pat_03</span>
+              <span class="cs-pattern-name">과거 기억 & 경험 만능 뼈대</span>
+              <span class="cs-pattern-target"
+                >[3단계 콤보 전용] 기억에 남는 여행, 영화, 콘서트, 첫 출근,
+                특별한 식사 등</span
+              >
+            </div>
+            <div class="cs-flow-tag">
+              시점/동행 ➔ 계기 ➔ 핵심 사건 전개 ➔ 감정(놀라움/신남) ➔ 잊지 못할
+              추억
+            </div>
+            <div class="cs-pattern-lines">
+              <div class="cs-line">
+                <b>1.</b> A few months ago, I had a very memorable experience
+                with my friends.
+                <span class="ko">(몇 달 전 친구들과 특별한 경험을 했어요)</span>
+              </div>
+              <div class="cs-line">
+                <b>2.</b> We visited <u>[장소]</u> together on a sunny weekend.
+                <span class="ko">(화창한 주말에 함께 ~를 방문했어요)</span>
+              </div>
+              <div class="cs-line">
+                <b>3.</b> While we were there, <u>[인상 깊었던 사건]</u> was so
+                wonderful.
+                <span class="ko">(거기 머무는 동안 ~가 정말 훌륭했어요)</span>
+              </div>
+              <div class="cs-line">
+                <b>4.</b> We took lots of great photos and talked for hours.
+                <span class="ko"
+                  >(사진도 많이 찍고 몇 시간 동안 대화했어요)</span
+                >
+              </div>
+              <div class="cs-line">
+                <b>5.</b> I was so excited, and everyone had a great time.
+                <span class="ko">(매우 신났고 모두 좋은 시간을 보냈어요)</span>
+              </div>
+              <div class="cs-line">
+                <b>6.</b> It was definitely one of the best memories in my life.
+                <span class="ko">(내 인생 최고의 추억 중 하나예요)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. 돌발 문제 & 해결 -->
+          <div class="cs-pattern-card">
+            <div class="cs-pattern-header">
+              <span class="cs-pattern-badge">pat_04</span>
+              <span class="cs-pattern-name">돌발 문제 & 해결 만능 뼈대</span>
+              <span class="cs-pattern-target"
+                >[3단계/13번 전용] 가전 고장, 부상, 요리 실수, 날씨 악화, 예약
+                오류 등</span
+              >
+            </div>
+            <div class="cs-flow-tag">
+              평화로운 상황 ➔ Suddenly(문제) ➔ 당황/걱정 ➔ 침착한
+              조치(Called/Fixed) ➔ 안도
+            </div>
+            <div class="cs-pattern-lines">
+              <div class="cs-line">
+                <b>1.</b> One day, while I was <u>[평화로운 활동]</u>, an
+                unexpected problem happened.
+                <span class="ko"
+                  >(어느 날 ~하던 중 뜻밖의 문제가 생겼어요)</span
+                >
+              </div>
+              <div class="cs-line">
+                <b>2.</b> Suddenly, <u>[돌발 문제: 고장/폭우/오류]</u> and it
+                stopped working.
+                <span class="ko">(갑자기 ~가 멈춰버렸어요)</span>
+              </div>
+              <div class="cs-line">
+                <b>3.</b> At first, I was very worried and did not know what to
+                do.
+                <span class="ko"
+                  >(처음엔 너무 걱정되고 뭘 해야 할지 몰랐어요)</span
+                >
+              </div>
+              <div class="cs-line">
+                <b>4.</b> But I quickly calmed down and called customer service
+                for help.
+                <span class="ko"
+                  >(하지만 침착하게 고객센터에 전화해 도움을 요청했어요)</span
+                >
+              </div>
+              <div class="cs-line">
+                <b>5.</b> Fortunately, the staff fixed the problem right away.
+                <span class="ko"
+                  >(다행히 직원이 문제를 즉시 해결해 주었습니다)</span
+                >
+              </div>
+              <div class="cs-line">
+                <b>6.</b> It was a big relief, and I learned a good lesson.
+                <span class="ko">(정말 안도했고 좋은 교훈을 얻었습니다)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. 과거 vs 현재 비교 -->
+          <div class="cs-pattern-card">
+            <div class="cs-pattern-header">
+              <span class="cs-pattern-badge">pat_05</span>
+              <span class="cs-pattern-name"
+                >과거 vs 현재 변화·비교 만능 뼈대</span
+              >
+              <span class="cs-pattern-target"
+                >[3단계/14-15번 심화] 집 인테리어, 카페 문화, OTT 영화,
+                스트리밍, 체력 변화 등</span
+              >
+            </div>
+            <div class="cs-flow-tag">
+              과거 vs 현재 차이 선언 ➔ 과거 불편함 ➔ 현대 기술/앱/변화 ➔ 구체적
+              개선점 ➔ 삶의 만족
+            </div>
+            <div class="cs-pattern-lines">
+              <div class="cs-line">
+                <b>1.</b> Compared to the past, <u>[주제]</u> has changed
+                tremendously.
+                <span class="ko">(과거와 비교하여 ~는 엄청나게 변했어요)</span>
+              </div>
+              <div class="cs-line">
+                <b>2.</b> In the past, <u>[과거 상태]</u> was quite small, slow,
+                and inconvenient.
+                <span class="ko">(예전에는 좁고 느리며 꽤 불편했습니다)</span>
+              </div>
+              <div class="cs-line">
+                <b>3.</b> However, nowadays, everything has become very clean
+                and modern.
+                <span class="ko"
+                  >(하지만 요즘에는 모든 것이 매우 깔끔하고 현대적이에요)</span
+                >
+              </div>
+              <div class="cs-line">
+                <b>4.</b> For example, we can use smart mobile apps anytime,
+                anywhere.
+                <span class="ko"
+                  >(예를 들어 언제 어디서나 스마트폰 앱을 쓸 수 있어요)</span
+                >
+              </div>
+              <div class="cs-line">
+                <b>5.</b> It saves so much time and makes our daily life so much
+                easier.
+                <span class="ko"
+                  >(시간도 많이 아껴주고 일상을 훨씬 편하게 해줘요)</span
+                >
+              </div>
+              <div class="cs-line">
+                <b>6.</b> I am very satisfied with this positive change.
+                <span class="ko">(저는 이 긍정적인 변화에 매우 만족해요)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. 롤플레이 만능 공식 -->
+          <div class="cs-pattern-card">
+            <div class="cs-pattern-header">
+              <span class="cs-pattern-badge">pat_06</span>
+              <span class="cs-pattern-name"
+                >롤플레이 만능 공식 (11번 질문형 & 12번 대안형)</span
+              >
+              <span class="cs-pattern-target"
+                >[11~12번 필수] 공연/축제 티켓 문의, 카페 지연, 호텔 예약/방
+                문제 등</span
+              >
+            </div>
+            <div class="cs-rp-split">
+              <div class="cs-rp-col">
+                <div class="cs-rp-title">📞 11번: 3~4가지 정보 질문 공식</div>
+                <div class="cs-line">
+                  <b>• 인사/용건:</b> Hello, I'm calling to ask about
+                  <u>[예약/티켓]</u>.
+                </div>
+                <div class="cs-line">
+                  <b>• 질문 1(시간):</b> What time does it start/open?
+                </div>
+                <div class="cs-line">
+                  <b>• 질문 2(가격):</b> How much is the total rate per person?
+                </div>
+                <div class="cs-line">
+                  <b>• 질문 3(할인/옵션):</b> Are there any special discounts
+                  available?
+                </div>
+                <div class="cs-line">
+                  <b>• 마무리:</b> Thank you so much for your kind help!
+                </div>
+              </div>
+              <div class="cs-rp-col">
+                <div class="cs-rp-title">
+                  🚨 12번: 문제 설명 & 2가지 대안 제시 공식
+                </div>
+                <div class="cs-line">
+                  <b>• 사과/설명:</b> I'm really sorry, but
+                  <u>[상황: 늦음/방 문제]</u>.
+                </div>
+                <div class="cs-line">
+                  <b>• 대안 1:</b> Can you please
+                  <u>[먼저 시작/다른 방 배정]</u>?
+                </div>
+                <div class="cs-line">
+                  <b>• 대안 2:</b> If not, why don't we
+                  <u>[시간 변경/음료 쿠폰]</u>?
+                </div>
+                <div class="cs-line">
+                  <b>• 마무리:</b> Please let me know which option works for
+                  you.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [섹션 3] 12대 빈출 토픽별 핵심 치환 키워드 (Slot Keyword Bank) -->
+      <div class="cs-section">
+        <div class="cs-section-title">
+          🎯 12대 주제별 뼈대 치환 키워드 모음 (시험장 가기 전 눈도장)
+        </div>
+        <div class="cs-keyword-table-wrap">
+          <table class="cs-keyword-table">
+            <thead>
+              <tr>
+                <th style="width: 18%">주제</th>
+                <th style="width: 32%">1단계: 장소/선호 묘사 단어</th>
+                <th style="width: 50%">2·3단계: 루틴 및 돌발 해결 단어</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>🏠 집/주거</b></td>
+                <td>cozy living room, warm sunlight, soft sofa</td>
+                <td>vacuum the floor, wipe with wet cloth, called repairman</td>
+              </tr>
+              <tr>
+                <td><b>💼 직장/업무</b></td>
+                <td>spacious office, kind team leader, supportive</td>
+                <td>check emails, weekly team meeting, solved urgent bug</td>
+              </tr>
+              <tr>
+                <td><b>☕ 카페가기</b></td>
+                <td>quiet vibe, iced Americano, slice of cheesecake</td>
+                <td>find table near outlet, open laptop, chat with friend</td>
+              </tr>
+              <tr>
+                <td><b>🌳 공원가기</b></td>
+                <td>beautiful lake, wooden walking trail, tall green trees</td>
+                <td>jogging with dog, picnic mat under shade, fresh breeze</td>
+              </tr>
+              <tr>
+                <td><b>🎬 영화보기</b></td>
+                <td>CGV multiplex, reclining leather seats, middle row</td>
+                <td>large caramel popcorn, zero soda, focus on storyline</td>
+              </tr>
+              <tr>
+                <td><b>🎵 음악감상</b></td>
+                <td>acoustic guitar, gentle melody, warm sweet voice</td>
+                <td>wireless earbuds, noise-canceling, stream on phone</td>
+              </tr>
+              <tr>
+                <td><b>💪 운동하기</b></td>
+                <td>modern fitness center, treadmill, dumbells</td>
+                <td>
+                  stretch joints, lift weights, warm shower, protein shake
+                </td>
+              </tr>
+              <tr>
+                <td><b>🍳 요리하기</b></td>
+                <td>clean induction stove, air fryer, kimchi fried rice</td>
+                <td>
+                  chop fresh onions, grocery shopping, delicious seasoning
+                </td>
+              </tr>
+              <tr>
+                <td><b>🚗 국내여행</b></td>
+                <td>Jeju Island, ocean-view resort, sunrise from bed</td>
+                <td>
+                  pack light luggage, visit famous attractions, rainy indoor
+                  gallery
+                </td>
+              </tr>
+              <tr>
+                <td><b>⛺ 캠핑하기</b></td>
+                <td>peaceful campsite, folding chair, green nature</td>
+                <td>
+                  grill pork belly barbecue, campfire wood logs, marshmallow
+                </td>
+              </tr>
+              <tr>
+                <td><b>🎭 롤플레이</b></td>
+                <td>concert ticket box office, hotel front desk</td>
+                <td>available standard room, parking fee, upgrade room</td>
+              </tr>
+              <tr>
+                <td><b>🙋 자기소개</b></td>
+                <td>calm and friendly, positive mindset, reliable</td>
+                <td>live alone in apartment, work nine to six, walk in park</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- [섹션 4] 오디오 공백 방어용 10대 핵심 필러 (Fillers) -->
+      <div class="cs-section">
+        <div class="cs-section-title">
+          🗣️ 오디오 공백 방어용 10대 핵심 필러 (Dead Silence 차단)
+        </div>
+        <div class="cs-filler-pills-wrap">
+          <div class="cs-filler-pill">
+            <span>Well...</span> <small>(글쎄요...)</small>
+          </div>
+          <div class="cs-filler-pill">
+            <span>You know...</span> <small>(있잖아요...)</small>
+          </div>
+          <div class="cs-filler-pill">
+            <span>I mean...</span> <small>(내 말은...)</small>
+          </div>
+          <div class="cs-filler-pill">
+            <span>Let me see...</span> <small>(어디 보자...)</small>
+          </div>
+          <div class="cs-filler-pill">
+            <span>To be honest...</span> <small>(솔직히 말해...)</small>
+          </div>
+          <div class="cs-filler-pill">
+            <span>You see...</span> <small>(알다시피...)</small>
+          </div>
+          <div class="cs-filler-pill">
+            <span>Actually...</span> <small>(사실은...)</small>
+          </div>
+          <div class="cs-filler-pill">
+            <span>How can I say...</span> <small>(어떻게 말할까...)</small>
+          </div>
+          <div class="cs-filler-pill">
+            <span>In my opinion...</span> <small>(내 생각엔...)</small>
+          </div>
+          <div class="cs-filler-pill">
+            <span>What I want to say is...</span> <small>(말하자면...)</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- 문서 푸터 (인쇄 시) -->
+      <div class="print-doc-footer">
+        <span
+          >OPIc Master Training System · Made for Hyosang Kim · Target: IM1 ~
+          IH</span
+        >
+        <span>Printed on <span id="csPrintDate"></span></span>
+      </div>
+    </div>
+    <!-- // #cheatSheetPrintArea -->
+
+    <div
+      class="modal-footer cheat-sheet-modal-footer"
+      style="flex-wrap: wrap; justify-content: flex-end; gap: 8px"
+    >
+      <button
+        type="button"
+        class="secondary"
+        id="closeCheatSheetModalBtnBottom"
+        onclick="closeCheatSheetModal()"
+        style="min-width: 80px"
+      >
+        닫기
+      </button>
+      <button
+        type="button"
+        class="secondary"
+        id="btnDownloadCheatSheetHtmlBottom"
+        onclick="downloadCheatSheetHTML()"
+        title="단독 실행형 HTML 문서 저장"
+      >
+        💾 오프라인 파일 (.html)
+      </button>
+      <button
+        type="button"
+        class="secondary"
+        id="btnPrintCheatSheetModalBottom"
+        onclick="printCheatSheet()"
+        title="브라우저 인쇄 대화상자 호출"
+      >
+        🖨️ 브라우저 인쇄
+      </button>
+      <button
+        type="button"
+        class="primary btn-print-pdf-big"
+        id="btnDownloadCheatSheetPdfBottom"
+        onclick="downloadCheatSheetPDF()"
+        title="OPIc 만능 뼈대 치트시트를 실제 PDF 파일(.pdf)로 즉시 다운로드"
+      >
+        <span>📥 PDF 파일 다운로드</span>
+        <kbd class="shortcut-key">P</kbd>
+      </button>
+    </div>
+  </div>
+  <!-- // .modal-card -->
+</div>
+<!-- // #cheatSheetModal -->

@@ -685,3 +685,324 @@ function prevPattern() {
   }
 }
 window.prevPattern = prevPattern;
+
+// =============================================================================
+// 8. 시험장 직전 만능 뼈대 치트시트 모달 & PDF/HTML 다운로드
+// =============================================================================
+
+/**
+ * 치트시트 최신 날짜 표기를 갱신합니다.
+ */
+function updateCheatSheetDate() {
+  const dateEl = document.getElementById("csPrintDate");
+  if (dateEl) {
+    const now = new Date();
+    dateEl.textContent = `${now.getFullYear()}. ${String(now.getMonth() + 1).padStart(2, "0")}. ${String(now.getDate()).padStart(2, "0")}`;
+  }
+}
+
+/**
+ * 시험장 직전 3분 만능 뼈대 치트시트 모달을 엽니다.
+ */
+function openCheatSheetModal() {
+  const modal = document.getElementById("cheatSheetModal");
+  if (!modal) return;
+
+  updateCheatSheetDate();
+  modal.style.display = "flex";
+  // base.css의 .modal-backdrop.show (opacity: 1, pointer-events: auto) 적용
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+window.openCheatSheetModal = openCheatSheetModal;
+
+/**
+ * 치트시트 모달을 닫습니다.
+ */
+function closeCheatSheetModal() {
+  const modal = document.getElementById("cheatSheetModal");
+  if (!modal) return;
+  modal.classList.remove("show");
+  modal.style.display = "none";
+  document.body.style.overflow = "";
+}
+window.closeCheatSheetModal = closeCheatSheetModal;
+
+/**
+ * 만능 뼈대 치트시트를 실제 PDF 파일(.pdf)로 생성하여 즉시 다운로드합니다.
+ * - 필요 시 html2pdf.js를 온디맨드로 동적 로드하여 앱 초기 구동 속도와 안정성을 완벽히 보장
+ * - 실패 또는 오프라인 시 브라우저 내장 인쇄(PDF 저장)로 매끄럽게 폴백
+ * @returns {Promise<boolean>}
+ */
+async function downloadCheatSheetPDF() {
+  updateCheatSheetDate();
+  const printArea = document.getElementById("cheatSheetPrintArea");
+  if (!printArea) {
+    alert("치트시트 본문을 찾을 수 없습니다.");
+    return false;
+  }
+
+  // 버튼 로딩 상태 전환
+  const btns = [
+    document.getElementById("btnDownloadCheatSheetPdf"),
+    document.getElementById("btnDownloadCheatSheetPdfBottom"),
+  ].filter(Boolean);
+
+  const origTexts = btns.map((b) => b.innerHTML);
+  btns.forEach((b) => {
+    b.disabled = true;
+    b.innerHTML = "⏳ PDF 준비 중...";
+  });
+
+  try {
+    // 1. html2pdf 라이브러리가 아직 없으면 온디맨드로 동적 로드
+    if (typeof html2pdf !== "function") {
+      await new Promise((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src =
+          "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+        s.async = true;
+        const timer = setTimeout(() => {
+          reject(new Error("html2pdf 로드 시간 초과"));
+        }, 3500);
+        s.onload = () => {
+          clearTimeout(timer);
+          resolve();
+        };
+        s.onerror = () => {
+          clearTimeout(timer);
+          reject(new Error("html2pdf CDN 로드 실패"));
+        };
+        document.head.appendChild(s);
+      });
+    }
+
+    if (typeof html2pdf === "function") {
+      btns.forEach((b) => {
+        b.innerHTML = "⏳ PDF 렌더링 중...";
+      });
+
+      // A4 210mm 규격(96 DPI 기준 약 794px) 전용 오프스크린 렌더링 컨테이너 생성
+      const offscreen = document.createElement("div");
+      offscreen.className = "pdf-export-canvas";
+      offscreen.style.position = "fixed";
+      offscreen.style.left = "-99999px";
+      offscreen.style.top = "0";
+      offscreen.style.width = "794px";
+      offscreen.style.background = "#ffffff";
+      offscreen.style.color = "#0f172a";
+      offscreen.style.zIndex = "-9999";
+      offscreen.style.boxSizing = "border-box";
+      offscreen.style.fontFamily =
+        '-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", Pretendard, "Malgun Gothic", sans-serif';
+
+      // 치트시트 본문 복제
+      const clone = printArea.cloneNode(true);
+      clone.style.width = "100%";
+      clone.style.maxHeight = "none";
+      clone.style.overflow = "visible";
+      clone.style.padding = "24px 30px";
+      clone.style.background = "#ffffff";
+      clone.style.color = "#0f172a";
+      clone.style.boxSizing = "border-box";
+
+      // 인쇄용 헤더와 푸터 강제 노출
+      const pHeader = clone.querySelector(".print-doc-header");
+      if (pHeader) pHeader.style.display = "block";
+      const pFooter = clone.querySelector(".print-doc-footer");
+      if (pFooter) pFooter.style.display = "flex";
+
+      offscreen.appendChild(clone);
+      document.body.appendChild(offscreen);
+
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
+
+      const opt = {
+        margin: [10, 10, 10, 10],
+        filename: `OPIc_IM1_만능뼈대_치트시트_${dateStr}.pdf`,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          width: 794,
+          windowWidth: 794,
+          backgroundColor: "#ffffff",
+        },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+      };
+
+      await html2pdf().set(opt).from(clone).save();
+
+      btns.forEach((b) => {
+        b.innerHTML = "✅ 다운로드 완료!";
+      });
+      setTimeout(() => {
+        btns.forEach((b, i) => {
+          b.innerHTML = origTexts[i];
+          b.disabled = false;
+        });
+      }, 2500);
+
+      if (offscreen.parentNode) {
+        offscreen.parentNode.removeChild(offscreen);
+      }
+      return true;
+    }
+  } catch (err) {
+    console.warn("온디맨드 PDF 라이브러리 로드 또는 변환 실패:", err);
+  }
+
+  // 폴백: 브라우저 인쇄 대화상자 호출
+  btns.forEach((b, i) => {
+    b.innerHTML = origTexts[i];
+    b.disabled = false;
+  });
+  alert(
+    "💡 인쇄 미리보기 창이 열리면 [대상/프린터]에서 'PDF로 저장'을 선택하시면 PDF 파일로 저장됩니다.\n(오프라인 파일 즉시 저장은 [💾 오프라인 파일] 버튼을 이용하세요)",
+  );
+  printCheatSheet();
+  return false;
+}
+window.downloadCheatSheetPDF = downloadCheatSheetPDF;
+window.exportCheatSheetPDF = downloadCheatSheetPDF; // 하위 호환성 유지
+
+/**
+ * 브라우저 기본 인쇄 대화상자를 호출합니다 (프린터 출력 또는 브라우저 내장 PDF 저장).
+ */
+function printCheatSheet() {
+  updateCheatSheetDate();
+  const modal = document.getElementById("cheatSheetModal");
+  if (modal && modal.style.display !== "flex") {
+    openCheatSheetModal();
+  }
+  setTimeout(() => {
+    window.print();
+  }, 200);
+}
+window.printCheatSheet = printCheatSheet;
+
+/**
+ * 언제 어디서든(비행기 모드/오프라인) 스마트폰과 PC에서 즉시 열어볼 수 있는
+ * 단독 실행형 HTML 치트시트 문서를 즉시 다운로드합니다.
+ */
+function downloadCheatSheetHTML() {
+  updateCheatSheetDate();
+  const printArea = document.getElementById("cheatSheetPrintArea");
+  if (!printArea) return;
+
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
+
+  const standaloneHtml = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPIc IM1 만능 뼈대 치트시트</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", Pretendard, "Malgun Gothic", sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      line-height: 1.5;
+      padding: 20px 16px;
+    }
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 32px 28px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .top-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .print-btn {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .print-btn:hover { background: #4338ca; }
+    .print-doc-header { display: block !important; text-align: center; margin-bottom: 24px; }
+    .print-doc-title { font-size: 24px; font-weight: 800; color: #0f172a; }
+    .print-doc-sub { font-size: 13px; color: #64748b; margin-top: 6px; }
+    .cs-section { margin-bottom: 28px; }
+    .cs-section-title { font-size: 16px; font-weight: 800; color: #0f172a; border-bottom: 2px solid #4f46e5; padding-bottom: 6px; margin-bottom: 14px; }
+    .cs-rules-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .cs-rule-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; display: flex; gap: 10px; }
+    .cs-rule-num { width: 24px; height: 24px; border-radius: 50%; background: #dc2626; color: white; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 13px; }
+    .cs-rule-body strong { font-size: 13px; display: block; margin-bottom: 4px; color: #0f172a; }
+    .cs-rule-body p { font-size: 12px; color: #475569; line-height: 1.45; }
+    .cs-pattern-list { display: flex; flex-direction: column; gap: 14px; }
+    .cs-pattern-card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px; }
+    .cs-pattern-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .cs-pattern-badge { background: #334155; color: white; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+    .cs-pattern-name { font-size: 14px; font-weight: 700; color: #0f172a; }
+    .cs-pattern-core { font-size: 12px; color: #4338ca; background: #eef2ff; padding: 3px 8px; border-radius: 4px; font-weight: 600; margin-left: auto; }
+    .cs-pattern-flow { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .cs-flow-tag { background: #f1f5f9; border: 1px solid #e2e8f0; font-size: 11px; padding: 2px 7px; border-radius: 4px; color: #334155; }
+    .cs-pattern-lines { background: #fafafa; border-radius: 6px; padding: 10px 14px; border-left: 3px solid #4f46e5; display: flex; flex-direction: column; gap: 6px; }
+    .cs-line { font-size: 13px; color: #1e293b; line-height: 1.45; }
+    .cs-line u { color: #000000; font-weight: 800; text-decoration: underline; }
+    .cs-rp-split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cs-rp-col { background: #fafafa; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; }
+    .cs-rp-col-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+    .cs-keyword-table-wrap { overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; }
+    .cs-keyword-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .cs-keyword-table th { background: #f1f5f9; padding: 8px 10px; font-weight: 700; text-align: left; border-bottom: 1px solid #e2e8f0; }
+    .cs-keyword-table td { padding: 8px 10px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+    .cs-keyword-table tr:last-child td { border-bottom: none; }
+    .cs-fillers-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .cs-filler-pill { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .cs-filler-pill span { font-weight: 700; color: #0f172a; }
+    .cs-filler-pill small { color: #64748b; font-size: 11px; }
+    .print-doc-footer { display: flex; justify-content: space-between; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 12px; margin-top: 24px; }
+    @media print {
+      body { background: white; padding: 0; }
+      .container { box-shadow: none; padding: 0; max-width: 100%; }
+      .top-toolbar { display: none; }
+      .cs-pattern-card, .cs-rule-card, .cs-keyword-table tr { page-break-inside: avoid; break-inside: avoid; }
+    }
+    @media (max-width: 640px) {
+      .cs-rules-grid, .cs-rp-split, .cs-fillers-grid { grid-template-columns: 1fr; }
+      .container { padding: 16px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-toolbar">
+      <span style="font-size:13px; font-weight:700; color:#4f46e5;">📱 OPIc 오프라인 휴대용 치트시트</span>
+      <button class="print-btn" onclick="window.print()">🖨️ PDF 인쇄 / 저장</button>
+    </div>
+    ${printArea.innerHTML}
+  </div>
+</body>
+</html>`;
+
+  const blob = new Blob([standaloneHtml], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `OPIc_IM1_만능뼈대_치트시트_${dateStr}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+window.downloadCheatSheetHTML = downloadCheatSheetHTML;

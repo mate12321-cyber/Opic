@@ -52,6 +52,20 @@
         ⚙️ 설정
       </button>
 
+      <!-- 📄 시험장 뼈대 치트시트 PDF 내보내기 버튼 -->
+      <button
+        type="button"
+        class="settings-trigger-btn"
+        id="openCheatSheetBtnHome"
+        onclick="
+          if (typeof openCheatSheetModal === 'function') openCheatSheetModal();
+        "
+        title="시험장 직전 3분 압축 만능 뼈대 치트시트 보기 및 다운로드"
+        style="font-weight: 700; color: #16a34a"
+      >
+        📄 치트시트 PDF
+      </button>
+
       <!-- 📅 오늘 날짜 표시 레이블 (dashboard.js 동적 렌더링) -->
       <div class="home-date" id="homeDate"></div>
     </div>
@@ -158,7 +172,7 @@
           ></span
         >
         <span class="nav-card-sub" id="navOpicBankSub"
-          >12개 주제 40문항 한눈에 보기 · 뼈대 연동 & TTS</span
+          >12개 주제 72문항 한눈에 보기 · 뼈대 연동 & TTS</span
         >
       </span>
       <span class="nav-card-arrow">›</span>

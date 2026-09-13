@@ -21,14 +21,14 @@ OPIc/
 │   ├── pattern.html            # 5. 만능 패턴 집중 훈련 화면 조각 (주제선택 + 패턴 슬롯)
 │   ├── filler.html             # 6. 필러 집중 훈련 화면 조각 (16대 필러)
 │   ├── speech.html             # 7. 자유 발화 연습 화면 조각 (Whisper AI 마이크 + 다면 진단)
-│   ├── modals.html             # 8. 공통 모달 조각 (음성/TTS 설정 모달 + 📚 단어장 모달)
+│   ├── modals.html             # 8. 공통 모달 조각 (음성/TTS 설정 모달 + 📚 단어장 + 📄 시험장 뼈대 치트시트 PDF 모달)
 │   └── components/             # ── [Reusable UI Components] ─────────────────────
 │       └── voice-input.html    # 공통 음성 입력창 컴포넌트 (마이크, 실시간 번역, 복사 버튼)
 │
 ├── data/                       # ── [Data Layer - Zero-Latency JS Data Modules] ───
 │   ├── sentences_im1.js        # OPIc IM1 문장 번역 데이터 모듈 (208개 엄선 문항)
 │   ├── grammar_im1.js          # OPIc IM1 문법 포인트 퀴즈 데이터 모듈 (81개 핵심 문법 문항)
-│   ├── questions_im1.js        # OPIc 실전 질문 및 IM1 만능 답변 데이터 (정규화 & 자동 합성)
+│   ├── questions_im1.js        # OPIc 실전 질문 및 IM1 만능 답변 데이터 (72문항: 12개 주제 × 3단 콤보 2세트)
 │   ├── patterns_im1.js         # 6대 만능 템플릿 및 실시간 슬롯 스위처 데이터 모듈
 │   └── fillers_im1.js          # 16개 핵심 필러 및 상황별 가이드 데이터 모듈
 │
@@ -38,6 +38,7 @@ OPIc/
 │   ├── theme.js                # 🌙 다크 테마 / ☀️ 라이트 테마 전담 관리 모듈 (OS 설정 감지 및 전환)
 │   ├── audio-cache.js          # IndexedDB 기반 TTS 오디오 영구 캐시 매니저 (LRU 자동 정리 지원)
 │   ├── eval-dict.js            # OPIc 발음/발화 다면 평가용 토픽 어휘 맵 및 담화 표지어 사전
+│   ├── html2pdf.bundle.min.js  # 📄 클라이언트 사이드 A4 고해상도 PDF 생성 엔진 (html2canvas + jsPDF)
 │   ├── storage.js              # 스토리지(localStorage), 데이터 전체 백업/복원(JSON), 스트릭 통계
 │   ├── speech.js               # Azure Neural TTS / Google / Web Speech 하이브리드 음성 엔진, 다면 발화 평가
 │   ├── dashboard.js            # DOM 엘리먼트 캐시(els), 홈 대시보드 통계/차트, SPA 라우터(navigateTo)

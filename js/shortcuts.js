@@ -29,7 +29,7 @@
 document.addEventListener("keydown", (e) => {
   const isInputFocused = document.activeElement === els.userInput;
 
-  // 1-1. 전역 Esc: 진행 중인 모든 음성 재생 및 마이크 인식 즉시 강제 중단
+  // 1-1. 전역 Esc: 진행 중인 모든 음성 재생 및 마이크 인식 즉시 강제 중단, 열린 모달 닫기
   if (e.key === "Escape" || e.code === "Escape") {
     stopTTS();
     if (typeof stopFillerMic === "function") stopFillerMic();
@@ -37,10 +37,27 @@ document.addEventListener("keydown", (e) => {
       recognition.stop();
       stopListeningUI();
     }
+    if (typeof closeCheatSheetModal === "function") closeCheatSheetModal();
+    if (typeof closeVocabModal === "function") closeVocabModal();
+    if (typeof closeTtsModal === "function") closeTtsModal();
     return;
   }
 
-  // 1-2. 키 식별자 정규화 헬퍼 (한/영 전환 및 넘패드 상태 동시 대응)
+  // 1-3. 치트시트 모달 열려있을 때 P(PDF 다운로드) 단축키
+  const cheatModal = document.getElementById("cheatSheetModal");
+  if (cheatModal && cheatModal.style.display === "flex") {
+    const isP =
+      e.code === "KeyP" || e.key === "p" || e.key === "P" || e.key === "ㅔ";
+    if (isP) {
+      e.preventDefault();
+      if (typeof downloadCheatSheetPDF === "function") {
+        downloadCheatSheetPDF();
+      }
+      return;
+    }
+  }
+
+  // 1-4. 키 식별자 정규화 헬퍼 (한/영 전환 및 넘패드 상태 동시 대응)
   const isEnter =
     e.key === "Enter" || e.code === "Enter" || e.code === "NumpadEnter";
   const isSpace = e.code === "Space" || e.key === " ";

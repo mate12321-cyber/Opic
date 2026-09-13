@@ -280,23 +280,29 @@ function startOpicPractice(wrongOnly = false) {
   if (wrongOnly && opicWrongList.length > 0) {
     opicOrder = shuffle([...opicWrongList]);
   } else if (opicPlayMode === "combo") {
-    // 🎯 실전 3단 콤보 모드: 선택된 카테고리별로 3문항씩 묶어 순차 세트 구성
+    // 🎯 실전 3단 콤보 모드: 선택된 카테고리별로 3단 콤보 세트(Set A, Set B) 단위 순차 세트 구성
     const comboIndices = [];
     const cats = [...opicSelectedCats];
 
-    // 카테고리 순서를 섞음
+    // 카테고리 순서를 셔플
     const shuffledCats = shuffle(cats);
     for (const cat of shuffledCats) {
       const catQuestions = OPIC_QUESTIONS.map((q, idx) => ({ q, idx })).filter(
         ({ q }) => q.cat === cat,
       );
 
-      if (catQuestions.length > 0) {
-        // 실제 OPIc 콤보 단계(1단계 묘사 ➔ 2단계 루틴 ➔ 3단계 과거경험) 순서 정렬
-        const sorted = catQuestions.sort(
-          (a, b) => (a.q.combo_step || 1) - (b.q.combo_step || 1),
+      // 세트(combo_set: 1 = Set A, 2 = Set B)별로 그룹화하여 각각 1->2->3단계 순서 정렬
+      const setNumbers = [1, 2];
+      for (const setNum of setNumbers) {
+        const setQuestions = catQuestions.filter(
+          ({ q }) => (q.combo_set || 1) === setNum,
         );
-        sorted.slice(0, 3).forEach(({ idx }) => comboIndices.push(idx));
+        if (setQuestions.length > 0) {
+          const sorted = setQuestions.sort(
+            (a, b) => (a.q.combo_step || 1) - (b.q.combo_step || 1),
+          );
+          sorted.forEach(({ idx }) => comboIndices.push(idx));
+        }
       }
     }
 
@@ -340,7 +346,7 @@ function startOpicPractice(wrongOnly = false) {
  * [주요 처리 로직]:
  * 1. 실행 중인 타이머/오디오 정지 및 녹음 상태 초기화
  * 2. 모든 질문 완주 시: 세트 결과 화면(showOpicDoneScreen) 호출
- * 3. 질문 카테고리, 콤보 단계(1/2/3단계), 유형 라벨 바인딩
+ * 3. 질문 카테고리, 콤보 단계(Set A/B 1/2/3단계), 유형 라벨 바인딩
  * 4. 에바 질문 텍스트 및 기본 블라인드(리스닝 청취 유도) 상태 설정
  * 5. 한국어 답변 가이드, 분할 문장 뷰, 전체 문단 뷰 동적 생성
  * 6. 사용자 이전 입력 답변 복원 및 에바 질문 자동 재생 준비
@@ -377,11 +383,12 @@ function renderOpicCard() {
   }
   if (els.evaTypeBadge) els.evaTypeBadge.textContent = item.type || "실전 질문";
 
-  // 3단 콤보 배지 표시
+  // 3단 콤보 배지 표시 (Set A / Set B 구분 명시)
   if (els.opicComboStepBadge) {
     if (opicPlayMode === "combo") {
+      const setLabel = item.combo_set === 2 ? "Set B" : "Set A";
       const stepText = item.combo_role || `콤보 ${item.combo_step || 1}단계`;
-      els.opicComboStepBadge.textContent = `🎯 ${stepText}`;
+      els.opicComboStepBadge.textContent = `🎯 [${setLabel}] ${stepText}`;
       els.opicComboStepBadge.style.display = "inline-flex";
     } else {
       els.opicComboStepBadge.style.display = "none";
@@ -1164,6 +1171,13 @@ function renderBankCardList() {
     if (bankSelectedStep !== "all") {
       if (bankSelectedStep === "rp") {
         if (q.cat !== "롤플레이") return false;
+      } else if (bankSelectedStep === "compare" || bankSelectedStep === "4") {
+        // 변화·비교 심화 문항 필터링
+        const isChange =
+          (q.combo_role &&
+            (q.combo_role.includes("변화") || q.combo_role.includes("비교"))) ||
+          (q.type && (q.type.includes("변화") || q.type.includes("비교")));
+        if (!isChange) return false;
       } else {
         const stepNum = Number(bankSelectedStep);
         if (q.combo_step !== stepNum) return false;
@@ -1229,10 +1243,10 @@ function renderBankCardList() {
     catBadge.className = "bank-cat-badge";
     catBadge.textContent = q.cat;
 
+    const setLabel = q.combo_set === 2 ? "Set B" : "Set A";
     const roleBadge = document.createElement("span");
     roleBadge.className = "bank-role-badge";
-    roleBadge.textContent =
-      q.combo_role || q.type || `콤보 ${q.combo_step || 1}단계`;
+    roleBadge.textContent = `[${setLabel}] ${q.combo_role || q.type || `콤보 ${q.combo_step || 1}단계`}`;
 
     badges.appendChild(catBadge);
     badges.appendChild(roleBadge);

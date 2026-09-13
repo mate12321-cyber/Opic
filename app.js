@@ -641,7 +641,108 @@ if (importBackupBtn && importBackupInput) {
 }
 
 // =============================================================================
-// 14. 앱 부트스트랩 및 초기 데이터 로딩 시퀀스 (Application Bootstrap)
+// 14. 📄 시험장 직전 만능 뼈대 치트시트 모달 및 PDF/HTML 다운로드 이벤트
+// =============================================================================
+const openCheatSheetBtnHome = document.getElementById("openCheatSheetBtnHome");
+const openCheatSheetBtnPattern = document.getElementById(
+  "openCheatSheetBtnPattern",
+);
+const openCheatSheetBtnPatternCard = document.getElementById(
+  "openCheatSheetBtnPatternCard",
+);
+const closeCheatSheetModalBtn = document.getElementById(
+  "closeCheatSheetModalBtn",
+);
+const closeCheatSheetModalBtnBottom = document.getElementById(
+  "closeCheatSheetModalBtnBottom",
+);
+const btnDownloadCheatSheetPdf = document.getElementById(
+  "btnDownloadCheatSheetPdf",
+);
+const btnDownloadCheatSheetPdfBottom = document.getElementById(
+  "btnDownloadCheatSheetPdfBottom",
+);
+const btnDownloadCheatSheetHtml = document.getElementById(
+  "btnDownloadCheatSheetHtml",
+);
+const btnDownloadCheatSheetHtmlBottom = document.getElementById(
+  "btnDownloadCheatSheetHtmlBottom",
+);
+const btnPrintCheatSheetModal = document.getElementById(
+  "btnPrintCheatSheetModal",
+);
+const btnPrintCheatSheetModalBottom = document.getElementById(
+  "btnPrintCheatSheetModalBottom",
+);
+const cheatSheetModal = document.getElementById("cheatSheetModal");
+
+[
+  openCheatSheetBtnHome,
+  openCheatSheetBtnPattern,
+  openCheatSheetBtnPatternCard,
+].forEach((btn) => {
+  if (btn) {
+    btn.addEventListener("click", () => {
+      if (typeof openCheatSheetModal === "function") openCheatSheetModal();
+    });
+  }
+});
+
+[closeCheatSheetModalBtn, closeCheatSheetModalBtnBottom].forEach((btn) => {
+  if (btn) {
+    btn.addEventListener("click", () => {
+      if (typeof closeCheatSheetModal === "function") closeCheatSheetModal();
+    });
+  }
+});
+
+// PDF 파일 직접 다운로드 (html2pdf)
+[btnDownloadCheatSheetPdf, btnDownloadCheatSheetPdfBottom].forEach((btn) => {
+  if (btn) {
+    btn.addEventListener("click", () => {
+      if (typeof downloadCheatSheetPDF === "function") {
+        downloadCheatSheetPDF();
+      } else if (typeof exportCheatSheetPDF === "function") {
+        exportCheatSheetPDF();
+      }
+    });
+  }
+});
+
+// 오프라인 HTML 파일 다운로드
+[btnDownloadCheatSheetHtml, btnDownloadCheatSheetHtmlBottom].forEach((btn) => {
+  if (btn) {
+    btn.addEventListener("click", () => {
+      if (typeof downloadCheatSheetHTML === "function") {
+        downloadCheatSheetHTML();
+      }
+    });
+  }
+});
+
+// 브라우저 인쇄 대화상자 호출
+[btnPrintCheatSheetModal, btnPrintCheatSheetModalBottom].forEach((btn) => {
+  if (btn) {
+    btn.addEventListener("click", () => {
+      if (typeof printCheatSheet === "function") {
+        printCheatSheet();
+      } else if (typeof exportCheatSheetPDF === "function") {
+        exportCheatSheetPDF();
+      }
+    });
+  }
+});
+
+if (cheatSheetModal) {
+  cheatSheetModal.addEventListener("click", (e) => {
+    if (e.target === cheatSheetModal) {
+      if (typeof closeCheatSheetModal === "function") closeCheatSheetModal();
+    }
+  });
+}
+
+// =============================================================================
+// 15. 앱 부트스트랩 및 초기 데이터 로딩 시퀀스 (Application Bootstrap)
 // =============================================================================
 
 /**
