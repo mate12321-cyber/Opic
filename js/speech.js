@@ -25,7 +25,7 @@
  *    - 최종 예측 등급(AL / IH / IM3 / IM2 / IM1 / IL / NH) 산출 및 상세 진단 보고서 렌더링.
  *
  * @author Kim Hyo-sang
- * @version 2.2.0
+ * @version 2.2.5
  */
 
 // =============================================================================
@@ -1050,7 +1050,8 @@ async function speakText(text, lang = "en-US", btn = null) {
   if (!text || !text.trim()) return;
   const cleanText = text.trim();
 
-  // 재생 중인 버튼을 다시 누르면 즉시 정지 (토글)
+  // [UX 토글 정책]:
+  // 현재 말하고 있는 동일한 버튼을 다시 클릭하면 즉시 음성을 음소거(Mute)하고 정지
   if (
     currentSpeakingBtn === btn &&
     (activeAudio || (window.speechSynthesis && speechSynthesis.speaking))
@@ -1059,7 +1060,9 @@ async function speakText(text, lang = "en-US", btn = null) {
     return;
   }
 
-  // ⚡ 새로운 발음 재생 시작 전, 기존 오디오/TTS 중지 및 새 요청 세션 ID 발급
+  // [동시성 및 경합 조건(Race Condition) 방어]:
+  // 사용자가 버튼을 연타하거나 다음 문제로 빠르게 넘어갈 때, 이전 비동기 fetch/Blob 대기 작업이
+  // 뒤늦게 완료되어 새 문장의 오디오와 겹쳐서 재생되는 현상을 막기 위해 시퀀스 ID(currentTtsRequestId)를 증가시킴
   stopTTS();
   const thisRequestId = currentTtsRequestId;
 
@@ -1067,7 +1070,8 @@ async function speakText(text, lang = "en-US", btn = null) {
   const effectiveEngine = isKorean ? "google" : ttsEngine;
   const voiceName = isKorean ? "ko-KR" : azureVoice || "en-US-JennyNeural";
 
-  // 1단계: IndexedDB 캐시 확인 (오디오 영구 보존 & 0자 소모)
+  // [1단계: IndexedDB 무비용 영구 캐시 검사]
+  // 동일 엔진, 보이스, 문장, 속도로 생성된 Blob이 있으면 네트워크 트래픽 0바이트, 0ms 즉각 재생
   const cacheKey = window.AudioCache
     ? window.AudioCache.makeKey(effectiveEngine, voiceName, cleanText, ttsRate)
     : null;
@@ -1075,7 +1079,7 @@ async function speakText(text, lang = "en-US", btn = null) {
   if (cacheKey && window.AudioCache) {
     try {
       const cachedBlob = await window.AudioCache.getAudio(cacheKey);
-      if (thisRequestId !== currentTtsRequestId) return; // ⚡ 비동기 대기 중 다른 요청 발생 시 취소
+      if (thisRequestId !== currentTtsRequestId) return; // 비동기 대기 중 새로운 요청 발생 시 취소
 
       if (cachedBlob) {
         await playAudioBlob(cachedBlob, btn, thisRequestId);
@@ -1088,7 +1092,8 @@ async function speakText(text, lang = "en-US", btn = null) {
 
   if (thisRequestId !== currentTtsRequestId) return;
 
-  // 2단계: Azure Neural TTS 시도 (영어이고 Azure 설정 유효 시)
+  // [2단계: Azure Cognitive Neural TTS (최고 품질 뉴럴 음성)]
+  // 영문이고 사용자의 Azure API 키가 유효할 때 호출 (월 50만 자 무료 쿼터)
   if (
     !isKorean &&
     effectiveEngine === "azure" &&
@@ -1097,7 +1102,7 @@ async function speakText(text, lang = "en-US", btn = null) {
   ) {
     try {
       const blob = await fetchAzureTtsAudio(cleanText, voiceName, ttsRate);
-      if (thisRequestId !== currentTtsRequestId) return; // ⚡ 비동기 대기 중 다른 요청 발생 시 취소
+      if (thisRequestId !== currentTtsRequestId) return; // 비동기 대기 중 새 요청 발생 시 취소
 
       await playAudioBlob(blob, btn, thisRequestId);
       return;
@@ -1111,11 +1116,12 @@ async function speakText(text, lang = "en-US", btn = null) {
 
   if (thisRequestId !== currentTtsRequestId) return;
 
-  // 3단계: Google TTS 시도 (짧은 단어 및 200자 이하 문장)
+  // [3단계: Google Translate 경량 웹 TTS 폴백]
+  // Azure 미설정 상태이거나 한글 텍스트, 200자 이하의 짧은 단문인 경우 브라우저 내장 보이스보다 자연스러운 웹 보이스 사용
   if (cleanText.length <= 200) {
     try {
       const blob = await fetchGoogleTtsAudio(cleanText, lang);
-      if (thisRequestId !== currentTtsRequestId) return; // ⚡ 비동기 대기 중 다른 요청 발생 시 취소
+      if (thisRequestId !== currentTtsRequestId) return; // 비동기 대기 중 새 요청 발생 시 취소
 
       await playAudioBlob(blob, btn, thisRequestId);
       return;
@@ -1129,7 +1135,8 @@ async function speakText(text, lang = "en-US", btn = null) {
 
   if (thisRequestId !== currentTtsRequestId) return;
 
-  // 4단계: 브라우저 기본 Web Speech API 최종 폴백
+  // [4단계: 브라우저 내장 Web Speech API 최종 오프라인 폴백]
+  // 네트워크가 끊겼거나 모든 외부 API 호출이 차단된 경우에도 최소한의 발음 청취 보장
   playNativeTTS(cleanText, lang, btn, thisRequestId);
 }
 

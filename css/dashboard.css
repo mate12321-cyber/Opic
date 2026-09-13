@@ -1,5 +1,12 @@
 /**
- * [dashboard.css] 홈 화면 대시보드 및 주제 선택 카드 화면
+ * @file dashboard.css
+ * @description 홈 화면 대시보드 통계 카드, 주간 7일 학습 막대 차트 및 주제 선택 그리드 스타일
+ * - 오늘 학습량, 이번 주 누적, 연속 학습일수(Streak) 대시보드 요약 카드
+ * - 최근 7일 학습량 동적 바 차트(Bar Chart) 및 활성 요일 하이라이트
+ * - 6대 학습 모드별 주제 선택(Topic Selection) 카드 그리드 레이아웃
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  */
 
 /* ── 홈 대시보드 화면 ── */

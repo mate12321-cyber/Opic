@@ -1,10 +1,13 @@
 /**
  * @file speech-practice.js
- * @description 자유 발화 연습(Speech Practice) 모드 전담 컨트롤러
+ * @description [모드 6] 자유 발화 연습(Speech Practice) 모드 전담 컨트롤러
  * - 마이크 음성 인식(STT) 및 Whisper AI 로컬 모델을 통한 실시간 텍스트 자동 변환
  * - MediaRecorder 기반 사용자 실제 발화 음성 녹음 및 Blob URL 즉시 청취
  * - OPIc 실전 기준 발화량(단어수/문장수), 담화 표지어, 어휘 다양성 다면 평가
  * - LanguageTool API 연동 실시간 영문법 교정 및 원어민식 표현 제안
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  */
 
 // =============================================================================

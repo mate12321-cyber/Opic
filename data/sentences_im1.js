@@ -1,1250 +1,1269 @@
+/**
+ * @file sentences_im1.js
+ * @description OPIc IM1 대비 한→영 문장 변환 연습 데이터셋 (208문항)
+ * - 12대 핵심 토픽(자기소개, 집/동네, 음악, 영화, 카페, 공원, 여행, 자유시간, 돌발 등)
+ * - 일상 구어체 단문 및 연결어 중심 IM1 맞춤 모범답안 및 문법/어휘 팁 제공
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
+ */
+
+/**
+ * @typedef {Object} SentenceItem
+ * @property {string} cat - 주제/카테고리명 (예: "자기소개", "집/동네")
+ * @property {string} ko - 한글 제시 문장
+ * @property {string} en - 목표 영어 정답 문장
+ * @property {string} tip - 발화 및 문법 힌트 팁
+ */
+
+/** @type {SentenceItem[]} */
 window.SENTENCES_DATA = [
   {
-    "cat": "자기소개",
-    "ko": "저는 회사에서 보통 9시부터 6시까지 일해요.",
-    "en": "I usually work at my office from nine to six.",
-    "tip": "근무 형태처럼 늘 그런 사실은 현재시제로 말해요."
+    cat: "자기소개",
+    ko: "저는 회사에서 보통 9시부터 6시까지 일해요.",
+    en: "I usually work at my office from nine to six.",
+    tip: "근무 형태처럼 늘 그런 사실은 현재시제로 말해요.",
   },
   {
-    "cat": "자기소개",
-    "ko": "저는 혼자 아늑한 아파트에 살고 있습니다.",
-    "en": "I live alone in a cozy apartment.",
-    "tip": "'live alone'은 혼자 산다는 뜻이에요."
+    cat: "자기소개",
+    ko: "저는 혼자 아늑한 아파트에 살고 있습니다.",
+    en: "I live alone in a cozy apartment.",
+    tip: "'live alone'은 혼자 산다는 뜻이에요.",
   },
   {
-    "cat": "자기소개",
-    "ko": "제 주요 업무는 이메일과 문서를 처리하는 일이에요.",
-    "en": "My main job is handling emails and documents.",
-    "tip": "'My main job is -ing'로 담당 업무를 설명해요."
+    cat: "자기소개",
+    ko: "제 주요 업무는 이메일과 문서를 처리하는 일이에요.",
+    en: "My main job is handling emails and documents.",
+    tip: "'My main job is -ing'로 담당 업무를 설명해요.",
   },
   {
-    "cat": "자기소개",
-    "ko": "저는 이 일을 시작한 지 몇 년 되었어요.",
-    "en": "I've been doing this job for a few years.",
-    "tip": "'have been -ing for'는 계속된 기간을 말할 때 써요."
+    cat: "자기소개",
+    ko: "저는 이 일을 시작한 지 몇 년 되었어요.",
+    en: "I've been doing this job for a few years.",
+    tip: "'have been -ing for'는 계속된 기간을 말할 때 써요.",
   },
   {
-    "cat": "자기소개",
-    "ko": "제 남동생은 대학생이에요.",
-    "en": "My younger brother is a college student.",
-    "tip": "'younger brother'는 남동생을 뜻해요."
+    cat: "자기소개",
+    ko: "제 남동생은 대학생이에요.",
+    en: "My younger brother is a college student.",
+    tip: "'younger brother'는 남동생을 뜻해요.",
   },
   {
-    "cat": "자기소개",
-    "ko": "제 취미는 주말마다 운동하는 거예요.",
-    "en": "My hobby is working out on weekends.",
-    "tip": "'My hobby is -ing'로 취미를 소개해요."
+    cat: "자기소개",
+    ko: "제 취미는 주말마다 운동하는 거예요.",
+    en: "My hobby is working out on weekends.",
+    tip: "'My hobby is -ing'로 취미를 소개해요.",
   },
   {
-    "cat": "자기소개",
-    "ko": "저는 전자 회사에서 일하는 회사원이에요.",
-    "en": "I'm an office worker at an electronics company.",
-    "tip": "'an office worker at ~'로 직업과 회사를 말해요."
+    cat: "자기소개",
+    ko: "저는 전자 회사에서 일하는 회사원이에요.",
+    en: "I'm an office worker at an electronics company.",
+    tip: "'an office worker at ~'로 직업과 회사를 말해요.",
   },
   {
-    "cat": "자기소개",
-    "ko": "제 성격은 밝고 외향적인 편이에요.",
-    "en": "My personality is bright and outgoing.",
-    "tip": "'outgoing'은 외향적이고 활발한 성격을 뜻해요."
+    cat: "자기소개",
+    ko: "제 성격은 밝고 외향적인 편이에요.",
+    en: "My personality is bright and outgoing.",
+    tip: "'outgoing'은 외향적이고 활발한 성격을 뜻해요.",
   },
   {
-    "cat": "집/주거",
-    "ko": "저희 집 거실에는 큰 창문이 하나 있어요.",
-    "en": "There's a big window in my living room.",
-    "tip": "'There's a ~'로 거실 창문을 묘사해요."
+    cat: "집/주거",
+    ko: "저희 집 거실에는 큰 창문이 하나 있어요.",
+    en: "There's a big window in my living room.",
+    tip: "'There's a ~'로 거실 창문을 묘사해요.",
   },
   {
-    "cat": "집/주거",
-    "ko": "저는 최근에 새 아파트로 이사했어요.",
-    "en": "I recently moved into a new apartment.",
-    "tip": "'move into + 장소'는 ~로 이사하다라는 뜻이에요."
+    cat: "집/주거",
+    ko: "저는 최근에 새 아파트로 이사했어요.",
+    en: "I recently moved into a new apartment.",
+    tip: "'move into + 장소'는 ~로 이사하다라는 뜻이에요.",
   },
   {
-    "cat": "집/주거",
-    "ko": "제 아파트는 방이 두 개 있어요.",
-    "en": "My apartment has two bedrooms.",
-    "tip": "'has' 뒤에 방 개수만 붙이면 돼요."
+    cat: "집/주거",
+    ko: "제 아파트는 방이 두 개 있어요.",
+    en: "My apartment has two bedrooms.",
+    tip: "'has' 뒤에 방 개수만 붙이면 돼요.",
   },
   {
-    "cat": "집/주거",
-    "ko": "저는 주말마다 집을 깨끗이 청소해요.",
-    "en": "I clean my house every weekend.",
-    "tip": "'clean my house'로 청소 습관을 말해요."
+    cat: "집/주거",
+    ko: "저는 주말마다 집을 깨끗이 청소해요.",
+    en: "I clean my house every weekend.",
+    tip: "'clean my house'로 청소 습관을 말해요.",
   },
   {
-    "cat": "집/주거",
-    "ko": "제 방은 햇빛이 잘 들어서 마음에 들어요.",
-    "en": "My room gets plenty of sunlight, so I like it.",
-    "tip": "'get plenty of sunlight'은 햇빛이 잘 든다는 표현이에요."
+    cat: "집/주거",
+    ko: "제 방은 햇빛이 잘 들어서 마음에 들어요.",
+    en: "My room gets plenty of sunlight, so I like it.",
+    tip: "'get plenty of sunlight'은 햇빛이 잘 든다는 표현이에요.",
   },
   {
-    "cat": "집/주거",
-    "ko": "저희 집은 회사에서 차로 30분 거리예요.",
-    "en": "My house is about a 30-minute drive from work.",
-    "tip": "'a 30-minute drive'로 이동 시간을 표현해요."
+    cat: "집/주거",
+    ko: "저희 집은 회사에서 차로 30분 거리예요.",
+    en: "My house is about a 30-minute drive from work.",
+    tip: "'a 30-minute drive'로 이동 시간을 표현해요.",
   },
   {
-    "cat": "집/주거",
-    "ko": "제 아파트 주변에는 편의시설이 많아요.",
-    "en": "There are many convenient stores around my apartment.",
-    "tip": "'There are many ~'로 주변 편의시설을 설명해요."
+    cat: "집/주거",
+    ko: "제 아파트 주변에는 편의시설이 많아요.",
+    en: "There are many convenient stores around my apartment.",
+    tip: "'There are many ~'로 주변 편의시설을 설명해요.",
   },
   {
-    "cat": "집/주거",
-    "ko": "저는 조용하고 깨끗한 동네에 살아요.",
-    "en": "I live in a quiet and clean neighborhood.",
-    "tip": "'live in a + 형용사 + neighborhood'로 거주 환경을 묘사해요."
+    cat: "집/주거",
+    ko: "저는 조용하고 깨끗한 동네에 살아요.",
+    en: "I live in a quiet and clean neighborhood.",
+    tip: "'live in a + 형용사 + neighborhood'로 거주 환경을 묘사해요.",
   },
   {
-    "cat": "직장/업무",
-    "ko": "저는 매일 아침 설비 상태를 점검해요.",
-    "en": "I check the equipment status every morning.",
-    "tip": "직무 수행은 일반 현재시제로 명확히 표현해요."
+    cat: "직장/업무",
+    ko: "저는 매일 아침 설비 상태를 점검해요.",
+    en: "I check the equipment status every morning.",
+    tip: "직무 수행은 일반 현재시제로 명확히 표현해요.",
   },
   {
-    "cat": "직장/업무",
-    "ko": "저희 팀에는 다섯 명의 동료가 있어요.",
-    "en": "There are five colleagues on my team.",
-    "tip": "'There are + 사람 수'로 팀 구성을 설명해요."
+    cat: "직장/업무",
+    ko: "저희 팀에는 다섯 명의 동료가 있어요.",
+    en: "There are five colleagues on my team.",
+    tip: "'There are + 사람 수'로 팀 구성을 설명해요.",
   },
   {
-    "cat": "직장/업무",
-    "ko": "야근은 가끔 피곤하지만 보람이 있어요.",
-    "en": "Working overtime is sometimes tiring, but rewarding.",
-    "tip": "'rewarding'은 보람 있는, 뿌듯한이라는 뜻이에요."
+    cat: "직장/업무",
+    ko: "야근은 가끔 피곤하지만 보람이 있어요.",
+    en: "Working overtime is sometimes tiring, but rewarding.",
+    tip: "'rewarding'은 보람 있는, 뿌듯한이라는 뜻이에요.",
   },
   {
-    "cat": "직장/업무",
-    "ko": "문제가 생기면 동료들과 함께 해결해요.",
-    "en": "When a problem occurs, we solve it together with colleagues.",
-    "tip": "'solve it together'는 함께 해결한다는 뜻이에요."
+    cat: "직장/업무",
+    ko: "문제가 생기면 동료들과 함께 해결해요.",
+    en: "When a problem occurs, we solve it together with colleagues.",
+    tip: "'solve it together'는 함께 해결한다는 뜻이에요.",
   },
   {
-    "cat": "직장/업무",
-    "ko": "저희 팀은 점심시간에 다 같이 식사를 해요.",
-    "en": "Our team usually has lunch together during break time.",
-    "tip": "'Our team'은 단수 취급하여 'has lunch'로 표현해요."
+    cat: "직장/업무",
+    ko: "저희 팀은 점심시간에 다 같이 식사를 해요.",
+    en: "Our team usually has lunch together during break time.",
+    tip: "'Our team'은 단수 취급하여 'has lunch'로 표현해요.",
   },
   {
-    "cat": "직장/업무",
-    "ko": "제 직장 동료들은 서로를 잘 도와줘요.",
-    "en": "My coworkers help each other very well.",
-    "tip": "'help each other'는 서로 돕는다는 뜻이에요."
+    cat: "직장/업무",
+    ko: "제 직장 동료들은 서로를 잘 도와줘요.",
+    en: "My coworkers help each other very well.",
+    tip: "'help each other'는 서로 돕는다는 뜻이에요.",
   },
   {
-    "cat": "직장/업무",
-    "ko": "회사 분위기는 정말 매우 자유로워요.",
-    "en": "The vibe at my company is really very open.",
-    "tip": "'vibe'는 직장 분위기(vibe)를 뜻해요."
+    cat: "직장/업무",
+    ko: "회사 분위기는 정말 매우 자유로워요.",
+    en: "The vibe at my company is really very open.",
+    tip: "'vibe'는 직장 분위기(vibe)를 뜻해요.",
   },
   {
-    "cat": "직장/업무",
-    "ko": "저는 제 직무에 대해 자부심을 느껴요.",
-    "en": "I take pride in my job.",
-    "tip": "'take pride in'은 ~에 자부심을 느끼다라는 표현이에요."
+    cat: "직장/업무",
+    ko: "저는 제 직무에 대해 자부심을 느껴요.",
+    en: "I take pride in my job.",
+    tip: "'take pride in'은 ~에 자부심을 느끼다라는 표현이에요.",
   },
   {
-    "cat": "취미",
-    "ko": "저는 시간이 날 때 주식 시장 뉴스를 챙겨봐요.",
-    "en": "I follow stock market news in my free time.",
-    "tip": "'in my free time'은 여유 시간에라는 뜻이에요."
+    cat: "취미",
+    ko: "저는 시간이 날 때 주식 시장 뉴스를 챙겨봐요.",
+    en: "I follow stock market news in my free time.",
+    tip: "'in my free time'은 여유 시간에라는 뜻이에요.",
   },
   {
-    "cat": "취미",
-    "ko": "앱 개발은 제가 가장 흥미를 느끼는 분야예요.",
-    "en": "App development is the field I'm most interested in.",
-    "tip": "'the field I am interested in'으로 관심 분야를 말해요."
+    cat: "취미",
+    ko: "앱 개발은 제가 가장 흥미를 느끼는 분야예요.",
+    en: "App development is the field I'm most interested in.",
+    tip: "'the field I am interested in'으로 관심 분야를 말해요.",
   },
   {
-    "cat": "취미",
-    "ko": "새로운 웹사이트를 만드는 것은 정말 보람차요.",
-    "en": "Building a new website is very rewarding.",
-    "tip": "동명사 주어(Building ~) 뒤에는 단수 동사 is가 와요."
+    cat: "취미",
+    ko: "새로운 웹사이트를 만드는 것은 정말 보람차요.",
+    en: "Building a new website is very rewarding.",
+    tip: "동명사 주어(Building ~) 뒤에는 단수 동사 is가 와요.",
   },
   {
-    "cat": "취미",
-    "ko": "한국 전통문화는 배울수록 매력적이에요.",
-    "en": "Traditional Korean culture is attractive the more I learn about it.",
-    "tip": "'attractive'는 매력적인이라는 뜻이에요."
+    cat: "취미",
+    ko: "한국 전통문화는 배울수록 매력적이에요.",
+    en: "Traditional Korean culture is attractive the more I learn about it.",
+    tip: "'attractive'는 매력적인이라는 뜻이에요.",
   },
   {
-    "cat": "취미",
-    "ko": "저희 친구들은 주말마다 함께 취미 활동을 즐겨요.",
-    "en": "My friends and I enjoy hobbies together on weekends.",
-    "tip": "'My friends and I'는 복수 주어예요."
+    cat: "취미",
+    ko: "저희 친구들은 주말마다 함께 취미 활동을 즐겨요.",
+    en: "My friends and I enjoy hobbies together on weekends.",
+    tip: "'My friends and I'는 복수 주어예요.",
   },
   {
-    "cat": "취미",
-    "ko": "제 취미 중 하나는 주말에 그림을 그리는 거예요.",
-    "en": "One of my hobbies is drawing on weekends.",
-    "tip": "'One of my hobbies is -ing'는 취미 소개의 대표 표현이에요."
+    cat: "취미",
+    ko: "제 취미 중 하나는 주말에 그림을 그리는 거예요.",
+    en: "One of my hobbies is drawing on weekends.",
+    tip: "'One of my hobbies is -ing'는 취미 소개의 대표 표현이에요.",
   },
   {
-    "cat": "취미",
-    "ko": "독서는 스트레스를 해소하는 데 많은 도움이 돼요.",
-    "en": "Reading helps a lot with relieving stress.",
-    "tip": "'help with -ing'는 ~에 도움이 되다라는 뜻이에요."
+    cat: "취미",
+    ko: "독서는 스트레스를 해소하는 데 많은 도움이 돼요.",
+    en: "Reading helps a lot with relieving stress.",
+    tip: "'help with -ing'는 ~에 도움이 되다라는 뜻이에요.",
   },
   {
-    "cat": "취미",
-    "ko": "저는 새로운 것을 배우는 취미를 좋아해요.",
-    "en": "I like hobbies where I can learn new things.",
-    "tip": "'learn new things'는 새로운 것을 배운다는 뜻이에요."
+    cat: "취미",
+    ko: "저는 새로운 것을 배우는 취미를 좋아해요.",
+    en: "I like hobbies where I can learn new things.",
+    tip: "'learn new things'는 새로운 것을 배운다는 뜻이에요.",
   },
   {
-    "cat": "일상",
-    "ko": "알람은 보통 아침 6시 30분에 울려요.",
-    "en": "My alarm usually goes off at 6:30 in the morning.",
-    "tip": "'alarm goes off'는 알람이 울린다는 표현이에요."
+    cat: "일상",
+    ko: "알람은 보통 아침 6시 30분에 울려요.",
+    en: "My alarm usually goes off at 6:30 in the morning.",
+    tip: "'alarm goes off'는 알람이 울린다는 표현이에요.",
   },
   {
-    "cat": "일상",
-    "ko": "저는 출근하기 전에 커피를 한 잔 마셔요.",
-    "en": "I drink a cup of coffee before I go to work.",
-    "tip": "'before + 절'로 출근 전 루틴을 표현해요."
+    cat: "일상",
+    ko: "저는 출근하기 전에 커피를 한 잔 마셔요.",
+    en: "I drink a cup of coffee before I go to work.",
+    tip: "'before + 절'로 출근 전 루틴을 표현해요.",
   },
   {
-    "cat": "일상",
-    "ko": "규칙적인 일정 덕분에 매일 퇴근 후 여유를 즐겨요.",
-    "en": "Thanks to my regular schedule, I enjoy my free time after work every day.",
-    "tip": "'regular schedule'로 규칙적인 일정을 표현해요."
+    cat: "일상",
+    ko: "규칙적인 일정 덕분에 매일 퇴근 후 여유를 즐겨요.",
+    en: "Thanks to my regular schedule, I enjoy my free time after work every day.",
+    tip: "'regular schedule'로 규칙적인 일정을 표현해요.",
   },
   {
-    "cat": "일상",
-    "ko": "퇴근 후 운동은 하루의 피로를 풀어줘요.",
-    "en": "Working out after work relieves the fatigue of the day.",
-    "tip": "'relieve fatigue'는 피로를 푼다는 유용한 표현이에요."
+    cat: "일상",
+    ko: "퇴근 후 운동은 하루의 피로를 풀어줘요.",
+    en: "Working out after work relieves the fatigue of the day.",
+    tip: "'relieve fatigue'는 피로를 푼다는 유용한 표현이에요.",
   },
   {
-    "cat": "일상",
-    "ko": "스마트폰 확인은 제가 자기 전에 하는 마지막 일이에요.",
-    "en": "Checking my phone is the last thing I do before sleeping.",
-    "tip": "동명사 주어 'Checking my phone'으로 시작해요."
+    cat: "일상",
+    ko: "스마트폰 확인은 제가 자기 전에 하는 마지막 일이에요.",
+    en: "Checking my phone is the last thing I do before sleeping.",
+    tip: "동명사 주어 'Checking my phone'으로 시작해요.",
   },
   {
-    "cat": "일상",
-    "ko": "저는 매일 아침 간단하게 식사를 챙겨 먹어요.",
-    "en": "I have a simple breakfast every morning.",
-    "tip": "'have a simple breakfast'는 간단한 아침식사를 뜻해요."
+    cat: "일상",
+    ko: "저는 매일 아침 간단하게 식사를 챙겨 먹어요.",
+    en: "I have a simple breakfast every morning.",
+    tip: "'have a simple breakfast'는 간단한 아침식사를 뜻해요.",
   },
   {
-    "cat": "일상",
-    "ko": "저녁 시간은 주로 집에서 편하게 쉬며 보내요.",
-    "en": "I usually spend my evenings relaxing at home.",
-    "tip": "'spend evenings relaxing'으로 저녁 휴식을 표현해요."
+    cat: "일상",
+    ko: "저녁 시간은 주로 집에서 편하게 쉬며 보내요.",
+    en: "I usually spend my evenings relaxing at home.",
+    tip: "'spend evenings relaxing'으로 저녁 휴식을 표현해요.",
   },
   {
-    "cat": "일상",
-    "ko": "저는 규칙적인 하루 일과를 유지하려고 노력해요.",
-    "en": "I try to maintain a regular daily routine.",
-    "tip": "'maintain a regular routine'은 규칙적인 일과를 지키다라는 뜻이에요."
+    cat: "일상",
+    ko: "저는 규칙적인 하루 일과를 유지하려고 노력해요.",
+    en: "I try to maintain a regular daily routine.",
+    tip: "'maintain a regular routine'은 규칙적인 일과를 지키다라는 뜻이에요.",
   },
   {
-    "cat": "여가/주말",
-    "ko": "주말은 나만의 휴식을 취하기에 가장 좋은 시간이에요.",
-    "en": "Weekends are the best time to take a rest.",
-    "tip": "'the best time to take a rest'로 주말 휴식을 표현해요."
+    cat: "여가/주말",
+    ko: "주말은 나만의 휴식을 취하기에 가장 좋은 시간이에요.",
+    en: "Weekends are the best time to take a rest.",
+    tip: "'the best time to take a rest'로 주말 휴식을 표현해요.",
   },
   {
-    "cat": "여가/주말",
-    "ko": "저는 지난 주말에 친구와 쇼핑몰에 다녀왔어요.",
-    "en": "I went to the shopping mall with my friend last weekend.",
-    "tip": "'went to ~ with my friend'로 친구와의 외출을 표현해요."
+    cat: "여가/주말",
+    ko: "저는 지난 주말에 친구와 쇼핑몰에 다녀왔어요.",
+    en: "I went to the shopping mall with my friend last weekend.",
+    tip: "'went to ~ with my friend'로 친구와의 외출을 표현해요.",
   },
   {
-    "cat": "여가/주말",
-    "ko": "저는 가끔 혼자 카페에 가서 여유를 즐겨요.",
-    "en": "I sometimes go to a cafe alone and enjoy some leisure time.",
-    "tip": "'enjoy leisure time'은 여유를 즐긴다는 표현이에요."
+    cat: "여가/주말",
+    ko: "저는 가끔 혼자 카페에 가서 여유를 즐겨요.",
+    en: "I sometimes go to a cafe alone and enjoy some leisure time.",
+    tip: "'enjoy leisure time'은 여유를 즐긴다는 표현이에요.",
   },
   {
-    "cat": "여가/주말",
-    "ko": "주말에 늦잠을 자는 것은 피로 회복에 최고예요.",
-    "en": "Sleeping in on weekends is the best for recovering from fatigue.",
-    "tip": "'Sleeping in'은 늦잠 자는 것을 뜻하는 동명사예요."
+    cat: "여가/주말",
+    ko: "주말에 늦잠을 자는 것은 피로 회복에 최고예요.",
+    en: "Sleeping in on weekends is the best for recovering from fatigue.",
+    tip: "'Sleeping in'은 늦잠 자는 것을 뜻하는 동명사예요.",
   },
   {
-    "cat": "여가/주말",
-    "ko": "저는 일요일마다 공원으로 산책을 가요.",
-    "en": "I go for a walk in the park every Sunday.",
-    "tip": "'go for a walk'는 산책을 간다는 표현이에요."
+    cat: "여가/주말",
+    ko: "저는 일요일마다 공원으로 산책을 가요.",
+    en: "I go for a walk in the park every Sunday.",
+    tip: "'go for a walk'는 산책을 간다는 표현이에요.",
   },
   {
-    "cat": "여가/주말",
-    "ko": "집에서 영화를 보며 쉬는 것도 좋은 휴식이에요.",
-    "en": "Relaxing at home while watching movies is also great rest.",
-    "tip": "'Relaxing at home'을 주어로 활용해요."
+    cat: "여가/주말",
+    ko: "집에서 영화를 보며 쉬는 것도 좋은 휴식이에요.",
+    en: "Relaxing at home while watching movies is also great rest.",
+    tip: "'Relaxing at home'을 주어로 활용해요.",
   },
   {
-    "cat": "여가/주말",
-    "ko": "저는 평일에 쌓인 스트레스를 주말에 다 풀어요.",
-    "en": "I relieve all the weekday stress over the weekend.",
-    "tip": "'over the weekend'는 주말 동안이라는 뜻이에요."
+    cat: "여가/주말",
+    ko: "저는 평일에 쌓인 스트레스를 주말에 다 풀어요.",
+    en: "I relieve all the weekday stress over the weekend.",
+    tip: "'over the weekend'는 주말 동안이라는 뜻이에요.",
   },
   {
-    "cat": "음식",
-    "ko": "매운 음식은 스트레스를 날려버리기에 딱 좋아요.",
-    "en": "Spicy food is perfect for blowing off stress.",
-    "tip": "'blow off stress'는 스트레스를 날리다라는 표현이에요."
+    cat: "음식",
+    ko: "매운 음식은 스트레스를 날려버리기에 딱 좋아요.",
+    en: "Spicy food is perfect for blowing off stress.",
+    tip: "'blow off stress'는 스트레스를 날리다라는 표현이에요.",
   },
   {
-    "cat": "음식",
-    "ko": "저희 집 근처에 유명한 맛집이 하나 있어요.",
-    "en": "There's a famous good restaurant near my house.",
-    "tip": "'There is a ~'로 주변 맛집을 소개해요."
+    cat: "음식",
+    ko: "저희 집 근처에 유명한 맛집이 하나 있어요.",
+    en: "There's a famous good restaurant near my house.",
+    tip: "'There is a ~'로 주변 맛집을 소개해요.",
   },
   {
-    "cat": "음식",
-    "ko": "저는 바쁜 아침에는 보통 사과나 바나나를 먹어요.",
-    "en": "I usually eat an apple or a banana on busy mornings.",
-    "tip": "'on busy mornings'로 시간 조건을 덧붙여요."
+    cat: "음식",
+    ko: "저는 바쁜 아침에는 보통 사과나 바나나를 먹어요.",
+    en: "I usually eat an apple or a banana on busy mornings.",
+    tip: "'on busy mornings'로 시간 조건을 덧붙여요.",
   },
   {
-    "cat": "음식",
-    "ko": "신선한 채소를 많이 먹는 것은 건강에 아주 중요해요.",
-    "en": "Eating a lot of fresh vegetables is very important for health.",
-    "tip": "동명사 주어 'Eating ~' 뒤에는 단수 동사 is가 와요."
+    cat: "음식",
+    ko: "신선한 채소를 많이 먹는 것은 건강에 아주 중요해요.",
+    en: "Eating a lot of fresh vegetables is very important for health.",
+    tip: "동명사 주어 'Eating ~' 뒤에는 단수 동사 is가 와요.",
   },
   {
-    "cat": "음식",
-    "ko": "저희 동료들은 금요일마다 맛있는 저녁을 같이 먹어요.",
-    "en": "My coworkers and I have a delicious dinner together every Friday.",
-    "tip": "'have dinner together'는 함께 저녁을 먹는다는 뜻이에요."
+    cat: "음식",
+    ko: "저희 동료들은 금요일마다 맛있는 저녁을 같이 먹어요.",
+    en: "My coworkers and I have a delicious dinner together every Friday.",
+    tip: "'have dinner together'는 함께 저녁을 먹는다는 뜻이에요.",
   },
   {
-    "cat": "음식",
-    "ko": "한국 음식 중에서 김치찌개는 제가 가장 좋아하는 메뉴예요.",
-    "en": "Among Korean food, kimchi stew is my favorite dish.",
-    "tip": "'my favorite dish'는 가장 좋아하는 요리라는 표현이에요."
+    cat: "음식",
+    ko: "한국 음식 중에서 김치찌개는 제가 가장 좋아하는 메뉴예요.",
+    en: "Among Korean food, kimchi stew is my favorite dish.",
+    tip: "'my favorite dish'는 가장 좋아하는 요리라는 표현이에요.",
   },
   {
-    "cat": "음식",
-    "ko": "저는 새로운 맛집을 찾아다니는 것을 즐겨요.",
-    "en": "I enjoy searching for new good restaurants.",
-    "tip": "'enjoy -ing'는 ~하는 것을 즐기다라는 뜻이에요."
+    cat: "음식",
+    ko: "저는 새로운 맛집을 찾아다니는 것을 즐겨요.",
+    en: "I enjoy searching for new good restaurants.",
+    tip: "'enjoy -ing'는 ~하는 것을 즐기다라는 뜻이에요.",
   },
   {
-    "cat": "날씨/계절",
-    "ko": "한국의 여름은 기온이 높고 습도가 높아요.",
-    "en": "Summer in Korea is hot and humid.",
-    "tip": "'hot and humid'는 덥고 습한 날씨의 대표 표현이에요."
+    cat: "날씨/계절",
+    ko: "한국의 여름은 기온이 높고 습도가 높아요.",
+    en: "Summer in Korea is hot and humid.",
+    tip: "'hot and humid'는 덥고 습한 날씨의 대표 표현이에요.",
   },
   {
-    "cat": "날씨/계절",
-    "ko": "제가 가장 좋아하는 계절은 선선한 가을이에요.",
-    "en": "My favorite season is the cool fall.",
-    "tip": "'My favorite season is ~'로 선호하는 계절을 말해요."
+    cat: "날씨/계절",
+    ko: "제가 가장 좋아하는 계절은 선선한 가을이에요.",
+    en: "My favorite season is the cool fall.",
+    tip: "'My favorite season is ~'로 선호하는 계절을 말해요.",
   },
   {
-    "cat": "날씨/계절",
-    "ko": "겨울에 눈이 내리면 온 세상이 하얗게 변해요.",
-    "en": "When it snows in winter, the whole world turns white.",
-    "tip": "'turn white'는 하얗게 변한다는 표현이에요."
+    cat: "날씨/계절",
+    ko: "겨울에 눈이 내리면 온 세상이 하얗게 변해요.",
+    en: "When it snows in winter, the whole world turns white.",
+    tip: "'turn white'는 하얗게 변한다는 표현이에요.",
   },
   {
-    "cat": "날씨/계절",
-    "ko": "요즘은 일교차가 커서 감기에 걸리기 쉬워요.",
-    "en": "The daily temperature range is wide these days, so it's easy to catch a cold.",
-    "tip": "'daily temperature range'는 일교차를 뜻해요."
+    cat: "날씨/계절",
+    ko: "요즘은 일교차가 커서 감기에 걸리기 쉬워요.",
+    en: "The daily temperature range is wide these days, so it's easy to catch a cold.",
+    tip: "'daily temperature range'는 일교차를 뜻해요.",
   },
   {
-    "cat": "날씨/계절",
-    "ko": "봄철에는 벚꽃이 활짝 피어서 정말 아름다워요.",
-    "en": "In spring, cherry blossoms bloom fully and look beautiful.",
-    "tip": "'cherry blossoms bloom'은 벚꽃이 핀다는 뜻이에요."
+    cat: "날씨/계절",
+    ko: "봄철에는 벚꽃이 활짝 피어서 정말 아름다워요.",
+    en: "In spring, cherry blossoms bloom fully and look beautiful.",
+    tip: "'cherry blossoms bloom'은 벚꽃이 핀다는 뜻이에요.",
   },
   {
-    "cat": "날씨/계절",
-    "ko": "저는 날씨가 맑은 날에는 야외 활동을 주로 해요.",
-    "en": "I mainly do outdoor activities when the weather is clear.",
-    "tip": "'outdoor activities'는 야외 활동을 뜻해요."
+    cat: "날씨/계절",
+    ko: "저는 날씨가 맑은 날에는 야외 활동을 주로 해요.",
+    en: "I mainly do outdoor activities when the weather is clear.",
+    tip: "'outdoor activities'는 야외 활동을 뜻해요.",
   },
   {
-    "cat": "쇼핑",
-    "ko": "온라인 쇼핑은 가격을 한눈에 비교하기에 정말 편해요.",
-    "en": "Online shopping is really convenient for comparing prices at a glance.",
-    "tip": "'Online shopping is ~ for -ing' 구문을 써요."
+    cat: "쇼핑",
+    ko: "온라인 쇼핑은 가격을 한눈에 비교하기에 정말 편해요.",
+    en: "Online shopping is really convenient for comparing prices at a glance.",
+    tip: "'Online shopping is ~ for -ing' 구문을 써요.",
   },
   {
-    "cat": "쇼핑",
-    "ko": "저는 옷을 살 때 직접 입어보고 고르는 것을 선호해요.",
-    "en": "I prefer trying on clothes before buying them.",
-    "tip": "'try on'은 옷을 입어본다는 뜻이에요."
+    cat: "쇼핑",
+    ko: "저는 옷을 살 때 직접 입어보고 고르는 것을 선호해요.",
+    en: "I prefer trying on clothes before buying them.",
+    tip: "'try on'은 옷을 입어본다는 뜻이에요.",
   },
   {
-    "cat": "쇼핑",
-    "ko": "할인 시즌에는 쇼핑몰에 사람들로 가득 차요.",
-    "en": "During the sale season, the malls are packed with people.",
-    "tip": "'be packed with'는 ~로 가득 차 있다는 표현이에요."
+    cat: "쇼핑",
+    ko: "할인 시즌에는 쇼핑몰에 사람들로 가득 차요.",
+    en: "During the sale season, the malls are packed with people.",
+    tip: "'be packed with'는 ~로 가득 차 있다는 표현이에요.",
   },
   {
-    "cat": "쇼핑",
-    "ko": "제 쇼핑 습관은 필요한 물건만 목록을 적어서 사는 거예요.",
-    "en": "My shopping habit is making a list and buying only what I need.",
-    "tip": "'make a list'는 목록을 만든다는 뜻이에요."
+    cat: "쇼핑",
+    ko: "제 쇼핑 습관은 필요한 물건만 목록을 적어서 사는 거예요.",
+    en: "My shopping habit is making a list and buying only what I need.",
+    tip: "'make a list'는 목록을 만든다는 뜻이에요.",
   },
   {
-    "cat": "쇼핑",
-    "ko": "저는 주말에 집 근처 마트에서 장을 봐요.",
-    "en": "I buy groceries at the supermarket near my house on weekends.",
-    "tip": "'buy groceries near my house'로 집 근처 장보기를 표현해요."
+    cat: "쇼핑",
+    ko: "저는 주말에 집 근처 마트에서 장을 봐요.",
+    en: "I buy groceries at the supermarket near my house on weekends.",
+    tip: "'buy groceries near my house'로 집 근처 장보기를 표현해요.",
   },
   {
-    "cat": "쇼핑",
-    "ko": "저는 가성비가 좋은 제품을 신중하게 골라요.",
-    "en": "I carefully choose products that offer good value for money.",
-    "tip": "'value for money'는 가성비를 뜻하는 표현이에요."
+    cat: "쇼핑",
+    ko: "저는 가성비가 좋은 제품을 신중하게 골라요.",
+    en: "I carefully choose products that offer good value for money.",
+    tip: "'value for money'는 가성비를 뜻하는 표현이에요.",
   },
   {
-    "cat": "여행",
-    "ko": "저는 작년에 제주도로 여행을 다녀왔어요.",
-    "en": "I went on a trip to Jeju Island last year.",
-    "tip": "'went on a trip to ~'로 여행 경험을 표현해요."
+    cat: "여행",
+    ko: "저는 작년에 제주도로 여행을 다녀왔어요.",
+    en: "I went on a trip to Jeju Island last year.",
+    tip: "'went on a trip to ~'로 여행 경험을 표현해요.",
   },
   {
-    "cat": "여행",
-    "ko": "여행 일정을 미리 계획하는 것은 시간 절약에 큰 도움이 돼요.",
-    "en": "Planning travel itineraries in advance helps a lot to save time.",
-    "tip": "동명사 주어 'Planning ~'을 사용해요."
+    cat: "여행",
+    ko: "여행 일정을 미리 계획하는 것은 시간 절약에 큰 도움이 돼요.",
+    en: "Planning travel itineraries in advance helps a lot to save time.",
+    tip: "동명사 주어 'Planning ~'을 사용해요.",
   },
   {
-    "cat": "여행",
-    "ko": "새로운 도시를 탐방하는 것은 언제나 설레는 일이에요.",
-    "en": "Exploring new cities is always an exciting experience.",
-    "tip": "'Exploring new cities'는 새로운 도시를 탐험한다는 뜻이에요."
+    cat: "여행",
+    ko: "새로운 도시를 탐방하는 것은 언제나 설레는 일이에요.",
+    en: "Exploring new cities is always an exciting experience.",
+    tip: "'Exploring new cities'는 새로운 도시를 탐험한다는 뜻이에요.",
   },
   {
-    "cat": "여행",
-    "ko": "제 여행 사진들은 모두 좋은 추억으로 남아 있어요.",
-    "en": "My travel photos all remain as wonderful memories.",
-    "tip": "'remain as memories'는 추억으로 남는다는 표현이에요."
+    cat: "여행",
+    ko: "제 여행 사진들은 모두 좋은 추억으로 남아 있어요.",
+    en: "My travel photos all remain as wonderful memories.",
+    tip: "'remain as memories'는 추억으로 남는다는 표현이에요.",
   },
   {
-    "cat": "여행",
-    "ko": "기차 여행은 창밖 풍경을 감상하기에 참 좋아요.",
-    "en": "Train travel is great for enjoying the scenery outside the window.",
-    "tip": "'enjoy the scenery'는 경치를 감상한다는 뜻이에요."
+    cat: "여행",
+    ko: "기차 여행은 창밖 풍경을 감상하기에 참 좋아요.",
+    en: "Train travel is great for enjoying the scenery outside the window.",
+    tip: "'enjoy the scenery'는 경치를 감상한다는 뜻이에요.",
   },
   {
-    "cat": "여행",
-    "ko": "저는 시간이 생기면 낯선 곳으로 떠나는 여행을 꿈꿔요.",
-    "en": "I dream of traveling to unfamiliar places whenever I have time.",
-    "tip": "'unfamiliar places'는 낯선 장소를 뜻해요."
+    cat: "여행",
+    ko: "저는 시간이 생기면 낯선 곳으로 떠나는 여행을 꿈꿔요.",
+    en: "I dream of traveling to unfamiliar places whenever I have time.",
+    tip: "'unfamiliar places'는 낯선 장소를 뜻해요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "커피 한 잔은 바쁜 하루 속에서 활력을 줘요.",
-    "en": "A cup of coffee gives me energy during a busy day.",
-    "tip": "'A cup of coffee'를 주어로 삼아 활력을 표현해요."
+    cat: "카페가기",
+    ko: "커피 한 잔은 바쁜 하루 속에서 활력을 줘요.",
+    en: "A cup of coffee gives me energy during a busy day.",
+    tip: "'A cup of coffee'를 주어로 삼아 활력을 표현해요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "저는 일주일에 두세 번 단골 카페에 들러요.",
-    "en": "I stop by my favorite cafe two or three times a week.",
-    "tip": "'stop by'는 잠시 들르다라는 뜻이에요."
+    cat: "카페가기",
+    ko: "저는 일주일에 두세 번 단골 카페에 들러요.",
+    en: "I stop by my favorite cafe two or three times a week.",
+    tip: "'stop by'는 잠시 들르다라는 뜻이에요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "제가 가장 즐겨 마시는 음료는 아이스 아메리카노예요.",
-    "en": "My go-to drink is an iced Americano.",
-    "tip": "'go-to drink'은 가장 자주 찾는 음료를 뜻해요."
+    cat: "카페가기",
+    ko: "제가 가장 즐겨 마시는 음료는 아이스 아메리카노예요.",
+    en: "My go-to drink is an iced Americano.",
+    tip: "'go-to drink'은 가장 자주 찾는 음료를 뜻해요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "저희 동네에는 분위기가 조용한 카페가 하나 있어요.",
-    "en": "There's a quiet cafe with a nice vibe in my neighborhood.",
-    "tip": "'There is a ~'로 동네 카페를 소개해요."
+    cat: "카페가기",
+    ko: "저희 동네에는 분위기가 조용한 카페가 하나 있어요.",
+    en: "There's a quiet cafe with a nice vibe in my neighborhood.",
+    tip: "'There is a ~'로 동네 카페를 소개해요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "친구들과 카페에서 수다를 떠는 것은 최고의 힐링이에요.",
-    "en": "Chatting with friends at a cafe is the best way to unwind.",
-    "tip": "'unwind'은 긴장을 풀고 쉬다는 표현이에요."
+    cat: "카페가기",
+    ko: "친구들과 카페에서 수다를 떠는 것은 최고의 힐링이에요.",
+    en: "Chatting with friends at a cafe is the best way to unwind.",
+    tip: "'unwind'은 긴장을 풀고 쉬다는 표현이에요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "저는 카페 창가 자리에 앉아 책 읽는 것을 좋아해요.",
-    "en": "I like sitting by the cafe window and reading books.",
-    "tip": "'sit by the window'는 창가 자리에 앉는다는 표현이에요."
+    cat: "카페가기",
+    ko: "저는 카페 창가 자리에 앉아 책 읽는 것을 좋아해요.",
+    en: "I like sitting by the cafe window and reading books.",
+    tip: "'sit by the window'는 창가 자리에 앉는다는 표현이에요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "많은 직장인들이 노트북을 들고 카페에서 일해요.",
-    "en": "Many office workers bring their laptops and work at cafes.",
-    "tip": "'Many office workers'를 주어로 일반적인 트렌드를 묘사해요."
+    cat: "카페가기",
+    ko: "많은 직장인들이 노트북을 들고 카페에서 일해요.",
+    en: "Many office workers bring their laptops and work at cafes.",
+    tip: "'Many office workers'를 주어로 일반적인 트렌드를 묘사해요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "그 카페의 인테리어는 아늑하고 세련되었어요.",
-    "en": "The cafe's interior is cozy and stylish.",
-    "tip": "'cozy and stylish'은 아늑하고 세련된 분위기(vibe)를 뜻해요."
+    cat: "카페가기",
+    ko: "그 카페의 인테리어는 아늑하고 세련되었어요.",
+    en: "The cafe's interior is cozy and stylish.",
+    tip: "'cozy and stylish'은 아늑하고 세련된 분위기(vibe)를 뜻해요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "달콤한 디저트는 씁쓸한 커피와 아주 잘 어울려요.",
-    "en": "Sweet desserts go really well with bitter coffee.",
-    "tip": "'go well with'는 ~와 잘 어울린다는 뜻이에요."
+    cat: "카페가기",
+    ko: "달콤한 디저트는 씁쓸한 커피와 아주 잘 어울려요.",
+    en: "Sweet desserts go really well with bitter coffee.",
+    tip: "'go well with'는 ~와 잘 어울린다는 뜻이에요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "저는 식사 후 카페에서 조각 케이크를 꼭 먹어요.",
-    "en": "I always eat a slice of cake at a cafe after meals.",
-    "tip": "'eat a slice of cake'로 디저트 습관을 표현해요."
+    cat: "카페가기",
+    ko: "저는 식사 후 카페에서 조각 케이크를 꼭 먹어요.",
+    en: "I always eat a slice of cake at a cafe after meals.",
+    tip: "'eat a slice of cake'로 디저트 습관을 표현해요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "주문 줄이 길 때는 키오스크나 모바일 앱으로 주문해요.",
-    "en": "When the line is long, I order through a kiosk or mobile app.",
-    "tip": "'order through a kiosk'는 키오스크로 주문한다는 뜻이에요."
+    cat: "카페가기",
+    ko: "주문 줄이 길 때는 키오스크나 모바일 앱으로 주문해요.",
+    en: "When the line is long, I order through a kiosk or mobile app.",
+    tip: "'order through a kiosk'는 키오스크로 주문한다는 뜻이에요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "따뜻한 바닐라 라떼는 겨울철에 마시기 딱 좋아요.",
-    "en": "A warm vanilla latte is perfect to drink in winter.",
-    "tip": "'perfect to drink'는 마시기에 완벽하다는 뜻이에요."
+    cat: "카페가기",
+    ko: "따뜻한 바닐라 라떼는 겨울철에 마시기 딱 좋아요.",
+    en: "A warm vanilla latte is perfect to drink in winter.",
+    tip: "'perfect to drink'는 마시기에 완벽하다는 뜻이에요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "빠른 와이파이와 콘센트는 카페를 고를 때 중요한 요소예요.",
-    "en": "Fast Wi-Fi and power outlets are important factors when choosing a cafe.",
-    "tip": "'power outlets'는 콘센트를 뜻해요."
+    cat: "카페가기",
+    ko: "빠른 와이파이와 콘센트는 카페를 고를 때 중요한 요소예요.",
+    en: "Fast Wi-Fi and power outlets are important factors when choosing a cafe.",
+    tip: "'power outlets'는 콘센트를 뜻해요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "대학생들은 시험 기간에 카페에서 주로 공부해요.",
-    "en": "College students mostly study at cafes during exam periods.",
-    "tip": "'College students'를 주어로 상황을 설명해요."
+    cat: "카페가기",
+    ko: "대학생들은 시험 기간에 카페에서 주로 공부해요.",
+    en: "College students mostly study at cafes during exam periods.",
+    tip: "'College students'를 주어로 상황을 설명해요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "제 단골 카페 사장님은 항상 반갑게 인사해 주셔요.",
-    "en": "The owner of my regular cafe always greets me warmly.",
-    "tip": "'greet warmly'는 따뜻하게 맞이한다는 뜻이에요."
+    cat: "카페가기",
+    ko: "제 단골 카페 사장님은 항상 반갑게 인사해 주셔요.",
+    en: "The owner of my regular cafe always greets me warmly.",
+    tip: "'greet warmly'는 따뜻하게 맞이한다는 뜻이에요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "카페에서 흘러나오는 잔잔한 음악은 집중력을 높여줘요.",
-    "en": "The soft music playing in the cafe helps improve focus.",
-    "tip": "'improve focus'는 집중력을 높이다라는 표현이에요."
+    cat: "카페가기",
+    ko: "카페에서 흘러나오는 잔잔한 음악은 집중력을 높여줘요.",
+    en: "The soft music playing in the cafe helps improve focus.",
+    tip: "'improve focus'는 집중력을 높이다라는 표현이에요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "요즘 커피 가격은 예전보다 조금 비싸진 것 같아요.",
-    "en": "Coffee prices seem to have become a bit more expensive these days.",
-    "tip": "'seem to have become'으로 완곡하게 의견을 나타내요."
+    cat: "카페가기",
+    ko: "요즘 커피 가격은 예전보다 조금 비싸진 것 같아요.",
+    en: "Coffee prices seem to have become a bit more expensive these days.",
+    tip: "'seem to have become'으로 완곡하게 의견을 나타내요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "혼자 카페에 가는 것은 나만의 시간을 갖기에 좋아요.",
-    "en": "Going to a cafe alone is great for having some me-time.",
-    "tip": "'me-time'은 나만의 오붓한 시간을 뜻해요."
+    cat: "카페가기",
+    ko: "혼자 카페에 가는 것은 나만의 시간을 갖기에 좋아요.",
+    en: "Going to a cafe alone is great for having some me-time.",
+    tip: "'me-time'은 나만의 오붓한 시간을 뜻해요.",
   },
   {
-    "cat": "카페가기",
-    "ko": "저는 주말 아침마다 카페에서 여유롭게 하루를 시작해요.",
-    "en": "I start my day leisurely at a cafe on weekend mornings.",
-    "tip": "'start one's day leisurely'는 여유롭게 하루를 시작한다는 뜻이에요."
+    cat: "카페가기",
+    ko: "저는 주말 아침마다 카페에서 여유롭게 하루를 시작해요.",
+    en: "I start my day leisurely at a cafe on weekend mornings.",
+    tip: "'start one's day leisurely'는 여유롭게 하루를 시작한다는 뜻이에요.",
   },
   {
-    "cat": "공원가기",
-    "ko": "저는 주말마다 공원으로 산책하러 가요.",
-    "en": "I go to the park for a walk every weekend.",
-    "tip": "'go for a walk'로 산책 습관을 표현해요."
+    cat: "공원가기",
+    ko: "저는 주말마다 공원으로 산책하러 가요.",
+    en: "I go to the park for a walk every weekend.",
+    tip: "'go for a walk'로 산책 습관을 표현해요.",
   },
   {
-    "cat": "공원가기",
-    "ko": "저희 집 근처에는 호수가 있는 큰 공원이 있어요.",
-    "en": "There's a large park with a lake near my house.",
-    "tip": "'There is a ~ with ...'로 공원의 특징을 묘사해요."
+    cat: "공원가기",
+    ko: "저희 집 근처에는 호수가 있는 큰 공원이 있어요.",
+    en: "There's a large park with a lake near my house.",
+    tip: "'There is a ~ with ...'로 공원의 특징을 묘사해요.",
   },
   {
-    "cat": "공원가기",
-    "ko": "공원 자전거 전용 도로는 라이딩하기에 아주 안전해요.",
-    "en": "The bike paths in the park are very safe for riding.",
-    "tip": "'bike paths'는 자전거 도로를 뜻해요."
+    cat: "공원가기",
+    ko: "공원 자전거 전용 도로는 라이딩하기에 아주 안전해요.",
+    en: "The bike paths in the park are very safe for riding.",
+    tip: "'bike paths'는 자전거 도로를 뜻해요.",
   },
   {
-    "cat": "공원가기",
-    "ko": "저는 가끔 나무 그늘 아래 벤치에 앉아서 쉬어요.",
-    "en": "I sometimes sit on a bench under the shade of a tree and rest.",
-    "tip": "'under the shade of a tree'는 나무 그늘 아래라는 표현이에요."
+    cat: "공원가기",
+    ko: "저는 가끔 나무 그늘 아래 벤치에 앉아서 쉬어요.",
+    en: "I sometimes sit on a bench under the shade of a tree and rest.",
+    tip: "'under the shade of a tree'는 나무 그늘 아래라는 표현이에요.",
   },
   {
-    "cat": "공원가기",
-    "ko": "날씨가 화창할 때는 잔디밭에서 피크닉을 즐기기에 좋아요.",
-    "en": "When the weather is sunny, it's nice to enjoy a picnic on the lawn.",
-    "tip": "'on the lawn'은 잔디밭 위에서라는 뜻이에요."
+    cat: "공원가기",
+    ko: "날씨가 화창할 때는 잔디밭에서 피크닉을 즐기기에 좋아요.",
+    en: "When the weather is sunny, it's nice to enjoy a picnic on the lawn.",
+    tip: "'on the lawn'은 잔디밭 위에서라는 뜻이에요.",
   },
   {
-    "cat": "공원가기",
-    "ko": "많은 이웃 주민들이 저녁마다 공원에서 조깅을 해요.",
-    "en": "Many neighbors jog in the park every evening.",
-    "tip": "'Many neighbors'를 주어로 주변 사람들의 활동을 설명해요."
+    cat: "공원가기",
+    ko: "많은 이웃 주민들이 저녁마다 공원에서 조깅을 해요.",
+    en: "Many neighbors jog in the park every evening.",
+    tip: "'Many neighbors'를 주어로 주변 사람들의 활동을 설명해요.",
   },
   {
-    "cat": "공원가기",
-    "ko": "반려견과 함께 공원을 산책시키는 것은 즐거운 일상이에요.",
-    "en": "Walking a dog in the park is an enjoyable daily routine.",
-    "tip": "'Walking a dog' 동명사 주어로 표현해요."
+    cat: "공원가기",
+    ko: "반려견과 함께 공원을 산책시키는 것은 즐거운 일상이에요.",
+    en: "Walking a dog in the park is an enjoyable daily routine.",
+    tip: "'Walking a dog' 동명사 주어로 표현해요.",
   },
   {
-    "cat": "공원가기",
-    "ko": "공원의 울창한 나무들은 도심 속에서 맑은 공기를 제공해요.",
-    "en": "The lush trees in the park provide fresh air in the city.",
-    "tip": "'lush trees'는 울창하고 푸른 나무들을 뜻해요."
+    cat: "공원가기",
+    ko: "공원의 울창한 나무들은 도심 속에서 맑은 공기를 제공해요.",
+    en: "The lush trees in the park provide fresh air in the city.",
+    tip: "'lush trees'는 울창하고 푸른 나무들을 뜻해요.",
   },
   {
-    "cat": "공원가기",
-    "ko": "저는 계절마다 바뀌는 공원 풍경을 보는 것을 좋아해요.",
-    "en": "I love looking at the park scenery changing every season.",
-    "tip": "'scenery changing every season'으로 계절별 변화를 표현해요."
+    cat: "공원가기",
+    ko: "저는 계절마다 바뀌는 공원 풍경을 보는 것을 좋아해요.",
+    en: "I love looking at the park scenery changing every season.",
+    tip: "'scenery changing every season'으로 계절별 변화를 표현해요.",
   },
   {
-    "cat": "영화보기",
-    "ko": "영화 감상은 제가 가장 좋아하는 여가 활동이에요.",
-    "en": "Watching movies is my all-time favorite leisure activity.",
-    "tip": "동명사 주어 'Watching movies'로 시작해요."
+    cat: "영화보기",
+    ko: "영화 감상은 제가 가장 좋아하는 여가 활동이에요.",
+    en: "Watching movies is my all-time favorite leisure activity.",
+    tip: "동명사 주어 'Watching movies'로 시작해요.",
   },
   {
-    "cat": "영화보기",
-    "ko": "저는 한 달에 한 번 정도 영화관에 가요.",
-    "en": "I visit the movie theater about once a month.",
-    "tip": "'about once a month'로 빈도를 표현해요."
+    cat: "영화보기",
+    ko: "저는 한 달에 한 번 정도 영화관에 가요.",
+    en: "I visit the movie theater about once a month.",
+    tip: "'about once a month'로 빈도를 표현해요.",
   },
   {
-    "cat": "영화보기",
-    "ko": "액션 영화는 박진감 넘치는 액션과 특수효과가 매력적이에요.",
-    "en": "Action movies are appealing with thrilling action and special effects.",
-    "tip": "'thrilling action'은 박진감 넘치는 액션을 뜻해요."
+    cat: "영화보기",
+    ko: "액션 영화는 박진감 넘치는 액션과 특수효과가 매력적이에요.",
+    en: "Action movies are appealing with thrilling action and special effects.",
+    tip: "'thrilling action'은 박진감 넘치는 액션을 뜻해요.",
   },
   {
-    "cat": "영화보기",
-    "ko": "제 친구와 저는 지난주에 최신 개봉작을 봤어요.",
-    "en": "My friend and I watched the latest release last week.",
-    "tip": "'the latest release'는 최신 개봉작을 뜻해요."
+    cat: "영화보기",
+    ko: "제 친구와 저는 지난주에 최신 개봉작을 봤어요.",
+    en: "My friend and I watched the latest release last week.",
+    tip: "'the latest release'는 최신 개봉작을 뜻해요.",
   },
   {
-    "cat": "영화보기",
-    "ko": "바삭한 팝콘과 콜라는 영화 볼 때 필수 간식이에요.",
-    "en": "Crispy popcorn and soda are must-have snacks when watching movies.",
-    "tip": "'must-have snacks'는 필수 간식이라는 표현이에요."
+    cat: "영화보기",
+    ko: "바삭한 팝콘과 콜라는 영화 볼 때 필수 간식이에요.",
+    en: "Crispy popcorn and soda are must-have snacks when watching movies.",
+    tip: "'must-have snacks'는 필수 간식이라는 표현이에요.",
   },
   {
-    "cat": "영화보기",
-    "ko": "영화관의 대형 스크린과 웅장한 사운드는 몰입감을 높여줘요.",
-    "en": "The theater's big screen and surround sound enhance the immersion.",
-    "tip": "'enhance immersion'은 몰입감을 높이다라는 고급 표현이에요."
+    cat: "영화보기",
+    ko: "영화관의 대형 스크린과 웅장한 사운드는 몰입감을 높여줘요.",
+    en: "The theater's big screen and surround sound enhance the immersion.",
+    tip: "'enhance immersion'은 몰입감을 높이다라는 고급 표현이에요.",
   },
   {
-    "cat": "영화보기",
-    "ko": "저는 영화를 보기 전에 평점과 예고편을 꼭 확인해요.",
-    "en": "I always check the ratings and trailers before watching a movie.",
-    "tip": "'ratings and trailers'는 평점과 예고편을 뜻해요."
+    cat: "영화보기",
+    ko: "저는 영화를 보기 전에 평점과 예고편을 꼭 확인해요.",
+    en: "I always check the ratings and trailers before watching a movie.",
+    tip: "'ratings and trailers'는 평점과 예고편을 뜻해요.",
   },
   {
-    "cat": "영화보기",
-    "ko": "요즘 OTT 스트리밍 서비스 덕분에 집에서도 편하게 영화를 봐요.",
-    "en": "Thanks to streaming services, we can watch movies easily at home.",
-    "tip": "'Thanks to ~'로 편리해진 환경을 설명해요."
+    cat: "영화보기",
+    ko: "요즘 OTT 스트리밍 서비스 덕분에 집에서도 편하게 영화를 봐요.",
+    en: "Thanks to streaming services, we can watch movies easily at home.",
+    tip: "'Thanks to ~'로 편리해진 환경을 설명해요.",
   },
   {
-    "cat": "영화보기",
-    "ko": "감동적인 영화는 오랫동안 깊은 여운을 남겨요.",
-    "en": "Touching movies leave a deep and lasting impression for a long time.",
-    "tip": "'leave a lasting impression'은 깊은 여운을 남기다라는 뜻이에요."
+    cat: "영화보기",
+    ko: "감동적인 영화는 오랫동안 깊은 여운을 남겨요.",
+    en: "Touching movies leave a deep and lasting impression for a long time.",
+    tip: "'leave a lasting impression'은 깊은 여운을 남기다라는 뜻이에요.",
   },
   {
-    "cat": "음악감상",
-    "ko": "음악은 일상 속에서 기분을 전환하는 데 큰 도움이 돼요.",
-    "en": "Music helps a lot in changing my mood in daily life.",
-    "tip": "'change one's mood'는 기분 전환을 뜻해요."
+    cat: "음악감상",
+    ko: "음악은 일상 속에서 기분을 전환하는 데 큰 도움이 돼요.",
+    en: "Music helps a lot in changing my mood in daily life.",
+    tip: "'change one's mood'는 기분 전환을 뜻해요.",
   },
   {
-    "cat": "음악감상",
-    "ko": "저는 출퇴근 시간에 이어폰으로 노래를 즐겨 들어요.",
-    "en": "I enjoy listening to songs with earphones during my commute.",
-    "tip": "'during my commute'는 출퇴근 시간 동안이라는 뜻이에요."
+    cat: "음악감상",
+    ko: "저는 출퇴근 시간에 이어폰으로 노래를 즐겨 들어요.",
+    en: "I enjoy listening to songs with earphones during my commute.",
+    tip: "'during my commute'는 출퇴근 시간 동안이라는 뜻이에요.",
   },
   {
-    "cat": "음악감상",
-    "ko": "잔잔한 어쿠스틱 음악은 마음을 편안하게 해줘요.",
-    "en": "Calm acoustic music relaxes my mind.",
-    "tip": "'relax one's mind'는 마음을 편안하게 해준다는 뜻이에요."
+    cat: "음악감상",
+    ko: "잔잔한 어쿠스틱 음악은 마음을 편안하게 해줘요.",
+    en: "Calm acoustic music relaxes my mind.",
+    tip: "'relax one's mind'는 마음을 편안하게 해준다는 뜻이에요.",
   },
   {
-    "cat": "음악감상",
-    "ko": "스마트폰 음악 앱은 제 취향에 맞는 곡들을 추천해 줘요.",
-    "en": "The music app on my smartphone recommends songs that match my taste.",
-    "tip": "'match my taste'는 내 취향에 맞다라는 유용한 표현이에요."
+    cat: "음악감상",
+    ko: "스마트폰 음악 앱은 제 취향에 맞는 곡들을 추천해 줘요.",
+    en: "The music app on my smartphone recommends songs that match my taste.",
+    tip: "'match my taste'는 내 취향에 맞다라는 유용한 표현이에요.",
   },
   {
-    "cat": "음악감상",
-    "ko": "스트레스를 받을 때 신나는 음악을 들으면 에너지가 생겨요.",
-    "en": "Listening to upbeat music gives me energy when I feel stressed.",
-    "tip": "'upbeat music'은 경쾌하고 신나는 음악을 뜻해요."
+    cat: "음악감상",
+    ko: "스트레스를 받을 때 신나는 음악을 들으면 에너지가 생겨요.",
+    en: "Listening to upbeat music gives me energy when I feel stressed.",
+    tip: "'upbeat music'은 경쾌하고 신나는 음악을 뜻해요.",
   },
   {
-    "cat": "음악감상",
-    "ko": "제 플레이리스트에는 다양한 장르의 노래가 담겨 있어요.",
-    "en": "My playlist contains songs of various genres.",
-    "tip": "'songs of various genres'는 다양한 장르의 곡들을 뜻해요."
+    cat: "음악감상",
+    ko: "제 플레이리스트에는 다양한 장르의 노래가 담겨 있어요.",
+    en: "My playlist contains songs of various genres.",
+    tip: "'songs of various genres'는 다양한 장르의 곡들을 뜻해요.",
   },
   {
-    "cat": "음악감상",
-    "ko": "상황별로 나만의 플레이리스트를 만드는 것은 참 재미있어요.",
-    "en": "Creating my own playlists for different moods is really fun.",
-    "tip": "동명사 주어 'Creating ~'을 사용해요."
+    cat: "음악감상",
+    ko: "상황별로 나만의 플레이리스트를 만드는 것은 참 재미있어요.",
+    en: "Creating my own playlists for different moods is really fun.",
+    tip: "동명사 주어 'Creating ~'을 사용해요.",
   },
   {
-    "cat": "음악감상",
-    "ko": "저는 드라이브할 때 항상 신나는 노래를 틀어요.",
-    "en": "I always play exciting music when driving.",
-    "tip": "'play exciting music'으로 드라이브 음악을 표현해요."
+    cat: "음악감상",
+    ko: "저는 드라이브할 때 항상 신나는 노래를 틀어요.",
+    en: "I always play exciting music when driving.",
+    tip: "'play exciting music'으로 드라이브 음악을 표현해요.",
   },
   {
-    "cat": "음악감상",
-    "ko": "저는 가사가 아름다운 노래를 들을 때 위로를 받아요.",
-    "en": "I find comfort when listening to songs with beautiful lyrics.",
-    "tip": "'find comfort'는 위로를 얻는다는 뜻이에요."
+    cat: "음악감상",
+    ko: "저는 가사가 아름다운 노래를 들을 때 위로를 받아요.",
+    en: "I find comfort when listening to songs with beautiful lyrics.",
+    tip: "'find comfort'는 위로를 얻는다는 뜻이에요.",
   },
   {
-    "cat": "운동하기",
-    "ko": "저희는 퇴근 후에 회사 동료들과 함께 헬스장에 가요.",
-    "en": "We go to the gym together with coworkers after work.",
-    "tip": "'go to the gym'은 헬스장에 간다는 뜻이에요."
+    cat: "운동하기",
+    ko: "저희는 퇴근 후에 회사 동료들과 함께 헬스장에 가요.",
+    en: "We go to the gym together with coworkers after work.",
+    tip: "'go to the gym'은 헬스장에 간다는 뜻이에요.",
   },
   {
-    "cat": "운동하기",
-    "ko": "저는 유산소 운동으로 러닝머신에서 30분씩 뛰어요.",
-    "en": "I run on the treadmill for 30 minutes as cardio exercise.",
-    "tip": "'cardio exercise'는 유산소 운동을 뜻해요."
+    cat: "운동하기",
+    ko: "저는 유산소 운동으로 러닝머신에서 30분씩 뛰어요.",
+    en: "I run on the treadmill for 30 minutes as cardio exercise.",
+    tip: "'cardio exercise'는 유산소 운동을 뜻해요.",
   },
   {
-    "cat": "운동하기",
-    "ko": "꾸준한 운동은 체력과 면역력을 기르는 데 필수적이에요.",
-    "en": "Regular exercise is essential for building stamina and immunity.",
-    "tip": "'building stamina'는 체력을 기른다는 표현이에요."
+    cat: "운동하기",
+    ko: "꾸준한 운동은 체력과 면역력을 기르는 데 필수적이에요.",
+    en: "Regular exercise is essential for building stamina and immunity.",
+    tip: "'building stamina'는 체력을 기른다는 표현이에요.",
   },
   {
-    "cat": "운동하기",
-    "ko": "운동 후 땀을 흘리고 샤워하면 몸이 아주 상쾌해져요.",
-    "en": "Taking a shower after working out and sweating makes me feel refreshed.",
-    "tip": "'feel refreshed'는 상쾌함을 느끼다라는 뜻이에요."
+    cat: "운동하기",
+    ko: "운동 후 땀을 흘리고 샤워하면 몸이 아주 상쾌해져요.",
+    en: "Taking a shower after working out and sweating makes me feel refreshed.",
+    tip: "'feel refreshed'는 상쾌함을 느끼다라는 뜻이에요.",
   },
   {
-    "cat": "운동하기",
-    "ko": "제 운동 루틴은 스트레칭과 근력 운동으로 구성되어 있어요.",
-    "en": "My workout routine consists of stretching and strength training.",
-    "tip": "'consist of'는 ~로 구성되다라는 뜻이에요."
+    cat: "운동하기",
+    ko: "제 운동 루틴은 스트레칭과 근력 운동으로 구성되어 있어요.",
+    en: "My workout routine consists of stretching and strength training.",
+    tip: "'consist of'는 ~로 구성되다라는 뜻이에요.",
   },
   {
-    "cat": "운동하기",
-    "ko": "저는 건강 관리를 위해 1년 전부터 꾸준히 운동하고 있어요.",
-    "en": "I've been working out regularly for a year to stay fit.",
-    "tip": "'stay fit'은 건강을 유지하다라는 좋은 표현이에요."
+    cat: "운동하기",
+    ko: "저는 건강 관리를 위해 1년 전부터 꾸준히 운동하고 있어요.",
+    en: "I've been working out regularly for a year to stay fit.",
+    tip: "'stay fit'은 건강을 유지하다라는 좋은 표현이에요.",
   },
   {
-    "cat": "운동하기",
-    "ko": "헬스 트레이너 선생님은 올바른 자세를 친절하게 교정해 줘요.",
-    "en": "The fitness trainer kindly corrects my posture.",
-    "tip": "'correct posture'는 자세를 교정한다는 뜻이에요."
+    cat: "운동하기",
+    ko: "헬스 트레이너 선생님은 올바른 자세를 친절하게 교정해 줘요.",
+    en: "The fitness trainer kindly corrects my posture.",
+    tip: "'correct posture'는 자세를 교정한다는 뜻이에요.",
   },
   {
-    "cat": "운동하기",
-    "ko": "매일 30분씩 땀 흘려 운동하는 것은 좋은 습관이에요.",
-    "en": "Exercising and sweating for 30 minutes every day is a great habit.",
-    "tip": "동명사 주어 'Exercising ~'으로 시작해요."
+    cat: "운동하기",
+    ko: "매일 30분씩 땀 흘려 운동하는 것은 좋은 습관이에요.",
+    en: "Exercising and sweating for 30 minutes every day is a great habit.",
+    tip: "동명사 주어 'Exercising ~'으로 시작해요.",
   },
   {
-    "cat": "운동하기",
-    "ko": "많은 직장인들이 건강 유지를 위해 헬스클럽에 등록해요.",
-    "en": "Many office workers sign up for gyms to maintain their health.",
-    "tip": "'sign up for a gym'은 헬스장에 등록한다는 뜻이에요."
+    cat: "운동하기",
+    ko: "많은 직장인들이 건강 유지를 위해 헬스클럽에 등록해요.",
+    en: "Many office workers sign up for gyms to maintain their health.",
+    tip: "'sign up for a gym'은 헬스장에 등록한다는 뜻이에요.",
   },
   {
-    "cat": "요리하기",
-    "ko": "주말에 직접 요리를 만들어 먹는 것은 큰 즐거움이에요.",
-    "en": "Cooking and eating meals at home on weekends is a great joy.",
-    "tip": "동명사 주어 'Cooking and eating ~'을 사용해요."
+    cat: "요리하기",
+    ko: "주말에 직접 요리를 만들어 먹는 것은 큰 즐거움이에요.",
+    en: "Cooking and eating meals at home on weekends is a great joy.",
+    tip: "동명사 주어 'Cooking and eating ~'을 사용해요.",
   },
   {
-    "cat": "요리하기",
-    "ko": "저는 볶음밥이나 된장찌개 같은 간단한 요리를 잘해요.",
-    "en": "I'm good at making simple dishes like fried rice or soybean paste stew.",
-    "tip": "'be good at -ing'는 ~을 잘하다라는 뜻이에요."
+    cat: "요리하기",
+    ko: "저는 볶음밥이나 된장찌개 같은 간단한 요리를 잘해요.",
+    en: "I'm good at making simple dishes like fried rice or soybean paste stew.",
+    tip: "'be good at -ing'는 ~을 잘하다라는 뜻이에요.",
   },
   {
-    "cat": "요리하기",
-    "ko": "유튜브 요리 영상은 초보자도 따라 하기 쉽게 설명해 줘요.",
-    "en": "YouTube cooking videos explain steps easily for beginners to follow.",
-    "tip": "'for beginners to follow'는 초보자가 따라 하기에라는 뜻이에요."
+    cat: "요리하기",
+    ko: "유튜브 요리 영상은 초보자도 따라 하기 쉽게 설명해 줘요.",
+    en: "YouTube cooking videos explain steps easily for beginners to follow.",
+    tip: "'for beginners to follow'는 초보자가 따라 하기에라는 뜻이에요.",
   },
   {
-    "cat": "요리하기",
-    "ko": "요리 후 산더미처럼 쌓인 설거지는 가장 번거로운 일이에요.",
-    "en": "The pile of dishes after cooking is the most troublesome chore.",
-    "tip": "'troublesome chore'는 번거로운 집안일을 뜻해요."
+    cat: "요리하기",
+    ko: "요리 후 산더미처럼 쌓인 설거지는 가장 번거로운 일이에요.",
+    en: "The pile of dishes after cooking is the most troublesome chore.",
+    tip: "'troublesome chore'는 번거로운 집안일을 뜻해요.",
   },
   {
-    "cat": "요리하기",
-    "ko": "제 특기 요리는 매콤달콤한 떡볶이예요.",
-    "en": "My specialty dish is sweet and spicy tteokbokki.",
-    "tip": "'specialty dish'는 자신 있는 특기 요리를 뜻해요."
+    cat: "요리하기",
+    ko: "제 특기 요리는 매콤달콤한 떡볶이예요.",
+    en: "My specialty dish is sweet and spicy tteokbokki.",
+    tip: "'specialty dish'는 자신 있는 특기 요리를 뜻해요.",
   },
   {
-    "cat": "요리하기",
-    "ko": "저는 색다른 양념과 새로운 레시피에 도전하는 걸 즐겨요.",
-    "en": "I enjoy trying out new seasonings and unique recipes.",
-    "tip": "'try out new recipes'는 새로운 요리법을 시도하다라는 뜻이에요."
+    cat: "요리하기",
+    ko: "저는 색다른 양념과 새로운 레시피에 도전하는 걸 즐겨요.",
+    en: "I enjoy trying out new seasonings and unique recipes.",
+    tip: "'try out new recipes'는 새로운 요리법을 시도하다라는 뜻이에요.",
   },
   {
-    "cat": "요리하기",
-    "ko": "잔잔한 음악을 틀어놓고 요리하면 시간이 금방 지나가요.",
-    "en": "Cooking with calm music on makes time fly by.",
-    "tip": "'make time fly by'는 시간이 쏜살같이 지나가게 한다는 표현이에요."
+    cat: "요리하기",
+    ko: "잔잔한 음악을 틀어놓고 요리하면 시간이 금방 지나가요.",
+    en: "Cooking with calm music on makes time fly by.",
+    tip: "'make time fly by'는 시간이 쏜살같이 지나가게 한다는 표현이에요.",
   },
   {
-    "cat": "요리하기",
-    "ko": "저는 주말 저녁마다 집에서 맛있는 요리를 준비해요.",
-    "en": "I cook delicious food at home on weekend evenings.",
-    "tip": "'cook delicious food'로 주말 요리를 표현해요."
+    cat: "요리하기",
+    ko: "저는 주말 저녁마다 집에서 맛있는 요리를 준비해요.",
+    en: "I cook delicious food at home on weekend evenings.",
+    tip: "'cook delicious food'로 주말 요리를 표현해요.",
   },
   {
-    "cat": "요리하기",
-    "ko": "신선한 식재료는 맛있는 요리를 만드는 가장 중요한 비결이에요.",
-    "en": "Fresh ingredients are the most important secret to making delicious dishes.",
-    "tip": "'secret to -ing'는 ~하는 비결이라는 뜻이에요."
+    cat: "요리하기",
+    ko: "신선한 식재료는 맛있는 요리를 만드는 가장 중요한 비결이에요.",
+    en: "Fresh ingredients are the most important secret to making delicious dishes.",
+    tip: "'secret to -ing'는 ~하는 비결이라는 뜻이에요.",
   },
   {
-    "cat": "국내여행",
-    "ko": "국내 여행은 부담 없이 주말을 활용해 다녀오기 좋아요.",
-    "en": "Domestic travel is great for a quick weekend getaway without burden.",
-    "tip": "'weekend getaway'는 주말 힐링 여행을 뜻해요."
+    cat: "국내여행",
+    ko: "국내 여행은 부담 없이 주말을 활용해 다녀오기 좋아요.",
+    en: "Domestic travel is great for a quick weekend getaway without burden.",
+    tip: "'weekend getaway'는 주말 힐링 여행을 뜻해요.",
   },
   {
-    "cat": "국내여행",
-    "ko": "저희는 지난달에 KTX를 타고 부산으로 여행을 다녀왔어요.",
-    "en": "We took the KTX and went on a trip to Busan last month.",
-    "tip": "'take the KTX'로 이동 수단을 명시해요."
+    cat: "국내여행",
+    ko: "저희는 지난달에 KTX를 타고 부산으로 여행을 다녀왔어요.",
+    en: "We took the KTX and went on a trip to Busan last month.",
+    tip: "'take the KTX'로 이동 수단을 명시해요.",
   },
   {
-    "cat": "국내여행",
-    "ko": "기차 창밖으로 보이는 시골 풍경은 정말 평화로워요.",
-    "en": "The countryside scenery seen through the train window is really peaceful.",
-    "tip": "'countryside scenery'는 시골 풍경을 뜻해요."
+    cat: "국내여행",
+    ko: "기차 창밖으로 보이는 시골 풍경은 정말 평화로워요.",
+    en: "The countryside scenery seen through the train window is really peaceful.",
+    tip: "'countryside scenery'는 시골 풍경을 뜻해요.",
   },
   {
-    "cat": "국내여행",
-    "ko": "부산 해운대 바다는 사계절 내내 관광객들에게 인기가 많아요.",
-    "en": "Haeundae Beach in Busan is popular with tourists all year round.",
-    "tip": "'all year round'는 사계절 내내라는 표현이에요."
+    cat: "국내여행",
+    ko: "부산 해운대 바다는 사계절 내내 관광객들에게 인기가 많아요.",
+    en: "Haeundae Beach in Busan is popular with tourists all year round.",
+    tip: "'all year round'는 사계절 내내라는 표현이에요.",
   },
   {
-    "cat": "국내여행",
-    "ko": "그 지역의 대표 특산물과 향토 음식을 맛보는 것은 필수 코스예요.",
-    "en": "Tasting local specialties and regional food is a must-do course.",
-    "tip": "'local specialties'는 지역 특산물을 뜻해요."
+    cat: "국내여행",
+    ko: "그 지역의 대표 특산물과 향토 음식을 맛보는 것은 필수 코스예요.",
+    en: "Tasting local specialties and regional food is a must-do course.",
+    tip: "'local specialties'는 지역 특산물을 뜻해요.",
   },
   {
-    "cat": "국내여행",
-    "ko": "제 친구는 여행지 숙소와 맛집을 꼼꼼하게 검색해 줘요.",
-    "en": "My friend thoroughly searches for accommodations and great restaurants.",
-    "tip": "'thoroughly searches for'는 꼼꼼히 검색한다는 뜻이에요."
+    cat: "국내여행",
+    ko: "제 친구는 여행지 숙소와 맛집을 꼼꼼하게 검색해 줘요.",
+    en: "My friend thoroughly searches for accommodations and great restaurants.",
+    tip: "'thoroughly searches for'는 꼼꼼히 검색한다는 뜻이에요.",
   },
   {
-    "cat": "국내여행",
-    "ko": "렌터카를 이용하면 대중교통이 닿지 않는 명소도 쉽게 갈 수 있어요.",
-    "en": "Using a rental car makes it easy to visit attractions where public transit doesn't reach.",
-    "tip": "'Using a rental car makes it easy to ~' 구문이에요."
+    cat: "국내여행",
+    ko: "렌터카를 이용하면 대중교통이 닿지 않는 명소도 쉽게 갈 수 있어요.",
+    en: "Using a rental car makes it easy to visit attractions where public transit doesn't reach.",
+    tip: "'Using a rental car makes it easy to ~' 구문이에요.",
   },
   {
-    "cat": "국내여행",
-    "ko": "저는 우리나라의 아름다운 해안 도시들을 여행하는 것을 좋아해요.",
-    "en": "I love traveling to beautiful coastal cities in Korea.",
-    "tip": "'coastal cities'는 해안 도시들을 뜻해요."
+    cat: "국내여행",
+    ko: "저는 우리나라의 아름다운 해안 도시들을 여행하는 것을 좋아해요.",
+    en: "I love traveling to beautiful coastal cities in Korea.",
+    tip: "'coastal cities'는 해안 도시들을 뜻해요.",
   },
   {
-    "cat": "국내여행",
-    "ko": "제주도는 이국적인 자연경관 덕분에 언제 가도 매력적인 곳이에요.",
-    "en": "Jeju Island is an attractive destination anytime thanks to its exotic natural scenery.",
-    "tip": "'exotic natural scenery'는 이국적인 자연경관을 뜻해요."
+    cat: "국내여행",
+    ko: "제주도는 이국적인 자연경관 덕분에 언제 가도 매력적인 곳이에요.",
+    en: "Jeju Island is an attractive destination anytime thanks to its exotic natural scenery.",
+    tip: "'exotic natural scenery'는 이국적인 자연경관을 뜻해요.",
   },
   {
-    "cat": "반려동물",
-    "ko": "저희 집에는 세 살 된 귀여운 말티즈가 살고 있어요.",
-    "en": "A cute three-year-old Maltese lives at our house.",
-    "tip": "'A three-year-old Maltese'로 반려견을 구체적으로 소개해요."
+    cat: "반려동물",
+    ko: "저희 집에는 세 살 된 귀여운 말티즈가 살고 있어요.",
+    en: "A cute three-year-old Maltese lives at our house.",
+    tip: "'A three-year-old Maltese'로 반려견을 구체적으로 소개해요.",
   },
   {
-    "cat": "반려동물",
-    "ko": "저희 강아지는 산책 줄만 보면 신나서 꼬리를 흔들어요.",
-    "en": "My dog wags its tail excitedly whenever it sees the leash.",
-    "tip": "'wag its tail'은 꼬리를 흔든다는 유용한 표현이에요."
+    cat: "반려동물",
+    ko: "저희 강아지는 산책 줄만 보면 신나서 꼬리를 흔들어요.",
+    en: "My dog wags its tail excitedly whenever it sees the leash.",
+    tip: "'wag its tail'은 꼬리를 흔든다는 유용한 표현이에요.",
   },
   {
-    "cat": "반려동물",
-    "ko": "저는 매일 아침 출근 전에 강아지 사료와 신선한 물을 챙겨줘요.",
-    "en": "I provide dog food and fresh water before going to work every morning.",
-    "tip": "'dog food and fresh water'는 사료와 신선한 물이에요."
+    cat: "반려동물",
+    ko: "저는 매일 아침 출근 전에 강아지 사료와 신선한 물을 챙겨줘요.",
+    en: "I provide dog food and fresh water before going to work every morning.",
+    tip: "'dog food and fresh water'는 사료와 신선한 물이에요.",
   },
   {
-    "cat": "반려동물",
-    "ko": "퇴근하고 집에 돌아오면 강아지가 문 앞까지 마중 나와요.",
-    "en": "When I get home from work, my dog comes to the front door to greet me.",
-    "tip": "'come to greet'는 마중 나온다는 뜻이에요."
+    cat: "반려동물",
+    ko: "퇴근하고 집에 돌아오면 강아지가 문 앞까지 마중 나와요.",
+    en: "When I get home from work, my dog comes to the front door to greet me.",
+    tip: "'come to greet'는 마중 나온다는 뜻이에요.",
   },
   {
-    "cat": "반려동물",
-    "ko": "제 반려견은 처음 보는 낯선 사람에게는 경계심을 보여요.",
-    "en": "My pet shows caution toward strangers it meets for the first time.",
-    "tip": "'show caution'은 경계심을 보인다는 뜻이에요."
+    cat: "반려동물",
+    ko: "제 반려견은 처음 보는 낯선 사람에게는 경계심을 보여요.",
+    en: "My pet shows caution toward strangers it meets for the first time.",
+    tip: "'show caution'은 경계심을 보인다는 뜻이에요.",
   },
   {
-    "cat": "반려동물",
-    "ko": "주말마다 강아지를 목욕시키고 털을 빗겨주는 것은 제 담당이에요.",
-    "en": "Bathing and brushing my dog every weekend is my responsibility.",
-    "tip": "'Bathing and brushing' 동명사 주어를 활용해요."
+    cat: "반려동물",
+    ko: "주말마다 강아지를 목욕시키고 털을 빗겨주는 것은 제 담당이에요.",
+    en: "Bathing and brushing my dog every weekend is my responsibility.",
+    tip: "'Bathing and brushing' 동명사 주어를 활용해요.",
   },
   {
-    "cat": "반려동물",
-    "ko": "반려동물은 힘든 일상 속에서 가족들에게 큰 위로와 기쁨을 줘요.",
-    "en": "Pets bring great comfort and joy to families in tough everyday life.",
-    "tip": "'bring comfort and joy'는 큰 위로와 기쁨을 주다라는 표현이에요."
+    cat: "반려동물",
+    ko: "반려동물은 힘든 일상 속에서 가족들에게 큰 위로와 기쁨을 줘요.",
+    en: "Pets bring great comfort and joy to families in tough everyday life.",
+    tip: "'bring comfort and joy'는 큰 위로와 기쁨을 주다라는 표현이에요.",
   },
   {
-    "cat": "반려동물",
-    "ko": "저는 제 강아지를 정말 아끼고 사랑해요.",
-    "en": "I really love and take good care of my dog.",
-    "tip": "'take good care of'로 애정을 표현해요."
+    cat: "반려동물",
+    ko: "저는 제 강아지를 정말 아끼고 사랑해요.",
+    en: "I really love and take good care of my dog.",
+    tip: "'take good care of'로 애정을 표현해요.",
   },
   {
-    "cat": "반려동물",
-    "ko": "저는 쉬는 날이면 강아지와 함께 반려견 동반 카페에 가요.",
-    "en": "I go to pet-friendly cafes with my dog on my days off.",
-    "tip": "'pet-friendly cafes'는 반려동물 동반 가능 카페를 뜻해요."
+    cat: "반려동물",
+    ko: "저는 쉬는 날이면 강아지와 함께 반려견 동반 카페에 가요.",
+    en: "I go to pet-friendly cafes with my dog on my days off.",
+    tip: "'pet-friendly cafes'는 반려동물 동반 가능 카페를 뜻해요.",
   },
   {
-    "cat": "공연보기",
-    "ko": "문화생활을 위해 가끔 대학로 연극이나 대형 뮤지컬을 관람해요.",
-    "en": "For cultural life, I sometimes watch Daehangno plays or big musicals.",
-    "tip": "'cultural life'는 문화생활을 뜻해요."
+    cat: "공연보기",
+    ko: "문화생활을 위해 가끔 대학로 연극이나 대형 뮤지컬을 관람해요.",
+    en: "For cultural life, I sometimes watch Daehangno plays or big musicals.",
+    tip: "'cultural life'는 문화생활을 뜻해요.",
   },
   {
-    "cat": "공연보기",
-    "ko": "저희는 지난달에 유명한 라이선스 뮤지컬을 관람했어요.",
-    "en": "We watched a famous licensed musical last month.",
-    "tip": "'licensed musical'은 라이선스 뮤지컬을 뜻해요."
+    cat: "공연보기",
+    ko: "저희는 지난달에 유명한 라이선스 뮤지컬을 관람했어요.",
+    en: "We watched a famous licensed musical last month.",
+    tip: "'licensed musical'은 라이선스 뮤지컬을 뜻해요.",
   },
   {
-    "cat": "공연보기",
-    "ko": "배우들의 생생한 표정 연기를 보려면 앞자리에 앉는 것이 좋아요.",
-    "en": "Sitting in the front row is great for seeing the actors' vivid facial expressions.",
-    "tip": "'vivid facial expressions'는 생생한 표정 연기를 뜻해요."
+    cat: "공연보기",
+    ko: "배우들의 생생한 표정 연기를 보려면 앞자리에 앉는 것이 좋아요.",
+    en: "Sitting in the front row is great for seeing the actors' vivid facial expressions.",
+    tip: "'vivid facial expressions'는 생생한 표정 연기를 뜻해요.",
   },
   {
-    "cat": "공연보기",
-    "ko": "제 친구와 저는 관심 있는 공연이 열리면 함께 예매해요.",
-    "en": "My friend and I book tickets together when an interesting show opens.",
-    "tip": "'My friend and I' 주어로 함께하는 활동을 표현해요."
+    cat: "공연보기",
+    ko: "제 친구와 저는 관심 있는 공연이 열리면 함께 예매해요.",
+    en: "My friend and I book tickets together when an interesting show opens.",
+    tip: "'My friend and I' 주어로 함께하는 활동을 표현해요.",
   },
   {
-    "cat": "공연보기",
-    "ko": "공연이 끝난 후 쏟아지는 관객들의 기립 박수는 큰 감동을 줘요.",
-    "en": "The standing ovation from the audience after the show is very touching.",
-    "tip": "'standing ovation'은 기립 박수를 뜻하는 필수 표현이에요."
+    cat: "공연보기",
+    ko: "공연이 끝난 후 쏟아지는 관객들의 기립 박수는 큰 감동을 줘요.",
+    en: "The standing ovation from the audience after the show is very touching.",
+    tip: "'standing ovation'은 기립 박수를 뜻하는 필수 표현이에요.",
   },
   {
-    "cat": "공연보기",
-    "ko": "공연을 예매하기 전에 실제 관람객들의 생생한 후기를 확인해요.",
-    "en": "Checking real audience reviews before booking a show is very helpful.",
-    "tip": "동명사 주어 'Checking real audience reviews'를 사용해요."
+    cat: "공연보기",
+    ko: "공연을 예매하기 전에 실제 관람객들의 생생한 후기를 확인해요.",
+    en: "Checking real audience reviews before booking a show is very helpful.",
+    tip: "동명사 주어 'Checking real audience reviews'를 사용해요.",
   },
   {
-    "cat": "공연보기",
-    "ko": "다양한 장르의 무대 공연은 창의적인 영감을 불어넣어 줘요.",
-    "en": "Stage performances of various genres inspire creative ideas.",
-    "tip": "'inspire creative ideas'는 창의적인 영감을 준다는 뜻이에요."
+    cat: "공연보기",
+    ko: "다양한 장르의 무대 공연은 창의적인 영감을 불어넣어 줘요.",
+    en: "Stage performances of various genres inspire creative ideas.",
+    tip: "'inspire creative ideas'는 창의적인 영감을 준다는 뜻이에요.",
   },
   {
-    "cat": "공연보기",
-    "ko": "화려한 무대 연출과 오케스트라 연주는 눈과 귀를 사로잡아요.",
-    "en": "The gorgeous stage design and live orchestra captivate both eyes and ears.",
-    "tip": "'captivate'는 사로잡다, 매료시키다라는 표현이에요."
+    cat: "공연보기",
+    ko: "화려한 무대 연출과 오케스트라 연주는 눈과 귀를 사로잡아요.",
+    en: "The gorgeous stage design and live orchestra captivate both eyes and ears.",
+    tip: "'captivate'는 사로잡다, 매료시키다라는 표현이에요.",
   },
   {
-    "cat": "공연보기",
-    "ko": "저는 뮤지컬 넘버의 웅장한 멜로디를 들을 때 전율을 느껴요.",
-    "en": "I get chills when listening to the grand melodies of musical numbers.",
-    "tip": "'get chills'는 소름이 돋거나 전율을 느낄 때 쓰는 표현이에요."
+    cat: "공연보기",
+    ko: "저는 뮤지컬 넘버의 웅장한 멜로디를 들을 때 전율을 느껴요.",
+    en: "I get chills when listening to the grand melodies of musical numbers.",
+    tip: "'get chills'는 소름이 돋거나 전율을 느낄 때 쓰는 표현이에요.",
   },
   {
-    "cat": "콘서트 보기",
-    "ko": "라이브 콘서트의 열기 넘치는 현장 분위기는 스트레스를 다 날려줘요.",
-    "en": "The energetic vibe of live concerts blows away all stress.",
-    "tip": "'blow away stress'는 스트레스를 날려버린다는 표현이에요."
+    cat: "콘서트 보기",
+    ko: "라이브 콘서트의 열기 넘치는 현장 분위기는 스트레스를 다 날려줘요.",
+    en: "The energetic vibe of live concerts blows away all stress.",
+    tip: "'blow away stress'는 스트레스를 날려버린다는 표현이에요.",
   },
   {
-    "cat": "콘서트 보기",
-    "ko": "저는 일 년에 두 번 정도 좋아하는 가수의 콘서트에 가요.",
-    "en": "I go to my favorite singer's concert about twice a year.",
-    "tip": "'about twice a year'로 빈도를 표현해요."
+    cat: "콘서트 보기",
+    ko: "저는 일 년에 두 번 정도 좋아하는 가수의 콘서트에 가요.",
+    en: "I go to my favorite singer's concert about twice a year.",
+    tip: "'about twice a year'로 빈도를 표현해요.",
   },
   {
-    "cat": "콘서트 보기",
-    "ko": "인기 가수의 콘서트 티켓팅은 경쟁이 정말 치열해요.",
-    "en": "Ticketing for popular singers' concerts is very competitive.",
-    "tip": "'very competitive'는 매우 치열하다는 뜻이에요."
+    cat: "콘서트 보기",
+    ko: "인기 가수의 콘서트 티켓팅은 경쟁이 정말 치열해요.",
+    en: "Ticketing for popular singers' concerts is very competitive.",
+    tip: "'very competitive'는 매우 치열하다는 뜻이에요.",
   },
   {
-    "cat": "콘서트 보기",
-    "ko": "수많은 관객들과 함께 떼창을 부르는 것은 정말 짜릿해요.",
-    "en": "Singing along with thousands of fans is really thrilling.",
-    "tip": "'Singing along with ~' 동명사 주어로 현장감을 묘사해요."
+    cat: "콘서트 보기",
+    ko: "수많은 관객들과 함께 떼창을 부르는 것은 정말 짜릿해요.",
+    en: "Singing along with thousands of fans is really thrilling.",
+    tip: "'Singing along with ~' 동명사 주어로 현장감을 묘사해요.",
   },
   {
-    "cat": "콘서트 보기",
-    "ko": "콘서트가 끝나고 나면 열정적인 응원 때문에 목이 쉬곤 해요.",
-    "en": "My voice often gets hoarse after concerts due to passionate cheering.",
-    "tip": "'passionate cheering'은 열정적인 응원을 뜻해요."
+    cat: "콘서트 보기",
+    ko: "콘서트가 끝나고 나면 열정적인 응원 때문에 목이 쉬곤 해요.",
+    en: "My voice often gets hoarse after concerts due to passionate cheering.",
+    tip: "'passionate cheering'은 열정적인 응원을 뜻해요.",
   },
   {
-    "cat": "콘서트 보기",
-    "ko": "제가 응원하는 가수가 새 앨범을 내면 항상 콘서트 일정을 기다려요.",
-    "en": "I always look forward to concert dates when my favorite singer releases a new album.",
-    "tip": "'look forward to + 명사'로 기대감을 나타내요."
+    cat: "콘서트 보기",
+    ko: "제가 응원하는 가수가 새 앨범을 내면 항상 콘서트 일정을 기다려요.",
+    en: "I always look forward to concert dates when my favorite singer releases a new album.",
+    tip: "'look forward to + 명사'로 기대감을 나타내요.",
   },
   {
-    "cat": "콘서트 보기",
-    "ko": "형형색색의 응원봉 불빛들은 공연장을 아름답게 수놓아요.",
-    "en": "Colorful light sticks beautifully illuminate the concert hall.",
-    "tip": "'illuminate'는 밝게 비추다, 수놓다라는 뜻이에요."
+    cat: "콘서트 보기",
+    ko: "형형색색의 응원봉 불빛들은 공연장을 아름답게 수놓아요.",
+    en: "Colorful light sticks beautifully illuminate the concert hall.",
+    tip: "'illuminate'는 밝게 비추다, 수놓다라는 뜻이에요.",
   },
   {
-    "cat": "콘서트 보기",
-    "ko": "가수의 뛰어난 가창력과 무대 매너는 관객들을 매료시켜요.",
-    "en": "The singer's outstanding vocals and stage manners captivate the audience.",
-    "tip": "'outstanding vocals'는 뛰어난 가창력을 뜻해요."
+    cat: "콘서트 보기",
+    ko: "가수의 뛰어난 가창력과 무대 매너는 관객들을 매료시켜요.",
+    en: "The singer's outstanding vocals and stage manners captivate the audience.",
+    tip: "'outstanding vocals'는 뛰어난 가창력을 뜻해요.",
   },
   {
-    "cat": "콘서트 보기",
-    "ko": "저는 콘서트 전용 굿즈를 모으는 재미에 푹 빠져 있어요.",
-    "en": "I'm really into collecting official concert merchandise.",
-    "tip": "'be into -ing'는 ~에 푹 빠져 있다는 뜻이에요."
+    cat: "콘서트 보기",
+    ko: "저는 콘서트 전용 굿즈를 모으는 재미에 푹 빠져 있어요.",
+    en: "I'm really into collecting official concert merchandise.",
+    tip: "'be into -ing'는 ~에 푹 빠져 있다는 뜻이에요.",
   },
   {
-    "cat": "캠핑하기",
-    "ko": "저는 날씨가 따뜻한 봄가을에 캠핑을 자주 떠나요.",
-    "en": "I often go camping in the warm spring and fall.",
-    "tip": "'often go camping'으로 캠핑 취미를 표현해요."
+    cat: "캠핑하기",
+    ko: "저는 날씨가 따뜻한 봄가을에 캠핑을 자주 떠나요.",
+    en: "I often go camping in the warm spring and fall.",
+    tip: "'often go camping'으로 캠핑 취미를 표현해요.",
   },
   {
-    "cat": "캠핑하기",
-    "ko": "자연 속에서 텐트를 치고 하룻밤을 보내는 것은 색다른 경험이에요.",
-    "en": "Pitching a tent and spending a night in nature is a unique experience.",
-    "tip": "'Pitching a tent'는 텐트를 친다는 동명사 표현이에요."
+    cat: "캠핑하기",
+    ko: "자연 속에서 텐트를 치고 하룻밤을 보내는 것은 색다른 경험이에요.",
+    en: "Pitching a tent and spending a night in nature is a unique experience.",
+    tip: "'Pitching a tent'는 텐트를 친다는 동명사 표현이에요.",
   },
   {
-    "cat": "캠핑하기",
-    "ko": "저녁에 모닥불을 피우고 둘러앉아 '불멍'을 하는 것은 최고예요.",
-    "en": "Sitting around the campfire and spacing out in the evening is the best.",
-    "tip": "'space out'은 멍때리다(불멍)를 자연스럽게 표현한 숙어예요."
+    cat: "캠핑하기",
+    ko: "저녁에 모닥불을 피우고 둘러앉아 '불멍'을 하는 것은 최고예요.",
+    en: "Sitting around the campfire and spacing out in the evening is the best.",
+    tip: "'space out'은 멍때리다(불멍)를 자연스럽게 표현한 숙어예요.",
   },
   {
-    "cat": "캠핑하기",
-    "ko": "야외 숯불에 구워 먹는 바비큐 고기는 집에서 먹는 것보다 훨씬 맛있어요.",
-    "en": "Barbecue grilled over outdoor charcoal tastes much better than at home.",
-    "tip": "'tastes much better'는 훨씬 맛있다는 비교 표현이에요."
+    cat: "캠핑하기",
+    ko: "야외 숯불에 구워 먹는 바비큐 고기는 집에서 먹는 것보다 훨씬 맛있어요.",
+    en: "Barbecue grilled over outdoor charcoal tastes much better than at home.",
+    tip: "'tastes much better'는 훨씬 맛있다는 비교 표현이에요.",
   },
   {
-    "cat": "캠핑하기",
-    "ko": "캠핑 장비는 챙길 것이 많아서 트렁크를 가득 채워요.",
-    "en": "Camping gear takes up a lot of space and fills up the trunk.",
-    "tip": "'take up space'는 공간을 차지한다는 표현이에요."
+    cat: "캠핑하기",
+    ko: "캠핑 장비는 챙길 것이 많아서 트렁크를 가득 채워요.",
+    en: "Camping gear takes up a lot of space and fills up the trunk.",
+    tip: "'take up space'는 공간을 차지한다는 표현이에요.",
   },
   {
-    "cat": "캠핑하기",
-    "ko": "안전한 캠핑을 위해서는 출발 전 일기예보를 미리 확인해야 해요.",
-    "en": "Checking the weather forecast beforehand is essential for safe camping.",
-    "tip": "동명사 주어 'Checking the weather forecast'를 사용해요."
+    cat: "캠핑하기",
+    ko: "안전한 캠핑을 위해서는 출발 전 일기예보를 미리 확인해야 해요.",
+    en: "Checking the weather forecast beforehand is essential for safe camping.",
+    tip: "동명사 주어 'Checking the weather forecast'를 사용해요.",
   },
   {
-    "cat": "캠핑하기",
-    "ko": "도시를 벗어나 밤하늘에 쏟아지는 별을 보는 것은 감동적이에요.",
-    "en": "Watching the starry night sky away from the city is really moving.",
-    "tip": "'starry night sky'는 별이 총총한 밤하늘을 뜻해요."
+    cat: "캠핑하기",
+    ko: "도시를 벗어나 밤하늘에 쏟아지는 별을 보는 것은 감동적이에요.",
+    en: "Watching the starry night sky away from the city is really moving.",
+    tip: "'starry night sky'는 별이 총총한 밤하늘을 뜻해요.",
   },
   {
-    "cat": "캠핑하기",
-    "ko": "제 친구들은 각자 특색 있는 캠핑 요리를 하나씩 준비해 와요.",
-    "en": "My friends each bring their own unique camping dishes.",
-    "tip": "'My friends'를 주어로 준비 과정을 묘사해요."
+    cat: "캠핑하기",
+    ko: "제 친구들은 각자 특색 있는 캠핑 요리를 하나씩 준비해 와요.",
+    en: "My friends each bring their own unique camping dishes.",
+    tip: "'My friends'를 주어로 준비 과정을 묘사해요.",
   },
   {
-    "cat": "캠핑하기",
-    "ko": "저는 복잡한 도심에서 벗어나 자연 속에서 진정한 휴식을 취해요.",
-    "en": "I take a true rest in nature away from the busy city life.",
-    "tip": "'take a true rest'는 진정한 휴식을 취한다는 뜻이에요."
+    cat: "캠핑하기",
+    ko: "저는 복잡한 도심에서 벗어나 자연 속에서 진정한 휴식을 취해요.",
+    en: "I take a true rest in nature away from the busy city life.",
+    tip: "'take a true rest'는 진정한 휴식을 취한다는 뜻이에요.",
   },
   {
-    "cat": "해변가기",
-    "ko": "여름 휴가철에 푸른 바다를 보러 해변에 가는 것은 언제나 설레요.",
-    "en": "Going to the beach to see the blue ocean during summer vacation is always exciting.",
-    "tip": "동명사 주어 'Going to the beach'를 활용해요."
+    cat: "해변가기",
+    ko: "여름 휴가철에 푸른 바다를 보러 해변에 가는 것은 언제나 설레요.",
+    en: "Going to the beach to see the blue ocean during summer vacation is always exciting.",
+    tip: "동명사 주어 'Going to the beach'를 활용해요.",
   },
   {
-    "cat": "해변가기",
-    "ko": "파도 소리를 들으며 모래사장을 따라 걷는 것은 마음을 편안하게 해줘요.",
-    "en": "Walking along the sandy beach while listening to the waves relaxes the mind.",
-    "tip": "'along the sandy beach'는 모래사장을 따라라는 표현이에요."
+    cat: "해변가기",
+    ko: "파도 소리를 들으며 모래사장을 따라 걷는 것은 마음을 편안하게 해줘요.",
+    en: "Walking along the sandy beach while listening to the waves relaxes the mind.",
+    tip: "'along the sandy beach'는 모래사장을 따라라는 표현이에요.",
   },
   {
-    "cat": "해변가기",
-    "ko": "바다 너머로 붉게 물드는 해 질 녘 노을은 장관이에요.",
-    "en": "The red sunset over the sea is a amazing sight.",
-    "tip": "'breathtaking sight'는 숨이 멎을 듯한 절경을 뜻해요."
+    cat: "해변가기",
+    ko: "바다 너머로 붉게 물드는 해 질 녘 노을은 장관이에요.",
+    en: "The red sunset over the sea is a amazing sight.",
+    tip: "'breathtaking sight'는 숨이 멎을 듯한 절경을 뜻해요.",
   },
   {
-    "cat": "해변가기",
-    "ko": "깊은 물에는 들어가지 않고 시원한 바닷물에 발만 담가요.",
-    "en": "I don't go into deep water, but just dip my feet in the cool sea.",
-    "tip": "'dip my feet'는 발을 담근다는 표현이에요."
+    cat: "해변가기",
+    ko: "깊은 물에는 들어가지 않고 시원한 바닷물에 발만 담가요.",
+    en: "I don't go into deep water, but just dip my feet in the cool sea.",
+    tip: "'dip my feet'는 발을 담근다는 표현이에요.",
   },
   {
-    "cat": "해변가기",
-    "ko": "바닷가 근처 횟집에서 신선한 해산물을 맛보는 것은 빼놓을 수 없는 재미예요.",
-    "en": "Enjoying fresh seafood at seaside restaurants is a must-experience joy.",
-    "tip": "'seaside restaurants'는 바닷가 식당들을 뜻해요."
+    cat: "해변가기",
+    ko: "바닷가 근처 횟집에서 신선한 해산물을 맛보는 것은 빼놓을 수 없는 재미예요.",
+    en: "Enjoying fresh seafood at seaside restaurants is a must-experience joy.",
+    tip: "'seaside restaurants'는 바닷가 식당들을 뜻해요.",
   },
   {
-    "cat": "해변가기",
-    "ko": "아이들은 해변에서 모래성을 쌓고 조개껍데기를 줍느라 바빠요.",
-    "en": "Children are busy building sandcastles and picking up seashells on the beach.",
-    "tip": "'be busy -ing'는 ~하느라 바쁘다는 유용한 구문이에요."
+    cat: "해변가기",
+    ko: "아이들은 해변에서 모래성을 쌓고 조개껍데기를 줍느라 바빠요.",
+    en: "Children are busy building sandcastles and picking up seashells on the beach.",
+    tip: "'be busy -ing'는 ~하느라 바쁘다는 유용한 구문이에요.",
   },
   {
-    "cat": "해변가기",
-    "ko": "오션뷰 숙소는 창밖으로 끝없는 수평선을 한눈에 보여줘요.",
-    "en": "The ocean-view accommodation shows the endless horizon right outside the window.",
-    "tip": "'endless horizon'은 끝없는 수평선을 뜻해요."
+    cat: "해변가기",
+    ko: "오션뷰 숙소는 창밖으로 끝없는 수평선을 한눈에 보여줘요.",
+    en: "The ocean-view accommodation shows the endless horizon right outside the window.",
+    tip: "'endless horizon'은 끝없는 수평선을 뜻해요.",
   },
   {
-    "cat": "해변가기",
-    "ko": "시원한 바닷바람은 여름철 무더위를 한순간에 잊게 해줘요.",
-    "en": "The cool ocean breeze makes us forget the summer heat instantly.",
-    "tip": "'ocean breeze'는 바닷바람을 뜻해요."
+    cat: "해변가기",
+    ko: "시원한 바닷바람은 여름철 무더위를 한순간에 잊게 해줘요.",
+    en: "The cool ocean breeze makes us forget the summer heat instantly.",
+    tip: "'ocean breeze'는 바닷바람을 뜻해요.",
   },
   {
-    "cat": "해변가기",
-    "ko": "저는 매년 여름마다 동해나 남해 바다로 휴가를 떠나요.",
-    "en": "I go on vacation to the East or South Sea every summer.",
-    "tip": "'go on vacation to ~'로 휴가지 표현을 완성해요."
+    cat: "해변가기",
+    ko: "저는 매년 여름마다 동해나 남해 바다로 휴가를 떠나요.",
+    en: "I go on vacation to the East or South Sea every summer.",
+    tip: "'go on vacation to ~'로 휴가지 표현을 완성해요.",
   },
   {
-    "cat": "조깅하기",
-    "ko": "상쾌한 아침 공기를 마시며 조깅하는 것은 하루의 활력소예요.",
-    "en": "Jogging while breathing fresh morning air is a great energizer for the day.",
-    "tip": "'energizer'는 활력소를 뜻하는 표현이에요."
+    cat: "조깅하기",
+    ko: "상쾌한 아침 공기를 마시며 조깅하는 것은 하루의 활력소예요.",
+    en: "Jogging while breathing fresh morning air is a great energizer for the day.",
+    tip: "'energizer'는 활력소를 뜻하는 표현이에요.",
   },
   {
-    "cat": "조깅하기",
-    "ko": "저희 집 근처 강변 산책로는 뛰기에 도로가 아주 잘 정비되어 있어요.",
-    "en": "The riverside trail near my house is very well maintained for running.",
-    "tip": "'well maintained'는 잘 정비되고 관리된 상태를 뜻해요."
+    cat: "조깅하기",
+    ko: "저희 집 근처 강변 산책로는 뛰기에 도로가 아주 잘 정비되어 있어요.",
+    en: "The riverside trail near my house is very well maintained for running.",
+    tip: "'well maintained'는 잘 정비되고 관리된 상태를 뜻해요.",
   },
   {
-    "cat": "조깅하기",
-    "ko": "신나는 음악을 들으며 달리면 힘든 줄 모르고 뛸 수 있어요.",
-    "en": "Running while listening to upbeat music helps me run without getting tired easily.",
-    "tip": "동명사 주어 'Running ~'을 사용해요."
+    cat: "조깅하기",
+    ko: "신나는 음악을 들으며 달리면 힘든 줄 모르고 뛸 수 있어요.",
+    en: "Running while listening to upbeat music helps me run without getting tired easily.",
+    tip: "동명사 주어 'Running ~'을 사용해요.",
   },
   {
-    "cat": "조깅하기",
-    "ko": "저는 매일 아침 30분 정도 가볍게 땀을 흘리며 뛰어요.",
-    "en": "I jog lightly for about 30 minutes every morning to work up a sweat.",
-    "tip": "'work up a sweat'는 땀을 낸다는 자연스러운 표현이에요."
+    cat: "조깅하기",
+    ko: "저는 매일 아침 30분 정도 가볍게 땀을 흘리며 뛰어요.",
+    en: "I jog lightly for about 30 minutes every morning to work up a sweat.",
+    tip: "'work up a sweat'는 땀을 낸다는 자연스러운 표현이에요.",
   },
   {
-    "cat": "조깅하기",
-    "ko": "달리기 전후 스트레칭은 부상을 예방하는 데 가장 중요해요.",
-    "en": "Stretching before and after running is most important for preventing injuries.",
-    "tip": "'prevent injuries'는 부상을 예방한다는 뜻이에요."
+    cat: "조깅하기",
+    ko: "달리기 전후 스트레칭은 부상을 예방하는 데 가장 중요해요.",
+    en: "Stretching before and after running is most important for preventing injuries.",
+    tip: "'prevent injuries'는 부상을 예방한다는 뜻이에요.",
   },
   {
-    "cat": "조깅하기",
-    "ko": "가볍고 쿠션감이 좋은 러닝화는 무릎 부담을 줄여줘요.",
-    "en": "Light running shoes with good cushioning reduce pressure on knees.",
-    "tip": "'reduce pressure on knees'는 무릎 부담을 줄인다는 표현이에요."
+    cat: "조깅하기",
+    ko: "가볍고 쿠션감이 좋은 러닝화는 무릎 부담을 줄여줘요.",
+    en: "Light running shoes with good cushioning reduce pressure on knees.",
+    tip: "'reduce pressure on knees'는 무릎 부담을 줄인다는 표현이에요.",
   },
   {
-    "cat": "조깅하기",
-    "ko": "스마트워치 피트니스 앱은 달린 거리와 소모 칼로리를 자동으로 기록해 줘요.",
-    "en": "The smartwatch fitness app automatically tracks running distance and burned calories.",
-    "tip": "'track distance and calories'는 거리와 칼로리를 기록한다는 뜻이에요."
+    cat: "조깅하기",
+    ko: "스마트워치 피트니스 앱은 달린 거리와 소모 칼로리를 자동으로 기록해 줘요.",
+    en: "The smartwatch fitness app automatically tracks running distance and burned calories.",
+    tip: "'track distance and calories'는 거리와 칼로리를 기록한다는 뜻이에요.",
   },
   {
-    "cat": "조깅하기",
-    "ko": "많은 주민들이 이른 아침부터 건강을 위해 조깅 코스를 달려요.",
-    "en": "Many residents run along the jogging course for their health from early morning.",
-    "tip": "'Many residents'를 주어로 주변 분위기(vibe)를 설명해요."
+    cat: "조깅하기",
+    ko: "많은 주민들이 이른 아침부터 건강을 위해 조깅 코스를 달려요.",
+    en: "Many residents run along the jogging course for their health from early morning.",
+    tip: "'Many residents'를 주어로 주변 분위기(vibe)를 설명해요.",
   },
   {
-    "cat": "조깅하기",
-    "ko": "저는 주말 아침마다 친구와 함께 코스 기록을 단축하며 뛰어요.",
-    "en": "I run with a friend on weekend mornings, trying to beat our course record.",
-    "tip": "'beat the record'는 기록을 단축하다/경신하다라는 뜻이에요."
+    cat: "조깅하기",
+    ko: "저는 주말 아침마다 친구와 함께 코스 기록을 단축하며 뛰어요.",
+    en: "I run with a friend on weekend mornings, trying to beat our course record.",
+    tip: "'beat the record'는 기록을 단축하다/경신하다라는 뜻이에요.",
   },
   {
-    "cat": "걷기",
-    "ko": "가벼운 걷기 운동은 누구나 쉽게 시작할 수 있는 최고의 유산소 운동이에요.",
-    "en": "Light walking is the best aerobic exercise that anyone can easily start.",
-    "tip": "'aerobic exercise'는 유산소 운동을 뜻해요."
+    cat: "걷기",
+    ko: "가벼운 걷기 운동은 누구나 쉽게 시작할 수 있는 최고의 유산소 운동이에요.",
+    en: "Light walking is the best aerobic exercise that anyone can easily start.",
+    tip: "'aerobic exercise'는 유산소 운동을 뜻해요.",
   },
   {
-    "cat": "걷기",
-    "ko": "저는 저녁 식사를 마친 후 집 근처를 한 바퀴 걸어요.",
-    "en": "I take a walk near my house after dinner.",
-    "tip": "'take a walk near my house'로 산책을 표현해요."
+    cat: "걷기",
+    ko: "저는 저녁 식사를 마친 후 집 근처를 한 바퀴 걸어요.",
+    en: "I take a walk near my house after dinner.",
+    tip: "'take a walk near my house'로 산책을 표현해요.",
   },
   {
-    "cat": "걷기",
-    "ko": "매일 만 보 이상 걷는 것은 건강한 체중 관리에 큰 도움이 돼요.",
-    "en": "Walking more than 10,000 steps a day helps a lot with healthy weight management.",
-    "tip": "'weight management'는 체중 관리를 뜻해요."
+    cat: "걷기",
+    ko: "매일 만 보 이상 걷는 것은 건강한 체중 관리에 큰 도움이 돼요.",
+    en: "Walking more than 10,000 steps a day helps a lot with healthy weight management.",
+    tip: "'weight management'는 체중 관리를 뜻해요.",
   },
   {
-    "cat": "걷기",
-    "ko": "조용히 길을 걸으면서 생각을 정리하면 마음이 차분해져요.",
-    "en": "Organizing thoughts while walking quietly makes the mind peaceful.",
-    "tip": "'Organizing thoughts' 동명사 주어로 표현해요."
+    cat: "걷기",
+    ko: "조용히 길을 걸으면서 생각을 정리하면 마음이 차분해져요.",
+    en: "Organizing thoughts while walking quietly makes the mind peaceful.",
+    tip: "'Organizing thoughts' 동명사 주어로 표현해요.",
   },
   {
-    "cat": "걷기",
-    "ko": "저는 날씨가 좋은 날에는 버스 대신 두 정거장 정도 걸어서 가요.",
-    "en": "On nice days, I walk about two bus stops instead of taking the bus.",
-    "tip": "'instead of taking the bus'는 버스를 타는 대신이라는 뜻이에요."
+    cat: "걷기",
+    ko: "저는 날씨가 좋은 날에는 버스 대신 두 정거장 정도 걸어서 가요.",
+    en: "On nice days, I walk about two bus stops instead of taking the bus.",
+    tip: "'instead of taking the bus'는 버스를 타는 대신이라는 뜻이에요.",
   },
   {
-    "cat": "걷기",
-    "ko": "제 걸음걸이 속도는 보통 사람들보다 약간 빠른 편이에요.",
-    "en": "My walking pace is slightly faster than most people.",
-    "tip": "'walking pace'는 걷는 속도/보폭을 뜻해요."
+    cat: "걷기",
+    ko: "제 걸음걸이 속도는 보통 사람들보다 약간 빠른 편이에요.",
+    en: "My walking pace is slightly faster than most people.",
+    tip: "'walking pace'는 걷는 속도/보폭을 뜻해요.",
   },
   {
-    "cat": "걷기",
-    "ko": "발이 편한 워킹화는 오래 걸어도 발바닥 피로를 덜어줘요.",
-    "en": "Good walking shoes reduce foot fatigue even after long walks.",
-    "tip": "'reduce foot fatigue'는 발의 피로를 덜어준다는 표현이에요."
+    cat: "걷기",
+    ko: "발이 편한 워킹화는 오래 걸어도 발바닥 피로를 덜어줘요.",
+    en: "Good walking shoes reduce foot fatigue even after long walks.",
+    tip: "'reduce foot fatigue'는 발의 피로를 덜어준다는 표현이에요.",
   },
   {
-    "cat": "걷기",
-    "ko": "계절에 따라 달라지는 길가의 나무와 꽃들은 걷는 재미를 더해줘요.",
-    "en": "Trees and flowers along the road changing with seasons add joy to walking.",
-    "tip": "'add joy to -ing'는 ~에 재미를 더하다라는 표현이에요."
+    cat: "걷기",
+    ko: "계절에 따라 달라지는 길가의 나무와 꽃들은 걷는 재미를 더해줘요.",
+    en: "Trees and flowers along the road changing with seasons add joy to walking.",
+    tip: "'add joy to -ing'는 ~에 재미를 더하다라는 표현이에요.",
   },
   {
-    "cat": "걷기",
-    "ko": "저는 숲길 산책로를 걸으며 피톤치드를 마시는 시간을 좋아해요.",
-    "en": "I love the time walking along forest trails and breathing in fresh phytoncides.",
-    "tip": "'forest trails'는 숲길 산책로를 뜻해요."
-  }
+    cat: "걷기",
+    ko: "저는 숲길 산책로를 걸으며 피톤치드를 마시는 시간을 좋아해요.",
+    en: "I love the time walking along forest trails and breathing in fresh phytoncides.",
+    tip: "'forest trails'는 숲길 산책로를 뜻해요.",
+  },
 ];

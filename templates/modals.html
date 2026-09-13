@@ -1,4 +1,17 @@
-<!-- 🎧 TTS & 오디오 캐시 설정 모달 -->
+<!--
+  @file templates/modals.html
+  @description 공통 모달 다이얼로그 템플릿 컴포넌트
+  - 주입 슬롯: index.html의 #modalsSlot
+  - 주요 구성:
+    1. 🎧 원어민 음성(TTS) & 캐시 설정 모달 (#ttsSettingsModal)
+       - Azure Neural / Google / Web Speech 엔진 선택, 속도 조절, IndexedDB 캐시 관리
+    2. 📚 나만의 단어장 모달 (#vocabModal)
+       - 저장된 영단어 검색, 품사/뜻 조회, 발음 듣기, 단어별 삭제 및 전체 비우기
+-->
+<!-- =========================================================================
+     [Modal 1] 🎧 원어민 음성(TTS) & 캐시 설정 모달 (#ttsSettingsModal)
+     - 음성 엔진 선택, Azure F0 쿼터 사용량 게이지, IndexedDB 캐시, 데이터 백업/복원
+     ========================================================================= -->
 <div class="modal-backdrop" id="ttsSettingsModal">
   <div class="modal-card">
     <div class="modal-header">
@@ -394,9 +407,14 @@
       </button>
     </div>
   </div>
+  <!-- // .modal-card -->
 </div>
+<!-- // #ttsSettingsModal -->
 
-<!-- 📚 내 단어장 모달 -->
+<!-- =========================================================================
+     [Modal 2] 📚 내 단어장 모달 (#vocabModal)
+     - 즐겨찾기로 저장된 영단어 목록, 품사/뜻, 발음 듣기, 전체 비우기
+     ========================================================================= -->
 <div class="modal-backdrop" id="vocabModal">
   <div class="modal-card" style="max-width: 480px">
     <div class="modal-header">
@@ -413,6 +431,7 @@
         ✕
       </button>
     </div>
+    <!-- [Dynamic Slot]: js/vocab-tooltip.js가 저장된 단어 카드들을 동적 렌더링 -->
     <div class="saved-words-list" id="savedWordsListContainer"></div>
     <div
       class="btn-row-flex"
@@ -441,4 +460,6 @@
       </button>
     </div>
   </div>
+  <!-- // .modal-card -->
 </div>
+<!-- // #vocabModal -->

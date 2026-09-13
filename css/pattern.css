@@ -1,5 +1,12 @@
 /**
- * [pattern.css] 만능 패턴 집중 훈련 (Master Patterns) 모드 스타일시트
+ * @file pattern.css
+ * @description 만능 패턴 집중 훈련(Master Patterns) 모드 전용 스타일시트
+ * - 6대 만능 패턴 카드 그리드 및 마스터 완료 뱃지 스타일
+ * - 공통 뼈대(Skeleton) 문장과 실시간 주제 교체 슬롯(Slot Switcher) 하이라이트 칩
+ * - 6문장 연속 말하기 타이머, 단계별(듣기/따라말하기/전체암기) 탭 네비게이션 스타일
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  */
 
 /* ── 홈 화면 패턴 진입 카드 강조 ── */

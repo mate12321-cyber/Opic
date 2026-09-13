@@ -1,8 +1,13 @@
 /**
- * [storage.js] 로컬 스토리지 관리 및 데이터 로더
- * - 브라우저 localStorage 래퍼 객체
- * - OPIc 문장 및 문법 JSON 데이터 비동기 로딩
- * - 일별 학습 기록(Daily Log) 및 연속 학습(Streak) 계산
+ * @file storage.js
+ * @description 로컬 스토리지 비동기 래퍼, 학습 데이터 영속화 및 백업/복원 관리자
+ * - 브라우저 localStorage Promise 기반 인터페이스 추상화 (storage.get, set, remove, clear)
+ * - OPIc 문장/문법/질문/패턴/필러 데이터셋 메모리 로딩 파이프라인 (loadData)
+ * - 일별 학습 기록(Daily Log) 및 연속 출석일수(Streak) 통계 계산 알고리즘
+ * - 전체 학습 진도 및 북마크 데이터의 원클릭 JSON 내보내기/가져오기 백업 엔진
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  *
  * --------------------------------------------------------------------------------
  * 💡 [확장성 및 유지보수 가이드 (Scalability & Customization Guide)]
@@ -121,12 +126,17 @@ const GROUPS = {
 };
 
 /**
- * 배열을 무작위로 섞는 Fisher-Yates 셔플 알고리즘 함수입니다.
- * 원본 배열을 변경하지 않고 새로운 셔플 배열을 반환합니다.
+ * 배열을 무작위로 섞는 Fisher-Yates (Knuth) 셔플 알고리즘 함수입니다.
+ *
+ * [알고리즘 채택 이유]:
+ * - 흔히 사용되는 `arr.sort(() => Math.random() - 0.5)` 방식은 V8 엔진 정렬 특성상
+ *   모든 원소의 확률 분포가 균등하지 않고 특정 위치로 쏠리는 통계적 편향(Bias)이 발생합니다.
+ * - Fisher-Yates 셔플은 O(N) 선형 시간 복잡도로 실행되며, 순열(Permutation)의 모든 경우의 수가
+ *   정확히 1/N!의 동등한 확률로 보장되어 문제 출제의 공정성을 확보합니다.
  *
  * @template T
  * @param {T[]} arr - 셔플할 원본 배열
- * @returns {T[]} 무작위로 섞인 새 배열
+ * @returns {T[]} 무작위로 섞인 새 배열 (원본 불변)
  */
 function shuffle(arr) {
   const a = arr.slice();
@@ -203,13 +213,18 @@ function logPracticeEvent() {
 
 /**
  * 오늘 날짜 기준 연속 학습 일수(Streak)를 계산합니다.
- * 오늘 아직 학습하지 않았더라도 어제 학습 기록이 있다면 연속 일수를 유지합니다.
+ *
+ * [UX 연속성 보장 정책 (Grace Period)]:
+ * - 사용자가 당일 아직 문제를 풀지 않았더라도, 어제 학습 기록이 남아있다면
+ *   스트릭이 즉시 0으로 초기화되지 않고 어제까지의 연속 기록을 유지해 줍니다.
+ * - 사용자가 앱을 열자마자 스트릭이 끊겨 보이는 상실감을 방지하고 오늘 학습을 유도하는 동기부여 정책입니다.
  *
  * @returns {number} 연속 학습 일수 (일 단위)
  */
 function computeStreak() {
   let streak = 0;
   const d = new Date();
+  // 오늘 풀이 기록이 없으면 어제 날짜를 기점으로 연속 기록 역산 시작
   if (!dailyLog[todayKey(d)]) d.setDate(d.getDate() - 1);
   while (dailyLog[todayKey(d)]) {
     streak++;
@@ -318,6 +333,7 @@ async function exportAllDataJson() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    // [메모리 관리] 다운로드 트리거 직후 임시 생성된 Object URL을 해제하여 브라우저 메모리 누수 방지
     URL.revokeObjectURL(url);
     return true;
   } catch (err) {
@@ -340,6 +356,7 @@ async function importDataJson(file) {
     const text = await file.text();
     const data = JSON.parse(text);
 
+    // [데이터 무결성 검증] 유효하지 않은 임의의 JSON 주입으로 인한 스토리지 오염 방지
     if (!data || !data.version) {
       throw new Error("올바른 OPIc 백업 파일 형식이 아닙니다.");
     }
@@ -375,6 +392,8 @@ async function importDataJson(file) {
     }
 
     alert("🎉 학습 데이터가 성공적으로 복원되었습니다! 앱을 새로고침합니다.");
+    // [상태 갱신 전략] 복합 전역 상태(In-memory Set, Dot, Card UI 등)를 부분적으로 업데이트하는 위험을 피하고,
+    // 완전히 초기화된 클린 상태로 전체 모듈을 재마운트하기 위해 새로고침 수행
     window.location.reload();
     return true;
   } catch (err) {

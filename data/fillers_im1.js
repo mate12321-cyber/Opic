@@ -1,3 +1,35 @@
+/**
+ * @file fillers_im1.js
+ * @description OPIc 핵심 필러(Filler Words) 16선 및 상황별 활용 가이드 데이터셋
+ * - 시작/생각 시간 벌기, 공감 유도, 문맥 전환/수정, 감정/강조, 마무리 등 5대 카테고리
+ * - 한국어 발음 표기, 타이밍 가이드, 실전 상황별 대화 예문 제공
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
+ */
+
+/**
+ * @typedef {Object} FillerExample
+ * @property {string} context - 발화 상황 설명
+ * @property {string} en - 필러가 포함된 영어 실전 문장
+ * @property {string} ko - 한글 해석 문장
+ */
+
+/**
+ * @typedef {Object} FillerItem
+ * @property {string} id - 필러 고유 식별자 (예: "fil_01")
+ * @property {string} category - 카테고리 키 (예: "start", "connect")
+ * @property {string} categoryName - 카테고리 표시명
+ * @property {string} categoryIcon - 이모지 아이콘
+ * @property {string} phrase - 필러 영문 표현
+ * @property {string} pronunciation - 한글 발음 가이드
+ * @property {string} meaning - 한글 뉘앙스 의미
+ * @property {string} timingGuide - 원어민 발화 타이밍 가이드
+ * @property {string} tip - OPIc 고득점 활용 팁
+ * @property {FillerExample[]} examples - 실전 예문 목록
+ */
+
+/** @type {FillerItem[]} */
 window.FILLERS_DATA = [
   {
     id: "fil_01",

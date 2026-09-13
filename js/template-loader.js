@@ -1,17 +1,27 @@
 /**
- * [template-loader.js] OPIc 학습 웹 앱 - 비동기 템플릿 컴포넌트 로더
+ * @file template-loader.js
+ * @description OPIc 학습 웹 애플리케이션 비동기 템플릿 컴포넌트 로더
+ * - templates/*.html 모듈형 화면 조각을 병렬(Promise.all) 다운로드하여 DOM 슬롯에 치환
+ * - templates/components/voice-input.html 재사용 공통 컴포넌트 확장 및 유니크 ID 바인딩
+ * - DOM 트리 빌드 완료 후 종속 스크립트를 정해진 순서대로 동적 주입 및 애플리케이션 부팅
  *
- * 1. templates/*.html 화면 조각들을 병렬로 fetch하여 DOM에 삽입
- * 2. 공통 컴포넌트(templates/components/voice-input.html) 자동 확장 및 ID 바인딩
- * 3. 모든 DOM 준비 완료 후 애플리케이션 스크립트 순차 로드 및 부팅
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  */
 
 (function () {
   "use strict";
 
+  /** @const {string} 캐시 버스팅용 빌드 버전 태그 */
   const BUILD_VERSION = "2.2.5";
 
-  // 화면 슬롯 정의
+  /**
+   * @typedef {Object} ScreenConfig
+   * @property {string} id - DOM 슬롯 엘리먼트 ID
+   * @property {string} file - 로드할 템플릿 파일 경로
+   */
+
+  /** @type {ScreenConfig[]} 동적 주입 대상 화면 슬롯 정의 목록 */
   const SCREENS = [
     { id: "homeSlot", file: "templates/home.html" },
     { id: "practiceSlot", file: "templates/practice.html" },
@@ -22,10 +32,19 @@
     { id: "speechSlot", file: "templates/speech.html" },
   ];
 
+  /** @const {string} 공통 모달 템플릿 파일 경로 */
   const MODALS_FILE = "templates/modals.html";
+
+  /** @const {string} 공통 음성 입력 컨트롤러 컴포넌트 경로 */
   const VOICE_INPUT_COMPONENT_FILE = "templates/components/voice-input.html";
 
-  // 로드할 스크립트 목록 (의존성 순서 유지)
+  /**
+   * @typedef {Object} ScriptItem
+   * @property {string} src - 스크립트 소스 경로 (로컬 또는 CDN)
+   * @property {string} [type] - 스크립트 모듈 타입 (예: "module")
+   */
+
+  /** @type {ScriptItem[]} 실행 의존성 순서가 보장되어야 하는 스크립트 목록 */
   const SCRIPTS_TO_LOAD = [
     {
       src: "https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle.js",
@@ -55,7 +74,13 @@
   ];
 
   /**
-   * 단일 HTML 파일 비동기 요청 (캐시 버스팅 적용)
+   * 단일 HTML 템플릿 파일을 비동기 요청하여 텍스트로 반환합니다.
+   * 브라우저 캐시 방지를 위해 쿼리스트링에 빌드 버전을 자동으로 추가합니다.
+   *
+   * @async
+   * @param {string} url - 요청할 HTML 파일 경로
+   * @returns {Promise<string>} 로드된 HTML 템플릿 문자열
+   * @throws {Error} HTTP 응답 코드가 200번대가 아닐 경우 예외 발생
    */
   async function fetchHtml(url) {
     const res = await fetch(`${url}?v=${BUILD_VERSION}`);
@@ -66,8 +91,12 @@
   }
 
   /**
-   * 음성 입력창 공통 컴포넌트 확장
-   * data-component="voice-input" 요소를 찾아서 템플릿 치환 후 삽입
+   * `data-component="voice-input"` 요소를 검색하여 공통 음성 입력창 컴포넌트로 치환 및 확장합니다.
+   * 프리픽스 속성을 기준으로 모드별 고유 ID와 접근성 라벨을 바인딩합니다.
+   *
+   * @param {HTMLElement} container - 컴포넌트 검색 대상 상위 엘리먼트
+   * @param {string} rawComponentHtml - 컴포넌트 HTML 원본 템플릿
+   * @returns {void}
    */
   function expandVoiceInputComponents(container, rawComponentHtml) {
     const targets = container.querySelectorAll(
@@ -133,7 +162,12 @@
   }
 
   /**
-   * 단일 스크립트 순차 로더 프로미스 (로컬 스크립트 자동 캐시 버스팅)
+   * 단일 스크립트 엘리먼트를 동적으로 생성하여 문서에 순차 주입합니다.
+   * 로컬 스크립트의 경우 브라우저 캐시 무효화를 위해 빌드 버전 파라미터를 부착합니다.
+   *
+   * @param {ScriptItem} item - 로드할 스크립트 정보 객체
+   * @returns {Promise<void>} 스크립트 로드 및 파싱 완료 시 resolve
+   * @throws {Error} 스크립트 네트워크 다운로드 또는 실행 실패 시 reject
    */
   function loadScript(item) {
     return new Promise((resolve, reject) => {
@@ -149,7 +183,17 @@
   }
 
   /**
-   * 전체 템플릿 로딩 및 애플리케이션 시작 메인 함수
+   * 전체 템플릿 컴포넌트를 병렬 다운로드하고 DOM 슬롯에 치환한 후 앱을 구동합니다.
+   *
+   * [부트스트랩 시퀀스]:
+   * 1. 템플릿 조각(HTML) 및 공통 컴포넌트 병렬 비동기 요청
+   * 2. 화면 슬롯(`#*Slot`)을 실제 마크업으로 완전 치환
+   * 3. `voice-input` 커스텀 컴포넌트 재귀 확장
+   * 4. 초기 로딩 스켈레톤 화면 은닉
+   * 5. 애플리케이션 핵심 비즈니스 로직 스크립트 순차 실행
+   *
+   * @async
+   * @returns {Promise<void>}
    */
   async function bootApplication() {
     try {

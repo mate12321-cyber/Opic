@@ -1,9 +1,13 @@
 /**
- * [dashboard.js] DOM 엘리먼트 캐시 및 화면 라우팅, 대시보드 렌더러
- * - 주요 DOM 엘리먼트 참조 객체 (els)
- * - 화면 전환 및 초기화 (hideAllScreens, showHomeScreen, showTopicScreen)
- * - 홈 화면 통계 & 주간 학습 차트 렌더링
- * - 문장 번역 및 문법 퀴즈 주제 선택 화면 렌더링
+ * @file dashboard.js
+ * @description DOM 엘리먼트 프록시 캐시, 화면 라우팅(SPA) 및 홈 대시보드 통계 렌더러
+ * - 주요 DOM 엘리먼트 참조 프록시 캐시 객체 (els)
+ * - 단일 페이지 애플리케이션(SPA) 화면 전환 및 리소스 클린업 (hideAllScreens, navigateTo)
+ * - 홈 화면 통계 & 주간 7일 학습 활동 막대 차트 렌더링
+ * - 6대 학습 모드(문장 번역, 문법 퀴즈, 실전 OPIc, 만능 패턴 등) 진입점 렌더러
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  *
  * --------------------------------------------------------------------------------
  * 💡 [확장성 및 유지보수 가이드 (Scalability & Customization Guide)]
@@ -20,7 +24,12 @@
  * --------------------------------------------------------------------------------
  */
 
-/// 주요 DOM 엘리먼트 캐시 객체 (동적 Proxy 기반: 지연 로딩 및 DOM 무결성 보장)
+/**
+ * 주요 DOM 엘리먼트 참조 프록시 캐시 객체
+ * - 지연 접근(Lazy Evaluation) 방식으로 템플릿 비동기 주입 후에도 안전하게 노드 참조
+ * - 특정 모드별 ID 별칭(Alias) 대체 매핑 지원
+ * @type {Record<string, HTMLElement>}
+ */
 const elsCache = {};
 const els = new Proxy(elsCache, {
   get(target, prop) {

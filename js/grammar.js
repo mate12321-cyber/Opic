@@ -170,6 +170,10 @@ function selectWordOption(opt, btn, item) {
   buildWordDots();
 
   if (autoPlayTtsEnabled) {
+    // [TTS 음성 정제 정책]:
+    // item.tip에 한글 문법 해설과 함께 포함된 영문 예문(예: "예) He goes to school...")을 정규식으로 추출합니다.
+    // 영문 TTS 엔진이 한글 해설 문자열을 어색한 영어 발음으로 읽는 현상을 차단하고,
+    // 정답 단어 또는 핵심 영문 예문만을 골라내어 원어민 발음으로 정확하게 발화하도록 보장합니다.
     const match = item.tip && item.tip.match(/예\)\s*([^.]+)/);
     const speechText = match ? match[1].trim() : item.answer;
     speakText(speechText, "en-US", els.ttsWordBtn);

@@ -1,10 +1,13 @@
 /**
  * @file filler.js
- * @description OPIc 핵심 필러(Filler Words) 16선 1개씩 집중 훈련 컨트롤러
+ * @description [모드 5] OPIc 핵심 필러(Filler Words) 16선 1개씩 집중 훈련 컨트롤러
  * - 16개 핵심 필러 카드 렌더링 (단어, 발음 기호, 한국어 뜻, 타이밍 가이드, 꿀팁)
  * - 상단 바로가기 칩을 통한 빠른 필러 전환
  * - 원어민 발음(TTS) 청취 및 마이크(STT) 따라 말하기 실전 테스트
  * - 마스터 완료 상태 로컬 스토리지 저장 및 대시보드 진행도 연동
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  */
 
 // =============================================================================
@@ -23,6 +26,11 @@ function escapeFillerHtml(str) {
   return escapeHtml(str);
 }
 
+/**
+ * 인라인 JavaScript 문자열 리터럴에 안전하게 삽입할 수 있도록 따옴표를 이스케이프합니다.
+ * @param {string} str - 원본 문자열
+ * @returns {string} 이스케이프된 문자열
+ */
 function safeEscapeForJs(str) {
   if (!str) return "";
   return str.replace(/'/g, "\\'").replace(/"/g, '\\"');

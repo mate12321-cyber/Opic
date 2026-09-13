@@ -1,3 +1,37 @@
+/**
+ * @file patterns_im1.js
+ * @description OPIc IM1 대비 6대 만능 템플릿 및 실시간 슬롯 스위처 데이터셋
+ * - 장소/선호, 루틴/습관, 과거 경험/계기, 돌발 문제/해결, 롤플레이(질문/대안) 등 6대 핵심 뼈대 제공
+ * - 공통 뼈대(skeleton) 문장에 주제별 치환 슬롯(variations)을 결합하여 무제한 답변 생성 지원
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
+ */
+
+/**
+ * @typedef {Object} PatternSentence
+ * @property {string} en - 영문 문장 (슬롯 표기 포함)
+ * @property {string} ko - 한글 해석 문장
+ */
+
+/**
+ * @typedef {Object} PatternVariation
+ * @property {string} topic - 치환 주제명 (예: "카페", "공원")
+ * @property {PatternSentence[]} sentences - 치환된 6개 문장 세트
+ */
+
+/**
+ * @typedef {Object} PatternTemplate
+ * @property {string} id - 패턴 고유 식별자 (예: "pat_01")
+ * @property {string} name - 패턴명
+ * @property {string} category - 적용 가능한 대표 토픽 목록
+ * @property {string} icon - 이모지 아이콘
+ * @property {string} desc - 패턴 활용 가이드 설명
+ * @property {PatternSentence[]} skeleton - 공통 뼈대 6문장 배열
+ * @property {PatternVariation[]} variations - 주제별 치환 슬롯 데이터 목록
+ */
+
+/** @type {PatternTemplate[]} */
 window.PATTERNS_DATA = [
   {
     id: "pat_01",

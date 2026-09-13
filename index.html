@@ -1,3 +1,10 @@
+<!--
+  @file index.html
+  @description OPIc 학습 웹 애플리케이션 메인 슬림 HTML5 엔트리 마크업
+  - 화면 조각(templates/*.html) 및 공통 모달을 비동기로 주입받는 슬롯 컨테이너 호스트
+  - 웹폰트(Pretendard, Plus Jakarta Sans, JetBrains Mono) 및 CSS 모듈 일괄 사전 로드
+  - JS 실행 전 사용자 체감 대기시간을 줄이기 위한 경량 인라인 로딩 스켈레톤 내장
+-->
 <!doctype html>
 <html lang="ko">
   <head>
@@ -30,7 +37,10 @@
     <link rel="stylesheet" href="css/vocab-tooltip.css" />
   </head>
   <body>
-    <!-- 앱 초기 비동기 템플릿 로딩 스켈레톤 -->
+    <!-- =========================================================================
+         [Section 1] 앱 초기 비동기 템플릿 로딩 스켈레톤
+         - 템플릿 fetch 완료 전 깜빡임 방지용 인라인 CSS 로더 (template-loader.js가 은닉)
+         ========================================================================= -->
     <div
       id="appInitialLoading"
       style="
@@ -65,22 +75,45 @@
         }
       </style>
     </div>
+    <!-- // #appInitialLoading -->
 
-    <!-- 메인 화면 템플릿 주입 컨테이너 슬롯 -->
+    <!-- =========================================================================
+         [Section 2] 메인 화면 템플릿 비동기 치환 슬롯 컨테이너
+         - template-loader.js에 의해 각 Slot div가 templates/*.html로 교체됨
+         ========================================================================= -->
     <div class="wrap">
+      <!-- 1. 홈 대시보드 화면 슬롯 (templates/home.html) -->
       <div id="homeSlot"></div>
+
+      <!-- 2. 문장 번역 연습 화면 슬롯 (templates/practice.html) -->
       <div id="practiceSlot"></div>
+
+      <!-- 3. 문법 포인트 퀴즈 화면 슬롯 (templates/grammar.html) -->
       <div id="grammarSlot"></div>
+
+      <!-- 4. OPIc 실전 질문&답변 화면 슬롯 (templates/opic.html) -->
       <div id="opicSlot"></div>
+
+      <!-- 5. 6대 만능 패턴 집중 훈련 화면 슬롯 (templates/pattern.html) -->
       <div id="patternSlot"></div>
+
+      <!-- 6. 핵심 16대 필러 훈련 화면 슬롯 (templates/filler.html) -->
       <div id="fillerSlot"></div>
+
+      <!-- 7. 자유 발화 및 다면 진단 화면 슬롯 (templates/speech.html) -->
       <div id="speechSlot"></div>
     </div>
+    <!-- // .wrap -->
 
-    <!-- 공통 모달 템플릿 슬롯 -->
+    <!-- =========================================================================
+         [Section 3] 공통 모달 다이얼로그 슬롯
+         - 음성/TTS 설정 및 단어장 모달 주입 (templates/modals.html)
+         ========================================================================= -->
     <div id="modalsSlot"></div>
 
-    <!-- 🚀 비동기 템플릿 및 공통 컴포넌트 로더 -->
+    <!-- =========================================================================
+         [Section 4] 애플리케이션 비동기 템플릿 & 컴포넌트 로더 진입점
+         ========================================================================= -->
     <script src="js/template-loader.js?v=7"></script>
   </body>
 </html>

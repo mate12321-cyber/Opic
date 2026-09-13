@@ -1,4 +1,15 @@
-<!-- 4. 🧩 만능 패턴 선택 화면 (Pattern Screen) -->
+<!--
+  @file templates/pattern.html
+  @description [모드 4] 6대 만능 패턴 집중 훈련 템플릿 컴포넌트
+  - 주입 슬롯: index.html의 #patternSlot
+  - 주요 구성:
+    1. 6대 만능 패턴 목록 화면 (#patternTopicScreen)
+    2. 패턴 집중 훈련 카드 (#patternCard) - 공통 뼈대 문장, 실시간 슬롯 스위처, 6문장 완주 타이머
+-->
+<!-- =========================================================================
+     [Screen 1] 6대 만능 패턴 목록 선택 화면 (#patternTopicScreen)
+     - 장소, 루틴, 과거경험, 문제해결, 롤플레이 등 패턴 선택 카드 그리드
+     ========================================================================= -->
 <div
   class="topic-screen app-screen"
   id="patternTopicScreen"
@@ -26,10 +37,15 @@
     어떤 주제가 나와도 단어 몇 개만 바꿔서 즉시 유창하게 말할 수 있는 핵심 만능
     패턴을 선택하세요.
   </p>
+  <!-- [Dynamic Slot]: js/pattern.js가 6대 패턴 카드를 동적 렌더링 -->
   <div class="pattern-topic-grid" id="patternTopicGrid"></div>
 </div>
+<!-- // #patternTopicScreen -->
 
-<!-- 5. 🧩 만능 패턴 학습 카드 (Pattern Card) -->
+<!-- =========================================================================
+     [Screen 2] 만능 패턴 집중 훈련 카드 (#patternCard)
+     - 뼈대 구조, 실시간 슬롯 스위처, 단계별 문장 훈련, 발화 타이머 및 채점
+     ========================================================================= -->
 <div class="card app-screen" id="patternCard" style="display: none">
   <div class="cardtop">
     <span class="cat" id="patternIdxLabel">PATTERN 01 / 06</span>
@@ -228,3 +244,4 @@
     <span class="change-topic" id="patternChangeListBtn">다른 패턴 선택</span>
   </div>
 </div>
+<!-- // #patternCard -->

@@ -1,7 +1,11 @@
 /**
- * [questions_im1.js] OPIc 실전 질문 및 IM1 맞춤 답변 데이터셋
+ * @file questions_im1.js
+ * @description OPIc 실전 질문 및 IM1 맞춤 5~7문장 답변 데이터셋
  * - 정규화된 sentences 배열을 단일 진실 공급원(Single Source of Truth)으로 사용
- * - 파일 하단에서 q.answer_en, q.answer_ko를 자동 합성하여 동기화 보장
+ * - 파일 하단에서 q.answer_en, q.answer_ko를 자동 합성하여 무결성 보장
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  *
  * --------------------------------------------------------------------------------
  * 💡 [데이터 구조 및 확장성 가이드 (Dataset Scalability & Personalization Guide)]

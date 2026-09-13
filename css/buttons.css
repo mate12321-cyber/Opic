@@ -1,5 +1,12 @@
 /**
- * [buttons.css] 통합 버튼 및 컨트롤러 디자인 시스템 (Tier 1~5)
+ * @file buttons.css
+ * @description OPIc 학습 웹 애플리케이션 통합 버튼 및 대화형 인터랙션 컨트롤러 스타일
+ * - 계층형 버튼 디자인 시스템 (Tier 1 주 액션, Tier 2 보조 액션, Tier 3 유틸리티, Tier 4 칩/토글, Tier 5 모바일 터치)
+ * - 마이크 녹음(STT), 발음 재생(TTS), 클립보드 복사 피드백 애니메이션
+ * - 모바일 터치 시 하이라이트 잔상 방지(-webkit-tap-highlight-color) 및 터치 영역 최소 44px 준수
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  */
 
 /* ── Tier 1: 메인 액션 버튼 (고정 높이 48px) ── */

@@ -1,3 +1,16 @@
+<!--
+  @file templates/grammar.html
+  @description [모드 2] 문법 포인트 퀴즈 템플릿 컴포넌트
+  - 주입 슬롯: index.html의 #grammarSlot
+  - 주요 구성:
+    1. 문법 유형 선택 화면 (#wordTopicScreen) - 전치사, 시제, 조동사 등 카테고리 칩
+    2. 객관식 퀴즈 풀이 카드 (#wordCard) - 4지선다 보기, 즉각 채점 및 상세 문법 해설
+    3. 완료 화면 (#wordDoneScreen) - 퀴즈 통계 및 오답 복습 기능
+-->
+<!-- =========================================================================
+     [Screen 1] 문법 유형 선택 화면 (#wordTopicScreen)
+     - 전치사, 시제, 조동사 등 카테고리 칩 그리드 및 전체 선택 버튼
+     ========================================================================= -->
 <div class="topic-screen app-screen" id="wordTopicScreen" style="display: none">
   <div class="mode-switch-row">
     <span class="mode-switch" id="homeFromWordTopic">🏠 홈</span>
@@ -12,6 +25,7 @@
       전체 선택
     </button>
   </div>
+  <!-- [Dynamic Slot]: js/grammar.js가 문법 카테고리 칩들을 동적 렌더링 -->
   <div class="chips-grid-card" id="wordTopicChips"></div>
   <button
     class="primary"
@@ -21,8 +35,14 @@
     이 유형으로 시작하기
   </button>
 </div>
+<!-- // #wordTopicScreen -->
 
+<!-- =========================================================================
+     [Screen 2] 문법 퀴즈 풀이 카드 (#wordCard)
+     - 빈칸 문장 제시문, 4지선다 보기, 즉각 채점 및 상세 문법 해설
+     ========================================================================= -->
 <div class="card app-screen" id="wordCard" style="display: none">
+  <!-- 1. 카드 상단 헤더 (문법 유형, 이전 버튼, 문항 번호) -->
   <div class="cardtop">
     <span class="cat" id="wordCatLabel">CATEGORY</span>
     <div class="cardtop-right">
@@ -37,6 +57,9 @@
       <span class="idx" id="wordIdxLabel">01 / 00</span>
     </div>
   </div>
+  <!-- // .cardtop -->
+
+  <!-- 2. 문제 제시문 및 TTS 발음 재생 버튼 -->
   <div class="line-row" style="margin-bottom: 12px">
     <p class="ko" id="wordSentence" style="margin-bottom: 0"></p>
     <button
@@ -48,9 +71,12 @@
       🔊 발음
     </button>
   </div>
+  <!-- // .line-row -->
 
+  <!-- 3. [Dynamic Slot]: 4지선다 보기 옵션 카드 목록 (js/grammar.js가 동적 렌더링) -->
   <div class="word-options" id="wordOptions"></div>
 
+  <!-- 4. [State UI]: 보기 선택 후 즉시 노출되는 문법 해설 박스 및 Google AI 링크 -->
   <div class="word-explain" id="wordExplain"></div>
   <div class="google-ask-row" id="wordGoogleAskRow" style="display: none">
     <button
@@ -67,15 +93,21 @@
       <span>질문 복사</span>
     </button>
   </div>
+  <!-- // #wordGoogleAskRow -->
 
+  <!-- 5. 다음 문제 이동 버튼 행 (보기 선택 후 노출) -->
   <div class="row" id="wordNextRow" style="display: none">
     <button class="primary" id="wordNextBtn">
       <span>다음 문제</span>
       <kbd class="shortcut-key">↵</kbd>
     </button>
   </div>
+  <!-- // #wordNextRow -->
 
+  <!-- 6. 상단 진행 상태 Dot 인디케이터 (buildWordDots) -->
   <div class="progress" id="wordProgressDots"></div>
+
+  <!-- 7. 하단 네비게이션 및 단축키 안내 바 -->
   <div class="change-topic-row">
     <span class="change-topic" id="homeFromWordCard">🏠 홈</span>
     <span class="change-topic" id="wordChangeTopicBtn">유형 변경</span>
@@ -87,7 +119,11 @@
     <span class="sk-item"><kbd class="shortcut-key">Space</kbd> 발음</span>
   </div>
 </div>
+<!-- // #wordCard -->
 
+<!-- =========================================================================
+     [Screen 3] 문법 포인트 퀴즈 완료 화면 (#wordDoneScreen)
+     ========================================================================= -->
 <div class="done-screen app-screen" id="wordDoneScreen">
   <h2>문법 포인트 연습 완료!</h2>
   <p id="wordDoneSummary"></p>
@@ -107,3 +143,4 @@
     <span class="change-topic" id="wordChangeTopicBtn2">유형 변경</span>
   </div>
 </div>
+<!-- // #wordDoneScreen -->

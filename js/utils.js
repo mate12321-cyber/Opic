@@ -11,7 +11,7 @@
  * 4. 가변형 텍스트에어리어 높이 자동 조절 (Auto-resize Textarea)
  *
  * @author Kim Hyo-sang
- * @version 2.2.0
+ * @version 2.2.5
  */
 
 // =============================================================================
@@ -130,6 +130,7 @@ function openSidePopup(url, title = "GoogleAI_Popup") {
  * - OPIc 실전: 110px
  * - 일반 문장: 84px
  * @param {HTMLTextAreaElement} el - 대상 textarea 엘리먼트
+ * @returns {void}
  */
 function autoResizeTextarea(el) {
   if (!el) return;

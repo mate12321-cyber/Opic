@@ -1,14 +1,22 @@
+<!--
+  @file templates/home.html
+  @description 홈 대시보드 템플릿 컴포넌트
+  - 주입 슬롯: index.html의 #homeSlot
+  - 주요 구성:
+    1. 헤더 유틸리티 (테마 토글, 단어장 모달 열기, 음성 설정 모달 열기)
+    2. 학습 현황 통계 카드 (오늘 학습량, 이번 주 누적, 연속 학습일수 Streak)
+    3. 최근 7일 학습량 막대 차트
+    4. 6대 학습 모드 진입 카드 그리드
+-->
 <div class="home-screen app-screen" id="homeScreen">
+  <!-- =========================================================================
+       [Section 1] 홈 상단 헤더 및 전역 유틸리티 컨트롤러
+       - 다크/라이트 테마 토글, 단어장 모달 열기, TTS 음성 설정, 오늘 날짜
+       ========================================================================= -->
   <div class="home-header">
     <div class="home-eyebrow">OPIc 연습</div>
-    <div
-      style="
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        flex-wrap: wrap;
-      "
-    >
+    <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap">
+      <!-- 🌙 테마 전환 버튼 (theme.js) -->
       <button
         type="button"
         class="settings-trigger-btn"
@@ -18,6 +26,8 @@
       >
         🌙
       </button>
+
+      <!-- 📚 단어장 모달 트리거 (vocab-tooltip.js) -->
       <button
         type="button"
         class="settings-trigger-btn"
@@ -31,6 +41,8 @@
           >0개</span
         >
       </button>
+
+      <!-- ⚙️ 음성/TTS 설정 모달 트리거 (speech.js) -->
       <button
         type="button"
         class="settings-trigger-btn"
@@ -39,10 +51,17 @@
       >
         ⚙️ 설정
       </button>
+
+      <!-- 📅 오늘 날짜 표시 레이블 (dashboard.js 동적 렌더링) -->
       <div class="home-date" id="homeDate"></div>
     </div>
   </div>
+  <!-- // .home-header -->
 
+  <!-- =========================================================================
+       [Section 2] 학습 현황 통계 지표 그리드
+       - 오늘 학습량, 이번 주 누적 학습량, 연속 학습일수(Streak)
+       ========================================================================= -->
   <div class="home-stats">
     <div class="home-stat">
       <span class="n" id="statToday">0</span><span class="l">오늘</span>
@@ -51,14 +70,22 @@
       <span class="n" id="statWeek">0</span><span class="l">이번 주</span>
     </div>
     <div class="home-stat">
-      <span class="n" id="statStreak">0</span
-      ><span class="l">연속일</span>
+      <span class="n" id="statStreak">0</span><span class="l">연속일</span>
     </div>
   </div>
+  <!-- // .home-stats -->
 
+  <!-- =========================================================================
+       [Section 3] 최근 7일 학습 활동 막대 차트
+       - js/dashboard.js의 renderHomeDashboard()가 요일별 Bar를 동적 렌더링
+       ========================================================================= -->
   <div class="home-chart" id="homeChart"></div>
 
+  <!-- =========================================================================
+       [Section 4] 6대 학습 모드 진입 카드 네비게이션 그리드
+       ========================================================================= -->
   <div class="home-nav">
+    <!-- 모드 4: 만능 패턴 집중 훈련 (pattern.js) -->
     <button class="nav-card" id="navPattern">
       <span class="nav-card-icon">🧩</span>
       <span class="nav-card-body">
@@ -80,6 +107,8 @@
       </span>
       <span class="nav-card-arrow">›</span>
     </button>
+
+    <!-- 모드 5: 16대 핵심 필러 집중 훈련 (filler.js) -->
     <button class="nav-card" id="navFiller">
       <span class="nav-card-icon">💬</span>
       <span class="nav-card-body">
@@ -101,6 +130,8 @@
       </span>
       <span class="nav-card-arrow">›</span>
     </button>
+
+    <!-- 모드 3: 실전 질문 & 답변 연습 (opic.js) -->
     <button class="nav-card" id="navOpic">
       <span class="nav-card-icon">🎙️</span>
       <span class="nav-card-body">
@@ -109,6 +140,8 @@
       </span>
       <span class="nav-card-arrow">›</span>
     </button>
+
+    <!-- 모드 1: 한→영 문장 번역 연습 (practice.js) -->
     <button class="nav-card" id="navSentence">
       <span class="nav-card-icon">📝</span>
       <span class="nav-card-body">
@@ -117,6 +150,8 @@
       </span>
       <span class="nav-card-arrow">›</span>
     </button>
+
+    <!-- 모드 2: 문법 포인트 객관식 퀴즈 (grammar.js) -->
     <button class="nav-card" id="navWord">
       <span class="nav-card-icon">🔤</span>
       <span class="nav-card-body">
@@ -125,6 +160,8 @@
       </span>
       <span class="nav-card-arrow">›</span>
     </button>
+
+    <!-- 모드 6: 자유 발화 연습 및 다면 진단 (speech-practice.js) -->
     <button class="nav-card" id="navSpeechPractice">
       <span class="nav-card-icon">🗣️</span>
       <span class="nav-card-body">
@@ -147,4 +184,6 @@
       <span class="nav-card-arrow">›</span>
     </button>
   </div>
+  <!-- // .home-nav -->
 </div>
+<!-- // #homeScreen -->

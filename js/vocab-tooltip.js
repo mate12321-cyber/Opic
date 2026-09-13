@@ -19,7 +19,7 @@
  * 6. 나만의 단어장 연동: 즐겨찾기(별표 토글), 단어장 모달, 발음 TTS 재생 지원
  *
  * @author Kim Hyo-sang
- * @version 2.2.0
+ * @version 2.2.5
  */
 
 (function () {

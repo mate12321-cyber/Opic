@@ -1,10 +1,14 @@
 /**
- * [eval-dict.js] OPIc 발음/발화 다면 평가용 어휘 사전 및 담화 표지어 데이터
- * - 12대 핵심 OPIc 토픽별 연관 어휘 맵 (TOPIC_VOCABULARY_MAP)
- * - 불용어 Set (EVAL_STOP_WORDS)
- * - 논리 연결어 & 접속사 (OPIC_CONNECTORS)
- * - 구어체 필러 & 담화 표지어 (OPIC_FILLERS)
- * - 과거 시제 동사 & 불규칙 동사 (OPIC_PAST_VERBS)
+ * @file eval-dict.js
+ * @description OPIc 발음 및 발화 6대 다면 평가용 어휘 사전, 불용어, 담화 표지어 DB
+ * - 12대 핵심 OPIc 토픽별 연관 어휘 및 테마 키워드 맵 (TOPIC_VOCABULARY_MAP)
+ * - 발화 어휘 다양성(TTR) 산출용 영어 불용어 세트 (STOP_WORDS)
+ * - 논리적 문장 전개 평가용 담화 표지어 및 접속사 목록 (CONNECTORS)
+ * - 구어체 유창성 평가용 필러 표현 목록 (FILLERS)
+ * - 과거 경험/사건 서술 시제 일치 검증용 과거형 및 불규칙 동사 목록 (PAST_VERBS)
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  */
 
 const EvalDict = (() => {

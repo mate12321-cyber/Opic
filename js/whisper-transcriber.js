@@ -1,8 +1,12 @@
 /**
- * [whisper-transcriber.js] 브라우저 내장 온디바이스 Whisper AI 음성인식기
- * - 외부 API 키 / 서버 없이 WebAssembly/WebGPU를 통해 브라우저 자체에서 구동
- * - 오디오 녹음본(Blob) -> 16kHz Mono Float32Array 디코딩 -> Whisper 전사
- * - 최초 1회 브라우저 캐시(약 39MB) 다운로드 후 오프라인 영구 보존
+ * @file whisper-transcriber.js
+ * @description 브라우저 온디바이스(On-device) Whisper AI 음성인식 전사 엔진 (@xenova/transformers)
+ * - 외부 유료 API 키나 백엔드 서버 없이 WebAssembly/WebGPU를 활용하여 클라이언트에서 직접 실행
+ * - 사용자 음성 녹음 Blob(WebM/WAV) → 16kHz Mono Float32Array 오디오 버퍼 변환 → Whisper Tiny 모델 전사
+ * - 최초 1회 브라우저 Cache API(약 39MB) 다운로드 후 오프라인 환경에서도 영구 동작 지원
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  */
 
 let transformersModule = null;
@@ -98,6 +102,10 @@ export async function audioBlobTo16kHzMono(audioBlob) {
     throw new Error("브라우저에서 Web Audio API를 지원하지 않습니다.");
   }
 
+  // [브라우저 리소스 한도 방어]:
+  // 크롬/사파리는 탭당 활성화 가능한 AudioContext 인스턴스 개수(통상 6개)를 엄격히 제한합니다.
+  // decodeAudioData 완료 직후 반드시 .close()를 호출하여 컨텍스트를 즉시 폐기해야
+  // 여러 번 연속 녹음하더라도 브라우저 오디오 시스템 먹통(AudioContext limit exceeded)을 방지할 수 있습니다.
   const audioCtx = new AudioCtxClass();
   let audioBuffer = null;
   try {
@@ -116,7 +124,7 @@ export async function audioBlobTo16kHzMono(audioBlob) {
   const numChannels = 1;
   const length = Math.ceil(audioBuffer.duration * targetSampleRate);
 
-  // 이미 16kHz 모노인 경우
+  // [입력 최적화] 이미 마이크 하드웨어가 16kHz 모노로 녹음된 경우 불필요한 리샘플링 생략
   if (
     audioBuffer.sampleRate === targetSampleRate &&
     audioBuffer.numberOfChannels === 1
@@ -124,6 +132,9 @@ export async function audioBlobTo16kHzMono(audioBlob) {
     return audioBuffer.getChannelData(0);
   }
 
+  // [Whisper 모델 규격 준수]:
+  // OpenAI Whisper ONNX/Wasm 모델은 반드시 16,000Hz 모노 Float32Array PCM 규격만을 입력으로 수락합니다.
+  // 마이크 기본 규격(44.1kHz 또는 48kHz 스테레오)을 OfflineAudioContext 하드웨어 가속을 통해 16kHz 모노로 고속 리샘플링합니다.
   const offlineCtx = new OfflineAudioContext(
     numChannels,
     length,

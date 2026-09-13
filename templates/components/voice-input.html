@@ -1,16 +1,32 @@
+<!--
+  @component voice-input
+  @description 재사용 가능한 공통 음성 입력 컨트롤러 컴포넌트
+  - template-loader.js에 의해 {{id}}, {{micId}}, {{translateId}} 등 템플릿 변수가 동적 치환됨
+  - 주요 구성: textarea 입력창, 마이크(STT) 버튼, 실시간 한글 번역 표시줄, 답변 복사 버튼
+-->
+<!-- 1. 가변형 텍스트에어리어 및 마이크(STT) 음성 입력 버튼 -->
 <div class="input-wrap">
   <textarea id="{{id}}" placeholder="{{placeholder}}"></textarea>
   <button class="mic-btn" id="{{micId}}" type="button" title="음성으로 입력">
     🎤
   </button>
 </div>
+<!-- // .input-wrap -->
+
+<!-- 2. 음성 인식 오류 및 마이크 권한 안내 레이블 -->
 <div class="mic-error" id="{{micErrorId}}"></div>
+
+<!-- 3. 실시간 디바운스(700ms) 한글 번역 표시줄 -->
 <div class="live-translate" id="{{translateId}}">
   <span class="lt-label">→ 실시간 번역</span>
   <span class="lt-text" id="{{translateTextId}}"></span>
 </div>
+<!-- // .live-translate -->
+
+<!-- 4. 입력 내용 클립보드 복사 액션 버튼 -->
 <div class="input-actions">
   <button class="copy-btn" id="{{copyId}}" title="{{copyTitle}}">
     {{copyText}}
   </button>
 </div>
+<!-- // .input-actions -->

@@ -1,5 +1,12 @@
 /**
- * [filler.css] OPIc 필러(Filler Words) 1개씩 집중 훈련 전용 스타일
+ * @file filler.css
+ * @description OPIc 핵심 필러(Filler Words) 16선 1개씩 집중 훈련 화면 전용 스타일
+ * - 상단 가로 스크롤 필러 스위처 칩 바 및 완료 체크 뱃지
+ * - 핵심 필러 발음 기호, 상황별 타이밍 칩 및 실전 예문 카드 레이아웃
+ * - 마이크 따라 말하기 실시간 피드백 및 발음 일치도 애니메이션
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  */
 
 .filler-screen {

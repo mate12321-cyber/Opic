@@ -1,10 +1,23 @@
-<!-- 💬 필러(Filler Words) 1개씩 집중 훈련 화면 -->
+<!--
+  @file templates/filler.html
+  @description [모드 5] OPIc 핵심 16대 필러(Filler Words) 훈련 템플릿 컴포넌트
+  - 주입 슬롯: index.html의 #fillerSlot
+  - 주요 구성:
+    1. 상단 16대 필러 스위처 칩 바 (#fillerSwitcherChips)
+    2. 필러 상세 카드 (#fillerCard) - 발음 기호, 상황별 타이밍 가이드, 실전 예문
+    3. 마이크 따라 말하기 실전 테스트 및 마스터 완료 체크 토글
+-->
+<!-- =========================================================================
+     [Screen 1] 16대 핵심 필러 집중 훈련 카드 (#fillerCard)
+     - 필러 스위처 칩 바, 메인 발음 히어로, 타이밍 가이드, 실전 예문, 마이크 테스트
+     ========================================================================= -->
 <div class="card app-screen" id="fillerCard" style="display: none">
   <div class="mode-switch-row" style="margin-bottom: 14px">
     <span class="mode-switch" id="homeFromFiller">🏠 홈</span>
     <span class="mode-switch" id="toPatternFromFiller">만능 패턴 훈련 →</span>
   </div>
 
+  <!-- 1. 카드 상단 헤더 (카테고리명, 이전 버튼, 필러 인덱스) -->
   <div class="cardtop">
     <span class="cat" id="fillerCatLabel">⏱️ 1. 시작 & 생각 시간 벌기</span>
     <div class="cardtop-right">
@@ -19,11 +32,12 @@
       <span class="idx" id="fillerIdxLabel">01 / 16</span>
     </div>
   </div>
+  <!-- // .cardtop -->
 
-  <!-- 상단 빠른 이동 칩 바 (16대 필러 바로가기) -->
+  <!-- 2. [Dynamic Slot]: 16대 필러 바로가기 가로 스크롤 칩 바 (js/filler.js 동적 렌더링) -->
   <div class="filler-switcher-bar" id="fillerSwitcherChips"></div>
 
-  <!-- 메인 히어로 박스 (핵심 표현 & 발음 & 마스터 토글) -->
+  <!-- 3. 메인 히어로 박스 (핵심 표현 & 발음 & 마스터 완료 토글) -->
   <div class="filler-hero-box" id="fillerHeroBox">
     <div class="filler-hero-top">
       <div class="filler-hero-text-wrap">
@@ -55,22 +69,25 @@
       </div>
     </div>
   </div>
+  <!-- // #fillerHeroBox -->
 
-  <!-- 💡 사용 시점 & 타이밍 가이드 -->
+  <!-- 4. 사용 시점 & 타이밍 가이드 섹션 -->
   <div class="filler-timing-section">
     <div class="filler-timing-header">
       <span>💡 어느 시점에 사용하나요? (타이밍 가이드)</span>
     </div>
     <div class="filler-timing-body" id="fillerTimingBody"></div>
   </div>
+  <!-- // .filler-timing-section -->
 
-  <!-- 🍯 팁 박스 -->
+  <!-- 5. 꿀팁 박스 -->
   <div class="filler-tip-section" id="fillerTipSection">
     <span>🍯</span>
     <div id="fillerTipBody"></div>
   </div>
+  <!-- // #fillerTipSection -->
 
-  <!-- 🗣️ 실전 OPIc 활용 예문 -->
+  <!-- 6. [Dynamic Slot]: 실전 OPIc 활용 예문 목록 (js/filler.js 동적 렌더링) -->
   <div class="filler-examples-container">
     <div class="filler-examples-hdr">
       <span>🗣️ 실전 OPIc 활용 예문</span>
@@ -80,8 +97,9 @@
     </div>
     <div id="fillerExamplesList"></div>
   </div>
+  <!-- // .filler-examples-container -->
 
-  <!-- 🎤 따라 말하기 실전 테스트 -->
+  <!-- 7. 마이크 음성 인식(STT) 따라 말하기 실전 테스트 섹션 -->
   <div class="filler-stt-section">
     <div class="filler-stt-hdr">
       <span class="filler-stt-title">🎤 따라 말하기 실전 테스트</span>
@@ -101,8 +119,9 @@
     </div>
     <div class="filler-stt-eval-msg" id="fillerSttEvalMsg"></div>
   </div>
+  <!-- // .filler-stt-section -->
 
-  <!-- 하단 컨트롤 버튼 -->
+  <!-- 8. 하단 네비게이션 컨트롤 (이전/다음 필러) -->
   <div class="filler-nav-row">
     <button type="button" class="filler-btn-prev" id="btnPrevFillerBottom">
       <span>‹ 이전 필러</span>
@@ -113,4 +132,6 @@
       <kbd class="shortcut-key">↵</kbd>
     </button>
   </div>
+  <!-- // .filler-nav-row -->
 </div>
+<!-- // #fillerCard -->

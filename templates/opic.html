@@ -1,4 +1,16 @@
-<!-- 1. 실전 질문 주제 선택 화면 -->
+<!--
+  @file templates/opic.html
+  @description [모드 3] OPIc 실전 질문 & 만능 답변 훈련 템플릿 컴포넌트
+  - 주입 슬롯: index.html의 #opicSlot
+  - 주요 구성:
+    1. 실전 질문 주제 선택 화면 (#opicTopicScreen) - 12대 빈출 토픽 및 3단 콤보 선택
+    2. 실전 질문 풀이 카드 (#opicCard) - 에바 질문 청취(2회), 말하기 타이머, 5~7문장 분할 모범답안
+    3. 완료 화면 (#opicDoneScreen) - 실전 세트 완료 통계 및 재응시
+-->
+<!-- =========================================================================
+     [Screen 1] 실전 질문 주제 선택 화면 (#opicTopicScreen)
+     - 12대 OPIc 빈출 토픽 칩 그리드 및 출제 모드(무작위 vs 실전 3단 콤보) 선택
+     ========================================================================= -->
 <div class="topic-screen app-screen" id="opicTopicScreen" style="display: none">
   <div class="mode-switch-row">
     <span class="mode-switch" id="homeFromOpicTopic">🏠 홈</span>
@@ -14,7 +26,7 @@
     </button>
   </div>
 
-  <!-- OPIc 실전 연습 모드 선택 (일반 무작위 vs 실전 3단 콤보) -->
+  <!-- OPIc 실전 출제 모드 탭 (일반 무작위 vs 묘사➔루틴➔경험 3단 콤보) -->
   <div
     class="opic-play-mode-tabs"
     style="display: flex; gap: 8px; margin-bottom: 14px"
@@ -38,6 +50,7 @@
     </button>
   </div>
 
+  <!-- [Dynamic Slot]: js/opic.js가 질문 주제 칩들을 동적 렌더링 -->
   <div class="chips-grid-card" id="opicTopicChips"></div>
   <button
     class="primary"
@@ -47,8 +60,12 @@
     이 주제로 실전 질문 연습 시작하기
   </button>
 </div>
+<!-- // #opicTopicScreen -->
 
-<!-- 2. 실전 질문 & 답변 연습 카드 -->
+<!-- =========================================================================
+     [Screen 2] 실전 질문 풀이 및 답변 녹음 카드 (#opicCard)
+     - 에바 질문 청취(2회), 타이머, 음성 입력, 5~7문장 분할 모범답안
+     ========================================================================= -->
 <div class="card app-screen" id="opicCard" style="display: none">
   <div class="cardtop">
     <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
@@ -344,8 +361,11 @@
     <span class="sk-item"><kbd class="shortcut-key">Space</kbd> 발음</span>
   </div>
 </div>
+<!-- // #opicCard -->
 
-<!-- 3. 실전 질문 완료 화면 -->
+<!-- =========================================================================
+     [Screen 3] 실전 질문 세트 완료 화면 (#opicDoneScreen)
+     ========================================================================= -->
 <div class="done-screen app-screen" id="opicDoneScreen">
   <h2>실전 질문 연습 세트 완료!</h2>
   <p id="opicDoneSummary"></p>
@@ -365,3 +385,4 @@
     <span class="change-topic" id="opicChangeTopicBtn2">주제 변경</span>
   </div>
 </div>
+<!-- // #opicDoneScreen -->

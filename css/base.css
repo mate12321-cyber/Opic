@@ -1,5 +1,12 @@
 /**
- * [base.css] 디자인 토큰(CSS 변수), 리셋, 기본 레이아웃 및 반응형 미디어 쿼리
+ * @file base.css
+ * @description 글로벌 디자인 시스템 토큰(CSS 변수), 브라우저 리셋, 기본 레이아웃 및 Safe Area 반응형 규칙
+ * - 라이트 / 다크 테마 색상 팔레트, 타이포그래피, 간격, 엘리베이션(그림자) 토큰 정의
+ * - 모바일 Safari 주소창 가변 높이(100dvh) 및 하단 홈 인디케이터(env(safe-area-inset-bottom)) 대응
+ * - 더블탭 확대 방지(touch-action: manipulation) 및 공통 스켈레톤/프로그레스 UI 스타일
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  */
 
 :root {

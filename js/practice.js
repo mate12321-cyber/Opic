@@ -1,9 +1,13 @@
 /**
- * [practice.js] 문장 번역 연습 모드 컨트롤러
- * - 문제 순서 셔플 및 진행 상태(cur, results, revealed) 관리
- * - 문장 카드 및 프로그레스 닷(Dot) 렌더링
- * - 정답 확인(reveal), 채점(rate), 건너뛰기(skip), 재도전(retrySameQuestion)
- * - 로컬 스토리지를 통한 진행 상태 저장/복원
+ * @file practice.js
+ * @description [모드 1] 한→영 문장 변환 연습 모드 컨트롤러
+ * - 주제별 문항 무작위 셔플 및 진행 상태(cur, results, revealed) 관리
+ * - 문장 카드, 상단 프로그레스 닷(Dot), 사용자 작성 답변 캐시 복원
+ * - 정답 확인(reveal), 만족/미흡 채점(rate), 건너뛰기(skip), 재도전(retrySameQuestion)
+ * - 로컬 스토리지를 통한 진행 상태 자동 저장 및 복원
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  *
  * --------------------------------------------------------------------------------
  * 💡 [확장성 및 유지보수 가이드 (Scalability & Customization Guide)]
@@ -88,22 +92,31 @@ function buildDots() {
  * @returns {void}
  */
 function renderCard() {
+  // [정리] 이전 문항에서 실행 중이던 TTS 음성 정지 및 마이크 에러 UI 초기화
   stopTTS();
   clearMicError();
+
+  // [상태 분기] 현재 세트의 모든 문항을 완주한 경우 (cur >= order.length)
   if (cur >= order.length) {
     els.practiceCard.style.display = "none";
     els.doneScreen.classList.add("show");
+
+    // [통계 집계] 'good'(만족) 및 'bad'(미흡/오답) 문항 인덱스 추출
     const good = order.filter((idx) => results[idx] === "good").length;
     const wrongIndices = order.filter((idx) => results[idx] === "bad");
+
     els.doneSummary.textContent =
       `총 ${order.length}문제 중 ${good}문제를 맞혔어요.` +
       (wrongIndices.length
         ? ` 틀린 문장 ${wrongIndices.length}개는 아래에서 다시 연습해보세요.`
         : "");
+
+    // [UX 정책] 틀린 문항이 1개 이상 존재할 때만 '틀린 문제만 다시 풀기' 버튼 활성화
     if (wrongIndices.length) {
       els.retryWrongBtn.style.display = "block";
       els.retryWrongBtn.textContent = `틀린 문제만 다시 풀기 (${wrongIndices.length}개)`;
       els.retryWrongBtn.onclick = () => {
+        // [재도전 정책] 틀린 문항들만 추출하여 다시 무작위 셔플 후 인덱스를 0으로 초기화
         order = shuffle(wrongIndices);
         cur = 0;
         els.doneScreen.classList.remove("show");
@@ -119,9 +132,13 @@ function renderCard() {
 
   els.practiceCard.style.display = "block";
   els.doneScreen.classList.remove("show");
+
+  // [UX 제어] 첫 번째 문제에서는 '이전 문제' 버튼을 비활성화하여 인덱스 언더플로 방지
   if (els.btnPrevSentence) {
     els.btnPrevSentence.disabled = cur === 0;
   }
+
+  // [데이터 바인딩] 현재 출제 순서(order[cur])에 해당하는 문장 데이터 매핑
   const item = SENTENCES[order[cur]];
   els.catLabel.textContent = item.cat;
   els.idxLabel.textContent = `${String(cur + 1).padStart(2, "0")} / ${String(order.length).padStart(2, "0")}`;
@@ -130,12 +147,15 @@ function renderCard() {
   els.tipText.textContent = item.tip ? `💡 ${item.tip}` : "";
   els.tipText.style.display = item.tip ? "block" : "none";
 
-  // 이전 작성 답변 복원
+  // [입력값 복원] 사용자가 이전에 타이핑했거나 음성 입력한 내용이 있으면 복원 및 높이 동기화
   const previousInput = savedUserInputs[order[cur]] || "";
   els.userInput.value = previousInput;
   if (typeof autoResizeTextarea === "function") {
+    // [동적 UI] 복원된 텍스트 길이에 맞춰 텍스트에어리어 높이 즉시 재계산 (스크롤바 깜빡임 방지)
     autoResizeTextarea(els.userInput);
   }
+
+  // [화면 상태 초기화] 이전 문제의 정답창, 문법 피드백, 발음 평가 UI 닫기
   els.answerBox.classList.remove("show");
   els.grammarBox.classList.remove("show");
   els.grammarContent.innerHTML = "";
@@ -143,7 +163,8 @@ function renderCard() {
   els.liveTranslateText.textContent = "";
   if (els.speechEvalBox) els.speechEvalBox.classList.remove("show");
 
-  // 이미 풀었던 문제로 돌아왔을 경우 모범답안 및 채점 상태 복원
+  // [상태 복원 정책] 이미 풀었던 문제로 되돌아왔을 경우:
+  // 정답 확인 버튼 대신 채점 버튼(good/bad)과 다시 풀기 링크를 즉시 노출
   if (results[order[cur]]) {
     revealed = true;
     els.answerBox.classList.add("show");
@@ -151,6 +172,7 @@ function renderCard() {
     els.rateRow.style.display = "flex";
     els.retrySameLink.style.display = "block";
   } else {
+    // 아직 풀지 않은 신규 문항인 경우 정답 확인 버튼 노출
     revealed = false;
     els.revealRow.style.display = "flex";
     els.rateRow.style.display = "none";
@@ -178,12 +200,14 @@ function reveal() {
   const userText = els.userInput.value.trim();
   const currentSentence = SENTENCES[order[cur]];
 
-  // 자동 발음 듣기 옵션 활성화 시 원어민 TTS 재생
+  // [피드백 정책 1: 원어민 발음 자동 청취]
+  // 사용자가 설정에서 자동 재생을 켜둔 경우, 정답 확인과 동시에 모범 문장 TTS를 재생하여 청각적 피드백 제공
   if (autoPlayTtsEnabled && currentSentence) {
     speakText(currentSentence.en, "en-US", els.ttsEnBtn);
   }
 
-  // 발음 및 문장 일치도(Diff & Score) 평가 렌더링
+  // [피드백 정책 2: 발음 및 문장 일치도 채점]
+  // 사용자가 직접 입력한 답변과 모범 답변 사이의 단어 레벨 Diff, Levenshtein 유사도 및 점수를 산출하여 시각화
   if (currentSentence) {
     renderPronunciationAssessment({
       boxEl: els.speechEvalBox,
@@ -197,7 +221,8 @@ function reveal() {
     });
   }
 
-  // LanguageTool API 기반 영문법 오류 검사 비동기 실행
+  // [피드백 정책 3: 영문법 오류 자동 검출 (LanguageTool 연동)]
+  // 사용자가 작성한 문장이 존재할 때만 외부 API를 비동기 호출하여 스펠링/시제/전치사 오류를 검출
   if (userText) {
     checkGrammar(userText).then((matches) => {
       renderGrammarResults(matches, userText);
@@ -277,6 +302,10 @@ function prevQuestion() {
  */
 function startPractice() {
   if (selectedCats.size === 0) return;
+
+  // [출제 순서 생성 정책]
+  // 1. 전체 문장 배열에서 사용자가 선택한 카테고리(selectedCats)에 속한 문장의 원본 인덱스만 필터링
+  // 2. 편향 없는 균등한 무작위 출제를 위해 Fisher-Yates 알고리즘으로 셔플된 새 배열을 order로 할당
   order = shuffle(
     SENTENCES.map((_, i) => i).filter((i) =>
       selectedCats.has(SENTENCES[i].cat),
@@ -329,6 +358,10 @@ async function loadProgress() {
       if (Array.isArray(data.cats) && data.cats.length) {
         selectedCats = new Set(data.cats.filter((c) => CATEGORIES.includes(c)));
       }
+
+      // [데이터 정합성 및 안전성 검증 정책]
+      // 앱 업데이트나 데이터셋 변경으로 SENTENCES 배열 길이가 달라진 경우,
+      // 저장된 인덱스가 현재 데이터 범위를 벗어나(Out-of-Bounds) 런타임 오류가 발생하는 것을 방지
       if (
         Array.isArray(data.order) &&
         data.order.length &&

@@ -1,8 +1,12 @@
 /**
- * [pattern.js] 만능 패턴 집중 훈련 (Master Patterns) 모드 컨트롤러
+ * @file pattern.js
+ * @description [모드 4] 만능 패턴 집중 훈련 (Master Patterns) 모드 컨트롤러
  * - 6대 만능 템플릿 뼈대 및 실시간 주제 스위처(Slot Switcher) 인터랙션
  * - 단계별 문장 발음 듣기 & 마이크 STT 발음 평가
- * - 패턴별 학습 진도 저장
+ * - 6문장 연속 완주 타이머 및 패턴별 마스터 학습 진도 영속화
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  *
  * --------------------------------------------------------------------------------
  * 💡 [확장성 및 유지보수 가이드 (Scalability & Customization Guide)]

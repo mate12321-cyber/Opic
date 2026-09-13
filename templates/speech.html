@@ -1,4 +1,16 @@
-<!-- 🗣️ 발화 연습 (자유 발화 · 마이크 녹음 · 내 녹음본 듣기 · 채점) 화면 -->
+<!--
+  @file templates/speech.html
+  @description [모드 6] 자유 발화 연습(Speech Practice) 템플릿 컴포넌트
+  - 주입 슬롯: index.html의 #speechSlot
+  - 주요 구성:
+    1. 대형 텍스트에어리어 (240px) 및 실시간 단어/글자 수 카운터
+    2. 마이크 녹음(Web Speech API / 온디바이스 Whisper AI) 및 MediaRecorder 플레이어
+    3. OPIc 공식 채점 기준 6대 영역 다면 진단표 및 예상 등급 리포트
+-->
+<!-- =========================================================================
+     [Screen 1] 자유 발화 연습(Speech Practice) 카드 (#speechPracticeCard)
+     - 대형 입력창, 마이크 동시 녹음, 녹음본 청취, 6대 다면 진단 결과표
+     ========================================================================= -->
 <div class="card app-screen" id="speechPracticeCard" style="display: none">
   <div class="mode-switch-row" style="margin-bottom: 14px">
     <span class="mode-switch" id="homeFromSpeechPractice">🏠 홈</span>
@@ -7,6 +19,7 @@
     >
   </div>
 
+  <!-- 1. 카드 상단 헤더 (모드명, 새로 쓰기 버튼) -->
   <div class="cardtop">
     <span class="cat" id="speechPracticeCatLabel">🗣️ 발화 연습</span>
     <div class="cardtop-right">
@@ -20,8 +33,9 @@
       </button>
     </div>
   </div>
+  <!-- // .cardtop -->
 
-  <!-- 1. 입력 영역 (기본 세로 240px) -->
+  <!-- 2. 대형 텍스트 입력 영역 (세로 240px) 및 마이크 컨트롤러 -->
   <div class="input-wrap">
     <textarea
       id="speechPracticeInput"
@@ -37,9 +51,10 @@
       🎤
     </button>
   </div>
+  <!-- // .input-wrap -->
   <div class="mic-error" id="speechPracticeMicError"></div>
 
-  <!-- 입력창 하단 유틸리티 바 -->
+  <!-- 입력창 하단 실시간 글자/단어 카운터 & 유틸리티 바 -->
   <div class="sp-input-footer">
     <span id="speechPracticeWordCount" class="sp-word-count-badge"
       >0단어 · 0자</span
@@ -64,8 +79,9 @@
       </button>
     </div>
   </div>
+  <!-- // .sp-input-footer -->
 
-  <!-- 2. 음성 청취 전용 카드 (내 녹음 듣기 + 원어민 발음 듣기 + 상태 인디케이터) -->
+  <!-- 3. 음성 청취 전용 카드 (내 녹음본 청취 + 원어민 발음 듣기 + 오디오 상태 인디케이터) -->
   <div class="sp-audio-card">
     <div class="sp-audio-btn-row">
       <button
@@ -101,6 +117,7 @@
       </div>
     </div>
 
+    <!-- 미디어 오디오 플레이어 (MediaRecorder Blob 재생용) -->
     <audio
       id="speechPracticeAudioPlayer"
       playsinline
@@ -108,8 +125,9 @@
       style="display: none"
     ></audio>
   </div>
+  <!-- // .sp-audio-card -->
 
-  <!-- 3. 메인 채점하기 버튼 (100% Full-width) -->
+  <!-- 4. 메인 채점하기 버튼 (100% Full-width) -->
   <div class="sp-eval-btn-wrap">
     <button
       class="primary sp-eval-submit-btn"
@@ -120,8 +138,9 @@
       <kbd class="shortcut-key">↵</kbd>
     </button>
   </div>
+  <!-- // .sp-eval-btn-wrap -->
 
-  <!-- 4. 채점 결과 박스 (기존 speech-eval 디자인 시스템 활용) -->
+  <!-- 5. [State UI]: 발화 분석 및 6대 다면 채점 결과 박스 -->
   <div
     class="speech-eval"
     id="speechPracticeEvalBox"
@@ -135,7 +154,7 @@
       ></div>
     </div>
 
-    <!-- 발화량 & 속도 지표 -->
+    <!-- 발화량 & 속도(WPM) 지표 그리드 -->
     <div
       class="sp-stats-grid"
       id="speechPracticeStatsGrid"
@@ -148,7 +167,7 @@
       style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px"
     ></div>
 
-    <!-- 문법 교정 제안 박스 (기존 grammar 스타일 박스) -->
+    <!-- 문법 교정 제안 박스 (LanguageTool API 연동) -->
     <div
       class="grammar"
       id="speechPracticeGrammarWrap"
@@ -160,15 +179,16 @@
         style="display: flex; flex-direction: column; gap: 6px; margin-top: 6px"
       ></div>
     </div>
+    <!-- // #speechPracticeGrammarWrap -->
 
-    <!-- 종합 피드백 코멘트 -->
+    <!-- 종합 피드백 코멘트 리포트 -->
     <div
       class="eval-feedback"
       id="speechPracticeFeedbackText"
       style="margin-top: 10px"
     ></div>
 
-    <!-- 하단 액션 버튼 -->
+    <!-- 하단 다시 듣기 액션 버튼 바 -->
     <div class="eval-actions" style="margin-top: 12px">
       <button
         class="tts-btn"
@@ -182,5 +202,8 @@
         🔊 원어민 발음 듣기
       </button>
     </div>
+    <!-- // .eval-actions -->
   </div>
+  <!-- // #speechPracticeEvalBox -->
 </div>
+<!-- // #speechPracticeCard -->

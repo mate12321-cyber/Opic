@@ -10,7 +10,7 @@
  * 3. 원클릭 전환 및 UI 동기화: 토글 버튼 아이콘(☀️/🌙) 및 툴팁 실시간 변경
  *
  * @author Kim Hyo-sang
- * @version 2.2.0
+ * @version 2.2.5
  */
 
 // =============================================================================
@@ -25,7 +25,8 @@ const THEME_STORAGE_KEY = "ko-en-opic-theme";
 // =============================================================================
 
 /**
- * 앱 구동 시 사용자의 이전 테마 선택값 또는 시스템 OS 다크모드 설정을 조회하여 즉시 반영
+ * 앱 구동 시 사용자의 이전 테마 선택값 또는 시스템 OS 다크모드 설정을 조회하여 즉시 반영합니다.
+ * @returns {void}
  */
 function initTheme() {
   try {
@@ -41,8 +42,9 @@ function initTheme() {
 }
 
 /**
- * 전달받은 불리언 값에 따라 <body> 클래스 및 헤더 토글 버튼 UI 갱신
+ * 전달받은 불리언 값에 따라 <body> 클래스 및 헤더 토글 버튼 UI를 갱신합니다.
  * @param {boolean} isDark - 다크 모드 활성화 여부
+ * @returns {void}
  */
 function applyTheme(isDark) {
   if (isDark) {
@@ -58,7 +60,8 @@ function applyTheme(isDark) {
 }
 
 /**
- * 사용자가 헤더의 테마 전환 버튼을 클릭했을 때 호출되는 다크/라이트 토글러
+ * 사용자가 헤더의 테마 전환 버튼을 클릭했을 때 호출되는 다크/라이트 토글러입니다.
+ * @returns {void}
  */
 function toggleTheme() {
   const isDark = document.body.classList.contains("dark-theme");

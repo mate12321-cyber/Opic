@@ -1,6 +1,12 @@
 /**
- * [speech-practice.css] 발화 연습 모드 전용 스타일
- * - 완벽한 대칭 그리드 및 시각적 위계의 통합 액션 시스템
+ * @file speech-practice.css
+ * @description 자유 발화 연습(Speech Practice) 및 AI 다면 진단 모드 전용 스타일시트
+ * - 실시간 단어/글자 수 카운터 및 녹음 컨트롤 액션 바
+ * - MediaRecorder 오디오 플레이어 UI 및 Whisper AI 온디바이스 로딩 상태 표시
+ * - OPIc 공식 평가 기준 6대 영역 다면 진단표 및 예측 등급(AL~NH) 결과 카드 레이아웃
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.5
  */
 
 /* 입력창 하단 유틸리티 바 */

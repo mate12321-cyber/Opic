@@ -1,3 +1,16 @@
+<!--
+  @file templates/practice.html
+  @description [모드 1] 한→영 문장 변환 연습 템플릿 컴포넌트
+  - 주입 슬롯: index.html의 #practiceSlot
+  - 주요 구성:
+    1. 주제 선택 화면 (#topicScreen) - 카테고리별 칩 그룹 및 전체 선택
+    2. 문제 풀이 카드 (#practiceCard) - 한국어 제시문, 음성 입력 컴포넌트, 모범답안 및 채점
+    3. 완료 화면 (#doneScreen) - 채점 결과 요약 및 오답 다시 풀기
+-->
+<!-- =========================================================================
+     [Screen 1] 주제 선택 화면 (#topicScreen)
+     - 문장 번역 연습 카테고리 칩 그룹 목록 및 전체 선택/시작 버튼
+     ========================================================================= -->
 <div class="topic-screen app-screen" id="topicScreen" style="display: none">
   <div class="mode-switch-row">
     <span class="mode-switch" id="homeFromTopic">🏠 홈</span>
@@ -11,13 +24,20 @@
       전체 선택
     </button>
   </div>
+  <!-- [Dynamic Slot]: js/practice.js가 주제별 칩 그룹을 동적 렌더링 -->
   <div class="topic-groups-container" id="topicChips"></div>
   <button class="primary" id="startBtn" style="width: 100%; margin-top: 18px">
     이 주제로 시작하기
   </button>
 </div>
+<!-- // #topicScreen -->
 
+<!-- =========================================================================
+     [Screen 2] 문장 번역 문제 풀이 카드 (#practiceCard)
+     - 한국어 문제, 음성/마이크 입력, 정답 확인, 일치도 평가 및 채점
+     ========================================================================= -->
 <div class="card app-screen" id="practiceCard" style="display: none">
+  <!-- 1. 카드 상단 헤더 (카테고리, 이전 버튼, 문항 번호 인덱스) -->
   <div class="cardtop">
     <span class="cat" id="catLabel">CATEGORY</span>
     <div class="cardtop-right">
@@ -32,7 +52,9 @@
       <span class="idx" id="idxLabel">01 / 00</span>
     </div>
   </div>
+  <!-- // .cardtop -->
 
+  <!-- 2. 오디오 컨트롤 바 (발음 속도 0.8x~1.2x, 자동 재생 토글, TTS 설정) -->
   <div class="audio-controls" id="audioControls">
     <div class="speed-selector">
       <span>발음 속도:</span>
@@ -60,7 +82,9 @@
       </button>
     </div>
   </div>
+  <!-- // #audioControls -->
 
+  <!-- 3. 한국어 제시문 및 발음/복사 액션 바 -->
   <div class="line-row">
     <p class="ko" id="koText"></p>
     <div class="action-btn-group">
@@ -75,8 +99,9 @@
       <button class="copy-btn" id="copyKo" title="문제 복사">복사</button>
     </div>
   </div>
+  <!-- // .line-row -->
 
-  <!-- 공통 음성 입력창 컴포넌트 -->
+  <!-- 4. [Component]: 공통 음성 입력 컴포넌트 (template-loader.js가 확장 치환) -->
   <div
     data-component="voice-input"
     data-prefix="sentence"
@@ -85,6 +110,7 @@
     data-copy-title="내 답 복사"
   ></div>
 
+  <!-- 5. [State UI]: 정답 공개 시 노출되는 모범 답안, 평가 및 문법 박스 -->
   <div class="answer" id="answerBox">
     <div class="lbl-row">
       <div class="lbl">모범 답안</div>
@@ -105,6 +131,7 @@
     <p class="en" id="enText"></p>
     <div class="tip" id="tipText"></div>
 
+    <!-- 발음 및 문장 일치도(Diff) 시각화 박스 -->
     <div class="speech-eval" id="speechEvalBox">
       <div class="eval-header">
         <div class="eval-title">🎙️ 발음 / 문장 일치도</div>
@@ -123,7 +150,9 @@
         </button>
       </div>
     </div>
+    <!-- // #speechEvalBox -->
 
+    <!-- 문법 분석 및 Google AI 연동 박스 -->
     <div class="grammar" id="grammarBox">
       <div class="lbl">내 답 문법 분석</div>
       <div id="grammarContent"></div>
@@ -143,8 +172,11 @@
         </button>
       </div>
     </div>
+    <!-- // #grammarBox -->
   </div>
+  <!-- // #answerBox -->
 
+  <!-- 6. 액션 버튼 행 (정답 확인 전 vs 정답 확인 후) -->
   <div class="row" id="revealRow">
     <button class="primary" id="revealBtn">
       <span>정답 확인</span>
@@ -155,6 +187,8 @@
       <kbd class="shortcut-key">K</kbd>
     </button>
   </div>
+  <!-- // #revealRow -->
+
   <div class="row" id="rateRow" style="display: none">
     <button class="good" id="goodBtn">
       <span>잘했어요</span>
@@ -165,12 +199,17 @@
       <kbd class="shortcut-key">2</kbd>
     </button>
   </div>
+  <!-- // #rateRow -->
+
   <div class="change-topic" id="retrySameLink" style="display: none">
     <span>↺ 다시 풀기</span>
     <kbd class="shortcut-key">R</kbd>
   </div>
 
+  <!-- 7. 상단 진행 상태 Dot 인디케이터 (buildDots) -->
   <div class="progress" id="progressDots"></div>
+
+  <!-- 8. 화면 하단 네비게이션 및 단축키 안내 바 -->
   <div class="change-topic-row">
     <span class="change-topic" id="homeFromPractice">🏠 홈</span>
     <span class="change-topic" id="changeTopicBtn">주제 변경</span>
@@ -185,7 +224,11 @@
     <span class="sk-item"><kbd class="shortcut-key">R</kbd> 재도전</span>
   </div>
 </div>
+<!-- // #practiceCard -->
 
+<!-- =========================================================================
+     [Screen 3] 오늘 세트 학습 완료 화면 (#doneScreen)
+     ========================================================================= -->
 <div class="done-screen app-screen" id="doneScreen">
   <h2>오늘 세트 완료!</h2>
   <p id="doneSummary"></p>
@@ -205,3 +248,4 @@
     <span class="change-topic" id="changeTopicBtn2">주제 변경</span>
   </div>
 </div>
+<!-- // #doneScreen -->
