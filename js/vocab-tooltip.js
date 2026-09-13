@@ -23,8 +23,8 @@
  */
 
 (function () {
-  /** @const {string} 로컬 스토리지 번역 결과 캐시 저장 키 */
-  const VOCAB_CACHE_KEY = "ko-en-opic-vocab-cache";
+  /** @const {string} 로컬 스토리지 번역 결과 캐시 저장 키 (구버전 오염 캐시 무효화) */
+  const VOCAB_CACHE_KEY = "ko-en-opic-vocab-cache-v3";
 
   /** @const {string} 로컬 스토리지 나만의 단어장 저장 키 */
   const SAVED_WORDS_KEY = "ko-en-opic-saved-words";
@@ -372,6 +372,70 @@
       meaning: "정말로, 아주, 진짜로",
       posList: [{ pos: "부사", meanings: ["정말", "진짜로", "매우"] }],
     },
+    "i think": {
+      meaning: "제 생각에는, 제가 보기에는",
+      posList: [{ pos: "표현", meanings: ["제 생각에는", "내가 보기에는"] }],
+    },
+    "in my opinion": {
+      meaning: "제 의견으로는, 제 생각에는",
+      posList: [{ pos: "표현", meanings: ["제 의견으로는", "제 생각에는"] }],
+    },
+    "you know": {
+      meaning: "있잖아, 알다시피",
+      posList: [{ pos: "표현", meanings: ["있잖아", "알다시피"] }],
+    },
+    "for example": {
+      meaning: "예를 들어, 예를 들자면",
+      posList: [{ pos: "표현", meanings: ["예를 들어", "예컨대"] }],
+    },
+    "to be honest": {
+      meaning: "솔직히 말해서, 사실대로 말하자면",
+      posList: [{ pos: "표현", meanings: ["솔직히 말하면", "사실은"] }],
+    },
+    "favorite place": {
+      meaning: "가장 좋아하는 장소, 최애 장소",
+      posList: [
+        { pos: "명사구", meanings: ["최애 장소", "가장 좋아하는 장소"] },
+      ],
+    },
+    "near my house": {
+      meaning: "우리 집 근처에, 집 근처",
+      posList: [{ pos: "부사구", meanings: ["우리 집 근처에", "집 부근"] }],
+    },
+    "it is located": {
+      meaning: "~에 위치해 있다",
+      posList: [{ pos: "동사구", meanings: ["위치하다", "자리잡고 있다"] }],
+    },
+    "as well as": {
+      meaning: "~뿐만 아니라, ~도 마찬가지로",
+      posList: [{ pos: "접속사구", meanings: ["~뿐만 아니라", "게다가"] }],
+    },
+    "on the other hand": {
+      meaning: "반면에, 다른 한편으로는",
+      posList: [{ pos: "표현", meanings: ["반면에", "다른 한편으로는"] }],
+    },
+    "speaking of": {
+      meaning: "~에 대해 말하자면, ~의 이야기라면",
+      posList: [{ pos: "전치사구", meanings: ["~에 관하여 말하자면"] }],
+    },
+    "when it comes to": {
+      meaning: "~에 관한 한, ~에 대해 말하자면",
+      posList: [{ pos: "표현", meanings: ["~에 관해서라면"] }],
+    },
+    whenever: {
+      meaning: "~할 때마다, 언제든 ~할 때",
+      posList: [{ pos: "접속사", meanings: ["~할 때마다", "언제든지 ~할 때"] }],
+    },
+    "think of": {
+      meaning: "~을 생각하다, 떠올리다",
+      posList: [{ pos: "동사구", meanings: ["~을 생각하다", "~을 떠올리다"] }],
+    },
+    "whenever i think of": {
+      meaning: "~을 생각할 때마다, ~이 떠오를 때마다",
+      posList: [
+        { pos: "표현", meanings: ["~을 생각할 때마다", "~이 떠오를 때마다"] },
+      ],
+    },
   };
 
   let tooltipEl = null;
@@ -379,6 +443,10 @@
   let currentWordData = null;
   let isMouseInsideTooltip = false;
   let selectionDebounceTimer = null;
+  let closeCooldownUntil = 0; // 툴팁 닫기 후 드래그/선택 잔여 이벤트로 인한 즉시 재오픈 방지용 쿨다운
+  let lastMouseUpWasShift = false; // Shift+Click 선택 영역 확장 추적 플래그
+  let isDragEnded = false; // 마우스/터치 드래그 완료 여부 플래그
+  let isApplyingSnappedSelection = false; // 단어 스냅 Selection 업데이트 루프 방지 플래그
 
   // 모바일 터치 제스처 관리 변수
   let longPressTimer = null;
@@ -436,10 +504,20 @@
     } catch (e) {}
   }
 
-  // 초기 기동 시 L2 캐시를 L1 메모리에 워밍업
+  // 구버전 오염 캐시 즉시 제거 및 초기 기동 시 L2 캐시를 L1 메모리에 워밍업
   try {
+    localStorage.removeItem("ko-en-opic-vocab-cache");
+    localStorage.removeItem("ko-en-opic-vocab-cache-v2");
     const l2 = getVocabCache();
     for (const [k, v] of Object.entries(l2)) {
+      // 만에 하나 플레이스홀더 패턴이 남아있는 항목이 있다면 필터링
+      if (
+        v &&
+        typeof v.meaning === "string" &&
+        /\[(주제|장소명|음식명|활동명)\]/.test(v.meaning)
+      ) {
+        continue;
+      }
       memCache.set(k, v);
     }
   } catch (e) {}
@@ -593,10 +671,25 @@
       { passive: true },
     );
 
-    document.getElementById("vocabCloseBtn").addEventListener("click", (e) => {
-      e.stopPropagation();
-      hideTooltip();
-    });
+    const vocabCloseBtn = document.getElementById("vocabCloseBtn");
+    if (vocabCloseBtn) {
+      vocabCloseBtn.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+      vocabCloseBtn.addEventListener(
+        "touchstart",
+        (e) => {
+          e.stopPropagation();
+        },
+        { passive: true },
+      );
+      vocabCloseBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        hideTooltip(true);
+      });
+    }
 
     const vocabSpeakBtn = document.getElementById("vocabSpeakBtn");
     vocabSpeakBtn.addEventListener("click", (e) => {
@@ -678,28 +771,51 @@
     if (!tooltipEl || !rect) return;
     lastTargetRect = rect;
 
-    const isMobile = window.innerWidth <= 768;
-    const tooltipWidth = Math.min(
-      320,
-      window.innerWidth - (isMobile ? 24 : 32),
-    );
-    tooltipEl.style.width = `${tooltipWidth}px`;
+    const viewportWidth =
+      window.visualViewport && window.visualViewport.width
+        ? window.visualViewport.width
+        : window.innerWidth;
+    const viewportHeight =
+      window.visualViewport && window.visualViewport.height
+        ? window.visualViewport.height
+        : window.innerHeight;
+    const viewportOffsetTop =
+      window.visualViewport &&
+      typeof window.visualViewport.offsetTop === "number"
+        ? window.visualViewport.offsetTop
+        : 0;
+
+    const isMobile = viewportWidth <= 768;
+    const tooltipWidth = Math.min(320, viewportWidth - (isMobile ? 20 : 32));
+    tooltipEl.style.width = `${Math.round(tooltipWidth)}px`;
 
     // 1. 수평(X) 위치 계산: 선택 영역 중앙 정렬 후 화면 경계 클램핑
     const targetCenterX = rect.left + rect.width / 2;
     let left = targetCenterX - tooltipWidth / 2;
-    left = Math.max(
-      12,
-      Math.min(left, window.innerWidth - tooltipWidth - (isMobile ? 12 : 16)),
-    );
+    const minX = isMobile ? 10 : 16;
+    const maxX = viewportWidth - tooltipWidth - (isMobile ? 10 : 16);
+    left = Math.max(minX, Math.min(left, maxX));
 
-    // 2. 수직(Y) 위치 계산
+    // 2. 툴팁 화살표(Arrow) 정밀 정렬: 단어 중앙을 정확히 가리키도록 설정 (둥근 모서리 안쪽 안전 클램핑)
+    const arrowEl = document.getElementById("vocabTooltipArrow");
+    if (arrowEl) {
+      const arrowHalf = 5;
+      const rawArrowX = targetCenterX - left - arrowHalf;
+      const clampedArrowX = Math.max(
+        16,
+        Math.min(tooltipWidth - 16 - arrowHalf * 2, rawArrowX),
+      );
+      arrowEl.style.left = `${Math.round(clampedArrowX)}px`;
+    }
+
+    // 3. 수직(Y) 위치 계산
     const actualHeight = tooltipEl.offsetHeight || 160;
     const margin = 10;
-    const screenPadding = 10;
+    const screenPaddingTop = Math.max(10, viewportOffsetTop + 10);
+    const screenPaddingBottom = 12;
 
-    const spaceAbove = rect.top - screenPadding;
-    const spaceBelow = window.innerHeight - rect.bottom - screenPadding;
+    const spaceAbove = rect.top - screenPaddingTop;
+    const spaceBelow = viewportHeight - rect.bottom - screenPaddingBottom;
 
     let top = 0;
     let placement = "top";
@@ -742,8 +858,8 @@
 
     // 최종 위치 안전 클램핑
     top = Math.max(
-      screenPadding,
-      Math.min(top, window.innerHeight - actualHeight - screenPadding),
+      screenPaddingTop,
+      Math.min(top, viewportHeight - actualHeight - screenPaddingBottom),
     );
 
     tooltipEl.setAttribute("data-placement", placement);
@@ -753,33 +869,118 @@
   }
 
   /**
-   * 툴팁 숨김 처리 및 상태 리셋
+   * 브라우저 및 활성 입력 필드의 텍스트 드래그(선택) 영역 완전 해제
    */
-  function hideTooltip() {
+  function clearSelection() {
+    try {
+      const sel = window.getSelection();
+      if (sel) {
+        if (typeof sel.removeAllRanges === "function") {
+          sel.removeAllRanges();
+        } else if (typeof sel.empty === "function") {
+          sel.empty();
+        }
+      }
+    } catch (e) {}
+
+    try {
+      const activeEl = document.activeElement;
+      if (
+        activeEl &&
+        (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA") &&
+        typeof activeEl.selectionStart === "number" &&
+        typeof activeEl.selectionEnd === "number"
+      ) {
+        activeEl.setSelectionRange(
+          activeEl.selectionEnd,
+          activeEl.selectionEnd,
+        );
+      }
+    } catch (e) {}
+  }
+
+  /**
+   * 툴팁 숨김 처리 및 상태 리셋
+   * @param {boolean} [shouldClearSelection=true] - 드래그/텍스트 선택 영역도 함께 해제할지 여부
+   */
+  function hideTooltip(shouldClearSelection = true) {
     if (tooltipEl) {
       tooltipEl.classList.remove("show");
       currentTargetWord = "";
       currentWordData = null;
       lastTargetRect = null;
+      isMouseInsideTooltip = false;
+    }
+
+    if (selectionDebounceTimer) {
+      clearTimeout(selectionDebounceTimer);
+      selectionDebounceTimer = null;
+    }
+
+    // 툴팁을 닫은 직후 selectionchange/mouseup 등의 잔여 이벤트로 다시 열리는 것 방지
+    closeCooldownUntil = Date.now() + 400;
+
+    if (shouldClearSelection) {
+      clearSelection();
     }
   }
 
   /**
-   * 3계층 하이브리드 사전/번역 엔드포인트 단어 의미 조회
-   * 1. Tier 1: BUILTIN_DICT (0ms 오프라인 즉각 반환)
-   * 2. Tier 2: Google Translate API (429 발생 시 3분간 쿨다운 보호)
-   * 3. Tier 3: MyMemory API Fallback (무제한 안정성)
-   * @param {string} queryText - 검색할 영단어/숙어
+   * 한글 및 특수문자를 제거하고 순수 영문 텍스트만 정제 추출
+   * 💡 예: "Whenever I think of [주제], [장소명] is my favorite place." -> "Whenever I think of, is my favorite place."
+   * 💡 예: "1. [주제] favorite place." -> "favorite place."
+   * @param {string} text
+   * @returns {string}
+   */
+  function cleanEnglishText(text) {
+    if (!text || typeof text !== "string") return "";
+
+    return (
+      text
+        // 1. 대괄호/중괄호/소괄호로 감싸진 내용 중 한글이 포함된 태그 제거 (예: [주제], [장소명], (답변) 등)
+        .replace(/[\[\({][^\]\)}]*[ㄱ-ㅎㅏ-ㅣ가-힣][^\]\)}]*[\]\)}]/g, " ")
+        // 2. 잔여 한글 문자 제거
+        .replace(/[ㄱ-ㅎㅏ-ㅣ가-힣]+/g, " ")
+        // 3. 앞 번호 패턴 제거 (예: "1. ", "2) ", "#3. ")
+        .replace(/^[\s\d.)(#\-]+/, "")
+        // 4. 영어 단어/문장에 불필요한 특수문자 제거 (알파벳, 숫자, 공백, 아포스트로피('), 하이픈(-) 및 문장부호(. , ! ? ;) 허용)
+        .replace(/[^a-zA-Z0-9\s'.,!?-]/g, " ")
+        // 5. 쉼표 및 연속 부호 정돈
+        .replace(/\s*,\s*/g, ", ")
+        .replace(/\s+,/g, ",")
+        .replace(/,\s*,/g, ",")
+        // 6. 다중 공백 단일화 및 양 끝 정리
+        .replace(/\s+/g, " ")
+        .replace(/^[^a-zA-Z]+|[^a-zA-Z0-9.!?]+$/g, "")
+        .trim()
+    );
+  }
+
+  /**
+   * 영단어/구문 의미 조회 (내장 사전 우선 -> 온라인 번역 Fallback)
+   * @param {string} queryText - 검색할 영단어/구문
    * @returns {Promise<Object>} 단어, 주요 뜻, 품사별 의미 배열
    */
   async function fetchWordDetails(queryText) {
-    const key = queryText.toLowerCase().trim();
+    const cleanQuery = cleanEnglishText(queryText);
+    if (!cleanQuery || !/[a-zA-Z]/.test(cleanQuery)) {
+      return {
+        word: queryText,
+        meaning: "영어 단어 및 표현만 지원됩니다.",
+        posList: [],
+      };
+    }
 
-    // 1. Tier 1: 내장 딕셔너리 우선 검색 (네트워크 0회, 0ms 반환)
+    const key = cleanQuery
+      .toLowerCase()
+      .replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "")
+      .trim();
+
+    // 1. 내장 사전 우선 검색 (네트워크 0회, 0ms 반환)
     if (BUILTIN_DICT[key]) {
       const builtin = BUILTIN_DICT[key];
       return {
-        word: queryText,
+        word: cleanQuery,
         meaning: builtin.meaning,
         posList: builtin.posList || [],
       };
@@ -787,59 +988,28 @@
 
     let mainMeaning = "";
     let posList = [];
-    const now = Date.now();
 
-    // 2. Tier 2: Google Translate API (쿨다운이 아닐 때만 시도)
-    if (now > googleCooldownUntil) {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 3500);
-        const url =
-          "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&hl=ko&dt=t&dt=bd&q=" +
-          encodeURIComponent(queryText);
+    // 2. 온라인 번역 (MyMemory 공식 오픈 번역 API, CORS 허용)
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 4000);
+      const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(cleanQuery)}&langpair=en|ko`;
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeout);
 
-        const res = await fetch(url, { signal: controller.signal });
-        clearTimeout(timeout);
-
-        if (res.status === 429) {
-          // 429 감지 시 3분간 Google API 호출 중단 및 MyMemory로 전환
-          googleCooldownUntil = Date.now() + 3 * 60 * 1000;
-        } else if (res.ok) {
-          const data = await res.json();
-          if (data && data[0] && Array.isArray(data[0])) {
-            mainMeaning = data[0]
-              .map((chunk) => (chunk && chunk[0] ? chunk[0] : ""))
-              .join("")
-              .trim();
-          }
-          if (data && data[1] && Array.isArray(data[1])) {
-            posList = data[1].slice(0, 3).map((item) => ({
-              pos: item[0] || "",
-              meanings: (item[1] || []).slice(0, 4),
-            }));
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.responseData && data.responseData.translatedText) {
+          const trans = data.responseData.translatedText.trim();
+          if (trans.toLowerCase() !== cleanQuery.toLowerCase()) {
+            mainMeaning = trans;
           }
         }
-      } catch (e) {
-        // 네트워크 타임아웃 또는 CORS 차단 시 조용히 Fallback
       }
-    }
-
-    // 3. Tier 3: MyMemory API Fallback (429 영향 없음)
-    if (!mainMeaning) {
-      try {
-        const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(queryText)}&langpair=en|ko`;
-        const res = await fetch(myMemoryUrl);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.responseData && data.responseData.translatedText) {
-            mainMeaning = data.responseData.translatedText.trim();
-          }
-        }
-      } catch (e) {}
-    }
+    } catch (e) {}
 
     return {
-      word: queryText,
+      word: cleanQuery,
       meaning: mainMeaning || "한국어 뜻을 찾지 못했습니다.",
       posList: posList,
     };
@@ -876,11 +1046,12 @@
 
   // 툴팁 노출 메인 함수
   async function showVocabTooltip(selectedText, rect) {
-    if (!selectedText) return;
+    const cleanText = cleanEnglishText(selectedText);
+    if (!cleanText || !/[a-zA-Z]/.test(cleanText)) return;
     createTooltipDOM();
-    currentTargetWord = selectedText;
+    currentTargetWord = cleanText;
     lastTargetRect = rect;
-    const cacheKey = selectedText.toLowerCase().trim();
+    const cacheKey = cleanText.toLowerCase().trim();
 
     const wordEl = document.getElementById("vocabWordText");
     const phoneticEl = document.getElementById("vocabPhoneticText");
@@ -888,14 +1059,14 @@
     const googleLink = document.getElementById("vocabGoogleLink");
     const naverLink = document.getElementById("vocabNaverLink");
 
-    wordEl.textContent = selectedText;
-    wordEl.title = selectedText;
+    wordEl.textContent = cleanText;
+    wordEl.title = cleanText;
     phoneticEl.textContent = "";
 
-    googleLink.href = `https://translate.google.com/?sl=en&tl=ko&text=${encodeURIComponent(selectedText)}&op=translate`;
-    naverLink.href = `https://en.dict.naver.com/#/search?query=${encodeURIComponent(selectedText)}`;
+    googleLink.href = `https://translate.google.com/?sl=en&tl=ko&text=${encodeURIComponent(cleanText)}&op=translate`;
+    naverLink.href = `https://en.dict.naver.com/#/search?query=${encodeURIComponent(cleanText)}`;
 
-    updateStarBtnUI(isWordSaved(selectedText));
+    updateStarBtnUI(isWordSaved(cleanText));
 
     // ⚡ 1. L1/L2 캐시 확인 -> 즉시 0ms 표시
     if (memCache.has(cacheKey)) {
@@ -907,11 +1078,14 @@
     }
 
     // ⚡ 2. 내장 딕셔너리 확인 -> 즉시 0ms 표시
-    if (BUILTIN_DICT[cacheKey]) {
+    const dictKey = cacheKey
+      .replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "")
+      .trim();
+    if (BUILTIN_DICT[dictKey]) {
       const builtin = {
-        word: selectedText,
-        meaning: BUILTIN_DICT[cacheKey].meaning,
-        posList: BUILTIN_DICT[cacheKey].posList || [],
+        word: cleanText,
+        meaning: BUILTIN_DICT[dictKey].meaning,
+        posList: BUILTIN_DICT[dictKey].posList || [],
       };
       currentWordData = builtin;
       renderBodyContent(builtin);
@@ -1138,6 +1312,8 @@
 
   // 텍스트 선택 핸들러 (단어 및 긴 문장 1500자까지 모두 지원 + 띄어쓰기 단위 드래그 자동 보정)
   function handleSelection() {
+    if (Date.now() < closeCooldownUntil) return;
+
     let cleanText = "";
     let rect = null;
 
@@ -1150,18 +1326,31 @@
       typeof activeEl.selectionEnd === "number" &&
       activeEl.selectionStart !== activeEl.selectionEnd
     ) {
-      // 💡 띄어쓰기 단위 단어 보정
-      snapInputToWordBoundaries(activeEl);
-      const raw = activeEl.value.substring(
-        activeEl.selectionStart,
-        activeEl.selectionEnd,
-      );
-      cleanText = raw
-        .trim()
-        .replace(/^[^a-zA-Z0-9"'(]+|[^a-zA-Z0-9"').!?;]+$/g, "")
-        .trim();
+      const val = activeEl.value || "";
+      let s = activeEl.selectionStart;
+      let e = activeEl.selectionEnd;
+      while (s > 0 && /[a-zA-Z0-9'-]/.test(val[s - 1])) s--;
+      while (e < val.length && /[a-zA-Z0-9'-]/.test(val[e])) e++;
+
+      // 💡 사용자의 드래그 행위가 끝난 시점이면 input 내부 선택 범위도 단어 경계로 즉시 반영
+      if (
+        isDragEnded &&
+        (s !== activeEl.selectionStart || e !== activeEl.selectionEnd)
+      ) {
+        try {
+          activeEl.setSelectionRange(s, e);
+        } catch (err) {}
+      }
+
+      const raw = val.substring(s, e);
+      // 💡 한글이나 특수문자가 포함된 경우 해당 내용을 제거하고 순수 영문만 정제
+      cleanText = cleanEnglishText(raw);
       if (cleanText && /[a-zA-Z]/.test(cleanText) && cleanText.length <= 1500) {
-        rect = activeEl.getBoundingClientRect();
+        if (cleanText.length > 1 || /^[aAiI]$/.test(cleanText)) {
+          rect = activeEl.getBoundingClientRect();
+        }
+      } else {
+        cleanText = "";
       }
     }
 
@@ -1171,42 +1360,60 @@
       if (selection && !selection.isCollapsed && selection.rangeCount > 0) {
         try {
           const originalRange = selection.getRangeAt(0);
-          // 💡 띄어쓰기 단위 단어 보정 (선택 범위를 단어/띄어쓰기 경계로 자동 스냅)
           const snappedRange = snapRangeToWordBoundaries(originalRange);
-          if (snappedRange) {
-            selection.removeAllRanges();
-            selection.addRange(snappedRange);
+          const effectiveRange = snappedRange || originalRange;
 
-            const rawText = snappedRange.toString();
-            cleanText = rawText
-              .trim()
-              .replace(/^[^a-zA-Z0-9"'(]+|[^a-zA-Z0-9"').!?;]+$/g, "")
-              .trim();
-            if (
-              cleanText &&
-              cleanText.length <= 1500 &&
-              /[a-zA-Z]/.test(cleanText)
-            ) {
-              if (cleanText.length > 1 || /^[aAiI]$/.test(cleanText)) {
-                const r = snappedRange.getBoundingClientRect();
-                if (r && (r.width > 0 || r.height > 0)) {
-                  rect = r;
-                } else if (snappedRange.getClientRects().length > 0) {
-                  rect = snappedRange.getClientRects()[0];
-                }
+          // 💡 사용자의 드래그 행위가 완전히 끝난 뒤(mouseup / touchend) 또는 Shift+Click 확장 시:
+          // 화면의 실제 브라우저 Selection 하이라이트 범위도 단어 전체로 스냅하여 반영!
+          if ((isDragEnded || lastMouseUpWasShift) && snappedRange) {
+            try {
+              isApplyingSnappedSelection = true;
+              selection.removeAllRanges();
+              selection.addRange(snappedRange);
+              setTimeout(() => {
+                isApplyingSnappedSelection = false;
+              }, 60);
+            } catch (err) {
+              isApplyingSnappedSelection = false;
+            }
+          }
+
+          const rawText = effectiveRange.toString();
+          // 💡 한글이나 특수문자가 포함된 경우 해당 내용을 제거하고 순수 영문만 정제
+          cleanText = cleanEnglishText(rawText);
+          if (
+            cleanText &&
+            cleanText.length <= 1500 &&
+            /[a-zA-Z]/.test(cleanText)
+          ) {
+            if (cleanText.length > 1 || /^[aAiI]$/.test(cleanText)) {
+              const r = effectiveRange.getBoundingClientRect();
+              if (r && (r.width > 0 || r.height > 0)) {
+                rect = r;
+              } else if (effectiveRange.getClientRects().length > 0) {
+                rect = effectiveRange.getClientRects()[0];
               }
             }
+          } else {
+            cleanText = "";
           }
         } catch (e) {}
       }
     }
 
+    isDragEnded = false;
+    lastMouseUpWasShift = false;
+
     if (cleanText && rect) {
       showVocabTooltip(cleanText, rect);
+    } else if (tooltipEl && tooltipEl.classList.contains("show")) {
+      // 한글 포함 드래그 또는 빈 선택 시 기존 툴팁 숨김
+      hideTooltip(false);
     }
   }
 
   function triggerSelectionDebounced(delay = 40) {
+    if (Date.now() < closeCooldownUntil) return;
     if (selectionDebounceTimer) clearTimeout(selectionDebounceTimer);
     selectionDebounceTimer = setTimeout(handleSelection, delay);
   }
@@ -1218,19 +1425,27 @@
     // 1. PC 마우스 업 & 더블클릭
     document.addEventListener("mouseup", (e) => {
       if (tooltipEl && tooltipEl.contains(e.target)) return;
+      lastMouseUpWasShift = !!e.shiftKey;
+      isDragEnded = true;
       triggerSelectionDebounced(20);
     });
 
     document.addEventListener("dblclick", (e) => {
       if (tooltipEl && tooltipEl.contains(e.target)) return;
+      isDragEnded = true;
       triggerSelectionDebounced(10);
     });
 
-    // 2. 텍스트 선택 이벤트 (PC 드래그 또는 모바일 롱프레스 핀 조절 시)
+    // 2. 텍스트 선택 이벤트 (PC 드래그 또는 모바일 핀 조절 시)
     document.addEventListener("selectionchange", () => {
-      // 📱 모바일에서는 롱프레스가 발동되었을 때만 선택 변경 감지
-      if (window.innerWidth <= 600 && !isLongPressTriggered) return;
-      triggerSelectionDebounced(150);
+      if (
+        isApplyingSnappedSelection ||
+        isTouchMoving ||
+        Date.now() < closeCooldownUntil
+      )
+        return;
+      const delay = window.innerWidth <= 768 ? 200 : 100;
+      triggerSelectionDebounced(delay);
     });
 
     let isTouchMoving = false;
@@ -1241,6 +1456,17 @@
       (e) => {
         isTouchMoving = false;
         if (tooltipEl && tooltipEl.contains(e.target)) return;
+
+        // 💡 버튼, 링크, 입력창 등 인터랙티브 컨트롤 영역 위에서는 롱프레스 단어 검색 방지
+        if (
+          e.target.closest &&
+          e.target.closest(
+            "button, a, input, select, textarea, .btn, .vocab-tooltip, [role='button'], .audio-controls, .speed-chip",
+          )
+        ) {
+          if (longPressTimer) clearTimeout(longPressTimer);
+          return;
+        }
 
         // 두 손가락 이상(핀치 줌)일 경우 롱프레스 취소
         if (e.touches.length !== 1) {
@@ -1298,7 +1524,7 @@
       { passive: true },
     );
 
-    // 터치 종료 (touchend): 스크롤이 아닐 때만 더블탭 감지 & 롱프레스 타이머 정리
+    // 터치 종료 (touchend): 스크롤이 아닐 때만 더블탭 및 선택 영역 감지 & 롱프레스 타이머 정리
     document.addEventListener(
       "touchend",
       (e) => {
@@ -1315,6 +1541,16 @@
           lastTouchEndTime = 0;
           lastTouchPoint = null;
           return;
+        }
+
+        // 📱 모바일에서 네이티브 텍스트 선택 핸들(핀) 이동 후 손을 뗐을 때 툴팁 노출 연동
+        if (window.getSelection) {
+          const sel = window.getSelection();
+          if (sel && !sel.isCollapsed && sel.toString().trim()) {
+            isDragEnded = true;
+            triggerSelectionDebounced(80);
+            return;
+          }
         }
 
         const now = Date.now();
@@ -1351,12 +1587,22 @@
       { passive: true },
     );
 
+    // 📱 모바일 커스텀 롱프레스 발동 직후 시스템 컨텍스트 메뉴(복사/공유 바) 차단
+    document.addEventListener("contextmenu", (e) => {
+      if (isLongPressTriggered) {
+        e.preventDefault();
+        setTimeout(() => {
+          isLongPressTriggered = false;
+        }, 300);
+      }
+    });
+
     // 4. 화면 스크롤 시 열려있는 툴팁 닫기
     window.addEventListener(
       "scroll",
       () => {
         if (Date.now() - lastShownTime > 800) {
-          hideTooltip();
+          hideTooltip(false);
         }
       },
       { passive: true },
@@ -1365,21 +1611,38 @@
     // 5. 키보드 ESC 닫기
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        hideTooltip();
+        hideTooltip(true);
       }
     });
 
-    // 6. 툴팁 외부 클릭/터치 시 1클릭 즉시 닫기 (이전 선택 상태나 500ms 지연 없이 즉각 반응)
+    // 6. 툴팁 외부 클릭/터치 시 1클릭 즉시 닫기 및 선택 영역 정리
     const handleOutsideDismiss = (e) => {
       if (!tooltipEl || !tooltipEl.classList.contains("show")) return;
       if (tooltipEl.contains(e.target)) return;
-      hideTooltip();
+      // 💡 Shift 키를 누른 채 클릭한 경우 선택 영역 확장(Extend Selection) 동작이므로 닫거나 선택을 해제하지 않음
+      if (e.shiftKey) return;
+      hideTooltip(true);
     };
 
     document.addEventListener("mousedown", handleOutsideDismiss);
     document.addEventListener("touchstart", handleOutsideDismiss, {
       passive: true,
     });
+
+    // 7. 화면 회전(orientationchange) 및 리사이즈 시 위치 동적 갱신
+    const handleViewportResize = () => {
+      if (tooltipEl && tooltipEl.classList.contains("show") && lastTargetRect) {
+        positionTooltip(lastTargetRect);
+      }
+    };
+    window.addEventListener("resize", handleViewportResize, { passive: true });
+    window.addEventListener(
+      "orientationchange",
+      () => {
+        setTimeout(handleViewportResize, 150);
+      },
+      { passive: true },
+    );
   }
 
   // =============================================================================

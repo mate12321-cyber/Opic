@@ -40,7 +40,7 @@
   position: absolute;
   width: 10px;
   height: 10px;
-  background: var(--surface, #ffffff);
+  background: var(--surface-subtle, #f8fafc);
   border: 1px solid var(--border-light, #e2e8f0);
   transform: rotate(45deg);
   pointer-events: none;
@@ -51,12 +51,14 @@
   bottom: -6px;
   border-top: none;
   border-left: none;
+  background: var(--surface-subtle, #f8fafc);
 }
 
 .vocab-tooltip[data-placement="bottom"] .vocab-tooltip-arrow {
   top: -6px;
   border-bottom: none;
   border-right: none;
+  background: var(--surface-subtle, #f8fafc);
 }
 
 /* 헤더 영역 */
@@ -114,6 +116,7 @@
   cursor: pointer;
   transition: all 0.15s ease;
   padding: 0;
+  touch-action: manipulation;
 }
 
 .vocab-btn:hover {
@@ -255,9 +258,8 @@
 /* 모바일 전용 반응형 스타일 */
 @media (max-width: 600px) {
   .vocab-tooltip {
-    width: 290px !important;
-    max-width: calc(100vw - 16px) !important;
-    border-radius: 10px;
+    max-width: calc(100vw - 20px) !important;
+    border-radius: 12px;
   }
   .vocab-header {
     padding: 8px 12px;
@@ -266,15 +268,16 @@
     font-size: 1rem;
   }
   .vocab-btn {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
   }
   .vocab-body {
     padding: 10px 12px;
-    max-height: 200px;
+    max-height: 220px;
   }
   .vocab-meaning-main {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
   }
 }
 
@@ -377,7 +380,7 @@ body.dark-theme .vocab-tooltip {
 }
 
 body.dark-theme .vocab-tooltip-arrow {
-  background: #111827;
+  background: #1f2937;
   border-color: #374151;
 }
 
