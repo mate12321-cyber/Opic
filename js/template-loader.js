@@ -9,6 +9,8 @@
 (function () {
   "use strict";
 
+  const BUILD_VERSION = "2.2.5";
+
   // 화면 슬롯 정의
   const SCREENS = [
     { id: "homeSlot", file: "templates/home.html" },
@@ -53,10 +55,10 @@
   ];
 
   /**
-   * 단일 HTML 파일 비동기 요청
+   * 단일 HTML 파일 비동기 요청 (캐시 버스팅 적용)
    */
   async function fetchHtml(url) {
-    const res = await fetch(url);
+    const res = await fetch(`${url}?v=${BUILD_VERSION}`);
     if (!res.ok) {
       throw new Error(`템플릿 로드 실패: ${url} (HTTP ${res.status})`);
     }
@@ -129,8 +131,6 @@
       elem.remove();
     });
   }
-
-  const BUILD_VERSION = "2.2.4";
 
   /**
    * 단일 스크립트 순차 로더 프로미스 (로컬 스크립트 자동 캐시 버스팅)
