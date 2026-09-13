@@ -24,7 +24,7 @@ textarea {
   background: #ffffff;
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 12px 46px 14px 14px;
+  padding: 12px 14px 46px 14px;
   outline: none;
   line-height: 1.6;
   box-sizing: border-box;
@@ -37,6 +37,7 @@ textarea {
 #opicUserInput {
   min-height: 110px;
   font-size: 15.5px;
+  padding: 12px 14px 48px 14px;
 }
 textarea:focus {
   border-color: var(--primary);
@@ -50,14 +51,15 @@ textarea::placeholder {
 
 .mic-btn {
   position: absolute;
-  right: 8px;
-  top: 8px;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
+  right: 10px;
+  bottom: 10px;
+  top: auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   border: 1px solid var(--border-light);
   background: var(--bg-app);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1;
   display: flex;
   align-items: center;
@@ -65,6 +67,7 @@ textarea::placeholder {
   cursor: pointer;
   padding: 0;
   user-select: none;
+  z-index: 2;
   transition: all 0.15s ease;
   min-height: auto;
 }

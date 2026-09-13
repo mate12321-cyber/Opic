@@ -14,6 +14,9 @@
 <div class="topic-screen app-screen" id="opicTopicScreen" style="display: none">
   <div class="mode-switch-row">
     <span class="mode-switch" id="homeFromOpicTopic">🏠 홈</span>
+    <span class="mode-switch" id="toBankFromOpicTopic"
+      >📋 전체 문제 모아보기</span
+    >
     <span class="mode-switch" id="toSentenceFromOpic">문장 연습 →</span>
   </div>
   <div class="topic-header-row">
@@ -57,7 +60,7 @@
     id="opicStartBtn"
     style="width: 100%; margin-top: 18px"
   >
-    이 주제로 실전 질문 연습 시작하기
+    이 주제로 연습 시작
   </button>
 </div>
 <!-- // #opicTopicScreen -->
@@ -67,17 +70,27 @@
      - 에바 질문 청취(2회), 타이머, 음성 입력, 5~7문장 분할 모범답안
      ========================================================================= -->
 <div class="card app-screen" id="opicCard" style="display: none">
-  <div class="cardtop">
-    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
-      <span class="cat" id="opicCatLabel">CATEGORY</span>
-      <span
-        class="combo-step-badge"
-        id="opicComboStepBadge"
-        style="display: none"
-        >🎯 콤보 1/3단계</span
+  <!-- 상단 글로벌 내비게이션 바 (홈 / 주제 변경) -->
+  <div class="card-nav-bar">
+    <div class="card-nav-left">
+      <button
+        type="button"
+        class="mode-switch-pill"
+        id="homeFromOpicCard"
+        title="홈 대시보드로 이동"
       >
+        🏠 홈
+      </button>
+      <button
+        type="button"
+        class="mode-switch-pill"
+        id="opicChangeTopicBtn"
+        title="실전 질문 주제 선택 화면으로 이동"
+      >
+        📋 주제 변경
+      </button>
     </div>
-    <div class="cardtop-right">
+    <div class="card-nav-right">
       <button
         type="button"
         class="btn-prev-q"
@@ -87,6 +100,18 @@
         ‹ 이전
       </button>
       <span class="idx" id="opicIdxLabel">01 / 00</span>
+    </div>
+  </div>
+
+  <div class="cardtop" style="margin-top: 2px">
+    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+      <span class="cat" id="opicCatLabel">CATEGORY</span>
+      <span
+        class="combo-step-badge"
+        id="opicComboStepBadge"
+        style="display: none"
+        >🎯 콤보 1/3단계</span
+      >
     </div>
   </div>
 
@@ -194,11 +219,48 @@
     </div>
   </div>
 
+  <!-- 만능 뼈대 구조 (Skeleton) 보기 가이드 -->
+  <div class="opic-pattern-wrap" id="opicPatternWrap">
+    <button type="button" class="btn-toggle-pattern" id="btnToggleOpicPattern">
+      <span class="pattern-toggle-left">
+        <span class="pattern-badge-icon" id="opicPatternIcon">🧩</span>
+        <span id="opicPatternToggleTitle">이 문제 만능 뼈대 보기</span>
+      </span>
+      <span class="toggle-icon" id="opicPatternToggleArrow">▾</span>
+    </button>
+    <div class="opic-pattern-box" id="opicPatternBox" style="display: none">
+      <div class="pattern-box-header">
+        <div class="pattern-title-row">
+          <span class="pattern-name-badge" id="opicPatternNameBadge"></span>
+          <button
+            type="button"
+            class="btn-goto-pattern-mode"
+            id="btnGotoPatternMode"
+            title="만능 패턴 집중 훈련 모드로 이동"
+          >
+            🎯 패턴 훈련 모드 이동 →
+          </button>
+        </div>
+        <p class="pattern-desc-text" id="opicPatternDescText"></p>
+      </div>
+      <div class="pattern-skeleton-list" id="opicPatternSkeletonList"></div>
+      <div class="pattern-box-actions">
+        <button
+          type="button"
+          class="tts-btn tts-btn-pattern"
+          id="ttsOpicPatternBtn"
+        >
+          🔊 뼈대 발음 듣기
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- 공통 음성 입력창 컴포넌트 -->
   <div
     data-component="voice-input"
     data-prefix="opic"
-    data-placeholder="마이크(🎤)를 누르고 에바에게 영어로 5~7문장 답변을 말해보세요"
+    data-placeholder="마이크(🎤)를 누르고 에바에게 답변을 말하거나, 직접 입력해보세요"
     data-copy-text="내 답변 복사"
     data-copy-title="내 답변 복사"
   ></div>
@@ -207,7 +269,7 @@
   <!-- 발음 및 일치도 평가 -->
   <div class="speech-eval" id="opicSpeechEvalBox" style="display: none">
     <div class="eval-header">
-      <div class="eval-title">🎙️ 내 답변 실전 발화 & 발음 진단</div>
+      <div class="eval-title">🎙️ 내 발음 진단</div>
       <span class="eval-score-badge" id="opicEvalScoreBadge">0% 일치</span>
     </div>
     <div class="eval-diff" id="opicEvalDiff"></div>
@@ -219,7 +281,7 @@
         type="button"
         title="내가 녹음한 답변 듣기"
       >
-        🔊 내 답변 다시 듣기
+        🔊 내 발음 다시 듣기
       </button>
     </div>
   </div>
@@ -347,18 +409,22 @@
 
   <div class="progress" id="opicProgressDots"></div>
   <div class="change-topic-row">
-    <span class="change-topic" id="homeFromOpicCard">🏠 홈</span>
-    <span class="change-topic" id="opicChangeTopicBtn">주제 변경</span>
+    <button type="button" class="change-topic" id="homeFromOpicCardBottom">
+      🏠 홈
+    </button>
+    <button type="button" class="change-topic" id="opicChangeTopicBtnBottom">
+      📋 주제 변경
+    </button>
   </div>
   <div class="shortcut-helper desktop-only-tip">
     <span class="sk-item"><kbd class="shortcut-key">↵</kbd> 채점</span>
-    <span class="sk-item"><kbd class="shortcut-key">M</kbd> 모범답안</span>
+    <span class="sk-item"><kbd class="shortcut-key">M</kbd> 모범 답안</span>
     <span class="sk-item"><kbd class="shortcut-key">1</kbd> 잘했어요</span>
     <span class="sk-item"><kbd class="shortcut-key">2</kbd> 다시</span>
-    <span class="sk-item"><kbd class="shortcut-key">R</kbd> 다시풀기</span>
+    <span class="sk-item"><kbd class="shortcut-key">R</kbd> 다시 풀기</span>
     <span class="sk-item"><kbd class="shortcut-key">K</kbd> 건너뛰기</span>
     <span class="sk-item"><kbd class="shortcut-key">P</kbd> 이전</span>
-    <span class="sk-item"><kbd class="shortcut-key">Space</kbd> 발음</span>
+    <span class="sk-item"><kbd class="shortcut-key">Space</kbd> 질문 듣기</span>
   </div>
 </div>
 <!-- // #opicCard -->
@@ -367,7 +433,7 @@
      [Screen 3] 실전 질문 세트 완료 화면 (#opicDoneScreen)
      ========================================================================= -->
 <div class="done-screen app-screen" id="opicDoneScreen">
-  <h2>실전 질문 연습 세트 완료!</h2>
+  <h2>실전 질문 세트 완료!</h2>
   <p id="opicDoneSummary"></p>
   <button
     class="bad"
@@ -381,8 +447,89 @@
     <kbd class="shortcut-key">↵</kbd>
   </button>
   <div class="change-topic-row">
-    <span class="change-topic" id="homeFromOpicDone">🏠 홈</span>
-    <span class="change-topic" id="opicChangeTopicBtn2">주제 변경</span>
+    <button type="button" class="change-topic" id="homeFromOpicDone">
+      🏠 홈
+    </button>
+    <button type="button" class="change-topic" id="opicChangeTopicBtn2">
+      📋 주제 변경
+    </button>
   </div>
 </div>
 <!-- // #opicDoneScreen -->
+
+<!-- =========================================================================
+     [Screen 4] 실전 기출 문제 은행 / 전체 모아보기 화면 (#opicBankScreen)
+     - 40개 기출 질문 전수 열람, 실시간 검색, 주제/콤보 필터링, 질문 TTS, 뼈대 확인, 1:1 바로 풀기
+     ========================================================================= -->
+<div class="bank-screen app-screen" id="opicBankScreen" style="display: none">
+  <div class="mode-switch-row">
+    <span class="mode-switch" id="homeFromOpicBank">🏠 홈</span>
+    <span class="mode-switch" id="toOpicTopicFromBank">← 실전 질문 연습</span>
+  </div>
+
+  <div class="bank-header">
+    <div class="bank-title-wrap">
+      <h2 class="bank-title">📋 OPIc 실전 문제 은행</h2>
+      <span class="bank-total-badge" id="bankTotalCount">총 40문항</span>
+    </div>
+    <p class="bank-subtitle">
+      우리 프로젝트 12개 주제의 실전 질문을 모아서 열람하고, 에바 음성을 들으며
+      만능 뼈대 구조를 확인하세요.
+    </p>
+  </div>
+
+  <!-- 검색창 & 필터 툴바 -->
+  <div class="bank-toolbar">
+    <div class="bank-search-wrap">
+      <span class="bank-search-icon">🔍</span>
+      <input
+        type="search"
+        id="bankSearchInput"
+        class="bank-search-input"
+        placeholder="질문 영문/한글, 키워드 검색 (예: 카페, workout, travel...)"
+      />
+    </div>
+
+    <!-- 콤보 단계 필터 -->
+    <div class="bank-step-filter" id="bankStepFilterWrap">
+      <button type="button" class="btn-step-chip active" data-step="all">
+        전체 단계
+      </button>
+      <button type="button" class="btn-step-chip" data-step="1">
+        1단계: 묘사
+      </button>
+      <button type="button" class="btn-step-chip" data-step="2">
+        2단계: 루틴
+      </button>
+      <button type="button" class="btn-step-chip" data-step="3">
+        3단계: 과거경험·돌발
+      </button>
+      <button type="button" class="btn-step-chip" data-step="4">
+        4단계: 변화·비교
+      </button>
+      <button type="button" class="btn-step-chip" data-step="rp">
+        롤플레이 (11~13번)
+      </button>
+    </div>
+
+    <!-- 주제/카테고리 필터 칩 목록 -->
+    <div class="bank-topic-filter-chips" id="bankTopicFilterChips"></div>
+  </div>
+
+  <!-- 필터링 결과 통계 안내 바 -->
+  <div class="bank-results-bar">
+    <span id="bankResultCountText">40개 질문 표시 중</span>
+    <button
+      type="button"
+      class="btn-reset-filters"
+      id="btnResetBankFilters"
+      style="display: none"
+    >
+      ↺ 필터 초기화
+    </button>
+  </div>
+
+  <!-- 질문 카드 리스트 동적 렌더링 컨테이너 -->
+  <div class="bank-card-list" id="bankCardList"></div>
+</div>
+<!-- // #opicBankScreen -->

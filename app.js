@@ -232,6 +232,15 @@ if (els.btnToggleEvaKo) {
 if (els.btnToggleOpicKoHint) {
   els.btnToggleOpicKoHint.addEventListener("click", toggleOpicKoHint);
 }
+if (els.btnToggleOpicPattern) {
+  els.btnToggleOpicPattern.addEventListener("click", toggleOpicPattern);
+}
+if (els.btnGotoPatternMode) {
+  els.btnGotoPatternMode.addEventListener("click", gotoLinkedPatternMode);
+}
+if (els.ttsOpicPatternBtn) {
+  els.ttsOpicPatternBtn.addEventListener("click", playOpicPatternTTS);
+}
 if (els.ttsOpicAllBtn) {
   els.ttsOpicAllBtn.addEventListener("click", () => {
     const item = OPIC_QUESTIONS[opicOrder[opicCur]];
@@ -283,6 +292,9 @@ if (els.changeTopicBtn)
   els.changeTopicBtn.addEventListener("click", showTopicScreen);
 if (els.changeTopicBtn2)
   els.changeTopicBtn2.addEventListener("click", showTopicScreen);
+const changeTopicBtnBottom = document.getElementById("changeTopicBtnBottom");
+if (changeTopicBtnBottom)
+  changeTopicBtnBottom.addEventListener("click", showTopicScreen);
 
 // =============================================================================
 // 6. 문법 포인트 퀴즈 모드 이벤트 (Grammar Quiz Mode Events)
@@ -366,6 +378,14 @@ if (els.opicChangeTopicBtn) {
     showOpicTopicScreen();
   });
 }
+const opicChangeTopicBtnBottom = document.getElementById(
+  "opicChangeTopicBtnBottom",
+);
+if (opicChangeTopicBtnBottom) {
+  opicChangeTopicBtnBottom.addEventListener("click", () => {
+    showOpicTopicScreen();
+  });
+}
 if (els.opicChangeTopicBtn2) {
   els.opicChangeTopicBtn2.addEventListener("click", () => {
     showOpicTopicScreen();
@@ -407,11 +427,25 @@ els.navWord.addEventListener("click", () => {
 
 if (els.navOpic) {
   els.navOpic.addEventListener("click", () => {
-    if (opicOrder.length > 0 && opicCur < opicOrder.length) {
-      navigateTo("opicCard");
-    } else {
-      showOpicTopicScreen();
-    }
+    showOpicTopicScreen();
+  });
+}
+
+if (els.navOpicBank) {
+  els.navOpicBank.addEventListener("click", () => {
+    showOpicBankScreen();
+  });
+}
+
+if (els.toBankFromOpicTopic) {
+  els.toBankFromOpicTopic.addEventListener("click", () => {
+    showOpicBankScreen();
+  });
+}
+
+if (els.toOpicTopicFromBank) {
+  els.toOpicTopicFromBank.addEventListener("click", () => {
+    showOpicTopicScreen();
   });
 }
 
@@ -441,6 +475,14 @@ if (patternChangeListBtn) {
     showPatternTopics();
   });
 }
+const patternChangeListBtnBottom = document.getElementById(
+  "patternChangeListBtnBottom",
+);
+if (patternChangeListBtnBottom) {
+  patternChangeListBtnBottom.addEventListener("click", () => {
+    showPatternTopics();
+  });
+}
 
 if (els.navSpeechPractice) {
   els.navSpeechPractice.addEventListener("click", () => {
@@ -465,14 +507,18 @@ if (toPatternFromFiller) {
   els.homeFromTopic,
   els.homeFromWordTopic,
   els.homeFromPractice,
+  document.getElementById("homeFromPracticeBottom"),
   els.homeFromDone,
   els.homeFromWordCard,
   els.homeFromWordDone,
   els.homeFromOpicTopic,
   els.homeFromOpicCard,
+  document.getElementById("homeFromOpicCardBottom"),
   els.homeFromOpicDone,
+  els.homeFromOpicBank,
   homeFromPatternTopic,
   homeFromPatternCard,
+  document.getElementById("homeFromPatternCardBottom"),
   document.getElementById("homeFromFiller"),
   els.homeFromSpeechPractice,
 ].forEach((el) => el && el.addEventListener("click", () => showHomeScreen()));
@@ -650,10 +696,19 @@ async function initDashboard() {
 // =============================================================================
 // 15. DOM 로드 완료 이벤트 리스너 (DOM Ready Entrypoint)
 // =============================================================================
-document.addEventListener("DOMContentLoaded", () => {
+function bootMainApp() {
+  // iOS Safari 및 모바일 웹 터치 시 CSS :active 가상 클래스 즉각 반응 보장
+  document.addEventListener("touchstart", function () {}, { passive: true });
+
   if (typeof initTheme === "function") initTheme();
   initSpeechRecognition();
   if (typeof initVocabTooltip === "function") initVocabTooltip();
   if (typeof initSpeechPractice === "function") initSpeechPractice();
   initDashboard();
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bootMainApp);
+} else {
+  bootMainApp();
+}

@@ -78,6 +78,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 자기소개] 이름/나이 → 1인 가구 거주지 → 9 to 6 근무 → 취미(요리, 코딩, 산책) → 긍정적 성격 → 최선 다짐.",
     combo_step: 1,
     combo_role: "1단계: 장소·대상 묘사",
+    pattern_id: "pat_01",
   },
   {
     id: "q_intro_02",
@@ -122,6 +123,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 루틴] 평일 9 to 6 근무 → 퇴근 후 저녁 → 주말 집 근처 공원 산책 → 스타벅스 커피 → 스트레스 해소 → 행복한 삶.",
     combo_step: 2,
     combo_role: "2단계: 일상 루틴·활동",
+    pattern_id: "pat_02",
   },
   {
     id: "q_home_01",
@@ -166,6 +168,7 @@ window.QUESTIONS_DATA = [
     tip: "[만능 집 묘사] 거실 최애 장소 → 회사 근처 편리함 → 깔끔하고 아늑한 분위기 → 소파와 TV → 유튜브 힐링 → 편안함.",
     combo_step: 1,
     combo_role: "1단계: 장소·대상 묘사",
+    pattern_id: "pat_01",
   },
   {
     id: "q_home_02",
@@ -210,6 +213,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 집 루틴] 편한 옷 갈아입기 → 간단 요리(볶음밥) 혼밥 → 유튜브 시청 → 따뜻한 샤워 & 소파 휴식 → 스트레스 해소.",
     combo_step: 2,
     combo_role: "2단계: 일상 루틴·활동",
+    pattern_id: "pat_02",
   },
   {
     id: "q_home_03",
@@ -254,6 +258,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 집 문제해결] 에어컨 고장 → 놀람과 걱정 → 수리 센터 전화 → 기사님 빠른 수리 → 안도와 좋은 추억.",
     combo_step: 3,
     combo_role: "3단계: 과거 기억·경험",
+    pattern_id: "pat_04",
   },
   {
     id: "q_home_04",
@@ -298,6 +303,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 집 변화 비교] 옛날 작은 집 ➔ 지금 새 아파트 깔끔함 ➔ 소파와 무드등 ➔ 퇴근 후 힐링 ➔ 대만족.",
     combo_step: 4,
     combo_role: "4단계: 변화·비교 심화",
+    pattern_id: "pat_05",
   },
   {
     id: "q_work_01",
@@ -342,6 +348,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 직장 묘사] 집 근처 회사 → 편리한 출퇴근 → 깔끔하고 밝은 사무실 → 책상과 컴퓨터 → 친절한 동료들과 보람.",
     combo_step: 1,
     combo_role: "1단계: 장소·대상 묘사",
+    pattern_id: "pat_01",
   },
   {
     id: "q_work_02",
@@ -386,6 +393,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 업무 루틴] 9 to 6 근무 → 출근 후 이메일 & 할 일 체크 → 팀 아침 회의 → 보고서 작성 및 데이터 확인 → 퇴근 전 정돈 및 보람.",
     combo_step: 2,
     combo_role: "2단계: 일상 루틴·활동",
+    pattern_id: "pat_02",
   },
   {
     id: "q_work_03",
@@ -430,6 +438,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 직장 문제해결] 마감 직전 에러 발생 → 당황과 걱정 → 침착하게 동료와 파일 점검 → 신속 수정 및 제시간 전송 → 보람과 자부심.",
     combo_step: 3,
     combo_role: "3단계: 과거 기억·경험",
+    pattern_id: "pat_04",
   },
   {
     id: "q_work_04",
@@ -474,6 +483,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 첫 출근] 첫 출근의 설렘 → 새 책상과 긴장감 → 동료들의 따뜻한 미소와 사무실 안내 → 맛있는 점심 식사 → 잊지 못할 추억.",
     combo_step: 4,
     combo_role: "4단계: 변화·비교 심화",
+    pattern_id: "pat_03",
   },
   {
     id: "q_cafe_01",
@@ -518,6 +528,7 @@ window.QUESTIONS_DATA = [
     tip: "[만능 카페 묘사] 스타벅스 최애 장소 → 집 근처 편리함 → 깔끔 조용 아늑한 분위기 → 큰 창문과 편한 좌석 → 퇴근 후 커피 힐링 → 편안함.",
     combo_step: 1,
     combo_role: "1단계: 장소·대상 묘사",
+    pattern_id: "pat_01",
   },
   {
     id: "q_cafe_02",
@@ -562,6 +573,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 카페 루틴] 주말 오후 스타벅스 → 모바일 앱 주문 → 창가 조용한 자리 → 커피 마시며 뉴스/음악 → 재충전 및 스트레스 해소.",
     combo_step: 2,
     combo_role: "2단계: 일상 루틴·활동",
+    pattern_id: "pat_02",
   },
   {
     id: "q_cafe_03",
@@ -606,6 +618,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 카페 경험] 생일날 집 근처 디저트 카페 → 꽃과 잔잔한 음악 → 따뜻한 커피 & 딸기 케이크 → 혼자만의 조용한 힐링 휴식 → 평생 추억.",
     combo_step: 3,
     combo_role: "3단계: 과거 기억·경험",
+    pattern_id: "pat_03",
   },
   {
     id: "q_cafe_04",
@@ -650,6 +663,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 카페 변화 비교] 과거 단순한 메뉴 ➔ 현재 모던하고 편리함 ➔ 줄 서지 않는 모바일 주문 ➔ 맛있는 베이커리 ➔ 대만족.",
     combo_step: 4,
     combo_role: "4단계: 변화·비교 심화",
+    pattern_id: "pat_05",
   },
   {
     id: "q_park_01",
@@ -694,6 +708,7 @@ window.QUESTIONS_DATA = [
     tip: "[만능 공원 묘사] 집 근처 공원 → 접근성 편함 → 깔끔하고 아늑함 → 푸른 나무와 벤치 → 퇴근 후 혼자 산책 힐링 → 편안함.",
     combo_step: 1,
     combo_role: "1단계: 장소·대상 묘사",
+    pattern_id: "pat_01",
   },
   {
     id: "q_park_02",
@@ -738,6 +753,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 공원 루틴] 저녁 공원 산책 → 운동화 & 무선이어폰 → 푸른 산책로 걷기 → 발라드 음악 청취 → 벤치 스트레칭 → 스트레스 해소.",
     combo_step: 2,
     combo_role: "2단계: 일상 루틴·활동",
+    pattern_id: "pat_02",
   },
   {
     id: "q_park_03",
@@ -782,6 +798,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 공원 만남] 저녁 산책 중 옛 동료 우연한 만남 → 깜짝 놀람과 반가움 → 같은 동네 주민 확인 → 스타벅스 커피 수다 → 뜻깊은 추억.",
     combo_step: 3,
     combo_role: "3단계: 과거 기억·경험",
+    pattern_id: "pat_04",
   },
   {
     id: "q_park_04",
@@ -826,6 +843,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 공원 사계절] 봄 벚꽃 풍경 & 피크닉/사진 ➔ 겨울 조용한 설경 & 따뜻한 패딩 산책 ➔ 사계절 산책의 매력.",
     combo_step: 4,
     combo_role: "4단계: 변화·비교 심화",
+    pattern_id: "pat_05",
   },
   {
     id: "q_movie_01",
@@ -870,6 +888,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 영화 선호] 코미디(웃음/행복) & 감동 드라마(따뜻한 생각) 선호 ➔ 공포/액션 불호 ➔ 집에서 힐링 ➔ 최애 취미.",
     combo_step: 1,
     combo_role: "1단계: 장소·대상 묘사",
+    pattern_id: "pat_01",
   },
   {
     id: "q_movie_03",
@@ -914,6 +933,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 영화 루틴] 주말 밤 집 영화 → 넷플릭스 선택 → 팝콘 & 시원한 음료 → 소파 몰입 감상 → 혼자만의 평화로운 힐링.",
     combo_step: 2,
     combo_role: "2단계: 일상 루틴·활동",
+    pattern_id: "pat_02",
   },
   {
     id: "q_movie_02",
@@ -958,6 +978,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 영화 경험] 집에서 '트루먼 쇼' 감상 → TV 생중계 비밀 줄거리 → 진짜 세상 탈출 노력 → 마지막 작별 인사 감동 → 잊지 못할 명작.",
     combo_step: 3,
     combo_role: "3단계: 과거 기억·경험",
+    pattern_id: "pat_03",
   },
   {
     id: "q_movie_04",
@@ -1002,6 +1023,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 영화 변화 비교] 과거 극장/DVD 대여 ➔ 현재 넷플릭스 스트리밍 편의성 ➔ 극장의 고급 리클라이너 좌석 ➔ 대만족.",
     combo_step: 4,
     combo_role: "4단계: 변화·비교 심화",
+    pattern_id: "pat_05",
   },
   {
     id: "q_music_01",
@@ -1046,6 +1068,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 음악 선호] 감성 발라드/어쿠스틱 팝 → 로이킴 & 비틀즈 → 집 근처 공원 산책 중 감상 → 퇴근 후 힐링 → 필수 일상.",
     combo_step: 1,
     combo_role: "1단계: 장소·대상 묘사",
+    pattern_id: "pat_01",
   },
   {
     id: "q_music_02",
@@ -1090,6 +1113,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 음악 루틴] 아침 출근 준비(신나는 팝) → 지하철 출퇴근길(차분한 음악) → 저녁 소파 휴식(어쿠스틱) → 마음 평화와 기쁨.",
     combo_step: 2,
     combo_role: "2단계: 일상 루틴·활동",
+    pattern_id: "pat_02",
   },
   {
     id: "q_music_03",
@@ -1134,6 +1158,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 콘서트 경험] 친구와 가을 야외 콘서트 → 시원한 날씨와 멋진 무대 → 최애곡 떼창 → 감동과 소름 → 잊지 못할 추억.",
     combo_step: 3,
     combo_role: "3단계: 과거 기억·경험",
+    pattern_id: "pat_03",
   },
   {
     id: "q_exercise_02",
@@ -1178,6 +1203,7 @@ window.QUESTIONS_DATA = [
     tip: "[만능 헬스장 묘사] 집 근처 헬스장 → 접근성 편함 → 깔끔 조용 아늑한 분위기 → 머신과 프리웨이트 → 퇴근 후 운동 힐링 → 편안함.",
     combo_step: 1,
     combo_role: "1단계: 장소·대상 묘사",
+    pattern_id: "pat_01",
   },
   {
     id: "q_exercise_01",
@@ -1222,6 +1248,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 헬스 루틴] 집 근처 헬스장 도착 → 러닝머신 10분 웜업 → 웨이트(체스트 프레스, 스쿼트) → 스트레칭 & 샤워 → 스트레스 해소.",
     combo_step: 2,
     combo_role: "2단계: 일상 루틴·활동",
+    pattern_id: "pat_02",
   },
   {
     id: "q_exercise_03",
@@ -1266,6 +1293,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 운동 부상 경험] 웨이트 중 허리 통증 발생 → 당황과 걱정 → 즉시 중단 및 얼음찜질 대처 → 이틀 휴식 후 완쾌 → 준비운동의 교훈.",
     combo_step: 3,
     combo_role: "3단계: 과거 기억·경험",
+    pattern_id: "pat_04",
   },
   {
     id: "q_cook_01",
@@ -1310,6 +1338,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 요리 루틴] 마트 장보기(계란/야채/고기) → 재료 손질 → 토마토 파스타 또는 김치볶음밥 조리 → 유튜브 보며 냠냠 → 스트레스 해소.",
     combo_step: 2,
     combo_role: "2단계: 일상 루틴·활동",
+    pattern_id: "pat_02",
   },
   {
     id: "q_cook_02",
@@ -1354,6 +1383,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 요리 대접] 친구 집들이 방문 → 소고기 스테이크 & 크림 파스타 조리 → 친구의 폭풍 칭찬 → 즐거운 식사와 대화 → 뿌듯한 추억.",
     combo_step: 3,
     combo_role: "3단계: 과거 기억·경험",
+    pattern_id: "pat_03",
   },
   {
     id: "q_cook_03",
@@ -1398,6 +1428,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 요리 돌발상황] 스테이크 연기 발생 → 화재경보기 울림 당황 → 침착하게 불 끄고 창문 환기 대처 → 연기 배출 및 맛있는 식사 → 유쾌한 교훈.",
     combo_step: 3,
     combo_role: "3단계: 과거 기억·경험",
+    pattern_id: "pat_04",
   },
   {
     id: "q_trip_02",
@@ -1442,6 +1473,7 @@ window.QUESTIONS_DATA = [
     tip: "[만능 드라이브 묘사] 집 근처 한적한 길 → 접근성 편리함 → 조용하고 아늑함 → 멋진 풍경과 도로 → 퇴근 후 드라이브 힐링 → 편안함.",
     combo_step: 1,
     combo_role: "1단계: 장소·대상 묘사",
+    pattern_id: "pat_01",
   },
   {
     id: "q_trip_03",
@@ -1486,6 +1518,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 제주도 여행] 나 홀로 2박 3일 제주 힐링 여행 → 푸른 바다와 상쾌한 공기 → 해안도로 드라이브 & 해산물 먹방 → 일몰 감상 및 사진 → 평생 추억.",
     combo_step: 3,
     combo_role: "3단계: 과거 기억·경험",
+    pattern_id: "pat_03",
   },
   {
     id: "q_trip_01",
@@ -1530,6 +1563,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 여행 준비] 날씨 확인 및 스마트폰 체크리스트 → 옷/충전기/세면도구 패킹 → 창문/가스 밸브 확인 → 안전하고 설레는 출발.",
     combo_step: 2,
     combo_role: "2단계: 일상 루틴·활동",
+    pattern_id: "pat_02",
   },
   {
     id: "q_camp_02",
@@ -1574,6 +1608,7 @@ window.QUESTIONS_DATA = [
     tip: "[만능 캠핑장 묘사] 호숫가 캠핑장 → 차로 1시간 거리 → 조용하고 평화로운 자연 → 나무와 호수 → 자연 속 힐링 → 편안함.",
     combo_step: 1,
     combo_role: "1단계: 장소·대상 묘사",
+    pattern_id: "pat_01",
   },
   {
     id: "q_camp_01",
@@ -1618,6 +1653,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 캠핑 루틴] 텐트 & 의자 설치 → 산 보며 커피 한 잔 → 고기 구이 & 음악 → 밤하늘 별 보기 → 스트레스 해소.",
     combo_step: 2,
     combo_role: "2단계: 일상 루틴·활동",
+    pattern_id: "pat_02",
   },
   {
     id: "q_camp_03",
@@ -1662,6 +1698,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 캠핑 문제해결] 야간 강풍에 텐트 흔들림 → 당황과 걱정 → 손전등 들고 텐트 줄 고정 대처 → 안전 확보 후 숙면 → 사전 대비의 교훈.",
     combo_step: 3,
     combo_role: "3단계: 과거 기억·경험",
+    pattern_id: "pat_04",
   },
   {
     id: "q_rp_01",
@@ -1706,6 +1743,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 롤플레이 정보문의] 전화 목적 ➔ 위치 문의 ➔ 시작 시간 문의 ➔ 가격 & 할인 확인 ➔ 무료 주차 문의 ➔ 감사 인사.",
     combo_step: 1,
     combo_role: "11번: 상황 질문·문의",
+    pattern_id: "pat_06",
   },
   {
     id: "q_rp_02",
@@ -1750,6 +1788,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 롤플레이 지연 대안] 문제 발생 전화 ➔ 30분 지연 사유 ➔ 당황·사과 ➔ 대안 1 (스벅 대기 & 커피 사기) ➔ 대안 2 (내일 만남) ➔ 도착 다짐.",
     combo_step: 2,
     combo_role: "12번: 문제 해결·대안",
+    pattern_id: "pat_06",
   },
   {
     id: "q_rp_03",
@@ -1794,6 +1833,7 @@ window.QUESTIONS_DATA = [
     tip: "[초간단 롤플레이 13번 과거경험] 4번 패턴(문제해결 템플릿) 100% 재활용: Whenever I think of... ➔ Last year... ➔ surprised and worried ➔ fixed it ➔ hard day ➔ good memory.",
     combo_step: 3,
     combo_role: "13번: 유사 과거 경험",
+    pattern_id: "pat_04",
   },
 ];
 

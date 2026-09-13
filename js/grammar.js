@@ -105,7 +105,9 @@ function renderWordCard() {
   els.wordCard.style.display = "block";
   els.wordDoneScreen.classList.remove("show");
   if (els.btnPrevWord) {
-    els.btnPrevWord.disabled = wordCur === 0;
+    els.btnPrevWord.disabled = false;
+    els.btnPrevWord.title =
+      wordCur === 0 ? "문법 유형 선택 목록으로 돌아가기 (P)" : "이전 문제 (P)";
   }
   const item = WORD_ITEMS[wordOrder[wordCur]];
   els.wordCatLabel.textContent = item.cat;
@@ -189,6 +191,9 @@ function prevWordQuestion() {
     wordCur--;
     saveWordProgress();
     renderWordCard();
+  } else {
+    // [UX 최적화] 첫 번째 문제에서 '이전'을 누르면 문법 유형 선택 화면으로 복귀
+    showWordTopicScreen();
   }
 }
 

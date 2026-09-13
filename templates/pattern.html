@@ -16,12 +16,16 @@
   style="display: none"
 >
   <div class="mode-switch-row">
-    <span class="mode-switch" id="homeFromPatternTopic">🏠 홈</span>
-    <span class="mode-switch" id="toOpicFromPattern">실전 질문 연습 →</span>
+    <button type="button" class="mode-switch-pill" id="homeFromPatternTopic">
+      🏠 홈
+    </button>
+    <button type="button" class="mode-switch-pill" id="toOpicFromPattern">
+      실전 질문 연습 →
+    </button>
   </div>
   <div class="topic-header-row">
     <div class="topic-lbl">
-      🧩 6대 만능 템플릿 선택
+      🧩 6대 만능 패턴 선택
       <span class="topic-count-badge" id="patternCount">6개</span>
     </div>
   </div>
@@ -47,9 +51,27 @@
      - 뼈대 구조, 실시간 슬롯 스위처, 단계별 문장 훈련, 발화 타이머 및 채점
      ========================================================================= -->
 <div class="card app-screen" id="patternCard" style="display: none">
-  <div class="cardtop">
-    <span class="cat" id="patternIdxLabel">PATTERN 01 / 06</span>
-    <div class="cardtop-right">
+  <!-- 상단 글로벌 내비게이션 바 (홈 / 패턴 변경) -->
+  <div class="card-nav-bar">
+    <div class="card-nav-left">
+      <button
+        type="button"
+        class="mode-switch-pill"
+        id="homeFromPatternCard"
+        title="홈 대시보드로 이동"
+      >
+        🏠 홈
+      </button>
+      <button
+        type="button"
+        class="mode-switch-pill"
+        id="patternChangeListBtn"
+        title="6대 만능 패턴 목록으로 이동"
+      >
+        📋 패턴 변경
+      </button>
+    </div>
+    <div class="card-nav-right">
       <button
         type="button"
         class="btn-prev-q"
@@ -58,8 +80,12 @@
       >
         ‹ 이전
       </button>
-      <span class="idx" id="patternCurLabel">만능 공식</span>
     </div>
+  </div>
+
+  <div class="cardtop" style="margin-top: 2px">
+    <span class="cat" id="patternIdxLabel">PATTERN 01 / 06</span>
+    <span class="idx" id="patternCurLabel">만능 공식</span>
   </div>
 
   <div class="pattern-header-box">
@@ -170,7 +196,7 @@
   <div
     data-component="voice-input"
     data-prefix="pattern"
-    data-placeholder="마이크(🎤)를 누르고 완성된 6문장 패턴을 직접 소리 내어 말해보거나 입력해보세요"
+    data-placeholder="마이크(🎤)를 누르고 완성된 문장을 말하거나, 직접 입력해보세요"
     data-copy-text="내 답변 복사"
     data-copy-title="내 답변 복사"
   ></div>
@@ -178,7 +204,7 @@
   <!-- 발음 및 일치도 평가 박스 -->
   <div class="speech-eval" id="patternSpeechEvalBox" style="display: none">
     <div class="eval-header">
-      <div class="eval-title">🎙️ 내 패턴 발화 & 발음 진단</div>
+      <div class="eval-title">🎙️ 내 발음 진단</div>
       <span class="eval-score-badge" id="patternEvalScoreBadge">0% 일치</span>
     </div>
     <div class="eval-diff" id="patternEvalDiff"></div>
@@ -223,7 +249,7 @@
   <!-- 컨트롤 버튼 영역 -->
   <div class="row" style="margin-top: 18px">
     <button class="primary" id="patternEvalBtn" style="flex: 1">
-      <span>채점하기</span>
+      <span>채점</span>
       <kbd class="shortcut-key">↵</kbd>
     </button>
     <button class="primary" id="patternNextBtn" style="flex: 1.2">
@@ -239,9 +265,13 @@
     <kbd class="shortcut-key">R</kbd>
   </div>
 
-  <div class="change-topic-row" style="margin-top: 14px">
-    <span class="change-topic" id="homeFromPatternCard">🏠 홈</span>
-    <span class="change-topic" id="patternChangeListBtn">다른 패턴 선택</span>
+  <div class="change-topic-row" style="margin-top: 18px">
+    <button type="button" class="change-topic" id="homeFromPatternCardBottom">
+      🏠 홈
+    </button>
+    <button type="button" class="change-topic" id="patternChangeListBtnBottom">
+      📋 패턴 변경
+    </button>
   </div>
 </div>
 <!-- // #patternCard -->

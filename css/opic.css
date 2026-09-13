@@ -481,6 +481,177 @@
   flex: 1;
 }
 
+/* ── 만능 뼈대 구조 (Skeleton) 뷰어 ── */
+.opic-pattern-wrap {
+  margin-bottom: 12px;
+}
+
+.btn-toggle-pattern {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 9px 14px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-md);
+  color: #4f46e5;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.btn-toggle-pattern:hover {
+  background: rgba(99, 102, 241, 0.14);
+  border-color: rgba(99, 102, 241, 0.45);
+}
+
+.pattern-toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-toggle-pattern .toggle-icon {
+  font-size: 12px;
+  transition: transform var(--trans-fast);
+}
+
+.btn-toggle-pattern.active .toggle-icon {
+  transform: rotate(180deg);
+}
+
+.opic-pattern-box {
+  margin-top: 8px;
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  animation: fadeIn 0.2s ease;
+}
+
+.pattern-box-header {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(99, 102, 241, 0.25);
+}
+
+.pattern-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pattern-name-badge {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #4338ca;
+  background: rgba(99, 102, 241, 0.12);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.btn-goto-pattern-mode {
+  background: none;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #4f46e5;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.btn-goto-pattern-mode:hover {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: #4f46e5;
+}
+
+.pattern-desc-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-top: 5px;
+}
+
+.pattern-skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pattern-skeleton-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #f8fafc;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid #6366f1;
+}
+
+.pattern-skeleton-num {
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.15);
+  color: #4338ca;
+  font-size: 10.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.pattern-skeleton-texts {
+  flex: 1;
+}
+
+.pattern-skeleton-en {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+.pattern-skeleton-ko {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+.pattern-box-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(99, 102, 241, 0.2);
+}
+
+.tts-btn-pattern {
+  padding: 5px 10px;
+  font-size: 12px;
+  background: rgba(99, 102, 241, 0.1);
+  color: #4338ca;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--trans-fast);
+}
+
+.tts-btn-pattern:hover {
+  background: rgba(99, 102, 241, 0.2);
+}
+
 /* ── 5~7문장 모범 답변 뷰 ── */
 .opic-answer-container {
   display: flex;
@@ -780,10 +951,10 @@
   color: #0f172a;
 }
 
-/* ── OPIc 컨트롤 버튼 레이아웃 (텍스트 잘림 방지 및 2x2 그리드) ── */
+/* ── OPIc 컨트롤 버튼 레이아웃 (텍스트 잘림 방지 및 모바일 엄지 최적화) ── */
 .opic-btn-row-3 {
   display: grid;
-  grid-template-columns: 1.2fr 1.1fr 0.9fr;
+  grid-template-columns: 1.3fr 1fr 1fr;
   gap: 10px;
   margin-top: 18px;
 }
@@ -799,9 +970,9 @@
 .opic-rate-grid button {
   width: 100%;
   min-width: 0;
-  height: 46px;
-  min-height: 46px;
-  padding: 0 12px;
+  height: 48px;
+  min-height: 48px;
+  padding: 0 14px;
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
@@ -819,7 +990,7 @@
 }
 
 .opic-retry-link {
-  margin-top: 12px !important;
+  margin-top: 14px !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -827,31 +998,47 @@
 }
 
 @media (max-width: 600px) {
+  /* 모바일 화면에서는 3열 대신 메인 채점 버튼을 상단 전체 너비로, 보조 버튼 2개를 하단 2열로 배치 */
   .opic-btn-row-3 {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 6px;
-    margin-top: 12px;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 14px;
   }
 
+  .opic-btn-row-3 button:first-child {
+    grid-column: 1 / -1;
+    height: 50px;
+    min-height: 50px;
+    font-size: 15.5px;
+  }
+
+  .opic-btn-row-3 button:not(:first-child) {
+    height: 44px;
+    min-height: 44px;
+    font-size: 13.5px;
+  }
+
+  /* 모바일 평가 그리드: 2x2 배치이되 평가 버튼(잘했어요, 다시)을 더 크고 돋보이게 */
   .opic-rate-grid {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
-    margin-top: 12px;
+    margin-top: 14px;
   }
 
-  .opic-btn-row-3 button,
   .opic-rate-grid button {
-    padding: 0 6px;
-    font-size: 13px;
-    height: 40px;
-    min-height: 40px;
+    padding: 0 8px;
+    font-size: 13.5px;
+    height: 44px;
+    min-height: 44px;
     gap: 4px;
   }
 
-  .opic-btn-row-3 button .shortcut-key,
-  .opic-rate-grid button .shortcut-key {
-    padding: 1px 4px;
-    font-size: 9px;
+  .opic-rate-grid .good,
+  .opic-rate-grid .bad {
+    height: 50px;
+    min-height: 50px;
+    font-size: 15px;
+    font-weight: 700;
   }
 }
 
@@ -962,6 +1149,62 @@ body.dark-theme .ko-hint-num {
 }
 body.dark-theme .ko-hint-item {
   color: #e5e7eb;
+}
+
+body.dark-theme .btn-toggle-pattern {
+  background: rgba(49, 46, 129, 0.4);
+  border-color: #4338ca;
+  color: #c7d2fe;
+}
+body.dark-theme .btn-toggle-pattern:hover {
+  background: rgba(49, 46, 129, 0.6);
+  border-color: #6366f1;
+}
+body.dark-theme .opic-pattern-box {
+  background: #1f2937;
+  border-color: #374151;
+}
+body.dark-theme .pattern-box-header {
+  border-bottom-color: #374151;
+}
+body.dark-theme .pattern-name-badge {
+  background: #312e81;
+  color: #c7d2fe;
+}
+body.dark-theme .btn-goto-pattern-mode {
+  border-color: #4338ca;
+  color: #a5b4fc;
+}
+body.dark-theme .btn-goto-pattern-mode:hover {
+  background: rgba(99, 102, 241, 0.2);
+}
+body.dark-theme .pattern-desc-text {
+  color: #9ca3af;
+}
+body.dark-theme .pattern-skeleton-item {
+  background: #111827;
+  border-left-color: #818cf8;
+}
+body.dark-theme .pattern-skeleton-num {
+  background: #312e81;
+  color: #c7d2fe;
+}
+body.dark-theme .pattern-skeleton-en {
+  color: #f3f4f6;
+}
+body.dark-theme .pattern-skeleton-ko {
+  color: #9ca3af;
+}
+body.dark-theme .pattern-box-actions {
+  border-top-color: #374151;
+}
+body.dark-theme .tts-btn-pattern {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: #4338ca;
+  color: #c7d2fe;
+}
+body.dark-theme .tts-btn-pattern:hover {
+  background: rgba(99, 102, 241, 0.3);
 }
 
 body.dark-theme .answer-view-switcher {
@@ -1118,4 +1361,431 @@ body.dark-theme .sentence-mic-btn {
 body.dark-theme .single-sen-eval-box {
   background: #1e293b;
   border-color: #475569;
+}
+
+/* =============================================================================
+   OPIc 실전 문제 은행 (Question Bank) 전용 스타일
+   ============================================================================= */
+
+.bank-screen {
+  animation: fadeIn 0.25s ease;
+}
+
+.bank-header {
+  margin-bottom: 16px;
+}
+
+.bank-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.bank-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.bank-total-badge {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary);
+  background: rgba(99, 102, 241, 0.12);
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.bank-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 5px;
+  line-height: 1.45;
+}
+
+.bank-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-light, #e2e8f0);
+  border-radius: var(--radius-lg, 12px);
+  padding: 14px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.bank-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.bank-search-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 14px;
+  color: var(--text-muted, #94a3b8);
+  pointer-events: none;
+}
+
+.bank-search-input {
+  width: 100%;
+  padding: 10px 14px 10px 36px;
+  font-size: 13.5px;
+  border: 1px solid var(--border-light, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  background: var(--input-bg, #f8fafc);
+  color: var(--text-primary);
+  outline: none;
+  transition: all var(--trans-fast);
+}
+
+.bank-search-input:focus {
+  border-color: var(--primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.bank-step-filter {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.btn-step-chip {
+  padding: 6px 11px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border-light, #e2e8f0);
+  border-radius: 999px;
+  background: var(--bg-alt, #f8fafc);
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--trans-fast);
+}
+
+.btn-step-chip:hover {
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--primary);
+}
+
+.btn-step-chip.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.25);
+}
+
+.bank-topic-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 110px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.bank-topic-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border-light, #e2e8f0);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.bank-topic-chip:hover {
+  border-color: rgba(99, 102, 241, 0.5);
+  color: var(--primary);
+}
+
+.bank-topic-chip.active {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.bank-topic-chip-count {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.bank-results-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.btn-reset-filters {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.bank-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bank-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-light, #e2e8f0);
+  border-radius: var(--radius-lg, 12px);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--trans-fast);
+}
+
+.bank-card:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: var(--shadow-md, 0 4px 12px rgba(0, 0, 0, 0.06));
+}
+
+.bank-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bank-card-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.bank-cat-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+
+.bank-role-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.1);
+  color: #4338ca;
+}
+
+.bank-id-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  color: var(--text-muted, #94a3b8);
+}
+
+.bank-q-en {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.45;
+  margin: 0 0 6px 0;
+}
+
+.bank-q-ko {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0 0 10px 0;
+}
+
+.bank-keywords-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.bank-keyword-chip {
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--bg-alt, #f1f5f9);
+  color: var(--text-secondary);
+}
+
+/* 뼈대 미리보기 아코디언 */
+.bank-skeleton-wrap {
+  margin-bottom: 12px;
+}
+
+.btn-toggle-bank-skeleton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 7px 12px;
+  background: rgba(99, 102, 241, 0.06);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 6px;
+  color: #4f46e5;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.btn-toggle-bank-skeleton:hover {
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.btn-toggle-bank-skeleton.active .toggle-icon {
+  transform: rotate(180deg);
+}
+
+.bank-skeleton-panel {
+  margin-top: 6px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 6px;
+  display: none;
+}
+
+.bank-skeleton-panel.show {
+  display: block;
+}
+
+.bank-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border-light, #e2e8f0);
+}
+
+.btn-bank-tts {
+  padding: 6px 12px;
+  font-size: 12.5px;
+  background: rgba(99, 102, 241, 0.1);
+  color: #4338ca;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-sm, 6px);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--trans-fast);
+}
+
+.btn-bank-tts:hover {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.btn-bank-practice {
+  padding: 6px 14px;
+  font-size: 12.5px;
+  background: var(--primary, #4f46e5);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm, 6px);
+  cursor: pointer;
+  font-weight: 700;
+  transition: all var(--trans-fast);
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+}
+
+.btn-bank-practice:hover {
+  background: #4338ca;
+}
+
+/* ── Dark Theme Support ── */
+body.dark-theme .bank-toolbar,
+body.dark-theme .bank-card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-theme .bank-search-input {
+  background: #111827;
+  border-color: #374151;
+  color: #f3f4f6;
+}
+
+body.dark-theme .btn-step-chip {
+  background: #111827;
+  border-color: #374151;
+  color: #9ca3af;
+}
+
+body.dark-theme .btn-step-chip:hover {
+  background: rgba(99, 102, 241, 0.2);
+  color: #c7d2fe;
+}
+
+body.dark-theme .btn-step-chip.active {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+body.dark-theme .bank-topic-chip {
+  background: #111827;
+  border-color: #374151;
+  color: #9ca3af;
+}
+
+body.dark-theme .bank-topic-chip.active {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: #6366f1;
+  color: #c7d2fe;
+}
+
+body.dark-theme .bank-cat-badge {
+  background: #064e3b;
+  color: #a7f3d0;
+}
+
+body.dark-theme .bank-role-badge {
+  background: #312e81;
+  color: #c7d2fe;
+}
+
+body.dark-theme .bank-keyword-chip {
+  background: #111827;
+  color: #9ca3af;
+}
+
+body.dark-theme .btn-toggle-bank-skeleton {
+  background: rgba(49, 46, 129, 0.35);
+  border-color: #4338ca;
+  color: #c7d2fe;
+}
+
+body.dark-theme .bank-skeleton-panel {
+  background: #111827;
+  border-color: #374151;
+}
+
+body.dark-theme .btn-bank-tts {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: #4338ca;
+  color: #c7d2fe;
 }

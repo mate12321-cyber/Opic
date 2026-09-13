@@ -116,6 +116,7 @@ function hideAllScreens() {
     els.wordDoneScreen.classList.remove("show");
     if (els.opicTopicScreen) els.opicTopicScreen.style.display = "none";
     if (els.opicCard) els.opicCard.style.display = "none";
+    if (els.opicBankScreen) els.opicBankScreen.style.display = "none";
     if (els.opicDoneScreen) {
       els.opicDoneScreen.style.display = "none";
       els.opicDoneScreen.classList.remove("show");
@@ -395,6 +396,15 @@ function navigateTo(screen, params = {}, pushHistory = true) {
       }
       break;
 
+    case "opicBank":
+      if (els.opicBankScreen) {
+        els.opicBankScreen.style.display = "block";
+        if (typeof renderOpicQuestionBank === "function") {
+          renderOpicQuestionBank();
+        }
+      }
+      break;
+
     case "patternTopic":
       if (els.patternTopicScreen) {
         els.patternTopicScreen.style.display = "block";
@@ -490,6 +500,14 @@ function showWordTopicScreen(pushHistory = true) {
  */
 function showOpicTopicScreen(pushHistory = true) {
   navigateTo("opicTopic", {}, pushHistory);
+}
+
+/**
+ * OPIc 실전 문제 은행(전체 모아보기) 화면으로 이동합니다.
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
+ */
+function showOpicBankScreen(pushHistory = true) {
+  navigateTo("opicBank", {}, pushHistory);
 }
 
 /**

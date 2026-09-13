@@ -188,6 +188,23 @@ function updateSpeakingTimerDisplay() {
 // 주제/카테고리 칩 렌더링
 function renderOpicChips() {
   if (!els.opicTopicChips) return;
+
+  // Self-Healing: 데이터셋이 비어있는 경우 window.QUESTIONS_DATA로부터 즉각 자동 복구
+  if (
+    (!OPIC_CATEGORIES || OPIC_CATEGORIES.length === 0) &&
+    window.QUESTIONS_DATA &&
+    Array.isArray(window.QUESTIONS_DATA)
+  ) {
+    OPIC_QUESTIONS = window.QUESTIONS_DATA;
+    OPIC_CATEGORIES = [...new Set(OPIC_QUESTIONS.map((q) => q.cat))];
+  }
+  if (
+    (!opicSelectedCats || opicSelectedCats.size === 0) &&
+    OPIC_CATEGORIES.length > 0
+  ) {
+    opicSelectedCats = new Set(OPIC_CATEGORIES);
+  }
+
   els.opicTopicChips.innerHTML = "";
 
   const isAllSelected =
@@ -354,7 +371,9 @@ function renderOpicCard() {
   els.opicCatLabel.textContent = item.cat;
   els.opicIdxLabel.textContent = `${String(opicCur + 1).padStart(2, "0")} / ${String(opicOrder.length).padStart(2, "0")}`;
   if (els.btnPrevOpic) {
-    els.btnPrevOpic.disabled = opicCur === 0;
+    els.btnPrevOpic.disabled = false;
+    els.btnPrevOpic.title =
+      opicCur === 0 ? "실전 주제 선택 목록으로 돌아가기 (P)" : "이전 질문 (P)";
   }
   if (els.evaTypeBadge) els.evaTypeBadge.textContent = item.type || "실전 질문";
 
@@ -383,6 +402,9 @@ function renderOpicCard() {
   if (els.btnToggleOpicKoHint)
     els.btnToggleOpicKoHint.classList.remove("active");
   renderOpicKoHintList(item.sentences);
+
+  // 만능 뼈대 구조(Skeleton) 리셋 & 렌더링
+  renderOpicPatternViewer(item);
 
   // 청취 횟수 리셋
   updateEvaReplayBadge();
@@ -471,6 +493,125 @@ function toggleOpicKoHint() {
   els.opicKoHintBox.style.display = isHidden ? "block" : "none";
   if (els.btnToggleOpicKoHint) {
     els.btnToggleOpicKoHint.classList.toggle("active", isHidden);
+  }
+}
+
+// ── 만능 뼈대 구조 (Skeleton) 뷰어 렌더링 및 제어 로직 ──
+
+/**
+ * 현재 OPIc 실전 질문에 연결된 6대 만능 뼈대 구조(Skeleton)를 렌더링합니다.
+ * @param {object} item - 현재 질문 객체
+ * @returns {void}
+ */
+function renderOpicPatternViewer(item) {
+  if (!els.opicPatternWrap) return;
+
+  const patId = item ? item.pattern_id : null;
+  if (!patId || !window.PATTERNS_DATA) {
+    els.opicPatternWrap.style.display = "none";
+    return;
+  }
+
+  const pattern = window.PATTERNS_DATA.find((p) => p.id === patId);
+  if (!pattern) {
+    els.opicPatternWrap.style.display = "none";
+    return;
+  }
+
+  els.opicPatternWrap.style.display = "block";
+  if (els.opicPatternBox) els.opicPatternBox.style.display = "none";
+  if (els.btnToggleOpicPattern)
+    els.btnToggleOpicPattern.classList.remove("active");
+
+  if (els.opicPatternIcon)
+    els.opicPatternIcon.textContent = pattern.icon || "🧩";
+  if (els.opicPatternToggleTitle) {
+    els.opicPatternToggleTitle.textContent = `이 문제 만능 뼈대: ${pattern.name}`;
+  }
+  if (els.opicPatternNameBadge) {
+    els.opicPatternNameBadge.textContent = `${pattern.id.toUpperCase()}: ${pattern.name}`;
+  }
+  if (els.opicPatternDescText) {
+    els.opicPatternDescText.textContent = pattern.desc || "";
+  }
+
+  if (els.opicPatternSkeletonList) {
+    els.opicPatternSkeletonList.innerHTML = "";
+    (pattern.skeleton || []).forEach((s, idx) => {
+      const row = document.createElement("div");
+      row.className = "pattern-skeleton-item";
+
+      const num = document.createElement("div");
+      num.className = "pattern-skeleton-num";
+      num.textContent = idx + 1;
+
+      const texts = document.createElement("div");
+      texts.className = "pattern-skeleton-texts";
+
+      const en = document.createElement("div");
+      en.className = "pattern-skeleton-en";
+      en.textContent = s.en;
+
+      const ko = document.createElement("div");
+      ko.className = "pattern-skeleton-ko";
+      ko.textContent = s.ko;
+
+      texts.appendChild(en);
+      texts.appendChild(ko);
+      row.appendChild(num);
+      row.appendChild(texts);
+      els.opicPatternSkeletonList.appendChild(row);
+    });
+  }
+}
+
+/**
+ * 만능 뼈대 뷰어 표시/숨김을 토글합니다.
+ * @returns {void}
+ */
+function toggleOpicPattern() {
+  if (!els.opicPatternBox) return;
+  const isHidden = els.opicPatternBox.style.display === "none";
+  els.opicPatternBox.style.display = isHidden ? "block" : "none";
+  if (els.btnToggleOpicPattern) {
+    els.btnToggleOpicPattern.classList.toggle("active", isHidden);
+  }
+}
+
+/**
+ * 현재 질문에 연결된 만능 패턴의 6문장 뼈대 음성을 전체 재생합니다.
+ * @returns {void}
+ */
+function playOpicPatternTTS() {
+  const item = OPIC_QUESTIONS[opicOrder[opicCur]];
+  if (!item || !item.pattern_id || !window.PATTERNS_DATA) return;
+  const pattern = window.PATTERNS_DATA.find((p) => p.id === item.pattern_id);
+  if (!pattern || !pattern.skeleton) return;
+
+  const fullText = pattern.skeleton
+    .map((s) => s.en.replace(/^\d+\.\s*/, ""))
+    .join(" ");
+  speakText(fullText, "en-US", els.ttsOpicPatternBtn);
+}
+
+/**
+ * 현재 질문과 연결된 만능 패턴 훈련 모드로 바로 화면을 전환합니다.
+ * @returns {void}
+ */
+function gotoLinkedPatternMode() {
+  const item = OPIC_QUESTIONS[opicOrder[opicCur]];
+  if (!item || !item.pattern_id) return;
+  const patIndex = window.PATTERNS_DATA
+    ? window.PATTERNS_DATA.findIndex((p) => p.id === item.pattern_id)
+    : -1;
+
+  if (typeof navigateTo === "function") {
+    navigateTo("pattern");
+  }
+  if (patIndex >= 0 && typeof selectPattern === "function") {
+    setTimeout(() => {
+      selectPattern(patIndex);
+    }, 50);
   }
 }
 
@@ -825,8 +966,8 @@ function skipOpic() {
 
 // 이전 질문으로 되돌아가기
 function prevOpicQuestion() {
+  stopTTS();
   if (opicCur > 0) {
-    stopTTS();
     const currentQuestionIdx = opicOrder[opicCur];
     if (els.opicUserInput) {
       savedOpicInputs[currentQuestionIdx] = els.opicUserInput.value.trim();
@@ -834,6 +975,9 @@ function prevOpicQuestion() {
     opicCur--;
     saveOpicProgress();
     renderOpicCard();
+  } else {
+    // [UX 최적화] 첫 번째 질문에서 '이전'을 누르면 실전 주제 선택 화면으로 복귀
+    showOpicTopicScreen();
   }
 }
 
@@ -872,7 +1016,7 @@ function showOpicDoneScreen() {
   if (els.opicRetryWrongBtn) {
     els.opicRetryWrongBtn.style.display =
       opicWrongList.length > 0 ? "block" : "none";
-    els.opicRetryWrongBtn.textContent = `틀린 질문(${opicWrongList.length}개)만 다시 연습`;
+    els.opicRetryWrongBtn.textContent = `틀린 질문만 다시 풀기 (${opicWrongList.length}개)`;
   }
 }
 
@@ -882,4 +1026,344 @@ function buildOpicGoogleQuery() {
   const text = els.opicUserInput.value.trim();
   if (!item) return text;
   return `OPIc 영어 시험 답변 피드백: 질문은 "${item.q_en}"이고, 내 답변은 "${text}"입니다. IM1 수준으로 문법 오류와 더 자연스러운 5~7문장 표현을 알려주세요.`;
+}
+
+// =============================================================================
+// 9. OPIc 실전 문제 은행 (Question Bank / 모아보기) 컨트롤러
+// =============================================================================
+
+let bankSearchKeyword = "";
+let bankSelectedCat = "all";
+let bankSelectedStep = "all";
+let bankEventBound = false;
+
+/**
+ * 실전 문제 은행 화면을 렌더링하고 필터 이벤트를 바인딩합니다.
+ * @returns {void}
+ */
+function renderOpicQuestionBank() {
+  if (!els.opicBankScreen) return;
+
+  // Self-Healing: 질문 데이터 보장
+  if (
+    (!OPIC_QUESTIONS || OPIC_QUESTIONS.length === 0) &&
+    window.QUESTIONS_DATA &&
+    Array.isArray(window.QUESTIONS_DATA)
+  ) {
+    OPIC_QUESTIONS = window.QUESTIONS_DATA;
+    OPIC_CATEGORIES = [...new Set(OPIC_QUESTIONS.map((q) => q.cat))];
+  }
+
+  // 상단 총 문항 수 뱃지
+  if (els.bankTotalCount) {
+    els.bankTotalCount.textContent = `총 ${OPIC_QUESTIONS.length}문항`;
+  }
+
+  // 1회성 이벤트 리스너 바인딩
+  if (!bankEventBound) {
+    bindBankFilterEvents();
+    bankEventBound = true;
+  }
+
+  // 주제 필터 칩 렌더링
+  renderBankTopicChips();
+
+  // 질문 카드 목록 렌더링
+  renderBankCardList();
+}
+
+/**
+ * 검색창 및 초기화 버튼 등 필터 이벤트를 바인딩합니다.
+ */
+function bindBankFilterEvents() {
+  if (els.bankSearchInput) {
+    els.bankSearchInput.addEventListener("input", () => {
+      bankSearchKeyword = els.bankSearchInput.value.trim().toLowerCase();
+      renderBankCardList();
+    });
+  }
+
+  if (els.bankStepFilterWrap) {
+    const stepBtns = els.bankStepFilterWrap.querySelectorAll(".btn-step-chip");
+    stepBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        stepBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        bankSelectedStep = btn.getAttribute("data-step") || "all";
+        renderBankCardList();
+      });
+    });
+  }
+
+  if (els.btnResetBankFilters) {
+    els.btnResetBankFilters.addEventListener("click", () => {
+      bankSearchKeyword = "";
+      bankSelectedCat = "all";
+      bankSelectedStep = "all";
+      if (els.bankSearchInput) els.bankSearchInput.value = "";
+      if (els.bankStepFilterWrap) {
+        const stepBtns =
+          els.bankStepFilterWrap.querySelectorAll(".btn-step-chip");
+        stepBtns.forEach((b) =>
+          b.classList.toggle("active", b.getAttribute("data-step") === "all"),
+        );
+      }
+      renderBankTopicChips();
+      renderBankCardList();
+    });
+  }
+}
+
+/**
+ * 카테고리 필터 칩들을 렌더링합니다.
+ */
+function renderBankTopicChips() {
+  if (!els.bankTopicFilterChips) return;
+  els.bankTopicFilterChips.innerHTML = "";
+
+  const allChip = document.createElement("button");
+  allChip.type = "button";
+  allChip.className =
+    "bank-topic-chip" + (bankSelectedCat === "all" ? " active" : "");
+  allChip.innerHTML = `<span>전체 주제</span><span class="bank-topic-chip-count">${OPIC_QUESTIONS.length}</span>`;
+  allChip.addEventListener("click", () => {
+    bankSelectedCat = "all";
+    renderBankTopicChips();
+    renderBankCardList();
+  });
+  els.bankTopicFilterChips.appendChild(allChip);
+
+  OPIC_CATEGORIES.forEach((cat) => {
+    const count = OPIC_QUESTIONS.filter((q) => q.cat === cat).length;
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className =
+      "bank-topic-chip" + (bankSelectedCat === cat ? " active" : "");
+    chip.innerHTML = `<span>${cat}</span><span class="bank-topic-chip-count">${count}</span>`;
+    chip.addEventListener("click", () => {
+      bankSelectedCat = cat;
+      renderBankTopicChips();
+      renderBankCardList();
+    });
+    els.bankTopicFilterChips.appendChild(chip);
+  });
+}
+
+/**
+ * 조건에 맞는 질문 목록을 필터링하여 카드 뷰로 렌더링합니다.
+ */
+function renderBankCardList() {
+  if (!els.bankCardList) return;
+  els.bankCardList.innerHTML = "";
+
+  const filtered = OPIC_QUESTIONS.filter((q) => {
+    // 주제 필터
+    if (bankSelectedCat !== "all" && q.cat !== bankSelectedCat) return false;
+
+    // 콤보 단계 필터
+    if (bankSelectedStep !== "all") {
+      if (bankSelectedStep === "rp") {
+        if (q.cat !== "롤플레이") return false;
+      } else {
+        const stepNum = Number(bankSelectedStep);
+        if (q.combo_step !== stepNum) return false;
+      }
+    }
+
+    // 키워드 검색
+    if (bankSearchKeyword) {
+      const qEn = (q.q_en || "").toLowerCase();
+      const qKo = (q.q_ko || "").toLowerCase();
+      const cat = (q.cat || "").toLowerCase();
+      const keywords = (q.keywords || []).join(" ").toLowerCase();
+      const tip = (q.tip || "").toLowerCase();
+      const match =
+        qEn.includes(bankSearchKeyword) ||
+        qKo.includes(bankSearchKeyword) ||
+        cat.includes(bankSearchKeyword) ||
+        keywords.includes(bankSearchKeyword) ||
+        tip.includes(bankSearchKeyword);
+      if (!match) return false;
+    }
+
+    return true;
+  });
+
+  // 결과 안내 바 갱신
+  if (els.bankResultCountText) {
+    els.bankResultCountText.textContent = `${filtered.length}개 질문 표시 중 (전체 ${OPIC_QUESTIONS.length}개)`;
+  }
+  if (els.btnResetBankFilters) {
+    const isFiltered =
+      bankSearchKeyword !== "" ||
+      bankSelectedCat !== "all" ||
+      bankSelectedStep !== "all";
+    els.btnResetBankFilters.style.display = isFiltered
+      ? "inline-block"
+      : "none";
+  }
+
+  if (filtered.length === 0) {
+    els.bankCardList.innerHTML = `
+      <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+        <p style="font-size: 28px; margin-bottom: 8px;">🔍</p>
+        <p style="font-size: 15px; font-weight: 600;">검색 조건과 일치하는 실전 질문이 없습니다.</p>
+        <p style="font-size: 13px; margin-top: 4px;">다른 검색어나 필터를 선택해 보세요.</p>
+      </div>
+    `;
+    return;
+  }
+
+  filtered.forEach((q) => {
+    const card = document.createElement("div");
+    card.className = "bank-card";
+
+    // 1. 헤더 (카테고리, 콤보 뱃지, ID)
+    const cardTop = document.createElement("div");
+    cardTop.className = "bank-card-top";
+
+    const badges = document.createElement("div");
+    badges.className = "bank-card-badges";
+
+    const catBadge = document.createElement("span");
+    catBadge.className = "bank-cat-badge";
+    catBadge.textContent = q.cat;
+
+    const roleBadge = document.createElement("span");
+    roleBadge.className = "bank-role-badge";
+    roleBadge.textContent =
+      q.combo_role || q.type || `콤보 ${q.combo_step || 1}단계`;
+
+    badges.appendChild(catBadge);
+    badges.appendChild(roleBadge);
+
+    const idLabel = document.createElement("span");
+    idLabel.className = "bank-id-label";
+    idLabel.textContent = q.id;
+
+    cardTop.appendChild(badges);
+    cardTop.appendChild(idLabel);
+    card.appendChild(cardTop);
+
+    // 2. 질문 본문 (영문 + 한글)
+    const qEn = document.createElement("p");
+    qEn.className = "bank-q-en";
+    qEn.textContent = q.q_en;
+
+    const qKo = document.createElement("p");
+    qKo.className = "bank-q-ko";
+    qKo.textContent = q.q_ko;
+
+    card.appendChild(qEn);
+    card.appendChild(qKo);
+
+    // 3. 키워드 태그
+    if (q.keywords && q.keywords.length > 0) {
+      const kwWrap = document.createElement("div");
+      kwWrap.className = "bank-keywords-wrap";
+      q.keywords.forEach((kw) => {
+        const chip = document.createElement("span");
+        chip.className = "bank-keyword-chip";
+        chip.textContent = `#${kw}`;
+        kwWrap.appendChild(chip);
+      });
+      card.appendChild(kwWrap);
+    }
+
+    // 4. 만능 뼈대(Skeleton) 인라인 아코디언 토글
+    const patId = q.pattern_id;
+    const pattern =
+      window.PATTERNS_DATA && patId
+        ? window.PATTERNS_DATA.find((p) => p.id === patId)
+        : null;
+
+    if (pattern) {
+      const skelWrap = document.createElement("div");
+      skelWrap.className = "bank-skeleton-wrap";
+
+      const toggleBtn = document.createElement("button");
+      toggleBtn.type = "button";
+      toggleBtn.className = "btn-toggle-bank-skeleton";
+      toggleBtn.innerHTML = `
+        <span>${pattern.icon || "🧩"} 만능 뼈대: ${pattern.name}</span>
+        <span class="toggle-icon">▾</span>
+      `;
+
+      const panel = document.createElement("div");
+      panel.className = "bank-skeleton-panel";
+
+      const desc = document.createElement("p");
+      desc.className = "pattern-desc-text";
+      desc.textContent = pattern.desc || "";
+      panel.appendChild(desc);
+
+      const skelList = document.createElement("div");
+      skelList.className = "pattern-skeleton-list";
+      skelList.style.marginTop = "8px";
+
+      (pattern.skeleton || []).forEach((s, sIdx) => {
+        const item = document.createElement("div");
+        item.className = "pattern-skeleton-item";
+        item.innerHTML = `
+          <div class="pattern-skeleton-num">${sIdx + 1}</div>
+          <div class="pattern-skeleton-texts">
+            <div class="pattern-skeleton-en">${s.en}</div>
+            <div class="pattern-skeleton-ko">${s.ko}</div>
+          </div>
+        `;
+        skelList.appendChild(item);
+      });
+      panel.appendChild(skelList);
+
+      toggleBtn.addEventListener("click", () => {
+        const isShow = panel.classList.toggle("show");
+        toggleBtn.classList.toggle("active", isShow);
+      });
+
+      skelWrap.appendChild(toggleBtn);
+      skelWrap.appendChild(panel);
+      card.appendChild(skelWrap);
+    }
+
+    // 5. 하단 액션 (TTS 듣기 & 이 문제 바로 풀기)
+    const actions = document.createElement("div");
+    actions.className = "bank-card-actions";
+
+    const ttsBtn = document.createElement("button");
+    ttsBtn.type = "button";
+    ttsBtn.className = "btn-bank-tts";
+    ttsBtn.innerHTML = "🔊 질문 듣기";
+    ttsBtn.addEventListener("click", () => {
+      speakText(q.q_en, "en-US", ttsBtn);
+    });
+
+    const practiceBtn = document.createElement("button");
+    practiceBtn.type = "button";
+    practiceBtn.className = "btn-bank-practice";
+    practiceBtn.innerHTML = "🎯 이 문제 바로 풀기 →";
+    practiceBtn.addEventListener("click", () => {
+      startSingleQuestionPractice(q.id);
+    });
+
+    actions.appendChild(ttsBtn);
+    actions.appendChild(practiceBtn);
+    card.appendChild(actions);
+
+    els.bankCardList.appendChild(card);
+  });
+}
+
+/**
+ * 문제 은행에서 선택한 단일 질문을 곧바로 실전 연습 화면으로 띄웁니다.
+ * @param {string} questionId - 질문 ID (예: "q_cafe_01")
+ */
+function startSingleQuestionPractice(questionId) {
+  stopTTS();
+  const targetIdx = OPIC_QUESTIONS.findIndex((q) => q.id === questionId);
+  if (targetIdx === -1) return;
+
+  opicOrder = [targetIdx];
+  opicCur = 0;
+  saveOpicProgress();
+  navigateTo("opicCard");
 }

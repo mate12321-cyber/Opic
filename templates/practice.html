@@ -27,7 +27,7 @@
   <!-- [Dynamic Slot]: js/practice.js가 주제별 칩 그룹을 동적 렌더링 -->
   <div class="topic-groups-container" id="topicChips"></div>
   <button class="primary" id="startBtn" style="width: 100%; margin-top: 18px">
-    이 주제로 시작하기
+    이 주제로 연습 시작
   </button>
 </div>
 <!-- // #topicScreen -->
@@ -37,10 +37,27 @@
      - 한국어 문제, 음성/마이크 입력, 정답 확인, 일치도 평가 및 채점
      ========================================================================= -->
 <div class="card app-screen" id="practiceCard" style="display: none">
-  <!-- 1. 카드 상단 헤더 (카테고리, 이전 버튼, 문항 번호 인덱스) -->
-  <div class="cardtop">
-    <span class="cat" id="catLabel">CATEGORY</span>
-    <div class="cardtop-right">
+  <!-- 상단 글로벌 내비게이션 바 (홈 / 주제 변경) -->
+  <div class="card-nav-bar">
+    <div class="card-nav-left">
+      <button
+        type="button"
+        class="mode-switch-pill"
+        id="homeFromPractice"
+        title="홈 대시보드로 이동"
+      >
+        🏠 홈
+      </button>
+      <button
+        type="button"
+        class="mode-switch-pill"
+        id="changeTopicBtn"
+        title="주제 선택 목록으로 이동"
+      >
+        📋 주제 변경
+      </button>
+    </div>
+    <div class="card-nav-right">
       <button
         type="button"
         class="btn-prev-q"
@@ -51,6 +68,11 @@
       </button>
       <span class="idx" id="idxLabel">01 / 00</span>
     </div>
+  </div>
+
+  <!-- 1. 카드 상단 헤더 (카테고리) -->
+  <div class="cardtop" style="margin-top: 2px">
+    <span class="cat" id="catLabel">CATEGORY</span>
   </div>
   <!-- // .cardtop -->
 
@@ -105,9 +127,9 @@
   <div
     data-component="voice-input"
     data-prefix="sentence"
-    data-placeholder="여기에 영어로 답을 적거나 마이크(🎤)를 눌러 말해보세요"
-    data-copy-text="내 답 복사"
-    data-copy-title="내 답 복사"
+    data-placeholder="마이크(🎤)를 누르고 말하거나, 영어로 답변을 직접 입력해보세요"
+    data-copy-text="내 답변 복사"
+    data-copy-title="내 답변 복사"
   ></div>
 
   <!-- 5. [State UI]: 정답 공개 시 노출되는 모범 답안, 평가 및 문법 박스 -->
@@ -146,7 +168,7 @@
           type="button"
           title="내가 입력한 문장 발음 듣기"
         >
-          🔊 내 답 발음 듣기
+          🔊 내 답변 듣기
         </button>
       </div>
     </div>
@@ -154,7 +176,7 @@
 
     <!-- 문법 분석 및 Google AI 연동 박스 -->
     <div class="grammar" id="grammarBox">
-      <div class="lbl">내 답 문법 분석</div>
+      <div class="lbl">내 답변 문법 분석</div>
       <div id="grammarContent"></div>
       <div class="google-ask-row">
         <button
@@ -211,17 +233,21 @@
 
   <!-- 8. 화면 하단 네비게이션 및 단축키 안내 바 -->
   <div class="change-topic-row">
-    <span class="change-topic" id="homeFromPractice">🏠 홈</span>
-    <span class="change-topic" id="changeTopicBtn">주제 변경</span>
+    <button type="button" class="change-topic" id="homeFromPracticeBottom">
+      🏠 홈
+    </button>
+    <button type="button" class="change-topic" id="changeTopicBtnBottom">
+      📋 주제 변경
+    </button>
   </div>
   <div class="shortcut-helper desktop-only-tip">
-    <span class="sk-item"><kbd class="shortcut-key">↵</kbd> 정답확인</span>
+    <span class="sk-item"><kbd class="shortcut-key">↵</kbd> 정답 확인</span>
     <span class="sk-item"><kbd class="shortcut-key">P</kbd> 이전</span>
     <span class="sk-item"><kbd class="shortcut-key">K</kbd> 건너뛰기</span>
     <span class="sk-item"><kbd class="shortcut-key">1</kbd> 잘했어요</span>
     <span class="sk-item"><kbd class="shortcut-key">2</kbd> 다시</span>
-    <span class="sk-item"><kbd class="shortcut-key">Space</kbd> 발음듣기</span>
-    <span class="sk-item"><kbd class="shortcut-key">R</kbd> 재도전</span>
+    <span class="sk-item"><kbd class="shortcut-key">Space</kbd> 발음 듣기</span>
+    <span class="sk-item"><kbd class="shortcut-key">R</kbd> 다시 풀기</span>
   </div>
 </div>
 <!-- // #practiceCard -->
@@ -230,7 +256,7 @@
      [Screen 3] 오늘 세트 학습 완료 화면 (#doneScreen)
      ========================================================================= -->
 <div class="done-screen app-screen" id="doneScreen">
-  <h2>오늘 세트 완료!</h2>
+  <h2>문장 번역 세트 완료!</h2>
   <p id="doneSummary"></p>
   <button
     class="bad"
@@ -244,8 +270,10 @@
     <kbd class="shortcut-key">↵</kbd>
   </button>
   <div class="change-topic-row">
-    <span class="change-topic" id="homeFromDone">🏠 홈</span>
-    <span class="change-topic" id="changeTopicBtn2">주제 변경</span>
+    <button type="button" class="change-topic" id="homeFromDone">🏠 홈</button>
+    <button type="button" class="change-topic" id="changeTopicBtn2">
+      📋 주제 변경
+    </button>
   </div>
 </div>
 <!-- // #doneScreen -->

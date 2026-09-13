@@ -464,20 +464,54 @@ h1 {
 /* ── 모바일 & 터치 디바이스 반응형 미디어 쿼리 ── */
 @media (max-width: 540px) {
   body {
-    padding: max(16px, env(safe-area-inset-top, 16px)) 12px
-      max(32px, env(safe-area-inset-bottom, 32px));
+    padding: max(12px, env(safe-area-inset-top, 12px)) 12px
+      max(28px, env(safe-area-inset-bottom, 28px));
   }
   .card {
-    padding: 22px 18px;
+    padding: 18px 15px;
     border-radius: var(--radius-lg);
   }
+  .cardtop {
+    margin-bottom: 12px;
+  }
   .ko {
-    font-size: 19px;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  .line-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .line-row .action-btn-group {
+    justify-content: flex-end;
+  }
+  .row {
+    gap: 8px;
+    margin-top: 14px;
   }
   button {
-    height: 46px;
-    min-height: 46px;
-    font-size: 14px;
+    height: 50px;
+    min-height: 50px;
+    font-size: 15px;
+    padding: 0 14px;
+  }
+  .action-btn-group .copy-btn,
+  .action-btn-group .tts-btn {
+    height: 36px;
+    min-height: 36px;
+    padding: 0 12px;
+    font-size: 12.5px;
+  }
+}
+
+/* 터치 기기(모바일/태블릿)에서 키보드 단축키 힌트 노이즈 제거 */
+@media (hover: none) and (pointer: coarse) {
+  .shortcut-key,
+  .shortcut-helper,
+  .desktop-only-tip {
+    display: none !important;
   }
 }
 

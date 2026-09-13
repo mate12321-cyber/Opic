@@ -1117,8 +1117,10 @@ async function speakText(text, lang = "en-US", btn = null) {
   if (thisRequestId !== currentTtsRequestId) return;
 
   // [3단계: Google Translate 경량 웹 TTS 폴백]
-  // Azure 미설정 상태이거나 한글 텍스트, 200자 이하의 짧은 단문인 경우 브라우저 내장 보이스보다 자연스러운 웹 보이스 사용
-  if (cleanText.length <= 200) {
+  // 브라우저의 CORS 정책상 fetch는 외부 엔드포인트에서 차단될 수 있으므로,
+  // 영문 텍스트는 지연 없이 고품질 네이티브 음성(Web Speech API)을 우선 사용하고,
+  // Google 엔진이 명시적으로 선택된 짧은 한글 텍스트에 한해서만 시도합니다.
+  if (effectiveEngine === "google" && isKorean && cleanText.length <= 100) {
     try {
       const blob = await fetchGoogleTtsAudio(cleanText, lang);
       if (thisRequestId !== currentTtsRequestId) return; // 비동기 대기 중 새 요청 발생 시 취소
@@ -1126,17 +1128,14 @@ async function speakText(text, lang = "en-US", btn = null) {
       await playAudioBlob(blob, btn, thisRequestId);
       return;
     } catch (err) {
-      console.warn(
-        "[TTS] Google TTS failed, falling back to Web Speech API:",
-        err.message,
-      );
+      // CORS 또는 네트워크 오류 시 콘솔 경고 없이 조용히 Web Speech API로 전환
     }
   }
 
   if (thisRequestId !== currentTtsRequestId) return;
 
-  // [4단계: 브라우저 내장 Web Speech API 최종 오프라인 폴백]
-  // 네트워크가 끊겼거나 모든 외부 API 호출이 차단된 경우에도 최소한의 발음 청취 보장
+  // [4단계: 브라우저 내장 Web Speech API (권장 기본 네이티브 엔진)]
+  // 0ms 무지연, 완벽한 오프라인 작동 및 고품질 원어민/한국어 발음 제공
   playNativeTTS(cleanText, lang, btn, thisRequestId);
 }
 
@@ -2708,7 +2707,7 @@ async function renderGrammarResults(
   }
   const translated = await translateToKorean(text);
   let html = translated
-    ? `<div class="g-note" style="margin-bottom:8px">내 답 해석: "${escapeHtml(translated)}"</div>`
+    ? `<div class="g-note" style="margin-bottom:8px">내 답변 해석: "${escapeHtml(translated)}"</div>`
     : "";
   matches.slice(0, 3).forEach((m) => {
     const offset = m.offset;

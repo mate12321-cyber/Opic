@@ -133,9 +133,11 @@ function renderCard() {
   els.practiceCard.style.display = "block";
   els.doneScreen.classList.remove("show");
 
-  // [UX 제어] 첫 번째 문제에서는 '이전 문제' 버튼을 비활성화하여 인덱스 언더플로 방지
+  // [UX 제어] 첫 번째 문제에서도 '이전' 클릭 시 주제 선택 화면으로 이동 가능하도록 항상 활성화
   if (els.btnPrevSentence) {
-    els.btnPrevSentence.disabled = cur === 0;
+    els.btnPrevSentence.disabled = false;
+    els.btnPrevSentence.title =
+      cur === 0 ? "주제 선택 목록으로 돌아가기 (P)" : "이전 문제 (P)";
   }
 
   // [데이터 바인딩] 현재 출제 순서(order[cur])에 해당하는 문장 데이터 매핑
@@ -289,6 +291,9 @@ function prevQuestion() {
     cur--;
     saveProgress();
     renderCard();
+  } else {
+    // [UX 최적화] 첫 번째 문제에서 '이전'을 누르면 주제 선택 화면으로 복귀
+    showTopicScreen();
   }
 }
 

@@ -531,7 +531,7 @@ async function evaluatePatternAnswer() {
 
   if (!userText) {
     alert(
-      "마이크(🎤)를 누르고 패턴을 말씀하시거나 직접 입력한 후 채점하기를 눌러주세요.",
+      "마이크(🎤)를 누르고 패턴을 말씀하시거나 직접 입력한 후 채점 버튼을 눌러주세요.",
     );
     if (userInputEl) userInputEl.focus();
     return;
@@ -679,6 +679,9 @@ function prevPattern() {
     patternVarCur = 0;
     renderPatternCard();
     window.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    // [UX 최적화] 첫 번째 패턴에서 '이전'을 누르면 6대 패턴 목록 화면으로 복귀
+    showPatternTopics();
   }
 }
 window.prevPattern = prevPattern;
