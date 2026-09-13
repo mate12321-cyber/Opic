@@ -1,15 +1,29 @@
 /**
- * [speech-practice.js] 발화 연습 모드 컨트롤러
- * - 자유 발화 입력창 (마이크 음성 인식 STT + 실시간 텍스트 변환)
- * - 내 녹음본 듣기 (마이크 녹음 오디오 Blob 즉시 청취 및 원어민 TTS 비교)
- * - 채점 기능 (예상 OPIc 등급, 단어/문장 통계, 담화 표지어, LanguageTool 문법 교정 피드백)
+ * @file speech-practice.js
+ * @description 자유 발화 연습(Speech Practice) 모드 전담 컨트롤러
+ * - 마이크 음성 인식(STT) 및 Whisper AI 로컬 모델을 통한 실시간 텍스트 자동 변환
+ * - MediaRecorder 기반 사용자 실제 발화 음성 녹음 및 Blob URL 즉시 청취
+ * - OPIc 실전 기준 발화량(단어수/문장수), 담화 표지어, 어휘 다양성 다면 평가
+ * - LanguageTool API 연동 실시간 영문법 교정 및 원어민식 표현 제안
  */
 
-let speechPracticeAudioUrl = null;
-let speechPracticeRecordedBlob = null;
-let speechPracticeEvaluated = false;
+// =============================================================================
+// 1. 발화 연습 모드 전역 상태 변수 (State Management)
+// =============================================================================
 
-// 발화 연습 화면 진입
+let speechPracticeAudioUrl = null; // 녹음본 Blob 재생용 URL
+let speechPracticeRecordedBlob = null; // 녹음된 Audio Blob 인스턴스
+let speechPracticeEvaluated = false; // 채점 완료 여부 플래그
+
+// =============================================================================
+// 2. 화면 전환 및 글자/단어 카운터 (Screen Lifecycle & Live Counters)
+// =============================================================================
+
+/**
+ * 자유 발화 연습 화면으로 전환하고 텍스트에어리어 높이를 자동 조절합니다.
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
+ * @returns {void}
+ */
 function showSpeechPracticeScreen(pushHistory = true) {
   if (typeof hideAllScreens === "function") {
     hideAllScreens();
@@ -29,7 +43,10 @@ function showSpeechPracticeScreen(pushHistory = true) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// 실시간 단어 및 글자 수 업데이트
+/**
+ * 텍스트에어리어의 입력 텍스트를 분석하여 단어 수와 글자 수를 실시간 배지에 동기화합니다.
+ * @returns {void}
+ */
 function updateSpeechPracticeCount() {
   const input = document.getElementById("speechPracticeInput");
   const badge = document.getElementById("speechPracticeWordCount");
@@ -42,7 +59,19 @@ function updateSpeechPracticeCount() {
   badge.textContent = `${wordCount}단어 · ${charCount}자`;
 }
 
-// 마이크 녹음 완료 시 호출되는 콜백 (speech.js의 MediaRecorder onstop에서 호출됨)
+// =============================================================================
+// 3. 녹음 완료 콜백 및 Whisper AI 변환 (Recording Done & Whisper STT)
+// =============================================================================
+
+/**
+ * 마이크 녹음이 종료되었을 때 MediaRecorder onstop 이벤트에서 호출되는 콜백 함수입니다.
+ * 1. 녹음본 Blob URL 생성 및 오디오 플레이어 연결
+ * 2. '내 녹음 듣기' 버튼 즉시 활성화 (지연 시간 0초)
+ * 3. 브라우저 내장 Whisper AI 모델을 통한 고정밀 로컬 음성 인식 실행
+ *
+ * @param {Blob} blob - 녹음된 오디오 Blob 객체
+ * @returns {Promise<void>}
+ */
 async function onSpeechPracticeRecordingDone(blob) {
   speechPracticeRecordedBlob = blob;
   const player = document.getElementById("speechPracticeAudioPlayer");
@@ -203,7 +232,21 @@ function togglePlayRecordedAudio(triggerBtn = null) {
   }
 }
 
-// 발화 다면 채점 실행
+// =============================================================================
+// 4. 발화 다면 채점 및 문법 교정 피드백 (Speaking Assessment & Grammar)
+// =============================================================================
+
+/**
+ * 사용자의 자유 발화 텍스트에 대해 OPIc 다면 평가를 실행하고 결과를 렌더링합니다.
+ *
+ * [평가 항목]:
+ * 1. OPIc 예상 등급 (IL ~ AL) 및 점수 배지
+ * 2. 발화 통계 (총 단어 수, 고유 어휘 수, 문장 수, 발화량 수준)
+ * 3. 담화 표지어 분석 (연결어, 필러, 과거 시제 동사)
+ * 4. LanguageTool API 연동 실시간 영문법 오류 검출 및 교정 안내
+ *
+ * @returns {Promise<void>}
+ */
 async function evaluateSpeechPracticeAnswer() {
   const input = document.getElementById("speechPracticeInput");
   const evalBox = document.getElementById("speechPracticeEvalBox");

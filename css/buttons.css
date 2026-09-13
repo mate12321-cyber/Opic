@@ -20,6 +20,9 @@ button {
   border: 1px solid transparent;
   transition: all 0.15s ease;
   user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -5,14 +5,33 @@
  * - 최초 1회 브라우저 캐시(약 39MB) 다운로드 후 오프라인 영구 보존
  */
 
-import {
-  pipeline,
-  env,
-} from "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/+esm";
+let transformersModule = null;
 
-// 브라우저 캐시 활성화 및 원격 Hugging Face Hub 허용
-env.allowLocalModels = false;
-env.useBrowserCache = true;
+/**
+ * Transformers 라이브러리 동적 지연 로드 (Lazy Loading)
+ * - 초기 페이지 로드 시 불필요한 네트워크 트래픽 및 지연 방지
+ * - esm.sh를 사용하여 jsdelivr의 root-relative(/npm/...) Preload 404 에러 방지
+ */
+async function loadTransformers() {
+  if (transformersModule) return transformersModule;
+
+  try {
+    transformersModule =
+      await import("https://esm.sh/@xenova/transformers@2.17.2");
+  } catch (err) {
+    console.warn("[Whisper] esm.sh 로드 실패, 대체 CDN 시도:", err);
+    transformersModule =
+      await import("https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2");
+  }
+
+  const env = transformersModule.env;
+  if (env) {
+    env.allowLocalModels = false;
+    env.useBrowserCache = true;
+  }
+
+  return transformersModule;
+}
 
 let whisperPipelineInstance = null;
 let isWhisperLoading = false;
@@ -29,6 +48,16 @@ export async function getWhisperPipeline(progressCallback = null) {
   isWhisperLoading = true;
   whisperLoadPromise = (async () => {
     try {
+      if (typeof progressCallback === "function") {
+        progressCallback({
+          status: "init",
+          progress: 0,
+          file: "transformers.js",
+        });
+      }
+      console.log("[Whisper] Loading Transformers library...");
+      const { pipeline } = await loadTransformers();
+
       console.log("[Whisper] Loading Xenova/whisper-tiny.en model...");
       const transcriber = await pipeline(
         "automatic-speech-recognition",

@@ -1,0 +1,116 @@
+<!-- 💬 필러(Filler Words) 1개씩 집중 훈련 화면 -->
+<div class="card app-screen" id="fillerCard" style="display: none">
+  <div class="mode-switch-row" style="margin-bottom: 14px">
+    <span class="mode-switch" id="homeFromFiller">🏠 홈</span>
+    <span class="mode-switch" id="toPatternFromFiller">만능 패턴 훈련 →</span>
+  </div>
+
+  <div class="cardtop">
+    <span class="cat" id="fillerCatLabel">⏱️ 1. 시작 & 생각 시간 벌기</span>
+    <div class="cardtop-right">
+      <button
+        type="button"
+        class="btn-prev-q"
+        id="btnPrevFillerTop"
+        title="이전 필러 (P)"
+      >
+        ‹ 이전
+      </button>
+      <span class="idx" id="fillerIdxLabel">01 / 16</span>
+    </div>
+  </div>
+
+  <!-- 상단 빠른 이동 칩 바 (16대 필러 바로가기) -->
+  <div class="filler-switcher-bar" id="fillerSwitcherChips"></div>
+
+  <!-- 메인 히어로 박스 (핵심 표현 & 발음 & 마스터 토글) -->
+  <div class="filler-hero-box" id="fillerHeroBox">
+    <div class="filler-hero-top">
+      <div class="filler-hero-text-wrap">
+        <div class="filler-hero-phrase" id="fillerHeroPhrase">
+          <span>Well...</span>
+        </div>
+        <div class="filler-hero-pronounce" id="fillerHeroPronounce">[웰~]</div>
+        <div class="filler-hero-meaning" id="fillerHeroMeaning">
+          음, 글쎄요...
+        </div>
+      </div>
+      <div class="filler-hero-actions">
+        <button
+          type="button"
+          class="btn-filler-tts-large"
+          id="fillerTtsMainBtn"
+          title="원어민 발음 듣기 (Space)"
+        >
+          🔊 발음 듣기
+        </button>
+        <button
+          type="button"
+          class="btn-filler-master-large"
+          id="fillerMasterMainBtn"
+          title="숙달 완료 토글"
+        >
+          + 마스터
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💡 사용 시점 & 타이밍 가이드 -->
+  <div class="filler-timing-section">
+    <div class="filler-timing-header">
+      <span>💡 어느 시점에 사용하나요? (타이밍 가이드)</span>
+    </div>
+    <div class="filler-timing-body" id="fillerTimingBody"></div>
+  </div>
+
+  <!-- 🍯 팁 박스 -->
+  <div class="filler-tip-section" id="fillerTipSection">
+    <span>🍯</span>
+    <div id="fillerTipBody"></div>
+  </div>
+
+  <!-- 🗣️ 실전 OPIc 활용 예문 -->
+  <div class="filler-examples-container">
+    <div class="filler-examples-hdr">
+      <span>🗣️ 실전 OPIc 활용 예문</span>
+      <span style="font-size: 11px; color: var(--text-muted); font-weight: 500"
+        >소리 내어 따라 읽어보세요</span
+      >
+    </div>
+    <div id="fillerExamplesList"></div>
+  </div>
+
+  <!-- 🎤 따라 말하기 실전 테스트 -->
+  <div class="filler-stt-section">
+    <div class="filler-stt-hdr">
+      <span class="filler-stt-title">🎤 따라 말하기 실전 테스트</span>
+      <button
+        type="button"
+        class="filler-mic-btn-main"
+        id="fillerMicBtnMain"
+        title="마이크로 발음 테스트"
+      >
+        🎤 마이크 켜기
+      </button>
+    </div>
+    <div class="filler-stt-box" id="fillerSttBox">
+      <span style="color: var(--text-muted); font-size: 13px"
+        >마이크를 누르고 이 필러나 예문을 말해보세요.</span
+      >
+    </div>
+    <div class="filler-stt-eval-msg" id="fillerSttEvalMsg"></div>
+  </div>
+
+  <!-- 하단 컨트롤 버튼 -->
+  <div class="filler-nav-row">
+    <button type="button" class="filler-btn-prev" id="btnPrevFillerBottom">
+      <span>‹ 이전 필러</span>
+      <kbd class="shortcut-key">P</kbd>
+    </button>
+    <button type="button" class="filler-btn-next" id="btnNextFillerBottom">
+      <span>다음 필러 →</span>
+      <kbd class="shortcut-key">↵</kbd>
+    </button>
+  </div>
+</div>

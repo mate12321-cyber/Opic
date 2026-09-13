@@ -1,0 +1,239 @@
+<div class="topic-screen app-screen" id="topicScreen" style="display: none">
+  <div class="mode-switch-row">
+    <span class="mode-switch" id="homeFromTopic">🏠 홈</span>
+    <span class="mode-switch" id="toWordModeLink">문법 포인트 연습 →</span>
+  </div>
+  <div class="topic-header-row">
+    <div class="topic-lbl">
+      주제 선택 <span class="topic-count-badge" id="topicCount"></span>
+    </div>
+    <button type="button" class="btn-select-all" id="allTopicToggleBtn">
+      전체 선택
+    </button>
+  </div>
+  <div class="topic-groups-container" id="topicChips"></div>
+  <button class="primary" id="startBtn" style="width: 100%; margin-top: 18px">
+    이 주제로 시작하기
+  </button>
+</div>
+
+<div class="card app-screen" id="practiceCard" style="display: none">
+  <div class="cardtop">
+    <span class="cat" id="catLabel">CATEGORY</span>
+    <div class="cardtop-right">
+      <button
+        type="button"
+        class="btn-prev-q"
+        id="btnPrevSentence"
+        title="이전 문제 (P)"
+      >
+        ‹ 이전
+      </button>
+      <span class="idx" id="idxLabel">01 / 00</span>
+    </div>
+  </div>
+
+  <div class="audio-controls" id="audioControls">
+    <div class="speed-selector">
+      <span>발음 속도:</span>
+      <button class="speed-chip" data-speed="0.8" type="button">0.8x</button>
+      <button class="speed-chip active" data-speed="1.0" type="button">
+        1.0x
+      </button>
+      <button class="speed-chip" data-speed="1.2" type="button">1.2x</button>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px">
+      <label
+        class="auto-play-toggle"
+        title="정답 확인 시 모범 답안 음성을 자동으로 들려줍니다"
+      >
+        <input type="checkbox" id="autoPlayTts" />
+        <span>자동 재생</span>
+      </label>
+      <button
+        type="button"
+        class="settings-trigger-btn"
+        id="openTtsSettingsBtnCard"
+        title="음성(TTS) 및 캐시 설정"
+      >
+        ⚙️
+      </button>
+    </div>
+  </div>
+
+  <div class="line-row">
+    <p class="ko" id="koText"></p>
+    <div class="action-btn-group">
+      <button
+        class="tts-btn"
+        id="ttsKoBtn"
+        type="button"
+        title="한국어 발음 듣기"
+      >
+        🔊 한국어
+      </button>
+      <button class="copy-btn" id="copyKo" title="문제 복사">복사</button>
+    </div>
+  </div>
+
+  <!-- 공통 음성 입력창 컴포넌트 -->
+  <div
+    data-component="voice-input"
+    data-prefix="sentence"
+    data-placeholder="여기에 영어로 답을 적거나 마이크(🎤)를 눌러 말해보세요"
+    data-copy-text="내 답 복사"
+    data-copy-title="내 답 복사"
+  ></div>
+
+  <div class="answer" id="answerBox">
+    <div class="lbl-row">
+      <div class="lbl">모범 답안</div>
+      <div class="action-btn-group">
+        <button
+          class="tts-btn tts-btn-primary"
+          id="ttsEnBtn"
+          type="button"
+          title="영어 모범 답안 발음 듣기"
+        >
+          🔊 발음 듣기
+        </button>
+        <button class="copy-btn" id="copyEn" title="모범 답안 복사">
+          복사
+        </button>
+      </div>
+    </div>
+    <p class="en" id="enText"></p>
+    <div class="tip" id="tipText"></div>
+
+    <div class="speech-eval" id="speechEvalBox">
+      <div class="eval-header">
+        <div class="eval-title">🎙️ 발음 / 문장 일치도</div>
+        <span class="eval-score-badge" id="evalScoreBadge">0% 일치</span>
+      </div>
+      <div class="eval-diff" id="evalDiff"></div>
+      <div class="eval-feedback" id="evalFeedback"></div>
+      <div class="eval-actions">
+        <button
+          class="tts-btn"
+          id="ttsUserInputBtn"
+          type="button"
+          title="내가 입력한 문장 발음 듣기"
+        >
+          🔊 내 답 발음 듣기
+        </button>
+      </div>
+    </div>
+
+    <div class="grammar" id="grammarBox">
+      <div class="lbl">내 답 문법 분석</div>
+      <div id="grammarContent"></div>
+      <div class="google-ask-row">
+        <button
+          class="google-ai-btn"
+          id="googleAskLink"
+          type="button"
+          title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 검색을 띄웁니다"
+        >
+          <svg
+            class="google-ai-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 2C12 7.523 7.523 12 2 12C7.523 12 12 16.477 12 22C12 16.477 16.477 12 22 12C16.477 12 12 7.523 12 2Z"
+              fill="#4285f4"
+            />
+            <path
+              d="M19 2C19 4.209 17.209 6 15 6C17.209 6 19 7.791 19 10C19 7.791 20.791 6 23 6C20.791 6 19 4.209 19 2Z"
+              fill="#ea4335"
+            />
+            <circle cx="19.5" cy="18.5" r="2.5" fill="#fbbc05" />
+          </svg>
+          <span>Google AI</span>
+        </button>
+        <button class="google-copy-btn" id="googleAskCopy" type="button">
+          <svg
+            class="google-copy-icon"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path
+              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+            ></path>
+          </svg>
+          <span>질문 복사</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="revealRow">
+    <button class="primary" id="revealBtn">
+      <span>정답 확인</span>
+      <kbd class="shortcut-key">↵</kbd>
+    </button>
+    <button class="ghost" id="skipBtn">
+      <span>건너뛰기</span>
+      <kbd class="shortcut-key">K</kbd>
+    </button>
+  </div>
+  <div class="row" id="rateRow" style="display: none">
+    <button class="good" id="goodBtn">
+      <span>잘했어요</span>
+      <kbd class="shortcut-key">1</kbd>
+    </button>
+    <button class="bad" id="badBtn">
+      <span>다시</span>
+      <kbd class="shortcut-key">2</kbd>
+    </button>
+  </div>
+  <div class="change-topic" id="retrySameLink" style="display: none">
+    <span>↺ 다시 풀기</span>
+    <kbd class="shortcut-key">R</kbd>
+  </div>
+
+  <div class="progress" id="progressDots"></div>
+  <div class="change-topic-row">
+    <span class="change-topic" id="homeFromPractice">🏠 홈</span>
+    <span class="change-topic" id="changeTopicBtn">주제 변경</span>
+  </div>
+  <div class="shortcut-helper desktop-only-tip">
+    <span class="sk-item"><kbd class="shortcut-key">↵</kbd> 정답확인</span>
+    <span class="sk-item"><kbd class="shortcut-key">P</kbd> 이전</span>
+    <span class="sk-item"><kbd class="shortcut-key">K</kbd> 건너뛰기</span>
+    <span class="sk-item"><kbd class="shortcut-key">1</kbd> 잘했어요</span>
+    <span class="sk-item"><kbd class="shortcut-key">2</kbd> 다시</span>
+    <span class="sk-item"><kbd class="shortcut-key">Space</kbd> 발음듣기</span>
+    <span class="sk-item"><kbd class="shortcut-key">R</kbd> 재도전</span>
+  </div>
+</div>
+
+<div class="done-screen app-screen" id="doneScreen">
+  <h2>오늘 세트 완료!</h2>
+  <p id="doneSummary"></p>
+  <button
+    class="bad"
+    id="retryWrongBtn"
+    style="width: 100%; margin-bottom: 8px; display: none"
+  >
+    틀린 문제만 다시 풀기
+  </button>
+  <button class="primary" id="restartBtn" style="width: 100%">
+    <span>같은 주제 다시 연습</span>
+    <kbd class="shortcut-key">↵</kbd>
+  </button>
+  <div class="change-topic-row">
+    <span class="change-topic" id="homeFromDone">🏠 홈</span>
+    <span class="change-topic" id="changeTopicBtn2">주제 변경</span>
+  </div>
+</div>

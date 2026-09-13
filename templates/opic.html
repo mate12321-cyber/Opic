@@ -1,0 +1,399 @@
+<!-- 1. 실전 질문 주제 선택 화면 -->
+<div class="topic-screen app-screen" id="opicTopicScreen" style="display: none">
+  <div class="mode-switch-row">
+    <span class="mode-switch" id="homeFromOpicTopic">🏠 홈</span>
+    <span class="mode-switch" id="toSentenceFromOpic">문장 연습 →</span>
+  </div>
+  <div class="topic-header-row">
+    <div class="topic-lbl">
+      실전 질문 주제 선택
+      <span class="topic-count-badge" id="opicTopicCount"></span>
+    </div>
+    <button type="button" class="btn-select-all" id="allOpicTopicToggleBtn">
+      전체 선택
+    </button>
+  </div>
+
+  <!-- OPIc 실전 연습 모드 선택 (일반 무작위 vs 실전 3단 콤보) -->
+  <div
+    class="opic-play-mode-tabs"
+    style="display: flex; gap: 8px; margin-bottom: 14px"
+  >
+    <button
+      type="button"
+      class="btn-play-mode active"
+      id="btnModeRandom"
+      data-playmode="random"
+    >
+      🎲 일반 무작위
+    </button>
+    <button
+      type="button"
+      class="btn-play-mode"
+      id="btnModeCombo"
+      data-playmode="combo"
+      title="주제별 묘사 ➔ 루틴 ➔ 과거경험 3문항 세트 연습"
+    >
+      🎯 실전 3단 콤보 (묘사➔루틴➔경험)
+    </button>
+  </div>
+
+  <div class="chips-grid-card" id="opicTopicChips"></div>
+  <button
+    class="primary"
+    id="opicStartBtn"
+    style="width: 100%; margin-top: 18px"
+  >
+    이 주제로 실전 질문 연습 시작하기
+  </button>
+</div>
+
+<!-- 2. 실전 질문 & 답변 연습 카드 -->
+<div class="card app-screen" id="opicCard" style="display: none">
+  <div class="cardtop">
+    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+      <span class="cat" id="opicCatLabel">CATEGORY</span>
+      <span
+        class="combo-step-badge"
+        id="opicComboStepBadge"
+        style="display: none"
+        >🎯 콤보 1/3단계</span
+      >
+    </div>
+    <div class="cardtop-right">
+      <button
+        type="button"
+        class="btn-prev-q"
+        id="btnPrevOpic"
+        title="이전 질문 (P)"
+      >
+        ‹ 이전
+      </button>
+      <span class="idx" id="opicIdxLabel">01 / 00</span>
+    </div>
+  </div>
+
+  <!-- 에바(Eva) 질문 박스 -->
+  <div class="eva-question-card">
+    <div class="eva-header">
+      <div class="eva-profile">
+        <span class="eva-avatar">👩‍💼</span>
+        <span class="eva-name">Eva (에바의 질문)</span>
+      </div>
+      <span class="eva-type-badge" id="evaTypeBadge">실전 질문</span>
+    </div>
+
+    <!-- 기본 블라인드 상태 박스 (실전 시험처럼 음성만 듣고 연습) -->
+    <div class="eva-blind-box" id="evaBlindBox">
+      <div class="blind-left">
+        <span class="blind-icon">🔒</span>
+        <span class="blind-text"
+          >실전 OPIc 모드 · 영어 질문이 블라인드 처리되었습니다</span
+        >
+      </div>
+      <button type="button" class="btn-reveal-blind" id="btnRevealBlind">
+        질문 보기
+      </button>
+    </div>
+
+    <!-- 실제 영어 질문 텍스트 (블라인드 해제 시 표시) -->
+    <p class="eva-q-en" id="evaQEn" style="display: none"></p>
+
+    <div class="eva-q-actions">
+      <div class="eva-listen-group">
+        <button
+          class="tts-btn tts-btn-primary"
+          id="ttsEvaBtn"
+          type="button"
+          title="에바의 질문 듣기 (TTS)"
+        >
+          🔊 질문 듣기
+        </button>
+        <span class="eva-replay-count" id="evaReplayCount">청취 0/2회</span>
+      </div>
+      <div class="eva-toggle-group">
+        <button class="btn-toggle-eva-en" id="btnToggleEvaEn" type="button">
+          영어 질문 보기 ▾
+        </button>
+        <button class="btn-toggle-ko" id="btnToggleEvaKo" type="button">
+          해석 보기 ▾
+        </button>
+      </div>
+    </div>
+    <div class="eva-q-ko" id="evaQKo"></div>
+  </div>
+
+  <!-- 실시간 발화 시간 게이지 바 & 타이머 -->
+  <div class="speaking-timer-box">
+    <div
+      class="timer-top-row"
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+      "
+    >
+      <div class="timer-label">
+        <span>⏱️ 답변 시간:</span>
+        <span class="timer-digits" id="opicTimerDigits">00:00</span>
+      </div>
+      <span class="timer-target-tip" id="opicTimerLevelTip"
+        >🌱 답변 준비 (~30초)</span
+      >
+    </div>
+    <div class="timer-gauge-track">
+      <div
+        class="timer-gauge-bar"
+        id="opicTimerGaugeBar"
+        style="width: 0%"
+      ></div>
+      <div class="timer-marker marker-im" title="IM 권장 (45초)"></div>
+      <div class="timer-marker marker-ih" title="IH 권장 (75초)"></div>
+      <div class="timer-marker marker-al" title="AL 권장 (95초+)"></div>
+    </div>
+    <div class="timer-gauge-labels">
+      <span>0초</span>
+      <span style="left: 37.5%">IM (45초)</span>
+      <span style="left: 62.5%">IH (75초)</span>
+      <span style="left: 79%">AL (95초+)</span>
+      <span>120초</span>
+    </div>
+  </div>
+
+  <!-- 한국어 답변 보기 (영어로 말하기 힌트 가이드) -->
+  <div class="ko-answer-hint-wrap">
+    <button type="button" class="btn-toggle-ko-hint" id="btnToggleOpicKoHint">
+      <span>💡 한국어 답변 가이드 보기</span>
+      <span class="toggle-icon">▾</span>
+    </button>
+    <div class="ko-answer-hint-box" id="opicKoHintBox" style="display: none">
+      <div class="ko-hint-header">
+        <span class="ko-hint-title"
+          >🇰🇷 한국어 답변 흐름 (이 내용을 보며 영어로 말해보세요)</span
+        >
+      </div>
+      <div class="ko-hint-list" id="opicKoHintList"></div>
+    </div>
+  </div>
+
+  <!-- 공통 음성 입력창 컴포넌트 -->
+  <div
+    data-component="voice-input"
+    data-prefix="opic"
+    data-placeholder="마이크(🎤)를 누르고 에바에게 영어로 5~7문장 답변을 말해보세요"
+    data-copy-text="내 답변 복사"
+    data-copy-title="내 답변 복사"
+  ></div>
+
+  <!-- 1. 내 답변 발음 진단 / 문법 분석 / AI 피드백 독립 영역 -->
+  <!-- 발음 및 일치도 평가 -->
+  <div class="speech-eval" id="opicSpeechEvalBox" style="display: none">
+    <div class="eval-header">
+      <div class="eval-title">🎙️ 내 답변 실전 발화 & 발음 진단</div>
+      <span class="eval-score-badge" id="opicEvalScoreBadge">0% 일치</span>
+    </div>
+    <div class="eval-diff" id="opicEvalDiff"></div>
+    <div class="eval-feedback" id="opicEvalFeedback"></div>
+    <div class="eval-actions">
+      <button
+        class="tts-btn"
+        id="ttsOpicUserInputBtn"
+        type="button"
+        title="내가 녹음한 답변 듣기"
+      >
+        🔊 내 답변 다시 듣기
+      </button>
+    </div>
+  </div>
+
+  <!-- 내 답변 문법 검사 및 교정 영역 -->
+  <div class="grammar" id="opicGrammarBox" style="display: none">
+    <div class="lbl">내 답변 문법 & 어휘 분석</div>
+    <div id="opicGrammarContent"></div>
+  </div>
+
+  <!-- Google AI 질문 연동 -->
+  <div
+    class="google-ask-row"
+    id="opicGoogleAskRow"
+    style="display: none; margin-top: 10px"
+  >
+    <button
+      class="google-ai-btn"
+      id="opicGoogleAskLink"
+      type="button"
+      title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 피드백을 띄웁니다"
+    >
+      <svg
+        class="google-ai-icon"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 2C12 7.523 7.523 12 2 12C7.523 12 12 16.477 12 22C12 16.477 16.477 12 22 12C16.477 12 12 7.523 12 2Z"
+          fill="#4285f4"
+        />
+        <path
+          d="M19 2C19 4.209 17.209 6 15 6C17.209 6 19 7.791 19 10C19 7.791 20.791 6 23 6C20.791 6 19 4.209 19 2Z"
+          fill="#ea4335"
+        />
+        <circle cx="19.5" cy="18.5" r="2.5" fill="#fbbc05" />
+      </svg>
+      <span>Google AI 피드백</span>
+    </button>
+    <button class="google-copy-btn" id="opicGoogleAskCopy" type="button">
+      <svg
+        class="google-copy-icon"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path
+          d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+        ></path>
+      </svg>
+      <span>피드백 질문 복사</span>
+    </button>
+  </div>
+
+  <!-- 2. 5~7문장 모범 답변 독립 영역 -->
+  <div class="answer" id="opicAnswerBox" style="display: none">
+    <div class="lbl-row">
+      <div class="lbl">💡 참고용 모범 답변 (5~7문장)</div>
+      <div class="action-btn-group">
+        <button
+          class="tts-btn tts-btn-primary"
+          id="ttsOpicAllBtn"
+          type="button"
+          title="전체 모범 답변 발음 듣기"
+        >
+          🔊 전체 발음 듣기
+        </button>
+        <button class="copy-btn" id="copyOpicAll" title="모범 답변 복사">
+          전체 복사
+        </button>
+      </div>
+    </div>
+
+    <div class="opic-answer-container">
+      <!-- 뷰 전환 탭 (문장별 vs 전체 문단) -->
+      <div class="answer-view-switcher">
+        <button class="view-tab-btn active" id="tabBreakdownBtn" type="button">
+          문장별 분할 뷰
+        </button>
+        <button class="view-tab-btn" id="tabFullBtn" type="button">
+          전체 문단 뷰
+        </button>
+      </div>
+
+      <!-- 1) 문장별 분할 뷰 -->
+      <div class="sentence-breakdown-list" id="sentenceBreakdownList"></div>
+
+      <!-- 2) 전체 문단 뷰 -->
+      <div class="full-paragraph-view" id="fullParagraphView">
+        <p class="full-en-p" id="opicFullEn"></p>
+        <p class="full-ko-p" id="opicFullKo"></p>
+      </div>
+
+      <!-- IM1 핵심 키워드 칩 -->
+      <div class="keywords-box" id="opicKeywordsBox">
+        <div class="keywords-header">
+          <span>🔑 IM1 핵심 표현 & 키워드</span>
+        </div>
+        <div class="keyword-chips-wrap" id="opicKeywordChipsWrap"></div>
+      </div>
+
+      <!-- 답변 전개 팁 -->
+      <div class="tip" id="opicTipText"></div>
+    </div>
+  </div>
+
+  <!-- 컨트롤 버튼 (채점 / 모범답안 / 평가 2x2 그리드 시스템) -->
+  <div class="row opic-btn-row-3" id="opicRevealRow">
+    <button class="primary" id="opicEvalBtn">
+      <span>채점</span>
+      <kbd class="shortcut-key">↵</kbd>
+    </button>
+    <button class="secondary btn-toggle-model" id="opicRevealBtn">
+      <span>모범 답안</span>
+      <kbd class="shortcut-key">M</kbd>
+    </button>
+    <button class="ghost" id="opicSkipBtn">
+      <span>건너뛰기</span>
+      <kbd class="shortcut-key">K</kbd>
+    </button>
+  </div>
+  <div class="opic-rate-grid" id="opicRateRow" style="display: none">
+    <button class="primary" id="opicReEvalBtn">
+      <span>재채점</span>
+      <kbd class="shortcut-key">↵</kbd>
+    </button>
+    <button class="secondary btn-toggle-model" id="opicRevealAfterEvalBtn">
+      <span>모범 답안</span>
+      <kbd class="shortcut-key">M</kbd>
+    </button>
+    <button class="good" id="opicGoodBtn">
+      <span>잘했어요</span>
+      <kbd class="shortcut-key">1</kbd>
+    </button>
+    <button class="bad" id="opicBadBtn">
+      <span>다시</span>
+      <kbd class="shortcut-key">2</kbd>
+    </button>
+  </div>
+  <div
+    class="change-topic opic-retry-link"
+    id="opicRetrySameLink"
+    style="display: none"
+  >
+    <span>↺ 다시 풀기</span>
+    <kbd class="shortcut-key">R</kbd>
+  </div>
+
+  <div class="progress" id="opicProgressDots"></div>
+  <div class="change-topic-row">
+    <span class="change-topic" id="homeFromOpicCard">🏠 홈</span>
+    <span class="change-topic" id="opicChangeTopicBtn">주제 변경</span>
+  </div>
+  <div class="shortcut-helper desktop-only-tip">
+    <span class="sk-item"><kbd class="shortcut-key">↵</kbd> 채점</span>
+    <span class="sk-item"><kbd class="shortcut-key">M</kbd> 모범답안</span>
+    <span class="sk-item"><kbd class="shortcut-key">1</kbd> 잘했어요</span>
+    <span class="sk-item"><kbd class="shortcut-key">2</kbd> 다시</span>
+    <span class="sk-item"><kbd class="shortcut-key">R</kbd> 다시풀기</span>
+    <span class="sk-item"><kbd class="shortcut-key">K</kbd> 건너뛰기</span>
+    <span class="sk-item"><kbd class="shortcut-key">P</kbd> 이전</span>
+    <span class="sk-item"><kbd class="shortcut-key">Space</kbd> 발음</span>
+  </div>
+</div>
+
+<!-- 3. 실전 질문 완료 화면 -->
+<div class="done-screen app-screen" id="opicDoneScreen">
+  <h2>실전 질문 연습 세트 완료!</h2>
+  <p id="opicDoneSummary"></p>
+  <button
+    class="bad"
+    id="opicRetryWrongBtn"
+    style="width: 100%; margin-bottom: 8px; display: none"
+  >
+    틀린 질문만 다시 풀기
+  </button>
+  <button class="primary" id="opicRestartBtn" style="width: 100%">
+    <span>같은 주제 다시 연습</span>
+    <kbd class="shortcut-key">↵</kbd>
+  </button>
+  <div class="change-topic-row">
+    <span class="change-topic" id="homeFromOpicDone">🏠 홈</span>
+    <span class="change-topic" id="opicChangeTopicBtn2">주제 변경</span>
+  </div>
+</div>

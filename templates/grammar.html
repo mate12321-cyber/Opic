@@ -1,0 +1,157 @@
+<div
+  class="topic-screen app-screen"
+  id="wordTopicScreen"
+  style="display: none"
+>
+  <div class="mode-switch-row">
+    <span class="mode-switch" id="homeFromWordTopic">🏠 홈</span>
+    <span class="mode-switch" id="toSentenceModeLink"
+      >← 문장 번역 연습</span
+    >
+  </div>
+  <div class="topic-header-row">
+    <div class="topic-lbl">
+      문법 유형 선택
+      <span class="topic-count-badge" id="wordTopicCount"></span>
+    </div>
+    <button
+      type="button"
+      class="btn-select-all"
+      id="allWordTopicToggleBtn"
+    >
+      전체 선택
+    </button>
+  </div>
+  <div class="chips-grid-card" id="wordTopicChips"></div>
+  <button
+    class="primary"
+    id="wordStartBtn"
+    style="width: 100%; margin-top: 18px"
+  >
+    이 유형으로 시작하기
+  </button>
+</div>
+
+<div class="card app-screen" id="wordCard" style="display: none">
+  <div class="cardtop">
+    <span class="cat" id="wordCatLabel">CATEGORY</span>
+    <div class="cardtop-right">
+      <button
+        type="button"
+        class="btn-prev-q"
+        id="btnPrevWord"
+        title="이전 문제 (P)"
+      >
+        ‹ 이전
+      </button>
+      <span class="idx" id="wordIdxLabel">01 / 00</span>
+    </div>
+  </div>
+  <div class="line-row" style="margin-bottom: 12px">
+    <p class="ko" id="wordSentence" style="margin-bottom: 0"></p>
+    <button
+      class="tts-btn"
+      id="ttsWordBtn"
+      type="button"
+      title="문장 발음 듣기"
+    >
+      🔊 발음
+    </button>
+  </div>
+
+  <div class="word-options" id="wordOptions"></div>
+
+  <div class="word-explain" id="wordExplain"></div>
+  <div class="google-ask-row" id="wordGoogleAskRow" style="display: none">
+    <button
+      class="google-ai-btn"
+      id="wordGoogleAskLink"
+      type="button"
+      title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 검색을 띄웁니다"
+    >
+      <svg
+        class="google-ai-icon"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 2C12 7.523 7.523 12 2 12C7.523 12 12 16.477 12 22C12 16.477 16.477 12 22 12C16.477 12 12 7.523 12 2Z"
+          fill="#4285f4"
+        />
+        <path
+          d="M19 2C19 4.209 17.209 6 15 6C17.209 6 19 7.791 19 10C19 7.791 20.791 6 23 6C20.791 6 19 4.209 19 2Z"
+          fill="#ea4335"
+        />
+        <circle cx="19.5" cy="18.5" r="2.5" fill="#fbbc05" />
+      </svg>
+      <span>Google AI</span>
+    </button>
+    <button class="google-copy-btn" id="wordGoogleAskCopy" type="button">
+      <svg
+        class="google-copy-icon"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path
+          d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+        ></path>
+      </svg>
+      <span>질문 복사</span>
+    </button>
+  </div>
+
+  <div class="row" id="wordNextRow" style="display: none">
+    <button class="primary" id="wordNextBtn">
+      <span>다음 문제</span>
+      <kbd class="shortcut-key">↵</kbd>
+    </button>
+  </div>
+
+  <div class="progress" id="wordProgressDots"></div>
+  <div class="change-topic-row">
+    <span class="change-topic" id="homeFromWordCard">🏠 홈</span>
+    <span class="change-topic" id="wordChangeTopicBtn">유형 변경</span>
+  </div>
+  <div class="shortcut-helper desktop-only-tip">
+    <span class="sk-item"
+      ><kbd class="shortcut-key">1~4</kbd> 보기 선택</span
+    >
+    <span class="sk-item"><kbd class="shortcut-key">P</kbd> 이전</span>
+    <span class="sk-item"
+      ><kbd class="shortcut-key">↵</kbd> 다음 문제</span
+    >
+    <span class="sk-item"
+      ><kbd class="shortcut-key">Space</kbd> 발음</span
+    >
+  </div>
+</div>
+
+<div class="done-screen app-screen" id="wordDoneScreen">
+  <h2>문법 포인트 연습 완료!</h2>
+  <p id="wordDoneSummary"></p>
+  <button
+    class="bad"
+    id="wordRetryWrongBtn"
+    style="width: 100%; margin-bottom: 8px; display: none"
+  >
+    틀린 문제만 다시 풀기
+  </button>
+  <button class="primary" id="wordRestartBtn" style="width: 100%">
+    <span>같은 유형 다시 연습</span>
+    <kbd class="shortcut-key">↵</kbd>
+  </button>
+  <div class="change-topic-row">
+    <span class="change-topic" id="homeFromWordDone">🏠 홈</span>
+    <span class="change-topic" id="wordChangeTopicBtn2">유형 변경</span>
+  </div>
+</div>

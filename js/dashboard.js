@@ -4,221 +4,70 @@
  * - 화면 전환 및 초기화 (hideAllScreens, showHomeScreen, showTopicScreen)
  * - 홈 화면 통계 & 주간 학습 차트 렌더링
  * - 문장 번역 및 문법 퀴즈 주제 선택 화면 렌더링
+ *
+ * --------------------------------------------------------------------------------
+ * 💡 [확장성 및 유지보수 가이드 (Scalability & Customization Guide)]
+ * 1. SPA 라우팅 확장 (New Screens & Modes):
+ *    - 본 파일의 `navigateTo(screen, params)` 함수는 브라우저 히스토리(popstate)와 1:1 매핑됩니다.
+ *    - 추후 '목표 등급 선택 화면(gradeSelector)', '나만의 맞춤 스크립트 작성 화면(customScript)',
+ *      '실전 모의고사 15문항 풀세트 화면(mockExam)' 등의 신규 화면 추가 시
+ *      `hideAllScreens()` 공통 처리 후 switch 분기에 해당 스크린 렌더링 함수를 연결하십시오.
+ *
+ * 2. DOM 캐시 및 네임스페이스 격리:
+ *    - 현재 전역 `els` 객체에 150개 이상의 DOM 노드가 캐싱되어 있습니다.
+ *    - 화면 단위로 `els.dashboard`, `els.practice`, `els.opic` 등으로 그룹화하거나
+ *      모듈별 독립 스코프로 점진적 전환하면 유지보수성 및 충돌 방지에 유리합니다.
+ * --------------------------------------------------------------------------------
  */
 
-// 주요 DOM 엘리먼트 캐시 객체
-const els = {
-  koText: document.getElementById("koText"),
-  enText: document.getElementById("enText"),
-  tipText: document.getElementById("tipText"),
-  catLabel: document.getElementById("catLabel"),
-  idxLabel: document.getElementById("idxLabel"),
-  btnPrevSentence: document.getElementById("btnPrevSentence"),
-  answerBox: document.getElementById("answerBox"),
-  revealRow: document.getElementById("revealRow"),
-  rateRow: document.getElementById("rateRow"),
-  retrySameLink: document.getElementById("retrySameLink"),
-  userInput: document.getElementById("userInput"),
-  progressDots: document.getElementById("progressDots"),
-  practiceCard: document.getElementById("practiceCard"),
-  doneScreen: document.getElementById("doneScreen"),
-  doneSummary: document.getElementById("doneSummary"),
-  retryWrongBtn: document.getElementById("retryWrongBtn"),
-  restartBtn: document.getElementById("restartBtn"),
-  topicScreen: document.getElementById("topicScreen"),
-  topicChips: document.getElementById("topicChips"),
-  topicCount: document.getElementById("topicCount"),
-  allTopicToggleBtn: document.getElementById("allTopicToggleBtn"),
-  changeTopicBtn: document.getElementById("changeTopicBtn"),
-  changeTopicBtn2: document.getElementById("changeTopicBtn2"),
-  startBtn: document.getElementById("startBtn"),
-  copyKo: document.getElementById("copyKo"),
-  copyEn: document.getElementById("copyEn"),
-  copyInput: document.getElementById("copyInput"),
-  ttsKoBtn: document.getElementById("ttsKoBtn"),
-  ttsEnBtn: document.getElementById("ttsEnBtn"),
-  speechEvalBox: document.getElementById("speechEvalBox"),
-  evalScoreBadge: document.getElementById("evalScoreBadge"),
-  evalDiff: document.getElementById("evalDiff"),
-  evalFeedback: document.getElementById("evalFeedback"),
-  ttsUserInputBtn: document.getElementById("ttsUserInputBtn"),
-  autoPlayTts: document.getElementById("autoPlayTts"),
-  audioControls: document.getElementById("audioControls"),
-  liveTranslate: document.getElementById("liveTranslate"),
-  liveTranslateText: document.getElementById("liveTranslateText"),
-  grammarBox: document.getElementById("grammarBox"),
-  grammarContent: document.getElementById("grammarContent"),
-  googleAskLink: document.getElementById("googleAskLink"),
-  googleAskCopy: document.getElementById("googleAskCopy"),
-  micBtn: document.getElementById("micBtn"),
-  micError: document.getElementById("micError"),
-  toWordModeLink: document.getElementById("toWordModeLink"),
-  toSentenceModeLink: document.getElementById("toSentenceModeLink"),
-  wordTopicScreen: document.getElementById("wordTopicScreen"),
-  wordTopicChips: document.getElementById("wordTopicChips"),
-  wordTopicCount: document.getElementById("wordTopicCount"),
-  allWordTopicToggleBtn: document.getElementById("allWordTopicToggleBtn"),
-  wordStartBtn: document.getElementById("wordStartBtn"),
-  wordCard: document.getElementById("wordCard"),
-  wordCatLabel: document.getElementById("wordCatLabel"),
-  wordIdxLabel: document.getElementById("wordIdxLabel"),
-  btnPrevWord: document.getElementById("btnPrevWord"),
-  wordSentence: document.getElementById("wordSentence"),
-  ttsWordBtn: document.getElementById("ttsWordBtn"),
-  wordOptions: document.getElementById("wordOptions"),
-  wordExplain: document.getElementById("wordExplain"),
-  wordGoogleAskRow: document.getElementById("wordGoogleAskRow"),
-  wordGoogleAskLink: document.getElementById("wordGoogleAskLink"),
-  wordGoogleAskCopy: document.getElementById("wordGoogleAskCopy"),
-  wordNextRow: document.getElementById("wordNextRow"),
-  wordNextBtn: document.getElementById("wordNextBtn"),
-  wordProgressDots: document.getElementById("wordProgressDots"),
-  wordChangeTopicBtn: document.getElementById("wordChangeTopicBtn"),
-  wordChangeTopicBtn2: document.getElementById("wordChangeTopicBtn2"),
-  wordDoneScreen: document.getElementById("wordDoneScreen"),
-  wordDoneSummary: document.getElementById("wordDoneSummary"),
-  wordRetryWrongBtn: document.getElementById("wordRetryWrongBtn"),
-  wordRestartBtn: document.getElementById("wordRestartBtn"),
-  homeScreen: document.getElementById("homeScreen"),
-  homeDate: document.getElementById("homeDate"),
-  statToday: document.getElementById("statToday"),
-  statWeek: document.getElementById("statWeek"),
-  statStreak: document.getElementById("statStreak"),
-  homeChart: document.getElementById("homeChart"),
-  navSentence: document.getElementById("navSentence"),
-  navSentenceSub: document.getElementById("navSentenceSub"),
-  navWord: document.getElementById("navWord"),
-  navWordSub: document.getElementById("navWordSub"),
-  navOpic: document.getElementById("navOpic"),
-  navOpicSub: document.getElementById("navOpicSub"),
-  homeFromTopic: document.getElementById("homeFromTopic"),
-  homeFromWordTopic: document.getElementById("homeFromWordTopic"),
-  homeFromPractice: document.getElementById("homeFromPractice"),
-  homeFromDone: document.getElementById("homeFromDone"),
-  homeFromWordCard: document.getElementById("homeFromWordCard"),
-  homeFromWordDone: document.getElementById("homeFromWordDone"),
-  homeFromOpicTopic: document.getElementById("homeFromOpicTopic"),
-  toSentenceFromOpic: document.getElementById("toSentenceFromOpic"),
-  homeFromOpicCard: document.getElementById("homeFromOpicCard"),
-  homeFromOpicDone: document.getElementById("homeFromOpicDone"),
-  opicTopicScreen: document.getElementById("opicTopicScreen"),
-  opicTopicChips: document.getElementById("opicTopicChips"),
-  opicTopicCount: document.getElementById("opicTopicCount"),
-  allOpicTopicToggleBtn: document.getElementById("allOpicTopicToggleBtn"),
-  opicStartBtn: document.getElementById("opicStartBtn"),
-  opicCard: document.getElementById("opicCard"),
-  opicCatLabel: document.getElementById("opicCatLabel"),
-  opicIdxLabel: document.getElementById("opicIdxLabel"),
-  btnPrevOpic: document.getElementById("btnPrevOpic"),
-  evaTypeBadge: document.getElementById("evaTypeBadge"),
-  evaBlindBox: document.getElementById("evaBlindBox"),
-  btnRevealBlind: document.getElementById("btnRevealBlind"),
-  btnToggleEvaEn: document.getElementById("btnToggleEvaEn"),
-  evaQEn: document.getElementById("evaQEn"),
-  evaQKo: document.getElementById("evaQKo"),
-  btnToggleEvaKo: document.getElementById("btnToggleEvaKo"),
-  ttsEvaBtn: document.getElementById("ttsEvaBtn"),
-  evaReplayCount: document.getElementById("evaReplayCount"),
-  btnModeRandom: document.getElementById("btnModeRandom"),
-  btnModeCombo: document.getElementById("btnModeCombo"),
-  opicComboStepBadge: document.getElementById("opicComboStepBadge"),
-  opicTimerDigits: document.getElementById("opicTimerDigits"),
-  opicTimerLevelTip: document.getElementById("opicTimerLevelTip"),
-  opicTimerGaugeBar: document.getElementById("opicTimerGaugeBar"),
-  btnToggleOpicKoHint: document.getElementById("btnToggleOpicKoHint"),
-  opicKoHintBox: document.getElementById("opicKoHintBox"),
-  opicKoHintList: document.getElementById("opicKoHintList"),
-  opicUserInput: document.getElementById("opicUserInput"),
-  opicMicBtn: document.getElementById("opicMicBtn"),
+/// 주요 DOM 엘리먼트 캐시 객체 (동적 Proxy 기반: 지연 로딩 및 DOM 무결성 보장)
+const elsCache = {};
+const els = new Proxy(elsCache, {
+  get(target, prop) {
+    if (typeof prop === "symbol" || prop === "inspect") return target[prop];
+    if (target[prop] && target[prop] instanceof Element) {
+      return target[prop];
+    }
+    // 특수 ID 대체 매핑 지원
+    let elem = null;
+    if (prop === "copyPatternInput") {
+      elem =
+        document.getElementById("copyPatternInput") ||
+        document.getElementById("patternCopyInput");
+    } else if (prop === "fillerScreen") {
+      elem =
+        document.getElementById("fillerCard") ||
+        document.getElementById("fillerScreen");
+    } else {
+      elem = document.getElementById(prop);
+    }
+    if (elem) {
+      target[prop] = elem;
+    }
+    return elem;
+  },
+  set(target, prop, val) {
+    target[prop] = val;
+    return true;
+  },
+});
 
-  opicMicError: document.getElementById("opicMicError"),
-  opicLiveTranslate: document.getElementById("opicLiveTranslate"),
-  opicLiveTranslateText: document.getElementById("opicLiveTranslateText"),
-  copyOpicInput: document.getElementById("copyOpicInput"),
-  opicAnswerBox: document.getElementById("opicAnswerBox"),
-  ttsOpicAllBtn: document.getElementById("ttsOpicAllBtn"),
-  copyOpicAll: document.getElementById("copyOpicAll"),
-  tabBreakdownBtn: document.getElementById("tabBreakdownBtn"),
-  tabFullBtn: document.getElementById("tabFullBtn"),
-  sentenceBreakdownList: document.getElementById("sentenceBreakdownList"),
-  fullParagraphView: document.getElementById("fullParagraphView"),
-  opicFullEn: document.getElementById("opicFullEn"),
-  opicFullKo: document.getElementById("opicFullKo"),
-  opicKeywordsBox: document.getElementById("opicKeywordsBox"),
-  opicKeywordChipsWrap: document.getElementById("opicKeywordChipsWrap"),
-  opicTipText: document.getElementById("opicTipText"),
-  opicSpeechEvalBox: document.getElementById("opicSpeechEvalBox"),
-  opicEvalScoreBadge: document.getElementById("opicEvalScoreBadge"),
-  opicEvalDiff: document.getElementById("opicEvalDiff"),
-  opicEvalFeedback: document.getElementById("opicEvalFeedback"),
-  opicGrammarBox: document.getElementById("opicGrammarBox"),
-  opicGrammarContent: document.getElementById("opicGrammarContent"),
-  ttsOpicUserInputBtn: document.getElementById("ttsOpicUserInputBtn"),
-  opicGoogleAskRow: document.getElementById("opicGoogleAskRow"),
-  opicGoogleAskLink: document.getElementById("opicGoogleAskLink"),
-  opicGoogleAskCopy: document.getElementById("opicGoogleAskCopy"),
-  opicRevealRow: document.getElementById("opicRevealRow"),
-  opicEvalBtn: document.getElementById("opicEvalBtn"),
-  opicRevealBtn: document.getElementById("opicRevealBtn"),
-  opicReEvalBtn: document.getElementById("opicReEvalBtn"),
-  opicRevealAfterEvalBtn: document.getElementById("opicRevealAfterEvalBtn"),
-  opicSkipBtn: document.getElementById("opicSkipBtn"),
-  opicRateRow: document.getElementById("opicRateRow"),
-  opicGoodBtn: document.getElementById("opicGoodBtn"),
-  opicBadBtn: document.getElementById("opicBadBtn"),
-  opicRetrySameLink: document.getElementById("opicRetrySameLink"),
-  opicProgressDots: document.getElementById("opicProgressDots"),
-  opicChangeTopicBtn: document.getElementById("opicChangeTopicBtn"),
-  opicChangeTopicBtn2: document.getElementById("opicChangeTopicBtn2"),
-  opicDoneScreen: document.getElementById("opicDoneScreen"),
-  opicDoneSummary: document.getElementById("opicDoneSummary"),
-  opicRetryWrongBtn: document.getElementById("opicRetryWrongBtn"),
-  opicRestartBtn: document.getElementById("opicRestartBtn"),
-  navPattern: document.getElementById("navPattern"),
-  navPatternSub: document.getElementById("navPatternSub"),
-  patternTopicScreen: document.getElementById("patternTopicScreen"),
-  patternCard: document.getElementById("patternCard"),
-  patternUserInput: document.getElementById("patternUserInput"),
-  patternMicBtn: document.getElementById("patternMicBtn"),
-  patternMicError: document.getElementById("patternMicError"),
-  patternLiveTranslate: document.getElementById("patternLiveTranslate"),
-  patternLiveTranslateText: document.getElementById("patternLiveTranslateText"),
-  copyPatternInput: document.getElementById("copyPatternInput"),
-  patternTimerDigits: document.getElementById("patternTimerDigits"),
-  patternTimerLevelTip: document.getElementById("patternTimerLevelTip"),
-  patternTimerGaugeBar: document.getElementById("patternTimerGaugeBar"),
-  patternSpeechEvalBox: document.getElementById("patternSpeechEvalBox"),
-  patternEvalScoreBadge: document.getElementById("patternEvalScoreBadge"),
-  patternEvalDiff: document.getElementById("patternEvalDiff"),
-  patternEvalFeedback: document.getElementById("patternEvalFeedback"),
-  ttsPatternUserInputBtn: document.getElementById("ttsPatternUserInputBtn"),
-  patternGrammarBox: document.getElementById("patternGrammarBox"),
-  patternGrammarContent: document.getElementById("patternGrammarContent"),
-  patternGoogleAskRow: document.getElementById("patternGoogleAskRow"),
-  patternGoogleAskLink: document.getElementById("patternGoogleAskLink"),
-  patternGoogleAskCopy: document.getElementById("patternGoogleAskCopy"),
-  patternEvalBtn: document.getElementById("patternEvalBtn"),
-  patternNextBtn: document.getElementById("patternNextBtn"),
-  patternRetrySameLink: document.getElementById("patternRetrySameLink"),
-  patternTtsAllBtn: document.getElementById("patternTtsAllBtn"),
-  patternCopyAllBtn: document.getElementById("patternCopyAllBtn"),
-  btnPrevPattern: document.getElementById("btnPrevPattern"),
-  homeFromPatternTopic: document.getElementById("homeFromPatternTopic"),
-  homeFromPatternCard: document.getElementById("homeFromPatternCard"),
-  patternChangeListBtn: document.getElementById("patternChangeListBtn"),
-  toOpicFromPattern: document.getElementById("toOpicFromPattern"),
-  navFiller: document.getElementById("navFiller"),
-  navFillerSub: document.getElementById("navFillerSub"),
-  fillerCard: document.getElementById("fillerCard"),
-  fillerScreen: document.getElementById("fillerScreen"),
-  homeFromFiller: document.getElementById("homeFromFiller"),
-  toPatternFromFiller: document.getElementById("toPatternFromFiller"),
-  navSpeechPractice: document.getElementById("navSpeechPractice"),
-  speechPracticeCard: document.getElementById("speechPracticeCard"),
-  homeFromSpeechPractice: document.getElementById("homeFromSpeechPractice"),
-};
+// =============================================================================
+// 2. 화면 제어 및 상태 초기화 (Screen Lifecycle & Cleanups)
+// =============================================================================
 
-// 모든 서브 화면을 숨기고 실행 중인 음성/마이크를 초기화
+/**
+ * 모든 서브 화면 컨테이너(.app-screen)를 일괄 숨기고,
+ * 백그라운드에서 동작 중인 오디오/타이머/음성 인식을 초기화합니다.
+ *
+ * [클린업 대상]:
+ * 1. TTS 오디오 즉시 중지 (stopTTS)
+ * 2. 말하기 타이머(OPIc, 만능 패턴) 정지
+ * 3. 필러 마이크 및 발화 연습 녹음 재생 중지
+ * 4. 활성화된 음성인식(Web Speech API) 이벤트 핸들러 해제 및 정지
+ *
+ * @returns {void}
+ */
 function hideAllScreens() {
   stopTTS();
   if (typeof stopSpeakingTimer === "function") {
@@ -270,7 +119,109 @@ function hideAllScreens() {
   }
 }
 
-// 문장 번역 연습 주제 선택 카드 렌더링
+// =============================================================================
+// 3. 홈 대시보드 통계 & 차트 렌더러 (Home Dashboard Renderer)
+// =============================================================================
+
+/**
+ * 홈 대시보드 화면을 렌더링합니다.
+ *
+ * [주요 처리 로직]:
+ * 1. 상단 통계 카드 갱신 (오늘 학습량, 이번 주 누적 학습량, 연속 학습일수 Streak)
+ * 2. 최근 7일 학습 막대 차트(Bar Chart) 동적 생성 및 오늘 요일 강조 표시
+ * 3. 메인 네비게이션 카드들의 서브텍스트 동적 갱신:
+ *    - 문장 번역 / 문법 퀴즈 / 실전 OPIc: 진행 중인 경우 '이어하기' 상태 및 잔여 문항 수 표시
+ *    - 만능 패턴 / 필러 훈련: 전체 콘텐츠 개수 및 가이드 안내 표시
+ *
+ * @returns {void}
+ */
+function renderHomeDashboard() {
+  const days = last7Days();
+  const today = dailyLog[days[days.length - 1].key] || 0;
+  const week = days.reduce((sum, d) => sum + (dailyLog[d.key] || 0), 0);
+
+  // 1. 상단 날짜 및 통계 지표 업데이트
+  if (els.homeDate) {
+    els.homeDate.textContent = new Date().toLocaleDateString("ko-KR", {
+      month: "long",
+      day: "numeric",
+      weekday: "short",
+    });
+  }
+  if (els.statToday) els.statToday.textContent = today;
+  if (els.statWeek) els.statWeek.textContent = week;
+  if (els.statStreak) els.statStreak.textContent = computeStreak();
+
+  // 2. 최근 7일 학습 막대 차트 렌더링
+  if (els.homeChart) {
+    const max = Math.max(1, ...days.map((d) => dailyLog[d.key] || 0));
+    els.homeChart.innerHTML = days
+      .map((d) => {
+        const count = dailyLog[d.key] || 0;
+        const h = Math.max(3, Math.round((count / max) * 44));
+        return `<div class="bar-col">
+          <div class="bar${d.isToday ? " today" : ""}" style="height:${h}px"></div>
+          <div class="bar-label">${d.label}</div>
+        </div>`;
+      })
+      .join("");
+  }
+
+  // 3. 메인 네비게이션 카드 서브텍스트 동적 업데이트
+  // 문장 번역 모드
+  if (els.navSentenceSub) {
+    const sentenceResumable =
+      typeof order !== "undefined" && order.length > 0 && cur < order.length;
+    els.navSentenceSub.textContent = sentenceResumable
+      ? `이어하기 · ${cur}/${order.length}문제 진행 중`
+      : `${SENTENCES.length}문장 · ${CATEGORIES.length}개 주제`;
+  }
+
+  // 문법 포인트 퀴즈 모드
+  if (els.navWordSub) {
+    const wordResumable =
+      typeof wordOrder !== "undefined" &&
+      wordOrder.length > 0 &&
+      wordCur < wordOrder.length;
+    els.navWordSub.textContent = wordResumable
+      ? `이어하기 · ${wordCur}/${wordOrder.length}문제 진행 중`
+      : `${WORD_ITEMS.length}문제 · ${WORD_CATEGORIES.length}개 유형`;
+  }
+
+  // OPIc 실전 질문 답변 모드
+  if (els.navOpicSub) {
+    const opicResumable =
+      typeof opicOrder !== "undefined" &&
+      opicOrder.length > 0 &&
+      opicCur < opicOrder.length;
+    els.navOpicSub.textContent = opicResumable
+      ? `이어하기 · ${opicCur + 1}/${opicOrder.length}번 진행 중`
+      : `${OPIC_QUESTIONS.length}개 실전 기출 · 3단 콤보 & 무작위`;
+  }
+
+  // 만능 패턴 집중 훈련 모드
+  if (els.navPatternSub) {
+    els.navPatternSub.textContent = `${PATTERN_ITEMS.length || 6}대 만능 템플릿으로 모든 질문 정복`;
+  }
+
+  // 필러 집중 훈련 모드
+  if (els.navFillerSub) {
+    els.navFillerSub.textContent = `${FILLER_ITEMS.length || 16}개 핵심 필러 · 시점별 가이드 & 실전 연습`;
+  }
+}
+
+// =============================================================================
+// 4. 주제 선택 칩 렌더러 (Topic Filter Chips)
+// =============================================================================
+
+/**
+ * 문장 번역 연습 주제 선택 카드 및 칩 목록을 렌더링합니다.
+ * - 대분류 그룹(GROUPS)별 카드 생성
+ * - 그룹 전체 선택/해제 및 개별 칩 토글 지원
+ * - 선택된 문장 수 및 주제 개수 실시간 카운트
+ *
+ * @returns {void}
+ */
 function renderChips() {
   els.topicChips.innerHTML = "";
 
@@ -345,9 +296,26 @@ function renderChips() {
     selectedCats.size === 0 ? "not-allowed" : "pointer";
 }
 
-// ── SPA 브라우저 히스토리 (뒤로가기 / 앞으로가기) 라우팅 시스템 ────────────
+// =============================================================================
+// 5. SPA 브라우저 히스토리 라우팅 (Single Page App Router)
+// =============================================================================
+
 let isNavigatingHistory = false;
 
+/**
+ * SPA 화면 전환 및 브라우저 세션 히스토리(pushState)를 관리합니다.
+ *
+ * [동작 원리]:
+ * 1. pushHistory가 true이고 히스토리 탐색 중이 아닐 경우, window.history.pushState 실행
+ * 2. 현재 열려 있는 모든 화면과 백그라운드 오디오를 hideAllScreens()로 일괄 정리
+ * 3. 요청된 screen 키에 해당하는 DOM 컨테이너를 display/show 처리하고 해당 화면 렌더러 호출
+ * 4. 페이지 상단(top: 0)으로 부드러운 스크롤 이동
+ *
+ * @param {string} screen - 전환할 대상 화면 식별자 ('home' | 'topic' | 'practice' | 'opicTopic' | 등)
+ * @param {Object} [params={}] - 화면 전환 시 전달할 부가 파라미터 (예: { idx: 2 }, { targetIdx: 0 })
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 스택에 추가할지 여부
+ * @returns {void}
+ */
 function navigateTo(screen, params = {}, pushHistory = true) {
   if (pushHistory && !isNavigatingHistory) {
     const currentState = window.history.state;
@@ -487,41 +455,70 @@ window.addEventListener("popstate", (event) => {
   }
 });
 
-// 문장 번역 주제 선택 화면 열기
+// =============================================================================
+// 6. 화면 이동 단축 헬퍼 함수 (Navigation Helper Functions)
+// =============================================================================
+
+/**
+ * 문장 번역 주제 선택 화면으로 이동합니다.
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
+ */
 function showTopicScreen(pushHistory = true) {
   navigateTo("topic", {}, pushHistory);
 }
 
-// 문법 포인트 주제 선택 화면 열기
+/**
+ * 문법 포인트 퀴즈 유형 선택 화면으로 이동합니다.
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
+ */
 function showWordTopicScreen(pushHistory = true) {
   navigateTo("wordTopic", {}, pushHistory);
 }
 
-// OPIc 실전 주제 선택 화면 열기
+/**
+ * OPIc 실전 질문 카테고리 선택 화면으로 이동합니다.
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
+ */
 function showOpicTopicScreen(pushHistory = true) {
   navigateTo("opicTopic", {}, pushHistory);
 }
 
-// 만능 패턴 목록 화면 열기
+/**
+ * 만능 패턴 6대 템플릿 목록 화면으로 이동합니다.
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
+ */
 function showPatternTopics(pushHistory = true) {
   navigateTo("patternTopic", {}, pushHistory);
 }
 
-// 필러 집중 훈련 화면 열기
+/**
+ * 특정 필러(Filler) 집중 훈련 화면으로 이동합니다.
+ * @param {number} [targetIdx=0] - 대상 필러 인덱스 (0 ~ 15)
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
+ */
 function showFillerScreen(targetIdx = 0, pushHistory = true) {
   navigateTo("filler", { targetIdx }, pushHistory);
 }
 
-// 홈 대시보드 화면 열기
+/**
+ * 홈 대시보드 메인 화면으로 이동합니다.
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
+ */
 function showHomeScreen(pushHistory = true) {
   navigateTo("home", {}, pushHistory);
 }
 
-// 발화 연습 화면 열기
+/**
+ * 자유 발화 연습 화면으로 이동합니다.
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
+ */
 function showSpeechPractice(pushHistory = true) {
   navigateTo("speechPractice", {}, pushHistory);
 }
 
+// =============================================================================
+// 7. 전역 스코프 등록 (Global Window Exports)
+// =============================================================================
 window.navigateTo = navigateTo;
 window.showHomeScreen = showHomeScreen;
 window.showTopicScreen = showTopicScreen;
@@ -530,3 +527,4 @@ window.showOpicTopicScreen = showOpicTopicScreen;
 window.showPatternTopics = showPatternTopics;
 window.showFillerScreen = showFillerScreen;
 window.showSpeechPractice = showSpeechPractice;
+window.renderHomeDashboard = renderHomeDashboard;

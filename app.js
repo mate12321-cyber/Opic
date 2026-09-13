@@ -4,9 +4,25 @@
  * - 문장 번역 및 문법 퀴즈 화면 조작 버튼 이벤트 등록
  * - 모드 전환 및 홈 화면 내비게이션 연결
  * - 앱 기동 시 데이터 로딩 및 초기화 (initDashboard)
+ *
+ * --------------------------------------------------------------------------------
+ * 💡 [확장성 및 유지보수 가이드 (Scalability & Customization Guide)]
+ * 1. 이벤트 리스너 중앙 관리:
+ *    - 현재 각 모드별 버튼 이벤트가 전역 DOM 엘리먼트(`els.*`)에 직접 바인딩되어 있습니다.
+ *    - 신규 등급(IM2, IH 등)이나 신규 기능(모의고사 모드, 나만의 답변 생성기 등) 추가 시
+ *      이벤트 위임(Event Delegation) 패턴이나 모듈별 initEventListener() 호출 방식으로 분리하면
+ *      DOM 의존성을 낮추고 유지보수성을 극대화할 수 있습니다.
+ *
+ * 2. 사용자화(Customization) 설정 연동 포인트:
+ *    - 사용자가 목표 등급(IM1 / IM2 / IH / AL), 목표 발화 시간(45초 / 60초 / 90초),
+ *      선호 음성 엔진(Azure / Web Speech), 나만의 키워드를 설정하는 '환경설정(Settings) 모달'을
+ *      도입할 경우, 본 파일의 initDashboard() 시점에 사용자 설정을 먼저 로드하여 각 모듈에 전파합니다.
+ * --------------------------------------------------------------------------------
  */
 
-// ── 클립보드 복사 이벤트 ──────────────────────────────────────────
+// =============================================================================
+// 1. 클립보드 복사 이벤트 바인딩 (Clipboard Handlers)
+// =============================================================================
 els.copyKo.addEventListener("click", () => {
   copyText(els.koText.textContent.trim(), els.copyKo);
 });
@@ -34,7 +50,11 @@ if (els.copyOpicAll) {
   });
 }
 
-// ── 유저 직접 입력 시 실시간 번역 디바운스 트리거 & 자동 높이 조절 ──────────────────
+// =============================================================================
+// 2. 실시간 자동 높이 조절 & 디바운스 번역 (Auto Resize & Live Translate)
+// =============================================================================
+// [UX 정책]: 700ms 디바운스를 적용하여 사용자의 타이핑 중 잦은 번역 API 호출을 방지합니다.
+
 els.userInput.addEventListener("input", () => {
   autoResizeTextarea(els.userInput);
   const text = els.userInput.value.trim();
@@ -95,7 +115,9 @@ if (els.patternUserInput) {
   });
 }
 
-// ── Google AI 사이드 팝업창 연동 이벤트 ─────────────────────────────
+// =============================================================================
+// 3. Google AI 검색 사이드 팝업 연동 (Google AI Search Queries)
+// =============================================================================
 els.googleAskLink.addEventListener("click", (e) => {
   e.preventDefault();
   const text = els.userInput.value.trim();
@@ -156,7 +178,9 @@ if (els.patternGoogleAskCopy) {
   });
 }
 
-// ── TTS 발음 재생 이벤트 ──────────────────────────────────────────
+// =============================================================================
+// 4. TTS (음성 합성) 발음 듣기 이벤트 (TTS Audio Playback)
+// =============================================================================
 els.ttsKoBtn.addEventListener("click", () => {
   const text = els.koText.textContent.trim();
   if (text) speakText(text, "ko-KR", els.ttsKoBtn);
@@ -234,43 +258,60 @@ if (els.tabFullBtn) {
   els.tabFullBtn.addEventListener("click", () => switchOpicAnswerView("full"));
 }
 
-// ── 문장 번역 연습 모드 버튼 이벤트 ────────────────────────────────
+// =============================================================================
+// 5. 문장 번역 연습 모드 이벤트 (Sentence Practice Mode Events)
+// =============================================================================
 if (els.btnPrevSentence) {
   els.btnPrevSentence.addEventListener("click", prevQuestion);
 }
-els.revealRow.querySelector("#revealBtn").addEventListener("click", reveal);
-els.revealRow.querySelector("#skipBtn").addEventListener("click", skip);
+els.revealRow?.querySelector("#revealBtn")?.addEventListener("click", reveal);
+els.revealRow?.querySelector("#skipBtn")?.addEventListener("click", skip);
 els.rateRow
-  .querySelector("#goodBtn")
-  .addEventListener("click", () => rate("good"));
+  ?.querySelector("#goodBtn")
+  ?.addEventListener("click", () => rate("good"));
 els.rateRow
-  .querySelector("#badBtn")
-  .addEventListener("click", () => rate("bad"));
-els.retrySameLink.addEventListener("click", retrySameQuestion);
-els.startBtn.addEventListener("click", startPractice);
-els.restartBtn.addEventListener("click", startPractice);
-els.changeTopicBtn.addEventListener("click", showTopicScreen);
-els.changeTopicBtn2.addEventListener("click", showTopicScreen);
+  ?.querySelector("#badBtn")
+  ?.addEventListener("click", () => rate("bad"));
+if (els.retrySameLink)
+  els.retrySameLink.addEventListener("click", retrySameQuestion);
+if (els.startBtn) els.startBtn.addEventListener("click", startPractice);
+if (els.restartBtn) els.restartBtn.addEventListener("click", startPractice);
+if (els.changeTopicBtn)
+  els.changeTopicBtn.addEventListener("click", showTopicScreen);
+if (els.changeTopicBtn2)
+  els.changeTopicBtn2.addEventListener("click", showTopicScreen);
 
-// ── 문법 포인트 퀴즈 모드 버튼 이벤트 ──────────────────────────────
+// =============================================================================
+// 6. 문법 포인트 퀴즈 모드 이벤트 (Grammar Quiz Mode Events)
+// =============================================================================
 if (els.btnPrevWord) {
   els.btnPrevWord.addEventListener("click", prevWordQuestion);
 }
-els.wordNextBtn.addEventListener("click", () => {
-  wordCur++;
-  saveWordProgress();
-  renderWordCard();
-});
-els.wordStartBtn.addEventListener("click", startWordPractice);
-els.wordRestartBtn.addEventListener("click", startWordPractice);
-els.wordChangeTopicBtn.addEventListener("click", () => {
-  showWordTopicScreen();
-});
-els.wordChangeTopicBtn2.addEventListener("click", () => {
-  showWordTopicScreen();
-});
+if (els.wordNextBtn) {
+  els.wordNextBtn.addEventListener("click", () => {
+    wordCur++;
+    saveWordProgress();
+    renderWordCard();
+  });
+}
+if (els.wordStartBtn)
+  els.wordStartBtn.addEventListener("click", startWordPractice);
+if (els.wordRestartBtn)
+  els.wordRestartBtn.addEventListener("click", startWordPractice);
+if (els.wordChangeTopicBtn) {
+  els.wordChangeTopicBtn.addEventListener("click", () => {
+    showWordTopicScreen();
+  });
+}
+if (els.wordChangeTopicBtn2) {
+  els.wordChangeTopicBtn2.addEventListener("click", () => {
+    showWordTopicScreen();
+  });
+}
 
-// ── OPIc 실전 질문 & 답변 모드 버튼 이벤트 ─────────────────────────
+// =============================================================================
+// 7. OPIc 실전 질문 & 답변 모드 이벤트 (OPIc Q&A Mode Events)
+// =============================================================================
 if (els.btnModeRandom) {
   els.btnModeRandom.addEventListener("click", () => {
     opicPlayMode = "random";
@@ -328,7 +369,9 @@ if (els.opicChangeTopicBtn2) {
   });
 }
 
-// ── 학습 모드 전환 및 홈 화면 내비게이션 연결 ──────────────────────
+// =============================================================================
+// 8. 학습 모드 전환 및 홈 화면 내비게이션 (Navigation & Routing Events)
+// =============================================================================
 els.toWordModeLink.addEventListener("click", () => {
   showWordTopicScreen();
 });
@@ -431,7 +474,9 @@ if (toPatternFromFiller) {
   els.homeFromSpeechPractice,
 ].forEach((el) => el && el.addEventListener("click", () => showHomeScreen()));
 
-// ── 마이크 음성 입력(STT) 토글 연동 ────────────────────────────────
+// =============================================================================
+// 9. 마이크 음성 입력(STT) 토글 연동 (Speech-to-Text Mic Toggles)
+// =============================================================================
 if (els.micBtn) {
   els.micBtn.addEventListener("click", () =>
     toggleSpeechRecognition(els.userInput, els.micBtn, els.micError, false),
@@ -458,7 +503,9 @@ if (els.patternMicBtn) {
   );
 }
 
-// ── 만능 패턴 채점 & 재도전 이벤트 ────────────────────────────────
+// =============================================================================
+// 10. 만능 패턴 채점 & 재도전 이벤트 (Pattern Evaluation Events)
+// =============================================================================
 if (els.patternEvalBtn) {
   els.patternEvalBtn.addEventListener("click", () => {
     if (typeof evaluatePatternAnswer === "function") evaluatePatternAnswer();
@@ -470,7 +517,9 @@ if (els.patternRetrySameLink) {
   });
 }
 
-// ── 🌙 다크 모드 토글 ──────────────────────────────────────────────
+// =============================================================================
+// 11. 🌙 다크 테마 / 라이트 테마 토글 (Theme Switcher)
+// =============================================================================
 const themeToggleBtn = document.getElementById("themeToggleBtn");
 if (themeToggleBtn) {
   themeToggleBtn.addEventListener("click", () => {
@@ -478,7 +527,9 @@ if (themeToggleBtn) {
   });
 }
 
-// ── 📚 내 단어장 모달 이벤트 ───────────────────────────────────────
+// =============================================================================
+// 12. 📚 내 단어장 모달 이벤트 (Vocabulary Book Modal)
+// =============================================================================
 const openVocabModalBtn = document.getElementById("openVocabModalBtn");
 const closeVocabModalBtn = document.getElementById("closeVocabModalBtn");
 const closeVocabModalBtn2 = document.getElementById("closeVocabModalBtn2");
@@ -513,7 +564,9 @@ if (vocabModal) {
   });
 }
 
-// ── 💾 학습 데이터 백업 & 복원 이벤트 ─────────────────────────────────
+// =============================================================================
+// 13. 💾 학습 데이터 백업 & 복원 이벤트 (Backup & Restore Handlers)
+// =============================================================================
 const exportBackupBtn = document.getElementById("exportBackupBtn");
 const importBackupBtn = document.getElementById("importBackupBtn");
 const importBackupInput = document.getElementById("importBackupInput");
@@ -538,7 +591,24 @@ if (importBackupBtn && importBackupInput) {
   });
 }
 
-// ── 앱 부트스트랩 및 초기 데이터 로딩 ──────────────────────────────
+// =============================================================================
+// 14. 앱 부트스트랩 및 초기 데이터 로딩 시퀀스 (Application Bootstrap)
+// =============================================================================
+
+/**
+ * 애플리케이션 초기 구동 시퀀스를 순차 실행합니다.
+ *
+ * [초기화 흐름]:
+ * 1. SPA 히스토리 기본 상태 초기화 (replaceState)
+ * 2. OS 및 저장된 테마(Dark/Light) 적용
+ * 3. 5대 정적 데이터셋 메모리 로딩 (loadData)
+ * 4. 음성 엔진(TTS) 및 사용자 커스텀 설정 로드
+ * 5. 일별 학습 기록 및 5대 학습 모드별 진행 상태 복원
+ * 6. 홈 대시보드 통계/차트 렌더링 (renderHomeDashboard) 및 단어장 뱃지 동기화
+ * 7. URL 쿼리 파라미터(?screen=...) 또는 해시 기반 딥링크 화면 이동
+ *
+ * @returns {Promise<void>}
+ */
 async function initDashboard() {
   if (!window.history.state) {
     window.history.replaceState({ screen: "home", params: {} }, "", "");
@@ -555,7 +625,9 @@ async function initDashboard() {
     await loadFillerProgress();
   }
   await loadProgress();
-  renderHomeDashboard();
+  if (typeof renderHomeDashboard === "function") {
+    renderHomeDashboard();
+  }
   if (typeof renderPatternTopics === "function") {
     renderPatternTopics();
   }
@@ -572,6 +644,9 @@ async function initDashboard() {
   }
 }
 
+// =============================================================================
+// 15. DOM 로드 완료 이벤트 리스너 (DOM Ready Entrypoint)
+// =============================================================================
 document.addEventListener("DOMContentLoaded", () => {
   if (typeof initTheme === "function") initTheme();
   initSpeechRecognition();

@@ -1,0 +1,150 @@
+<div class="home-screen app-screen" id="homeScreen">
+  <div class="home-header">
+    <div class="home-eyebrow">OPIc 연습</div>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      "
+    >
+      <button
+        type="button"
+        class="settings-trigger-btn"
+        id="themeToggleBtn"
+        title="다크 모드 / 라이트 모드 전환"
+        style="padding: 4px 8px; font-size: 13px"
+      >
+        🌙
+      </button>
+      <button
+        type="button"
+        class="settings-trigger-btn"
+        id="openVocabModalBtn"
+        title="저장된 단어 모아보기"
+      >
+        📚 단어장
+        <span
+          id="savedWordsBadge"
+          style="font-weight: 700; color: #4f46e5; margin-left: 2px"
+          >0개</span
+        >
+      </button>
+      <button
+        type="button"
+        class="settings-trigger-btn"
+        id="openTtsSettingsBtn"
+        title="원어민 음성(Azure Neural) 및 설정"
+      >
+        ⚙️ 설정
+      </button>
+      <div class="home-date" id="homeDate"></div>
+    </div>
+  </div>
+
+  <div class="home-stats">
+    <div class="home-stat">
+      <span class="n" id="statToday">0</span><span class="l">오늘</span>
+    </div>
+    <div class="home-stat">
+      <span class="n" id="statWeek">0</span><span class="l">이번 주</span>
+    </div>
+    <div class="home-stat">
+      <span class="n" id="statStreak">0</span
+      ><span class="l">연속일</span>
+    </div>
+  </div>
+
+  <div class="home-chart" id="homeChart"></div>
+
+  <div class="home-nav">
+    <button class="nav-card" id="navPattern">
+      <span class="nav-card-icon">🧩</span>
+      <span class="nav-card-body">
+        <span class="nav-card-title"
+          >만능 패턴 집중 훈련
+          <span
+            style="
+              font-size: 11px;
+              color: #16a34a;
+              font-weight: 700;
+              margin-left: 4px;
+            "
+            >BEST ⭐</span
+          ></span
+        >
+        <span class="nav-card-sub" id="navPatternSub"
+          >6대 만능 템플릿으로 모든 질문 정복</span
+        >
+      </span>
+      <span class="nav-card-arrow">›</span>
+    </button>
+    <button class="nav-card" id="navFiller">
+      <span class="nav-card-icon">💬</span>
+      <span class="nav-card-body">
+        <span class="nav-card-title"
+          >필러(Filler) 집중 훈련
+          <span
+            style="
+              font-size: 11px;
+              color: #059669;
+              font-weight: 700;
+              margin-left: 4px;
+            "
+            >유창성 UP 🔥</span
+          ></span
+        >
+        <span class="nav-card-sub" id="navFillerSub"
+          >16개 핵심 필러 · 시점별 가이드 & 실전 연습</span
+        >
+      </span>
+      <span class="nav-card-arrow">›</span>
+    </button>
+    <button class="nav-card" id="navOpic">
+      <span class="nav-card-icon">🎙️</span>
+      <span class="nav-card-body">
+        <span class="nav-card-title">실전 질문 & 답변 연습</span>
+        <span class="nav-card-sub" id="navOpicSub"></span>
+      </span>
+      <span class="nav-card-arrow">›</span>
+    </button>
+    <button class="nav-card" id="navSentence">
+      <span class="nav-card-icon">📝</span>
+      <span class="nav-card-body">
+        <span class="nav-card-title">문장 번역 연습</span>
+        <span class="nav-card-sub" id="navSentenceSub"></span>
+      </span>
+      <span class="nav-card-arrow">›</span>
+    </button>
+    <button class="nav-card" id="navWord">
+      <span class="nav-card-icon">🔤</span>
+      <span class="nav-card-body">
+        <span class="nav-card-title">문법 포인트 연습</span>
+        <span class="nav-card-sub" id="navWordSub"></span>
+      </span>
+      <span class="nav-card-arrow">›</span>
+    </button>
+    <button class="nav-card" id="navSpeechPractice">
+      <span class="nav-card-icon">🗣️</span>
+      <span class="nav-card-body">
+        <span class="nav-card-title"
+          >발화 연습
+          <span
+            style="
+              font-size: 11px;
+              color: #4f46e5;
+              font-weight: 700;
+              margin-left: 4px;
+            "
+            >자유 발화 ✨</span
+          ></span
+        >
+        <span class="nav-card-sub" id="navSpeechPracticeSub"
+          >마이크 입력 · 내 녹음본 듣기 · 즉시 채점</span
+        >
+      </span>
+      <span class="nav-card-arrow">›</span>
+    </button>
+  </div>
+</div>

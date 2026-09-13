@@ -1,36 +1,96 @@
 /**
- * [speech.js] 음성 기능(TTS / STT) 및 발음 평가, AI 팝업 시스템
- * - Web Speech API TTS (음성 재생, 속도 조절, 자동 재생)
- * - Web Speech API STT (실시간 음성 인식, 마이크 에러 감시)
- * - 발음/문장 일치도(Diff & Score) 평가 알고리즘
- * - 실시간 번역 및 Google AI 보조 팝업 창 연동
+ * @file speech.js
+ * @description OPIc 학습용 하이브리드 음성 엔진 및 인공지능 발음/다면 발화 평가 시스템
+ *
+ * =============================================================================
+ * [주요 아키텍처 및 기능 구성]
+ * =============================================================================
+ * 1. 음성 합성 (TTS - Text to Speech):
+ *    - 3계층 하이브리드 폴백 엔진: Azure Speech API (최우선 고품질 Neural Voice)
+ *      → Google Translate TTS (경량 웹 폴백) → 브라우저 내장 Web Speech API (오프라인 폴백)
+ *    - 발음 재생 속도(0.8x ~ 1.2x) 동적 변경, 자동 재생 토글, 발화 캐시 지원.
+ * 2. Azure Speech F0 무료 티어(월 5시간 음성 평가, 50만자 TTS) 실시간 쿼터 트래커:
+ *    - 월별 음성 시간(초) 및 TTS 문자 수 자동 누적 및 소진율/잔여량 실시간 UI 계산.
+ * 3. 음성 인식 및 레코딩 (STT - Speech to Text):
+ *    - Web Speech API 실시간 음성 전사 + MediaRecorder 고음질 오디오 Blob 동시 캡처.
+ *    - 한국인 빈출 음소 왜곡(cafe, cozy, Buldang-dong 등) 자동 정규화 사전(`PHONETIC_CORRECTION_RULES`).
+ *    - 장문 발화용 담화표지어/접속사 기반 가상 문장 분절 엔진(`splitIntoVirtualSentences`).
+ * 4. OPIc 공식 채점 기준 기반 6대 영역 다면 평가 알고리즘 (`calculateComprehensiveOpicScore`):
+ *    - ① 유창성(WPM, 쉼 호흡, 필러 사용률)
+ *    - ② 발화량(목표 등급별 단어 수 충족도)
+ *    - ③ 주제 적합도(핵심 키워드 및 연관 어휘 도메인 매칭률)
+ *    - ④ 문법 정확도(LanguageTool 연동 오류 페널티)
+ *    - ⑤ 어휘 다양성(TTR - Type-Token Ratio, 고급 어휘 가산점)
+ *    - ⑥ 발음 일치도(Azure Pronunciation Assessment API 또는 단어 편집 거리 기반 Diff)
+ *    - 최종 예측 등급(AL / IH / IM3 / IM2 / IM1 / IL / NH) 산출 및 상세 진단 보고서 렌더링.
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.0
  */
 
-// 문장 번역용 Google AI 검색 프롬프트 쿼리 생성
+// =============================================================================
+// 1. Google AI 검색 질의 생성 헬퍼
+// =============================================================================
+
+/**
+ * 문장 번역용 Google AI 검색 프롬프트 쿼리 생성
+ * @returns {string} 검색창으로 전송할 한-영 문법 비교 질의 문자열
+ */
 function buildGoogleQuery() {
   const answer = els.userInput.value.trim();
   const ko = els.koText.textContent.trim();
   return `"${ko}"를 영어로 "${answer}"라고 썼는데 이 영어 문장 문법 분석해줘`;
 }
 
-// 문법 포인트용 Google AI 검색 프롬프트 쿼리 생성
+/**
+ * 문법 포인트/표현 학습용 Google AI 검색 프롬프트 쿼리 생성
+ * @param {Object} item - 퀴즈 또는 문제 데이터 객체
+ * @param {string} item.answer - 목표 정답 표현
+ * @returns {string} 검색창 질의 문자열
+ */
 function buildWordGoogleQuery(item) {
   return `'${item.answer}' 표현은 언제 사용해?`;
 }
 
-// ── TTS (음성 합성) 하이브리드 시스템 ──────────────────────────────
-let ttsRate = 1.0; // 기본 발음 재생 속도
-let autoPlayTtsEnabled = false; // 정답 확인 시 자동 재생 여부
-let ttsEngine = "azure"; // "azure" | "google" | "native"
-let azureApiKey = ""; // Azure Speech API Key
-let azureRegion = "eastus"; // Azure Speech Region
-let azureVoice = "en-US-JennyNeural"; // "en-US-JennyNeural" | "en-US-AriaNeural" | "en-US-GuyNeural"
-let currentSpeakingBtn = null; // 현재 재생 중인 버튼 엘리먼트
-let activeAudio = null; // 현재 재생 중인 Audio 인스턴스
-let activeAudioUrl = null; // 현재 재생 중인 Audio Blob URL (메모리 해제용)
+// =============================================================================
+// 2. TTS (음성 합성) 하이브리드 엔진 상태 및 환경설정
+// =============================================================================
+
+/** @type {number} 기본 발음 재생 속도 (0.8 ~ 1.2) */
+let ttsRate = 1.0;
+
+/** @type {boolean} 문제 로드 또는 정답 확인 시 자동 음성 재생 활성화 여부 */
+let autoPlayTtsEnabled = false;
+
+/** @type {"azure" | "google" | "native"} 우선 순위 TTS 엔진 */
+let ttsEngine = "azure";
+
+/** @type {string} Azure Cognitive Services 음성 리소스 API Key */
+let azureApiKey = "";
+
+/** @type {string} Azure Cognitive Services 리전 (예: eastus, koreacentral) */
+let azureRegion = "eastus";
+
+/** @type {string} Azure Neural Voice 모델 식별자 */
+let azureVoice = "en-US-JennyNeural";
+
+/** @type {HTMLElement|null} 현재 오디오를 재생 중인 버튼 엘리먼트 참조 */
+let currentSpeakingBtn = null;
+
+/** @type {HTMLAudioElement|null} 현재 활성화된 오디오 재생 객체 */
+let activeAudio = null;
+
+/** @type {string|null} 현재 생성된 오디오 Blob URL (메모리 누수 방지용 revokeTarget) */
+let activeAudioUrl = null;
+
+/** @const {string} 로컬 스토리지 TTS 설정 저장 키 */
 const TTS_SETTINGS_KEY = "ko-en-opic-tts-settings";
 
-// XML 이스케이프 유틸
+/**
+ * Azure SSML 요청에 포함될 특수문자 XML 이스케이프 유틸리티
+ * @param {string} str - 원본 텍스트
+ * @returns {string} XML 안전 문자열
+ */
 function escapeXml(str) {
   return String(str || "")
     .replace(/&/g, "&amp;")
@@ -40,7 +100,9 @@ function escapeXml(str) {
     .replace(/'/g, "&apos;");
 }
 
-// 로컬 스토리지에서 TTS 설정값 로드
+/**
+ * LocalStorage에서 사용자의 맞춤형 TTS 설정을 로드하여 전역 상태 및 UI와 동기화
+ */
 function loadTtsSettings() {
   try {
     const raw = localStorage.getItem(TTS_SETTINGS_KEY);
@@ -59,7 +121,9 @@ function loadTtsSettings() {
   updateTtsSettingsUI();
 }
 
-// TTS 설정값을 로컬 스토리지에 저장
+/**
+ * 현재 전역 상태의 TTS 설정을 LocalStorage에 영구 보관
+ */
 function saveTtsSettings() {
   try {
     localStorage.setItem(
@@ -76,7 +140,9 @@ function saveTtsSettings() {
   } catch (e) {}
 }
 
-// UI 칩 및 체크박스 상태를 현재 TTS 설정값에 맞게 동기화
+/**
+ * 대시보드 및 설정 모달의 속도 조절 칩과 자동 재생 토글 UI 동기화
+ */
 function updateTtsSettingsUI() {
   document.querySelectorAll(".speed-chip").forEach((chip) => {
     if (parseFloat(chip.dataset.speed) === ttsRate) {
@@ -90,11 +156,23 @@ function updateTtsSettingsUI() {
   }
 }
 
-// ── Azure Speech F0 무료 한도(5시간 / 50만자) 실시간 사용량 추적기 ──────
-const AZURE_USAGE_STORAGE_KEY = "ko-en-opic-azure-f0-usage";
-const AZURE_F0_AUDIO_LIMIT_SEC = 5 * 3600; // 5시간 = 18,000초 = 300분
-const AZURE_F0_TTS_CHAR_LIMIT = 500000; // 500,000자
+// =============================================================================
+// 3. Azure Speech F0 무료 쿼터 실시간 사용량 추적기 (월간 5시간 음성 / 50만자 TTS)
+// =============================================================================
 
+/** @const {string} 로컬 스토리지 Azure F0 누적 사용량 저장 키 */
+const AZURE_USAGE_STORAGE_KEY = "ko-en-opic-azure-f0-usage";
+
+/** @const {number} Azure F0 오디오 녹음/발음평가 무료 한도 (5시간 = 18,000초 = 300분) */
+const AZURE_F0_AUDIO_LIMIT_SEC = 5 * 3600;
+
+/** @const {number} Azure F0 Neural TTS 음성 합성 문자 수 무료 한도 (500,000자) */
+const AZURE_F0_TTS_CHAR_LIMIT = 500000;
+
+/**
+ * 현재 시스템 일자 기준 'YYYY-MM' 포맷 문자열 반환
+ * @returns {string} 예: '2026-09'
+ */
 function getCurrentYearMonth() {
   const d = new Date();
   const y = d.getFullYear();
@@ -102,11 +180,20 @@ function getCurrentYearMonth() {
   return `${y}-${m}`;
 }
 
+/**
+ * 사용자 친화적인 연월 레이블 반환
+ * @returns {string} 예: '2026년 9월'
+ */
 function getCurrentYearMonthLabel() {
   const d = new Date();
   return `${d.getFullYear()}년 ${d.getMonth() + 1}월`;
 }
 
+/**
+ * 이번 달 Azure Cognitive Services F0 무료 티어 사용량 통계 조회
+ * - 월이 변경된 경우(새로운 달 진입) 자동으로 0으로 리셋 후 반환
+ * @returns {Object} 사용량 지표 객체 (음성 초/퍼센트/잔여시간, TTS 문자수/퍼센트/잔여글자)
+ */
 function getAzureMonthlyUsage() {
   const currentMonth = getCurrentYearMonth();
   let data = {
@@ -168,12 +255,20 @@ function getAzureMonthlyUsage() {
   };
 }
 
+/**
+ * Azure 사용량 데이터를 LocalStorage에 영구 저장
+ * @param {Object} data - 저장할 사용량 데이터
+ */
 function saveAzureMonthlyUsage(data) {
   try {
     localStorage.setItem(AZURE_USAGE_STORAGE_KEY, JSON.stringify(data));
   } catch (e) {}
 }
 
+/**
+ * Azure Pronunciation Assessment 평가 완료 시 녹음된 오디오 길이(초) 누적
+ * @param {number} seconds - 녹음된 오디오 초 단위 길이
+ */
 function addAzureAudioUsage(seconds) {
   const currentMonth = getCurrentYearMonth();
   let data = {
@@ -196,6 +291,10 @@ function addAzureAudioUsage(seconds) {
   updateAzureUsageUI();
 }
 
+/**
+ * Azure Neural TTS 호출 성공 시 합성된 영문 문자 수 누적
+ * @param {number} chars - 합성 요청된 문자 수
+ */
 function addAzureTtsUsage(chars) {
   const currentMonth = getCurrentYearMonth();
   let data = {
@@ -217,6 +316,9 @@ function addAzureTtsUsage(chars) {
   updateAzureUsageUI();
 }
 
+/**
+ * 사용자의 수동 요청에 따라 이번 달 Azure 누적 사용량 강제 0 리셋
+ */
 function resetAzureMonthlyUsage() {
   const currentMonth = getCurrentYearMonth();
   const data = {
@@ -229,6 +331,9 @@ function resetAzureMonthlyUsage() {
   updateAzureUsageUI();
 }
 
+/**
+ * 모달 및 설정 화면 내 Azure F0 사용량 게이지 바 및 텍스트 갱신
+ */
 function updateAzureUsageUI() {
   const usage = getAzureMonthlyUsage();
 
@@ -269,7 +374,13 @@ function updateAzureUsageUI() {
   }
 }
 
-// TTS 모달 UI 이벤트 바인딩 및 캐시/사용량 통계 갱신
+// =============================================================================
+// 4. TTS 환경설정 모달 및 음성 엔진 초기화
+// =============================================================================
+
+/**
+ * TTS 설정 모달 UI 이벤트 바인딩 및 IndexedDB 캐시/Azure 사용량 통계 갱신
+ */
 function initTtsSettingsModal() {
   const modal = document.getElementById("ttsSettingsModal");
   if (!modal) return;
@@ -291,7 +402,9 @@ function initTtsSettingsModal() {
   const resetUsageBtn = document.getElementById("resetAzureUsageBtn");
   const azureTestBtn = document.getElementById("azureTestBtn");
 
-  // 캐시 통계 업데이트
+  /**
+   * IndexedDB 오디오 캐시 용량 및 건수 비동기 조회 후 뱃지 업데이트
+   */
   async function refreshCacheStats() {
     if (!cacheBadge || !window.AudioCache) return;
     try {
@@ -302,7 +415,9 @@ function initTtsSettingsModal() {
     }
   }
 
-  // 모달 열기
+  /**
+   * 모달 오픈 핸들러
+   */
   function openModal() {
     if (engineSelect) engineSelect.value = ttsEngine;
     if (azureKeyInput) azureKeyInput.value = azureApiKey || "";
@@ -320,7 +435,9 @@ function initTtsSettingsModal() {
     document.body.style.overflow = "hidden";
   }
 
-  // 모달 닫기
+  /**
+   * 모달 닫기 핸들러
+   */
   function closeModal() {
     modal.classList.remove("show");
     document.body.style.overflow = "";
@@ -483,8 +600,63 @@ function initTtsSettingsModal() {
   }
 }
 
-// TTS 음성 엔진 초기화 및 속도/자동재생 이벤트 바인딩
+/**
+ * TTS 음성 합성 시스템 전역 초기화 (설정 복원, 모달 리스너, 속도 선택 칩 바인딩)
+ */
+/**
+ * iOS Safari 및 모바일 브라우저의 오디오 자동 재생 제한(User Gesture Lock)을 해제하기 위한 언락커
+ * 사용자의 첫 인터랙션(클릭 또는 터치) 발생 시 무음 오디오를 재생하여 AudioContext 및 HTMLAudioElement를 활성화합니다.
+ */
+function initMobileAudioUnlock() {
+  const unlock = () => {
+    // 1. HTMLAudioElement 언락용 무음 버퍼 재생
+    try {
+      const silentAudio = new Audio(
+        "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA",
+      );
+      const playPromise = silentAudio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            silentAudio.pause();
+          })
+          .catch(() => {});
+      }
+    } catch (e) {}
+
+    // 2. Web Speech API 언락용 더미 utterance
+    if ("speechSynthesis" in window && !speechSynthesis.speaking) {
+      try {
+        const dummyUtterance = new SpeechSynthesisUtterance("");
+        dummyUtterance.volume = 0;
+        speechSynthesis.speak(dummyUtterance);
+        speechSynthesis.cancel();
+      } catch (e) {}
+    }
+
+    // 3. AudioContext 언락 (지원 브라우저)
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) {
+      try {
+        const ctx = new AudioContextClass();
+        if (ctx.state === "suspended") {
+          ctx.resume();
+        }
+      } catch (e) {}
+    }
+
+    window.removeEventListener("touchstart", unlock, { capture: true });
+    window.removeEventListener("touchend", unlock, { capture: true });
+    window.removeEventListener("click", unlock, { capture: true });
+  };
+
+  window.addEventListener("touchstart", unlock, { capture: true, once: true });
+  window.addEventListener("touchend", unlock, { capture: true, once: true });
+  window.addEventListener("click", unlock, { capture: true, once: true });
+}
+
 function initTTS() {
+  initMobileAudioUnlock();
   loadTtsSettings();
   initTtsSettingsModal();
 
@@ -506,7 +678,14 @@ function initTTS() {
   }
 }
 
-// 언어별 가장 자연스러운 여성 고품질 시스템 보이스 탐색 (삼성 브라우저/갤럭시/안드로이드/iOS/PC 완벽 대응)
+/**
+ * Web Speech API 환경에서 언어별 최적의 여성 자연어 음성 객체(SpeechSynthesisVoice) 탐색
+ * [디바이스 대응 정책]
+ * - 안드로이드/삼성 갤럭시: 삼성 TTS 고품질 및 Google TTS 여성 보이스 자동 우선 배정
+ * - iOS/macOS Safari: Siri / Samantha / Karen 등 고품질 자연어 여성 보이스 우선 배정
+ * @param {string} [lang="en-US"] - 대상 언어 코드
+ * @returns {SpeechSynthesisVoice|null} 매칭된 최적 음성 객체
+ */
 function getBestVoice(lang = "en-US") {
   if (!("speechSynthesis" in window)) return null;
   const voices = speechSynthesis.getVoices();
@@ -566,10 +745,19 @@ function getBestVoice(lang = "en-US") {
   return exact || langVoices[0];
 }
 
-// 전역 TTS 세션 및 오디오 상태 관리
-let currentTtsRequestId = 0; // 비동기 네트워크 지연 중복 재생 방지용 고유 요청 ID
+// =============================================================================
+// 5. 음성 재생 제어 및 하이브리드 TTS 파이프라인
+// =============================================================================
 
-/// 진행 중인 모든 TTS 음성 재생 중단 (오디오 엘리먼트 + Web Speech API + 대기 중인 모든 비동기 요청 취소)
+/** @type {number} 비동기 네트워크/캐시 대기 중 중복 발화 및 레이스 컨디션 방지용 시퀀스 ID */
+let currentTtsRequestId = 0;
+
+/**
+ * 현재 재생 중인 모든 오디오 및 음성 합성 프로세스 강제 중단
+ * - HTMLAudioElement 일시정지 및 리소스 해제 (Object URL revoke)
+ * - 브라우저 Web Speech API 큐 취소
+ * - 대기 중이던 비동기 TTS 콜백 무효화
+ */
 function stopTTS() {
   currentTtsRequestId++; // ⚡ 진행 중이던 모든 비동기 캐시/네트워크 요청 즉시 무효화
 
@@ -597,7 +785,10 @@ function stopTTS() {
   resetCurrentButton();
 }
 
-// 음성 재생 중 UI 상태 적용
+/**
+ * 음성 재생 시작 시 해당 버튼의 시각적 활성화 클래스(.speaking) 토글
+ * @param {HTMLElement|null} btn - 대상 버튼 엘리먼트
+ */
 function setButtonPlaying(btn) {
   if (!btn) return;
   resetCurrentButton();
@@ -605,7 +796,9 @@ function setButtonPlaying(btn) {
   btn.classList.add("speaking");
 }
 
-// 음성 재생 중단 시 UI 원래대로 복구
+/**
+ * 음성 재생 종료 시 버튼의 .speaking 클래스 제거 및 상태 초기화
+ */
 function resetCurrentButton() {
   if (currentSpeakingBtn) {
     currentSpeakingBtn.classList.remove("speaking");
@@ -613,7 +806,19 @@ function resetCurrentButton() {
   }
 }
 
-// Azure Cognitive Services Speech REST API 호출 및 Audio 캐싱
+/**
+ * Azure Cognitive Services Speech REST API 호출 및 오디오 데이터 캐싱
+ * [비즈니스 로직]
+ * 1. IndexedDB 캐시 조회: 속도/보이스/텍스트 일치 항목이 존재하면 API 호출 없이 캐시 Blob 즉시 반환
+ * 2. 캐시 미스 시: Azure REST 엔드포인트(/cognitiveservices/v1)로 SSML XML 전송
+ * 3. 응답 성공 시: Azure F0 월간 텍스트 사용량 누적 및 IndexedDB 영구 보존
+ * @param {string} text - 음성 합성할 영문 텍스트
+ * @param {string} [voiceName="en-US-JennyNeural"] - Azure Neural Voice 명칭
+ * @param {number} [rate=1.0] - 재생 속도 배율
+ * @param {string|null} [lang=null] - 언어 코드 (기본값 en-US)
+ * @returns {Promise<Blob>} 합성된 오디오 MP3 Blob
+ * @throws {Error} API 키 누락 또는 네트워크/HTTP 오류 발생 시
+ */
 async function fetchAzureTtsAudio(
   text,
   voiceName = "en-US-JennyNeural",
@@ -679,7 +884,12 @@ async function fetchAzureTtsAudio(
   return blob;
 }
 
-// Google 번역 무료 TTS 엔드포인트 호출 및 Audio 캐싱
+/**
+ * Google 번역 무료 TTS 엔드포인트 호출 및 Audio 캐싱 (1차 경량 웹 폴백)
+ * @param {string} text - 음성 합성할 텍스트 (200자 이하 권장)
+ * @param {string} [lang="en-US"] - 언어 코드
+ * @returns {Promise<Blob>} 오디오 Blob 객체
+ */
 async function fetchGoogleTtsAudio(text, lang = "en-US") {
   const cacheKey = AudioCache.makeKey("google", "default", text, 1.0);
   const cachedBlob = await AudioCache.getAudio(cacheKey);
@@ -696,7 +906,15 @@ async function fetchGoogleTtsAudio(text, lang = "en-US") {
   return blob;
 }
 
-// 오디오 Blob 재생 헬퍼 (IndexedDB 캐시된 오디오 및 네트워크 오디오 공통)
+/**
+ * 브라우저 메모리 Blob URL을 생성하여 HTMLAudioElement로 재생
+ * - 재생 완료 또는 중단 시 Object URL revoke를 통한 메모리 누수 방지
+ * - 비동기 시퀀스 ID(`requestId`) 검증을 통한 중복/레이스 재생 차단
+ * @param {Blob} blob - 재생할 오디오 Blob
+ * @param {HTMLElement|null} btn - 연동된 재생 버튼
+ * @param {number} [requestId] - 요청 시 발급된 시퀀스 ID
+ * @returns {Promise<void>}
+ */
 function playAudioBlob(blob, btn, requestId) {
   return new Promise((resolve, reject) => {
     // ⚡ 대기 중에 다른 TTS가 요청되었다면 즉시 파기
@@ -767,7 +985,15 @@ function playAudioBlob(blob, btn, requestId) {
   });
 }
 
-// Web Speech API (브라우저 기본 TTS) 폴백 재생 (중복 재생 원천 차단)
+/**
+ * Web Speech API (브라우저 기본 내장 TTS) 오프라인 폴백 재생
+ * - 모바일/태블릿 네이티브 음성 합성 엔진 활용
+ * - 비동기 requestId 검증을 통한 세션 중복 충돌 방어
+ * @param {string} text - 음성 합성할 텍스트
+ * @param {string} [lang="en-US"] - 언어 코드
+ * @param {HTMLElement|null} [btn=null] - 연동된 버튼 엘리먼트
+ * @param {number} [requestId] - 요청 시 발급된 시퀀스 ID
+ */
 function playNativeTTS(text, lang = "en-US", btn = null, requestId) {
   // ⚡ 대기 중에 다른 TTS가 요청되었다면 즉시 파기
   if (requestId !== undefined && requestId !== currentTtsRequestId) {
@@ -808,7 +1034,18 @@ function playNativeTTS(text, lang = "en-US", btn = null, requestId) {
   speechSynthesis.speak(utterance);
 }
 
-// 텍스트를 음성으로 재생하는 메인 하이브리드 함수 (모든 중복/동시 재생 100% 방지)
+/**
+ * 텍스트 음성 합성(TTS) 통합 오케스트레이터
+ * [실행 파이프라인]
+ * 1. 실행 중인 이전 TTS 및 오디오 전면 중단(stopTTS) & 신규 requestId 채번
+ * 2. 1단계: IndexedDB 캐시 검사 (동일 텍스트/속도/보이스가 이미 저장된 경우 0ms 무비용 즉시 재생)
+ * 3. 2단계: Azure Speech REST API 호출 (영문이고 Azure Key 유효 시 최고 품질 Neural 음성 합성)
+ * 4. 3단계: Google Translate TTS 호출 (Azure 미설정 또는 실패 시 200자 이하 경량 웹 폴백)
+ * 5. 4단계: 브라우저 Web Speech API 폴백 (오프라인 환경 및 최후 보루)
+ * @param {string} text - 발화할 영문 또는 한글 텍스트
+ * @param {string} [lang="en-US"] - 발화 언어
+ * @param {HTMLElement|null} [btn=null] - 음성 재생 토글 버튼
+ */
 async function speakText(text, lang = "en-US", btn = null) {
   if (!text || !text.trim()) return;
   const cleanText = text.trim();
@@ -896,46 +1133,80 @@ async function speakText(text, lang = "en-US", btn = null) {
   playNativeTTS(cleanText, lang, btn, thisRequestId);
 }
 
-// ── 발음 및 Azure AI 정밀 평가 시스템 ──────────────────────────────────
+// =============================================================================
+// 6. 음성 녹음(MediaRecorder) 및 인메모리 오디오 버퍼 관리
+// =============================================================================
+
+/** @type {Object<string, Blob|null>} 각 학습 모드별 최근 녹음된 원본 오디오 Blob 보관소 */
 let lastRecordedBlobs = {
   practice: null,
   opic: null,
   pattern: null,
   speechPractice: null,
 };
+
+/** @type {Object<string, ArrayBuffer|null>} Azure 발음 평가용 16kHz 모노 PCM WAV 버퍼 보관소 */
 let lastRecordedWavs = {
   practice: null,
   opic: null,
   pattern: null,
   speechPractice: null,
 };
-let currentMediaRecorder = null;
-let currentMediaStream = null;
-let recordedAudioChunks = [];
-let currentRecordingMode = "practice"; // "practice" | "opic" | "pattern" | "speechPractice"
 
-// 녹음된 오디오 Blob 조회
+/** @type {MediaRecorder|null} 현재 활성화된 브라우저 미디어 레코더 인스턴스 */
+let currentMediaRecorder = null;
+
+/** @type {MediaStream|null} 현재 캡처 중인 마이크 오디오 스트림 */
+let currentMediaStream = null;
+
+/** @type {Blob[]} 청크 단위로 분할 수집되는 오디오 데이터 청크 배열 */
+let recordedAudioChunks = [];
+
+/** @type {"practice" | "opic" | "pattern" | "speechPractice"} 현재 활성화된 녹음 모드 */
+let currentRecordingMode = "practice";
+
+/**
+ * 특정 학습 모드의 최근 녹음된 오디오 Blob 조회
+ * @param {"practice" | "opic" | "pattern" | "speechPractice"} [mode="practice"]
+ * @returns {Blob|null}
+ */
 function getRecordedVoiceBlob(mode = "practice") {
   return lastRecordedBlobs[mode] || null;
 }
 
-// 녹음된 오디오 Blob 저장
+/**
+ * 특정 학습 모드의 녹음된 오디오 Blob 인메모리 저장
+ * @param {"practice" | "opic" | "pattern" | "speechPractice"} mode
+ * @param {Blob} blob
+ */
 function setRecordedVoiceBlob(mode, blob) {
   lastRecordedBlobs[mode] = blob;
 }
 
-// 녹음된 WAV 버퍼 저장
+/**
+ * 16kHz 변환된 WAV 버퍼 인메모리 저장
+ * @param {"practice" | "opic" | "pattern" | "speechPractice"} mode
+ * @param {ArrayBuffer} buffer
+ */
 function setRecordedWavBuffer(mode, buffer) {
   lastRecordedWavs[mode] = buffer;
 }
 
-// 녹음 상태 초기화
+/**
+ * 특정 모드의 인메모리 오디오 Blob 및 WAV 버퍼 초기화
+ * @param {"practice" | "opic" | "pattern" | "speechPractice"} [mode="practice"]
+ */
 function clearRecordedVoice(mode = "practice") {
   lastRecordedBlobs[mode] = null;
   lastRecordedWavs[mode] = null;
 }
 
-// 사용자의 실제 녹음 목소리 재생 (녹음본 없으면 TTS 폴백)
+/**
+ * 학습자가 방금 녹음한 실제 육성 오디오 재생 (녹음본 부재 시 텍스트 TTS로 자동 폴백)
+ * @param {"practice" | "opic" | "pattern" | "speechPractice"} [mode="practice"] - 학습 모드
+ * @param {HTMLElement|null} [btn=null] - 재생 토글 버튼
+ * @param {string} [fallbackText=""] - 녹음본이 없을 경우 대체 재생할 정답 텍스트
+ */
 async function playRecordedVoice(
   mode = "practice",
   btn = null,
@@ -963,7 +1234,16 @@ async function playRecordedVoice(
   }
 }
 
-// 브라우저 오디오 Blob을 Azure 호환 16kHz 16-bit Mono WAV Buffer로 변환
+/**
+ * 브라우저 오디오 Blob(webm, mp4, aac 등)을 Azure AI Speech 및 Whisper 입력 규격인
+ * 16kHz 16-bit Mono PCM WAV 버퍼(ArrayBuffer)로 변환
+ * [파이프라인]
+ * 1. AudioContext를 통해 원본 압축 오디오를 AudioBuffer로 디코딩
+ * 2. OfflineAudioContext를 생성하여 16000Hz 단일 채널(Mono)로 리샘플링 렌더링
+ * 3. 44바이트 표준 RIFF WAV 헤더 생성 및 PCM 16bit 정수 샘플링 변환
+ * @param {Blob} blob - 사용자 마이크 녹음 Blob
+ * @returns {Promise<ArrayBuffer|null>} 변환된 16kHz WAV 버퍼, 실패 시 null
+ */
 async function blobTo16kHzWav(blob) {
   if (!blob) return null;
   try {
@@ -1001,6 +1281,12 @@ async function blobTo16kHzWav(blob) {
     const wavBuffer = new ArrayBuffer(44 + pcmData.length * 2);
     const view = new DataView(wavBuffer);
 
+    /**
+     * 바이너리 뷰 오프셋 위치에 ASCII 문자열 기록
+     * @param {DataView} v
+     * @param {number} offset
+     * @param {string} str
+     */
     function writeString(v, offset, str) {
       for (let i = 0; i < str.length; i++) {
         v.setUint8(offset + i, str.charCodeAt(i));
@@ -1035,7 +1321,12 @@ async function blobTo16kHzWav(blob) {
   }
 }
 
-// 프랑스어/스페인어 차용어 악센트(é, è, ê, á, ñ 등)를 표준 영어 ASCII 알파벳으로 변환
+/**
+ * 프랑스어/스페인어 차용어 악센트(é, è, ê, á, ñ 등)를 표준 영어 ASCII 알파벳으로 변환
+ * - 유니코드 정규화(NFD)를 적용하여 결합 발음 구별 기호 제거
+ * @param {string} text - 원본 영문 텍스트
+ * @returns {string} 살균 정규화된 텍스트
+ */
 function sanitizeEnglishText(text) {
   if (!text) return "";
   return String(text)
@@ -1052,7 +1343,11 @@ function sanitizeEnglishText(text) {
     .trim();
 }
 
-// UTF-8 안전 Base64 인코더 (Azure HTTP Header 전달 시 깨짐 방지)
+/**
+ * UTF-8 한글 및 특수기호가 포함된 문자열을 HTTP 헤더 안전 Base64 문자열로 인코딩
+ * @param {string} str - 원본 문자열
+ * @returns {string} Base64 인코딩 결과
+ */
 function utf8ToBase64(str) {
   return btoa(
     encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) =>
@@ -1061,7 +1356,20 @@ function utf8ToBase64(str) {
   );
 }
 
-// Azure AI Speech Pronunciation Assessment REST API 호출
+// =============================================================================
+// 7. Azure AI 음성 정밀 발음 평가 (Pronunciation Assessment API)
+// =============================================================================
+
+/**
+ * Azure Cognitive Services Pronunciation Assessment REST API 호출 및 결과 파싱
+ * [평가 차원 - Dimension: Comprehensive]
+ * - 정확도 (AccuracyScore), 유창성 (FluencyScore), 운율/억양 (ProsodyScore), 완성도 (CompletenessScore)
+ * - 단어 단위 및 음소(Phoneme) 단위 세부 감점 분석
+ * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
+ * @param {string} referenceText - 모범 기준 정답 텍스트
+ * @returns {Promise<Object>} 정밀 평가 결과 객체 (점수, 음소/단어 분석, OPIc 예상 등급)
+ * @throws {Error} API 키 부재, 오디오 데이터 부족, 인식 실패 시
+ */
 async function assessPronunciationWithAzure(wavBuffer, referenceText) {
   if (!azureApiKey || !azureApiKey.trim()) {
     throw new Error("Azure API Key가 설정되지 않았습니다.");
@@ -1199,7 +1507,15 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
   };
 }
 
-// 평가 비교를 위한 텍스트 정규화
+// =============================================================================
+// 8. 텍스트 정규화 및 단순 일치도(Diff) 평가
+// =============================================================================
+
+/**
+ * 텍스트 비교 평가를 위한 영문 소문자/특수문자 정규화 헬퍼
+ * @param {string} text - 원본 텍스트
+ * @returns {string} 정규화된 텍스트 (알파벳, 숫자, 아포스트로피, 공백만 허용)
+ */
 function normalizeForEval(text) {
   return sanitizeEnglishText(text || "")
     .toLowerCase()
@@ -1208,7 +1524,14 @@ function normalizeForEval(text) {
     .trim();
 }
 
-// 로컬 텍스트 일치도 폴백 평가 (문장 변환 모드 전용)
+/**
+ * 로컬 단어 일치도(Diff & Score) 평가 (문장 번역 모드 전용)
+ * - 모범 답안 단어 토큰과 사용자 발화 단어 토큰의 편집/포함 관계 비교
+ * - 누락 단어(miss), 일치 단어(match), 추가 인식 단어(actual) 시각화 HTML 생성
+ * @param {string} userInput - 학습자가 음성으로 입력한 문장
+ * @param {string} modelAnswer - 시스템 모범 정답 문장
+ * @returns {Object} 일치율 점수(0~100), Diff 시각화 HTML, 한국어 피드백 문자열
+ */
 function evaluateSpeech(userInput, modelAnswer) {
   const normUser = normalizeForEval(userInput);
   const normModel = normalizeForEval(modelAnswer);
@@ -1276,19 +1599,35 @@ function evaluateSpeech(userInput, modelAnswer) {
   return { isAzure: false, score, diffHtml: diffParts.join(" "), feedback };
 }
 
-// ── OPIc 다면 평가 및 주제 적합성 사전 & 엔진 ────────────────────────
-// (어휘 사전 데이터는 js/eval-dict.js 모듈에서 로드됩니다)
+// =============================================================================
+// 9. OPIc 시험 주제 적합도 및 다면 평가 도메인 사전
+// =============================================================================
+
+/** @type {Object<string, string[]>} OPIc 14대 핵심 카테고리별 도메인 필수 어휘 풀 (js/eval-dict.js 로드) */
 const TOPIC_VOCABULARY_MAP = window.EvalDict
   ? window.EvalDict.TOPIC_VOCABULARY_MAP
   : {};
+
+/** @type {Set<string>} 불용어(Stop Words) 제외 목록 */
 const EVAL_STOP_WORDS = window.EvalDict
   ? window.EvalDict.STOP_WORDS
   : new Set();
+
+/** @type {string[]} OPIc 논리 전개용 담화 연결어 목록 (because, therefore, however 등) */
 const OPIC_CONNECTORS = window.EvalDict ? window.EvalDict.CONNECTORS : [];
+
+/** @type {string[]} 자연스러운 발화 지연 필러 표현 목록 (you know, honestly, well 등) */
 const OPIC_FILLERS = window.EvalDict ? window.EvalDict.FILLERS : [];
+
+/** @type {string[]} 돌발/경험 질문 필수 과거 시제 동사 목록 */
 const OPIC_PAST_VERBS = window.EvalDict ? window.EvalDict.PAST_VERBS : [];
 
-// 단어 경계 기반 고정밀 매칭 유틸
+/**
+ * 단어 경계(Word Boundary)를 보장하는 정규식 기반 고정밀 어휘 매칭 헬퍼
+ * @param {string} text - 사용자 발화 텍스트
+ * @param {string[]} list - 대상 단어/표현 목록
+ * @returns {string[]} 발견된 매칭 단어 목록
+ */
 function matchWordList(text, list) {
   const matches = [];
   const lower = (text || "").toLowerCase();
@@ -1305,7 +1644,16 @@ function matchWordList(text, list) {
   return matches;
 }
 
-// 질문과 사용자 답변의 주제 적합성(Topic Relevance) 진단 알고리즘
+/**
+ * 에바의 질문과 수험자 답변 간의 주제 적합성(Topic Relevance) 진단 알고리즘
+ * [평가 기준]
+ * 1. 질문 영문 텍스트 내 핵심 명사/동사 토큰 추출
+ * 2. 질문 카테고리(집, 동네, 여행, 호텔 등)에 따른 연관 도메인 어휘 풀 매칭
+ * 3. 주제 불일치(Off-Topic) 판정 시 OPIc 시험 기준 IL 이하 하드 캡 부과
+ * @param {string} userInput - 수험자의 발화 전사 텍스트
+ * @param {Object|null} questionItem - 질문 메타데이터 객체 (q_en, cat, keywords 등)
+ * @returns {Object} 주제 적합도 점수(0~100), 판정 상태(high/moderate/low/off-topic), 피드백
+ */
 function evaluateTopicRelevance(userInput, questionItem) {
   if (!userInput || !userInput.trim()) {
     return {
@@ -1499,7 +1847,43 @@ function evaluateTopicRelevance(userInput, questionItem) {
   };
 }
 
-// OPIc 종합 다면 평가 산출기 (발화량 하드캡 + 주제적합도 + 발음/유창성 + 담화표지어)
+// =============================================================================
+// 10. OPIc 다면 평가 종합 채점 엔진 (ACTFL 공식 기준 기반)
+// =============================================================================
+
+/**
+ * ACTFL OPIc 공식 평가 가이드라인 기반 6대 영역 종합 다면 평가 알고리즘
+ *
+ * [평가 지표 및 배점 가중치]
+ * 1. 발음 및 유창성 (Speech Score: 35%):
+ *    - Azure Pronunciation Assessment API (정확도/유창성/운율) 또는 로컬 STT 신뢰도
+ * 2. 발화량 및 문단 구성력 (Volume Score: 35%):
+ *    - AL: 14문장 이상 (130단어 이상) - 복수 문단 구성 및 상세 묘사
+ *    - IH: 10~13문장 (95~129단어) - 유기적 문단 연결
+ *    - IM3: 8~9문장 (75~94단어) - 준문단 구성
+ *    - IM2: 6~7문장 (55~74단어) - 일상 묘사/루틴
+ *    - IM1: 5~6문장 (35~54단어) - 단순 문장 결합
+ *    - IL: 3~4문장 (19~34단어) - 단순 단문 나열
+ *    - Novice: 1~2문장 (18단어 미만) - 단답형 파편화
+ * 3. 주제 적합도 (Topic Relevance: 20%):
+ *    - 질문 의도 및 도메인 핵심 어휘 매칭 (Off-Topic 판정 시 최대 IL 등급 하드 캡)
+ * 4. 담화 표지어 및 시제 다양성 (Discourse Bonus: 10%):
+ *    - 논리 연결어(Connectors), 자연스러운 필러(Fillers), 과거 시제 동사 가산점
+ *
+ * [비즈니스 룰 - 등급 상한선(Hard Cap)]
+ * - 발음이 아무리 원어민 같아도, 1~2문장 단답형 발화 시 IL 이상 부여 불가
+ * - 질문과 무관한 엉뚱한 답변(Off-Topic) 시 점수 무관하게 IL 등급으로 강제 제한
+ *
+ * @param {Object} params
+ * @param {number} [params.pronScore=70] - 발음 정확도 점수
+ * @param {number} [params.fluencyScore=70] - 발화 유창성 점수
+ * @param {number} [params.accuracyScore=70] - 음소 정확도 점수
+ * @param {number} [params.prosodyScore=70] - 억양 및 운율 점수
+ * @param {string} [params.userText=""] - 수험자 발화 전사 텍스트
+ * @param {Object|null} [params.questionItem=null] - 질문 메타데이터
+ * @param {boolean} [params.isAzure=false] - Azure AI 평가 여부
+ * @returns {Object} 종합 평가 결과 (finalScore, opicGrade, wordCount, sentenceCount, volumeWarning 등)
+ */
 function calculateComprehensiveOpicScore({
   pronScore = 70,
   fluencyScore = 70,
@@ -1738,7 +2122,14 @@ function calculateComprehensiveOpicScore({
   };
 }
 
-// OPIc 실전 나만의 답변 발화 평가 (로컬 엔진)
+/**
+ * OPIc 실전 모드 전용 나만의 자유 발화 평가 (로컬 엔진 폴백 모드)
+ * - 발화 어휘 수, 고유 단어 수, 문장 수, 연결어/필러/과거시제 매칭 태그 분석
+ * - OPIc 시험 기준 발화량 가이드 및 주제 적합도 뱃지 렌더링
+ * @param {string} userInput - 수험자의 발화 텍스트
+ * @param {Object|null} [questionItem=null] - 에바의 질문 메타데이터
+ * @returns {Object} 점수, 예측 등급(opicGrade), 시각화 HTML(diffHtml), 피드백
+ */
 function evaluateOpicSpeaking(userInput, questionItem = null) {
   const normUser = normalizeForEval(userInput);
   if (!normUser) {
@@ -1825,7 +2216,23 @@ function evaluateOpicSpeaking(userInput, questionItem = null) {
   };
 }
 
-// 발음 평가 UI 통합 렌더링 (Azure AI 4대 지표 / 나만의 답변 & 로컬 하이브리드)
+// =============================================================================
+// 11. 발음 및 다면 평가 결과 UI 렌더러
+// =============================================================================
+
+/**
+ * 발음 및 다면 발화 평가 결과 UI 통합 렌더러 (하이브리드: Azure AI 정밀 진단 ↔ 로컬 엔진)
+ * @param {Object} options
+ * @param {HTMLElement} options.boxEl - 결과 컨테이너 박스
+ * @param {HTMLElement} options.badgeEl - 점수/등급 뱃지 엘리먼트
+ * @param {HTMLElement} options.diffEl - Diff 및 세부 통계 엘리먼트
+ * @param {HTMLElement} options.feedbackEl - 한국어 총평 피드백 엘리먼트
+ * @param {string} [options.mode="practice"] - 학습 모드
+ * @param {string} [options.referenceText=""] - 기준 정답 텍스트
+ * @param {string} [options.userText=""] - 수험자 입력 텍스트
+ * @param {HTMLElement|null} [options.voiceBtn=null] - 녹음 듣기 버튼
+ * @param {Object|null} [options.questionItem=null] - 질문 메타데이터
+ */
 async function renderPronunciationAssessment({
   boxEl,
   badgeEl,
@@ -2166,8 +2573,15 @@ function renderSpeechEvaluation(evalData) {
   els.speechEvalBox.classList.add("show");
 }
 
-// ── 문법 검사 및 실시간 번역 ──────────────────────────────────────────
-// LanguageTool API를 활용한 영어 문법 검사
+// =============================================================================
+// 12. 영문 문법 교정(LanguageTool) 및 하이브리드 한-영 번역 엔진
+// =============================================================================
+
+/**
+ * LanguageTool 오픈소스 REST API를 활용한 영어 문법/철자 오류 검사
+ * @param {string} text - 검사 대상 영문 텍스트
+ * @returns {Promise<Array<Object>>} 검출된 문법 오류 매칭 객체 목록 (offset, length, message, replacements)
+ */
 async function checkGrammar(text) {
   if (!text || text.length < 3) return [];
   const params = new URLSearchParams({ text, language: "en-US" });
@@ -2184,11 +2598,21 @@ async function checkGrammar(text) {
   }
 }
 
-// 번역 메모리 캐시 및 Rate Limit 쿨다운 관리
+/** @type {Map<string, string>} 인메모리 번역 LRU 캐시 (최대 100개 유지) */
 const translationCache = new Map();
+
+/** @type {number} Google 번역 API 429 Too Many Requests 방지용 쿨다운 타임스탬프 */
 let googleTranslateCooldownUntil = 0;
 
-// 영문 텍스트를 한국어로 번역 (MyMemory + Google Translate 다중 폴백 및 캐싱)
+/**
+ * 영문 문장을 한국어로 실시간 번역
+ * [하이브리드 아키텍처]
+ * 1. 번역 인메모리 캐시 히트 검사
+ * 2. 1차 번역 엔진: MyMemory API (CORS 친화적 & 브라우저 안정성 우수)
+ * 3. 2차 번역 엔진: Google Translate gtx 엔드포인트 폴백 (429 발생 시 60초간 쿨다운 보호)
+ * @param {string} text - 번역할 영문 문자열
+ * @returns {Promise<string>} 번역된 한국어 문자열
+ */
 async function translateToKorean(text) {
   const clean = (text || "").trim();
   if (!clean) return "";
@@ -2254,7 +2678,13 @@ async function translateToKorean(text) {
   return translated;
 }
 
-// 문법 검사 결과 및 교정 제안 UI 렌더링
+/**
+ * 문법 검사 결과 및 교정 제안 리스트 UI 렌더링
+ * @param {Array<Object>} matches - LanguageTool 오류 목록
+ * @param {string} text - 원본 영문 텍스트
+ * @param {HTMLElement} [targetBox=els.grammarBox] - 렌더링 박스 엘리먼트
+ * @param {HTMLElement} [targetContent=els.grammarContent] - 내용 엘리먼트
+ */
 async function renderGrammarResults(
   matches,
   text,
@@ -2289,8 +2719,13 @@ async function renderGrammarResults(
   targetContent.innerHTML = html;
 }
 
+/** @type {number|null} 실시간 번역 디바운스 타이머 식별자 */
 let translateTimer = null;
-// 음성 인식 / 입력 중 실시간 한국어 번역 프리뷰 실행
+
+/**
+ * 음성 인식(STT) 진행 중 또는 타이핑 중 실시간 한국어 번역 프리뷰 렌더링
+ * @param {string} text - 실시간 입력 텍스트
+ */
 async function runLiveTranslate(text) {
   if (!text.trim()) {
     els.liveTranslate.classList.remove("show");
@@ -2309,15 +2744,32 @@ async function runLiveTranslate(text) {
   }
 }
 
-// ── STT (음성 인식) 및 실제 음성 캡처 시스템 ──────────────────────────
+// =============================================================================
+// 13. STT(음성 인식) 및 한국인 발화 음소 자동 보정 엔진
+// =============================================================================
+
+/** @type {SpeechRecognition|null} Web Speech API 음성 인식 인스턴스 */
 let recognition = null;
+
+/** @type {boolean} 마이크 활성 수신 상태 플래그 */
 let listening = false;
+
+/** @type {number|null} 마이크 응답 지연 감시 타이머 (Watchdog) */
 let micStartTimer = null;
+
+/** @type {boolean} 실제 마이크 하드웨어 스트림 시작 여부 */
 let micStarted = false;
+
+/** @type {Object|null} 현재 마이크 입력을 받고 있는 대상 UI 요소 묶음 */
 let activeTarget = null;
+
+/** @type {string} 마이크 시작 전 텍스트에어리어에 이미 작성되어 있던 기존 텍스트 */
 let baseTranscript = "";
+
+/** @type {string} 확정된 음성 전사 텍스트 */
 let finalTranscript = "";
 
+/** @const {Object<string, string>} Web Speech API 에러 코드별 한국어 안내 메시지 */
 const MIC_ERROR_MESSAGES = {
   "not-allowed":
     "마이크 권한이 필요해요. 브라우저 주소창의 🔒 아이콘 → 마이크 → 허용으로 설정해주세요.",
@@ -2331,7 +2783,11 @@ const MIC_ERROR_MESSAGES = {
     "네트워크 오류로 음성을 인식하지 못했어요. 인터넷 연결을 확인해주세요.",
 };
 
-// 마이크 오류 메시지 출력
+/**
+ * 마이크 오류 메시지를 대상 UI 엘리먼트에 시각적으로 표시
+ * @param {string} msg - 안내할 에러 메시지
+ * @param {HTMLElement|null} [errorEl=null] - 메시지 표시용 엘리먼트
+ */
 function showMicError(msg, errorEl) {
   const targetEl =
     errorEl || (activeTarget && activeTarget.error) || els.micError;
@@ -2340,7 +2796,10 @@ function showMicError(msg, errorEl) {
   targetEl.classList.add("show");
 }
 
-// 마이크 오류 메시지 초기화
+/**
+ * 마이크 오류 메시지 초기화 및 숨김 처리
+ * @param {HTMLElement|null} [errorEl=null]
+ */
 function clearMicError(errorEl) {
   const targetEl =
     errorEl || (activeTarget && activeTarget.error) || els.micError;
@@ -2349,9 +2808,13 @@ function clearMicError(errorEl) {
   targetEl.classList.remove("show");
 }
 
-// ── 음성인식(STT) 한국인 영어 발화 오인식 자동 보정 & 가상 문장 분절 엔진 ──────
-
-// 빈번한 한국인 음소 분절 및 오인식 표현 교정 규칙
+/**
+ * 한국인 영어 학습자의 빈번한 음소 분절 및 왜곡 표현 자동 치환 규칙 목록
+ * [주요 보정 대상]
+ * - 아파트 분절: "a part meant" -> "apartment"
+ * - 카페 쪼개짐: "caf s" -> "cafes"
+ * - 국내 주요 지명/브랜드: "building dong" -> "Buldang-dong", "two some" -> "Twosome"
+ */
 const PHONETIC_CORRECTION_RULES = [
   { reg: /\ba\s+part\s+meant\b/gi, rep: "apartment" },
   { reg: /\ba\s+partment\b/gi, rep: "apartment" },
@@ -2403,7 +2866,11 @@ const PHONETIC_CORRECTION_RULES = [
   { reg: /\bcaf[eé]\b/gi, rep: "cafe" },
 ];
 
-// 음성 인식 텍스트 자동 보정기
+/**
+ * 실시간 STT 전사 텍스트에 한국인 발화 오인식 보정 규칙 일괄 적용
+ * @param {string} text - 원본 음성 전사 텍스트
+ * @returns {string} 자동 교정된 텍스트
+ */
 function correctSttPhoneticErrors(text) {
   if (!text) return "";
   let corrected = sanitizeEnglishText(text);
@@ -2417,7 +2884,11 @@ function correctSttPhoneticErrors(text) {
   return corrected;
 }
 
-// 구두점이 없는 긴 STT 발화 텍스트를 접속사/필러 기준으로 가상 분절하는 지능형 문장 분절기
+/**
+ * 마침표 등 구두점이 누락된 긴 STT 발화 스트림을 접속사/필러/담화표지어 기준으로 가상 분절
+ * @param {string} text - 원본 발화 텍스트
+ * @returns {string[]} 가상 분절된 문장 배열
+ */
 function splitIntoVirtualSentences(text) {
   if (!text || !text.trim()) return [];
   const rawSentences = text
@@ -2459,9 +2930,12 @@ function splitIntoVirtualSentences(text) {
   return virtualSentences.length > 0 ? virtualSentences : [text.trim()];
 }
 
-let userExplicitlyStoppedMic = false; // 사용자가 명시적으로 마이크를 정지했는지 여부 (침묵 자동 재연결 제어용)
+/** @type {boolean} 사용자가 수동으로 마이크 종료 버튼을 눌렀는지 여부 (침묵 시 브라우저 자동 연결 제어용) */
+let userExplicitlyStoppedMic = false;
 
-// 마이크 수신 상태 UI 비활성화
+/**
+ * 마이크 수신 상태 UI 비활성화 및 타이머 정리
+ */
 function stopListeningUI() {
   listening = false;
   micStarted = false;
@@ -2489,13 +2963,18 @@ function stopListeningUI() {
   }
 }
 
-// 음성 인식 내부 텍스트 버퍼 리셋 함수 (사용자가 직접 입력창을 비우거나 새로 쓰기를 누를 때 연동)
+/**
+ * 음성 인식 내부 텍스트 버퍼 리셋 함수 (사용자가 입력창을 비우거나 새로 쓰기를 누를 때 연동)
+ * @param {string} [newText=""] - 새로운 기본 텍스트
+ */
 function resetBaseTranscript(newText = "") {
   baseTranscript = newText || "";
 }
 window.resetBaseTranscript = resetBaseTranscript;
 
-// 음성 인식 및 녹음 중단
+/**
+ * 진행 중인 모든 음성 인식(STT) 및 MediaRecorder 녹음 완전 중단
+ */
 function stopSpeechRecognition() {
   userExplicitlyStoppedMic = true;
   stopListeningUI();
@@ -2524,7 +3003,10 @@ function stopSpeechRecognition() {
   activeTarget = null;
 }
 
-// 마이크 응답 없음 감시 타이머 (Watchdog - 모바일 권한 승인 대기시간 고려 7초로 여유 확대)
+/**
+ * 마이크 응답 없음 감시 타이머 (Watchdog)
+ * - 모바일 브라우저의 권한 승인 대기시간을 고려하여 7초 타임아웃 부여
+ */
 function armStartupWatchdog() {
   if (micStartTimer) clearTimeout(micStartTimer);
   micStartTimer = setTimeout(() => {
@@ -2537,8 +3019,18 @@ function armStartupWatchdog() {
   }, 7000);
 }
 
-/// 음성 인식 토글 함수 (문장 연습, OPIc 실전, 만능 패턴, 발화 연습 모드 공용)
-// subMode: "both" (STT+녹음 동시) | "stt" (STT 전용) | "record" (음성 녹음 전용)
+/**
+ * 통합 음성 인식/녹음 토글 컨트롤러 (문장 연습, OPIc 실전, 만능 패턴, 발화 연습 공용)
+ * [모바일/데스크톱 최적화 정책]
+ * - 모바일 발화 연습(speechPractice): MediaRecorder 녹음 후 온디바이스 Whisper AI가 전사하므로 마이크 충돌 방지를 위해 단독 레코딩 실행
+ * - 모바일 기타 모드(문장/OPIc/패턴): 실시간 Web Speech STT 전용 실행
+ * - 데스크톱: STT 실시간 전사 + MediaRecorder 고음질 오디오 Blob 동시 캡처
+ * @param {HTMLInputElement|HTMLTextAreaElement} targetInput - 전사 텍스트가 입력될 엘리먼트
+ * @param {HTMLElement} targetBtn - 마이크 토글 버튼 엘리먼트
+ * @param {HTMLElement|null} targetError - 에러 메시지 출력 엘리먼트
+ * @param {string|boolean} [modeOrIsOpic=false] - 학습 모드 식별자
+ * @param {string|null} [subMode=null] - 세부 모드
+ */
 function toggleSpeechRecognition(
   targetInput,
   targetBtn,
@@ -2733,7 +3225,11 @@ function toggleSpeechRecognition(
   }
 }
 
-// Web Speech API 음성 인식기 초기화
+/**
+ * Web Speech API 음성 인식기(SpeechRecognition) 인스턴스 초기화 및 이벤트 리스너 등록
+ * [침묵 자동 재연결 방어]
+ * - 사용자가 명시적으로 정지하기 전까지 침묵 타임아웃 종료 시 자동 재시작 보장
+ */
 function initSpeechRecognition() {
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -2855,9 +3351,19 @@ function initSpeechRecognition() {
   };
 }
 
-// ── 🎯 [신규] 개별 문장(1~6번) 따라 말하기 및 즉각 발음 채점 엔진 ──────
+// =============================================================================
+// 14. 개별 문장(1~6번) 따라 말하기 및 즉각 발음 채점 엔진
+// =============================================================================
+
+/** @type {Object|null} 현재 활성화된 개별 문장 음성인식 세션 */
 let activeSingleSentenceRec = null;
 
+/**
+ * 만능 패턴 6문장 분할 뷰 등에서 개별 문장 단위로 음성을 인식하고 즉시 일치율을 채점
+ * @param {string} targetText - 모범 목표 영문장
+ * @param {HTMLElement} micBtn - 개별 마이크 버튼
+ * @param {HTMLElement} evalBoxEl - 결과 출력 박스 엘리먼트
+ */
 function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
   stopTTS();
 
@@ -2956,6 +3462,9 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
   }
 }
 
+/**
+ * 진행 중인 개별 문장 따라 말하기 음성 인식 중단
+ */
 function stopSingleSentenceSpeech() {
   if (!activeSingleSentenceRec) return;
   const { rec, btn } = activeSingleSentenceRec;
@@ -2972,6 +3481,12 @@ function stopSingleSentenceSpeech() {
   activeSingleSentenceRec = null;
 }
 
+/**
+ * 개별 문장 발음 채점 결과 카드 렌더링
+ * @param {string} targetText - 모범 목표 문장
+ * @param {string} spokenText - 사용자 발화 문장
+ * @param {HTMLElement} evalBoxEl - 결과 엘리먼트
+ */
 function renderSingleSentenceResult(targetText, spokenText, evalBoxEl) {
   if (!evalBoxEl) return;
   const result = evaluateSpeech(spokenText, targetText);
@@ -3007,5 +3522,6 @@ function renderSingleSentenceResult(targetText, spokenText, evalBoxEl) {
   `;
 }
 
+// 전역 바인딩 (HTML onclick 호출 호환)
 window.practiceSingleSentenceSpeech = practiceSingleSentenceSpeech;
 window.stopSingleSentenceSpeech = stopSingleSentenceSpeech;

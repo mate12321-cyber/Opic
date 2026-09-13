@@ -4,25 +4,49 @@
  * - 답변 녹음 타이머 및 실시간 STT / 번역 연동
  * - IM1 수준 5~7문장 모범 답변 분할 뷰 및 문장별 TTS 재생
  * - 발음 / 문장 일치도 평가 및 Google AI 질문 연동
+ *
+ * --------------------------------------------------------------------------------
+ * 💡 [확장성 및 유지보수 가이드 (Scalability & Customization Guide)]
+ * 1. 목표 등급별 모범 답변 모델 (Multi-Level Answer Models):
+ *    - 현재 데이터셋은 IM1 맞춤 5~7단문 중심(`sentences` 5~7개)으로 구성되어 있습니다.
+ *    - 추후 IH (10~13문장, 문단 전개) 및 AL (14문장 이상, 복잡한 에피소드) 모범 답변을 지원하려면:
+ *      a) `QUESTIONS_DATA` 각 항목에 `answers_by_grade: { IM1: [...], IH: [...], AL: [...] }`를 두고,
+ *      b) 사용자의 현재 목표 등급에 맞춰 `renderOpicCard()`에서 해당 등급의 문장 배열을 동적 바인딩합니다.
+ *
+ * 2. 나만의 답변 커스텀 (My Script Customization):
+ *    - 사용자가 제공된 표준 모범답안 대신 본인만의 답변 스크립트를 직접 입력/저장하여
+ *      '내 답변 외우기 & 발음 테스트'를 할 수 있도록, `savedOpicInputs` 외에
+ *      `customUserScripts[questionId]`를 영속화하여 모범답안 탭에 '나만의 답변 탭'을 추가할 수 있습니다.
+ * --------------------------------------------------------------------------------
  */
 
-// 실전 질문 답변 모드 상태 변수
-let opicOrder = [];
-let opicCur = 0;
-let opicSelectedCats = new Set();
-let opicRevealed = false;
-let opicWrongList = [];
-let opicGoodCount = 0;
-let opicBadCount = 0;
-let opicReplayCount = 0;
-let opicSpeakingTimer = null;
-let opicSpeakingSeconds = 0;
-let opicViewMode = "breakdown"; // "breakdown" (문장별) | "full" (전체 문단)
-let opicEnRevealed = false; // 영어 질문 블라인드 해제 여부
-let opicPlayMode = "random"; // "random" (일반 무작위) | "combo" (실전 3단 콤보)
-let savedOpicInputs = {}; // 문제별 입력 답변 캐시
+// =============================================================================
+// 1. OPIc 실전 모드 전역 상태 변수 (State Management)
+// =============================================================================
 
-// 로컬 스토리지에서 진행 상태 로드
+let opicOrder = []; // 현재 출제 세트의 질문 인덱스 배열
+let opicCur = 0; // 현재 진행 중인 질문 인덱스
+let opicSelectedCats = new Set(); // 선택된 질문 토픽 세트
+let opicRevealed = false; // 모범 답변 공개 여부 플래그
+let opicWrongList = []; // 오답/재검토 대상 질문 인덱스 목록
+let opicGoodCount = 0; // 만족('good') 횟수
+let opicBadCount = 0; // 미흡('bad') 횟수
+let opicReplayCount = 0; // 에바 질문 청취 횟수 (실전 규칙: 최대 2회)
+let opicSpeakingTimer = null; // 답변 녹음 타이머 setInterval ID
+let opicSpeakingSeconds = 0; // 답변 소요 시간 (초)
+let opicViewMode = "breakdown"; // 답변 보기 모드: "breakdown" (문장별) | "full" (전체 문단)
+let opicEnRevealed = false; // 에바 영어 질문 블라인드 해제 여부 (실전 리스닝 훈련용)
+let opicPlayMode = "random"; // 출제 모드: "random" (무작위) | "combo" (실전 3단 콤보 11-12-13번)
+let savedOpicInputs = {}; // 질문별 사용자 작성 답변 캐시 { [questionIdx]: string }
+
+// =============================================================================
+// 2. 진행 상태 영속화 및 모드 UI 동기화 (Storage & Mode Tabs)
+// =============================================================================
+
+/**
+ * 로컬 스토리지에서 OPIc 실전 질문 진행 상황을 비동기 로드합니다.
+ * @returns {Promise<void>}
+ */
 async function loadOpicProgress() {
   try {
     const res = await storage.get(OPIC_STORAGE_KEY, false);
@@ -48,7 +72,10 @@ async function loadOpicProgress() {
   updatePlayModeTabsUI();
 }
 
-// 로컬 스토리지에 진행 상태 저장
+/**
+ * OPIc 실전 질문 진행 상황(순서, 현재인덱스, 오답목록, 채점집계)을 로컬 스토리지에 저장합니다.
+ * @returns {Promise<void>}
+ */
 async function saveOpicProgress() {
   try {
     const data = {
@@ -67,7 +94,10 @@ async function saveOpicProgress() {
   }
 }
 
-// 연습 모드 탭 UI 동기화
+/**
+ * 일반 무작위 모드 vs 실전 3단 콤보 모드 탭 버튼의 활성화(.active) UI를 동기화합니다.
+ * @returns {void}
+ */
 function updatePlayModeTabsUI() {
   if (els.btnModeRandom) {
     els.btnModeRandom.classList.toggle("active", opicPlayMode === "random");
@@ -77,7 +107,14 @@ function updatePlayModeTabsUI() {
   }
 }
 
-// 말하기 타이머 시작
+// =============================================================================
+// 3. 답변 시간 타이머 및 실시간 게이지 바 (Speaking Timer & Level Tips)
+// =============================================================================
+
+/**
+ * 답변 발화 소요 시간 타이머를 시작합니다.
+ * @returns {void}
+ */
 function startSpeakingTimer() {
   stopSpeakingTimer();
   opicSpeakingSeconds = 0;
@@ -88,7 +125,10 @@ function startSpeakingTimer() {
   }, 1000);
 }
 
-// 말하기 타이머 정지
+/**
+ * 실행 중인 답변 타이머를 일시 정지합니다.
+ * @returns {void}
+ */
 function stopSpeakingTimer() {
   if (opicSpeakingTimer) {
     clearInterval(opicSpeakingTimer);
@@ -96,7 +136,16 @@ function stopSpeakingTimer() {
   }
 }
 
-// 말하기 타이머 화면 및 실시간 게이지 바 업데이트
+/**
+ * 답변 타이머 시각(MM:SS), 실시간 목표 게이지 바 및 등급 권장 안내 팁을 업데이트합니다.
+ *
+ * [OPIc 시험 기준 발화 시간 정책]:
+ * - 45초 이상: IM (Intermediate Mid) 안정권
+ * - 75초 이상: IH (Intermediate High) 문단 전개 구간
+ * - 95초 이상: AL (Advanced Low) 완벽한 복수 문단 구간
+ *
+ * @returns {void}
+ */
 function updateSpeakingTimerDisplay() {
   if (!els.opicTimerDigits) return;
   const mins = String(Math.floor(opicSpeakingSeconds / 60)).padStart(2, "0");
@@ -186,7 +235,23 @@ function renderOpicChips() {
   }
 }
 
-// 연습 세트 시작 (일반 무작위 vs 실전 3단 콤보)
+// =============================================================================
+// 4. 연습 세트 구성 및 질문 카드 렌더러 (Set Builder & Card Renderer)
+// =============================================================================
+
+/**
+ * OPIc 실전 연습 세트를 시작합니다.
+ *
+ * [출제 모드 분기]:
+ * 1. 오답 재도전 모드 (wrongOnly=true): 오답 목록(opicWrongList)에서 셔플
+ * 2. 실전 3단 콤보 모드 (opicPlayMode='combo'):
+ *    - 선택된 주제별로 '1단계 묘사 -> 2단계 루틴 -> 3단계 과거경험' 순서대로 정렬하여 실제 OPIc 시험과 동일한 3연속 세트 구성
+ * 3. 일반 무작위 모드 (opicPlayMode='random'):
+ *    - 선택된 카테고리의 모든 문제를 무작위 셔플
+ *
+ * @param {boolean} [wrongOnly=false] - 이전 세트의 틀린 문제만 다시 풀지 여부
+ * @returns {void}
+ */
 function startOpicPractice(wrongOnly = false) {
   stopTTS();
   stopSpeakingTimer();
@@ -248,7 +313,19 @@ function startOpicPractice(wrongOnly = false) {
   renderOpicCard();
 }
 
-// 실전 질문 카드 렌더링
+/**
+ * 현재 순서의 OPIc 실전 질문 카드를 렌더링합니다.
+ *
+ * [주요 처리 로직]:
+ * 1. 실행 중인 타이머/오디오 정지 및 녹음 상태 초기화
+ * 2. 모든 질문 완주 시: 세트 결과 화면(showOpicDoneScreen) 호출
+ * 3. 질문 카테고리, 콤보 단계(1/2/3단계), 유형 라벨 바인딩
+ * 4. 에바 질문 텍스트 및 기본 블라인드(리스닝 청취 유도) 상태 설정
+ * 5. 한국어 답변 가이드, 분할 문장 뷰, 전체 문단 뷰 동적 생성
+ * 6. 사용자 이전 입력 답변 복원 및 에바 질문 자동 재생 준비
+ *
+ * @returns {void}
+ */
 function renderOpicCard() {
   stopTTS();
   stopSpeakingTimer();
@@ -567,7 +644,23 @@ function updateOpicButtonsState() {
   }
 }
 
-// ── 내 답변 채점하기 (모범 답안 공개 여부와 무관하게 언제든 채점 및 재채점 가능) ────────
+// =============================================================================
+// 5. 답변 채점 및 모범답안 인터랙션 (Evaluation & Answer Actions)
+// =============================================================================
+
+/**
+ * 사용자가 입력(음성/텍스트)한 답변에 대해 OPIc 종합 다면 평가를 실행합니다.
+ *
+ * [평가 다이어그램 및 파이프라인]:
+ * 1. 발화 시간 타이머 자동 정지
+ * 2. 발음/유창성/운율 (Azure Neural 평가 또는 Web Speech 시뮬레이션)
+ * 3. 발화량(단어 수/문장 수) 하드캡 적용 및 예상 OPIc 등급(IL~AL) 산출
+ * 4. 에바 질문의 주제 어휘 키워드 일치율 기반 Topic Relevance 분석
+ * 5. LanguageTool 연동 영문법 교정 제안 비동기 렌더링
+ * 6. UI 상태를 2x2 채점 결과 행(재채점, 모범답안, 잘했어요, 다시연습)으로 전환
+ *
+ * @returns {void}
+ */
 function evaluateOpicAnswer() {
   opicEvaluated = true;
   stopSpeakingTimer();
@@ -614,7 +707,11 @@ function evaluateOpicAnswer() {
   updateOpicButtonsState();
 }
 
-// ── 모범 답안 보기 / 숨기기 토글 ────────
+/**
+ * 모범 답변 영역(문장별 분할 카드, 전체 문단 뷰, 팁, 키워드)의 노출 상태를 토글합니다.
+ * @param {boolean|null} [forceShow=null] - 강제 표시 여부 (null이면 토글)
+ * @returns {void}
+ */
 function toggleOpicModelAnswer(forceShow = null) {
   const item = OPIC_QUESTIONS[opicOrder[opicCur]];
   if (!item) return;
@@ -668,7 +765,11 @@ function revealOpic() {
   revealOpicModelAnswer();
 }
 
-// 문제 평가 (잘했어요 / 다시 연습)
+/**
+ * 현재 질문에 대한 답변 완성도를 'good'(만족) 또는 'bad'(미흡/재연습)으로 평가하고 다음 질문으로 진행합니다.
+ * @param {'good' | 'bad'} rating - 사용자 자체 만족도 평가
+ * @returns {void}
+ */
 function rateOpic(rating) {
   stopTTS();
   clearRecordedVoice("opic");
@@ -692,13 +793,19 @@ function rateOpic(rating) {
   renderOpicCard();
 }
 
-// 현재 문제 재도전
+/**
+ * 현재 질문을 다시 처음부터 재도전합니다 (녹음/타이머 리셋).
+ * @returns {void}
+ */
 function retrySameOpicQuestion() {
   stopTTS();
   renderOpicCard();
 }
 
-// 건너뛰기
+/**
+ * 답변 입력 없이 다음 질문으로 건너뜁니다.
+ * @returns {void}
+ */
 function skipOpic() {
   stopTTS();
   const currentQuestionIdx = opicOrder[opicCur];

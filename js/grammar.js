@@ -1,18 +1,35 @@
 /**
- * [grammar.js] 문법 포인트 퀴즈 모드 컨트롤러
- * - 객관식 퀴즈 문항 셔플 및 진행 상태(wordCur, wordResults) 관리
- * - 퀴즈 카드 및 프로그레스 닷(Dot) 렌더링
- * - 보기 선택(selectWordOption) 시 정답/오답 즉시 피드백 및 상세 해설 제공
- * - 로컬 스토리지를 통한 진행 상태 저장/복원
+ * @file grammar.js
+ * @description OPIc 대비 문법 포인트 객관식 퀴즈 모드 컨트롤러
+ * - 핵심 빈출 영문법(전치사, 시제, 조동사, 수일치 등) 퀴즈 렌더링
+ * - 보기 선택 시 정답/오답 즉시 시각 피드백 및 상세 문법 해설 제공
+ * - 예문 자동 TTS 발음 재생 및 Google AI 문법 질문 연동
+ * - 로컬 스토리지를 통한 풀이 진도 및 오답 노트 영속화
  */
 
-let wordSelectedCats = new Set(); // 선택된 문법 유형 세트
-let wordOrder = []; // 출제 인덱스 순서 배열
-let wordCur = 0; // 현재 문제 인덱스
-let wordResults = {}; // 채점 결과 { itemIndex: 'good' | 'bad' }
-let wordAnswered = false; // 답변 완료 여부 플래그
+// =============================================================================
+// 1. 문법 퀴즈 상태 변수 (State Management)
+// =============================================================================
 
-// 문법 퀴즈 진행 상태 인디케이터 점(Dot) 목록 생성 (20개 초과 시 간결한 텍스트로 반응형 축약)
+let wordSelectedCats = new Set(); // 선택된 문법 유형 세트 (예: "전치사", "시제" 등)
+let wordOrder = []; // 현재 세트의 무작위 출제 인덱스 순서 배열
+let wordCur = 0; // 현재 진행 중인 퀴즈 문항 인덱스
+let wordResults = {}; // 채점 결과 매핑 { [itemIdx]: 'good' | 'bad' }
+let wordAnswered = false; // 현재 문제의 보기 선택 완료 여부 플래그
+
+// =============================================================================
+// 2. 진행 상태 인디케이터 Dot 렌더러 (Progress Indicator)
+// =============================================================================
+
+/**
+ * 상단 프로그레스 닷(Dot) 목록을 렌더링합니다.
+ *
+ * [UX 반응형 정책]:
+ * - 전체 문항 수가 20개 이하일 경우: 각 문제별 Dot 아이콘을 표시하여 진행 상황 시각화
+ * - 전체 문항 수가 20개를 초과할 경우: 화면 넘침 방지를 위해 "진행: 5 / 30 (완료 4개)" 형태의 텍스트로 축약
+ *
+ * @returns {void}
+ */
 function buildWordDots() {
   els.wordProgressDots.innerHTML = "";
   const total = wordOrder.length;
@@ -40,7 +57,22 @@ function buildWordDots() {
   }
 }
 
-// 현재 순서의 문법 퀴즈 카드 렌더링 (세트 종료 시 완료 화면 표시)
+// =============================================================================
+// 3. 문법 퀴즈 카드 렌더러 (Quiz Card Renderer)
+// =============================================================================
+
+/**
+ * 현재 순서의 문법 객관식 퀴즈 카드를 화면에 표시합니다.
+ *
+ * [주요 처리 로직]:
+ * 1. 실행 중인 오디오 정지
+ * 2. 모든 문항 완주 시: 퀴즈 완료 화면(wordDoneScreen) 표시 및 틀린 문제만 다시 풀기 버튼 바인딩
+ * 3. 문제 유형 라벨, 진행 번호, 문제 질문(prompt) 텍스트 바인딩
+ * 4. 객관식 보기 버튼 목록 동적 생성 및 클릭 이벤트 바인딩
+ * 5. 상단 프로그레스 닷 동기화
+ *
+ * @returns {void}
+ */
 function renderWordCard() {
   stopTTS();
   if (wordCur >= wordOrder.length) {
@@ -98,7 +130,25 @@ function renderWordCard() {
   buildWordDots();
 }
 
-// 퀴즈 보기 선택 시 채점, 해설 노출 및 자동 발음 실행
+// =============================================================================
+// 4. 보기 선택 및 채점 피드백 (Option Selection & Feedback)
+// =============================================================================
+
+/**
+ * 사용자가 객관식 보기를 클릭했을 때 정답 여부를 판정하고 상세 피드백을 노출합니다.
+ *
+ * [피드백 액션]:
+ * 1. 정답이면 해당 버튼에 .correct, 오답이면 .wrong 클래스 부여 및 모든 보기 비활성화
+ * 2. 상세 문법 설명 및 예문 팁(tipText) 노출
+ * 3. 자동 TTS 옵션이 켜져 있을 경우 대표 예문 음성 자동 재생
+ * 4. Google AI에 추가 질문할 수 있는 링크 버튼 표시
+ * 5. 일별 학습 기록(dailyLog)에 1회 카운트 반영
+ *
+ * @param {string} opt - 사용자가 선택한 보기 문자열
+ * @param {HTMLButtonElement} btn - 클릭된 보기 버튼 엘리먼트
+ * @param {Object} item - 현재 문법 문항 데이터 객체
+ * @returns {void}
+ */
 function selectWordOption(opt, btn, item) {
   if (wordAnswered) return;
   wordAnswered = true;
@@ -126,7 +176,10 @@ function selectWordOption(opt, btn, item) {
   }
 }
 
-// 이전 문제로 되돌아가기
+/**
+ * 이전 번호의 문법 퀴즈 문항으로 되돌아갑니다.
+ * @returns {void}
+ */
 function prevWordQuestion() {
   if (wordCur > 0) {
     wordCur--;
@@ -135,7 +188,14 @@ function prevWordQuestion() {
   }
 }
 
-// 선택된 유형의 문법 문항들로 새 연습 세트 시작
+// =============================================================================
+// 5. 세트 시작 및 상태 영속화 (Set Initialization & Storage)
+// =============================================================================
+
+/**
+ * 선택된 문법 유형 문항들을 무작위 셔플하여 새로운 퀴즈 세트를 시작합니다.
+ * @returns {void}
+ */
 function startWordPractice() {
   if (wordSelectedCats.size === 0) return;
   wordOrder = shuffle(
@@ -155,7 +215,10 @@ function startWordPractice() {
   renderWordCard();
 }
 
-// 문법 퀴즈 진행 상태를 로컬 스토리지에 저장
+/**
+ * 문법 퀴즈 진행 상태(순서, 현재인덱스, 채점결과, 선택유형)를 로컬 스토리지에 저장합니다.
+ * @returns {Promise<void>}
+ */
 async function saveWordProgress() {
   try {
     const data = {
@@ -170,7 +233,10 @@ async function saveWordProgress() {
   }
 }
 
-// 로컬 스토리지에서 문법 퀴즈 진행 상태를 복원
+/**
+ * 로컬 스토리지에서 문법 퀴즈 진행 상태를 복원합니다.
+ * @returns {Promise<void>}
+ */
 async function loadWordProgress() {
   try {
     const res = await storage.get(WORD_STORAGE_KEY, false);

@@ -1,3 +1,35 @@
+/**
+ * [questions_im1.js] OPIc 실전 질문 및 IM1 맞춤 답변 데이터셋
+ * - 정규화된 sentences 배열을 단일 진실 공급원(Single Source of Truth)으로 사용
+ * - 파일 하단에서 q.answer_en, q.answer_ko를 자동 합성하여 동기화 보장
+ *
+ * --------------------------------------------------------------------------------
+ * 💡 [데이터 구조 및 확장성 가이드 (Dataset Scalability & Personalization Guide)]
+ * 1. 목표 등급 확장 시 (IM2 / IH / AL):
+ *    - 현재 질문 아이템은 IM1 목표 답변(5~6문장 단문 중심)으로 구성되어 있습니다.
+ *    - 상위 등급 지원 방안:
+ *      A안) 등급별 파일 분리: `questions_ih.js`, `questions_al.js` (질문 및 난이도별 세트 독립화)
+ *      B안) 다중 등급 답변 필드 통합:
+ *           {
+ *             id: "q_intro_01",
+ *             cat: "자기소개",
+ *             q_en: "...",
+ *             answers: {
+ *               im1: [ { en: "...", ko: "..." }, ... ],
+ *               ih:  [ { en: "...", ko: "..." }, ... ],
+ *               al:  [ { en: "...", ko: "..." }, ... ]
+ *             }
+ *           }
+ *
+ * 2. 개인화/사용자화 치환 엔진 (User Profile Interpolation):
+ *    - 현재 `q_intro_01` 등 일부 스크립트에 사용자 개인 정보(이름 'Hyosang Kim', 나이 'twenty-eight', 직업 등)가
+ *      고정 문자열로 포함되어 있습니다.
+ *    - 향후 일반 사용자화(Customization)를 위해서는 템플릿 토큰 (예: `{{USER_NAME}}`, `{{USER_AGE}}`,
+ *      `{{USER_JOB}}`, `{{USER_HOUSING}}`)으로 정의하고, 렌더링 시 사용자의 프로필 설정값으로
+ *      동적 치환(String Interpolation)하는 시스템으로의 전환이 권장됩니다.
+ * --------------------------------------------------------------------------------
+ */
+
 // OPIc Practice Questions Dataset (Normalized: sentences are single source of truth)
 window.QUESTIONS_DATA = [
   {

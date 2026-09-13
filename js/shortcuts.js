@@ -1,17 +1,35 @@
 /**
- * [shortcuts.js] 맥북 / PC 데스크톱 키보드 단축키 핸들러
- * - 한/영 입력 상태 모두 지원 (e.code 및 한글 자모/영문 동시 매핑)
- * - 전역: Esc (음성 재생/인식 중단)
- * - 문장 연습: Enter (정답 확인), P / ㅔ (이전 문제), K / ㅏ (건너뛰기), 1/2 또는 G/B (채점), Space (발음 듣기), R / ㄱ (재도전)
- * - 문법 퀴즈: 1~4 (보기 선택), P / ㅔ (이전 문제), Enter (다음 문제), Space (발음 듣기)
- * - 실전 질문: Enter (모범답안 확인), P / ㅔ (이전 질문), K / ㅏ (건너뛰기), 1/2 또는 G/B (채점), Space (발음 듣기), R / ㄱ (재도전)
- * - 완료 화면: Enter (같은 주제 다시 시작)
+ * @file shortcuts.js
+ * @description 데스크톱/랩톱 학습자를 위한 물리 키보드 단축키 매핑 핸들러
+ *
+ * =============================================================================
+ * [단축키 설계 원칙 및 한/영 IME 완벽 대응]
+ * =============================================================================
+ * 1. 한/영 키 상태 무관: `e.code` 물리 키코드와 `e.key` 영문/한글 자모(P/ㅔ, K/ㅏ, R/ㄱ 등)를 동시 검사하여
+ *    한글 입력 상태에서도 단축키가 100% 정상 작동하도록 설계
+ * 2. 텍스트 입력창(textarea) 포커스 분기:
+ *    - 작성 중 Enter: 줄바꿈 허용 (단, Ctrl+Enter / Cmd+Enter 또는 Shift 없는 Enter 시 채점 실행)
+ *    - 입력창 비포커스 시: Space(발음 듣기), 1/G(잘함), 2/B(다시) 즉각 반응
+ * 3. 6대 학습 모드별 단축키 지원:
+ *    - [전역]: Esc (음성 재생/인식 즉시 중단)
+ *    - [문장 연습]: Enter (정답 확인/채점), P/ㅔ (이전 문제), K/ㅏ (건너뛰기), R/ㄱ (재도전), Space (발음 듣기)
+ *    - [문법 퀴즈]: 1~4 (보기 선택), Enter (다음 문제), Space (팁 발음)
+ *    - [실전 OPIc]: Space (에바 질문 듣기), Enter (내 답변 채점), M/ㅡ (모범답안 토글)
+ *    - [만능 패턴]: Enter (답변 채점), Space (원어민 전체 발음 듣기), R/ㄱ (재도전)
+ *    - [필러 훈련]: Enter (다음 필러), Space (필러 발음 듣기)
+ *    - [발화 연습]: Ctrl/Cmd+Enter (발화 채점)
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.0
  */
 
+// =============================================================================
+// 1. 전역 keydown 이벤트 리스너 등록
+// =============================================================================
 document.addEventListener("keydown", (e) => {
   const isInputFocused = document.activeElement === els.userInput;
 
-  // 1. 전역 Esc: 음성 재생 및 마이크 인식 즉시 중단
+  // 1-1. 전역 Esc: 진행 중인 모든 음성 재생 및 마이크 인식 즉시 강제 중단
   if (e.key === "Escape" || e.code === "Escape") {
     stopTTS();
     if (typeof stopFillerMic === "function") stopFillerMic();
@@ -22,7 +40,7 @@ document.addEventListener("keydown", (e) => {
     return;
   }
 
-  // 키 식별자 헬퍼 (한/영 전환 상태 모두 대응)
+  // 1-2. 키 식별자 정규화 헬퍼 (한/영 전환 및 넘패드 상태 동시 대응)
   const isEnter =
     e.key === "Enter" || e.code === "Enter" || e.code === "NumpadEnter";
   const isSpace = e.code === "Space" || e.key === " ";
@@ -53,7 +71,9 @@ document.addEventListener("keydown", (e) => {
     e.key === "B" ||
     e.key === "ㅠ";
 
+  // =============================================================================
   // 2. 문장 번역 연습 모드 단축키
+  // =============================================================================
   if (
     els.practiceCard &&
     els.practiceCard.style.display !== "none" &&
@@ -99,7 +119,9 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
+  // =============================================================================
   // 3. 문법 포인트 퀴즈 모드 단축키
+  // =============================================================================
   if (
     els.wordCard &&
     els.wordCard.style.display !== "none" &&
@@ -149,7 +171,9 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
+  // =============================================================================
   // 4. OPIc 실전 질문 & 답변 모드 단축키
+  // =============================================================================
   const isOpicInputFocused = document.activeElement === els.opicUserInput;
   const isKeyM =
     e.code === "KeyM" || e.key === "m" || e.key === "M" || e.key === "ㅡ";
@@ -212,7 +236,9 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
+  // =============================================================================
   // 5. 만능 패턴 훈련 모드 단축키
+  // =============================================================================
   const patternCard = document.getElementById("patternCard");
   const isPatternInputFocused = document.activeElement === els.patternUserInput;
   if (patternCard && patternCard.style.display !== "none") {
@@ -235,7 +261,9 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
+  // =============================================================================
   // 6. 필러 집중 훈련 모드 단축키
+  // =============================================================================
   const fillerCard = document.getElementById("fillerCard");
   if (fillerCard && fillerCard.style.display !== "none") {
     if (isEnter) {
@@ -253,7 +281,9 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  // 6-2. 발화 연습 모드 단축키
+  // =============================================================================
+  // 7. 발화 연습 모드 단축키
+  // =============================================================================
   const spCard = document.getElementById("speechPracticeCard");
   const spInput = document.getElementById("speechPracticeInput");
   if (spCard && spCard.style.display !== "none") {
@@ -270,7 +300,9 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  // 7. 완료 화면 단축키
+  // =============================================================================
+  // 8. 학습 완료 화면 단축키
+  // =============================================================================
   if (els.doneScreen && els.doneScreen.classList.contains("show")) {
     if (isEnter) {
       e.preventDefault();

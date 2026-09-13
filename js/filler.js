@@ -1,14 +1,24 @@
 /**
- * [filler.js] OPIc 필러(Filler Words) 1개씩 집중 훈련 컨트롤러
- * - 1개씩 카드 형태로 집중 학습 (이전 / 다음 / 바로가기 칩)
- * - 사용 시점(타이밍) 가이드, 꿀팁, 실전 OPIc 활용 예문
- * - 원어민 발음(TTS) 및 마이크 따라 말하기(STT) 실전 테스트
+ * @file filler.js
+ * @description OPIc 핵심 필러(Filler Words) 16선 1개씩 집중 훈련 컨트롤러
+ * - 16개 핵심 필러 카드 렌더링 (단어, 발음 기호, 한국어 뜻, 타이밍 가이드, 꿀팁)
+ * - 상단 바로가기 칩을 통한 빠른 필러 전환
+ * - 원어민 발음(TTS) 청취 및 마이크(STT) 따라 말하기 실전 테스트
+ * - 마스터 완료 상태 로컬 스토리지 저장 및 대시보드 진행도 연동
  */
 
-let fillerCur = 0; // 현재 필러 인덱스 (0 ~ 15)
-let fillerProgress = {}; // { fil_01: true, ... }
+// =============================================================================
+// 1. 필러 모드 전역 상태 및 유틸리티 (State Management & Helpers)
+// =============================================================================
 
-// HTML 이스케이프 헬퍼 함수
+let fillerCur = 0; // 현재 학습 중인 필러 인덱스 (0 ~ 15)
+let fillerProgress = {}; // 필러 마스터 완료 상태 맵 { [fillerId]: boolean }
+
+/**
+ * 문자열의 HTML 특수문자를 안전하게 이스케이프합니다.
+ * @param {string} str - 원본 문자열
+ * @returns {string} 이스케이프된 문자열
+ */
 function escapeFillerHtml(str) {
   return escapeHtml(str);
 }
@@ -18,7 +28,14 @@ function safeEscapeForJs(str) {
   return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
 }
 
-// 필러 진행 상황 로드
+// =============================================================================
+// 2. 필러 진행 상황 영속화 (Storage Management)
+// =============================================================================
+
+/**
+ * 로컬 스토리지에서 필러 마스터 완료 상태 객체를 비동기 로드합니다.
+ * @returns {Promise<void>}
+ */
 async function loadFillerProgress() {
   try {
     const res = await storage.get(FILLER_STORAGE_KEY, false);
@@ -30,7 +47,10 @@ async function loadFillerProgress() {
   }
 }
 
-// 필러 진행 상황 저장
+/**
+ * 필러 마스터 완료 상태 객체를 로컬 스토리지에 저장하고 홈 대시보드 통계를 동기화합니다.
+ * @returns {Promise<void>}
+ */
 async function saveFillerProgress() {
   try {
     await storage.set(
@@ -46,7 +66,16 @@ async function saveFillerProgress() {
   }
 }
 
-// 필러 화면 열기
+// =============================================================================
+// 3. 필러 카드 화면 렌더러 (Filler Card Renderer)
+// =============================================================================
+
+/**
+ * 특정 인덱스의 필러 훈련 카드 화면을 표시합니다.
+ * @param {number} [targetIdx=0] - 표시할 필러 인덱스 (0 ~ 15)
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 스택 추가 여부
+ * @returns {void}
+ */
 function showFillerScreen(targetIdx = 0, pushHistory = true) {
   if (
     typeof targetIdx === "number" &&
@@ -68,7 +97,15 @@ function showFillerScreen(targetIdx = 0, pushHistory = true) {
   }
 }
 
-// 현재 1개 필러 카드 렌더링
+/**
+ * 현재 순서의 1개 필러 카드를 상세 렌더링합니다.
+ * - 카테고리 배지, 현재 순번(1/16), 상단 칩 내비게이터
+ * - 영문 필러 표현, 한글 발음 억양 가이드, 의미
+ * - 실전 타이밍 가이드, OPIc 고득점 꿀팁
+ * - 실전 예문 목록 및 개별 TTS 재생 버튼
+ *
+ * @returns {void}
+ */
 function renderFillerCard() {
   if (!FILLER_ITEMS || FILLER_ITEMS.length === 0) {
     const box = document.getElementById("fillerHeroMeaning");
@@ -311,7 +348,16 @@ function highlightFillerWords(text, phrase) {
   return cleanText;
 }
 
-// 필러 전용 TTS 재생 함수
+// =============================================================================
+// 4. 필러 TTS 발음 재생 (Filler Audio Playback)
+// =============================================================================
+
+/**
+ * 필러 문구 또는 예문을 영어(en-US) 음성으로 재생합니다.
+ * @param {string} text - 재생할 영문 텍스트
+ * @param {HTMLElement|null} [btn=null] - 재생 상태를 표시할 버튼 요소
+ * @returns {void}
+ */
 function playFillerTTS(text, btn = null) {
   if (!text) return;
   if (typeof speakText === "function") {
@@ -319,7 +365,10 @@ function playFillerTTS(text, btn = null) {
   }
 }
 
-// 현재 보고 있는 필러 발음 재생 (단축키 Space용)
+/**
+ * 현재 보고 있는 필러 카드의 대표 표현 발음을 즉시 재생합니다 (단축키 Space 지원).
+ * @returns {void}
+ */
 function playCurrentFillerTTS() {
   if (!FILLER_ITEMS || !FILLER_ITEMS[fillerCur]) return;
   const cleanPhrase = FILLER_ITEMS[fillerCur].phrase
@@ -329,10 +378,19 @@ function playCurrentFillerTTS() {
   playFillerTTS(cleanPhrase, ttsBtn);
 }
 
-// ── 마이크 STT (따라 말하기) ─────────────────────────
+// =============================================================================
+// 5. 마이크 STT (따라 말하기 실전 테스트) (Speech Recognition & Matching)
+// =============================================================================
+
 let fillerRecognition = null;
 let fillerIsListening = false;
 
+/**
+ * 필러 따라 말하기 마이크 음성 인식을 토글합니다.
+ * @param {string} fillerId - 현재 필러 고유 ID
+ * @param {string} targetPhrase - 목표 필러 표현 문자열
+ * @returns {void}
+ */
 function toggleFillerMic(fillerId, targetPhrase) {
   const micBtn = document.getElementById("fillerMicBtnMain");
   const sttBox = document.getElementById("fillerSttBox");
@@ -446,6 +504,16 @@ function stopFillerMic() {
   }
 }
 
+/**
+ * 사용자가 발화한 음성 인식 텍스트(STT)가 목표 필러 표현을 포함하는지 일치도를 평가합니다.
+ * 일치할 경우 축하 피드백 표시 및 자동으로 마스터 완료 상태로 등록합니다.
+ *
+ * @param {string} spokenText - 인식된 사용자 음성 텍스트
+ * @param {string} targetPhrase - 목표 필러 표현 문자열
+ * @param {HTMLElement} feedbackEl - 피드백 메시지를 표시할 컨테이너
+ * @param {string} fillerId - 필러 고유 ID
+ * @returns {void}
+ */
 function evaluateFillerSpeech(spokenText, targetPhrase, feedbackEl, fillerId) {
   if (!feedbackEl || !spokenText) return;
 

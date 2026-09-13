@@ -3,20 +3,43 @@
  * - 6대 만능 템플릿 뼈대 및 실시간 주제 스위처(Slot Switcher) 인터랙션
  * - 단계별 문장 발음 듣기 & 마이크 STT 발음 평가
  * - 패턴별 학습 진도 저장
+ *
+ * --------------------------------------------------------------------------------
+ * 💡 [확장성 및 유지보수 가이드 (Scalability & Customization Guide)]
+ * 1. 패턴 템플릿 스키마 확장 (Skeleton & Variations):
+ *    - 본 모듈은 `skeleton` (공통 뼈대 6문장)과 `variations` (주제별 치환 슬롯 문장)의
+ *      완전 대칭 구조로 설계되어 있습니다.
+ *    - 상위 등급(IH/AL)용 고급 패턴(예: 복합 시제 비교, 예상치 못한 돌발 상황 위기관리 등)
+ *      추가 시 `PATTERNS_DATA`에 동일한 스키마로 새 패턴(`pat_07`, `pat_08` 등)을
+ *      등록하기만 하면 UI와 렌더러가 자동으로 탭 및 슬롯을 생성합니다.
+ *
+ * 2. 사용자 커스텀 슬롯(Custom Topic Slot) 지원:
+ *    - 사용자가 자신만의 토픽(예: "내 최애 빵집", "단골 캠핑장" 등)을 추가할 수 있도록
+ *      변형 슬롯(`variations`) 배열에 사용자 입력 객체를 push할 수 있는 '슬롯 추가 UI' 확장이 용이합니다.
+ * --------------------------------------------------------------------------------
  */
 
-// 패턴 모드 전역 상태
-let patternCur = 0; // 현재 선택된 패턴 인덱스
+// =============================================================================
+// 1. 만능 패턴 전역 상태 변수 (State Management)
+// =============================================================================
+
+let patternCur = 0; // 현재 선택된 만능 패턴 인덱스 (0 ~ 5)
 let patternVarCur = 0; // 현재 선택된 주제 변형(슬롯) 인덱스
 let patternOrder = [0, 1, 2, 3, 4, 5];
-let patternProgress = {};
-let savedPatternUserInputs = {}; // 패턴/변형별 입력 답변 캐시
+let patternProgress = {}; // 패턴 마스터 완료 여부 맵 { [patternId]: boolean }
+let savedPatternUserInputs = {}; // 패턴/변형별 사용자 직접 입력 답변 캐시
 
-// 말하기 타이머 상태 (만능 패턴 6문장 완주 훈련)
+// =============================================================================
+// 2. 만능 패턴 6문장 완주 타이머 (Speaking Timer)
+// =============================================================================
+
 let patternSpeakingTimer = null;
 let patternSpeakingSeconds = 0;
 
-// 말하기 타이머 시작
+/**
+ * 만능 패턴 6문장 연속 말하기 훈련 타이머를 시작합니다.
+ * @returns {void}
+ */
 function startPatternSpeakingTimer() {
   stopPatternSpeakingTimer();
   patternSpeakingSeconds = 0;
@@ -27,7 +50,10 @@ function startPatternSpeakingTimer() {
   }, 1000);
 }
 
-// 말하기 타이머 정지
+/**
+ * 만능 패턴 말하기 타이머를 정지합니다.
+ * @returns {void}
+ */
 function stopPatternSpeakingTimer() {
   if (patternSpeakingTimer) {
     clearInterval(patternSpeakingTimer);
@@ -35,14 +61,27 @@ function stopPatternSpeakingTimer() {
   }
 }
 
-// 말하기 타이머 리셋
+/**
+ * 만능 패턴 말하기 타이머를 0초로 초기화합니다.
+ * @returns {void}
+ */
 function resetPatternSpeakingTimer() {
   stopPatternSpeakingTimer();
   patternSpeakingSeconds = 0;
   updatePatternSpeakingTimerDisplay();
 }
 
-// 말하기 타이머 화면 및 실시간 게이지 바 업데이트
+/**
+ * 말하기 타이머 시각(MM:SS), 실시간 진행 게이지 바(60초 기준) 및 권장 발화 속도 팁을 업데이트합니다.
+ *
+ * [완주 시간 기준 피드백 정책]:
+ * - 20초 미만: 6문장 완주 진행 중
+ * - 20~35초: 기본 완주 달성 (IM)
+ * - 35~50초: 이상적인 권장 템포 및 발음 (IH)
+ * - 50초 이상: 풍부하고 여유로운 원어민식 발화 (AL)
+ *
+ * @returns {void}
+ */
 function updatePatternSpeakingTimerDisplay() {
   const digitsEl = document.getElementById("patternTimerDigits");
   if (!digitsEl) return;
@@ -83,7 +122,14 @@ window.startPatternSpeakingTimer = startPatternSpeakingTimer;
 window.stopPatternSpeakingTimer = stopPatternSpeakingTimer;
 window.resetPatternSpeakingTimer = resetPatternSpeakingTimer;
 
-// 패턴 진도 로컬스토리지 로드
+// =============================================================================
+// 3. 패턴 진행 상황 영속화 (Storage Management)
+// =============================================================================
+
+/**
+ * 로컬 스토리지에서 패턴 학습 완료 현황을 비동기 로드합니다.
+ * @returns {Promise<void>}
+ */
 async function loadPatternProgress() {
   try {
     const res = await storage.get(PATTERN_STORAGE_KEY, false);
@@ -93,7 +139,10 @@ async function loadPatternProgress() {
   }
 }
 
-// 패턴 진도 로컬스토리지 저장
+/**
+ * 패턴 학습 완료 현황을 로컬 스토리지에 저장합니다.
+ * @returns {Promise<void>}
+ */
 async function savePatternProgress() {
   try {
     await storage.set(
@@ -106,7 +155,15 @@ async function savePatternProgress() {
   }
 }
 
-// 뼈대 대괄호 [슬롯] 하이라이트 포맷터
+// =============================================================================
+// 4. 슬롯 하이라이트 및 선택 헬퍼 (Slot Highlighting & Selection)
+// =============================================================================
+
+/**
+ * 만능 패턴 문장 내의 대괄호 [슬롯] 키워드를 시각적 강조 태그로 감싸 변환합니다.
+ * @param {string} str - 원본 문장 (예: "Whenever I think of [주제], [장소] is...")
+ * @returns {string} 하이라이트 span 태그가 포함된 HTML 문자열
+ */
 function formatSlotText(str) {
   if (!str) return "";
   const escaped = escapeHtml(str);
@@ -138,8 +195,16 @@ function selectPatternVariation(vIdx) {
 }
 window.selectPatternVariation = selectPatternVariation;
 
-// 6대 패턴 목록 화면 렌더링
-async function renderPatternTopics() {
+// =============================================================================
+// 5. 만능 패턴 목록 및 카드 렌더러 (Pattern Grid & Card Renderers)
+// =============================================================================
+
+/**
+ * 만능 패턴 6대 공식 선택 목록 화면(Topic Grid)을 렌더링합니다.
+ * - 각 패턴별 아이콘, 이름, 설명, 적용 가능한 서베이 주제 태그 및 마스터 완료 뱃지 표시
+ * @returns {void}
+ */
+function renderPatternTopics() {
   const container = document.getElementById("patternTopicGrid");
   if (!container) return;
 
@@ -162,6 +227,13 @@ async function renderPatternTopics() {
 
   container.innerHTML = PATTERN_ITEMS.map((pat, idx) => {
     const isDone = patternProgress && patternProgress[pat.id];
+    const catBadges = (pat.category || "")
+      .split(",")
+      .map((c) => c.trim().replace(/\s*등$/, ""))
+      .filter((c) => c)
+      .map((c) => `<span class="pattern-cat-badge">${safeEscapeHtml(c)}</span>`)
+      .join("");
+
     return `
       <button type="button" class="pattern-select-card" data-idx="${idx}" onclick="selectPattern(${idx})">
         <div class="pattern-select-icon">${pat.icon || "🧩"}</div>
@@ -170,8 +242,9 @@ async function renderPatternTopics() {
             <span>${idx + 1}. ${safeEscapeHtml(pat.name)}</span>
             ${isDone ? '<span class="pattern-select-badge">완료 ✓</span>' : ""}
           </div>
-          <div class="pattern-select-desc">${safeEscapeHtml(pat.desc)}</div>
-          <div class="pattern-select-cats">📌 적용 주제: ${safeEscapeHtml(pat.category)}</div>
+          <div class="pattern-cats-badges">
+            ${catBadges}
+          </div>
         </div>
       </button>
     `;
@@ -188,7 +261,12 @@ async function renderPatternTopics() {
   });
 }
 
-// 패턴 학습 화면으로 전환
+/**
+ * 특정 패턴 인덱스의 학습 카드 화면으로 전환합니다.
+ * @param {number} idx - 패턴 인덱스 (0 ~ 5)
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
+ * @returns {void}
+ */
 function showPatternCard(idx, pushHistory = true) {
   if (
     typeof idx === "number" &&
@@ -213,7 +291,14 @@ function showPatternCard(idx, pushHistory = true) {
 }
 window.showPatternCard = showPatternCard;
 
-// 패턴 카드 상세 렌더링
+/**
+ * 만능 패턴 훈련 카드의 메인 콘텐츠를 렌더링합니다.
+ * - 패턴 기본 정보 및 6문장 뼈대(Skeleton) 하이라이트
+ * - 인터랙티브 주제 스위처(Slot Switcher) 칩 목록 생성
+ * - 현재 선택된 슬롯 변형(Variation) 문장 동기화
+ *
+ * @returns {void}
+ */
 function renderPatternCard() {
   const pat = PATTERN_ITEMS[patternCur];
   if (!pat) return;
@@ -417,7 +502,14 @@ function renderPatternVariation() {
   resetPatternSpeakingTimer();
 }
 
-// ── 만능 패턴 답변 채점 및 정밀 진단 ─────────────────────────────────
+// =============================================================================
+// 6. 만능 패턴 채점 및 피드백 액션 (Pattern Assessment & Feedback)
+// =============================================================================
+
+/**
+ * 사용자가 연습한 만능 패턴 답변을 채점하고 발음 일치도 및 문법 오류 피드백을 표시합니다.
+ * @returns {void}
+ */
 async function evaluatePatternAnswer() {
   stopTTS();
   if (listening) {
@@ -490,7 +582,10 @@ async function evaluatePatternAnswer() {
 }
 window.evaluatePatternAnswer = evaluatePatternAnswer;
 
-// 패턴 재도전 / 다시 풀기
+/**
+ * 현재 패턴 입력을 초기화하고 타이머를 리셋하여 재도전 상태로 만듭니다.
+ * @returns {void}
+ */
 function retryPatternQuestion() {
   stopTTS();
   clearRecordedVoice("pattern");
@@ -526,7 +621,10 @@ function retryPatternQuestion() {
 }
 window.retryPatternQuestion = retryPatternQuestion;
 
-// 패턴 모드용 Google AI 쿼리 생성
+/**
+ * 만능 패턴용 Google AI 질의 프롬프트를 생성합니다.
+ * @returns {string} 인코딩 전 검색 쿼리 문자열
+ */
 function buildPatternGoogleQuery() {
   const pat = PATTERN_ITEMS[patternCur];
   const userInput = document.getElementById("patternUserInput");
@@ -536,7 +634,14 @@ function buildPatternGoogleQuery() {
 }
 window.buildPatternGoogleQuery = buildPatternGoogleQuery;
 
-// 다음 패턴으로 이동
+// =============================================================================
+// 7. 패턴 순서 탐색 및 완료 처리 (Pattern Navigation & Completion)
+// =============================================================================
+
+/**
+ * 현재 패턴을 마스터 완료 처리하고 다음 패턴으로 이동합니다.
+ * @returns {void}
+ */
 function nextPattern() {
   stopTTS();
   const pat = PATTERN_ITEMS[patternCur];
@@ -559,7 +664,10 @@ function nextPattern() {
 }
 window.nextPattern = nextPattern;
 
-// 이전 패턴으로 이동
+/**
+ * 이전 번호의 패턴으로 이동합니다.
+ * @returns {void}
+ */
 function prevPattern() {
   stopTTS();
   if (patternCur > 0) {

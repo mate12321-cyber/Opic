@@ -1,13 +1,28 @@
 /**
- * [utils.js] OPIc 학습 웹 앱 공통 유틸리티 함수 모음
- * - GitHub Pages 호환 순수 바닐라 JS 유틸리티
- * - HTML 특수문자 이스케이프 (통합)
- * - 클립보드 복사 & 시각 피드백
- * - 보조 AI 검색용 사이드 팝업
- * - 텍스트에어리어 높이 자동 조절
+ * @file utils.js
+ * @description OPIc 학습 웹 애플리케이션 공통 유틸리티 함수 모음
+ *
+ * =============================================================================
+ * [주요 유틸리티 구성]
+ * =============================================================================
+ * 1. HTML 특수문자 이스케이프 (XSS 인젝션 방지 및 안전한 텍스트 렌더링)
+ * 2. 멀티 브라우저 클립보드 복사 엔진 (Async Clipboard API ↔ fallback execCommand)
+ * 3. AI 검색 보조 사이드 팝업창 컨트롤러 (화면 우측 고정 배치)
+ * 4. 가변형 텍스트에어리어 높이 자동 조절 (Auto-resize Textarea)
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.0
  */
 
-// HTML 특수문자 이스케이프 유틸 (XSS 방어 및 안전한 텍스트 렌더링)
+// =============================================================================
+// 1. 보안 및 문자열 정제 유틸리티
+// =============================================================================
+
+/**
+ * HTML 특수문자 이스케이프 (XSS 공격 방어 및 브라우저 안전 출력 보장)
+ * @param {string|null|undefined} str - 원본 문자열
+ * @returns {string} HTML 엔티티로 치환된 안전 문자열
+ */
 function escapeHtml(str) {
   if (str === null || str === undefined) return "";
   return String(str)
@@ -18,7 +33,17 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
-// 클립보드 텍스트 복사 및 버튼 피드백 토글
+// =============================================================================
+// 2. 클립보드 복사 및 UI 피드백 유틸리티
+// =============================================================================
+
+/**
+ * 지정된 텍스트를 시스템 클립보드에 복사하고 버튼 UI에 시각적 피드백 제공
+ * - 최신 HTTPS 환경: navigator.clipboard.writeText 비동기 처리
+ * - HTTP 또는 레거시 환경: fallbackCopy로 자동 폴백
+ * @param {string} text - 복사할 문자열
+ * @param {HTMLElement|null} [btn=null] - 복사 상태를 시각화할 버튼 엘리먼트
+ */
 function copyText(text, btn) {
   if (!text) return;
   if (navigator.clipboard && window.isSecureContext) {
@@ -41,7 +66,11 @@ function copyText(text, btn) {
   }
 }
 
-// 클립보드 API 미지원/비보안 환경용 대체 복사 함수
+/**
+ * Clipboard API 미지원 환경용 임시 가상 textarea 기반 대체 복사 함수
+ * @param {string} text - 복사할 문자열
+ * @param {HTMLElement|null} [btn=null] - 버튼 엘리먼트
+ */
 function fallbackCopy(text, btn) {
   const ta = document.createElement("textarea");
   ta.value = text;
@@ -69,7 +98,16 @@ function fallbackCopy(text, btn) {
   document.body.removeChild(ta);
 }
 
-// PC/맥북 화면 우측에 고정 너비로 Google AI 사이드 팝업창 띄우기
+// =============================================================================
+// 3. 브라우저 창 및 UI 크기 조정 유틸리티
+// =============================================================================
+
+/**
+ * 사용자의 메인 학습 화면을 방해하지 않도록 화면 우측에 고정된 크기로 AI 검색 팝업창 오픈
+ * @param {string} url - 팝업창에서 로드할 URL 주소
+ * @param {string} [title="GoogleAI_Popup"] - 팝업 윈도우 이름
+ * @returns {Window|null} 열린 윈도우 객체 참조
+ */
 function openSidePopup(url, title = "GoogleAI_Popup") {
   const width = 640;
   const height = 750;
@@ -85,7 +123,14 @@ function openSidePopup(url, title = "GoogleAI_Popup") {
   return popup;
 }
 
-// 텍스트 길이에 따라 textarea 높이를 실시간 자동 확장 (스크롤바 없이 한눈에 보기)
+/**
+ * 텍스트 길이에 따라 Textarea 높이를 스크롤바 없이 한눈에 볼 수 있도록 자동 확장
+ * [모드별 최소 높이 정책]
+ * - 발화 연습: 240px (긴 문단 작성을 위한 넉넉한 공간)
+ * - OPIc 실전: 110px
+ * - 일반 문장: 84px
+ * @param {HTMLTextAreaElement} el - 대상 textarea 엘리먼트
+ */
 function autoResizeTextarea(el) {
   if (!el) return;
   el.style.height = "auto";
@@ -97,9 +142,11 @@ function autoResizeTextarea(el) {
   el.style.height = `${newHeight}px`;
 }
 
-// 전역 바인딩
+// =============================================================================
+// 4. 전역(Global Window) 바인딩 및 하위 호환성 내보내기
+// =============================================================================
 window.escapeHtml = escapeHtml;
-window.safeEscapeHtml = escapeHtml; // 하위 호환성 유지
+window.safeEscapeHtml = escapeHtml; // 레거시 호출 호환성 유지
 window.copyText = copyText;
 window.fallbackCopy = fallbackCopy;
 window.openSidePopup = openSidePopup;

@@ -1,0 +1,186 @@
+<!-- 🗣️ 발화 연습 (자유 발화 · 마이크 녹음 · 내 녹음본 듣기 · 채점) 화면 -->
+<div class="card app-screen" id="speechPracticeCard" style="display: none">
+  <div class="mode-switch-row" style="margin-bottom: 14px">
+    <span class="mode-switch" id="homeFromSpeechPractice">🏠 홈</span>
+    <span class="mode-switch" id="toOpicFromSpeechPractice"
+      >실전 질문 답변 →</span
+    >
+  </div>
+
+  <div class="cardtop">
+    <span class="cat" id="speechPracticeCatLabel">🗣️ 발화 연습</span>
+    <div class="cardtop-right">
+      <button
+        type="button"
+        class="btn-prev-q"
+        id="speechPracticeResetBtn"
+        title="입력 내용 초기화"
+      >
+        새로 쓰기
+      </button>
+    </div>
+  </div>
+
+  <!-- 1. 입력 영역 (기본 세로 240px) -->
+  <div class="input-wrap">
+    <textarea
+      id="speechPracticeInput"
+      placeholder="마이크(🎤)를 누르고 영어로 자유롭게 말해보세요. 직접 입력하거나 수정할 수도 있습니다."
+      style="min-height: 240px"
+    ></textarea>
+    <button
+      class="mic-btn"
+      id="speechPracticeMicBtn"
+      type="button"
+      title="마이크 켜기/끄기 (음성 입력 & 동시 녹음)"
+    >
+      🎤
+    </button>
+  </div>
+  <div class="mic-error" id="speechPracticeMicError"></div>
+
+  <!-- 입력창 하단 유틸리티 바 -->
+  <div class="sp-input-footer">
+    <span id="speechPracticeWordCount" class="sp-word-count-badge"
+      >0단어 · 0자</span
+    >
+    <div class="sp-footer-btns">
+      <button
+        class="copy-btn"
+        id="speechPracticeCopyBtn"
+        type="button"
+        title="내용 복사"
+      >
+        복사
+      </button>
+      <button
+        class="copy-btn"
+        id="speechPracticeClearBtn"
+        type="button"
+        title="내용 지우기"
+        style="color: var(--danger-text)"
+      >
+        지우기
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. 음성 청취 전용 카드 (내 녹음 듣기 + 원어민 발음 듣기 + 상태 인디케이터) -->
+  <div class="sp-audio-card">
+    <div class="sp-audio-btn-row">
+      <button
+        type="button"
+        class="sp-audio-action-btn"
+        id="speechPracticePlayRecordBtn"
+        disabled
+        title="마이크로 발화 후 녹음본 청취 가능"
+      >
+        <span class="btn-icon" id="speechPracticePlayRecordIcon">▶</span>
+        <span id="speechPracticePlayRecordText">내 녹음 듣기</span>
+      </button>
+
+      <button
+        type="button"
+        class="sp-audio-action-btn"
+        id="speechPracticeTtsBtn"
+        title="입력된 내용 원어민 발음(TTS)으로 듣기"
+      >
+        <span class="btn-icon">🔊</span>
+        <span>원어민 발음 듣기</span>
+      </button>
+    </div>
+
+    <!-- 상태 인디케이터 바 -->
+    <div class="sp-audio-status-bar">
+      <div class="sp-status-left">
+        <span class="sp-status-dot" id="speechPracticeStatusDot"></span>
+        <span id="speechPracticeAudioStatusText"
+          >마이크(🎤)를 누르고 말하면 녹음 및 AI 자동 텍스트 변환이
+          진행됩니다</span
+        >
+      </div>
+    </div>
+
+    <audio
+      id="speechPracticeAudioPlayer"
+      playsinline
+      preload="auto"
+      style="display: none"
+    ></audio>
+  </div>
+
+  <!-- 3. 메인 채점하기 버튼 (100% Full-width) -->
+  <div class="sp-eval-btn-wrap">
+    <button
+      class="primary sp-eval-submit-btn"
+      id="speechPracticeEvalBtn"
+      type="button"
+    >
+      <span>💯 채점하기</span>
+      <kbd class="shortcut-key">↵</kbd>
+    </button>
+  </div>
+
+  <!-- 4. 채점 결과 박스 (기존 speech-eval 디자인 시스템 활용) -->
+  <div
+    class="speech-eval"
+    id="speechPracticeEvalBox"
+    style="display: none; margin-top: 18px"
+  >
+    <div class="eval-header">
+      <div class="eval-title">🎙️ 발화 분석 및 채점 결과</div>
+      <div
+        id="speechPracticeBadgesWrap"
+        style="display: flex; align-items: center; gap: 6px"
+      ></div>
+    </div>
+
+    <!-- 발화량 & 속도 지표 -->
+    <div
+      class="sp-stats-grid"
+      id="speechPracticeStatsGrid"
+      style="margin-bottom: 12px"
+    ></div>
+
+    <!-- 담화 표지어 태그 (필러, 연결어, 시제) -->
+    <div
+      id="speechPracticeTagsWrap"
+      style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px"
+    ></div>
+
+    <!-- 문법 교정 제안 박스 (기존 grammar 스타일 박스) -->
+    <div
+      class="grammar"
+      id="speechPracticeGrammarWrap"
+      style="display: none; margin-bottom: 12px"
+    >
+      <div class="lbl">✍️ 문법 및 원어민 표현 교정 제안</div>
+      <div
+        id="speechPracticeGrammarList"
+        style="display: flex; flex-direction: column; gap: 6px; margin-top: 6px"
+      ></div>
+    </div>
+
+    <!-- 종합 피드백 코멘트 -->
+    <div
+      class="eval-feedback"
+      id="speechPracticeFeedbackText"
+      style="margin-top: 10px"
+    ></div>
+
+    <!-- 하단 액션 버튼 -->
+    <div class="eval-actions" style="margin-top: 12px">
+      <button
+        class="tts-btn"
+        id="speechPracticeReplayRecordBtnBottom"
+        type="button"
+        style="display: none"
+      >
+        🎧 내 녹음 다시 듣기
+      </button>
+      <button class="tts-btn" id="speechPracticeTtsBtnBottom" type="button">
+        🔊 원어민 발음 듣기
+      </button>
+    </div>
+  </div>
+</div>

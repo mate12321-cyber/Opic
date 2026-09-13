@@ -1,21 +1,43 @@
 /**
- * [vocab-tooltip.js] 영어 문장 단어/표현 드래그 & 더블클릭/모바일 터치 인라인 번역 툴팁 시스템
- * - 429 Rate Limit 방지 및 100% 안정성 보장:
- *   1. Tier 1: OPIc & 기초 영단어 내장 사전 (네트워크 요청 0회, 0ms 즉각 반환)
- *   2. Tier 2: MyMemory 정식 오픈 번역 API (무제한급 안정성)
- *   3. Tier 3: Google Translate API (429 발생 시 자동 쿨다운 및 MyMemory 우회)
- * - Android / iOS 모바일 최적화 (더블탭 확대 방지, 핀치 줌 유지, 롱프레스 햅틱 및 OS 메뉴 방어)
- * - L1 메모리 캐시 + L2 LocalStorage 캐시
- * - Web Speech API 연동 발음 재생 및 내 단어장 저장 지원
+ * @file vocab-tooltip.js
+ * @description 영어 문장 단어/표현 드래그, 더블클릭, 모바일 롱터치 인라인 번역 툴팁 및 단어장 시스템
+ *
+ * =============================================================================
+ * [3계층 사전 폴백 및 무제한 안정성 아키텍처]
+ * =============================================================================
+ * 1. Tier 1: OPIc 빈출 및 기초 영단어 내장 딕셔너리 (`BUILTIN_DICT`)
+ *    - 네트워크 요청 0회, 0ms 즉각 반환으로 429 Rate Limit 원천 차단
+ * 2. Tier 2: MyMemory 공식 오픈 번역 API
+ *    - CORS 친화적이며 안정적인 단어/표현 번역 제공
+ * 3. Tier 3: Google Translate gtx 엔드포인트
+ *    - 429 감지 시 60초간 쿨다운 보호 및 MyMemory로 자동 우회
+ * 4. 2단계 하이브리드 캐싱:
+ *    - L1: Map 기반 초고속 인메모리 캐시
+ *    - L2: LocalStorage 기반 최대 500개 영구 캐시 (LRU 방식 100개 단위 정리)
+ * 5. 모바일/터치 디바이스 UX 최적화:
+ *    - 브라우저 더블탭 확대 방지, 핀치 줌 제스처 보존, 롱프레스 햅틱 및 OS 컨텍스트 메뉴 간섭 차단
+ * 6. 나만의 단어장 연동: 즐겨찾기(별표 토글), 단어장 모달, 발음 TTS 재생 지원
+ *
+ * @author Kim Hyo-sang
+ * @version 2.2.0
  */
 
 (function () {
+  /** @const {string} 로컬 스토리지 번역 결과 캐시 저장 키 */
   const VOCAB_CACHE_KEY = "ko-en-opic-vocab-cache";
-  const SAVED_WORDS_KEY = "ko-en-opic-saved-words";
-  const memCache = new Map(); // L1 초고속 인메모리 캐시
-  let googleCooldownUntil = 0; // Google API 429 차단 시 쿨다운 타임스탬프
 
-  // 📖 Tier 1: OPIc 빈출 및 기초 영단어 내장 딕셔너리 (네트워크 0회, 429 원천 차단)
+  /** @const {string} 로컬 스토리지 나만의 단어장 저장 키 */
+  const SAVED_WORDS_KEY = "ko-en-opic-saved-words";
+
+  /** @type {Map<string, Object>} L1 초고속 인메모리 캐시 */
+  const memCache = new Map();
+
+  /** @type {number} Google 번역 API 429 Too Many Requests 방지용 쿨다운 타임스탬프 */
+  let googleCooldownUntil = 0;
+
+  // =============================================================================
+  // 1. Tier 1: OPIc 빈출 및 필수 영단어 내장 오프라인 사전 (네트워크 0회)
+  // =============================================================================
   const BUILTIN_DICT = {
     best: {
       meaning: "가장 좋은, 최고의",
@@ -366,7 +388,15 @@
   let lastTouchPoint = null;
   let lastShownTime = 0;
 
-  // HTML 이스케이프 유틸
+  // =============================================================================
+  // 2. L1/L2 하이브리드 캐싱 및 단어장 영구 저장 관리
+  // =============================================================================
+
+  /**
+   * HTML 특수문자 이스케이프 유틸리티
+   * @param {string} str
+   * @returns {string}
+   */
   function escapeHtml(str) {
     return String(str || "")
       .replace(/&/g, "&amp;")
@@ -375,7 +405,10 @@
       .replace(/"/g, "&quot;");
   }
 
-  // L2 로컬 스토리지 캐시 유틸
+  /**
+   * LocalStorage에 저장된 번역 사전 L2 캐시 객체 조회
+   * @returns {Object<string, Object>}
+   */
   function getVocabCache() {
     try {
       return JSON.parse(localStorage.getItem(VOCAB_CACHE_KEY)) || {};
@@ -384,6 +417,12 @@
     }
   }
 
+  /**
+   * 번역 결과를 L1 인메모리 및 L2 LocalStorage에 동시 저장
+   * - 캐시 크기가 500개를 초과할 경우 오래된 항목 100개를 자동 배치 정리
+   * @param {string} key - 단어/표현 소문자 키
+   * @param {Object} data - 번역 결과 객체
+   */
   function saveVocabCache(key, data) {
     try {
       memCache.set(key, data);
@@ -405,7 +444,10 @@
     }
   } catch (e) {}
 
-  // 저장된 단어장 유틸
+  /**
+   * LocalStorage에 보관된 사용자 단어장 목록 조회
+   * @returns {Array<Object>} 저장된 단어 객체 배열
+   */
   function getSavedWords() {
     try {
       return JSON.parse(localStorage.getItem(SAVED_WORDS_KEY)) || [];
@@ -414,12 +456,22 @@
     }
   }
 
+  /**
+   * 특정 단어가 현재 단어장에 저장되어 있는지 여부 검사
+   * @param {string} word - 단어 문자열
+   * @returns {boolean} 저장 여부
+   */
   function isWordSaved(word) {
     if (!word) return false;
     const list = getSavedWords();
     return list.some((item) => item.word.toLowerCase() === word.toLowerCase());
   }
 
+  /**
+   * 단어장 저장/제거 토글
+   * @param {Object} wordData - 저장할 단어 데이터 객체 (word, meaning, posList)
+   * @returns {boolean} 저장되었으면 true, 제거되었으면 false
+   */
   function toggleSaveWord(wordData) {
     if (!wordData || !wordData.word) return false;
     let list = getSavedWords();
@@ -445,7 +497,14 @@
     return saved;
   }
 
-  // 툴팁 DOM 생성
+  // =============================================================================
+  // 3. 인라인 툴팁 DOM 생성, 위치 계산 및 3단계 사전 조회 엔진
+  // =============================================================================
+
+  /**
+   * 번역 툴팁 DOM 엘리먼트 생성 및 이벤트 리스너 바인딩
+   * @returns {HTMLElement}
+   */
   function createTooltipDOM() {
     if (tooltipEl && document.body.contains(tooltipEl)) {
       return tooltipEl;
@@ -572,72 +631,71 @@
     return tooltipEl;
   }
 
+  /**
+   * 토스트 피드백 메시지 노출
+   * @param {string} msg
+   */
   function showToast(msg) {
-    const toast = document.getElementById("vocabToast");
-    if (!toast) return;
+    let toast = document.getElementById("vocabToast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "vocabToast";
+      toast.className = "vocab-toast";
+      document.body.appendChild(toast);
+    }
     toast.textContent = msg;
     toast.classList.add("show");
     setTimeout(() => {
       toast.classList.remove("show");
-    }, 1600);
+    }, 1800);
   }
 
+  /**
+   * 단어장 즐겨찾기 별표 버튼 UI 동기화
+   * @param {boolean} isSaved
+   */
   function updateStarBtnUI(isSaved) {
     const starBtn = document.getElementById("vocabStarBtn");
     if (!starBtn) return;
     if (isSaved) {
       starBtn.classList.add("saved");
-      starBtn.innerHTML = `
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-        </svg>
-      `;
+      starBtn.innerHTML = "★";
+      starBtn.title = "단어장에서 제거";
     } else {
       starBtn.classList.remove("saved");
-      starBtn.innerHTML = `
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-        </svg>
-      `;
+      starBtn.innerHTML = "☆";
+      starBtn.title = "단어장에 저장";
     }
   }
 
-  let lastTargetRect = null;
-
-  // 툴팁 위치 계산 및 배치
+  /**
+   * 선택된 텍스트 위치(rect)를 기준으로 화면 밖 이탈 없이 최적의 위치에 툴팁 배치
+   * - 모바일: 아래쪽 공간 우선 배치 (상단 돋보기/시스템 선택바 간섭 방지)
+   * - PC: 위쪽 공간 우선 배치
+   * @param {DOMRect} rect - 선택 텍스트의 바운딩 렉트
+   */
   function positionTooltip(rect) {
-    if (!tooltipEl) createTooltipDOM();
-    if (!rect) return;
+    if (!tooltipEl || !rect) return;
     lastTargetRect = rect;
 
-    const isMobile = window.innerWidth <= 600;
-    const tooltipWidth = isMobile
-      ? Math.min(320, window.innerWidth - 20)
-      : Math.min(360, window.innerWidth - 32);
+    const isMobile = window.innerWidth <= 768;
+    const tooltipWidth = Math.min(
+      320,
+      window.innerWidth - (isMobile ? 24 : 32),
+    );
     tooltipEl.style.width = `${tooltipWidth}px`;
 
+    // 1. 수평(X) 위치 계산: 선택 영역 중앙 정렬 후 화면 경계 클램핑
     const targetCenterX = rect.left + rect.width / 2;
     let left = targetCenterX - tooltipWidth / 2;
-
-    // 좌우 화면 경계 여백 보정 (최소 10px)
-    if (left < 10) left = 10;
-    if (left + tooltipWidth > window.innerWidth - 10) {
-      left = window.innerWidth - tooltipWidth - 10;
-    }
-
-    const arrowEl = document.getElementById("vocabTooltipArrow");
-    const arrowLeft = Math.max(
-      16,
-      Math.min(tooltipWidth - 16, targetCenterX - left),
+    left = Math.max(
+      12,
+      Math.min(left, window.innerWidth - tooltipWidth - (isMobile ? 12 : 16)),
     );
 
-    if (arrowEl) {
-      arrowEl.style.left = `${arrowLeft - 5}px`;
-    }
-
-    // 실제 렌더링된 툴팁 높이 측정 (하드코딩 160px로 인한 겹침 문제 원천 차단)
+    // 2. 수직(Y) 위치 계산
     const actualHeight = tooltipEl.offsetHeight || 160;
-    const margin = 10; // 선택 텍스트와 툴팁 사이 간격
+    const margin = 10;
     const screenPadding = 10;
 
     const spaceAbove = rect.top - screenPadding;
@@ -647,7 +705,7 @@
     let placement = "top";
 
     if (isMobile) {
-      // 📱 모바일: 아래쪽 공간이 충분하면 아래쪽에 우선 배치 (모바일 상단 돋보기/선택 바와 겹침 방지)
+      // 📱 모바일: 아래쪽 공간이 충분하면 아래쪽에 우선 배치
       if (spaceBelow >= actualHeight + margin) {
         top = rect.bottom + margin;
         placement = "bottom";
@@ -655,7 +713,6 @@
         top = rect.top - actualHeight - margin;
         placement = "top";
       } else {
-        // 화면 공간이 협소할 때는 공간이 더 넓은 쪽에 배치
         if (spaceBelow >= spaceAbove) {
           top = rect.bottom + margin;
           placement = "bottom";
@@ -673,7 +730,6 @@
         top = rect.bottom + margin;
         placement = "bottom";
       } else {
-        // 공간이 부족할 때는 더 넓은 쪽에 배치
         if (spaceAbove >= spaceBelow) {
           top = rect.top - actualHeight - margin;
           placement = "top";
@@ -684,7 +740,7 @@
       }
     }
 
-    // 최종 위치 안전 클램핑 (화면 밖으로 삐져나가지 않도록 보장)
+    // 최종 위치 안전 클램핑
     top = Math.max(
       screenPadding,
       Math.min(top, window.innerHeight - actualHeight - screenPadding),
@@ -696,6 +752,9 @@
     tooltipEl.classList.add("show");
   }
 
+  /**
+   * 툴팁 숨김 처리 및 상태 리셋
+   */
   function hideTooltip() {
     if (tooltipEl) {
       tooltipEl.classList.remove("show");
@@ -705,7 +764,14 @@
     }
   }
 
-  // 다중 Fallback 번역 & 사전 엔진 (429 Rate Limit 방지 및 긴 문장 완벽 지원)
+  /**
+   * 3계층 하이브리드 사전/번역 엔드포인트 단어 의미 조회
+   * 1. Tier 1: BUILTIN_DICT (0ms 오프라인 즉각 반환)
+   * 2. Tier 2: Google Translate API (429 발생 시 3분간 쿨다운 보호)
+   * 3. Tier 3: MyMemory API Fallback (무제한 안정성)
+   * @param {string} queryText - 검색할 영단어/숙어
+   * @returns {Promise<Object>} 단어, 주요 뜻, 품사별 의미 배열
+   */
   async function fetchWordDetails(queryText) {
     const key = queryText.toLowerCase().trim();
 
@@ -1316,7 +1382,13 @@
     });
   }
 
-  // ── 📚 내 단어장 모달 관리 시스템 ──────────────────────────────────
+  // =============================================================================
+  // 4. 나만의 단어장 모달 및 저장 목록 관리
+  // =============================================================================
+
+  /**
+   * 대시보드 칩 및 모달 헤더의 저장 단어 수 뱃지 갱신
+   */
   function updateSavedWordsBadge() {
     const list = getSavedWords();
     const count = list.length;
@@ -1330,6 +1402,9 @@
     }
   }
 
+  /**
+   * 단어장 모달 내 저장된 단어 리스트 DOM 렌더링 및 이벤트 바인딩
+   */
   function renderSavedWordsList() {
     const list = getSavedWords();
     const container = document.getElementById("savedWordsListContainer");
@@ -1379,7 +1454,7 @@
       });
     });
 
-    // 삭제 버튼 이벤트 바인딩
+    // 개별 삭제 버튼 이벤트 바인딩
     container.querySelectorAll(".sw-del-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         const w = btn.dataset.word;
@@ -1390,6 +1465,10 @@
     });
   }
 
+  /**
+   * 특정 단어를 단어장에서 삭제
+   * @param {string} word - 삭제할 단어
+   */
   function deleteSavedWord(word) {
     let list = getSavedWords();
     list = list.filter(
@@ -1408,6 +1487,9 @@
     }
   }
 
+  /**
+   * 사용자의 확인을 거쳐 단어장에 보관된 모든 단어 일괄 삭제
+   */
   function clearAllSavedWords() {
     if (!confirm("단어장에 저장된 모든 단어를 삭제하시겠습니까?")) return;
     try {
@@ -1418,6 +1500,9 @@
     updateStarBtnUI(false);
   }
 
+  /**
+   * 나만의 단어장 모달 오픈
+   */
   function openVocabModal() {
     const modal = document.getElementById("vocabModal");
     if (!modal) return;
@@ -1427,6 +1512,9 @@
     document.body.style.overflow = "hidden";
   }
 
+  /**
+   * 나만의 단어장 모달 닫기
+   */
   function closeVocabModal() {
     const modal = document.getElementById("vocabModal");
     if (modal) {
@@ -1435,7 +1523,9 @@
     }
   }
 
-  // 즉시 초기화 & DOM 준비 시 재확인
+  // =============================================================================
+  // 5. 초기화 및 전역(Window) 바인딩
+  // =============================================================================
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => {
       initVocabTooltip();
@@ -1446,7 +1536,6 @@
     updateSavedWordsBadge();
   }
 
-  // 브라우저 전역 노출
   window.initVocabTooltip = initVocabTooltip;
   window.showVocabTooltip = showVocabTooltip;
   window.hideVocabTooltip = hideTooltip;
