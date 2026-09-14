@@ -373,40 +373,40 @@ window.showPatternCard = showPatternCard;
 const PATTERN_TOPIC_QUESTION_MAP = {
   pat_01: {
     "내 방": { qId: "q_home_05" },
-    "카페": { qId: "q_cafe_01" },
-    "공원": { qId: "q_park_01" },
-    "영화관": { qId: "q_movie_05" },
-    "헬스장": { qId: "q_exercise_02" },
-    "대형마트": {
+    카페: { qId: "q_cafe_01" },
+    공원: { qId: "q_park_01" },
+    영화관: { qId: "q_movie_05" },
+    헬스장: { qId: "q_exercise_02" },
+    대형마트: {
       q_en: "You indicated in the survey that you go grocery shopping. Please describe your favorite grocery store or supermarket you often visit.",
       q_ko: "설문에서 장보기를 한다고 하셨습니다. 자주 가시는 대형마트나 슈퍼마켓에 대해 자세히 설명해 주세요.",
     },
-    "드라이브": { qId: "q_trip_02" },
-    "캠핑장": { qId: "q_camp_02" },
-    "해변": {
+    드라이브: { qId: "q_trip_02" },
+    캠핑장: { qId: "q_camp_02" },
+    해변: {
       q_en: "You indicated in the survey that you enjoy traveling. Please describe your favorite beach or coastal destination you like to visit.",
       q_ko: "설문에서 국내 여행을 좋아한다고 하셨습니다. 가장 좋아하시는 해변이나 바닷가 여행지에 대해 설명해 주세요.",
     },
     "단골 식당": { qId: "q_cook_04" },
-    "호텔": { qId: "q_trip_04" },
-    "도서관": {
+    호텔: { qId: "q_trip_04" },
+    도서관: {
       q_en: "Please describe the library or study cafe you often visit. Where is it located and what does it look like?",
       q_ko: "자주 가시는 도서관이나 스터디 카페에 대해 설명해 주세요. 어디에 있고 어떻게 생겼나요?",
     },
-    "제주도": {
+    제주도: {
       q_en: "You indicated in the survey that you enjoy traveling. Please describe your favorite travel destination, such as Jeju Island. What does it look like?",
       q_ko: "설문에서 여행을 좋아한다고 하셨습니다. 제주도 등 가장 좋아하시는 국내 여행지에 대해 설명해 주세요. 어떤 모습인가요?",
     },
   },
   pat_02: {
-    "카페": { qId: "q_cafe_02" },
+    카페: { qId: "q_cafe_02" },
     "공원 산책": { qId: "q_park_02" },
     "헬스장 운동": { qId: "q_exercise_01" },
-    "요리": { qId: "q_cook_01" },
+    요리: { qId: "q_cook_01" },
     "취미 코딩": { qId: "q_intro_02" },
     "영화 관람": { qId: "q_movie_06" },
     "마트 장보기": { qId: "q_cook_06" },
-    "드라이브": { qId: "q_trip_05" },
+    드라이브: { qId: "q_trip_05" },
     "주말 캠핑": { qId: "q_camp_01" },
     "독서·도서관": {
       q_en: "What do you usually do when you visit the library or read books on weekends? Tell me about your typical routine.",
@@ -420,32 +420,32 @@ const PATTERN_TOPIC_QUESTION_MAP = {
     },
   },
   pat_03: {
-    "영화": { qId: "q_movie_02" },
-    "축제": { qId: "q_music_03" },
+    영화: { qId: "q_movie_02" },
+    축제: { qId: "q_music_03" },
     "새집 이사": {
       q_en: "Tell me about your experience moving into your current home. How did you prepare, and what happened on moving day?",
       q_ko: "현재 살고 있는 집으로 이사했던 경험에 대해 말씀해 주세요. 어떻게 준비했고 이삿날 무슨 일이 있었나요?",
     },
-    "캠핑": { qId: "q_camp_06" },
-    "카페": { qId: "q_cafe_03" },
-    "해변": { qId: "q_trip_03" },
-    "공원": { qId: "q_park_03" },
-    "헬스장": { qId: "q_exercise_06" },
+    캠핑: { qId: "q_camp_06" },
+    카페: { qId: "q_cafe_03" },
+    해변: { qId: "q_trip_03" },
+    공원: { qId: "q_park_03" },
+    헬스장: { qId: "q_exercise_06" },
     "단골 식당": { qId: "q_cook_02" },
-    "호텔": { qId: "q_trip_04" },
-    "대형마트": {
+    호텔: { qId: "q_trip_04" },
+    대형마트: {
       q_en: "Tell me about a memorable or unexpected experience you had while grocery shopping at a supermarket. What happened?",
       q_ko: "대형마트에서 장을 보다가 겪었던 기억에 남거나 뜻밖의 경험에 대해 말씀해 주세요. 무슨 일이었나요?",
     },
-    "드라이브": {
+    드라이브: {
       q_en: "Tell me about a memorable road trip or scenic drive you took recently. Where did you go, and why was it so memorable?",
       q_ko: "최근에 다녀온 기억에 남는 드라이브나 로드 트립에 대해 말씀해 주세요. 어디로 가셨고 왜 그렇게 기억에 남았나요?",
     },
-    "도서관": {
+    도서관: {
       q_en: "Tell me about a memorable experience you had while studying or reading at the library. What happened?",
       q_ko: "도서관에서 공부하거나 책을 읽다가 겪었던 기억에 남는 경험에 대해 말씀해 주세요.",
     },
-    "제주도": { qId: "q_trip_03" },
+    제주도: { qId: "q_trip_03" },
   },
   pat_04: {
     "에어컨 고장": { qId: "q_home_03" },
@@ -607,9 +607,7 @@ function updatePatternMatchGuideQuestion(pat, curVar) {
   // 3. 질문 청취 시그널 칩 업데이트 (주제별 핵심 단어가 있으면 함께 반영)
   const signalsEl = document.getElementById("pmgSignals");
   if (signalsEl && Array.isArray(pat.questionSignals)) {
-    const topicKeywordSignal = curVar.keyword
-      ? `🎯 ${curVar.keyword}`
-      : null;
+    const topicKeywordSignal = curVar.keyword ? `🎯 ${curVar.keyword}` : null;
     const combinedSignals = topicKeywordSignal
       ? [topicKeywordSignal, ...pat.questionSignals]
       : pat.questionSignals;

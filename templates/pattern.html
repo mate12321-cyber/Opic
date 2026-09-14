@@ -123,6 +123,18 @@
     <p class="pattern-desc-p" id="patternDescP"></p>
   </div>
 
+  <!-- 인터랙티브 주제별 단어 갈아끼우기 컨트롤러 (최상단 배치) -->
+  <div class="switcher-card">
+    <div class="switcher-header-row">
+      <div class="switcher-title">
+        <span class="switcher-icon">🔄</span>
+        <span class="switcher-text">주제별 단어 갈아끼우기</span>
+        <span class="switcher-badge" id="patternVarCounter">1 / 1</span>
+      </div>
+    </div>
+    <div class="switcher-chips-wrap" id="patternSwitcherChips"></div>
+  </div>
+
   <!-- 에바 질문 매칭 가이드 박스 (어떤 문제일 때 답변할까?) -->
   <div class="pattern-match-guide-box" id="patternMatchGuideBox">
     <div class="pmg-header">
@@ -160,10 +172,12 @@
         </div>
         <div class="pmg-example-q-wrap" id="pmgExampleQ">
           <div class="pmg-q-en" id="pmgExampleQEn">
-            "Describe your favorite place you like to visit and what it looks like."
+            "Describe your favorite place you like to visit and what it looks
+            like."
           </div>
           <div class="pmg-q-ko" id="pmgExampleQKo">
-            (가장 좋아하는 장소에 대해 설명하고 그곳이 어떻게 생겼는지 말씀해 주세요.)
+            (가장 좋아하는 장소에 대해 설명하고 그곳이 어떻게 생겼는지 말씀해
+            주세요.)
           </div>
         </div>
       </div>
@@ -176,18 +190,6 @@
       <span>📐 6문장 만능 뼈대 구조 (Framework)</span>
     </div>
     <div class="skeleton-list" id="patternSkeletonList"></div>
-  </div>
-
-  <!-- 인터랙티브 주제별 단어 갈아끼우기 컨트롤러 -->
-  <div class="switcher-card">
-    <div class="switcher-header-row">
-      <div class="switcher-title">
-        <span class="switcher-icon">🔄</span>
-        <span class="switcher-text">주제별 단어 갈아끼우기</span>
-        <span class="switcher-badge" id="patternVarCounter">1 / 1</span>
-      </div>
-    </div>
-    <div class="switcher-chips-wrap" id="patternSwitcherChips"></div>
   </div>
 
   <!-- 단계별 6문장 리스트 (연결 듣기 및 복사 버튼 포함) -->
