@@ -300,9 +300,9 @@ body.dark-theme .pattern-slot-tag {
   background: var(--surface);
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 14px 16px;
-  margin-bottom: 18px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
   transition: all 0.2s ease;
 }
 
@@ -310,18 +310,16 @@ body.dark-theme .pattern-slot-tag {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--border-light);
 }
 
 .switcher-title {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13.5px;
+  gap: 6px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text-main);
 }
@@ -331,66 +329,24 @@ body.dark-theme .pattern-slot-tag {
   font-weight: 700;
   color: var(--primary);
   background: var(--primary-subtle);
-  padding: 2px 8px;
+  padding: 1px 7px;
   border-radius: var(--radius-full);
-}
-
-.switcher-nav-btns {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.btn-var-nav,
-.btn-var-random {
-  background: var(--surface-muted, #f8fafc);
-  border: 1px solid var(--border-light);
-  color: var(--text-body);
-  font-size: 12px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.15s ease;
-  height: 28px;
-}
-
-.btn-var-nav:hover {
-  background: var(--primary-subtle);
-  border-color: var(--primary-border);
-  color: var(--primary);
-  transform: translateY(-1px);
-}
-
-.btn-var-random {
-  background: #fef3c7;
-  border-color: #fde68a;
-  color: #b45309;
-}
-
-.btn-var-random:hover {
-  background: #fde68a;
-  border-color: #f59e0b;
-  color: #92400e;
-  transform: translateY(-1px);
 }
 
 /* 칩들을 가로 스크롤 없이 시원하게 펼쳐 보여주는 유연한 랩 그리드 */
 .switcher-chips-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .switcher-chip {
   background: var(--surface-muted, #f8fafc);
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-full);
-  padding: 6px 14px;
-  font-size: 13px;
+  padding: 3px 11px;
+  font-size: 12px;
+  line-height: 1.35;
   font-weight: 600;
   color: var(--text-body);
   cursor: pointer;
@@ -412,7 +368,7 @@ body.dark-theme .pattern-slot-tag {
   background: var(--primary);
   color: #ffffff !important;
   border-color: var(--primary);
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.28);
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
 }
 
 /* 단어 교체 시 본문 슬롯 반짝임 펄스 애니메이션 */
@@ -759,30 +715,6 @@ body.dark-theme .switcher-title {
 body.dark-theme .switcher-badge {
   background: #312e81;
   color: #c7d2fe;
-}
-
-body.dark-theme .btn-var-nav {
-  background: #0f172a;
-  border-color: #334155;
-  color: #cbd5e1;
-}
-
-body.dark-theme .btn-var-nav:hover {
-  background: #312e81;
-  border-color: #6366f1;
-  color: #ffffff;
-}
-
-body.dark-theme .btn-var-random {
-  background: #78350f;
-  border-color: #92400e;
-  color: #fde68a;
-}
-
-body.dark-theme .btn-var-random:hover {
-  background: #92400e;
-  border-color: #b45309;
-  color: #fffbeb;
 }
 
 body.dark-theme .switcher-chip {
