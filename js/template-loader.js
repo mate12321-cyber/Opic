@@ -13,7 +13,7 @@
   "use strict";
 
   /** @const {string} 캐시 버스팅용 빌드 버전 태그 */
-  const BUILD_VERSION = "2.2.20";
+  const BUILD_VERSION = "2.2.21";
 
   /**
    * @typedef {Object} ScreenConfig
