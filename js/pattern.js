@@ -367,6 +367,274 @@ function showPatternCard(idx, pushHistory = true) {
 window.showPatternCard = showPatternCard;
 
 /**
+ * 만능 패턴 주제별 실전 에바 질문 매핑 데이터베이스
+ * - 6대 만능 패턴과 각 variation 주제에 완벽히 매칭되는 질문(q_id 또는 맞춤 q_en/q_ko)
+ */
+const PATTERN_TOPIC_QUESTION_MAP = {
+  pat_01: {
+    "내 방": { qId: "q_home_05" },
+    "카페": { qId: "q_cafe_01" },
+    "공원": { qId: "q_park_01" },
+    "영화관": { qId: "q_movie_05" },
+    "헬스장": { qId: "q_exercise_02" },
+    "대형마트": {
+      q_en: "You indicated in the survey that you go grocery shopping. Please describe your favorite grocery store or supermarket you often visit.",
+      q_ko: "설문에서 장보기를 한다고 하셨습니다. 자주 가시는 대형마트나 슈퍼마켓에 대해 자세히 설명해 주세요.",
+    },
+    "드라이브": { qId: "q_trip_02" },
+    "캠핑장": { qId: "q_camp_02" },
+    "해변": {
+      q_en: "You indicated in the survey that you enjoy traveling. Please describe your favorite beach or coastal destination you like to visit.",
+      q_ko: "설문에서 국내 여행을 좋아한다고 하셨습니다. 가장 좋아하시는 해변이나 바닷가 여행지에 대해 설명해 주세요.",
+    },
+    "단골 식당": { qId: "q_cook_04" },
+    "호텔": { qId: "q_trip_04" },
+    "도서관": {
+      q_en: "Please describe the library or study cafe you often visit. Where is it located and what does it look like?",
+      q_ko: "자주 가시는 도서관이나 스터디 카페에 대해 설명해 주세요. 어디에 있고 어떻게 생겼나요?",
+    },
+    "제주도": {
+      q_en: "You indicated in the survey that you enjoy traveling. Please describe your favorite travel destination, such as Jeju Island. What does it look like?",
+      q_ko: "설문에서 여행을 좋아한다고 하셨습니다. 제주도 등 가장 좋아하시는 국내 여행지에 대해 설명해 주세요. 어떤 모습인가요?",
+    },
+  },
+  pat_02: {
+    "카페": { qId: "q_cafe_02" },
+    "공원 산책": { qId: "q_park_02" },
+    "헬스장 운동": { qId: "q_exercise_01" },
+    "요리": { qId: "q_cook_01" },
+    "취미 코딩": { qId: "q_intro_02" },
+    "영화 관람": { qId: "q_movie_06" },
+    "마트 장보기": { qId: "q_cook_06" },
+    "드라이브": { qId: "q_trip_05" },
+    "주말 캠핑": { qId: "q_camp_01" },
+    "독서·도서관": {
+      q_en: "What do you usually do when you visit the library or read books on weekends? Tell me about your typical routine.",
+      q_ko: "주말에 도서관에 가거나 책을 읽을 때 보통 무엇을 하시나요? 전형적인 일과 루틴을 말씀해 주세요.",
+    },
+    "음악 감상": { qId: "q_music_02" },
+    "집안 청소": { qId: "q_home_06" },
+    "해변 산책": {
+      q_en: "What is your typical daily schedule during a trip to the beach? Describe your relaxing routine from morning to evening.",
+      q_ko: "해변으로 여행을 가면 보통 하루를 어떻게 보내시나요? 아침부터 저녁까지의 여유로운 루틴을 말씀해 주세요.",
+    },
+  },
+  pat_03: {
+    "영화": { qId: "q_movie_02" },
+    "축제": { qId: "q_music_03" },
+    "새집 이사": {
+      q_en: "Tell me about your experience moving into your current home. How did you prepare, and what happened on moving day?",
+      q_ko: "현재 살고 있는 집으로 이사했던 경험에 대해 말씀해 주세요. 어떻게 준비했고 이삿날 무슨 일이 있었나요?",
+    },
+    "캠핑": { qId: "q_camp_06" },
+    "카페": { qId: "q_cafe_03" },
+    "해변": { qId: "q_trip_03" },
+    "공원": { qId: "q_park_03" },
+    "헬스장": { qId: "q_exercise_06" },
+    "단골 식당": { qId: "q_cook_02" },
+    "호텔": { qId: "q_trip_04" },
+    "대형마트": {
+      q_en: "Tell me about a memorable or unexpected experience you had while grocery shopping at a supermarket. What happened?",
+      q_ko: "대형마트에서 장을 보다가 겪었던 기억에 남거나 뜻밖의 경험에 대해 말씀해 주세요. 무슨 일이었나요?",
+    },
+    "드라이브": {
+      q_en: "Tell me about a memorable road trip or scenic drive you took recently. Where did you go, and why was it so memorable?",
+      q_ko: "최근에 다녀온 기억에 남는 드라이브나 로드 트립에 대해 말씀해 주세요. 어디로 가셨고 왜 그렇게 기억에 남았나요?",
+    },
+    "도서관": {
+      q_en: "Tell me about a memorable experience you had while studying or reading at the library. What happened?",
+      q_ko: "도서관에서 공부하거나 책을 읽다가 겪었던 기억에 남는 경험에 대해 말씀해 주세요.",
+    },
+    "제주도": { qId: "q_trip_03" },
+  },
+  pat_04: {
+    "에어컨 고장": { qId: "q_home_03" },
+    "스마트폰 방전": { qId: "q_trip_06" },
+    "요리 연기": { qId: "q_cook_03" },
+    "갑작스런 비": { qId: "q_camp_03" },
+    "친구 약속 지연": { qId: "q_rp_02" },
+  },
+  pat_05: {
+    "카페 변화": { qId: "q_cafe_04" },
+    "영화 변화": { qId: "q_movie_04" },
+    "주거 변화": { qId: "q_home_04" },
+    "음악 변화": { qId: "q_music_06" },
+    "쇼핑 변화": {
+      q_en: "How has grocery shopping changed compared to the past? Compare traditional offline markets with modern online delivery apps.",
+      q_ko: "과거와 비교하여 장보기 방식이 어떻게 변화했나요? 과거의 전통 시장/마트와 오늘날의 온라인 새벽배송 앱을 비교해 주세요.",
+    },
+  },
+  pat_06: {
+    "티켓 문의": { qId: "q_rp_01" },
+    "헬스장 문의": {
+      q_en: "You want to sign up for a local gym. Call the fitness center and ask three or four questions about membership and facilities.",
+      q_ko: "동네 헬스장에 등록하려고 합니다. 피트니스 센터에 전화해 회원권과 시설에 대해 질문 3~4가지를 해보세요.",
+    },
+    "약속 지연": { qId: "q_rp_02" },
+    "교환/환불": {
+      q_en: "You purchased an item at a store, but you found a defect when you got home. Call the store, explain the problem, and ask for an exchange or a refund.",
+      q_ko: "가게에서 물건을 샀는데 집에 와보니 하자를 발견했습니다. 매장에 전화해 문제를 설명하고 교환이나 환불을 요청해 보세요.",
+    },
+    "예약 변경": { qId: "q_rp_04" },
+    "티켓 돌발": { qId: "q_rp_03" },
+  },
+};
+
+/**
+ * 현재 선택된 패턴 및 주제 변형(curVar)에 해당하는 최적의 실전 에바 질문을 조회합니다.
+ *
+ * @param {PatternTemplate} pat - 현재 패턴 객체
+ * @param {PatternVariation} curVar - 현재 주제 변형 객체
+ * @returns {{ q_en: string, q_ko: string, id: string, cat: string }}
+ */
+function getMatchingQuestionForVariation(pat, curVar) {
+  if (!pat || !curVar) return null;
+
+  const patternId = pat.id;
+  const rawTopic = curVar.topic || "";
+  const cleanTopic = rawTopic
+    .replace(/^[^\w가-힣]+/, "")
+    .replace(/\s*\([^)]*\)/g, "")
+    .trim();
+
+  // 1. 직접 매핑 딕셔너리 확인
+  const mapForPat = PATTERN_TOPIC_QUESTION_MAP[patternId];
+  if (mapForPat) {
+    let matchedEntry = mapForPat[cleanTopic];
+    if (!matchedEntry) {
+      const foundKey = Object.keys(mapForPat).find(
+        (k) => cleanTopic.includes(k) || k.includes(cleanTopic),
+      );
+      if (foundKey) matchedEntry = mapForPat[foundKey];
+    }
+
+    if (matchedEntry) {
+      if (matchedEntry.qId && window.QUESTIONS_DATA) {
+        const foundQ = window.QUESTIONS_DATA.find(
+          (q) => q.id === matchedEntry.qId,
+        );
+        if (foundQ) {
+          return {
+            q_en: foundQ.q_en,
+            q_ko: foundQ.q_ko,
+            id: foundQ.id,
+            cat: foundQ.cat,
+          };
+        }
+      }
+      if (matchedEntry.q_en) {
+        return {
+          q_en: matchedEntry.q_en,
+          q_ko: matchedEntry.q_ko || "",
+          id: matchedEntry.qId || "custom",
+          cat: cleanTopic,
+        };
+      }
+    }
+  }
+
+  // 2. window.QUESTIONS_DATA에서 실시간 탐색 (fallback)
+  if (window.QUESTIONS_DATA && Array.isArray(window.QUESTIONS_DATA)) {
+    const candidates = window.QUESTIONS_DATA.filter(
+      (q) => q.pattern_id === patternId,
+    );
+    if (candidates.length > 0) {
+      const matched = candidates.find(
+        (q) =>
+          (q.cat && q.cat.includes(cleanTopic)) ||
+          (q.q_ko && q.q_ko.includes(cleanTopic)) ||
+          (curVar.keyword &&
+            q.q_en
+              .toLowerCase()
+              .includes(curVar.keyword.toLowerCase().split(" ")[0])),
+      );
+      if (matched) {
+        return {
+          q_en: matched.q_en,
+          q_ko: matched.q_ko,
+          id: matched.id,
+          cat: matched.cat,
+        };
+      }
+      return {
+        q_en: candidates[0].q_en,
+        q_ko: candidates[0].q_ko,
+        id: candidates[0].id,
+        cat: candidates[0].cat,
+      };
+    }
+  }
+
+  // 3. 최후 fallback: 패턴 기본 질문
+  return {
+    q_en: pat.exampleQuestion || "Please describe this topic in detail.",
+    q_ko: pat.desc || "",
+    id: "default",
+    cat: cleanTopic,
+  };
+}
+
+/**
+ * 에바 질문 매칭 가이드 박스의 질문 예시 및 질문 청취 버튼을 동적으로 갱신합니다.
+ *
+ * @param {PatternTemplate} pat - 현재 패턴 객체
+ * @param {PatternVariation} curVar - 현재 주제 변형 객체
+ */
+function updatePatternMatchGuideQuestion(pat, curVar) {
+  if (!pat || !curVar) return;
+
+  const matchedQ = getMatchingQuestionForVariation(pat, curVar);
+  if (!matchedQ) return;
+
+  // 1. 현재 주제 뱃지 업데이트
+  const topicBadge = document.getElementById("pmgTopicBadge");
+  if (topicBadge) {
+    const cleanTopic = (curVar.topic || "").replace(/\s*\([^)]*\)/g, "").trim();
+    topicBadge.textContent = cleanTopic || "주제 예시";
+  }
+
+  // 2. 영문 및 한글 질문 업데이트
+  const qEnEl = document.getElementById("pmgExampleQEn");
+  const qKoEl = document.getElementById("pmgExampleQKo");
+
+  if (qEnEl) {
+    qEnEl.textContent = `“${matchedQ.q_en}”`;
+  }
+  if (qKoEl) {
+    qKoEl.textContent = matchedQ.q_ko ? `(${matchedQ.q_ko})` : "";
+  }
+
+  // 3. 질문 청취 시그널 칩 업데이트 (주제별 핵심 단어가 있으면 함께 반영)
+  const signalsEl = document.getElementById("pmgSignals");
+  if (signalsEl && Array.isArray(pat.questionSignals)) {
+    const topicKeywordSignal = curVar.keyword
+      ? `🎯 ${curVar.keyword}`
+      : null;
+    const combinedSignals = topicKeywordSignal
+      ? [topicKeywordSignal, ...pat.questionSignals]
+      : pat.questionSignals;
+
+    signalsEl.innerHTML = combinedSignals
+      .map(
+        (sig) =>
+          `<span class="pmg-signal-chip">🎧 ${safeEscapeHtml(sig)}</span>`,
+      )
+      .join("");
+  }
+
+  // 4. TTS 질문 듣기 버튼 연동
+  const listenBtn = document.getElementById("pmgListenBtn");
+  if (listenBtn) {
+    listenBtn.onclick = (e) => {
+      e.stopPropagation();
+      if (typeof speakText === "function") {
+        speakText(matchedQ.q_en, "en-US", listenBtn);
+      }
+    };
+  }
+}
+
+/**
  * 만능 패턴 훈련 카드의 메인 콘텐츠를 렌더링합니다.
  * - 패턴 기본 정보 및 6문장 뼈대(Skeleton) 하이라이트
  * - 인터랙티브 주제 스위처(Slot Switcher) 칩 목록 생성
@@ -402,23 +670,6 @@ function renderPatternCard() {
 
     const whenEl = document.getElementById("pmgWhenToUse");
     if (whenEl) whenEl.textContent = pat.whenToUse || pat.desc || "";
-
-    const signalsEl = document.getElementById("pmgSignals");
-    if (signalsEl && Array.isArray(pat.questionSignals)) {
-      signalsEl.innerHTML = pat.questionSignals
-        .map(
-          (sig) =>
-            `<span class="pmg-signal-chip">🎧 ${safeEscapeHtml(sig)}</span>`,
-        )
-        .join("");
-    }
-
-    const exampleQEl = document.getElementById("pmgExampleQ");
-    if (exampleQEl) {
-      exampleQEl.textContent = pat.exampleQuestion
-        ? `"${pat.exampleQuestion}"`
-        : "";
-    }
   }
 
   // 2. 템플릿 뼈대 (Skeleton) 렌더링
@@ -611,6 +862,9 @@ function renderPatternVariation() {
   clearRecordedVoice("pattern");
   clearMicError(document.getElementById("patternMicError"));
   resetPatternSpeakingTimer();
+
+  // 4. 에바 질문 매칭 가이드 박스의 질문 예시를 현재 주제에 맞게 실시간 갱신
+  updatePatternMatchGuideQuestion(pat, curVar);
 
   // 치환된 슬롯 단어 반짝임 시각 피드백 (Pulse animation)
   setTimeout(() => {

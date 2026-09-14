@@ -43,7 +43,8 @@ window.PATTERNS_DATA = [
       "Describe [장소] and what it looks like.",
       "Where do you usually go when...?",
     ],
-    exampleQuestion: "Describe your favorite place you like to visit and what it looks like.",
+    exampleQuestion:
+      "Describe your favorite place you like to visit and what it looks like.",
     category:
       "내 방, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 호텔, 도서관, 제주도",
     icon: "🏠",
@@ -477,7 +478,8 @@ window.PATTERNS_DATA = [
       "Walk me through your typical routine...",
       "How do you spend your free time / weekends?",
     ],
-    exampleQuestion: "What do you usually do when you visit the park? Tell me your routine from beginning to end.",
+    exampleQuestion:
+      "What do you usually do when you visit the park? Tell me your routine from beginning to end.",
     category:
       "카페, 공원 산책, 헬스장, 요리, 코딩, 영화 관람, 마트 장보기, 드라이브, 주말 캠핑, 독서, 음악 감상, 집안 청소, 해변 산책",
     icon: "⏰",
@@ -911,7 +913,8 @@ window.PATTERNS_DATA = [
       "What happened that made it so special?",
       "When was the last time you went...?",
     ],
-    exampleQuestion: "Tell me about an unforgettable experience you had while traveling. What happened and why was it memorable?",
+    exampleQuestion:
+      "Tell me about an unforgettable experience you had while traveling. What happened and why was it memorable?",
     category:
       "영화, 축제, 새집 이사, 캠핑, 카페, 해변, 공원, 헬스장, 단골 식당, 호텔, 대형마트, 드라이브, 도서관, 제주도",
     icon: "✨",
@@ -1375,7 +1378,8 @@ window.PATTERNS_DATA = [
       "Something unexpected happened...",
       "How did you deal with it / solve the problem?",
     ],
-    exampleQuestion: "Have you ever had an unexpected problem with appliances or furniture? What was the issue and how did you solve it?",
+    exampleQuestion:
+      "Have you ever had an unexpected problem with appliances or furniture? What was the issue and how did you solve it?",
     category: "에어컨 고장, 스마트폰 방전, 요리 연기, 갑작스런 비, 약속 지연",
     icon: "⚡",
     desc: "돌발 문제 질문에 장소·경험 템플릿과 똑같은 6문장으로 쉽고 자연스럽게 답하는 만능 공식입니다.",
@@ -1568,7 +1572,8 @@ window.PATTERNS_DATA = [
       "Compare [주제] in the past and now...",
       "What are the major differences between the two?",
     ],
-    exampleQuestion: "How have cafes changed from when you were a child to now? Compare the past and the present.",
+    exampleQuestion:
+      "How have cafes changed from when you were a child to now? Compare the past and the present.",
     category: "카페 변화, 영화 변화, 주거 변화, 음악 변화, 쇼핑 변화",
     icon: "🔄",
     desc: "과거와 현재의 차이를 묻는 질문에 장소·경험 템플릿과 똑같은 6문장으로 깔끔하게 비교하는 공식입니다.",
@@ -1761,7 +1766,8 @@ window.PATTERNS_DATA = [
       "Call and explain the situation, and give 2 to 3 alternatives.",
       "There is a problem you need to solve...",
     ],
-    exampleQuestion: "You want to buy concert tickets. Call the ticket box office and ask 3-4 questions to get information.",
+    exampleQuestion:
+      "You want to buy concert tickets. Call the ticket box office and ask 3-4 questions to get information.",
     category:
       "티켓 문의(11번), 헬스장 문의(11번), 약속 지연(12번), 교환/환불(12번), 예약 변경(12번), 티켓 돌발(13번)",
     icon: "🎭",
