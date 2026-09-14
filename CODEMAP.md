@@ -38,7 +38,6 @@ OPIc/
 │   ├── theme.js                # 🌙 다크 테마 / ☀️ 라이트 테마 전담 관리 모듈 (OS 설정 감지 및 전환)
 │   ├── audio-cache.js          # IndexedDB 기반 TTS 오디오 영구 캐시 매니저 (LRU 자동 정리 지원)
 │   ├── eval-dict.js            # OPIc 발음/발화 다면 평가용 토픽 어휘 맵 및 담화 표지어 사전
-│   ├── html2pdf.bundle.min.js  # 📄 클라이언트 사이드 A4 고해상도 PDF 생성 엔진 (html2canvas + jsPDF)
 │   ├── storage.js              # 스토리지(localStorage), 데이터 전체 백업/복원(JSON), 스트릭 통계
 │   ├── speech.js               # Azure Neural TTS / Google / Web Speech 하이브리드 음성 엔진, 다면 발화 평가
 │   ├── dashboard.js            # DOM 엘리먼트 캐시(els), 홈 대시보드 통계/차트, SPA 라우터(navigateTo)

@@ -483,28 +483,19 @@
           type="button"
           class="btn-print-pdf-primary"
           id="btnDownloadCheatSheetPdf"
-          onclick="downloadCheatSheetPDF()"
-          title="OPIc 만능 뼈대 치트시트를 실제 PDF 파일(.pdf)로 즉시 다운로드합니다"
+          onclick="printCheatSheet()"
+          title="브라우저 인쇄 창을 열어 3페이지 완벽 규격(잘림 없음) PDF로 저장하거나 인쇄합니다"
         >
-          📥 PDF 파일 다운로드
+          📄 PDF로 저장 / 인쇄
         </button>
         <button
           type="button"
           class="settings-trigger-btn"
           id="btnDownloadCheatSheetHtml"
           onclick="downloadCheatSheetHTML()"
-          title="인터넷 없이도 휴대폰이나 PC에서 언제든 열어볼 수 있는 오프라인 문서 파일 저장"
+          title="인터넷 없이도 휴대폰이나 PC에서 언제든 열어볼 수 있는 단독 오프라인 문서 파일 즉시 다운로드"
         >
           💾 오프라인 파일 (.html)
-        </button>
-        <button
-          type="button"
-          class="settings-trigger-btn"
-          id="btnPrintCheatSheetModal"
-          onclick="printCheatSheet()"
-          title="브라우저 인쇄 창을 열어 종이로 인쇄하거나 브라우저 기능으로 PDF 저장"
-        >
-          🖨️ 인쇄
         </button>
         <button
           type="button"
@@ -516,6 +507,11 @@
           ✕
         </button>
       </div>
+    </div>
+
+    <!-- 💡 인쇄/PDF 저장 안내 팁 바 -->
+    <div class="cs-print-guide-tip">
+      💡 <strong>잘림 없는 A4 PDF 저장 팁</strong>: <strong>[📄 PDF로 저장 / 인쇄]</strong> 클릭 후 인쇄 창에서 대상을 <strong>'PDF로 저장'</strong>으로 선택하시면 3페이지 완벽 규격(고화질 텍스트, 카드 잘림 없음)으로 즉시 저장됩니다.
     </div>
 
     <!-- 인쇄 및 화면 공통 치트시트 본문 컨테이너 -->
@@ -1040,21 +1036,12 @@
       </button>
       <button
         type="button"
-        class="secondary"
-        id="btnPrintCheatSheetModalBottom"
-        onclick="printCheatSheet()"
-        title="브라우저 인쇄 대화상자 호출"
-      >
-        🖨️ 브라우저 인쇄
-      </button>
-      <button
-        type="button"
         class="primary btn-print-pdf-big"
         id="btnDownloadCheatSheetPdfBottom"
-        onclick="downloadCheatSheetPDF()"
-        title="OPIc 만능 뼈대 치트시트를 실제 PDF 파일(.pdf)로 즉시 다운로드"
+        onclick="printCheatSheet()"
+        title="브라우저 인쇄 창을 열어 3페이지 완벽 규격(잘림 없음) PDF로 저장하거나 인쇄합니다"
       >
-        <span>📥 PDF 파일 다운로드</span>
+        <span>📄 PDF로 저장 / 인쇄하기</span>
         <kbd class="shortcut-key">P</kbd>
       </button>
     </div>

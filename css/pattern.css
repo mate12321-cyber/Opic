@@ -803,6 +803,27 @@ body.dark-theme .cheat-badge {
   background: #15803d !important;
 }
 
+.cs-print-guide-tip {
+  margin: 0 24px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #1e40af;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+body.dark-theme .cs-print-guide-tip {
+  background: rgba(30, 58, 138, 0.25);
+  border-color: rgba(96, 165, 250, 0.3);
+  color: #93c5fd;
+}
+
 .cheat-sheet-content {
   padding: 24px;
   overflow-y: auto;
@@ -1179,10 +1200,11 @@ body.dark-theme .cs-line u {
     background: #ffffff !important;
   }
 
-  /* 인쇄 시 모달 헤더/푸터/닫기 버튼 숨김 */
+  /* 인쇄 시 모달 헤더/푸터/닫기 버튼 및 안내 팁 숨김 */
   .cheat-sheet-modal-header,
   .cheat-sheet-modal-footer,
   .modal-close-btn,
+  .cs-print-guide-tip,
   #btnPrintCheatSheetModal {
     display: none !important;
   }

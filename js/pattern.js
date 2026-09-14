@@ -729,160 +729,25 @@ function closeCheatSheetModal() {
 window.closeCheatSheetModal = closeCheatSheetModal;
 
 /**
- * 만능 뼈대 치트시트를 실제 PDF 파일(.pdf)로 생성하여 즉시 다운로드합니다.
- * - 필요 시 html2pdf.js를 온디맨드로 동적 로드하여 앱 초기 구동 속도와 안정성을 완벽히 보장
- * - 실패 또는 오프라인 시 브라우저 내장 인쇄(PDF 저장)로 매끄럽게 폴백
- * @returns {Promise<boolean>}
- */
-async function downloadCheatSheetPDF() {
-  updateCheatSheetDate();
-  const printArea = document.getElementById("cheatSheetPrintArea");
-  if (!printArea) {
-    alert("치트시트 본문을 찾을 수 없습니다.");
-    return false;
-  }
-
-  // 버튼 로딩 상태 전환
-  const btns = [
-    document.getElementById("btnDownloadCheatSheetPdf"),
-    document.getElementById("btnDownloadCheatSheetPdfBottom"),
-  ].filter(Boolean);
-
-  const origTexts = btns.map((b) => b.innerHTML);
-  btns.forEach((b) => {
-    b.disabled = true;
-    b.innerHTML = "⏳ PDF 준비 중...";
-  });
-
-  try {
-    // 1. html2pdf 라이브러리가 아직 없으면 온디맨드로 동적 로드
-    if (typeof html2pdf !== "function") {
-      await new Promise((resolve, reject) => {
-        const s = document.createElement("script");
-        s.src =
-          "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
-        s.async = true;
-        const timer = setTimeout(() => {
-          reject(new Error("html2pdf 로드 시간 초과"));
-        }, 3500);
-        s.onload = () => {
-          clearTimeout(timer);
-          resolve();
-        };
-        s.onerror = () => {
-          clearTimeout(timer);
-          reject(new Error("html2pdf CDN 로드 실패"));
-        };
-        document.head.appendChild(s);
-      });
-    }
-
-    if (typeof html2pdf === "function") {
-      btns.forEach((b) => {
-        b.innerHTML = "⏳ PDF 렌더링 중...";
-      });
-
-      // A4 210mm 규격(96 DPI 기준 약 794px) 전용 오프스크린 렌더링 컨테이너 생성
-      const offscreen = document.createElement("div");
-      offscreen.className = "pdf-export-canvas";
-      offscreen.style.position = "fixed";
-      offscreen.style.left = "-99999px";
-      offscreen.style.top = "0";
-      offscreen.style.width = "794px";
-      offscreen.style.background = "#ffffff";
-      offscreen.style.color = "#0f172a";
-      offscreen.style.zIndex = "-9999";
-      offscreen.style.boxSizing = "border-box";
-      offscreen.style.fontFamily =
-        '-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", Pretendard, "Malgun Gothic", sans-serif';
-
-      // 치트시트 본문 복제
-      const clone = printArea.cloneNode(true);
-      clone.style.width = "100%";
-      clone.style.maxHeight = "none";
-      clone.style.overflow = "visible";
-      clone.style.padding = "24px 30px";
-      clone.style.background = "#ffffff";
-      clone.style.color = "#0f172a";
-      clone.style.boxSizing = "border-box";
-
-      // 인쇄용 헤더와 푸터 강제 노출
-      const pHeader = clone.querySelector(".print-doc-header");
-      if (pHeader) pHeader.style.display = "block";
-      const pFooter = clone.querySelector(".print-doc-footer");
-      if (pFooter) pFooter.style.display = "flex";
-
-      offscreen.appendChild(clone);
-      document.body.appendChild(offscreen);
-
-      const now = new Date();
-      const dateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
-
-      const opt = {
-        margin: [10, 10, 10, 10],
-        filename: `OPIc_IM1_만능뼈대_치트시트_${dateStr}.pdf`,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          logging: false,
-          width: 794,
-          windowWidth: 794,
-          backgroundColor: "#ffffff",
-        },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-      };
-
-      await html2pdf().set(opt).from(clone).save();
-
-      btns.forEach((b) => {
-        b.innerHTML = "✅ 다운로드 완료!";
-      });
-      setTimeout(() => {
-        btns.forEach((b, i) => {
-          b.innerHTML = origTexts[i];
-          b.disabled = false;
-        });
-      }, 2500);
-
-      if (offscreen.parentNode) {
-        offscreen.parentNode.removeChild(offscreen);
-      }
-      return true;
-    }
-  } catch (err) {
-    console.warn("온디맨드 PDF 라이브러리 로드 또는 변환 실패:", err);
-  }
-
-  // 폴백: 브라우저 인쇄 대화상자 호출
-  btns.forEach((b, i) => {
-    b.innerHTML = origTexts[i];
-    b.disabled = false;
-  });
-  alert(
-    "💡 인쇄 미리보기 창이 열리면 [대상/프린터]에서 'PDF로 저장'을 선택하시면 PDF 파일로 저장됩니다.\n(오프라인 파일 즉시 저장은 [💾 오프라인 파일] 버튼을 이용하세요)",
-  );
-  printCheatSheet();
-  return false;
-}
-window.downloadCheatSheetPDF = downloadCheatSheetPDF;
-window.exportCheatSheetPDF = downloadCheatSheetPDF; // 하위 호환성 유지
-
-/**
- * 브라우저 기본 인쇄 대화상자를 호출합니다 (프린터 출력 또는 브라우저 내장 PDF 저장).
+ * 만능 뼈대 치트시트를 3페이지 완벽 규격(잘림 없는 최고 화질 벡터 PDF)으로 저장하거나 인쇄합니다.
+ * - 브라우저의 기본 Paged Media 인쇄 엔진(@media print)을 호출하여
+ *   텍스트 잘림/카드 분할/좌우 여백 손실이 전혀 없는 100% 원본 비율 PDF 생성을 보장합니다.
  */
 function printCheatSheet() {
   updateCheatSheetDate();
   const modal = document.getElementById("cheatSheetModal");
-  if (modal && modal.style.display !== "flex") {
+  if (modal && !modal.classList.contains("show")) {
     openCheatSheetModal();
   }
+
+  // 브라우저 렌더링 파이프라인 동기화 후 시스템 인쇄/PDF 저장 창 호출
   setTimeout(() => {
     window.print();
-  }, 200);
+  }, 150);
 }
 window.printCheatSheet = printCheatSheet;
+window.downloadCheatSheetPDF = printCheatSheet;
+window.exportCheatSheetPDF = printCheatSheet; // 하위 호환성 유지
 
 /**
  * 언제 어디서든(비행기 모드/오프라인) 스마트폰과 PC에서 즉시 열어볼 수 있는
