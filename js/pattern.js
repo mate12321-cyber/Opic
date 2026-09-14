@@ -206,7 +206,8 @@ window.selectPatternVariation = selectPatternVariation;
 function prevPatternVariation() {
   const pat = PATTERN_ITEMS[patternCur];
   if (!pat || !pat.variations || !pat.variations.length) return;
-  const newIdx = (patternVarCur - 1 + pat.variations.length) % pat.variations.length;
+  const newIdx =
+    (patternVarCur - 1 + pat.variations.length) % pat.variations.length;
   selectPatternVariation(newIdx);
 }
 window.prevPatternVariation = prevPatternVariation;
@@ -387,17 +388,9 @@ function renderPatternCard() {
     switcherChips.innerHTML = pat.variations
       .map((v, vIdx) => {
         const activeClass = vIdx === patternVarCur ? "active" : "";
-        let shortKw = "";
-        if (v.keyword) {
-          const firstPart = v.keyword.split(/[,&]/)[0].trim();
-          shortKw = firstPart.length > 18 ? firstPart.slice(0, 16) + "…" : firstPart;
-        }
-        const kwHtml = shortKw ? `<span class="chip-kw">${safeEscapeHtml(shortKw)}</span>` : "";
-
         return `
-          <button type="button" class="switcher-chip ${activeClass}" data-vidx="${vIdx}" onclick="selectPatternVariation(${vIdx})" title="${safeEscapeHtml(v.topic)}: ${safeEscapeHtml(v.keyword || '')}">
-            <span class="chip-topic">${safeEscapeHtml(v.topic)}</span>
-            ${kwHtml}
+          <button type="button" class="switcher-chip ${activeClass}" data-vidx="${vIdx}" onclick="selectPatternVariation(${vIdx})" title="${safeEscapeHtml(v.topic)}: ${safeEscapeHtml(v.keyword || "")}">
+            ${safeEscapeHtml(v.topic)}
           </button>
         `;
       })
@@ -425,7 +418,11 @@ function renderPatternVariation() {
     if (parseInt(chip.dataset.vidx, 10) === patternVarCur) {
       chip.classList.add("active");
       try {
-        chip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+        chip.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "nearest",
+        });
       } catch (e) {}
     } else {
       chip.classList.remove("active");
@@ -554,7 +551,9 @@ function renderPatternVariation() {
 
   // 치환된 슬롯 단어 반짝임 시각 피드백 (Pulse animation)
   setTimeout(() => {
-    const slotTags = document.querySelectorAll("#patternSkeletonList .pattern-slot-tag");
+    const slotTags = document.querySelectorAll(
+      "#patternSkeletonList .pattern-slot-tag",
+    );
     slotTags.forEach((el) => {
       el.classList.remove("slot-flash");
       void el.offsetWidth;

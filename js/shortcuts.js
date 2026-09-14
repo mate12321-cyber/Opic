@@ -275,11 +275,17 @@ document.addEventListener("keydown", (e) => {
       e.preventDefault();
       if (els.patternTtsAllBtn) els.patternTtsAllBtn.click();
       return;
-    } else if ((e.key === "[" || e.code === "BracketLeft") && !isPatternInputFocused) {
+    } else if (
+      (e.key === "[" || e.code === "BracketLeft") &&
+      !isPatternInputFocused
+    ) {
       e.preventDefault();
       if (typeof prevPatternVariation === "function") prevPatternVariation();
       return;
-    } else if ((e.key === "]" || e.code === "BracketRight") && !isPatternInputFocused) {
+    } else if (
+      (e.key === "]" || e.code === "BracketRight") &&
+      !isPatternInputFocused
+    ) {
       e.preventDefault();
       if (typeof nextPatternVariation === "function") nextPatternVariation();
       return;

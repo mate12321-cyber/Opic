@@ -388,16 +388,16 @@ body.dark-theme .pattern-slot-tag {
 .switcher-chip {
   background: var(--surface-muted, #f8fafc);
   border: 1.5px solid var(--border-light);
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 12.5px;
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-body);
   cursor: pointer;
   transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   user-select: none;
 }
 
@@ -413,24 +413,6 @@ body.dark-theme .pattern-slot-tag {
   color: #ffffff !important;
   border-color: var(--primary);
   box-shadow: 0 2px 8px rgba(79, 70, 229, 0.28);
-}
-
-.switcher-chip .chip-topic {
-  font-weight: 700;
-}
-
-.switcher-chip .chip-kw {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-muted);
-  background: rgba(0, 0, 0, 0.05);
-  padding: 1px 6px;
-  border-radius: 4px;
-}
-
-.switcher-chip.active .chip-kw {
-  color: #ffffff !important;
-  background: rgba(255, 255, 255, 0.25);
 }
 
 /* 단어 교체 시 본문 슬롯 반짝임 펄스 애니메이션 */
@@ -820,16 +802,6 @@ body.dark-theme .switcher-chip.active {
   border-color: #6366f1;
   color: #ffffff !important;
   box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
-}
-
-body.dark-theme .switcher-chip .chip-kw {
-  color: #94a3b8;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-body.dark-theme .switcher-chip.active .chip-kw {
-  color: #ffffff !important;
-  background: rgba(255, 255, 255, 0.22);
 }
 
 body.dark-theme .pattern-sentence-item {
