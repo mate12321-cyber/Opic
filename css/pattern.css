@@ -333,18 +333,20 @@ body.dark-theme .pattern-slot-tag {
   border-radius: var(--radius-full);
 }
 
-/* 칩들을 가로 스크롤 없이 시원하게 펼쳐 보여주는 유연한 랩 그리드 */
+/* 칩들을 동일한 너비로 균등 정렬하는 반응형 그리드 */
 .switcher-chips-wrap {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 6px;
 }
 
 .switcher-chip {
+  width: 100%;
+  box-sizing: border-box;
   background: var(--surface-muted, #f8fafc);
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-sm);
-  padding: 4px 10px;
+  padding: 4px 6px;
   font-size: 12px;
   line-height: 1.35;
   font-weight: 600;
@@ -354,6 +356,10 @@ body.dark-theme .pattern-slot-tag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   user-select: none;
 }
 

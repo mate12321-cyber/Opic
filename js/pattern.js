@@ -388,9 +388,12 @@ function renderPatternCard() {
     switcherChips.innerHTML = pat.variations
       .map((v, vIdx) => {
         const activeClass = vIdx === patternVarCur ? "active" : "";
+        const cleanTopic = (v.topic || "")
+          .replace(/\s*\([^)]*\)/g, "")
+          .trim();
         return `
           <button type="button" class="switcher-chip ${activeClass}" data-vidx="${vIdx}" onclick="selectPatternVariation(${vIdx})" title="${safeEscapeHtml(v.topic)}: ${safeEscapeHtml(v.keyword || "")}">
-            ${safeEscapeHtml(v.topic)}
+            ${safeEscapeHtml(cleanTopic)}
           </button>
         `;
       })

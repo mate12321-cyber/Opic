@@ -68,7 +68,7 @@ window.PATTERNS_DATA = [
     ],
     variations: [
       {
-        topic: "🏠 내 방 (집)",
+        topic: "🏠 내 방",
         keyword: "my room in my apartment",
         sentences: [
           {
@@ -308,7 +308,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏖️ 해변 (바닷가)",
+        topic: "🏖️ 해변",
         keyword: "Haeundae beach & blue ocean",
         sentences: [
           {
@@ -338,7 +338,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🍽️ 단골 식당 (맛집)",
+        topic: "🍽️ 단골 식당",
         keyword: "Italian pasta restaurant",
         sentences: [
           {
@@ -368,7 +368,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏨 호텔 (숙소)",
+        topic: "🏨 호텔",
         keyword: "clean hotel with swimming pool",
         sentences: [
           {
@@ -398,7 +398,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "📚 도서관 (스터디카페)",
+        topic: "📚 도서관",
         keyword: "public library near home",
         sentences: [
           {
@@ -428,7 +428,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏝️ 제주도 (국내 여행지)",
+        topic: "🏝️ 제주도",
         keyword: "Jeju island beach & seafood",
         sentences: [
           {
@@ -829,7 +829,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏖️ 해변 (바닷가)",
+        topic: "🏖️ 해변",
         keyword: "trip to Haeundae beach",
         sentences: [
           {
@@ -919,7 +919,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🍽️ 단골 식당 (맛집)",
+        topic: "🍽️ 단골 식당",
         keyword: "delicious dinner at pasta place",
         sentences: [
           {
@@ -949,7 +949,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏨 호텔 (숙소)",
+        topic: "🏨 호텔",
         keyword: "staying at Shilla Hotel",
         sentences: [
           {
@@ -966,7 +966,7 @@ window.PATTERNS_DATA = [
           },
           {
             en: "There were a clean swimming pool and a soft bed, so I really liked it.",
-            ko: "깨끗한 수영장과 푹신한 침대가 있어서 정말 마음에 들었어요.",
+            ko: "깨끗한 수영장과 푹신한 침대가 있어서 정말 마음에 들어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1039,7 +1039,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "📚 도서관 (스터디카페)",
+        topic: "📚 도서관",
         keyword: "reading books at the library",
         sentences: [
           {
@@ -1069,7 +1069,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏝️ 제주도 (국내 여행지)",
+        topic: "🏝️ 제주도",
         keyword: "wonderful trip to Jeju Island",
         sentences: [
           {
@@ -1321,7 +1321,7 @@ window.PATTERNS_DATA = [
     ],
     variations: [
       {
-        topic: "☕ 카페의 변화",
+        topic: "☕ 카페 변화",
         keyword: "mobile order apps and bakeries",
         sentences: [
           {
@@ -1351,7 +1351,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🎬 영화 감상의 변화",
+        topic: "🎬 영화 변화",
         keyword: "streaming Netflix at home",
         sentences: [
           {
@@ -1381,7 +1381,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏡 아파트 주거의 변화",
+        topic: "🏡 주거 변화",
         keyword: "smart apartments and gyms",
         sentences: [
           {
@@ -1411,7 +1411,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🎵 음악 감상의 변화",
+        topic: "🎵 음악 변화",
         keyword: "streaming music apps",
         sentences: [
           {
@@ -1441,7 +1441,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🛒 쇼핑 방식의 변화",
+        topic: "🛒 쇼핑 변화",
         keyword: "dawn delivery and online shopping",
         sentences: [
           {
@@ -1507,7 +1507,7 @@ window.PATTERNS_DATA = [
     ],
     variations: [
       {
-        topic: "🎫 티켓 문의 (11번 질문)",
+        topic: "🎫 티켓 문의",
         keyword: "location, hours, price, parking",
         skeleton: [
           {
@@ -1563,7 +1563,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏋️ 헬스장 문의 (11번 질문)",
+        topic: "🏋️ 헬스장 문의",
         keyword: "gym membership & free parking",
         skeleton: [
           {
@@ -1619,7 +1619,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🚗 약속 지연 (12번 친구 대안)",
+        topic: "🚗 약속 지연",
         keyword: "thirty minutes late & buy coffee",
         skeleton: [
           {
@@ -1675,7 +1675,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🛍️ 교환/환불 (12번 매장 대안)",
+        topic: "🛍️ 교환/환불",
         keyword: "scratch on product & full refund",
         skeleton: [
           {
@@ -1731,7 +1731,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏨 예약 변경 (12번 매장 대안)",
+        topic: "🏨 예약 변경",
         keyword: "change reservation time or date",
         skeleton: [
           {
@@ -1787,7 +1787,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "✨ 티켓 돌발 (13번 과거 경험)",
+        topic: "✨ 티켓 돌발",
         keyword: "server crash & app booking",
         skeleton: [
           {
