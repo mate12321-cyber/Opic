@@ -131,12 +131,45 @@
     <div class="skeleton-list" id="patternSkeletonList"></div>
   </div>
 
-  <!-- 인터랙티브 주제 스위처 -->
-  <div class="switcher-wrap">
-    <div class="switcher-label">
-      <span>🔄 주제별 단어 갈아끼우기 (실시간 적용):</span>
+  <!-- 인터랙티브 주제별 단어 갈아끼우기 컨트롤러 -->
+  <div class="switcher-card">
+    <div class="switcher-header-row">
+      <div class="switcher-title">
+        <span class="switcher-icon">🔄</span>
+        <span class="switcher-text">주제별 단어 갈아끼우기</span>
+        <span class="switcher-badge" id="patternVarCounter">1 / 1</span>
+      </div>
+      <div class="switcher-nav-btns">
+        <button
+          type="button"
+          class="btn-var-nav"
+          id="btnPrevVar"
+          onclick="prevPatternVariation()"
+          title="이전 주제로 변경"
+        >
+          ‹ 이전
+        </button>
+        <button
+          type="button"
+          class="btn-var-nav"
+          id="btnNextVar"
+          onclick="nextPatternVariation()"
+          title="다음 주제로 변경"
+        >
+          다음 ›
+        </button>
+        <button
+          type="button"
+          class="btn-var-random"
+          id="btnRandomVar"
+          onclick="randomPatternVariation()"
+          title="무작위 주제로 랜덤 변경"
+        >
+          🎲 랜덤
+        </button>
+      </div>
     </div>
-    <div class="switcher-chips" id="patternSwitcherChips"></div>
+    <div class="switcher-chips-wrap" id="patternSwitcherChips"></div>
   </div>
 
   <!-- 단계별 6문장 리스트 (연결 듣기 및 복사 버튼 포함) -->

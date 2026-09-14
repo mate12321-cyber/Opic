@@ -15,12 +15,12 @@
  *    - [문장 연습]: Enter (정답 확인/채점), P/ㅔ (이전 문제), K/ㅏ (건너뛰기), R/ㄱ (재도전), Space (발음 듣기)
  *    - [문법 퀴즈]: 1~4 (보기 선택), Enter (다음 문제), Space (팁 발음)
  *    - [실전 OPIc]: Space (에바 질문 듣기), Enter (내 답변 채점), M/ㅡ (모범답안 토글)
- *    - [만능 패턴]: Enter (답변 채점), Space (원어민 전체 발음 듣기), R/ㄱ (재도전)
+ *    - [만능 패턴]: Enter (답변 채점), Space (원어민 전체 발음 듣기), R/ㄱ (재도전), [ / ] (이전/다음 단어 갈아끼우기)
  *    - [필러 훈련]: Enter (다음 필러), Space (필러 발음 듣기)
  *    - [발화 연습]: Ctrl/Cmd+Enter (발화 채점)
  *
  * @author Kim Hyo-sang
- * @version 2.2.5
+ * @version 2.2.6
  */
 
 // =============================================================================
@@ -274,6 +274,14 @@ document.addEventListener("keydown", (e) => {
     } else if (isSpace && !isPatternInputFocused) {
       e.preventDefault();
       if (els.patternTtsAllBtn) els.patternTtsAllBtn.click();
+      return;
+    } else if ((e.key === "[" || e.code === "BracketLeft") && !isPatternInputFocused) {
+      e.preventDefault();
+      if (typeof prevPatternVariation === "function") prevPatternVariation();
+      return;
+    } else if ((e.key === "]" || e.code === "BracketRight") && !isPatternInputFocused) {
+      e.preventDefault();
+      if (typeof nextPatternVariation === "function") nextPatternVariation();
       return;
     }
   }

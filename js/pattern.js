@@ -191,13 +191,48 @@ window.selectPattern = selectPattern;
 // 특정 주제 변형(슬롯) 선택
 function selectPatternVariation(vIdx) {
   stopTTS();
+  const pat = PATTERN_ITEMS[patternCur];
+  if (!pat || !pat.variations || !pat.variations.length) return;
+
   const parsed = parseInt(vIdx, 10);
-  if (!isNaN(parsed)) {
+  if (!isNaN(parsed) && parsed >= 0 && parsed < pat.variations.length) {
     patternVarCur = parsed;
     renderPatternVariation();
   }
 }
 window.selectPatternVariation = selectPatternVariation;
+
+// 이전 주제 변형으로 갈아끼우기
+function prevPatternVariation() {
+  const pat = PATTERN_ITEMS[patternCur];
+  if (!pat || !pat.variations || !pat.variations.length) return;
+  const newIdx = (patternVarCur - 1 + pat.variations.length) % pat.variations.length;
+  selectPatternVariation(newIdx);
+}
+window.prevPatternVariation = prevPatternVariation;
+
+// 다음 주제 변형으로 갈아끼우기
+function nextPatternVariation() {
+  const pat = PATTERN_ITEMS[patternCur];
+  if (!pat || !pat.variations || !pat.variations.length) return;
+  const newIdx = (patternVarCur + 1) % pat.variations.length;
+  selectPatternVariation(newIdx);
+}
+window.nextPatternVariation = nextPatternVariation;
+
+// 무작위 주제로 갈아끼우기 (랜덤 훈련)
+function randomPatternVariation() {
+  const pat = PATTERN_ITEMS[patternCur];
+  if (!pat || !pat.variations || pat.variations.length <= 1) return;
+  let newIdx = patternVarCur;
+  let attempts = 0;
+  while (newIdx === patternVarCur && attempts < 10) {
+    newIdx = Math.floor(Math.random() * pat.variations.length);
+    attempts++;
+  }
+  selectPatternVariation(newIdx);
+}
+window.randomPatternVariation = randomPatternVariation;
 
 // =============================================================================
 // 5. 만능 패턴 목록 및 카드 렌더러 (Pattern Grid & Card Renderers)
@@ -343,26 +378,30 @@ function renderPatternCard() {
 
   // 3. 인터랙티브 주제 스위처 칩 렌더링
   const switcherChips = document.getElementById("patternSwitcherChips");
+  const varCounter = document.getElementById("patternVarCounter");
+  if (varCounter && pat.variations) {
+    varCounter.textContent = `${patternVarCur + 1} / ${pat.variations.length}`;
+  }
+
   if (switcherChips && pat.variations) {
     switcherChips.innerHTML = pat.variations
       .map((v, vIdx) => {
         const activeClass = vIdx === patternVarCur ? "active" : "";
+        let shortKw = "";
+        if (v.keyword) {
+          const firstPart = v.keyword.split(/[,&]/)[0].trim();
+          shortKw = firstPart.length > 18 ? firstPart.slice(0, 16) + "…" : firstPart;
+        }
+        const kwHtml = shortKw ? `<span class="chip-kw">${safeEscapeHtml(shortKw)}</span>` : "";
+
         return `
-        <button type="button" class="switcher-chip ${activeClass}" data-vidx="${vIdx}" onclick="selectPatternVariation(${vIdx})">
-          <span>${safeEscapeHtml(v.topic)}</span>
-        </button>
-      `;
+          <button type="button" class="switcher-chip ${activeClass}" data-vidx="${vIdx}" onclick="selectPatternVariation(${vIdx})" title="${safeEscapeHtml(v.topic)}: ${safeEscapeHtml(v.keyword || '')}">
+            <span class="chip-topic">${safeEscapeHtml(v.topic)}</span>
+            ${kwHtml}
+          </button>
+        `;
       })
       .join("");
-
-    switcherChips.querySelectorAll(".switcher-chip").forEach((chip) => {
-      chip.addEventListener("click", () => {
-        const vIdx = parseInt(chip.dataset.vidx, 10);
-        if (!isNaN(vIdx)) {
-          selectPatternVariation(vIdx);
-        }
-      });
-    });
   }
 
   renderPatternVariation();
@@ -376,10 +415,18 @@ function renderPatternVariation() {
   const curVar = pat.variations[patternVarCur];
   const slotKey = `${patternCur}_${patternVarCur}`;
 
-  // 칩 활성화 상태 업데이트
+  // 카운터 및 칩 활성화 상태 업데이트
+  const varCounter = document.getElementById("patternVarCounter");
+  if (varCounter && pat.variations) {
+    varCounter.textContent = `${patternVarCur + 1} / ${pat.variations.length}`;
+  }
+
   document.querySelectorAll(".switcher-chip").forEach((chip) => {
     if (parseInt(chip.dataset.vidx, 10) === patternVarCur) {
       chip.classList.add("active");
+      try {
+        chip.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+      } catch (e) {}
     } else {
       chip.classList.remove("active");
     }
@@ -504,6 +551,16 @@ function renderPatternVariation() {
   clearRecordedVoice("pattern");
   clearMicError(document.getElementById("patternMicError"));
   resetPatternSpeakingTimer();
+
+  // 치환된 슬롯 단어 반짝임 시각 피드백 (Pulse animation)
+  setTimeout(() => {
+    const slotTags = document.querySelectorAll("#patternSkeletonList .pattern-slot-tag");
+    slotTags.forEach((el) => {
+      el.classList.remove("slot-flash");
+      void el.offsetWidth;
+      el.classList.add("slot-flash");
+    });
+  }, 30);
 }
 
 // =============================================================================
