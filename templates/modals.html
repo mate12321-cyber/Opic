@@ -473,8 +473,8 @@
   <div class="modal-card cheat-sheet-modal-card">
     <div class="modal-header cheat-sheet-modal-header">
       <div class="modal-title">
-        <span>📄 OPIc 시험장 직전 만능 뼈대 치트시트</span>
-        <span class="cheat-badge">IM1 ~ IH 최종 핵심 요약</span>
+        <span>📄 OPIc 핵심 요약 치트시트</span>
+        <span class="cheat-badge">IM1 핵심</span>
       </div>
       <div
         style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap"
@@ -484,27 +484,27 @@
           class="btn-print-pdf-primary"
           id="btnDownloadCheatSheetPdfDirect"
           onclick="downloadDirectPdfA4()"
-          title="맥북/PC 다운로드 폴더로 3페이지 완벽 규격 PDF 파일을 직접 다운로드합니다 (프린터 연결 불필요)"
+          title="PDF 파일로 즉시 다운로드 (프린터 불필요)"
         >
-          📥 PDF 다운로드 (프린터 불필요)
+          📥 PDF 저장
         </button>
         <button
           type="button"
           class="settings-trigger-btn"
           id="btnPrintCheatSheetModal"
           onclick="printCheatSheet()"
-          title="브라우저 시스템 인쇄 창을 열어 종이로 인쇄하거나 시스템 PDF로 저장합니다"
+          title="브라우저 인쇄 창 열기"
         >
-          🖨️ 인쇄 / 시스템 PDF
+          🖨️ 인쇄
         </button>
         <button
           type="button"
           class="settings-trigger-btn"
           id="btnDownloadCheatSheetHtml"
           onclick="downloadCheatSheetHTML()"
-          title="인터넷 없이도 휴대폰이나 PC에서 언제든 열어볼 수 있는 단독 오프라인 문서 파일 즉시 다운로드"
+          title="오프라인 열람용 HTML 파일 다운로드"
         >
-          💾 오프라인 파일 (.html)
+          💾 HTML 저장
         </button>
         <button
           type="button"
@@ -520,8 +520,7 @@
 
     <!-- 💡 인쇄/PDF 저장 안내 팁 바 -->
     <div class="cs-print-guide-tip">
-      💡 <strong>맥북/프린터 없는 환경 안내</strong>:
-      연결된 프린터가 없어도 <strong>[📥 PDF 다운로드]</strong>를 클릭하시면 3페이지 완벽 규격(카드/글자 잘림 없음) PDF 파일이 맥북 다운로드 폴더로 즉시 저장됩니다. (종이 출력을 원하실 때는 <strong>[🖨️ 인쇄]</strong> 이용)
+      💡 프린터 연결 없이도 <strong>[PDF 저장]</strong>을 누르면 파일로 바로 다운로드됩니다. (종이 출력은 <strong>[인쇄]</strong>)
     </div>
 
     <!-- 인쇄 및 화면 공통 치트시트 본문 컨테이너 -->
@@ -529,72 +528,66 @@
       <!-- 문서 헤더 (인쇄 시 상단 타이틀) -->
       <div class="print-doc-header">
         <h1 class="print-doc-title">
-          🎯 OPIc 시험장 직전 만능 뼈대 & 핵심 치트시트
+          🎯 OPIc 핵심 만능 뼈대 요약
         </h1>
         <p class="print-doc-sub">
-          ACTFL OPIc 난이도 4-4 완벽 대비 · 6대 만능 뼈대 & 12대 토픽 핵심
-          키워드 총정리
+          6대 만능 패턴 & 12개 주제 핵심 단어 총정리
         </p>
       </div>
 
-      <!-- [섹션 1] 시험장 1분 마인드셋 & 채점관 공략 3대 원칙 -->
+      <!-- [섹션 1] 시험장 3대 주의사항 -->
       <div class="cs-section">
         <div class="cs-section-title">
-          🚨 시험장 직전 1분 마인드셋 (채점관 공략 3대 원칙)
+          🚨 시험장 3대 주의사항
         </div>
         <div class="cs-rules-grid">
           <div class="cs-rule-card">
             <div class="cs-rule-num">1</div>
             <div class="cs-rule-body">
-              <strong>침묵(Dead Silence) 절대 금지</strong>
+              <strong>침묵 절대 금지</strong>
               <p>
-                생각이 안 날 땐 <em>"Well... you know, let me see..."</em>를 툭
-                던져 오디오 공백을 무조건 방어하세요.
+                생각이 안 날 땐 <em>"Well... you know..."</em>로 오디오 공백을 무조건 막으세요.
               </p>
             </div>
           </div>
           <div class="cs-rule-card">
             <div class="cs-rule-num">2</div>
             <div class="cs-rule-body">
-              <strong>틀려도 절대 멈추지 말고 직진</strong>
+              <strong>틀려도 멈추지 말기</strong>
               <p>
-                시제나 단어가 틀려도 한숨 쉬지 마세요! 채점관은 문법 완벽성이
-                아니라 끝까지 말하는 적극성을 봅니다.
+                시제나 단어가 틀려도 한숨 쉬지 말고 끝까지 자신 있게 말하세요.
               </p>
             </div>
           </div>
           <div class="cs-rule-card">
             <div class="cs-rule-num">3</div>
             <div class="cs-rule-body">
-              <strong>골든 타임 45초 채우고 [Next]</strong>
+              <strong>45초 채우고 넘어가기</strong>
               <p>
-                준비된 5~6문장을 천천히 말하면 딱 40~50초가 됩니다. 더 지어내려
-                하지 말고 쿨하게 다음 문제로 이동하세요.
+                준비한 문장을 다 말했다면 더 지어내지 말고 [Next]를 누르세요.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- [섹션 2] 6대 만능 뼈대 구조 공식 총정리 -->
+      <!-- [섹션 2] 6대 만능 패턴 -->
       <div class="cs-section">
         <div class="cs-section-title">
-          🧩 6대 만능 뼈대 구조 공식 (어떤 주제든 1~2단어만 바꿔 끼우기)
+          🧩 6대 만능 패턴
         </div>
         <div class="cs-pattern-list">
-          <!-- 1. 장소 & 선호 묘사 -->
+          <!-- 1. 장소 묘사 -->
           <div class="cs-pattern-card">
             <div class="cs-pattern-header">
-              <span class="cs-pattern-badge">pat_01</span>
-              <span class="cs-pattern-name">장소 & 선호 묘사 만능 뼈대</span>
+              <span class="cs-pattern-badge">패턴 1</span>
+              <span class="cs-pattern-name">장소 묘사</span>
               <span class="cs-pattern-target"
-                >[1단계 콤보 전용] 집, 방, 카페, 공원, 영화관, 헬스장, 여행지,
-                캠핑장 등</span
+                >집, 카페, 공원, 여행지 등</span
               >
             </div>
             <div class="cs-flow-tag">
-              최애 선언 ➔ 접근성(5분) ➔ 분위기 ➔ 구체 특징 2개 ➔ 최고 장소 ➔
-              자주 방문
+              좋아하는 곳 ➔ 거리(5분) ➔ 분위기 ➔ 특징 ➔ 힐링 장소 ➔ 자주 방문
             </div>
             <div class="cs-pattern-lines">
               <div class="cs-line">
@@ -626,19 +619,17 @@
             </div>
           </div>
 
-          <!-- 2. 일상 & 활동 루틴 -->
+          <!-- 2. 일상 루틴 -->
           <div class="cs-pattern-card">
             <div class="cs-pattern-header">
-              <span class="cs-pattern-badge">pat_02</span>
-              <span class="cs-pattern-name">일상 & 활동 루틴 만능 뼈대</span>
+              <span class="cs-pattern-badge">패턴 2</span>
+              <span class="cs-pattern-name">일상 루틴</span>
               <span class="cs-pattern-target"
-                >[2단계 콤보 전용] 하루 일과, 청소, 업무, 영화, 음악, 운동,
-                요리, 짐싸기 등</span
+                >하루 일과, 청소, 영화, 음악, 운동 등</span
               >
             </div>
             <div class="cs-flow-tag">
-              시간대/주기 ➔ 첫 활동(First) ➔ 메인 활동(Then) ➔ 동시 활동(While)
-              ➔ 마무리(After that) ➔ 소감
+              시간대 ➔ 준비(First) ➔ 메인 활동(Then) ➔ 동시 활동(While) ➔ 휴식 ➔ 소감
             </div>
             <div class="cs-pattern-lines">
               <div class="cs-line">
@@ -669,19 +660,17 @@
             </div>
           </div>
 
-          <!-- 3. 과거 기억 & 경험 -->
+          <!-- 3. 과거 경험 -->
           <div class="cs-pattern-card">
             <div class="cs-pattern-header">
-              <span class="cs-pattern-badge">pat_03</span>
-              <span class="cs-pattern-name">과거 기억 & 경험 만능 뼈대</span>
+              <span class="cs-pattern-badge">패턴 3</span>
+              <span class="cs-pattern-name">과거 경험</span>
               <span class="cs-pattern-target"
-                >[3단계 콤보 전용] 기억에 남는 여행, 영화, 콘서트, 첫 출근,
-                특별한 식사 등</span
+                >여행, 콘서트, 첫 출근, 특별한 날 등</span
               >
             </div>
             <div class="cs-flow-tag">
-              시점/동행 ➔ 계기 ➔ 핵심 사건 전개 ➔ 감정(놀라움/신남) ➔ 잊지 못할
-              추억
+              시점/동행 ➔ 장소 방문 ➔ 인상 깊은 사건 ➔ 사진/대화 ➔ 소감 ➔ 최고의 추억
             </div>
             <div class="cs-pattern-lines">
               <div class="cs-line">
@@ -715,19 +704,17 @@
             </div>
           </div>
 
-          <!-- 4. 돌발 문제 & 해결 -->
+          <!-- 4. 문제 해결 -->
           <div class="cs-pattern-card">
             <div class="cs-pattern-header">
-              <span class="cs-pattern-badge">pat_04</span>
-              <span class="cs-pattern-name">돌발 문제 & 해결 만능 뼈대</span>
+              <span class="cs-pattern-badge">패턴 4</span>
+              <span class="cs-pattern-name">문제 해결</span>
               <span class="cs-pattern-target"
-                >[3단계/13번 전용] 가전 고장, 부상, 요리 실수, 날씨 악화, 예약
-                오류 등</span
+                >고장, 부상, 날씨 악화, 예약 실수 등</span
               >
             </div>
             <div class="cs-flow-tag">
-              평화로운 상황 ➔ Suddenly(문제) ➔ 당황/걱정 ➔ 침착한
-              조치(Called/Fixed) ➔ 안도
+              평화로운 상황 ➔ 돌발 문제 ➔ 당황 ➔ 고객센터 문의 ➔ 해결 ➔ 안도
             </div>
             <div class="cs-pattern-lines">
               <div class="cs-line">
@@ -769,21 +756,19 @@
             </div>
           </div>
 
-          <!-- 5. 과거 vs 현재 비교 -->
+          <!-- 5. 과거/현재 비교 -->
           <div class="cs-pattern-card">
             <div class="cs-pattern-header">
-              <span class="cs-pattern-badge">pat_05</span>
+              <span class="cs-pattern-badge">패턴 5</span>
               <span class="cs-pattern-name"
-                >과거 vs 현재 변화·비교 만능 뼈대</span
+                >과거/현재 비교</span
               >
               <span class="cs-pattern-target"
-                >[3단계/14-15번 심화] 집 인테리어, 카페 문화, OTT 영화,
-                스트리밍, 체력 변화 등</span
+                >인테리어, 카페, 스마트폰, OTT 영화 등</span
               >
             </div>
             <div class="cs-flow-tag">
-              과거 vs 현재 차이 선언 ➔ 과거 불편함 ➔ 현대 기술/앱/변화 ➔ 구체적
-              개선점 ➔ 삶의 만족
+              변화 선언 ➔ 과거 불편함 ➔ 현대적 변화 ➔ 스마트폰 활용 ➔ 편리함 ➔ 만족
             </div>
             <div class="cs-pattern-lines">
               <div class="cs-line">
@@ -824,21 +809,20 @@
             </div>
           </div>
 
-          <!-- 6. 롤플레이 만능 공식 -->
+          <!-- 6. 롤플레이 (11·12번) -->
           <div class="cs-pattern-card">
             <div class="cs-pattern-header">
-              <span class="cs-pattern-badge">pat_06</span>
+              <span class="cs-pattern-badge">패턴 6</span>
               <span class="cs-pattern-name"
-                >롤플레이 만능 공식 (11번 질문형 & 12번 대안형)</span
+                >롤플레이 (11·12번)</span
               >
               <span class="cs-pattern-target"
-                >[11~12번 필수] 공연/축제 티켓 문의, 카페 지연, 호텔 예약/방
-                문제 등</span
+                >티켓 예매, 지연/예약 문제 등</span
               >
             </div>
             <div class="cs-rp-split">
               <div class="cs-rp-col">
-                <div class="cs-rp-title">📞 11번: 3~4가지 정보 질문 공식</div>
+                <div class="cs-rp-title">📞 11번: 질문 3~4가지</div>
                 <div class="cs-line">
                   <b>• 인사/용건:</b> Hello, I'm calling to ask about
                   <u>[예약/티켓]</u>.
@@ -859,7 +843,7 @@
               </div>
               <div class="cs-rp-col">
                 <div class="cs-rp-title">
-                  🚨 12번: 문제 설명 & 2가지 대안 제시 공식
+                  🚨 12번: 대안 2가지 제시
                 </div>
                 <div class="cs-line">
                   <b>• 사과/설명:</b> I'm really sorry, but
@@ -876,25 +860,24 @@
                 <div class="cs-line">
                   <b>• 마무리:</b> Please let me know which option works for
                   you.
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- [섹션 3] 12대 빈출 토픽별 핵심 치환 키워드 (Slot Keyword Bank) -->
+      <!-- [섹션 3] 주제별 핵심 단어 모음 -->
       <div class="cs-section">
         <div class="cs-section-title">
-          🎯 12대 주제별 뼈대 치환 키워드 모음 (시험장 가기 전 눈도장)
+          🎯 주제별 핵심 단어 모음
         </div>
         <div class="cs-keyword-table-wrap">
           <table class="cs-keyword-table">
             <thead>
               <tr>
                 <th style="width: 18%">주제</th>
-                <th style="width: 32%">1단계: 장소/선호 묘사 단어</th>
-                <th style="width: 50%">2·3단계: 루틴 및 돌발 해결 단어</th>
+                <th style="width: 32%">장소/분위기 단어</th>
+                <th style="width: 50%">활동/해결 단어</th>
               </tr>
             </thead>
             <tbody>
@@ -972,10 +955,10 @@
         </div>
       </div>
 
-      <!-- [섹션 4] 오디오 공백 방어용 10대 핵심 필러 (Fillers) -->
+      <!-- [섹션 4] 오디오 공백 방어 10대 필러 -->
       <div class="cs-section">
         <div class="cs-section-title">
-          🗣️ 오디오 공백 방어용 10대 핵심 필러 (Dead Silence 차단)
+          🗣️ 오디오 공백 방어 10대 필러
         </div>
         <div class="cs-filler-pills-wrap">
           <div class="cs-filler-pill">
@@ -1014,8 +997,7 @@
       <!-- 문서 푸터 (인쇄 시) -->
       <div class="print-doc-footer">
         <span
-          >OPIc Master Training System · Made for Hyosang Kim · Target: IM1 ~
-          IH</span
+          >OPIc Master Training System · Target: IM1</span
         >
         <span>Printed on <span id="csPrintDate"></span></span>
       </div>
@@ -1040,27 +1022,27 @@
         class="secondary"
         id="btnDownloadCheatSheetHtmlBottom"
         onclick="downloadCheatSheetHTML()"
-        title="단독 실행형 HTML 문서 저장"
+        title="HTML 파일로 저장"
       >
-        💾 오프라인 파일 (.html)
+        💾 HTML 저장
       </button>
       <button
         type="button"
         class="secondary"
         id="btnPrintCheatSheetBottom"
         onclick="printCheatSheet()"
-        title="브라우저 시스템 인쇄 창을 열어 종이로 인쇄하거나 시스템 PDF로 저장합니다"
+        title="브라우저 인쇄 창 열기"
       >
-        🖨️ 인쇄 / 시스템 PDF
+        🖨️ 인쇄
       </button>
       <button
         type="button"
         class="primary btn-print-pdf-big"
         id="btnDownloadCheatSheetPdfBottom"
         onclick="downloadDirectPdfA4()"
-        title="맥북/PC 다운로드 폴더로 3페이지 완벽 규격 PDF 파일을 직접 다운로드합니다 (프린터 연결 불필요)"
+        title="PDF 파일로 즉시 다운로드 (프린터 불필요)"
       >
-        <span>📥 PDF 파일 직접 다운로드</span>
+        <span>📥 PDF 저장</span>
         <kbd class="shortcut-key">D</kbd>
       </button>
     </div>

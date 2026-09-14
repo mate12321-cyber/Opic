@@ -1370,7 +1370,9 @@ body.dark-theme .cs-line u {
   box-sizing: border-box !important;
   background: #ffffff !important;
   color: #0f172a !important;
-  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", Pretendard, "Malgun Gothic", sans-serif !important;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", Pretendard,
+    "Malgun Gothic", sans-serif !important;
   position: relative !important;
   overflow: hidden !important;
   display: flex !important;
@@ -1482,4 +1484,3 @@ body.dark-theme .cs-line u {
   padding: 4px 8px !important;
   font-size: 11px !important;
 }
-

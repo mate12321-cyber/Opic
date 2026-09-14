@@ -742,7 +742,8 @@ function loadPdfScriptAsync(src, fallbackUrl) {
         const fb = document.createElement("script");
         fb.src = fallbackUrl;
         fb.onload = () => resolve();
-        fb.onerror = (e) => reject(new Error(`Failed to load ${src} and ${fallbackUrl}`));
+        fb.onerror = (e) =>
+          reject(new Error(`Failed to load ${src} and ${fallbackUrl}`));
         document.head.appendChild(fb);
       } else {
         reject(new Error(`Failed to load ${src}`));
@@ -760,13 +761,13 @@ async function ensurePdfLibraries() {
   if (typeof window.html2canvas !== "function") {
     await loadPdfScriptAsync(
       "lib/html2canvas.min.js",
-      "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+      "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",
     );
   }
   if (!window.jspdf || !window.jspdf.jsPDF) {
     await loadPdfScriptAsync(
       "lib/jspdf.umd.min.js",
-      "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+      "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
     );
   }
 }
@@ -807,19 +808,17 @@ async function downloadDirectPdfA4() {
 
   try {
     updateCheatSheetDate();
-    setBtnStatus("⏳ PDF 엔진 준비 중...");
+    setBtnStatus("⏳ PDF 준비 중...");
     await ensurePdfLibraries();
 
     const jsPdfClass =
-      window.jspdf && window.jspdf.jsPDF
-        ? window.jspdf.jsPDF
-        : window.jsPDF;
+      window.jspdf && window.jspdf.jsPDF ? window.jspdf.jsPDF : window.jsPDF;
 
     if (!jsPdfClass || typeof window.html2canvas !== "function") {
       throw new Error("PDF 라이브러리를 초기화할 수 없습니다.");
     }
 
-    setBtnStatus("⏳ 3개 페이지 레이아웃 정렬 중...");
+    setBtnStatus("⏳ 페이지 정렬 중...");
 
     // 임시 렌더링 스테이지 생성 (화면 최상단에 안정적인 A4 비율로 렌더링)
     const stage = document.createElement("div");
@@ -858,7 +857,7 @@ async function downloadDirectPdfA4() {
     const sec4 = sections[3].cloneNode(true); // 10대 필러
 
     // ==========================================
-    // Page 1: 헤더 + 마인드셋 + pat_01 + pat_02
+    // Page 1: 헤더 + 주의사항 + 패턴 1 + 패턴 2
     // ==========================================
     const page1 = document.createElement("div");
     page1.className = "pdf-a4-page page-1";
@@ -867,7 +866,7 @@ async function downloadDirectPdfA4() {
         ${header.outerHTML}
         ${sec1.outerHTML}
         <div class="cs-section" style="margin-bottom: 0;">
-          <div class="cs-section-title" style="margin-bottom: 8px;">🧩 6대 만능 뼈대 구조 공식 (어떤 주제든 1~2단어만 바꿔 끼우기)</div>
+          <div class="cs-section-title" style="margin-bottom: 8px;">🧩 6대 만능 패턴</div>
           <div class="cs-pattern-list" style="gap: 10px;">
             ${patternCards[0].outerHTML}
             ${patternCards[1].outerHTML}
@@ -875,20 +874,20 @@ async function downloadDirectPdfA4() {
         </div>
       </div>
       <div class="pdf-page-footer">
-        <span>OPIc Master Training System · Made for Hyosang Kim · Target: IM1 ~ IH</span>
+        <span>OPIc Master Training System · Target: IM1</span>
         <span>Page 1 of 3</span>
       </div>
     `;
 
     // ==========================================
-    // Page 2: pat_03 + pat_04 + pat_05 + pat_06
+    // Page 2: 패턴 3 + 패턴 4 + 패턴 5 + 패턴 6
     // ==========================================
     const page2 = document.createElement("div");
     page2.className = "pdf-a4-page page-2";
     page2.innerHTML = `
       <div class="pdf-page-main" style="gap: 8px;">
         <div class="pdf-page-header-mini">
-          <span class="mini-title">🧩 6대 만능 뼈대 구조 공식 (이어서)</span>
+          <span class="mini-title">🧩 6대 만능 패턴 (이어서)</span>
           <span class="mini-page">Page 2 / 3</span>
         </div>
         <div class="cs-pattern-list" style="gap: 8px;">
@@ -899,7 +898,7 @@ async function downloadDirectPdfA4() {
         </div>
       </div>
       <div class="pdf-page-footer">
-        <span>OPIc Master Training System · Made for Hyosang Kim · Target: IM1 ~ IH</span>
+        <span>OPIc Master Training System · Target: IM1</span>
         <span>Page 2 of 3</span>
       </div>
     `;
@@ -912,14 +911,14 @@ async function downloadDirectPdfA4() {
     page3.innerHTML = `
       <div class="pdf-page-main" style="gap: 12px;">
         <div class="pdf-page-header-mini">
-          <span class="mini-title">🎯 12대 서베이 주제별 키워드 매핑 & 10대 필러</span>
+          <span class="mini-title">🎯 주제별 핵심 단어 & 10대 필러</span>
           <span class="mini-page">Page 3 / 3</span>
         </div>
         ${sec3.outerHTML}
         ${sec4.outerHTML}
       </div>
       <div class="pdf-page-footer">
-        <span>OPIc Master Training System · Made for Hyosang Kim · Target: IM1 ~ IH</span>
+        <span>OPIc Master Training System · Target: IM1</span>
         <span>Printed on ${printDateStr} · Page 3 of 3</span>
       </div>
     `;
@@ -947,13 +946,13 @@ async function downloadDirectPdfA4() {
     });
 
     // 1페이지 캡처
-    setBtnStatus("⏳ 1/3 페이지 생성 중...");
+    setBtnStatus("⏳ 1/3 페이지 생성...");
     const canvas1 = await window.html2canvas(page1, canvasOptions);
     const imgData1 = canvas1.toDataURL("image/jpeg", 0.95);
     doc.addImage(imgData1, "JPEG", 0, 0, 210, 297, undefined, "FAST");
 
     // 2페이지 교체 및 캡처
-    setBtnStatus("⏳ 2/3 페이지 생성 중...");
+    setBtnStatus("⏳ 2/3 페이지 생성...");
     stage.innerHTML = "";
     stage.appendChild(page2);
     const canvas2 = await window.html2canvas(page2, canvasOptions);
@@ -962,7 +961,7 @@ async function downloadDirectPdfA4() {
     doc.addImage(imgData2, "JPEG", 0, 0, 210, 297, undefined, "FAST");
 
     // 3페이지 교체 및 캡처
-    setBtnStatus("⏳ 3/3 페이지 결합 중...");
+    setBtnStatus("⏳ 3/3 페이지 결합...");
     stage.innerHTML = "";
     stage.appendChild(page3);
     const canvas3 = await window.html2canvas(page3, canvasOptions);
@@ -976,8 +975,8 @@ async function downloadDirectPdfA4() {
     }
 
     // 파일 다운로드 트리거
-    setBtnStatus("💾 다운로드 완료!");
-    const filename = `OPIc_IM1_만능뼈대_치트시트_${fileDateStr}.pdf`;
+    setBtnStatus("💾 저장 완료!");
+    const filename = `OPIc_IM1_핵심요약_치트시트_${fileDateStr}.pdf`;
     doc.save(filename);
 
     setTimeout(() => {
@@ -986,7 +985,7 @@ async function downloadDirectPdfA4() {
   } catch (err) {
     console.error("Direct PDF Export Error:", err);
     alert(
-      "PDF 직접 생성 중 오류가 발생했습니다. 브라우저 인쇄 [🖨️ 인쇄 / 시스템 PDF] 또는 [💾 오프라인 파일 (.html)]을 이용해 주세요.\n\n오류 내용: " +
+      "PDF 저장 중 오류가 발생했습니다. 브라우저 [🖨️ 인쇄] 또는 [💾 HTML 저장]을 이용해 주세요.\n\n오류 내용: " +
         err.message,
     );
     const stage = document.getElementById("pdfDirectStage");
