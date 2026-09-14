@@ -462,7 +462,7 @@ window.PATTERNS_DATA = [
   {
     id: "pat_02",
     name: "일상 & 활동 루틴 만능 템플릿",
-    category: "카페 일과, 공원 산책, 헬스장 운동, 주말 요리, 취미 코딩 등",
+    category: "카페, 산책, 헬스, 요리, 코딩, 영화, 장보기, 드라이브, 캠핑 등",
     icon: "⏰",
     desc: "주말이나 평소 일과를 묻는 질문에 장소 템플릿과 똑같은 6문장으로 쉽고 자연스럽게 답하는 만능 공식입니다.",
     skeleton: [
@@ -639,6 +639,246 @@ window.PATTERNS_DATA = [
           {
             en: "So, I do it all the time.",
             ko: "그래서 저는 이걸 맨날(자주) 해요.",
+          },
+        ],
+      },
+      {
+        topic: "🎬 영화 관람",
+        keyword: "watch new movies at Megabox",
+        sentences: [
+          {
+            en: "Whenever I have free time, I love to watch movies.",
+            ko: "여유 시간이 있을 때마다, 저는 영화 보는 것을 좋아해요.",
+          },
+          {
+            en: "The theater is located near my house, so it is just five minutes.",
+            ko: "영화관이 저희 집 근처에 있어서, 딱 5분 거리예요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "I usually buy sweet popcorn and watch movies, so I really like it.",
+            ko: "저는 보통 달콤한 팝콘을 사고 영화를 보는데, 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
+          },
+          {
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+          },
+        ],
+      },
+      {
+        topic: "🛒 마트 장보기",
+        keyword: "grocery shopping at E-Mart",
+        sentences: [
+          {
+            en: "Whenever I have free time, I love to go grocery shopping.",
+            ko: "여유 시간이 있을 때마다, 저는 장보러 가는 것을 좋아해요.",
+          },
+          {
+            en: "It is located near my house, so it is just five minutes.",
+            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "I usually buy fresh food and nice snacks, so I really like it.",
+            ko: "저는 보통 신선한 음식과 맛있는 간식을 사는데, 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
+          },
+          {
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+          },
+        ],
+      },
+      {
+        topic: "🚗 드라이브",
+        keyword: "drive on the quiet route",
+        sentences: [
+          {
+            en: "Whenever I have free time, I love to go for a drive.",
+            ko: "여유 시간이 있을 때마다, 저는 드라이브 가는 것을 좋아해요.",
+          },
+          {
+            en: "The quiet route is located near my house, so it is just five minutes.",
+            ko: "한적한 드라이브 코스가 집 근처에 있어서, 딱 5분 거리예요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "I usually open the windows and listen to music, so I really like it.",
+            ko: "저는 보통 창문을 열고 신나는 음악을 듣는데, 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
+          },
+          {
+            en: "So, I do it all the time.",
+            ko: "그래서 저는 이걸 맨날(자주) 해요.",
+          },
+        ],
+      },
+      {
+        topic: "🏕️ 주말 캠핑",
+        keyword: "camping by the lake",
+        sentences: [
+          {
+            en: "Whenever I have free time, I love to go camping.",
+            ko: "여유 시간이 있을 때마다, 저는 캠핑 가는 것을 좋아해요.",
+          },
+          {
+            en: "The campsite is located near my house, so it is just thirty minutes.",
+            ko: "캠핑장이 집 근처에 있어서, 딱 30분 거리예요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "I usually pitch a tent and drink warm coffee, so I really like it.",
+            ko: "저는 보통 텐트를 치고 따뜻한 커피를 마시는데, 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
+          },
+          {
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+          },
+        ],
+      },
+      {
+        topic: "📚 독서·도서관",
+        keyword: "read books at library",
+        sentences: [
+          {
+            en: "Whenever I have free time, I love to read books at the library.",
+            ko: "여유 시간이 있을 때마다, 저는 도서관에서 책 읽는 것을 좋아해요.",
+          },
+          {
+            en: "It is located near my house, so it is just five minutes.",
+            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "I usually find nice books and read quietly, so I really like it.",
+            ko: "저는 보통 좋은 책을 찾아서 조용히 읽는데, 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
+          },
+          {
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+          },
+        ],
+      },
+      {
+        topic: "🎵 음악 감상",
+        keyword: "listen to acoustic music",
+        sentences: [
+          {
+            en: "Whenever I have free time, I love to listen to music.",
+            ko: "여유 시간이 있을 때마다, 저는 음악 듣는 것을 좋아해요.",
+          },
+          {
+            en: "My room has good speakers, so it is just comfortable.",
+            ko: "제 방에 좋은 스피커가 있어서, 듣기 정말 편해요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "I usually lie on the bed and play soft songs, so I really like it.",
+            ko: "저는 보통 침대에 누워 감미로운 노래를 트는데, 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
+          },
+          {
+            en: "So, I do it all the time.",
+            ko: "그래서 저는 이걸 맨날(자주) 해요.",
+          },
+        ],
+      },
+      {
+        topic: "🧹 집안 청소",
+        keyword: "vacuum room & clean house",
+        sentences: [
+          {
+            en: "Whenever I have free time, I love to clean my house.",
+            ko: "여유 시간이 있을 때마다, 저는 집 청소하는 것을 좋아해요.",
+          },
+          {
+            en: "My room is very comfortable, so it is just relaxing.",
+            ko: "제 방이 아주 편안해서, 정리를 마치면 힐링이 돼요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "I usually vacuum the floor and open the windows, so I really like it.",
+            ko: "저는 보통 청소기를 돌리고 창문을 활짝 여는데, 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
+          },
+          {
+            en: "So, I do it all the time.",
+            ko: "그래서 저는 이걸 맨날(자주) 해요.",
+          },
+        ],
+      },
+      {
+        topic: "🏖️ 해변 산책",
+        keyword: "walk along the sandy beach",
+        sentences: [
+          {
+            en: "Whenever I have free time, I love to walk along the beach.",
+            ko: "여유 시간이 있을 때마다, 저는 해변을 따라 산책하는 것을 좋아해요.",
+          },
+          {
+            en: "It is located near my hotel, so it is just five minutes.",
+            ko: "제가 묵는 호텔 근처에 있어서, 딱 5분 거리예요.",
+          },
+          {
+            en: "And the vibe is very clean, quiet, and cozy.",
+            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+          },
+          {
+            en: "I usually walk slowly and look at the ocean, so I really like it.",
+            ko: "저는 보통 천천히 걸으며 푸른 바다를 바라보는데, 정말 마음에 들어요.",
+          },
+          {
+            en: "It is the best time for me.",
+            ko: "저한테는 최고의 힐링 시간이에요.",
+          },
+          {
+            en: "So, I go there all the time.",
+            ko: "그래서 저는 거기를 맨날(자주) 가요.",
           },
         ],
       },
