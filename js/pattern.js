@@ -729,9 +729,276 @@ function closeCheatSheetModal() {
 window.closeCheatSheetModal = closeCheatSheetModal;
 
 /**
- * 만능 뼈대 치트시트를 3페이지 완벽 규격(잘림 없는 최고 화질 벡터 PDF)으로 저장하거나 인쇄합니다.
- * - 브라우저의 기본 Paged Media 인쇄 엔진(@media print)을 호출하여
- *   텍스트 잘림/카드 분할/좌우 여백 손실이 전혀 없는 100% 원본 비율 PDF 생성을 보장합니다.
+ * PDF 라이브러리 동적 비동기 로더 (html2canvas & jsPDF)
+ * - 로컬 lib/ 번들 우선 로드, 실패 시 공인 CDN으로 자동 폴백
+ */
+function loadPdfScriptAsync(src, fallbackUrl) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => {
+      if (fallbackUrl) {
+        const fb = document.createElement("script");
+        fb.src = fallbackUrl;
+        fb.onload = () => resolve();
+        fb.onerror = (e) => reject(new Error(`Failed to load ${src} and ${fallbackUrl}`));
+        document.head.appendChild(fb);
+      } else {
+        reject(new Error(`Failed to load ${src}`));
+      }
+    };
+    document.head.appendChild(s);
+  });
+}
+
+/**
+ * html2canvas 및 jsPDF 라이브러리가 브라우저 메모리에 로드되어 있는지 확인하고
+ * 필요 시 1회만 백그라운드에서 동적 로드합니다.
+ */
+async function ensurePdfLibraries() {
+  if (typeof window.html2canvas !== "function") {
+    await loadPdfScriptAsync(
+      "lib/html2canvas.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    );
+  }
+  if (!window.jspdf || !window.jspdf.jsPDF) {
+    await loadPdfScriptAsync(
+      "lib/jspdf.umd.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+    );
+  }
+}
+
+/**
+ * 맥북 무프린터 환경 및 일반 PC 사용자를 위한 3페이지 원클릭 직접 PDF 다운로드
+ * - 브라우저 시스템 인쇄 창(window.print)을 일절 띄우지 않고 맥북 다운로드 폴더에 파일 직접 저장
+ * - Page 1, Page 2, Page 3을 각각 독립적인 A4 규격(794px x 1122px)으로 개별 캡처하여
+ *   텍스트/카드 중간 절단 현상이 원천적으로 0% 발생하도록 보장 (No-Slice Architecture)
+ */
+async function downloadDirectPdfA4() {
+  const btnTop = document.getElementById("btnDownloadCheatSheetPdfDirect");
+  const btnBottom = document.getElementById("btnDownloadCheatSheetPdfBottom");
+  const origTextTop = btnTop ? btnTop.innerHTML : "";
+  const origTextBottom = btnBottom ? btnBottom.innerHTML : "";
+
+  function setBtnStatus(text) {
+    if (btnTop) {
+      btnTop.innerHTML = text;
+      btnTop.disabled = true;
+    }
+    if (btnBottom) {
+      btnBottom.innerHTML = text;
+      btnBottom.disabled = true;
+    }
+  }
+
+  function resetBtns() {
+    if (btnTop) {
+      btnTop.innerHTML = origTextTop;
+      btnTop.disabled = false;
+    }
+    if (btnBottom) {
+      btnBottom.innerHTML = origTextBottom;
+      btnBottom.disabled = false;
+    }
+  }
+
+  try {
+    updateCheatSheetDate();
+    setBtnStatus("⏳ PDF 엔진 준비 중...");
+    await ensurePdfLibraries();
+
+    const jsPdfClass =
+      window.jspdf && window.jspdf.jsPDF
+        ? window.jspdf.jsPDF
+        : window.jsPDF;
+
+    if (!jsPdfClass || typeof window.html2canvas !== "function") {
+      throw new Error("PDF 라이브러리를 초기화할 수 없습니다.");
+    }
+
+    setBtnStatus("⏳ 3개 페이지 레이아웃 정렬 중...");
+
+    // 임시 렌더링 스테이지 생성 (화면 최상단에 안정적인 A4 비율로 렌더링)
+    const stage = document.createElement("div");
+    stage.id = "pdfDirectStage";
+    stage.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 794px;
+      z-index: 100000;
+      background: #ffffff;
+      opacity: 0.99;
+      pointer-events: none;
+      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    `;
+
+    // 날짜 문자열
+    const now = new Date();
+    const printDateStr = `${now.getFullYear()}. ${String(now.getMonth() + 1).padStart(2, "0")}. ${String(now.getDate()).padStart(2, "0")}`;
+    const fileDateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
+
+    // 원본 섹션 및 카드 참조
+    const printArea = document.getElementById("cheatSheetPrintArea");
+    if (!printArea) throw new Error("치트시트 본문을 찾을 수 없습니다.");
+
+    const header = printArea.querySelector(".print-doc-header").cloneNode(true);
+    header.style.display = "block";
+    header.style.textAlign = "center";
+    header.style.marginBottom = "10px";
+
+    const sections = printArea.querySelectorAll(".cs-section");
+    const sec1 = sections[0].cloneNode(true); // 마인드셋
+    const sec2 = sections[1]; // 6대 패턴
+    const patternCards = sec2.querySelectorAll(".cs-pattern-card");
+    const sec3 = sections[2].cloneNode(true); // 키워드 테이블
+    const sec4 = sections[3].cloneNode(true); // 10대 필러
+
+    // ==========================================
+    // Page 1: 헤더 + 마인드셋 + pat_01 + pat_02
+    // ==========================================
+    const page1 = document.createElement("div");
+    page1.className = "pdf-a4-page page-1";
+    page1.innerHTML = `
+      <div class="pdf-page-main">
+        ${header.outerHTML}
+        ${sec1.outerHTML}
+        <div class="cs-section" style="margin-bottom: 0;">
+          <div class="cs-section-title" style="margin-bottom: 8px;">🧩 6대 만능 뼈대 구조 공식 (어떤 주제든 1~2단어만 바꿔 끼우기)</div>
+          <div class="cs-pattern-list" style="gap: 10px;">
+            ${patternCards[0].outerHTML}
+            ${patternCards[1].outerHTML}
+          </div>
+        </div>
+      </div>
+      <div class="pdf-page-footer">
+        <span>OPIc Master Training System · Made for Hyosang Kim · Target: IM1 ~ IH</span>
+        <span>Page 1 of 3</span>
+      </div>
+    `;
+
+    // ==========================================
+    // Page 2: pat_03 + pat_04 + pat_05 + pat_06
+    // ==========================================
+    const page2 = document.createElement("div");
+    page2.className = "pdf-a4-page page-2";
+    page2.innerHTML = `
+      <div class="pdf-page-main" style="gap: 8px;">
+        <div class="pdf-page-header-mini">
+          <span class="mini-title">🧩 6대 만능 뼈대 구조 공식 (이어서)</span>
+          <span class="mini-page">Page 2 / 3</span>
+        </div>
+        <div class="cs-pattern-list" style="gap: 8px;">
+          ${patternCards[2].outerHTML}
+          ${patternCards[3].outerHTML}
+          ${patternCards[4].outerHTML}
+          ${patternCards[5].outerHTML}
+        </div>
+      </div>
+      <div class="pdf-page-footer">
+        <span>OPIc Master Training System · Made for Hyosang Kim · Target: IM1 ~ IH</span>
+        <span>Page 2 of 3</span>
+      </div>
+    `;
+
+    // ==========================================
+    // Page 3: 키워드 표 + 10대 필러 + 푸터
+    // ==========================================
+    const page3 = document.createElement("div");
+    page3.className = "pdf-a4-page page-3";
+    page3.innerHTML = `
+      <div class="pdf-page-main" style="gap: 12px;">
+        <div class="pdf-page-header-mini">
+          <span class="mini-title">🎯 12대 서베이 주제별 키워드 매핑 & 10대 필러</span>
+          <span class="mini-page">Page 3 / 3</span>
+        </div>
+        ${sec3.outerHTML}
+        ${sec4.outerHTML}
+      </div>
+      <div class="pdf-page-footer">
+        <span>OPIc Master Training System · Made for Hyosang Kim · Target: IM1 ~ IH</span>
+        <span>Printed on ${printDateStr} · Page 3 of 3</span>
+      </div>
+    `;
+
+    // DOM에 스테이지 추가
+    stage.appendChild(page1);
+    document.body.appendChild(stage);
+
+    // 캔버스 캡처 옵션
+    const canvasOptions = {
+      scale: 2, // 2배 고해상도 (레티나 디스플레이 및 인쇄 시 선명도 보장)
+      useCORS: true,
+      logging: false,
+      backgroundColor: "#ffffff",
+      width: 794,
+      height: 1122,
+      windowWidth: 1024,
+    };
+
+    const doc = new jsPdfClass({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+      compress: true,
+    });
+
+    // 1페이지 캡처
+    setBtnStatus("⏳ 1/3 페이지 생성 중...");
+    const canvas1 = await window.html2canvas(page1, canvasOptions);
+    const imgData1 = canvas1.toDataURL("image/jpeg", 0.95);
+    doc.addImage(imgData1, "JPEG", 0, 0, 210, 297, undefined, "FAST");
+
+    // 2페이지 교체 및 캡처
+    setBtnStatus("⏳ 2/3 페이지 생성 중...");
+    stage.innerHTML = "";
+    stage.appendChild(page2);
+    const canvas2 = await window.html2canvas(page2, canvasOptions);
+    const imgData2 = canvas2.toDataURL("image/jpeg", 0.95);
+    doc.addPage();
+    doc.addImage(imgData2, "JPEG", 0, 0, 210, 297, undefined, "FAST");
+
+    // 3페이지 교체 및 캡처
+    setBtnStatus("⏳ 3/3 페이지 결합 중...");
+    stage.innerHTML = "";
+    stage.appendChild(page3);
+    const canvas3 = await window.html2canvas(page3, canvasOptions);
+    const imgData3 = canvas3.toDataURL("image/jpeg", 0.95);
+    doc.addPage();
+    doc.addImage(imgData3, "JPEG", 0, 0, 210, 297, undefined, "FAST");
+
+    // 스테이지 DOM 제거
+    if (stage.parentNode) {
+      stage.parentNode.removeChild(stage);
+    }
+
+    // 파일 다운로드 트리거
+    setBtnStatus("💾 다운로드 완료!");
+    const filename = `OPIc_IM1_만능뼈대_치트시트_${fileDateStr}.pdf`;
+    doc.save(filename);
+
+    setTimeout(() => {
+      resetBtns();
+    }, 1800);
+  } catch (err) {
+    console.error("Direct PDF Export Error:", err);
+    alert(
+      "PDF 직접 생성 중 오류가 발생했습니다. 브라우저 인쇄 [🖨️ 인쇄 / 시스템 PDF] 또는 [💾 오프라인 파일 (.html)]을 이용해 주세요.\n\n오류 내용: " +
+        err.message,
+    );
+    const stage = document.getElementById("pdfDirectStage");
+    if (stage && stage.parentNode) stage.parentNode.removeChild(stage);
+    resetBtns();
+  }
+}
+window.downloadDirectPdfA4 = downloadDirectPdfA4;
+window.downloadCheatSheetPDF = downloadDirectPdfA4; // 기본 PDF 다운로드 액션을 직접 다운로드로 연결
+
+/**
+ * 만능 뼈대 치트시트를 브라우저 인쇄 엔진으로 호출하여 종이로 출력하거나 시스템 인쇄를 진행합니다.
  */
 function printCheatSheet() {
   updateCheatSheetDate();
@@ -740,14 +1007,13 @@ function printCheatSheet() {
     openCheatSheetModal();
   }
 
-  // 브라우저 렌더링 파이프라인 동기화 후 시스템 인쇄/PDF 저장 창 호출
+  // 브라우저 렌더링 파이프라인 동기화 후 시스템 인쇄 창 호출
   setTimeout(() => {
     window.print();
   }, 150);
 }
 window.printCheatSheet = printCheatSheet;
-window.downloadCheatSheetPDF = printCheatSheet;
-window.exportCheatSheetPDF = printCheatSheet; // 하위 호환성 유지
+window.exportCheatSheetPDF = downloadDirectPdfA4; // 하위 호환성 유지
 
 /**
  * 언제 어디서든(비행기 모드/오프라인) 스마트폰과 PC에서 즉시 열어볼 수 있는

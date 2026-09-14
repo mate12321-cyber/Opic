@@ -13,6 +13,10 @@ OPIc/
 ├── app.js                      # [Main] 메인 진입점 (이벤트 리스너 등록 & 6대 모드 앱 라이프사이클 초기화)
 ├── CODEMAP.md                  # [Doc] 전체 코드 구조 및 아키텍처 맵
 │
+├── lib/                        # ── [External Vendor Libraries - Zero-Dependency Local Fallback] ─
+│   ├── html2canvas.min.js      # 고해상도 DOM-to-Canvas 렌더러 (치트시트 개별 페이지 캡처)
+│   └── jspdf.umd.min.js        # 클라이언트 사이드 고품질 멀티페이지 벡터/비트맵 PDF 빌더
+│
 ├── templates/                  # ── [View Layer - Modular HTML5 Templates] ────────
 │   ├── home.html               # 1. 홈 대시보드 화면 조각 (통계, 7일 차트, 모드 선택 카드)
 │   ├── practice.html           # 2. 문장 번역 연습 화면 조각 (주제선택 + 카드 + 완료)
@@ -277,7 +281,7 @@ graph TD
 | :------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 🍎 **iOS (iPhone/iPad Safari)**                   | • 사용자 터치 없는 비동기 오디오 재생 차단<br>• MediaRecorder WebM 형식 미지원<br>• 노치/다이나믹 아일랜드 영역 간섭 | • `initMobileAudioUnlock()`: 첫 터치 시 0.01초 무음 버퍼 및 AudioContext 사전 활성화<br>• `MediaRecorder.isTypeSupported`로 `audio/mp4`, `audio/aac` 자동 Fallback<br>• `viewport-fit=cover` 및 `env(safe-area-inset-*)` 여백 처리 |
 | 📱 **갤럭시 (Android Chrome / Samsung Internet)** | • STT와 녹음기의 마이크 동시 접근 시 하드웨어 락<br>• 더블탭 확대 간섭 및 300ms 탭 딜레이                            | • `isMobile` 감지 기반 모드별 마이크 단독 점유 분기 처리<br>• `touch-action: manipulation;` 및 `-webkit-tap-highlight-color: transparent;` 전 버튼 적용                                                                            |
-| 💻 **맥북 (macOS Safari / Chrome)**               | • 한/영 전환 상태에서 키보드 단축키 미인식<br>• Command(⌘) 키 조합 지원                                              | • `e.code`(`KeyP`, `Space`, `Enter`)와 한글 자모(`ㅔ`, `ㅏ`, `ㄱ`) 동시 검사<br>• `Cmd + Enter` 및 `Ctrl + Enter` 채점 단축키 동시 지원                                                                                            |
+| 💻 **맥북 (macOS Safari / Chrome)**               | • 한/영 전환 상태에서 키보드 단축키 미인식<br>• Command(⌘) 키 조합 지원<br>• **연결된 프린터가 없을 때** Safari 인쇄 창(`window.print()`) 차단/저장 불가 현상 | • `e.code`(`KeyP`, `Space`, `Enter`)와 한글 자모(`ㅔ`, `ㅏ`, `ㄱ`) 동시 검사<br>• `Cmd + Enter` 및 `Ctrl + Enter` 채점 단축키 동시 지원<br>• `downloadDirectPdfA4()`: 시스템 인쇄창 우회, 3페이지 독립 A4 컨테이너 개별 캡처 및 jsPDF로 다운로드 폴더 직접 저장 (No-Slice Architecture, 카드/텍스트 잘림 0%) |
 | 🖥️ **윈도우 (Windows PC Chrome / Edge)**          | • 숫자 키패드(Numpad) 단축키 미인식<br>• Control 키 조합 지원                                                        | • `NumpadEnter`, `Numpad1`, `Numpad2` 매핑<br>• 데스크톱 브라우저 100% 표준 단축키 제공                                                                                                                                            |
 
 ---

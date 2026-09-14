@@ -1356,3 +1356,130 @@ body.dark-theme .cs-line u {
 .pdf-export-canvas .cs-filler-pill span {
   color: #0f172a !important;
 }
+
+/* =============================================================================
+   📄 직접 다운로드용 3페이지 A4 컨테이너 규격 (.pdf-a4-page)
+   - A4 표준 비율(210mm x 297mm = 794px x 1123px @ 96DPI)에 정확히 일치
+   - 문장 절단/카드 분할이 100% 불가능한 독립 페이지 아키텍처
+   ============================================================================= */
+.pdf-a4-page {
+  width: 794px !important;
+  min-height: 1122px !important;
+  max-height: 1122px !important;
+  padding: 30px 34px !important;
+  box-sizing: border-box !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", Pretendard, "Malgun Gothic", sans-serif !important;
+  position: relative !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.pdf-a4-page * {
+  box-sizing: border-box !important;
+}
+
+.pdf-a4-page .pdf-page-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pdf-a4-page .pdf-page-header-mini {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px solid #0f172a;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+}
+
+.pdf-a4-page .pdf-page-header-mini .mini-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.pdf-a4-page .pdf-page-header-mini .mini-page {
+  font-size: 11px;
+  font-weight: 700;
+  color: #4f46e5;
+  background: #eef2ff;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.pdf-a4-page .pdf-page-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 8px;
+  font-size: 10.5px;
+  color: #64748b;
+  margin-top: auto;
+}
+
+/* Page 2 전용 콤팩트 카드 비율 (4개 카드가 A4 1장에 완벽 핏) */
+.pdf-a4-page.page-2 .cs-pattern-card {
+  padding: 8px 12px !important;
+  margin-bottom: 0 !important;
+}
+
+.pdf-a4-page.page-2 .cs-pattern-header {
+  margin-bottom: 4px !important;
+}
+
+.pdf-a4-page.page-2 .cs-pattern-name {
+  font-size: 13px !important;
+}
+
+.pdf-a4-page.page-2 .cs-pattern-target {
+  font-size: 10.5px !important;
+}
+
+.pdf-a4-page.page-2 .cs-flow-tag {
+  font-size: 10px !important;
+  padding: 1px 6px !important;
+  margin-bottom: 5px !important;
+}
+
+.pdf-a4-page.page-2 .cs-pattern-lines {
+  padding: 6px 10px !important;
+  gap: 3px !important;
+}
+
+.pdf-a4-page.page-2 .cs-line {
+  font-size: 11.5px !important;
+  line-height: 1.35 !important;
+}
+
+.pdf-a4-page.page-2 .cs-line .ko {
+  font-size: 10px !important;
+}
+
+.pdf-a4-page.page-2 .cs-rp-col {
+  padding: 8px 10px !important;
+}
+
+.pdf-a4-page.page-2 .cs-rp-title {
+  font-size: 11.5px !important;
+  margin-bottom: 4px !important;
+}
+
+/* Page 3 테이블 및 필러 콤팩트 핏 */
+.pdf-a4-page.page-3 .cs-keyword-table th,
+.pdf-a4-page.page-3 .cs-keyword-table td {
+  padding: 4px 8px !important;
+  font-size: 10.5px !important;
+  line-height: 1.3 !important;
+}
+
+.pdf-a4-page.page-3 .cs-filler-pill {
+  padding: 4px 8px !important;
+  font-size: 11px !important;
+}
+
