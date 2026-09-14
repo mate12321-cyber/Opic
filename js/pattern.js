@@ -267,6 +267,17 @@ function renderPatternTopics() {
 
   container.innerHTML = PATTERN_ITEMS.map((pat, idx) => {
     const isDone = patternProgress && patternProgress[pat.id];
+    const whenToUseText = pat.whenToUse || "";
+    const signals = Array.isArray(pat.questionSignals)
+      ? pat.questionSignals
+          .slice(0, 2)
+          .map((s) => `<span class="signal-tag">${safeEscapeHtml(s)}</span>`)
+          .join(" ")
+      : "";
+    const comboBadge = pat.comboRole
+      ? `<span class="pattern-combo-badge">${safeEscapeHtml(pat.comboRole)}</span>`
+      : "";
+
     const catBadges = (pat.category || "")
       .split(",")
       .map((c) => c.trim().replace(/\s*등$/, ""))
@@ -278,10 +289,34 @@ function renderPatternTopics() {
       <button type="button" class="pattern-select-card" data-idx="${idx}" onclick="selectPattern(${idx})">
         <div class="pattern-select-icon">${pat.icon || "🧩"}</div>
         <div class="pattern-select-body">
-          <div class="pattern-select-name">
-            <span>${idx + 1}. ${safeEscapeHtml(pat.name)}</span>
-            ${isDone ? '<span class="pattern-select-badge">완료 ✓</span>' : ""}
+          <div class="pattern-select-name-row">
+            <span class="pattern-select-name-text">${idx + 1}. ${safeEscapeHtml(pat.name)}</span>
+            <div class="pattern-badge-group">
+              ${comboBadge}
+              ${isDone ? '<span class="pattern-select-badge">완료 ✓</span>' : ""}
+            </div>
           </div>
+          ${
+            whenToUseText
+              ? `
+            <div class="pattern-match-summary">
+              <span class="pms-icon">🎯</span>
+              <span class="pms-text">${safeEscapeHtml(whenToUseText)}</span>
+            </div>
+          `
+              : ""
+          }
+          ${
+            signals
+              ? `
+            <div class="pattern-signal-summary">
+              <span class="pss-icon">👂</span>
+              <span class="pss-label">청취 시그널:</span>
+              <span class="pss-signals">${signals}</span>
+            </div>
+          `
+              : ""
+          }
           <div class="pattern-cats-badges">
             ${catBadges}
           </div>
@@ -357,6 +392,33 @@ function renderPatternCard() {
   const descEl = document.getElementById("patternDescP");
   if (descEl) {
     descEl.textContent = pat.desc;
+  }
+
+  // 1-2. 질문 매칭 가이드 박스 렌더링 (어떤 문제일 때 답변할까?)
+  const matchBox = document.getElementById("patternMatchGuideBox");
+  if (matchBox) {
+    const comboEl = document.getElementById("pmgComboRole");
+    if (comboEl) comboEl.textContent = pat.comboRole || "만능 공식";
+
+    const whenEl = document.getElementById("pmgWhenToUse");
+    if (whenEl) whenEl.textContent = pat.whenToUse || pat.desc || "";
+
+    const signalsEl = document.getElementById("pmgSignals");
+    if (signalsEl && Array.isArray(pat.questionSignals)) {
+      signalsEl.innerHTML = pat.questionSignals
+        .map(
+          (sig) =>
+            `<span class="pmg-signal-chip">🎧 ${safeEscapeHtml(sig)}</span>`,
+        )
+        .join("");
+    }
+
+    const exampleQEl = document.getElementById("pmgExampleQ");
+    if (exampleQEl) {
+      exampleQEl.textContent = pat.exampleQuestion
+        ? `"${pat.exampleQuestion}"`
+        : "";
+    }
   }
 
   // 2. 템플릿 뼈대 (Skeleton) 렌더링

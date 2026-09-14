@@ -105,13 +105,222 @@
 
 .pattern-select-badge {
   font-size: 11px;
-  font-weight: 600;
-  color: var(--primary);
-  background: var(--primary-subtle);
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
+  font-weight: 700;
+  color: #15803d;
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+  padding: 2px 7px;
+  border-radius: 4px;
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+.pattern-select-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.pattern-select-name-text {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.pattern-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.pattern-combo-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #4f46e5;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: -0.01em;
+}
+
+/* ── 질문 매칭 요약 (어떤 문제일 때?) ── */
+.pattern-match-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: #1e293b;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-top: 2px;
+  line-height: 1.4;
+  align-self: flex-start;
+}
+
+.pattern-match-summary .pms-icon {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.pattern-match-summary .pms-text {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* ── 청취 시그널 요약 ── */
+.pattern-signal-summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 11.5px;
+  margin-top: 1px;
+}
+
+.pattern-signal-summary .pss-icon {
+  font-size: 12px;
+}
+
+.pattern-signal-summary .pss-label {
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.pattern-signal-summary .pss-signals {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.pattern-signal-summary .signal-tag {
+  font-size: 11px;
+  font-family: var(--font-sans);
+  color: #2563eb;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* ── [상세 카드] 에바 질문 매칭 가이드 박스 ── */
+.pattern-match-guide-box {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1.5px solid #cbd5e1;
+  border-radius: var(--radius-lg);
+  padding: 13px 15px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.pmg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 9px;
+}
+
+.pmg-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pmg-icon {
+  font-size: 14px;
+}
+
+.pmg-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.pmg-combo-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #4338ca;
+  background: #e0e7ff;
+  border: 1px solid #c7d2fe;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.pmg-body {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.pmg-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.pmg-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  background: #e2e8f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pmg-content {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.pmg-signals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.pmg-signal-chip {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #1d4ed8;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 2px 7px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.pmg-row-q {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 6px 10px;
+  border-radius: 5px;
+  border-left: 3px solid #6366f1;
+}
+
+.pmg-example-q {
+  font-style: italic;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .pattern-select-desc {
@@ -666,8 +875,74 @@ body.dark-theme .pattern-select-icon {
 }
 
 body.dark-theme .pattern-select-badge {
-  background: #334155;
+  background: #14532d;
+  border-color: #16a34a;
+  color: #bbf7d0;
+}
+
+body.dark-theme .pattern-combo-badge {
+  color: #c7d2fe;
+  background: #312e81;
+  border-color: #4338ca;
+}
+
+body.dark-theme .pattern-match-summary {
+  background: #0f172a;
+  border-color: #334155;
+  color: #cbd5e1;
+}
+
+body.dark-theme .pattern-match-summary .pms-text {
   color: #f1f5f9;
+}
+
+body.dark-theme .pattern-signal-summary .signal-tag {
+  color: #93c5fd;
+  background: #1e3a8a;
+  border-color: #1d4ed8;
+}
+
+body.dark-theme .pattern-match-guide-box {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-color: #334155;
+}
+
+body.dark-theme .pmg-header {
+  border-bottom-color: #334155;
+}
+
+body.dark-theme .pmg-title {
+  color: #f1f5f9;
+}
+
+body.dark-theme .pmg-combo-badge {
+  color: #c7d2fe;
+  background: #312e81;
+  border-color: #4338ca;
+}
+
+body.dark-theme .pmg-tag {
+  background: #334155;
+  color: #cbd5e1;
+}
+
+body.dark-theme .pmg-content {
+  color: #f1f5f9;
+}
+
+body.dark-theme .pmg-signal-chip {
+  color: #93c5fd;
+  background: #1e3a8a;
+  border-color: #1d4ed8;
+}
+
+body.dark-theme .pmg-row-q {
+  background: rgba(15, 23, 42, 0.7);
+  border-left-color: #818cf8;
+}
+
+body.dark-theme .pmg-example-q {
+  color: #cbd5e1;
 }
 
 body.dark-theme .pattern-select-cats {

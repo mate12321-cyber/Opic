@@ -36,6 +36,14 @@ window.PATTERNS_DATA = [
   {
     id: "pat_01",
     name: "장소 & 선호 묘사 만능 템플릿",
+    whenToUse: "좋아하는 장소 / 자주 가는 곳 / 첫 묘사 질문",
+    comboRole: "주제별 콤보 1단계 (2, 5, 8번)",
+    questionSignals: [
+      "Tell me about your favorite...",
+      "Describe [장소] and what it looks like.",
+      "Where do you usually go when...?",
+    ],
+    exampleQuestion: "Describe your favorite place you like to visit and what it looks like.",
     category:
       "내 방, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 호텔, 도서관, 제주도",
     icon: "🏠",
@@ -462,6 +470,14 @@ window.PATTERNS_DATA = [
   {
     id: "pat_02",
     name: "일상 & 활동 루틴 만능 템플릿",
+    whenToUse: "평소 하는 활동 / 주말 여가 일과 / 루틴 순서 질문",
+    comboRole: "주제별 콤보 2단계 (3, 6, 9번)",
+    questionSignals: [
+      "What do you usually do when you...?",
+      "Walk me through your typical routine...",
+      "How do you spend your free time / weekends?",
+    ],
+    exampleQuestion: "What do you usually do when you visit the park? Tell me your routine from beginning to end.",
     category:
       "카페, 공원 산책, 헬스장, 요리, 코딩, 영화 관람, 마트 장보기, 드라이브, 주말 캠핑, 독서, 음악 감상, 집안 청소, 해변 산책",
     icon: "⏰",
@@ -888,6 +904,14 @@ window.PATTERNS_DATA = [
   {
     id: "pat_03",
     name: "과거 경험 & 기억에 남는 일 템플릿",
+    whenToUse: "기억에 남는 경험 / 최근 일어난 일 / 과거 특별한 추억 질문",
+    comboRole: "주제별 콤보 3단계 (4, 7, 10번)",
+    questionSignals: [
+      "Tell me about a memorable experience...",
+      "What happened that made it so special?",
+      "When was the last time you went...?",
+    ],
+    exampleQuestion: "Tell me about an unforgettable experience you had while traveling. What happened and why was it memorable?",
     category:
       "영화, 축제, 새집 이사, 캠핑, 카페, 해변, 공원, 헬스장, 단골 식당, 호텔, 대형마트, 드라이브, 도서관, 제주도",
     icon: "✨",
@@ -1344,8 +1368,15 @@ window.PATTERNS_DATA = [
   {
     id: "pat_04",
     name: "문제 해결 & 돌발 상황 만능 템플릿",
-    category:
-      "에어컨 고장, 스마트폰 방전, 요리 연기, 갑작스런 비, 약속 지연",
+    whenToUse: "기기 고장 / 예상치 못한 문제 / 돌발 상황 대처 경험 질문",
+    comboRole: "돌발 문제 해결 (8~10번 또는 14번)",
+    questionSignals: [
+      "Have you ever experienced a problem...?",
+      "Something unexpected happened...",
+      "How did you deal with it / solve the problem?",
+    ],
+    exampleQuestion: "Have you ever had an unexpected problem with appliances or furniture? What was the issue and how did you solve it?",
+    category: "에어컨 고장, 스마트폰 방전, 요리 연기, 갑작스런 비, 약속 지연",
     icon: "⚡",
     desc: "돌발 문제 질문에 장소·경험 템플릿과 똑같은 6문장으로 쉽고 자연스럽게 답하는 만능 공식입니다.",
     skeleton: [
@@ -1530,8 +1561,15 @@ window.PATTERNS_DATA = [
   {
     id: "pat_05",
     name: "과거 vs 현재 변화 & 비교 템플릿",
-    category:
-      "카페 변화, 영화 변화, 주거 변화, 음악 변화, 쇼핑 변화",
+    whenToUse: "과거와 현재 비교 / 예전과 달라진 점 / 트렌드 변화 질문",
+    comboRole: "과거/현재 비교 심화 (14, 15번)",
+    questionSignals: [
+      "How has [주제] changed over the years?",
+      "Compare [주제] in the past and now...",
+      "What are the major differences between the two?",
+    ],
+    exampleQuestion: "How have cafes changed from when you were a child to now? Compare the past and the present.",
+    category: "카페 변화, 영화 변화, 주거 변화, 음악 변화, 쇼핑 변화",
     icon: "🔄",
     desc: "과거와 현재의 차이를 묻는 질문에 장소·경험 템플릿과 똑같은 6문장으로 깔끔하게 비교하는 공식입니다.",
     skeleton: [
@@ -1716,6 +1754,14 @@ window.PATTERNS_DATA = [
   {
     id: "pat_06",
     name: "롤플레이 (Role-play) 만능 공식",
+    whenToUse: "상대방에게 문의(11번) / 문제 생겨 대안 제시(12번) 롤플레이",
+    comboRole: "롤플레이 전용 세트 (11, 12, 13번)",
+    questionSignals: [
+      "Ask 3 to 4 questions to find out more...",
+      "Call and explain the situation, and give 2 to 3 alternatives.",
+      "There is a problem you need to solve...",
+    ],
+    exampleQuestion: "You want to buy concert tickets. Call the ticket box office and ask 3-4 questions to get information.",
     category:
       "티켓 문의(11번), 헬스장 문의(11번), 약속 지연(12번), 교환/환불(12번), 예약 변경(12번), 티켓 돌발(13번)",
     icon: "🎭",
