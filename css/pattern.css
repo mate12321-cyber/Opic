@@ -343,8 +343,8 @@ body.dark-theme .pattern-slot-tag {
 .switcher-chip {
   background: var(--surface-muted, #f8fafc);
   border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-full);
-  padding: 3px 11px;
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
   font-size: 12px;
   line-height: 1.35;
   font-weight: 600;
