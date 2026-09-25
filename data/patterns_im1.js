@@ -51,24 +51,24 @@ window.PATTERNS_DATA = [
     desc: "어떤 장소나 좋아하는 곳을 말할 때, 6개 쉬운 문장으로 1~2단어만 바꿔서 바로 끝내는 만능 공식입니다.",
     skeleton: [
       {
-        en: "1. Whenever I think of [주제], [장소명] is my favorite place.",
-        ko: "1. [주제]를 생각할 때마다, [장소명]이 제 최애 장소예요.",
+        en: "1. Well, let me see... You know, Eva, my favorite place is [장소명].",
+        ko: "1. 음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 [장소명]이야.",
       },
       {
-        en: "2. It is located near my house, so it is just five minutes.",
-        ko: "2. 저희 집 근처에 있어서, 딱 5분 거리예요.",
+        en: "2. It is near my house, so it takes five minutes on foot.",
+        ko: "2. 저희 집 근처에 있어서, 걸어서 5분 걸려요.",
       },
       {
-        en: "3. Also, the vibe is very relaxing and cozy.",
-        ko: "3. 또한, 분위기가 아주 편안하고 아늑해요.",
+        en: "3. How can I say... inside, it is very clean, comfortable, and cozy.",
+        ko: "3. 뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
       },
       {
-        en: "4. There are [특징 1] and [특징 2], so I really like it.",
-        ko: "4. [특징 1]과 [특징 2]가 있어서 정말 마음에 들어요.",
+        en: "4. There are [특징 1] and [특징 2], so it feels very nice.",
+        ko: "4. [특징 1]과 [특징 2]가 있어서 느낌이 정말 좋아요.",
       },
       {
-        en: "5. It is the best place for me.",
-        ko: "5. 저한테는 여기가 최고의 장소예요.",
+        en: "5. When I go there, I usually [쉬운 행동], and just relax.",
+        ko: "5. 거기 가면, 저는 보통 [쉬운 행동]을 하고 그냥 편하게 쉬어요.",
       },
       {
         en: "6. So, I go there about two or three times a week.",
@@ -81,24 +81,24 @@ window.PATTERNS_DATA = [
         keyword: "my room in my apartment",
         sentences: [
           {
-            en: "Whenever I think of my home, my room is my favorite place.",
-            ko: "집을 생각할 때마다, 제 방이 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is my room.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 제 방이에요.",
           },
           {
-            en: "It is located near my office, so it is just five minutes.",
-            ko: "회사 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near my office, so it takes five minutes on foot.",
+            ko: "회사 근처에 있어서, 걸어서 5분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are a soft bed and a nice desk, so I really like it.",
-            ko: "푹신한 침대와 좋은 책상이 있어서 정말 마음에 들어요.",
+            en: "There are a soft bed and a nice desk, so it feels very nice.",
+            ko: "푹신한 침대와 좋은 책상이 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I stay there, I usually watch YouTube, and just relax.",
+            ko: "거기 머물 때, 저는 보통 유튜브를 보며 그냥 편하게 쉬어요.",
           },
           {
             en: "So, I stay there all the time.",
@@ -111,24 +111,24 @@ window.PATTERNS_DATA = [
         keyword: "Starbucks near my house",
         sentences: [
           {
-            en: "Whenever I think of cafes, Starbucks is my favorite place.",
-            ko: "카페를 생각할 때마다, 스타벅스가 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is Starbucks.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 스타벅스예요.",
           },
           {
-            en: "It is located near my house, so it is just five minutes.",
-            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near my house, so it takes five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are large windows and nice seats, so I really like it.",
-            ko: "큰 창문과 편안한 좌석이 있어서 정말 마음에 들어요.",
+            en: "There are large windows and nice seats, so it feels very nice.",
+            ko: "큰 창문과 편안한 좌석이 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually drink iced Americano, and just relax.",
+            ko: "거기 가면, 저는 보통 아이스 아메리카노를 마시고 그냥 편하게 쉬어요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -141,24 +141,24 @@ window.PATTERNS_DATA = [
         keyword: "the park near my house",
         sentences: [
           {
-            en: "Whenever I think of parks, the park is my favorite place.",
-            ko: "공원을 생각할 때마다, 공원이 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is the park.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 공원이에요.",
           },
           {
-            en: "It is located near my house, so it is just five minutes.",
-            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near my house, so it takes five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 공원 안은 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are green trees and nice benches, so I really like it.",
-            ko: "푸른 나무들과 편안한 벤치가 있어서 정말 마음에 들어요.",
+            en: "There are green trees and nice benches, so it feels very nice.",
+            ko: "푸른 나무들과 편안한 벤치가 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually take a walk, and just relax.",
+            ko: "거기 가면, 저는 보통 산책을 하고 그냥 편하게 쉬어요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -171,24 +171,24 @@ window.PATTERNS_DATA = [
         keyword: "Megabox near my house",
         sentences: [
           {
-            en: "Whenever I think of movies, Megabox is my favorite place.",
-            ko: "영화를 생각할 때마다, 메가박스가 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is Megabox.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 메가박스예요.",
           },
           {
-            en: "It is located near my house, so it is just five minutes.",
-            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near my house, so it takes five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are large screens and nice seats, so I really like it.",
-            ko: "큰 스크린과 편안한 좌석이 있어서 정말 마음에 들어요.",
+            en: "There are large screens and nice seats, so it feels very nice.",
+            ko: "큰 스크린과 편안한 좌석이 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually eat popcorn and watch movies, and just relax.",
+            ko: "거기 가면, 저는 보통 팝콘을 먹고 영화를 보며 그냥 편하게 쉬어요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -201,24 +201,24 @@ window.PATTERNS_DATA = [
         keyword: "the gym near my house",
         sentences: [
           {
-            en: "Whenever I think of working out, my gym is my favorite place.",
-            ko: "운동을 생각할 때마다, 헬스장이 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is my gym.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 헬스장이에요.",
           },
           {
-            en: "It is located near my house, so it is just five minutes.",
-            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near my house, so it takes five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are clean machines and free weights, so I really like it.",
-            ko: "깨끗한 머신들과 프리웨이트가 있어서 정말 마음에 들어요.",
+            en: "There are clean machines and free weights, so it feels very nice.",
+            ko: "깨끗한 머신들과 프리웨이트가 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually run on the treadmill, and just exercise.",
+            ko: "거기 가면, 저는 보통 러닝머신을 달리고 그냥 운동해요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -231,24 +231,24 @@ window.PATTERNS_DATA = [
         keyword: "E-Mart near my house",
         sentences: [
           {
-            en: "Whenever I think of shopping, E-Mart is my favorite place.",
-            ko: "쇼핑을 생각할 때마다, 이마트가 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is E-Mart.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 이마트예요.",
           },
           {
-            en: "It is located near my house, so it is just five minutes.",
-            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near my house, so it takes five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are fresh food and nice snacks, so I really like it.",
-            ko: "신선한 음식과 맛있는 간식이 있어서 정말 마음에 들어요.",
+            en: "There are fresh food and nice snacks, so it feels very nice.",
+            ko: "신선한 음식과 맛있는 간식이 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually buy groceries, and just look around.",
+            ko: "거기 가면, 저는 보통 장을 보고 그냥 구경하며 둘러봐요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -261,24 +261,24 @@ window.PATTERNS_DATA = [
         keyword: "the quiet countryside route",
         sentences: [
           {
-            en: "Whenever I think of relaxing, the quiet route is my favorite place.",
-            ko: "휴식을 생각할 때마다, 한적한 드라이브 코스가 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is the quiet route.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 한적한 코스예요.",
           },
           {
-            en: "It is located near my house, so it is just five minutes.",
-            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near my house, so it takes five minutes by car.",
+            ko: "저희 집 근처에 있어서, 차로 5분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 차 안은 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are scenic views and quiet roads, so I really like it.",
-            ko: "멋진 풍경과 한적한 도로가 있어서 정말 마음에 들어요.",
+            en: "There are scenic views and quiet roads, so it feels very nice.",
+            ko: "멋진 풍경과 한적한 도로가 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually listen to music, and just relax.",
+            ko: "거기 가면, 저는 보통 음악을 듣고 그냥 편하게 쉬어요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -291,28 +291,28 @@ window.PATTERNS_DATA = [
         keyword: "the campsite near the lake",
         sentences: [
           {
-            en: "Whenever I think of camping, the campsite is my favorite place.",
-            ko: "캠핑을 생각할 때마다, 캠핑장이 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is the campsite.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 캠핑장이에요.",
           },
           {
-            en: "It is located near my house, so it is just five minutes.",
-            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near my house, so it takes thirty minutes by car.",
+            ko: "저희 집 근처에 있어서, 차로 30분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... the campsite is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 캠핑장은 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are tall green trees and a clean lake, so I really like it.",
-            ko: "키 큰 푸른 나무들과 깨끗한 호수가 있어서 정말 마음에 들어요.",
+            en: "There are tall green trees and a clean lake, so it feels very nice.",
+            ko: "키 큰 푸른 나무들과 깨끗한 호수가 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually grill delicious meat, and just relax.",
+            ko: "거기 가면, 저는 보통 맛있는 고기를 굽고 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I go there about two or three times a week.",
-            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
+            en: "So, I go there about two or three times a month.",
+            ko: "그래서 저는 거기를 대략 한 달에 2~3번 정도 가요.",
           },
         ],
       },
@@ -321,28 +321,28 @@ window.PATTERNS_DATA = [
         keyword: "Haeundae beach & blue ocean",
         sentences: [
           {
-            en: "Whenever I think of the beach, Haeundae beach is my favorite place.",
-            ko: "해변을 생각할 때마다, 해운대 해변이 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is Haeundae beach.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 해운대 해변이에요.",
           },
           {
-            en: "It is located near my hotel, so it is just five minutes.",
-            ko: "제가 묵는 호텔 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near my hotel, so it takes five minutes on foot.",
+            ko: "제가 묵는 호텔 근처에 있어서, 걸어서 5분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... the beach is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 해변은 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are blue ocean and soft white sand, so I really like it.",
-            ko: "푸른 바다와 부드러운 하얀 모래가 있어서 정말 마음에 들어요.",
+            en: "There are blue ocean and soft white sand, so it feels very nice.",
+            ko: "푸른 바다와 부드러운 하얀 모래가 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually look at the ocean, and just relax.",
+            ko: "거기 가면, 저는 보통 바다를 바라보고 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I go there about two or three times a week.",
-            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
+            en: "So, I go there whenever I travel.",
+            ko: "그래서 저는 여행을 갈 때마다 거기를 가요.",
           },
         ],
       },
@@ -351,24 +351,24 @@ window.PATTERNS_DATA = [
         keyword: "Italian pasta restaurant",
         sentences: [
           {
-            en: "Whenever I think of good food, the pasta place is my favorite place.",
-            ko: "맛있는 음식을 생각할 때마다, 파스타 식당이 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is the pasta restaurant.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 파스타 식당이에요.",
           },
           {
-            en: "It is located near my house, so it is just five minutes.",
-            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near my house, so it takes five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are delicious pasta and nice wine, so I really like it.",
-            ko: "맛있는 파스타와 좋은 와인이 있어서 정말 마음에 들어요.",
+            en: "There are delicious pasta and nice wine, so it feels very nice.",
+            ko: "맛있는 파스타와 좋은 와인이 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually eat spicy pasta, and just relax.",
+            ko: "거기 가면, 저는 보통 매콤한 파스타를 먹고 그냥 편하게 쉬어요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -381,28 +381,28 @@ window.PATTERNS_DATA = [
         keyword: "clean hotel with swimming pool",
         sentences: [
           {
-            en: "Whenever I think of traveling, the Shilla Hotel is my favorite place.",
-            ko: "여행을 생각할 때마다, 신라 호텔이 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is the Shilla Hotel.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 신라 호텔이에요.",
           },
           {
-            en: "It is located near the beach, so it is just five minutes.",
-            ko: "해변 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near the beach, so it takes five minutes on foot.",
+            ko: "해변 근처에 있어서, 걸어서 5분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are a clean swimming pool and a soft bed, so I really like it.",
-            ko: "깨끗한 수영장과 푹신한 침대가 있어서 정말 마음에 들어요.",
+            en: "There are a clean swimming pool and a soft bed, so it feels very nice.",
+            ko: "깨끗한 수영장과 푹신한 침대가 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually swim in the pool, and just relax.",
+            ko: "거기 가면, 저는 보통 수영장에서 수영을 하고 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I go there about two or three times a week.",
-            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
+            en: "So, I go there about two or three times a year.",
+            ko: "그래서 저는 거기를 대략 일년에 2~3번 정도 가요.",
           },
         ],
       },
@@ -411,24 +411,24 @@ window.PATTERNS_DATA = [
         keyword: "public library near home",
         sentences: [
           {
-            en: "Whenever I think of studying, the library is my favorite place.",
-            ko: "공부를 생각할 때마다, 도서관이 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is the public library.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 공공 도서관이에요.",
           },
           {
-            en: "It is located near my house, so it is just five minutes.",
-            ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
+            en: "It is near my house, so it takes five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are lots of books and nice desks, so I really like it.",
-            ko: "많은 책들과 편안한 책상이 있어서 정말 마음에 들어요.",
+            en: "There are lots of books and nice desks, so it feels very nice.",
+            ko: "많은 책들과 편안한 책상이 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually read bestsellers, and just relax.",
+            ko: "거기 가면, 저는 보통 베스트셀러를 읽고 그냥 편하게 쉬어요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -441,28 +441,28 @@ window.PATTERNS_DATA = [
         keyword: "Jeju island beach & seafood",
         sentences: [
           {
-            en: "Whenever I think of vacations, Jeju Island is my favorite place.",
-            ko: "휴가를 생각할 때마다, 제주도가 제 최애 장소예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is Jeju Island.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 제주도예요.",
           },
           {
-            en: "It is located in the south, so it is very warm.",
-            ko: "남쪽에 있어서, 날씨가 아주 따뜻해요.",
+            en: "It is in the south, so it takes one hour by plane.",
+            ko: "남쪽에 있어서, 비행기로 1시간 걸려요.",
           },
           {
-            en: "Also, the vibe is very relaxing and cozy.",
-            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
+            en: "How can I say... the island is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 섬 전체가 아주 깨끗하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are beautiful nature and fresh seafood, so I really like it.",
-            ko: "아름다운 자연과 신선한 해산물이 있어서 정말 마음에 들어요.",
+            en: "There are beautiful nature and fresh seafood, so it feels very nice.",
+            ko: "아름다운 자연과 신선한 해산물이 있어서 느낌이 정말 좋아요.",
           },
           {
-            en: "It is the best place for me.",
-            ko: "저한테는 여기가 최고의 장소예요.",
+            en: "When I go there, I usually drive along the coast, and just relax.",
+            ko: "거기 가면, 저는 보통 해안가를 따라 드라이브하고 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I go there about two or three times a week.",
-            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
+            en: "So, I go there every summer vacation.",
+            ko: "그래서 저는 여름 휴가마다 거기를 가요.",
           },
         ],
       },

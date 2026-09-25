@@ -3273,7 +3273,8 @@ function toggleSpeechRecognition(
       .catch((mediaErr) => {
         console.warn("[MediaRecorder] Microphone stream error:", mediaErr);
         if (listening) {
-          let errorMsg = "마이크를 사용할 수 없습니다. 권한 설정을 확인해주세요.";
+          let errorMsg =
+            "마이크를 사용할 수 없습니다. 권한 설정을 확인해주세요.";
           if (
             mediaErr.name === "NotAllowedError" ||
             mediaErr.name === "PermissionDeniedError"
