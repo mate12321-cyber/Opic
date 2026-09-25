@@ -128,10 +128,18 @@ async function onSpeechPracticeRecordingDone(blob) {
   }
 
   // 3. 실시간 STT가 지원되지 않거나 음성이 감지되지 않은 브라우저 환경에서만 Whisper AI 백업 폴백 실행
-  if (typeof transcribeAudioBlob === "function" && blob && blob.size > 1000) {
+  const transcriber =
+    typeof transcribeAudioBlob === "function"
+      ? transcribeAudioBlob
+      : typeof window !== "undefined" &&
+          typeof window.transcribeAudioBlob === "function"
+        ? window.transcribeAudioBlob
+        : null;
+
+  if (transcriber && blob && blob.size > 50) {
     if (statusDot) statusDot.className = "sp-status-dot recording";
     try {
-      const transcribed = await transcribeAudioBlob(blob, (stepMsg) => {
+      const transcribed = await transcriber(blob, (stepMsg) => {
         if (statusText) statusText.textContent = stepMsg;
       });
 
@@ -187,7 +195,7 @@ function updateSpeechPracticeMicUI(isListening) {
     if (statusDot) statusDot.className = "sp-status-dot recording";
     if (statusText) {
       statusText.textContent =
-        "🎙️ 실시간 음성 인식 중... (말을 마치면 마이크를 다시 누르세요)";
+        "🎙️ 음성 인식 및 녹음 중... (말을 마치면 마이크를 다시 누르세요)";
     }
   } else {
     btn.classList.remove("listening");

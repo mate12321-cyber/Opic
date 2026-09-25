@@ -3088,11 +3088,18 @@ function toggleSpeechRecognition(
   if (shouldRunStt && !recognition) {
     initSpeechRecognition();
     if (!recognition) {
-      showMicError(
-        "이 브라우저는 음성 인식을 지원하지 않습니다. Chrome을 사용해주세요.",
-        targetError,
-      );
-      return;
+      if (mode === "speechPractice") {
+        console.warn(
+          "[Speech] Web Speech API 미지원 환경: MediaRecorder 및 온디바이스 Whisper AI로 대체 실행합니다.",
+        );
+        shouldRunStt = false;
+      } else {
+        showMicError(
+          "이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 또는 Edge 브라우저를 사용해주세요.",
+          targetError,
+        );
+        return;
+      }
     }
   }
 
@@ -3148,19 +3155,27 @@ function toggleSpeechRecognition(
     startPatternSpeakingTimer();
   }
 
-  // ⚡ 1. STT 실행 모드인 경우 모바일 사용자 제스처 유지를 위해 recognition.start()를 즉시 동기 실행!
+  // ⚡ 1. STT 실행 모드인 경우 recognition.start()를 즉시 동기 실행!
   if (shouldRunStt && recognition) {
     try {
       recognition.start();
     } catch (e) {
       console.warn("[SpeechRecognition] Initial start failed:", e);
       if (!e.message || !e.message.includes("already started")) {
-        showMicError(
-          "마이크를 시작하지 못했어요. 다시 시도해주세요.",
-          targetError,
-        );
-        stopSpeechRecognition();
-        return;
+        if (mode === "speechPractice") {
+          console.warn(
+            "[SpeechRecognition] STT 시작 실패, 오디오 녹음 및 Whisper 폴백 모드로 계속 진행합니다:",
+            e,
+          );
+          shouldRunStt = false;
+        } else {
+          showMicError(
+            "마이크를 시작하지 못했어요. 브라우저 설정 또는 마이크 연결을 확인해주세요.",
+            targetError,
+          );
+          stopSpeechRecognition();
+          return;
+        }
       }
     }
   }
@@ -3179,9 +3194,14 @@ function toggleSpeechRecognition(
           stream.getTracks().forEach((t) => t.stop());
           return;
         }
+        micStarted = true;
+        if (micStartTimer) {
+          clearTimeout(micStartTimer);
+          micStartTimer = null;
+        }
         currentMediaStream = stream;
 
-        // 브라우저 및 모바일(갤럭시 크롬/삼성인터넷, 아이폰 사파리) 호환 안전 MIME 타입 자동 선택
+        // 브라우저 및 OS(Windows, Mac, iOS, Android) 호환 안전 MIME 타입 자동 선택
         let mime = "";
         if (
           typeof MediaRecorder !== "undefined" &&
@@ -3203,7 +3223,17 @@ function toggleSpeechRecognition(
           currentMediaRecorder = new MediaRecorder(stream, recorderOptions);
         } catch (recErr) {
           console.warn("[MediaRecorder] Fallback default constructor:", recErr);
-          currentMediaRecorder = new MediaRecorder(stream);
+          try {
+            currentMediaRecorder = new MediaRecorder(stream);
+          } catch (recErr2) {
+            console.error("[MediaRecorder] Construction failed:", recErr2);
+            showMicError(
+              "이 브라우저에서 오디오 녹음을 생성하지 못했습니다.",
+              targetError,
+            );
+            stopSpeechRecognition();
+            return;
+          }
         }
 
         currentMediaRecorder.ondataavailable = (e) => {
@@ -3219,7 +3249,7 @@ function toggleSpeechRecognition(
             const rawBlob = new Blob(recordedAudioChunks, { type: actualMime });
             setRecordedVoiceBlob(mode, rawBlob);
 
-            // ⚡ 발화 연습 모드 콜백을 즉시 호출하여 모바일에서도 지연 없이 '내 녹음 듣기' 버튼 활성화!
+            // ⚡ 발화 연습 모드 콜백을 즉시 호출하여 모바일/데스크톱에서도 지연 없이 '내 녹음 듣기' 버튼 활성화!
             if (
               mode === "speechPractice" &&
               typeof onSpeechPracticeRecordingDone === "function"
@@ -3241,8 +3271,47 @@ function toggleSpeechRecognition(
         currentMediaRecorder.start(100);
       })
       .catch((mediaErr) => {
-        console.warn("[MediaRecorder] Microphone stream skipped:", mediaErr);
+        console.warn("[MediaRecorder] Microphone stream error:", mediaErr);
+        if (listening) {
+          let errorMsg = "마이크를 사용할 수 없습니다. 권한 설정을 확인해주세요.";
+          if (
+            mediaErr.name === "NotAllowedError" ||
+            mediaErr.name === "PermissionDeniedError"
+          ) {
+            errorMsg =
+              "마이크 사용 권한이 차단되었습니다. 브라우저 주소창의 🔒(자물쇠) 아이콘 또는 Windows 설정 > 개인 정보 및 보안 > 마이크에서 마이크 액세스를 허용해주세요.";
+          } else if (
+            mediaErr.name === "NotFoundError" ||
+            mediaErr.name === "DevicesNotFoundError"
+          ) {
+            errorMsg =
+              "연결된 마이크 장치를 찾을 수 없습니다. 마이크 연결 상태를 확인해주세요.";
+          } else if (
+            mediaErr.name === "NotReadableError" ||
+            mediaErr.name === "TrackStartError"
+          ) {
+            errorMsg =
+              "마이크 장치에 접근할 수 없습니다. 다른 프로그램(Zoom, Teams 등)이 마이크를 독점 중인지 확인해주세요.";
+          }
+          showMicError(errorMsg, targetError);
+          stopSpeechRecognition();
+        }
       });
+  } else if (
+    shouldRunRecord &&
+    (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia)
+  ) {
+    if (
+      !window.isSecureContext &&
+      location.hostname !== "localhost" &&
+      location.hostname !== "127.0.0.1"
+    ) {
+      showMicError(
+        "마이크 녹음은 보안 연결(HTTPS) 또는 localhost 환경에서만 사용할 수 있습니다.",
+        targetError,
+      );
+      stopSpeechRecognition();
+    }
   }
 }
 
@@ -3263,8 +3332,9 @@ function initSpeechRecognition() {
 
   recognition = new SpeechRecognition();
   recognition.lang = "en-US";
-  // 안드로이드/모바일 브라우저는 continuous=true 설정 시 마이크가 바로 꺼지는 심각한 버그가 있어 continuous=false 적용
-  recognition.continuous = !isMobile;
+  // 데스크톱(Windows Chrome/Edge) 및 모바일 전 브라우저에서 continuous=true 설정 시
+  // 서버 웹소켓이 타임아웃 종료되거나 network 오류가 빈발하므로 continuous=false 적용 (onend에서 무봉제 자동 재연결)
+  recognition.continuous = false;
   recognition.interimResults = true;
   recognition.maxAlternatives = 1;
 
@@ -3319,19 +3389,25 @@ function initSpeechRecognition() {
       // 침묵이나 일시적 중단은 무시하고 자동 재연결에 맡김
       return;
     }
-    // 모바일 환경에서 getUserMedia와 음성 인식이 동시 실행될 때,
-    // 만약 음성 인식(STT)에서 audio-capture가 발생하더라도 실제 오디오 녹음(MediaRecorder)이 진행 중이라면
-    // 사용자 녹음 전체가 강제 종료되지 않도록 보호
-    if (
-      e.error === "audio-capture" &&
-      currentMediaRecorder &&
-      currentMediaRecorder.state === "recording"
-    ) {
+    // ⚡ 발화연습(speechPractice) 모드이거나 오디오 녹음(MediaRecorder)이 진행 중인 경우:
+    // Web Speech API에서 network, audio-capture, service-not-allowed 등 오류가 발생하더라도
+    // 사용자 녹음(MediaRecorder)을 절대 강제 종료하지 않음!
+    // 녹음 종료 시 브라우저 내장 Whisper AI가 자동으로 오디오 Blob을 텍스트로 전사함
+    const isSpeechPracticeOrRecording =
+      (activeTarget && activeTarget.mode === "speechPractice") ||
+      Boolean(currentMediaStream) ||
+      (currentMediaRecorder && currentMediaRecorder.state !== "inactive");
+
+    if (isSpeechPracticeOrRecording) {
       console.warn(
-        "[SpeechRecognition] audio-capture error ignored because MediaRecorder is active",
+        `[SpeechRecognition] Non-fatal STT error (${e.error}) suppressed during speech recording; Whisper AI will handle transcription on stop.`,
       );
+      if (activeTarget && activeTarget.btn) {
+        activeTarget.btn.classList.add("listening");
+      }
       return;
     }
+
     const msg =
       MIC_ERROR_MESSAGES[e.error] ||
       `마이크 오류가 발생했어요 (${e.error}). 다시 시도해주세요.`;
