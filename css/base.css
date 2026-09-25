@@ -192,6 +192,12 @@ body {
   max-width: 580px;
 }
 
+@media (min-width: 768px) {
+  .wrap {
+    max-width: 660px;
+  }
+}
+
 header {
   margin-bottom: 20px;
 }

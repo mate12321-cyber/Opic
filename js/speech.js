@@ -2772,6 +2772,9 @@ let activeTarget = null;
 /** @type {string} 마이크 시작 전 텍스트에어리어에 이미 작성되어 있던 기존 텍스트 */
 let baseTranscript = "";
 
+/** @type {string} 현재 음성 인식 세션에서 확정된(final) 전사 텍스트 버퍼 */
+let currentSessionFinal = "";
+
 /** @type {string} 확정된 음성 전사 텍스트 */
 let finalTranscript = "";
 
@@ -2975,6 +2978,7 @@ function stopListeningUI() {
  */
 function resetBaseTranscript(newText = "") {
   baseTranscript = newText || "";
+  currentSessionFinal = "";
 }
 window.resetBaseTranscript = resetBaseTranscript;
 
@@ -2985,7 +2989,18 @@ function stopSpeechRecognition() {
   userExplicitlyStoppedMic = true;
   stopListeningUI();
   if (activeTarget && activeTarget.input) {
-    baseTranscript = activeTarget.input.value.trim();
+    if (currentSessionFinal) {
+      const correctedFinal = correctSttPhoneticErrors(currentSessionFinal);
+      baseTranscript = baseTranscript
+        ? `${baseTranscript} ${correctedFinal}`.trim()
+        : correctedFinal.trim();
+      currentSessionFinal = "";
+    } else {
+      baseTranscript = activeTarget.input.value.trim();
+    }
+    activeTarget.input.value = baseTranscript;
+    autoResizeTextarea(activeTarget.input);
+    activeTarget.input.dispatchEvent(new Event("input"));
   }
   if (recognition) {
     try {
@@ -3057,14 +3072,13 @@ function toggleSpeechRecognition(
   }
   const isOpic = mode === "opic";
 
-  // 발화 연습(speechPractice)은 브라우저 내장 Whisper AI가 녹음본으로부터 고품질 텍스트를 전사하므로
-  // 모바일(갤럭시/아이폰)에서는 마이크 하드웨어 충돌을 방지하기 위해 MediaRecorder만 단독 실행
+  // 발화 연습(speechPractice): 데스크톱 및 모바일 전 기기에서 실시간 STT 즉시 전사 + 오디오 녹음 동시 진행
   let shouldRunStt = true;
   let shouldRunRecord = true;
 
   if (mode === "speechPractice") {
     shouldRunRecord = true;
-    shouldRunStt = !isMobileDevice; // 모바일에서는 녹음 단독 후 Whisper가 텍스트 자동 변환
+    shouldRunStt = true; // 데스크톱/모바일 불문 즉각적인 실시간 STT 텍스트화 실행
   } else if (isMobileDevice) {
     // 문장 번역 / OPIc 실전 / 만능 패턴 모드는 모바일에서 실시간 STT 단독 배정
     shouldRunStt = true;
@@ -3111,6 +3125,7 @@ function toggleSpeechRecognition(
   };
 
   baseTranscript = targetInput ? targetInput.value.trim() : "";
+  currentSessionFinal = "";
   finalTranscript = "";
   listening = true;
   micStarted = false;
@@ -3277,6 +3292,8 @@ function initSpeechRecognition() {
       }
     }
 
+    currentSessionFinal = accumulatedFinal;
+
     // 마이크 시작 전 기존 텍스트 + 확정된 음성 텍스트 + 현재 발화 중인 임시 텍스트 결합
     let currentText = baseTranscript;
     if (accumulatedFinal) {
@@ -3323,9 +3340,18 @@ function initSpeechRecognition() {
   };
 
   recognition.onend = () => {
-    // ⚡ 발화 중 잠시 쉬어가서 세션이 타임아웃 종료되더라도, 지금까지 입력창에 들어간 내용을 baseTranscript로 보존!
+    // ⚡ 발화 중 잠시 쉬어가서 세션이 타임아웃 종료되더라도, 확정된 내용만 baseTranscript로 보존하여
+    // 미확정 interim 텍스트가 중복 누적되거나 단어가 두 번 붙여넣어지는 현상을 원천 방지
+    if (currentSessionFinal) {
+      const correctedFinal = correctSttPhoneticErrors(currentSessionFinal);
+      baseTranscript = baseTranscript
+        ? `${baseTranscript} ${correctedFinal}`.trim()
+        : correctedFinal.trim();
+      currentSessionFinal = "";
+    }
     if (activeTarget && activeTarget.input) {
-      baseTranscript = activeTarget.input.value.trim();
+      activeTarget.input.value = baseTranscript;
+      autoResizeTextarea(activeTarget.input);
     }
 
     // 사용자가 명시적으로 중지하지 않았고, 여전히 듣기 활성 상태라면 브라우저의 침묵 타임아웃 방어를 위해 자동 재연결

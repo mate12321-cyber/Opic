@@ -146,11 +146,7 @@ function hideAllScreens() {
  * @returns {void}
  */
 function renderHomeDashboard() {
-  const days = last7Days();
-  const today = dailyLog[days[days.length - 1].key] || 0;
-  const week = days.reduce((sum, d) => sum + (dailyLog[d.key] || 0), 0);
-
-  // 1. 상단 날짜 및 통계 지표 업데이트
+  // 1. 상단 날짜 업데이트
   if (els.homeDate) {
     els.homeDate.textContent = new Date().toLocaleDateString("ko-KR", {
       month: "long",
@@ -158,26 +154,8 @@ function renderHomeDashboard() {
       weekday: "short",
     });
   }
-  if (els.statToday) els.statToday.textContent = today;
-  if (els.statWeek) els.statWeek.textContent = week;
-  if (els.statStreak) els.statStreak.textContent = computeStreak();
 
-  // 2. 최근 7일 학습 막대 차트 렌더링
-  if (els.homeChart) {
-    const max = Math.max(1, ...days.map((d) => dailyLog[d.key] || 0));
-    els.homeChart.innerHTML = days
-      .map((d) => {
-        const count = dailyLog[d.key] || 0;
-        const h = Math.max(3, Math.round((count / max) * 44));
-        return `<div class="bar-col">
-          <div class="bar${d.isToday ? " today" : ""}" style="height:${h}px"></div>
-          <div class="bar-label">${d.label}</div>
-        </div>`;
-      })
-      .join("");
-  }
-
-  // 3. 메인 네비게이션 카드 서브텍스트 동적 업데이트
+  // 2. 메인 네비게이션 카드 서브텍스트 동적 업데이트
   // 문장 번역 모드
   if (els.navSentenceSub) {
     const sentenceResumable =

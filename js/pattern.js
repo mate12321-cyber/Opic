@@ -632,6 +632,118 @@ function updatePatternMatchGuideQuestion(pat, curVar) {
   }
 }
 
+// =============================================================================
+// 패턴 학습 카드 섹터별 접기/펼치기 상태 관리 (Collapsible Sections)
+// =============================================================================
+
+const PATTERN_COLLAPSED_KEY = "opic_pattern_collapsed_sections";
+
+/**
+ * 저장된 섹터별 접힘 상태 맵을 가져옵니다.
+ * @returns {Record<string, boolean>}
+ */
+function getPatternCollapsedState() {
+  try {
+    const raw = localStorage.getItem(PATTERN_COLLAPSED_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+/**
+ * 특정 섹터의 접힘 상태를 저장합니다.
+ * @param {string} secKey
+ * @param {boolean} isCollapsed
+ */
+function savePatternCollapsedState(secKey, isCollapsed) {
+  try {
+    const state = getPatternCollapsedState();
+    state[secKey] = !!isCollapsed;
+    localStorage.setItem(PATTERN_COLLAPSED_KEY, JSON.stringify(state));
+  } catch (e) {}
+}
+
+/**
+ * 저장된 상태를 DOM 요소에 반영합니다.
+ */
+function applyPatternCollapsedStates() {
+  const state = getPatternCollapsedState();
+  const sections = document.querySelectorAll("#patternCard [data-section-key]");
+  sections.forEach((sec) => {
+    const key = sec.getAttribute("data-section-key");
+    const isCollapsed = !!state[key]; // 기본값: false (펼쳐짐)
+    sec.classList.toggle("is-collapsed", isCollapsed);
+    const toggleIcon = sec.querySelector(".section-toggle-icon");
+    if (toggleIcon) {
+      toggleIcon.setAttribute("title", isCollapsed ? "펼치기" : "접기");
+    }
+  });
+}
+
+/**
+ * 특정 섹터의 접힘 상태를 토글합니다.
+ * @param {string} targetId
+ */
+function togglePatternSection(targetId) {
+  const sec = document.getElementById(targetId);
+  if (!sec) return;
+  const isNowCollapsed = sec.classList.toggle("is-collapsed");
+  const key = sec.getAttribute("data-section-key") || targetId;
+  savePatternCollapsedState(key, isNowCollapsed);
+  const toggleIcon = sec.querySelector(".section-toggle-icon");
+  if (toggleIcon) {
+    toggleIcon.setAttribute("title", isNowCollapsed ? "펼치기" : "접기");
+  }
+}
+
+/**
+ * 접기/펼치기 헤더 클릭 이벤트 리스너를 바인딩합니다. (1회 초기화)
+ */
+let patternCollapsiblesInitialized = false;
+function initPatternCollapsibleSections() {
+  if (patternCollapsiblesInitialized) {
+    applyPatternCollapsedStates();
+    return;
+  }
+  patternCollapsiblesInitialized = true;
+
+  document
+    .querySelectorAll("#patternCard .collapsible-section-header")
+    .forEach((header) => {
+      header.addEventListener("click", (e) => {
+        // 헤더 안의 버튼이나 링크 인터랙션(TTS, 복사 등) 클릭 시에는 토글되지 않도록 방지
+        if (
+          e.target.closest("button") ||
+          e.target.closest("a") ||
+          e.target.closest(".pmg-listen-btn") ||
+          e.target.closest(".action-btn-group button")
+        ) {
+          return;
+        }
+        const targetId = header.getAttribute("data-toggle-target");
+        if (targetId) {
+          togglePatternSection(targetId);
+        }
+      });
+    });
+
+  applyPatternCollapsedStates();
+}
+
+window.initPatternCollapsibleSections = initPatternCollapsibleSections;
+window.togglePatternSection = togglePatternSection;
+if (typeof document !== "undefined") {
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initPatternCollapsibleSections,
+    );
+  } else {
+    initPatternCollapsibleSections();
+  }
+}
+
 /**
  * 만능 패턴 훈련 카드의 메인 콘텐츠를 렌더링합니다.
  * - 패턴 기본 정보 및 6문장 뼈대(Skeleton) 하이라이트
@@ -644,27 +756,17 @@ function renderPatternCard() {
   const pat = PATTERN_ITEMS[patternCur];
   if (!pat) return;
 
-  // 1. 인덱스 및 타이틀
-  const idxLabel = document.getElementById("patternIdxLabel");
-  if (idxLabel) {
-    idxLabel.textContent = `PATTERN ${String(patternCur + 1).padStart(2, "0")} / ${String(PATTERN_ITEMS.length).padStart(2, "0")}`;
-  }
-
+  // 1. 타이틀 렌더링
   const titleEl = document.getElementById("patternMainTitle");
   if (titleEl) {
     titleEl.innerHTML = `${pat.icon || "🧩"} ${safeEscapeHtml(pat.name)}`;
-  }
-
-  const descEl = document.getElementById("patternDescP");
-  if (descEl) {
-    descEl.textContent = pat.desc;
   }
 
   // 1-2. 질문 매칭 가이드 박스 렌더링 (어떤 문제일 때 답변할까?)
   const matchBox = document.getElementById("patternMatchGuideBox");
   if (matchBox) {
     const comboEl = document.getElementById("pmgComboRole");
-    if (comboEl) comboEl.textContent = pat.comboRole || "만능 공식";
+    if (comboEl) comboEl.textContent = pat.comboRole || "핵심 패턴";
 
     const whenEl = document.getElementById("pmgWhenToUse");
     if (whenEl) whenEl.textContent = pat.whenToUse || pat.desc || "";
@@ -710,6 +812,8 @@ function renderPatternCard() {
   }
 
   renderPatternVariation();
+  initPatternCollapsibleSections();
+  updatePatternCompletionButton();
 }
 
 // 현재 선택된 주제 변형(슬롯) 렌더링
@@ -1014,30 +1118,79 @@ window.buildPatternGoogleQuery = buildPatternGoogleQuery;
 // =============================================================================
 
 /**
- * 현재 패턴을 마스터 완료 처리하고 다음 패턴으로 이동합니다.
+ * 화면 하단에 가벼운 토스트 피드백을 표시합니다.
+ * @param {string} msg
+ */
+function showPatternToast(msg) {
+  let toast = document.getElementById("vocabToast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "vocabToast";
+    toast.className = "vocab-toast";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2200);
+}
+
+/**
+ * 현재 패턴의 완료 상태에 따라 상단/하단 '학습 완료' 버튼들의 UI(텍스트, 클래스, 툴팁)를 동기화합니다.
+ */
+function updatePatternCompletionButton() {
+  const btns = document.querySelectorAll(
+    ".pattern-complete-btn, #patternCompleteBtnTop, #patternCompleteBtnBottom",
+  );
+  if (!btns.length) return;
+  const pat = PATTERN_ITEMS[patternCur];
+  if (!pat) return;
+
+  const isDone = !!(patternProgress && patternProgress[pat.id]);
+  btns.forEach((btn) => {
+    if (isDone) {
+      btn.classList.add("is-completed");
+      btn.textContent = "✓ 완료됨";
+      btn.title = "현재 완료된 상태입니다. 클릭하면 완료를 해제합니다.";
+    } else {
+      btn.classList.remove("is-completed");
+      btn.textContent = "✓ 학습 완료";
+      btn.title = "이 패턴을 학습 완료로 표시합니다.";
+    }
+  });
+}
+window.updatePatternCompletionButton = updatePatternCompletionButton;
+
+/**
+ * 현재 패턴의 학습 완료 상태를 토글(완료 처리 <-> 완료 해제)합니다.
+ * - 다음 패턴으로 넘어가지 않고 완료 상태만 제어합니다.
  * @returns {void}
  */
-function nextPattern() {
+function togglePatternCompletion() {
   stopTTS();
   const pat = PATTERN_ITEMS[patternCur];
-  if (pat) {
-    patternProgress[pat.id] = true;
-    savePatternProgress();
-    if (typeof logPracticeEvent === "function") logPracticeEvent();
-  }
+  if (!pat) return;
 
-  if (patternCur < PATTERN_ITEMS.length - 1) {
-    patternCur++;
-    patternVarCur = 0;
-    renderPatternCard();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const currentStatus = !!(patternProgress && patternProgress[pat.id]);
+  const newStatus = !currentStatus;
+
+  patternProgress[pat.id] = newStatus;
+  savePatternProgress();
+
+  updatePatternCompletionButton();
+
+  // 토스트 피드백 표시
+  if (newStatus) {
+    if (typeof logPracticeEvent === "function") logPracticeEvent();
+    showPatternToast(`🎉 "${pat.name}" 학습 완료 처리되었습니다!`);
   } else {
-    // 모든 패턴 완료
-    alert("🎉 축하합니다! 6대 만능 패턴 학습을 모두 완료하셨습니다!");
-    showHomeScreen();
+    showPatternToast(`"${pat.name}" 완료 상태가 해제되었습니다.`);
   }
 }
-window.nextPattern = nextPattern;
+window.togglePatternCompletion = togglePatternCompletion;
+window.nextPattern = togglePatternCompletion; // 하위 호환성 유지
 
 /**
  * 이전 번호의 패턴으로 이동합니다.

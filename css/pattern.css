@@ -472,34 +472,31 @@
 
 /* ── 패턴 학습 카드 (Pattern Card) ── */
 .pattern-header-box {
-  background: #f8fafc;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
-  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0 8px;
+  margin: 0;
 }
 
 .pattern-title-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
+  justify-content: center;
+  margin: 0;
 }
 
 .pattern-main-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--text-main);
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.pattern-desc-p {
-  font-size: 13px;
-  color: var(--text-body);
-  line-height: 1.5;
-  margin: 0;
+  gap: 6px;
+  white-space: nowrap;
 }
 
 /* ── 템플릿 뼈대 (Skeleton) 박스 ── */
@@ -685,27 +682,85 @@ body.dark-theme .pattern-slot-tag {
   border-radius: 3px;
 }
 
-/* ── 단계별 문장 훈련 리스트 ── */
+/* ── 4. 단계별 문장 훈련 섹터 카드 박스 ── */
+.pattern-section-box {
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+}
+
+.pattern-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 14px;
+}
+
+.ps-section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ps-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ps-section-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0284c7;
+  background: #e0f2fe;
+  padding: 1.5px 7px;
+  border-radius: var(--radius-full);
+}
+
+.ps-section-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 내부 문장 래퍼 */
 .pattern-sentences-wrap {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 0;
 }
 
 .pattern-sentence-item {
-  background: var(--surface);
+  background: #f8fafc;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   padding: 12px 14px;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  transition: border-color 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .pattern-sentence-item:hover {
+  background: #ffffff;
   border-color: var(--primary-border);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .ps-header {
@@ -835,16 +890,15 @@ body.dark-theme .pattern-slot-tag {
   }
 
   .pattern-header-box {
-    padding: 10px 14px;
-    margin-bottom: 10px;
+    order: 3;
+    width: 100%;
+    padding: 4px 0 0 0;
+    margin: 0;
   }
 
   .pattern-main-title {
-    font-size: 15px;
-  }
-
-  .pattern-desc-p {
-    font-size: 12px;
+    font-size: 14px;
+    justify-content: center;
   }
 
   .skeleton-box {
@@ -1059,8 +1113,8 @@ body.dark-theme .pattern-select-card:hover .pattern-cat-badge {
 }
 
 body.dark-theme .pattern-header-box {
-  background: #1f2937;
-  border-color: #374151;
+  background: transparent;
+  border-color: transparent;
 }
 
 body.dark-theme .skeleton-box {
@@ -1937,4 +1991,158 @@ body.dark-theme .cs-line u {
 .pdf-a4-page.page-3 .cs-filler-pill {
   padding: 4px 8px !important;
   font-size: 11px !important;
+}
+
+/* ── 패턴 학습 카드 섹터 접기/펼치기 (Collapsible Sections) ── */
+.collapsible-section-header {
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.15s ease;
+}
+
+.collapsible-section-header:hover {
+  opacity: 0.9;
+}
+
+.section-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+  user-select: none;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.collapsible-section-header:hover .section-toggle-icon {
+  color: var(--primary);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+body.dark-theme .collapsible-section-header:hover .section-toggle-icon {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* 접힌 상태 (Collapsed) 스타일 */
+.is-collapsed .section-toggle-icon {
+  transform: rotate(-90deg);
+}
+
+/* 1. switcher-card */
+.switcher-card.is-collapsed {
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+.switcher-card.is-collapsed .switcher-header-row {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.switcher-card.is-collapsed .switcher-chips-wrap {
+  display: none !important;
+}
+
+/* 2. patternMatchGuideBox */
+.pattern-match-guide-box.is-collapsed {
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+.pattern-match-guide-box.is-collapsed .pmg-header {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.pattern-match-guide-box.is-collapsed .pmg-body {
+  display: none !important;
+}
+
+/* 3. skeleton-box */
+.skeleton-box.is-collapsed {
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+}
+.skeleton-box.is-collapsed .skeleton-box-header {
+  margin-bottom: 0;
+}
+.skeleton-box.is-collapsed .skeleton-list {
+  display: none !important;
+}
+
+/* 4. patternCard (단계별 문장 훈련) */
+.pattern-section-box.is-collapsed {
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+.pattern-section-box.is-collapsed .pattern-section-header {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.pattern-section-box.is-collapsed .pattern-sentences-wrap,
+.pattern-section-box.is-collapsed .pattern-speaking-wrap {
+  display: none !important;
+}
+
+/* 다크 테마 지원 */
+body.dark-theme .pattern-section-box {
+  background: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .pattern-section-header {
+  border-bottom-color: #334155;
+}
+
+body.dark-theme .ps-section-badge {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+}
+
+body.dark-theme .ps-section-badge[style*="ea580c"] {
+  color: #fb923c !important;
+  background: rgba(251, 146, 60, 0.15) !important;
+}
+
+body.dark-theme .pattern-section-box .pattern-sentence-item {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+body.dark-theme .pattern-section-box .pattern-sentence-item:hover {
+  background: #1e293b;
+  border-color: #475569;
+}
+
+/* ── 패턴 완료 버튼 활성(완료됨) 스타일 ── */
+.pattern-complete-btn.is-completed {
+  color: #16a34a !important;
+  border-color: #86efac !important;
+  border-bottom-color: #4ade80 !important;
+  background: #f0fdf4 !important;
+  font-weight: 700 !important;
+}
+
+.pattern-complete-btn.is-completed:hover {
+  background: #dcfce7 !important;
+  border-color: #4ade80 !important;
+  color: #15803d !important;
+}
+
+body.dark-theme .pattern-complete-btn.is-completed {
+  color: #4ade80 !important;
+  border-color: #166534 !important;
+  border-bottom-color: #14532d !important;
+  background: rgba(22, 101, 52, 0.25) !important;
+}
+
+body.dark-theme .pattern-complete-btn.is-completed:hover {
+  background: rgba(22, 101, 52, 0.4) !important;
+  border-color: #22c55e !important;
 }

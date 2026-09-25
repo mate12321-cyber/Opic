@@ -468,7 +468,20 @@ if (toOpicFromPattern) {
   });
 }
 
-if (patternNextBtn) patternNextBtn.addEventListener("click", nextPattern);
+// 패턴 학습 완료 토글 버튼 리스너 (상단 card-nav-bar 및 하단 change-topic-row 공통)
+document.addEventListener("click", (e) => {
+  const completeBtn = e.target.closest(
+    ".pattern-complete-btn, #patternCompleteBtnTop, #patternCompleteBtnBottom, #patternNextBtn",
+  );
+  if (completeBtn) {
+    e.preventDefault();
+    if (typeof togglePatternCompletion === "function") {
+      togglePatternCompletion();
+    } else if (typeof nextPattern === "function") {
+      nextPattern();
+    }
+  }
+});
 if (btnPrevPattern) btnPrevPattern.addEventListener("click", prevPattern);
 if (patternChangeListBtn) {
   patternChangeListBtn.addEventListener("click", () => {

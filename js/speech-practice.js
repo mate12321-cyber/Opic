@@ -17,6 +17,7 @@
 let speechPracticeAudioUrl = null; // 녹음본 Blob 재생용 URL
 let speechPracticeRecordedBlob = null; // 녹음된 Audio Blob 인스턴스
 let speechPracticeEvaluated = false; // 채점 완료 여부 플래그
+let speechPracticeStartText = ""; // 녹음 시작 시점의 입력창 텍스트 (실시간 STT 성공 여부 판별용)
 
 // =============================================================================
 // 2. 화면 전환 및 글자/단어 카운터 (Screen Lifecycle & Live Counters)
@@ -63,14 +64,15 @@ function updateSpeechPracticeCount() {
 }
 
 // =============================================================================
-// 3. 녹음 완료 콜백 및 Whisper AI 변환 (Recording Done & Whisper STT)
+// 3. 녹음 완료 콜백 및 Whisper AI 변환 (Recording Done & Whisper STT Fallback)
 // =============================================================================
 
 /**
  * 마이크 녹음이 종료되었을 때 MediaRecorder onstop 이벤트에서 호출되는 콜백 함수입니다.
  * 1. 녹음본 Blob URL 생성 및 오디오 플레이어 연결
  * 2. '내 녹음 듣기' 버튼 즉시 활성화 (지연 시간 0초)
- * 3. 브라우저 내장 Whisper AI 모델을 통한 고정밀 로컬 음성 인식 실행
+ * 3. 실시간 STT 성공 여부 확인: 이미 실시간 STT로 텍스트화된 경우 중복 전사(붙여넣기) 방지
+ * 4. STT 미지원 브라우저 또는 STT 실패 시에만 온디바이스 Whisper AI 백업 폴백 전사 실행
  *
  * @param {Blob} blob - 녹음된 오디오 Blob 객체
  * @returns {Promise<void>}
@@ -110,8 +112,23 @@ async function onSpeechPracticeRecordingDone(blob) {
   if (playIcon) playIcon.textContent = "▶";
   if (bottomRecordBtn) bottomRecordBtn.style.display = "inline-flex";
 
-  // 2. 브라우저 내장 Whisper AI 자동 텍스트 변환 실행
-  if (typeof transcribeAudioBlob === "function") {
+  // 2. 실시간 STT 성공 여부 검사: 이미 실시간으로 텍스트화가 완료된 경우 Whisper 중복 실행 차단!
+  const currentText = input ? input.value.trim() : "";
+  const hasSttTranscribed =
+    currentText.length > speechPracticeStartText.length;
+
+  if (hasSttTranscribed) {
+    if (statusDot) statusDot.className = "sp-status-dot ready";
+    if (statusText) {
+      statusText.textContent =
+        "✅ 녹음 완료! '내 녹음 듣기'로 발화를 확인하거나 채점해보세요.";
+    }
+    updateSpeechPracticeCount();
+    return;
+  }
+
+  // 3. 실시간 STT가 지원되지 않거나 음성이 감지되지 않은 브라우저 환경에서만 Whisper AI 백업 폴백 실행
+  if (typeof transcribeAudioBlob === "function" && blob && blob.size > 1000) {
     if (statusDot) statusDot.className = "sp-status-dot recording";
     try {
       const transcribed = await transcribeAudioBlob(blob, (stepMsg) => {
@@ -127,6 +144,9 @@ async function onSpeechPracticeRecordingDone(blob) {
         ) {
           input.value = `${existing} ${transcribed}`;
         }
+        if (typeof resetBaseTranscript === "function") {
+          resetBaseTranscript(input.value.trim());
+        }
         if (typeof autoResizeTextarea === "function") {
           autoResizeTextarea(input);
         }
@@ -139,7 +159,7 @@ async function onSpeechPracticeRecordingDone(blob) {
           "✅ 녹음 및 AI 텍스트 자동 완성! 내 녹음 듣기나 채점하기를 눌러보세요.";
       }
     } catch (asrErr) {
-      console.warn("[SpeechPractice] Whisper transcription failed:", asrErr);
+      console.warn("[SpeechPractice] Whisper transcription fallback failed:", asrErr);
       if (statusDot) statusDot.className = "sp-status-dot ready";
       if (statusText) {
         statusText.textContent =
@@ -149,7 +169,7 @@ async function onSpeechPracticeRecordingDone(blob) {
   } else {
     if (statusDot) statusDot.className = "sp-status-dot ready";
     if (statusText) {
-      statusText.textContent = "녹음 완료 · 언제든 내 발화를 다시 들어보세요";
+      statusText.textContent = "녹음 완료 · '내 녹음 듣기'로 발화를 확인해보세요";
     }
   }
 }
@@ -167,7 +187,7 @@ function updateSpeechPracticeMicUI(isListening) {
     if (statusDot) statusDot.className = "sp-status-dot recording";
     if (statusText) {
       statusText.textContent =
-        "🎙️ 발화 녹음 중... (말을 마치면 마이크를 다시 누르세요)";
+        "🎙️ 실시간 음성 인식 중... (말을 마치면 마이크를 다시 누르세요)";
     }
   } else {
     btn.classList.remove("listening");
@@ -175,7 +195,7 @@ function updateSpeechPracticeMicUI(isListening) {
       if (statusDot) statusDot.className = "sp-status-dot";
       if (statusText) {
         statusText.textContent =
-          "마이크(🎤)를 누르고 말하면 녹음 및 AI 자동 텍스트 변환이 진행됩니다";
+          "마이크(🎤)를 누르고 말하면 실시간 텍스트 변환과 녹음이 진행됩니다";
       }
     }
   }
@@ -448,10 +468,14 @@ function initSpeechPractice() {
     updateSpeechPracticeCount();
   });
 
-  // 2. 마이크 토글 버튼 (원클릭 녹음 & Whisper AI 자동 텍스트 변환)
+  // 2. 마이크 토글 버튼 (원클릭 실시간 음성 인식 & 오디오 동시 녹음)
   if (micBtn) {
     micBtn.addEventListener("click", () => {
       if (typeof toggleSpeechRecognition === "function") {
+        if (!micBtn.classList.contains("listening")) {
+          // 녹음 시작 전 기준 텍스트 길이 기억 (실시간 STT 성공 여부 판별)
+          speechPracticeStartText = input.value.trim();
+        }
         toggleSpeechRecognition(input, micBtn, micError, "speechPractice");
         setTimeout(() => {
           updateSpeechPracticeMicUI(micBtn.classList.contains("listening"));
@@ -474,7 +498,13 @@ function initSpeechPractice() {
   // 4. 지우기 버튼
   if (clearBtn) {
     clearBtn.addEventListener("click", () => {
+      if (typeof listening !== "undefined" && listening) {
+        if (typeof stopSpeechRecognition === "function") {
+          stopSpeechRecognition();
+        }
+      }
       input.value = "";
+      speechPracticeStartText = "";
       if (typeof resetBaseTranscript === "function") {
         resetBaseTranscript("");
       }
@@ -482,13 +512,51 @@ function initSpeechPractice() {
       if (typeof autoResizeTextarea === "function") {
         autoResizeTextarea(input);
       }
+      // 오디오 상태 및 버튼 초기화
+      const playBtn = document.getElementById("speechPracticePlayRecordBtn");
+      const playText = document.getElementById("speechPracticePlayRecordText");
+      const playIcon = document.getElementById("speechPracticePlayRecordIcon");
+      const statusDot = document.getElementById("speechPracticeStatusDot");
+      const statusText = document.getElementById(
+        "speechPracticeAudioStatusText",
+      );
+
+      if (playBtn) {
+        playBtn.disabled = true;
+        playBtn.classList.remove("has-recording", "playing");
+        playBtn.title = "마이크로 발화 후 녹음본 청취 가능";
+      }
+      if (playText) playText.textContent = "내 녹음 듣기";
+      if (playIcon) playIcon.textContent = "▶";
+      if (statusDot) statusDot.className = "sp-status-dot";
+      if (statusText) {
+        statusText.textContent =
+          "마이크(🎤)를 누르고 말하면 실시간 텍스트 변환과 녹음이 진행됩니다";
+      }
+
+      if (replayBtnBottom) replayBtnBottom.style.display = "none";
+
+      if (player) {
+        player.pause();
+        player.src = "";
+      }
+      if (typeof clearRecordedVoice === "function") {
+        clearRecordedVoice("speechPractice");
+      }
+      speechPracticeRecordedBlob = null;
     });
   }
 
   // 5. 새로 쓰기 버튼
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
+      if (typeof listening !== "undefined" && listening) {
+        if (typeof stopSpeechRecognition === "function") {
+          stopSpeechRecognition();
+        }
+      }
       input.value = "";
+      speechPracticeStartText = "";
       if (typeof resetBaseTranscript === "function") {
         resetBaseTranscript("");
       }
@@ -519,8 +587,10 @@ function initSpeechPractice() {
       if (playText) playText.textContent = "내 녹음 듣기";
       if (playIcon) playIcon.textContent = "▶";
       if (statusDot) statusDot.className = "sp-status-dot";
-      if (statusText)
-        statusText.textContent = "마이크(🎤)로 말하면 녹음본이 생성됩니다";
+      if (statusText) {
+        statusText.textContent =
+          "마이크(🎤)를 누르고 말하면 실시간 텍스트 변환과 녹음이 진행됩니다";
+      }
 
       if (replayBtnBottom) replayBtnBottom.style.display = "none";
 

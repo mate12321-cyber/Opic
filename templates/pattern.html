@@ -67,7 +67,7 @@
      - 뼈대 구조, 실시간 슬롯 스위처, 단계별 문장 훈련, 발화 타이머 및 채점
      ========================================================================= -->
 <div class="card app-screen" id="patternCard" style="display: none">
-  <!-- 상단 글로벌 내비게이션 바 (홈 / 패턴 변경) -->
+  <!-- 상단 글로벌 내비게이션 바 (홈 / 패턴 변경 / 패턴 타이틀) -->
   <div class="card-nav-bar">
     <div class="card-nav-left">
       <button
@@ -82,7 +82,7 @@
         type="button"
         class="mode-switch-pill"
         id="patternChangeListBtn"
-        title="6대 만능 패턴 목록으로 이동"
+        title="패턴 목록으로 이동"
       >
         📋 패턴 변경
       </button>
@@ -93,13 +93,28 @@
         onclick="
           if (typeof openCheatSheetModal === 'function') openCheatSheetModal();
         "
-        title="시험장 직전 핵심 요약 치트시트 보기"
+        title="핵심 요약 치트시트 보기"
         style="color: #16a34a; font-weight: 700"
       >
         📄 치트시트
       </button>
     </div>
+
+    <div class="pattern-header-box">
+      <div class="pattern-title-row">
+        <div class="pattern-main-title" id="patternMainTitle">🧩 패턴</div>
+      </div>
+    </div>
+
     <div class="card-nav-right">
+      <button
+        type="button"
+        class="mode-switch-pill pattern-complete-btn"
+        id="patternCompleteBtnTop"
+        title="이 패턴을 학습 완료로 표시합니다"
+      >
+        ✓ 학습 완료
+      </button>
       <button
         type="button"
         class="btn-prev-q"
@@ -111,40 +126,49 @@
     </div>
   </div>
 
-  <div class="cardtop" style="margin-top: 2px">
-    <span class="cat" id="patternIdxLabel">PATTERN 01 / 06</span>
-    <span class="idx" id="patternCurLabel">만능 공식</span>
-  </div>
-
-  <div class="pattern-header-box">
-    <div class="pattern-title-row">
-      <div class="pattern-main-title" id="patternMainTitle">🧩 만능 패턴</div>
-    </div>
-    <p class="pattern-desc-p" id="patternDescP"></p>
-  </div>
-
   <!-- 인터랙티브 주제별 단어 갈아끼우기 컨트롤러 (최상단 배치) -->
-  <div class="switcher-card">
-    <div class="switcher-header-row">
+  <div
+    class="switcher-card"
+    id="patternSwitcherSection"
+    data-section-key="switcher-card"
+  >
+    <div
+      class="switcher-header-row collapsible-section-header"
+      data-toggle-target="patternSwitcherSection"
+    >
       <div class="switcher-title">
         <span class="switcher-icon">🔄</span>
         <span class="switcher-text">주제별 단어 갈아끼우기</span>
         <span class="switcher-badge" id="patternVarCounter">1 / 1</span>
       </div>
+      <span class="section-toggle-icon" title="접기/펼치기">▾</span>
     </div>
     <div class="switcher-chips-wrap" id="patternSwitcherChips"></div>
   </div>
 
   <!-- 에바 질문 매칭 가이드 박스 (어떤 문제일 때 답변할까?) -->
-  <div class="pattern-match-guide-box" id="patternMatchGuideBox">
-    <div class="pmg-header">
+  <div
+    class="pattern-match-guide-box"
+    id="patternMatchGuideBox"
+    data-section-key="patternMatchGuideBox"
+  >
+    <div
+      class="pmg-header collapsible-section-header"
+      data-toggle-target="patternMatchGuideBox"
+    >
       <div class="pmg-title-wrap">
         <span class="pmg-icon">🎯</span>
         <span class="pmg-title">어떤 문제일 때 이 패턴으로 답변하나요?</span>
       </div>
-      <span class="pmg-combo-badge" id="pmgComboRole"
-        >콤보 1단계 (2, 5, 8번)</span
+      <div
+        class="pmg-header-right"
+        style="display: flex; align-items: center; gap: 8px"
       >
+        <span class="pmg-combo-badge" id="pmgComboRole"
+          >콤보 1단계 (2, 5, 8번)</span
+        >
+        <span class="section-toggle-icon" title="접기/펼치기">▾</span>
+      </div>
     </div>
     <div class="pmg-body">
       <div class="pmg-row">
@@ -184,166 +208,216 @@
     </div>
   </div>
 
-  <!-- 만능 뼈대 프레임워크 -->
-  <div class="skeleton-box">
-    <div class="skeleton-box-header">
-      <span>📐 6문장 만능 뼈대 구조 (Framework)</span>
+  <!-- 뼈대 프레임워크 -->
+  <div
+    class="skeleton-box"
+    id="patternSkeletonSection"
+    data-section-key="skeleton-box"
+  >
+    <div
+      class="skeleton-box-header collapsible-section-header"
+      data-toggle-target="patternSkeletonSection"
+    >
+      <span>📐 6문장 뼈대 구조 (Framework)</span>
+      <span class="section-toggle-icon" title="접기/펼치기">▾</span>
     </div>
     <div class="skeleton-list" id="patternSkeletonList"></div>
   </div>
 
   <!-- 단계별 6문장 리스트 (연결 듣기 및 복사 버튼 포함) -->
   <div
-    class="lbl-row"
-    style="margin-top: 14px; margin-bottom: 8px; align-items: center"
+    class="pattern-section-box"
+    id="patternSentencesSection"
+    data-section-key="patternCard"
   >
-    <div class="lbl" style="margin-bottom: 0">단계별 문장 훈련</div>
-    <div class="action-btn-group">
-      <button
-        class="tts-btn tts-btn-primary"
-        id="patternTtsAllBtn"
-        type="button"
-        title="전체 6문장 연속으로 듣기"
-      >
-        🔊 전체 연결 듣기
-      </button>
-      <button
-        class="copy-btn"
-        id="patternCopyAllBtn"
-        title="전체 6문장 스크립트 복사"
-      >
-        전체 복사
-      </button>
-    </div>
-  </div>
-  <div class="pattern-sentences-wrap" id="patternSentenceList"></div>
-
-  <!-- 🎙️ 만능 패턴 직접 말하기 녹음 & 실전 채점 영역 -->
-  <div class="lbl-row" style="margin-top: 18px; margin-bottom: 8px">
-    <div class="lbl" style="margin-bottom: 0">🎙️ 패턴 직접 말해보기 & 채점</div>
-  </div>
-
-  <!-- 실시간 발화 시간 게이지 바 & 타이머 -->
-  <div class="speaking-timer-box" id="patternSpeakingTimerBox">
     <div
-      class="timer-top-row"
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 6px;
-      "
+      class="pattern-section-header collapsible-section-header"
+      data-toggle-target="patternSentencesSection"
     >
-      <div class="timer-label">
-        <span>⏱️ 발화 시간:</span>
-        <span class="timer-digits" id="patternTimerDigits">00:00</span>
+      <div class="ps-section-title-wrap">
+        <span class="ps-section-title">
+          <span>📝</span>
+          <span>단계별 문장 훈련</span>
+        </span>
+        <span class="ps-section-badge">6문장 완주</span>
       </div>
-      <span class="timer-target-tip" id="patternTimerLevelTip"
-        >🌱 6문장 완주 준비 (~20초)</span
-      >
+      <div class="ps-section-actions">
+        <div class="action-btn-group">
+          <button
+            class="tts-btn tts-btn-primary"
+            id="patternTtsAllBtn"
+            type="button"
+            title="전체 6문장 연속으로 듣기"
+          >
+            🔊 전체 연결 듣기
+          </button>
+          <button
+            class="copy-btn"
+            id="patternCopyAllBtn"
+            title="전체 6문장 스크립트 복사"
+          >
+            전체 복사
+          </button>
+        </div>
+        <span class="section-toggle-icon" title="접기/펼치기">▾</span>
+      </div>
     </div>
-    <div class="timer-gauge-track">
-      <div
-        class="timer-gauge-bar"
-        id="patternTimerGaugeBar"
-        style="width: 0%"
-      ></div>
-      <div
-        class="timer-marker marker-im"
-        style="left: 33.3%"
-        title="기본 완주 (20초)"
-      ></div>
-      <div
-        class="timer-marker marker-ih"
-        style="left: 58.3%"
-        title="이상적 템포 (35초)"
-      ></div>
-      <div
-        class="timer-marker marker-al"
-        style="left: 83.3%"
-        title="여유로운 발화 (50초+)"
-      ></div>
-    </div>
-    <div class="timer-gauge-labels">
-      <span>0초</span>
-      <span style="left: 33.3%">기본 (20초)</span>
-      <span style="left: 58.3%">적정 (35초)</span>
-      <span style="left: 83.3%">여유 (50초+)</span>
-      <span>60초</span>
-    </div>
+    <div class="pattern-sentences-wrap" id="patternSentenceList"></div>
   </div>
 
-  <!-- 공통 음성 입력창 컴포넌트 -->
+  <!-- 🎙️ 패턴 직접 말하기 녹음 & 실전 채점 영역 -->
   <div
-    data-component="voice-input"
-    data-prefix="pattern"
-    data-placeholder="마이크(🎤)를 누르고 완성된 문장을 말하거나, 직접 입력해보세요"
-    data-copy-text="내 답변 복사"
-    data-copy-title="내 답변 복사"
-  ></div>
-
-  <!-- 발음 및 일치도 평가 박스 -->
-  <div class="speech-eval" id="patternSpeechEvalBox" style="display: none">
-    <div class="eval-header">
-      <div class="eval-title">🎙️ 내 발음 진단</div>
-      <span class="eval-score-badge" id="patternEvalScoreBadge">0% 일치</span>
-    </div>
-    <div class="eval-diff" id="patternEvalDiff"></div>
-    <div class="eval-feedback" id="patternEvalFeedback"></div>
-    <div class="eval-actions">
-      <button
-        class="tts-btn"
-        id="ttsPatternUserInputBtn"
-        type="button"
-        title="내가 녹음한 발음 다시 듣기"
-      >
-        🔊 내 발음 다시 듣기
-      </button>
-    </div>
-  </div>
-
-  <!-- 문법 검사 및 교정 영역 -->
-  <div class="grammar" id="patternGrammarBox" style="display: none">
-    <div class="lbl">내 답변 문법 & 표현 분석</div>
-    <div id="patternGrammarContent"></div>
-    <div
-      class="google-ask-row"
-      id="patternGoogleAskRow"
-      style="display: none; margin-top: 10px"
-    >
-      <button
-        class="google-ai-btn"
-        id="patternGoogleAskLink"
-        type="button"
-        title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 피드백을 띄웁니다"
-      >
-        <span class="google-ai-icon"></span>
-        <span>Google AI 피드백</span>
-      </button>
-      <button class="google-copy-btn" id="patternGoogleAskCopy" type="button">
-        <span class="google-copy-icon"></span>
-        <span>피드백 질문 복사</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- 컨트롤 버튼 영역 -->
-  <div class="row" style="margin-top: 18px">
-    <button class="primary" id="patternEvalBtn" style="flex: 1">
-      <span>채점</span>
-      <kbd class="shortcut-key">↵</kbd>
-    </button>
-    <button class="primary" id="patternNextBtn" style="flex: 1.2">
-      <span>완료 & 다음 패턴 →</span>
-    </button>
-  </div>
-  <div
-    class="change-topic"
-    id="patternRetrySameLink"
-    style="display: none; margin: 12px auto 0; width: fit-content"
+    class="pattern-section-box"
+    id="patternSpeakingSection"
+    data-section-key="patternSpeaking"
   >
-    <span>↺ 다시 풀기</span>
-    <kbd class="shortcut-key">R</kbd>
+    <div
+      class="pattern-section-header collapsible-section-header"
+      data-toggle-target="patternSpeakingSection"
+    >
+      <div class="ps-section-title-wrap">
+        <span class="ps-section-title">
+          <span>🎙️</span>
+          <span>패턴 직접 말해보기 & 채점</span>
+        </span>
+        <span
+          class="ps-section-badge"
+          style="color: #ea580c; background: #ffedd5"
+          >실전 녹음</span
+        >
+      </div>
+      <div class="ps-section-actions">
+        <span class="section-toggle-icon" title="접기/펼치기">▾</span>
+      </div>
+    </div>
+
+    <div class="pattern-speaking-wrap" id="patternSpeakingBody">
+      <!-- 실시간 발화 시간 게이지 바 & 타이머 -->
+      <div class="speaking-timer-box" id="patternSpeakingTimerBox">
+        <div
+          class="timer-top-row"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+          "
+        >
+          <div class="timer-label">
+            <span>⏱️ 발화 시간:</span>
+            <span class="timer-digits" id="patternTimerDigits">00:00</span>
+          </div>
+          <span class="timer-target-tip" id="patternTimerLevelTip"
+            >🌱 6문장 완주 준비 (~20초)</span
+          >
+        </div>
+        <div class="timer-gauge-track">
+          <div
+            class="timer-gauge-bar"
+            id="patternTimerGaugeBar"
+            style="width: 0%"
+          ></div>
+          <div
+            class="timer-marker marker-im"
+            style="left: 33.3%"
+            title="기본 완주 (20초)"
+          ></div>
+          <div
+            class="timer-marker marker-ih"
+            style="left: 58.3%"
+            title="이상적 템포 (35초)"
+          ></div>
+          <div
+            class="timer-marker marker-al"
+            style="left: 83.3%"
+            title="여유로운 발화 (50초+)"
+          ></div>
+        </div>
+        <div class="timer-gauge-labels">
+          <span>0초</span>
+          <span style="left: 33.3%">기본 (20초)</span>
+          <span style="left: 58.3%">적정 (35초)</span>
+          <span style="left: 83.3%">여유 (50초+)</span>
+          <span>60초</span>
+        </div>
+      </div>
+
+      <!-- 공통 음성 입력창 컴포넌트 -->
+      <div
+        data-component="voice-input"
+        data-prefix="pattern"
+        data-placeholder="마이크(🎤)를 누르고 완성된 문장을 말하거나, 직접 입력해보세요"
+        data-copy-text="내 답변 복사"
+        data-copy-title="내 답변 복사"
+      ></div>
+
+      <!-- 발음 및 일치도 평가 박스 -->
+      <div class="speech-eval" id="patternSpeechEvalBox" style="display: none">
+        <div class="eval-header">
+          <div class="eval-title">🎙️ 내 발음 진단</div>
+          <span class="eval-score-badge" id="patternEvalScoreBadge"
+            >0% 일치</span
+          >
+        </div>
+        <div class="eval-diff" id="patternEvalDiff"></div>
+        <div class="eval-feedback" id="patternEvalFeedback"></div>
+        <div class="eval-actions">
+          <button
+            class="tts-btn"
+            id="ttsPatternUserInputBtn"
+            type="button"
+            title="내가 녹음한 발음 다시 듣기"
+          >
+            🔊 내 발음 다시 듣기
+          </button>
+        </div>
+      </div>
+
+      <!-- 문법 검사 및 교정 영역 -->
+      <div class="grammar" id="patternGrammarBox" style="display: none">
+        <div class="lbl">내 답변 문법 & 표현 분석</div>
+        <div id="patternGrammarContent"></div>
+        <div
+          class="google-ask-row"
+          id="patternGoogleAskRow"
+          style="display: none; margin-top: 10px"
+        >
+          <button
+            class="google-ai-btn"
+            id="patternGoogleAskLink"
+            type="button"
+            title="맥북/PC 화면 옆에 보조 팝업창으로 Google AI 피드백을 띄웁니다"
+          >
+            <span class="google-ai-icon"></span>
+            <span>Google AI 피드백</span>
+          </button>
+          <button
+            class="google-copy-btn"
+            id="patternGoogleAskCopy"
+            type="button"
+          >
+            <span class="google-copy-icon"></span>
+            <span>피드백 질문 복사</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 컨트롤 버튼 영역 -->
+      <div class="row" style="margin-top: 18px">
+        <button class="primary" id="patternEvalBtn" style="width: 100%">
+          <span>채점</span>
+          <kbd class="shortcut-key">↵</kbd>
+        </button>
+      </div>
+      <div
+        class="change-topic"
+        id="patternRetrySameLink"
+        style="display: none; margin: 12px auto 0; width: fit-content"
+      >
+        <span>↺ 다시 풀기</span>
+        <kbd class="shortcut-key">R</kbd>
+      </div>
+    </div>
   </div>
 
   <div class="change-topic-row" style="margin-top: 18px">
@@ -352,6 +426,14 @@
     </button>
     <button type="button" class="change-topic" id="patternChangeListBtnBottom">
       📋 패턴 변경
+    </button>
+    <button
+      type="button"
+      class="change-topic pattern-complete-btn"
+      id="patternCompleteBtnBottom"
+      title="이 패턴을 학습 완료로 표시합니다"
+    >
+      ✓ 학습 완료
     </button>
   </div>
 </div>

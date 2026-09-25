@@ -35,7 +35,7 @@
 window.PATTERNS_DATA = [
   {
     id: "pat_01",
-    name: "장소 & 선호 묘사 만능 템플릿",
+    name: "장소 & 선호 묘사",
     whenToUse: "좋아하는 장소 / 자주 가는 곳 / 첫 묘사 질문",
     comboRole: "주제별 콤보 1단계 (2, 5, 8번)",
     questionSignals: [
@@ -59,8 +59,8 @@ window.PATTERNS_DATA = [
         ko: "2. 저희 집 근처에 있어서, 딱 5분 거리예요.",
       },
       {
-        en: "3. And the vibe is very clean, quiet, and cozy.",
-        ko: "3. 그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "3. Also, the vibe is very relaxing and cozy.",
+        ko: "3. 또한, 분위기가 아주 편안하고 아늑해요.",
       },
       {
         en: "4. There are [특징 1] and [특징 2], so I really like it.",
@@ -71,8 +71,8 @@ window.PATTERNS_DATA = [
         ko: "5. 저한테는 여기가 최고의 장소예요.",
       },
       {
-        en: "6. So, I go there all the time.",
-        ko: "6. 그래서 저는 거기를 맨날(자주) 가요.",
+        en: "6. So, I go there about two or three times a week.",
+        ko: "6. 그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
     variations: [
@@ -89,8 +89,8 @@ window.PATTERNS_DATA = [
             ko: "회사 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are a soft bed and a nice desk, so I really like it.",
@@ -119,8 +119,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are large windows and nice seats, so I really like it.",
@@ -131,8 +131,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -149,8 +149,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are green trees and nice benches, so I really like it.",
@@ -161,8 +161,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -179,8 +179,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are large screens and nice seats, so I really like it.",
@@ -191,8 +191,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -209,8 +209,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are clean machines and free weights, so I really like it.",
@@ -221,8 +221,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -239,8 +239,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are fresh food and nice snacks, so I really like it.",
@@ -251,8 +251,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -269,8 +269,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are scenic views and quiet roads, so I really like it.",
@@ -281,8 +281,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -299,8 +299,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are tall green trees and a clean lake, so I really like it.",
@@ -311,8 +311,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -329,8 +329,8 @@ window.PATTERNS_DATA = [
             ko: "제가 묵는 호텔 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are blue ocean and soft white sand, so I really like it.",
@@ -341,8 +341,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -359,8 +359,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are delicious pasta and nice wine, so I really like it.",
@@ -371,8 +371,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -389,8 +389,8 @@ window.PATTERNS_DATA = [
             ko: "해변 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are a clean swimming pool and a soft bed, so I really like it.",
@@ -401,8 +401,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -419,8 +419,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are lots of books and nice desks, so I really like it.",
@@ -431,8 +431,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -449,8 +449,8 @@ window.PATTERNS_DATA = [
             ko: "남쪽에 있어서, 날씨가 아주 따뜻해요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "There are beautiful nature and fresh seafood, so I really like it.",
@@ -461,8 +461,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 여기가 최고의 장소예요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -470,7 +470,7 @@ window.PATTERNS_DATA = [
   },
   {
     id: "pat_02",
-    name: "일상 & 활동 루틴 만능 템플릿",
+    name: "일상 & 활동 루틴",
     whenToUse: "평소 하는 활동 / 주말 여가 일과 / 루틴 순서 질문",
     comboRole: "주제별 콤보 2단계 (3, 6, 9번)",
     questionSignals: [
@@ -494,8 +494,8 @@ window.PATTERNS_DATA = [
         ko: "2. 저희 집 근처에 있어서, 딱 5분 거리예요.",
       },
       {
-        en: "3. And the vibe is very clean, quiet, and cozy.",
-        ko: "3. 그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "3. Also, the vibe is very relaxing and cozy.",
+        ko: "3. 또한, 분위기가 아주 편안하고 아늑해요.",
       },
       {
         en: "4. I usually [행동 1] and [행동 2], so I really like it.",
@@ -506,8 +506,8 @@ window.PATTERNS_DATA = [
         ko: "5. 저한테는 최고의 힐링 시간이에요.",
       },
       {
-        en: "6. So, I go there all the time.",
-        ko: "6. 그래서 저는 거기를 맨날(자주) 가요.",
+        en: "6. So, I go there about two or three times a week.",
+        ko: "6. 그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
     variations: [
@@ -524,8 +524,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually drink iced coffee and read news, so I really like it.",
@@ -536,8 +536,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -554,8 +554,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually walk slowly and listen to music, so I really like it.",
@@ -566,8 +566,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -584,8 +584,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually run on the treadmill and lift weights, so I really like it.",
@@ -596,8 +596,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -614,8 +614,8 @@ window.PATTERNS_DATA = [
             ko: "저희 주방이 아주 깔끔해서, 요리하기 정말 편해요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually make simple pasta and eat nicely, so I really like it.",
@@ -644,8 +644,8 @@ window.PATTERNS_DATA = [
             ko: "제 방에 좋은 책상이 있어서, 공부하기 정말 편해요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually turn on my computer and make web tools, so I really like it.",
@@ -674,8 +674,8 @@ window.PATTERNS_DATA = [
             ko: "영화관이 저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually buy sweet popcorn and watch movies, so I really like it.",
@@ -686,8 +686,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -704,8 +704,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually buy fresh food and nice snacks, so I really like it.",
@@ -716,8 +716,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -734,8 +734,8 @@ window.PATTERNS_DATA = [
             ko: "한적한 드라이브 코스가 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually open the windows and listen to music, so I really like it.",
@@ -764,8 +764,8 @@ window.PATTERNS_DATA = [
             ko: "캠핑장이 집 근처에 있어서, 딱 30분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually pitch a tent and drink warm coffee, so I really like it.",
@@ -776,8 +776,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -794,8 +794,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually find nice books and read quietly, so I really like it.",
@@ -806,8 +806,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -824,8 +824,8 @@ window.PATTERNS_DATA = [
             ko: "제 방에 좋은 스피커가 있어서, 듣기 정말 편해요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually lie on the bed and play soft songs, so I really like it.",
@@ -854,8 +854,8 @@ window.PATTERNS_DATA = [
             ko: "제 방이 아주 편안해서, 정리를 마치면 힐링이 돼요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually vacuum the floor and open the windows, so I really like it.",
@@ -884,8 +884,8 @@ window.PATTERNS_DATA = [
             ko: "제가 묵는 호텔 근처에 있어서, 딱 5분 거리예요.",
           },
           {
-            en: "And the vibe is very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+            en: "Also, the vibe is very relaxing and cozy.",
+            ko: "또한, 분위기가 아주 편안하고 아늑해요.",
           },
           {
             en: "I usually walk slowly and look at the ocean, so I really like it.",
@@ -896,8 +896,8 @@ window.PATTERNS_DATA = [
             ko: "저한테는 최고의 힐링 시간이에요.",
           },
           {
-            en: "So, I go there all the time.",
-            ko: "그래서 저는 거기를 맨날(자주) 가요.",
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },
@@ -905,36 +905,36 @@ window.PATTERNS_DATA = [
   },
   {
     id: "pat_03",
-    name: "과거 경험 & 기억에 남는 일 템플릿",
+    name: "과거 경험 & 기억에 남는 일",
     whenToUse: "기억에 남는 경험 / 최근 일어난 일 / 과거 특별한 추억 질문",
     comboRole: "주제별 콤보 3단계 (4, 7, 10번)",
     questionSignals: [
       "Tell me about a memorable experience...",
-      "What happened that made it so special?",
+      "What kind of ... was it, and what was the story?",
       "When was the last time you went...?",
     ],
     exampleQuestion:
-      "Tell me about an unforgettable experience you had while traveling. What happened and why was it memorable?",
+      "Tell me about a memorable day or experience you had recently. What did you do and how was it?",
     category:
       "영화, 축제, 새집 이사, 캠핑, 카페, 해변, 공원, 헬스장, 단골 식당, 호텔, 대형마트, 드라이브, 도서관, 제주도",
     icon: "✨",
-    desc: "어떤 주제든 과거에 있었던 기억에 남는 일을 물을 때, 장소 템플릿과 똑같은 쉬운 6문장으로 완주하는 만능 공식입니다.",
+    desc: "어떤 주제든 과거에 있었던 기억에 남는 일을 물을 때, 6개 쉬운 문장으로 어떤 질문에도 자연스럽게 완주하는 만능 공식입니다.",
     skeleton: [
       {
-        en: "1. Whenever I think of [주제], I remember a special day.",
-        ko: "1. [주제]를 생각할 때마다, 특별했던 하루가 기억나요.",
+        en: "1. Talking about [주제], I remember a very special day.",
+        ko: "1. [주제] 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
       },
       {
-        en: "2. Last year, I [과거 행동] with my friends.",
-        ko: "2. 작년에, 저는 친구들과 함께 [과거 행동]을 했어요.",
+        en: "2. Last year, I [과거 행동/대상] with my friend.",
+        ko: "2. 작년에, 저는 친구와 함께 [과거 행동/대상]을 했어요.",
       },
       {
-        en: "3. And the vibe was very clean, quiet, and cozy.",
-        ko: "3. 그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+        en: "3. The [스토리/음식/경치/분위기] was very [특징 1] and [특징 2].",
+        ko: "3. [스토리/음식/경치/분위기]가 아주 [특징 1]하고 [특징 2]했어요.",
       },
       {
-        en: "4. There were [특징 1] and [특징 2], so I really liked it.",
-        ko: "4. [특징 1]과 [특징 2]가 있어서 정말 마음에 들었어요.",
+        en: "4. I had a really good time, so I really liked it.",
+        ko: "4. 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
       },
       {
         en: "5. It was the best day for me.",
@@ -948,23 +948,23 @@ window.PATTERNS_DATA = [
     variations: [
       {
         topic: "🎬 영화",
-        keyword: "watching a movie at home",
+        keyword: "watching an action movie with my friend",
         sentences: [
           {
-            en: "Whenever I think of movies, I remember a special day.",
-            ko: "영화를 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about movies, I remember a very special day.",
+            ko: "영화 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
-            en: "Last year, I watched a movie at home alone.",
-            ko: "작년에, 저는 집에서 혼자 영화를 보았어요.",
+            en: "Last year, I watched an exciting action movie with my friend.",
+            ko: "작년에, 저는 친구와 함께 재미있는 액션 영화를 보았어요.",
           },
           {
-            en: "And the vibe was very quiet and cozy.",
-            ko: "그리고 분위기가 아주 조용하고 아늑했어요.",
+            en: "The story was very interesting and exciting.",
+            ko: "스토리가 정말 흥미롭고 흥미진진했어요.",
           },
           {
-            en: "There were a soft sofa and delicious popcorn, so I really liked it.",
-            ko: "푹신한 소파와 맛있는 팝콘이 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time, so I really liked it.",
+            ko: "정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -981,20 +981,20 @@ window.PATTERNS_DATA = [
         keyword: "local festival with friends",
         sentences: [
           {
-            en: "Whenever I think of festivals, I remember a special day.",
-            ko: "축제를 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about festivals, I remember a very special day.",
+            ko: "축제 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I went to a festival with my friends.",
             ko: "작년에, 저는 친구들과 함께 축제에 갔어요.",
           },
           {
-            en: "And the vibe was very fun and exciting.",
-            ko: "그리고 분위기가 아주 재미있고 신났어요.",
+            en: "The music was very exciting, and the food was delicious.",
+            ko: "음악이 아주 신나고, 음식도 맛있었어요.",
           },
           {
-            en: "There were exciting music and tasty food, so I really liked it.",
-            ko: "신나는 음악과 맛있는 음식이 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1011,20 +1011,20 @@ window.PATTERNS_DATA = [
         keyword: "moving into my new apartment",
         sentences: [
           {
-            en: "Whenever I think of my home, I remember a special day.",
-            ko: "제 집을 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about my home, I remember a very special day.",
+            ko: "제 집 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
-            en: "Last year, I moved into my new apartment alone.",
-            ko: "작년에, 저는 혼자 새 아파트로 이사했어요.",
+            en: "Last year, I moved into my new apartment.",
+            ko: "작년에, 저는 새 아파트로 이사했어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "The new room was very clean, quiet, and cozy.",
+            ko: "새 방이 아주 깔끔하고 조용하며 아늑했어요.",
           },
           {
-            en: "There were a soft bed and a big TV, so I really liked it.",
-            ko: "푹신한 침대와 큰 TV가 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time unpacking, so I really liked it.",
+            ko: "짐을 풀며 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1038,23 +1038,23 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🏕️ 캠핑",
-        keyword: "camping near the lake",
+        keyword: "camping near the lake with friend",
         sentences: [
           {
-            en: "Whenever I think of camping, I remember a special day.",
-            ko: "캠핑을 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about camping, I remember a very special day.",
+            ko: "캠핑 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I went camping near the lake with my friend.",
             ko: "작년에, 저는 친구와 함께 호숫가 근처로 캠핑을 갔어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and peaceful.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 평화로웠어요.",
+            en: "The view was very beautiful and peaceful.",
+            ko: "경치가 아주 아름답고 평화로웠어요.",
           },
           {
-            en: "There were tall green trees and delicious meat, so I really liked it.",
-            ko: "키 큰 푸른 나무들과 맛있는 고기가 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1068,23 +1068,23 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "☕ 카페",
-        keyword: "meeting a friend at Starbucks",
+        keyword: "meeting an old friend at Starbucks",
         sentences: [
           {
-            en: "Whenever I think of cafes, I remember a special day.",
-            ko: "카페를 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about cafes, I remember a very special day.",
+            ko: "카페 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I met an old friend at Starbucks.",
             ko: "작년에, 저는 스타벅스에서 오랜 친구를 만났어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "The coffee was delicious, and the vibe was very cozy.",
+            ko: "커피가 맛있었고, 분위기도 아주 아늑했어요.",
           },
           {
-            en: "There were large windows and sweet desserts, so I really liked it.",
-            ko: "큰 창문과 달콤한 디저트가 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1101,20 +1101,20 @@ window.PATTERNS_DATA = [
         keyword: "trip to Haeundae beach",
         sentences: [
           {
-            en: "Whenever I think of the beach, I remember a special day.",
-            ko: "해변을 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about the beach, I remember a very special day.",
+            ko: "해변 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I went to Haeundae beach with my friends.",
             ko: "작년에, 저는 친구들과 함께 해운대 해변에 갔어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "The ocean view was very beautiful and nice.",
+            ko: "바다 경치가 아주 아름답고 좋았어요.",
           },
           {
-            en: "There were blue ocean and soft white sand, so I really liked it.",
-            ko: "푸른 바다와 부드러운 하얀 모래가 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1131,20 +1131,20 @@ window.PATTERNS_DATA = [
         keyword: "walking in the park with friend",
         sentences: [
           {
-            en: "Whenever I think of parks, I remember a special day.",
-            ko: "공원을 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about parks, I remember a very special day.",
+            ko: "공원 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I walked in the park with my friends.",
             ko: "작년에, 저는 친구들과 함께 공원을 걸었어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "The weather was very sunny and nice.",
+            ko: "날씨가 아주 화창하고 좋았어요.",
           },
           {
-            en: "There were green trees and nice benches, so I really liked it.",
-            ko: "푸른 나무들과 편안한 벤치가 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1158,23 +1158,23 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🏋️ 헬스장",
-        keyword: "working out with personal trainer",
+        keyword: "working out at the gym with friend",
         sentences: [
           {
-            en: "Whenever I think of working out, I remember a special day.",
-            ko: "운동을 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about working out, I remember a very special day.",
+            ko: "운동 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I worked out at the gym with my friend.",
             ko: "작년에, 저는 친구와 함께 헬스장에서 운동을 했어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "The workout was very fun and refreshing.",
+            ko: "운동이 아주 재미있고 상쾌했어요.",
           },
           {
-            en: "There were clean machines and free weights, so I really liked it.",
-            ko: "깨끗한 머신들과 프리웨이트가 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1191,20 +1191,20 @@ window.PATTERNS_DATA = [
         keyword: "delicious dinner at pasta place",
         sentences: [
           {
-            en: "Whenever I think of good food, I remember a special day.",
-            ko: "맛있는 음식을 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about good food, I remember a very special day.",
+            ko: "맛있는 음식 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I had delicious dinner at the pasta restaurant.",
             ko: "작년에, 저는 파스타 식당에서 맛있는 저녁을 먹었어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "The food was very delicious and fresh.",
+            ko: "음식이 아주 맛있고 신선했어요.",
           },
           {
-            en: "There were delicious pasta and nice wine, so I really liked it.",
-            ko: "맛있는 파스타와 좋은 와인이 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1221,20 +1221,20 @@ window.PATTERNS_DATA = [
         keyword: "staying at Shilla Hotel",
         sentences: [
           {
-            en: "Whenever I think of traveling, I remember a special day.",
-            ko: "여행을 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about traveling, I remember a very special day.",
+            ko: "여행 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I stayed at the Shilla Hotel with my family.",
             ko: "작년에, 저는 가족과 함께 신라 호텔에 묵었어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "The room was very clean and comfortable.",
+            ko: "방이 아주 깨끗하고 편안했어요.",
           },
           {
-            en: "There were a clean swimming pool and a soft bed, so I really liked it.",
-            ko: "깨끗한 수영장과 푹신한 침대가 있어서 정말 마음에 들어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1251,20 +1251,20 @@ window.PATTERNS_DATA = [
         keyword: "shopping at E-Mart",
         sentences: [
           {
-            en: "Whenever I think of shopping, I remember a special day.",
-            ko: "쇼핑을 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about shopping, I remember a very special day.",
+            ko: "쇼핑 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I went to E-Mart with my friends.",
             ko: "작년에, 저는 친구들과 함께 이마트에 갔어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "The snacks were delicious, and the items were cheap.",
+            ko: "간식도 맛있고, 물건들도 저렴했어요.",
           },
           {
-            en: "There were fresh food and nice snacks, so I really liked it.",
-            ko: "신선한 음식과 맛있는 간식이 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1281,20 +1281,20 @@ window.PATTERNS_DATA = [
         keyword: "scenic drive on weekend",
         sentences: [
           {
-            en: "Whenever I think of relaxing, I remember a special day.",
-            ko: "휴식을 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about relaxing, I remember a very special day.",
+            ko: "휴식 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I went on a drive with my friend.",
             ko: "작년에, 저는 친구와 함께 드라이브를 떠났어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "The scenery was very beautiful and nice.",
+            ko: "풍경이 아주 아름답고 좋았어요.",
           },
           {
-            en: "There were scenic views and quiet roads, so I really liked it.",
-            ko: "멋진 풍경과 한적한 도로가 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1308,23 +1308,23 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "📚 도서관",
-        keyword: "reading books at the library",
+        keyword: "studying at the library",
         sentences: [
           {
-            en: "Whenever I think of studying, I remember a special day.",
-            ko: "공부를 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about studying, I remember a very special day.",
+            ko: "공부 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I studied at the library with my friend.",
             ko: "작년에, 저는 친구와 함께 도서관에서 공부했어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "The atmosphere was very quiet and calm.",
+            ko: "분위기가 아주 조용하고 차분했어요.",
           },
           {
-            en: "There were lots of books and nice desks, so I really liked it.",
-            ko: "많은 책들과 편안한 책상이 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1341,20 +1341,20 @@ window.PATTERNS_DATA = [
         keyword: "wonderful trip to Jeju Island",
         sentences: [
           {
-            en: "Whenever I think of vacations, I remember a special day.",
-            ko: "휴가를 생각할 때마다, 특별했던 하루가 기억나요.",
+            en: "Talking about vacations, I remember a very special day.",
+            ko: "휴가 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
           },
           {
             en: "Last year, I traveled to Jeju Island with my friends.",
             ko: "작년에, 저는 친구들과 함께 제주도로 여행을 갔어요.",
           },
           {
-            en: "And the vibe was very clean, quiet, and cozy.",
-            ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "The nature was very beautiful and peaceful.",
+            ko: "자연이 아주 아름답고 평화로웠어요.",
           },
           {
-            en: "There were beautiful nature and fresh seafood, so I really liked it.",
-            ko: "아름다운 자연과 신선한 해산물이 있어서 정말 마음에 들었어요.",
+            en: "I had a really good time there, so I really liked it.",
+            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
           },
           {
             en: "It was the best day for me.",
@@ -1370,7 +1370,7 @@ window.PATTERNS_DATA = [
   },
   {
     id: "pat_04",
-    name: "문제 해결 & 돌발 상황 만능 템플릿",
+    name: "문제 해결 & 돌발 상황",
     whenToUse: "기기 고장 / 예상치 못한 문제 / 돌발 상황 대처 경험 질문",
     comboRole: "돌발 문제 해결 (8~10번 또는 14번)",
     questionSignals: [
@@ -1564,7 +1564,7 @@ window.PATTERNS_DATA = [
   },
   {
     id: "pat_05",
-    name: "과거 vs 현재 변화 & 비교 템플릿",
+    name: "과거 vs 현재 변화 & 비교",
     whenToUse: "과거와 현재 비교 / 예전과 달라진 점 / 트렌드 변화 질문",
     comboRole: "과거/현재 비교 심화 (14, 15번)",
     questionSignals: [
@@ -1758,7 +1758,7 @@ window.PATTERNS_DATA = [
   },
   {
     id: "pat_06",
-    name: "롤플레이 (Role-play) 만능 공식",
+    name: "롤플레이 (Role-play)",
     whenToUse: "상대방에게 문의(11번) / 문제 생겨 대안 제시(12번) 롤플레이",
     comboRole: "롤플레이 전용 세트 (11, 12, 13번)",
     questionSignals: [

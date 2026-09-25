@@ -386,8 +386,8 @@ window.FILLERS_DATA = [
       },
       {
         context: "장소 묘사 후 마무리할 때",
-        en: "Anyway, it is my favorite place in my neighborhood, and I go there all the time.",
-        ko: "아무튼, 그곳은 우리 동네에서 제가 가장 좋아하는 장소이고 맨날 가요.",
+        en: "Anyway, it is my favorite place in my neighborhood, and I go there about two or three times a week.",
+        ko: "아무튼, 그곳은 우리 동네에서 제가 가장 좋아하는 장소이고 대략 일주일에 2~3번 가요.",
       },
     ],
   },

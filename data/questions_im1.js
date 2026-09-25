@@ -266,8 +266,8 @@ window.QUESTIONS_DATA = [
         ko: "회사 근처에 있어서, 출퇴근하기가 정말 편해요.",
       },
       {
-        en: "And the vibe is very clean, quiet, and cozy.",
-        ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "Also, the vibe is very relaxing and cozy.",
+        ko: "또한, 분위기가 아주 편안하고 아늑해요.",
       },
       {
         en: "There are a soft sofa and a big TV, so I really like it.",
@@ -282,8 +282,8 @@ window.QUESTIONS_DATA = [
         ko: "그래서 저는 거기서 맨날 시간을 보내요.",
       },
     ],
-    keywords: ["living room favorite place","near my office","clean, quiet, and cozy","soft sofa and big TV","watching YouTube","stay there all the time"],
-    tip: "[만능 집 묘사] 거실 최애 장소 → 회사 근처 편리함 → 깔끔하고 아늑한 분위기 → 소파와 TV → 유튜브 힐링 → 편안함.",
+    keywords: ["living room favorite place","near my office","relaxing and cozy","soft sofa and big TV","watching YouTube","stay there all the time"],
+    tip: "[만능 집 묘사] 거실 최애 장소 → 회사 근처 편리함 → 편안하고 아늑한 분위기 → 소파와 TV → 유튜브 힐링 → 편안함.",
   },
   {
     id: "q_home_02",
@@ -734,8 +734,8 @@ window.QUESTIONS_DATA = [
         ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
       },
       {
-        en: "And the vibe is very clean, quiet, and cozy.",
-        ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "Also, the vibe is very relaxing and cozy.",
+        ko: "또한, 분위기가 아주 편안하고 아늑해요.",
       },
       {
         en: "There are large windows and nice seats, so I really like it.",
@@ -746,12 +746,12 @@ window.QUESTIONS_DATA = [
         ko: "저한테는 여기가 최고의 장소예요.",
       },
       {
-        en: "So, I go there all the time.",
-        ko: "그래서 저는 거기를 맨날(자주) 가요.",
+        en: "So, I go there about two or three times a week.",
+        ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
-    keywords: ["Starbucks near my house","just five minutes","clean, quiet, and cozy","large windows and nice seats","best place for me","go there all the time"],
-    tip: "[만능 카페 묘사] 스타벅스 최애 장소 → 집 근처 편리함 → 깔끔 조용 아늑한 분위기 → 큰 창문과 편한 좌석 → 퇴근 후 커피 힐링 → 편안함.",
+    keywords: ["Starbucks near my house","just five minutes","relaxing and cozy","large windows and nice seats","best place for me","go there about two or three times a week"],
+    tip: "[만능 카페 묘사] 스타벅스 최애 장소 → 집 근처 편리함 → 편안하고 아늑한 분위기 → 큰 창문과 편한 좌석 → 퇴근 후 커피 힐링 → 편안함.",
   },
   {
     id: "q_cafe_02",
@@ -968,8 +968,8 @@ window.QUESTIONS_DATA = [
         ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
       },
       {
-        en: "And the vibe is very clean, quiet, and cozy.",
-        ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "Also, the vibe is very relaxing and cozy.",
+        ko: "또한, 분위기가 아주 편안하고 아늑해요.",
       },
       {
         en: "There are green trees and nice benches, so I really like it.",
@@ -980,11 +980,11 @@ window.QUESTIONS_DATA = [
         ko: "저한테는 여기가 최고의 장소예요.",
       },
       {
-        en: "So, I go there all the time.",
-        ko: "그래서 저는 거기를 맨날(자주) 가요.",
+        en: "So, I go there about two or three times a week.",
+        ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
-    keywords: ["park near my house","just five minutes","clean, quiet, and cozy","green trees and nice benches","best place for me","go there all the time"],
+    keywords: ["park near my house","just five minutes","relaxing and cozy","green trees and nice benches","best place for me","go there about two or three times a week"],
     tip: "[만능 공원 묘사] 집 근처 공원 → 접근성 편함 → 깔끔하고 아늑함 → 푸른 나무와 벤치 → 퇴근 후 혼자 산책 힐링 → 편안함.",
   },
   {
@@ -1670,8 +1670,8 @@ window.QUESTIONS_DATA = [
         ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
       },
       {
-        en: "And the vibe is very clean, quiet, and cozy.",
-        ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "Also, the vibe is very relaxing and cozy.",
+        ko: "또한, 분위기가 아주 편안하고 아늑해요.",
       },
       {
         en: "There are clean machines and free weights, so I really like it.",
@@ -1682,12 +1682,12 @@ window.QUESTIONS_DATA = [
         ko: "저한테는 여기가 최고의 장소예요.",
       },
       {
-        en: "So, I go there all the time.",
-        ko: "그래서 저는 거기를 맨날(자주) 가요.",
+        en: "So, I go there about two or three times a week.",
+        ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
-    keywords: ["gym near my house","just five minutes","clean, quiet, and cozy","clean machines and free weights","best place for me","go there all the time"],
-    tip: "[만능 헬스장 묘사] 집 근처 헬스장 → 접근성 편함 → 깔끔 조용 아늑한 분위기 → 머신과 프리웨이트 → 퇴근 후 운동 힐링 → 편안함.",
+    keywords: ["gym near my house","just five minutes","relaxing and cozy","clean machines and free weights","best place for me","go there about two or three times a week"],
+    tip: "[만능 헬스장 묘사] 집 근처 헬스장 → 접근성 편함 → 편안하고 아늑한 분위기 → 머신과 프리웨이트 → 퇴근 후 운동 힐링 → 편안함.",
   },
   {
     id: "q_exercise_01",
@@ -2138,8 +2138,8 @@ window.QUESTIONS_DATA = [
         ko: "저희 집 근처에 있어서, 딱 5분 거리예요.",
       },
       {
-        en: "And the vibe is very clean, quiet, and cozy.",
-        ko: "그리고 분위기가 아주 깔끔하고 조용하며 아늑해요.",
+        en: "Also, the vibe is very relaxing and cozy.",
+        ko: "또한, 분위기가 아주 편안하고 아늑해요.",
       },
       {
         en: "There are scenic views and quiet roads, so I really like it.",
@@ -2150,12 +2150,12 @@ window.QUESTIONS_DATA = [
         ko: "저한테는 여기가 최고의 장소예요.",
       },
       {
-        en: "So, I go there all the time.",
-        ko: "그래서 저는 거기를 맨날(자주) 가요.",
+        en: "So, I go there about two or three times a week.",
+        ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
-    keywords: ["quiet route favorite place","near my house just five minutes","clean, quiet, and cozy","scenic views and quiet roads","best place for me","go there all the time"],
-    tip: "[만능 드라이브 묘사] 집 근처 한적한 길 → 접근성 편리함 → 조용하고 아늑함 → 멋진 풍경과 도로 → 퇴근 후 드라이브 힐링 → 편안함.",
+    keywords: ["quiet route favorite place","near my house just five minutes","relaxing and cozy","scenic views and quiet roads","best place for me","go there about two or three times a week"],
+    tip: "[만능 드라이브 묘사] 집 근처 한적한 길 → 접근성 편리함 → 편안하고 아늑한 분위기 → 멋진 풍경과 도로 → 퇴근 후 드라이브 힐링 → 편안함.",
   },
   {
     id: "q_trip_01",
@@ -2384,11 +2384,11 @@ window.QUESTIONS_DATA = [
         ko: "저한테는 여기가 최고의 장소예요.",
       },
       {
-        en: "So, I go there all the time.",
-        ko: "그래서 저는 거기를 맨날(자주) 가요.",
+        en: "So, I go there about two or three times a week.",
+        ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
-    keywords: ["campsite near the lake","one hour by car","clean, quiet, and peaceful","tall green trees and clean lake","best place for me","go there all the time"],
+    keywords: ["campsite near the lake","one hour by car","clean, quiet, and peaceful","tall green trees and clean lake","best place for me","go there about two or three times a week"],
     tip: "[만능 캠핑장 묘사] 호숫가 캠핑장 → 차로 1시간 거리 → 조용하고 평화로운 자연 → 나무와 호수 → 자연 속 힐링 → 편안함.",
   },
   {
