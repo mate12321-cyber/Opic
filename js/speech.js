@@ -3133,6 +3133,12 @@ function toggleSpeechRecognition(
 
   baseTranscript = targetInput ? targetInput.value.trim() : "";
   currentSessionFinal = "";
+  if (
+    mode === "speechPractice" &&
+    typeof setSpeechPracticeStartText === "function"
+  ) {
+    setSpeechPracticeStartText(baseTranscript);
+  }
   finalTranscript = "";
   listening = true;
   micStarted = false;
