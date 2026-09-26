@@ -3352,17 +3352,25 @@ function toggleSpeechRecognition(
   }
   const isOpic = mode === "opic";
 
-  // 발화 연습(speechPractice): 데스크톱 및 모바일(갤럭시 등) 전 기기에서 실시간 STT 즉시 전사 + 오디오 녹음 동시 진행
+  // 발화 연습 및 모든 학습 모드의 STT/녹음 실행 정책
   let shouldRunStt = true;
   let shouldRunRecord = true;
 
-  if (mode === "speechPractice") {
-    shouldRunRecord = true;
-    shouldRunStt = true; // 데스크톱 및 모바일(갤럭시/아이폰) 전 기기에서 실시간 STT 전사 즉각 구동!
-  } else if (isMobileDevice) {
-    // 문장 번역 / OPIc 실전 / 만능 패턴 모드는 모바일에서 실시간 STT 단독 배정
+  if (isMobileDevice) {
+    // ⚡ 모바일(갤럭시/안드로이드/아이폰) 최적화 정책:
+    // 모바일 OS(특히 안드로이드 AudioFlinger HAL)는 마이크 하드웨어를 한 번에 하나의 프로세스/소스에만 배정합니다.
+    // getUserMedia(MediaRecorder 녹음)와 Web Speech API(STT 음성 인식)를 동시에 구동하면,
+    // 안드로이드 OS가 마이크를 MediaRecorder에만 배정하여 Web Speech API가 무음(Silence)을 전달받아
+    // 녹음은 되지만 텍스트 입력(STT)이 전혀 동작하지 않는 치명적인 하드웨어 충돌이 발생합니다.
+    // 따라서 다른 모드(문장 연습, OPIc 실전, 만능 패턴)와 동일하게 발화 연습에서도 실시간 STT를 단독 배정하여
+    // 갤럭시/모바일 기기에서도 말하는 즉시 입력창에 텍스트가 실시간 전사되도록 보장합니다.
     shouldRunStt = true;
     shouldRunRecord = false;
+  } else {
+    // 데스크톱 환경에서는 브라우저의 마이크 멀티스트림 공유가 원활하므로
+    // 실시간 STT 전사와 MediaRecorder 고음질 오디오 녹음을 동시에 안전하게 진행합니다.
+    shouldRunStt = true;
+    shouldRunRecord = true;
   }
 
   if (shouldRunStt) {
@@ -3462,7 +3470,7 @@ function toggleSpeechRecognition(
           createSpeechRecognitionInstance();
           if (recognition) recognition.start();
         } catch (retryErr) {
-          if (mode === "speechPractice") {
+          if (mode === "speechPractice" && shouldRunRecord) {
             console.warn(
               "[SpeechRecognition] STT 시작 실패, 오디오 녹음 및 Whisper 폴백 모드로 계속 진행합니다:",
               retryErr,
@@ -3723,12 +3731,11 @@ function createSpeechRecognitionInstance() {
     // Web Speech API에서 network, audio-capture, service-not-allowed 등 오류가 발생하더라도
     // 사용자 녹음(MediaRecorder)을 절대 강제 종료하지 않음!
     // 녹음 종료 시 브라우저 내장 Whisper AI가 자동으로 오디오 Blob을 텍스트로 전사함
-    const isSpeechPracticeOrRecording =
-      (activeTarget && activeTarget.mode === "speechPractice") ||
+    const isRecordingActive =
       Boolean(currentMediaStream) ||
       (currentMediaRecorder && currentMediaRecorder.state !== "inactive");
 
-    if (isSpeechPracticeOrRecording) {
+    if (isRecordingActive) {
       console.warn(
         `[SpeechRecognition] Non-fatal STT error (${e.error}) suppressed during speech recording; Whisper AI will handle transcription on stop.`,
       );

@@ -215,20 +215,40 @@ function updateSpeechPracticeMicUI(isListening) {
 
   if (!btn) return;
 
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
+
   if (isListening) {
     btn.classList.add("listening");
     if (statusDot) statusDot.className = "sp-status-dot recording";
     if (statusText) {
-      statusText.textContent =
-        "🎙️ 음성 인식 및 녹음 중... (말을 마치면 마이크를 다시 누르세요)";
+      statusText.textContent = isMobile
+        ? "🎙️ 음성 인식 중... (말을 마치면 마이크를 다시 누르세요)"
+        : "🎙️ 음성 인식 및 녹음 중... (말을 마치면 마이크를 다시 누르세요)";
     }
   } else {
     btn.classList.remove("listening");
-    if (!speechPracticeRecordedBlob) {
+    const input = document.getElementById("speechPracticeInput");
+    const currentText = input ? input.value.trim() : "";
+    const hasSttTranscribed =
+      currentText.length > speechPracticeStartText.length;
+
+    if (hasSttTranscribed || currentText.length > 0) {
+      if (statusDot) statusDot.className = "sp-status-dot ready";
+      if (statusText) {
+        statusText.textContent = speechPracticeRecordedBlob
+          ? "✅ 녹음 완료! '내 녹음 듣기'로 발화를 확인하거나 채점해보세요."
+          : "✅ 음성 입력 완료! 입력된 내용을 확인하거나 채점해보세요.";
+      }
+      updateSpeechPracticeCount();
+    } else if (!speechPracticeRecordedBlob) {
       if (statusDot) statusDot.className = "sp-status-dot";
       if (statusText) {
-        statusText.textContent =
-          "마이크(🎤)를 누르고 말하면 실시간 텍스트 변환과 녹음이 진행됩니다";
+        statusText.textContent = isMobile
+          ? "마이크(🎤)를 누르고 말하면 실시간 텍스트 변환이 진행됩니다"
+          : "마이크(🎤)를 누르고 말하면 실시간 텍스트 변환과 녹음이 진행됩니다";
       }
     }
   }
