@@ -397,6 +397,7 @@ const PATTERN_TOPIC_QUESTION_MAP = {
       q_en: "You indicated in the survey that you enjoy traveling. Please describe your favorite travel destination, such as Jeju Island. What does it look like?",
       q_ko: "설문에서 여행을 좋아한다고 하셨습니다. 제주도 등 가장 좋아하시는 국내 여행지에 대해 설명해 주세요. 어떤 모습인가요?",
     },
+    음악: { qId: "q_music_01" },
   },
   pat_02: {
     카페: { qId: "q_cafe_02" },

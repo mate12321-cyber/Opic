@@ -46,7 +46,7 @@ window.PATTERNS_DATA = [
     exampleQuestion:
       "Describe your favorite place you like to visit and what it looks like.",
     category:
-      "내 방, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 호텔, 도서관, 제주도",
+      "내 방, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 호텔, 도서관, 제주도, 음악",
     icon: "🏠",
     desc: "어떤 장소나 좋아하는 곳을 말할 때, 6개 쉬운 문장으로 1~2단어만 바꿔서 바로 끝내는 만능 공식입니다.",
     skeleton: [
@@ -463,6 +463,36 @@ window.PATTERNS_DATA = [
           {
             en: "So, I go there every summer vacation.",
             ko: "그래서 저는 여름 휴가마다 거기를 가요.",
+          },
+        ],
+      },
+      {
+        topic: "🎵 음악",
+        keyword: "soft ballads & acoustic pop",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, my favorite music is acoustic pop.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 음악은 어쿠스틱 팝이에요.",
+          },
+          {
+            en: "My favorite singer is Roy Kim, and I love his sweet voice.",
+            ko: "제가 가장 좋아하는 가수는 로이킴이고, 그의 감미로운 목소리를 정말 좋아해요.",
+          },
+          {
+            en: "How can I say... the melody is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 멜로디가 아주 깔끔하고, 편안하고, 아늑해요.",
+          },
+          {
+            en: "There are sweet voices and soft guitar sounds, so it feels very nice.",
+            ko: "감미로운 목소리와 부드러운 기타 소리가 있어서 느낌이 정말 좋아요.",
+          },
+          {
+            en: "When I listen to it, I usually close my eyes, and just relax.",
+            ko: "그 음악을 들을 때, 저는 보통 눈을 감고 그냥 편하게 쉬어요.",
+          },
+          {
+            en: "So, I listen to it about two or three times a day.",
+            ko: "그래서 저는 그 음악을 대략 하루에 2~3번 정도 들어요.",
           },
         ],
       },
