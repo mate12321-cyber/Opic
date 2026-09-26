@@ -3015,6 +3015,9 @@ let listening = false;
 /** @type {number|null} 마이크 응답 지연 감시 타이머 (Watchdog) */
 let micStartTimer = null;
 
+/** @type {number|null} 안드로이드/모바일 음성인식 무봉제 재연결 타이머 */
+let speechRestartTimer = null;
+
 /** @type {boolean} 실제 마이크 하드웨어 스트림 시작 여부 */
 let micStarted = false;
 
@@ -3037,11 +3040,13 @@ const MIC_ERROR_MESSAGES = {
   "permission-denied":
     "마이크 권한이 필요해요. 브라우저 주소창의 🔒 아이콘 → 마이크 → 허용으로 설정해주세요.",
   "service-not-allowed":
-    "이 브라우저는 음성 인식 서비스를 지원하지 않아요. Chrome 브라우저에서 시도해보세요.",
+    "이 브라우저는 음성 인식 서비스를 지원하지 않아요. Chrome 또는 삼성 인터넷 브라우저에서 시도해보세요.",
   "no-speech":
     "음성이 감지되지 않았어요. 마이크를 가까이 대고 다시 말씀해주세요.",
   network:
     "네트워크 오류로 음성을 인식하지 못했어요. 인터넷 연결을 확인해주세요.",
+  "audio-capture":
+    "마이크 장치에 접근할 수 없어요. 다른 앱(통화, 녹음 등)이 마이크를 사용 중인지 확인해주세요.",
 };
 
 /**
@@ -3204,6 +3209,10 @@ function stopListeningUI() {
     clearTimeout(micStartTimer);
     micStartTimer = null;
   }
+  if (speechRestartTimer) {
+    clearTimeout(speechRestartTimer);
+    speechRestartTimer = null;
+  }
   if (activeTarget && activeTarget.btn) {
     activeTarget.btn.classList.remove("listening");
   }
@@ -3239,6 +3248,10 @@ window.resetBaseTranscript = resetBaseTranscript;
  */
 function stopSpeechRecognition() {
   userExplicitlyStoppedMic = true;
+  if (speechRestartTimer) {
+    clearTimeout(speechRestartTimer);
+    speechRestartTimer = null;
+  }
   stopListeningUI();
   if (activeTarget && activeTarget.input) {
     if (currentSessionFinal) {
@@ -3256,8 +3269,18 @@ function stopSpeechRecognition() {
   }
   if (recognition) {
     try {
+      recognition.onstart = null;
+      recognition.onaudiostart = null;
+      recognition.onsoundstart = null;
+      recognition.onspeechstart = null;
+      recognition.onresult = null;
+      recognition.onerror = null;
+      recognition.onend = null;
       recognition.stop();
     } catch (e) {}
+    // ⚡ 안드로이드/갤럭시 기기는 한 번 정지된 SpeechRecognition 인스턴스에 start()를 재호출하면
+    // DOMException 오류가 발생하거나 오디오 스트림이 먹통이 되므로 반드시 null로 초기화하여 신규 생성 보장
+    recognition = null;
   }
 
   // MediaRecorder 중지 및 오디오 저장
@@ -3278,10 +3301,15 @@ function stopSpeechRecognition() {
 
 /**
  * 마이크 응답 없음 감시 타이머 (Watchdog)
- * - 모바일 브라우저의 권한 승인 대기시간을 고려하여 7초 타임아웃 부여
+ * - 모바일 브라우저의 권한 승인 대기시간 및 네트워크 핸드셰이크를 고려하여 모바일 14초, 데스크톱 8초 부여
  */
 function armStartupWatchdog() {
   if (micStartTimer) clearTimeout(micStartTimer);
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    );
+  const timeoutMs = isMobile ? 14000 : 8000;
   micStartTimer = setTimeout(() => {
     if (listening && !micStarted) {
       showMicError(
@@ -3289,7 +3317,7 @@ function armStartupWatchdog() {
       );
       stopSpeechRecognition();
     }
-  }, 7000);
+  }, timeoutMs);
 }
 
 /**
@@ -3324,21 +3352,24 @@ function toggleSpeechRecognition(
   }
   const isOpic = mode === "opic";
 
-  // 발화 연습(speechPractice): 데스크톱 및 모바일 전 기기에서 실시간 STT 즉시 전사 + 오디오 녹음 동시 진행
+  // 발화 연습(speechPractice): 데스크톱 및 모바일 환경 최적화
   let shouldRunStt = true;
   let shouldRunRecord = true;
 
   if (mode === "speechPractice") {
     shouldRunRecord = true;
-    shouldRunStt = true; // 데스크톱/모바일 불문 즉각적인 실시간 STT 텍스트화 실행
+    // ⚡ 모바일/안드로이드(갤럭시)에서는 OS 마이크 하드웨어 점유 충돌(AudioRecord 독점)을 방지하기 위해
+    // 녹음(MediaRecorder)을 단독 실행하고, 녹음 종료 즉시 브라우저 온디바이스 Whisper AI가 전사합니다.
+    // 데스크톱 환경에서는 실시간 STT + MediaRecorder 동시 진행
+    shouldRunStt = !isMobileDevice;
   } else if (isMobileDevice) {
     // 문장 번역 / OPIc 실전 / 만능 패턴 모드는 모바일에서 실시간 STT 단독 배정
     shouldRunStt = true;
     shouldRunRecord = false;
   }
 
-  if (shouldRunStt && !recognition) {
-    initSpeechRecognition();
+  if (shouldRunStt) {
+    createSpeechRecognitionInstance();
     if (!recognition) {
       if (mode === "speechPractice") {
         console.warn(
@@ -3346,10 +3377,19 @@ function toggleSpeechRecognition(
         );
         shouldRunStt = false;
       } else {
-        showMicError(
-          "이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 또는 Edge 브라우저를 사용해주세요.",
-          targetError,
-        );
+        const isWebView =
+          /KAKAOTALK|NAVER|Instagram|FB_IAB|Line\//i.test(navigator.userAgent);
+        if (isWebView) {
+          showMicError(
+            "앱 내 브라우저에서는 음성 인식이 제한될 수 있습니다. 우측 상단 메뉴(⋮)를 눌러 'Chrome으로 열기' 또는 '삼성 인터넷으로 열기'를 선택해주세요.",
+            targetError,
+          );
+        } else {
+          showMicError(
+            "이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 또는 삼성 인터넷(Samsung Internet) 브라우저를 사용해주세요.",
+            targetError,
+          );
+        }
         return;
       }
     }
@@ -3420,19 +3460,25 @@ function toggleSpeechRecognition(
     } catch (e) {
       console.warn("[SpeechRecognition] Initial start failed:", e);
       if (!e.message || !e.message.includes("already started")) {
-        if (mode === "speechPractice") {
-          console.warn(
-            "[SpeechRecognition] STT 시작 실패, 오디오 녹음 및 Whisper 폴백 모드로 계속 진행합니다:",
-            e,
-          );
-          shouldRunStt = false;
-        } else {
-          showMicError(
-            "마이크를 시작하지 못했어요. 브라우저 설정 또는 마이크 연결을 확인해주세요.",
-            targetError,
-          );
-          stopSpeechRecognition();
-          return;
+        // 안드로이드/갤럭시 기기 등에서 첫 시작 시 start() 예외 발생 시 인스턴스 재생성 후 재시도
+        try {
+          createSpeechRecognitionInstance();
+          if (recognition) recognition.start();
+        } catch (retryErr) {
+          if (mode === "speechPractice") {
+            console.warn(
+              "[SpeechRecognition] STT 시작 실패, 오디오 녹음 및 Whisper 폴백 모드로 계속 진행합니다:",
+              retryErr,
+            );
+            shouldRunStt = false;
+          } else {
+            showMicError(
+              "마이크를 시작하지 못했어요. 브라우저 주소창의 자물쇠(🔒) 아이콘에서 마이크 권한을 확인해주세요.",
+              targetError,
+            );
+            stopSpeechRecognition();
+            return;
+          }
         }
       }
     }
@@ -3575,29 +3621,42 @@ function toggleSpeechRecognition(
 }
 
 /**
- * Web Speech API 음성 인식기(SpeechRecognition) 인스턴스 초기화 및 이벤트 리스너 등록
- * [침묵 자동 재연결 방어]
- * - 사용자가 명시적으로 정지하기 전까지 침묵 타임아웃 종료 시 자동 재시작 보장
+ * Web Speech API 음성 인식기(SpeechRecognition) 인스턴스 생성 및 이벤트 바인딩
+ * [갤럭시/안드로이드 최적화]
+ * - 안드로이드/삼성 인터넷은 종료된 SpeechRecognition 인스턴스에 start()를 재호출하면
+ *   DOMException(이미 시작되었거나 종료됨)이 발생하거나 하드웨어 스트림이 먹통이 되므로
+ *   세션 시작 및 무봉제 재연결 시마다 반드시 신규 인스턴스를 생성해야 합니다.
+ * @returns {SpeechRecognition|null}
  */
-function initSpeechRecognition() {
+function createSpeechRecognitionInstance() {
+  if (recognition) {
+    try {
+      recognition.onstart = null;
+      recognition.onaudiostart = null;
+      recognition.onsoundstart = null;
+      recognition.onspeechstart = null;
+      recognition.onresult = null;
+      recognition.onerror = null;
+      recognition.onend = null;
+      recognition.abort();
+    } catch (e) {}
+    recognition = null;
+  }
+
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) return;
+  if (!SpeechRecognition) return null;
 
-  const isMobile =
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent,
-    );
+  const isAndroid = /Android/i.test(navigator.userAgent);
 
-  recognition = new SpeechRecognition();
-  recognition.lang = "en-US";
-  // 데스크톱(Windows Chrome/Edge) 및 모바일 전 브라우저에서 continuous=true 설정 시
-  // 서버 웹소켓이 타임아웃 종료되거나 network 오류가 빈발하므로 continuous=false 적용 (onend에서 무봉제 자동 재연결)
-  recognition.continuous = false;
-  recognition.interimResults = true;
-  recognition.maxAlternatives = 1;
+  const rec = new SpeechRecognition();
+  rec.lang = "en-US";
+  // 데스크톱 및 모바일 전 브라우저에서 continuous=false 적용 (onend에서 인스턴스 재생성을 통한 무봉제 자동 재연결)
+  rec.continuous = false;
+  rec.interimResults = true;
+  rec.maxAlternatives = 1;
 
-  recognition.onstart = () => {
+  const markStarted = () => {
     micStarted = true;
     if (micStartTimer) {
       clearTimeout(micStartTimer);
@@ -3609,7 +3668,14 @@ function initSpeechRecognition() {
     }
   };
 
-  recognition.onresult = (e) => {
+  rec.onstart = markStarted;
+  rec.onaudiostart = markStarted;
+  rec.onsoundstart = markStarted;
+  rec.onspeechstart = markStarted;
+
+  rec.onresult = (e) => {
+    markStarted();
+
     let accumulatedFinal = "";
     let interim = "";
     for (let i = 0; i < e.results.length; i++) {
@@ -3642,12 +3708,13 @@ function initSpeechRecognition() {
     }
   };
 
-  recognition.onerror = (e) => {
+  rec.onerror = (e) => {
     console.warn("[SpeechRecognition] error:", e.error);
     if (e.error === "aborted" || e.error === "no-speech") {
       // 침묵이나 일시적 중단은 무시하고 자동 재연결에 맡김
       return;
     }
+
     // ⚡ 발화연습(speechPractice) 모드이거나 오디오 녹음(MediaRecorder)이 진행 중인 경우:
     // Web Speech API에서 network, audio-capture, service-not-allowed 등 오류가 발생하더라도
     // 사용자 녹음(MediaRecorder)을 절대 강제 종료하지 않음!
@@ -3667,6 +3734,32 @@ function initSpeechRecognition() {
       return;
     }
 
+    // 모바일/안드로이드 환경에서 일시적인 audio-capture 또는 network 끊김은 자동 재연결로 복구 시도
+    if (
+      listening &&
+      !userExplicitlyStoppedMic &&
+      (e.error === "audio-capture" || e.error === "network")
+    ) {
+      console.warn(
+        `[SpeechRecognition] Transient mobile error (${e.error}), attempting seamless recovery.`,
+      );
+      return;
+    }
+
+    // 자동 재연결 중 발생한 not-allowed (백그라운드 제스처 만료 등): 이미 사용자가 말을 입력한 상태면 조용히 종료
+    if (
+      listening &&
+      !userExplicitlyStoppedMic &&
+      e.error === "not-allowed" &&
+      baseTranscript
+    ) {
+      console.warn(
+        "[SpeechRecognition] User gesture expired on restart, concluding session gracefully.",
+      );
+      stopListeningUI();
+      return;
+    }
+
     const msg =
       MIC_ERROR_MESSAGES[e.error] ||
       `마이크 오류가 발생했어요 (${e.error}). 다시 시도해주세요.`;
@@ -3674,7 +3767,7 @@ function initSpeechRecognition() {
     stopSpeechRecognition();
   };
 
-  recognition.onend = () => {
+  rec.onend = () => {
     // ⚡ 발화 중 잠시 쉬어가서 세션이 타임아웃 종료되더라도, 확정된 내용만 baseTranscript로 보존하여
     // 미확정 interim 텍스트가 중복 누적되거나 단어가 두 번 붙여넣어지는 현상을 원천 방지
     if (currentSessionFinal) {
@@ -3689,33 +3782,55 @@ function initSpeechRecognition() {
       autoResizeTextarea(activeTarget.input);
     }
 
-    // 사용자가 명시적으로 중지하지 않았고, 여전히 듣기 활성 상태라면 브라우저의 침묵 타임아웃 방어를 위해 자동 재연결
+    // 사용자가 명시적으로 중지하지 않았고, 여전히 듣기 활성 상태라면 브라우저의 침묵 타임아웃 방어를 위해 자동 재시작
     if (listening && !userExplicitlyStoppedMic && activeTarget) {
-      setTimeout(() => {
-        if (listening && !userExplicitlyStoppedMic && recognition) {
-          try {
+      // 안드로이드/갤럭시 기기는 AudioRecord 하드웨어 해제 시간(약 300~400ms)이 필요하며 인스턴스를 새로 생성해야 함
+      const restartDelay = isAndroid ? 350 : 150;
+      if (speechRestartTimer) clearTimeout(speechRestartTimer);
+      speechRestartTimer = setTimeout(() => {
+        if (!listening || userExplicitlyStoppedMic || !activeTarget) return;
+        try {
+          // 핵심: 안드로이드에서는 종료된 인스턴스를 재사용할 수 없으므로 항상 신규 인스턴스 생성!
+          createSpeechRecognitionInstance();
+          if (recognition) {
             recognition.start();
-          } catch (err) {
-            console.warn(
-              "[SpeechRecognition] Auto-restart silent retry failed:",
-              err,
-            );
-            if (listening && !userExplicitlyStoppedMic) {
-              setTimeout(() => {
-                try {
-                  if (listening && !userExplicitlyStoppedMic && recognition) {
-                    recognition.start();
-                  }
-                } catch (e2) {}
-              }, 300);
-            }
+          }
+        } catch (err) {
+          console.warn(
+            "[SpeechRecognition] Auto-restart silent retry failed:",
+            err,
+          );
+          if (listening && !userExplicitlyStoppedMic && activeTarget) {
+            setTimeout(() => {
+              if (!listening || userExplicitlyStoppedMic || !activeTarget)
+                return;
+              try {
+                createSpeechRecognitionInstance();
+                if (recognition) recognition.start();
+              } catch (e2) {
+                console.warn(
+                  "[SpeechRecognition] Secondary restart failed:",
+                  e2,
+                );
+              }
+            }, isAndroid ? 600 : 300);
           }
         }
-      }, 150);
+      }, restartDelay);
       return;
     }
     stopListeningUI();
   };
+
+  recognition = rec;
+  return rec;
+}
+
+/**
+ * Web Speech API 음성 인식기(SpeechRecognition) 초기화 래퍼 (하위 호환성 유지)
+ */
+function initSpeechRecognition() {
+  return createSpeechRecognitionInstance();
 }
 
 // =============================================================================
@@ -3753,9 +3868,17 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
-    alert(
-      "이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 브라우저를 사용해주세요.",
-    );
+    const isWebView =
+      /KAKAOTALK|NAVER|Instagram|FB_IAB|Line\//i.test(navigator.userAgent);
+    if (isWebView) {
+      alert(
+        "앱 내 브라우저에서는 음성 인식이 제한될 수 있습니다. 우측 상단 메뉴(⋮)를 눌러 'Chrome으로 열기' 또는 '삼성 인터넷으로 열기'를 선택해주세요.",
+      );
+    } else {
+      alert(
+        "이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 또는 삼성 인터넷(Samsung Internet) 브라우저를 사용해주세요.",
+      );
+    }
     return;
   }
 
@@ -3777,6 +3900,16 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
       evalBoxEl.style.display = "block";
       evalBoxEl.innerHTML = `<div class="single-sen-eval-status">🎙️ 귀 기울여 듣고 있습니다. 문장을 소리 내어 말씀해보세요...</div>`;
     }
+
+    const markRecStarted = () => {
+      if (evalBoxEl && !spokenTranscript) {
+        evalBoxEl.innerHTML = `<div class="single-sen-eval-status">🎙️ 귀 기울여 듣고 있습니다. 문장을 소리 내어 말씀해보세요...</div>`;
+      }
+    };
+    rec.onstart = markRecStarted;
+    rec.onaudiostart = markRecStarted;
+    rec.onsoundstart = markRecStarted;
+    rec.onspeechstart = markRecStarted;
 
     let spokenTranscript = "";
     let isEvaluated = false;
@@ -3808,7 +3941,13 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
         }
       } else if (e.error !== "aborted") {
         if (evalBoxEl) {
-          evalBoxEl.innerHTML = `<div class="single-sen-eval-status" style="color:var(--danger);">마이크 오류 (${e.error}) - 마이크 권한을 확인해주세요.</div>`;
+          const errMsg =
+            e.error === "not-allowed"
+              ? "마이크 권한이 필요합니다. 브라우저 주소창의 🔒 아이콘에서 마이크를 허용해주세요."
+              : e.error === "audio-capture"
+                ? "마이크 장치를 사용할 수 없습니다. 다른 앱이 마이크를 사용 중인지 확인해주세요."
+                : `마이크 오류 (${e.error}) - 다시 시도해주세요.`;
+          evalBoxEl.innerHTML = `<div class="single-sen-eval-status" style="color:var(--danger);">${errMsg}</div>`;
         }
       }
       stopSingleSentenceSpeech();
@@ -3837,6 +3976,13 @@ function stopSingleSentenceSpeech() {
   const { rec, btn } = activeSingleSentenceRec;
   if (rec) {
     try {
+      rec.onstart = null;
+      rec.onaudiostart = null;
+      rec.onsoundstart = null;
+      rec.onspeechstart = null;
+      rec.onresult = null;
+      rec.onerror = null;
+      rec.onend = null;
       rec.stop();
     } catch (e) {}
   }

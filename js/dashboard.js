@@ -92,11 +92,8 @@ function hideAllScreens() {
   if (spAudio) {
     spAudio.pause();
   }
-  if (listening && recognition) {
-    recognition.onend = null;
-    recognition.stop();
-    initSpeechRecognition();
-    stopListeningUI();
+  if (typeof stopSpeechRecognition === "function") {
+    stopSpeechRecognition();
   }
   // 공통 .app-screen 컨테이너 일괄 은닉 및 클래스 초기화
   const screens = document.querySelectorAll(".app-screen");
