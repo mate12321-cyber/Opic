@@ -1367,69 +1367,60 @@ function utf8ToBase64(str) {
 // =============================================================================
 
 /**
- * Azure Cognitive Services Pronunciation Assessment REST API 호출 및 결과 파싱
- * [평가 차원 - Dimension: Comprehensive]
- * - 정확도 (AccuracyScore), 유창성 (FluencyScore), 운율/억양 (ProsodyScore), 완성도 (CompletenessScore)
- * - 단어 단위 및 음소(Phoneme) 단위 세부 감점 분석
- * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
- * @param {string} referenceText - 모범 기준 정답 텍스트
- * @returns {Promise<Object>} 정밀 평가 결과 객체 (점수, 음소/단어 분석, OPIc 예상 등급)
- * @throws {Error} API 키 부재, 오디오 데이터 부족, 인식 실패 시
+ * Azure 연속 음성 인식(Continuous Recognition) 세그먼트 배열 종합 산출
+ * - 다문장, 긴 문장, OPIc 전체 발화의 각 세그먼트별 단어 및 음소, 점수를 단어 수 가중치로 종합 병합
+ * @param {Array<Object>} segments - NBest[0] 세그먼트 결과 배열
+ * @returns {Object} 정밀 평가 결과 객체
  */
-async function assessPronunciationWithAzure(wavBuffer, referenceText) {
-  if (!azureApiKey || !azureApiKey.trim()) {
-    throw new Error("Azure API Key가 설정되지 않았습니다.");
-  }
-  if (!wavBuffer || wavBuffer.byteLength < 100) {
-    throw new Error("평가할 오디오 데이터가 부족합니다.");
+function aggregateAzureSegments(segments) {
+  if (!segments || segments.length === 0) {
+    throw new Error("음성 인식 결과가 없습니다. 다시 시도해 주세요.");
   }
 
-  // 악센트 문자(café, cafés 등)를 표준 영어 ASCII 단어로 정규화
-  const cleanRef = sanitizeEnglishText(referenceText.trim());
-  const region = (azureRegion || "eastus").trim();
-  const endpoint = `https://${region}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US&format=detailed`;
+  let totalWords = 0;
+  let weightedPron = 0;
+  let weightedAccuracy = 0;
+  let weightedFluency = 0;
+  let weightedProsody = 0;
+  let weightedCompleteness = 0;
+  const allWords = [];
+  const displayTexts = [];
 
-  const pronConfig = {
-    ReferenceText: cleanRef,
-    GradingSystem: "HundredMark",
-    Granularity: "Phoneme",
-    Dimension: "Comprehensive",
-    EnableProsodyAssessment: "True",
-  };
-  const pronHeader = utf8ToBase64(JSON.stringify(pronConfig));
+  segments.forEach((nbest) => {
+    const rawWords = nbest.Words || [];
+    const count = Math.max(1, rawWords.length);
+    totalWords += count;
 
-  const res = await fetch(endpoint, {
-    method: "POST",
-    headers: {
-      "Ocp-Apim-Subscription-Key": azureApiKey.trim(),
-      "Content-Type": "audio/wav; codecs=audio/pcm; samplerate=16000",
-      Accept: "application/json",
-      "Pronunciation-Assessment": pronHeader,
-      "User-Agent": "OPIc-Trainer-PronAssessment",
-    },
-    body: wavBuffer,
+    weightedPron += (nbest.PronScore || 0) * count;
+    weightedAccuracy += (nbest.AccuracyScore || 0) * count;
+    weightedFluency += (nbest.FluencyScore || 0) * count;
+    weightedProsody += (nbest.ProsodyScore || 0) * count;
+    weightedCompleteness += (nbest.CompletenessScore || 0) * count;
+
+    if (nbest.Display) {
+      displayTexts.push(nbest.Display);
+    }
+
+    rawWords.forEach((w) => {
+      allWords.push({
+        word: w.Word,
+        accuracyScore: Math.round(w.AccuracyScore || 0),
+        errorType: w.ErrorType || "None",
+        phonemes: (w.Phonemes || []).map((p) => ({
+          phoneme: p.Phoneme,
+          accuracyScore: Math.round(p.AccuracyScore || 0),
+        })),
+      });
+    });
   });
 
-  if (!res.ok) {
-    const errText = await res.text().catch(() => "");
-    throw new Error(`Azure 발음 평가 오류 (${res.status}): ${errText}`);
-  }
-
-  // 이번 달 Azure 발음 평가 처리 오디오 길이(초) 사용량 누적 (16kHz 16bit Mono = 32,000 bytes/sec)
-  const audioSec = Math.max(0.5, (wavBuffer.byteLength - 44) / 32000);
-  addAzureAudioUsage(audioSec);
-
-  const data = await res.json();
-  if (data.RecognitionStatus !== "Success" || !data.NBest || !data.NBest[0]) {
-    throw new Error(`음성 인식 실패 (${data.RecognitionStatus || "No match"})`);
-  }
-
-  const nbest = data.NBest[0];
-  const pronScore = Math.round(nbest.PronScore || 0);
-  const accuracyScore = Math.round(nbest.AccuracyScore || 0);
-  const fluencyScore = Math.round(nbest.FluencyScore || 0);
-  const prosodyScore = Math.round(nbest.ProsodyScore || 0);
-  const completenessScore = Math.round(nbest.CompletenessScore || 0);
+  const pronScore = Math.round(weightedPron / Math.max(1, totalWords));
+  const accuracyScore = Math.round(weightedAccuracy / Math.max(1, totalWords));
+  const fluencyScore = Math.round(weightedFluency / Math.max(1, totalWords));
+  const prosodyScore = Math.round(weightedProsody / Math.max(1, totalWords));
+  const completenessScore = Math.round(
+    weightedCompleteness / Math.max(1, totalWords),
+  );
 
   // OPIc 예상 등급 산출
   let opicGrade = {
@@ -1475,16 +1466,6 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     };
   }
 
-  const words = (nbest.Words || []).map((w) => ({
-    word: w.Word,
-    accuracyScore: Math.round(w.AccuracyScore || 0),
-    errorType: w.ErrorType || "None",
-    phonemes: (w.Phonemes || []).map((p) => ({
-      phoneme: p.Phoneme,
-      accuracyScore: Math.round(p.AccuracyScore || 0),
-    })),
-  }));
-
   let feedback = "";
   if (pronScore >= 85) {
     feedback =
@@ -1507,10 +1488,273 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     prosodyScore,
     completenessScore,
     opicGrade,
-    words,
+    words: allWords,
     feedback,
-    recognizedText: nbest.Display || "",
+    recognizedText: displayTexts.join(" "),
   };
+}
+
+/**
+ * Azure Cognitive Services Speech SDK를 활용한 무제한 연속 발음 평가 (Continuous Recognition)
+ * - 30초 REST API 제한을 극복하고, 중간 쉼/침묵이 있는 긴 복합문장 및 6개 문장 전체를 한 번에 채점
+ * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
+ * @param {string} referenceText - 모범 기준 정답 텍스트
+ * @returns {Promise<Object>} 정밀 평가 결과 객체
+ */
+async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
+  const sdk = typeof window !== "undefined" ? window.SpeechSDK : null;
+  if (!sdk || !sdk.SpeechConfig || !sdk.SpeechRecognizer) {
+    throw new Error("SpeechSDK is not available");
+  }
+
+  const cleanRef = sanitizeEnglishText(referenceText.trim());
+  const region = (azureRegion || "eastus").trim();
+  const apiKey = azureApiKey.trim();
+
+  const speechConfig = sdk.SpeechConfig.fromSubscription(apiKey, region);
+  speechConfig.speechRecognitionLanguage = "en-US";
+
+  const streamFormat = sdk.AudioStreamFormat.getWaveFormatPCM(16000, 16, 1);
+  const pushStream = sdk.AudioInputStream.createPushStream(streamFormat);
+  const audioConfig = sdk.AudioConfig.fromStreamInput(pushStream);
+
+  const pronConfig = new sdk.PronunciationAssessmentConfig(
+    cleanRef,
+    sdk.PronunciationAssessmentGradingSystem.HundredMark,
+    sdk.PronunciationAssessmentGranularity.Phoneme,
+    false,
+  );
+  pronConfig.enableProsodyAssessment = true;
+
+  const recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
+  pronConfig.applyTo(recognizer);
+
+  return new Promise((resolve, reject) => {
+    const segments = [];
+    let isFinished = false;
+    let safetyTimer = null;
+
+    const cleanup = () => {
+      if (safetyTimer) {
+        clearTimeout(safetyTimer);
+        safetyTimer = null;
+      }
+      try {
+        recognizer.close();
+      } catch (e) {}
+    };
+
+    const finish = () => {
+      if (isFinished) return;
+      isFinished = true;
+      try {
+        recognizer.stopContinuousRecognitionAsync(
+          () => {
+            cleanup();
+            if (segments.length === 0) {
+              reject(new Error("음성 인식 결과가 없습니다."));
+            } else {
+              try {
+                resolve(aggregateAzureSegments(segments));
+              } catch (err) {
+                reject(err);
+              }
+            }
+          },
+          (err) => {
+            cleanup();
+            if (segments.length > 0) {
+              try {
+                resolve(aggregateAzureSegments(segments));
+              } catch (e2) {
+                reject(e2);
+              }
+            } else {
+              reject(new Error(err || "연속 음성 인식 중단 오류"));
+            }
+          },
+        );
+      } catch (err) {
+        cleanup();
+        if (segments.length > 0) {
+          try {
+            resolve(aggregateAzureSegments(segments));
+          } catch (e3) {
+            reject(e3);
+          }
+        } else {
+          reject(err);
+        }
+      }
+    };
+
+    recognizer.recognized = (s, e) => {
+      if (e.result && e.result.reason === sdk.ResultReason.RecognizedSpeech) {
+        const jsonStr = e.result.properties.getProperty(
+          sdk.PropertyId.SpeechServiceResponse_JsonResult,
+        );
+        if (jsonStr) {
+          try {
+            const parsed = JSON.parse(jsonStr);
+            if (parsed && parsed.NBest && parsed.NBest[0]) {
+              segments.push(parsed.NBest[0]);
+            }
+          } catch (jsonErr) {
+            console.warn("[SpeechSDK] JSON parse warning:", jsonErr);
+          }
+        }
+      }
+    };
+
+    recognizer.canceled = (s, e) => {
+      if (e.reason === sdk.CancellationReason.Error) {
+        console.warn(
+          "[SpeechSDK] Recognition canceled with error:",
+          e.errorDetails,
+        );
+      }
+      finish();
+    };
+
+    recognizer.sessionStopped = () => {
+      finish();
+    };
+
+    // 안전 타임아웃: 오디오 길이에 비례하되 최대 35초
+    const audioSec = Math.max(1, (wavBuffer.byteLength - 44) / 32000);
+    const timeoutMs = Math.min(
+      35000,
+      Math.max(12000, Math.round(audioSec * 1500) + 5000),
+    );
+
+    safetyTimer = setTimeout(() => {
+      console.warn("[SpeechSDK] Continuous recognition safety timeout fired");
+      finish();
+    }, timeoutMs);
+
+    recognizer.startContinuousRecognitionAsync(
+      () => {
+        try {
+          const pcmBytes =
+            wavBuffer.byteLength > 44 ? wavBuffer.slice(44) : wavBuffer;
+          const chunkSize = 32000;
+          for (
+            let offset = 0;
+            offset < pcmBytes.byteLength;
+            offset += chunkSize
+          ) {
+            const chunk = pcmBytes.slice(
+              offset,
+              Math.min(offset + chunkSize, pcmBytes.byteLength),
+            );
+            pushStream.write(chunk);
+          }
+          pushStream.close();
+        } catch (writeErr) {
+          console.error("[SpeechSDK] PushStream write error:", writeErr);
+          finish();
+        }
+      },
+      (startErr) => {
+        cleanup();
+        reject(new Error(startErr || "음성 인식 시작 실패"));
+      },
+    );
+  });
+}
+
+/**
+ * Azure Cognitive Services Pronunciation Assessment REST API (단문/폴백 모드)
+ * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
+ * @param {string} referenceText - 모범 기준 정답 텍스트
+ * @returns {Promise<Object>}
+ */
+async function assessPronunciationWithAzureRest(wavBuffer, referenceText) {
+  const cleanRef = sanitizeEnglishText(referenceText.trim());
+  const region = (azureRegion || "eastus").trim();
+  const endpoint = `https://${region}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US&format=detailed`;
+
+  const pronConfig = {
+    ReferenceText: cleanRef,
+    GradingSystem: "HundredMark",
+    Granularity: "Phoneme",
+    Dimension: "Comprehensive",
+    EnableProsodyAssessment: "True",
+  };
+  const pronHeader = utf8ToBase64(JSON.stringify(pronConfig));
+
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Ocp-Apim-Subscription-Key": azureApiKey.trim(),
+      "Content-Type": "audio/wav; codecs=audio/pcm; samplerate=16000",
+      Accept: "application/json",
+      "Pronunciation-Assessment": pronHeader,
+      "User-Agent": "OPIc-Trainer-PronAssessment",
+    },
+    body: wavBuffer,
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => "");
+    throw new Error(`Azure 발음 평가 오류 (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  if (data.RecognitionStatus !== "Success" || !data.NBest || !data.NBest[0]) {
+    throw new Error(`음성 인식 실패 (${data.RecognitionStatus || "No match"})`);
+  }
+
+  return aggregateAzureSegments([data.NBest[0]]);
+}
+
+/**
+ * Azure AI 음성 정밀 발음 평가 (하이브리드: SpeechSDK 연속 모드 우선 ➔ REST API 폴백)
+ * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
+ * @param {string} referenceText - 모범 기준 정답 텍스트
+ * @returns {Promise<Object>} 정밀 평가 결과 객체 (점수, 음소/단어 분석, OPIc 예상 등급)
+ * @throws {Error} API 키 부재, 오디오 데이터 부족, 인식 실패 시
+ */
+async function assessPronunciationWithAzure(wavBuffer, referenceText) {
+  if (!azureApiKey || !azureApiKey.trim()) {
+    throw new Error("Azure API Key가 설정되지 않았습니다.");
+  }
+  if (!wavBuffer || wavBuffer.byteLength < 100) {
+    throw new Error("평가할 오디오 데이터가 부족합니다.");
+  }
+
+  // 이번 달 Azure 발음 평가 처리 오디오 길이(초) 사용량 누적 (16kHz 16bit Mono = 32,000 bytes/sec)
+  const audioSec = Math.max(0.5, (wavBuffer.byteLength - 44) / 32000);
+
+  // 1. Azure Speech SDK 연속 음성 평가 시도 (다문장, 긴 문장, OPIc 전체 발화 완벽 지원)
+  if (
+    typeof window !== "undefined" &&
+    window.SpeechSDK &&
+    window.SpeechSDK.SpeechConfig &&
+    window.SpeechSDK.SpeechRecognizer
+  ) {
+    try {
+      const sdkResult = await assessPronunciationWithSpeechSDK(
+        wavBuffer,
+        referenceText,
+      );
+      addAzureAudioUsage(audioSec);
+      return sdkResult;
+    } catch (sdkErr) {
+      console.warn(
+        "[PronAssessment] SpeechSDK continuous mode failed, falling back to REST API:",
+        sdkErr.message,
+      );
+    }
+  }
+
+  // 2. SpeechSDK 미지원 또는 실패 시 기존 REST API 폴백
+  const restResult = await assessPronunciationWithAzureRest(
+    wavBuffer,
+    referenceText,
+  );
+  addAzureAudioUsage(audioSec);
+  return restResult;
 }
 
 // =============================================================================
@@ -2254,7 +2498,15 @@ async function renderPronunciationAssessment({
   boxEl.classList.add("show");
   boxEl.style.display = "block";
 
-  const wavBuffer = lastRecordedWavs[mode];
+  let wavBuffer = lastRecordedWavs[mode];
+  if (!wavBuffer && lastRecordedBlobs[mode]) {
+    try {
+      wavBuffer = await blobTo16kHzWav(lastRecordedBlobs[mode]);
+      if (wavBuffer) {
+        setRecordedWavBuffer(mode, wavBuffer);
+      }
+    } catch (e) {}
+  }
   const isOpic = mode === "opic";
   // OPIc 실전 모드는 모범 답안과 비교하지 않고 '내 실제 답변(userText)'을 기준으로 발음/유창성/운율을 정밀 진단!
   const targetAssessmentText = isOpic
