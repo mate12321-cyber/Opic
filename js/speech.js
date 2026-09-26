@@ -3352,16 +3352,13 @@ function toggleSpeechRecognition(
   }
   const isOpic = mode === "opic";
 
-  // 발화 연습(speechPractice): 데스크톱 및 모바일 환경 최적화
+  // 발화 연습(speechPractice): 데스크톱 및 모바일(갤럭시 등) 전 기기에서 실시간 STT 즉시 전사 + 오디오 녹음 동시 진행
   let shouldRunStt = true;
   let shouldRunRecord = true;
 
   if (mode === "speechPractice") {
     shouldRunRecord = true;
-    // ⚡ 모바일/안드로이드(갤럭시)에서는 OS 마이크 하드웨어 점유 충돌(AudioRecord 독점)을 방지하기 위해
-    // 녹음(MediaRecorder)을 단독 실행하고, 녹음 종료 즉시 브라우저 온디바이스 Whisper AI가 전사합니다.
-    // 데스크톱 환경에서는 실시간 STT + MediaRecorder 동시 진행
-    shouldRunStt = !isMobileDevice;
+    shouldRunStt = true; // 데스크톱 및 모바일(갤럭시/아이폰) 전 기기에서 실시간 STT 전사 즉각 구동!
   } else if (isMobileDevice) {
     // 문장 번역 / OPIc 실전 / 만능 패턴 모드는 모바일에서 실시간 STT 단독 배정
     shouldRunStt = true;
@@ -3577,6 +3574,13 @@ function toggleSpeechRecognition(
       .catch((mediaErr) => {
         console.warn("[MediaRecorder] Microphone stream error:", mediaErr);
         if (listening) {
+          // ⚡ STT가 이미 성공적으로 구동 중이라면 녹음 실패로 인해 전체 음성 인식을 강제 종료하지 않음!
+          if (shouldRunStt && micStarted) {
+            console.warn(
+              "[MediaRecorder] Recording stream failed but STT is active; continuing STT transcription.",
+            );
+            return;
+          }
           let errorMsg =
             "마이크를 사용할 수 없습니다. 권한 설정을 확인해주세요.";
           if (
@@ -3584,7 +3588,7 @@ function toggleSpeechRecognition(
             mediaErr.name === "PermissionDeniedError"
           ) {
             errorMsg =
-              "마이크 사용 권한이 차단되었습니다. 브라우저 주소창의 🔒(자물쇠) 아이콘 또는 Windows 설정 > 개인 정보 및 보안 > 마이크에서 마이크 액세스를 허용해주세요.";
+              "마이크 사용 권한이 차단되었습니다. 브라우저 주소창의 🔒(자물쇠) 아이콘 또는 설정에서 마이크 액세스를 허용해주세요.";
           } else if (
             mediaErr.name === "NotFoundError" ||
             mediaErr.name === "DevicesNotFoundError"
@@ -3596,7 +3600,7 @@ function toggleSpeechRecognition(
             mediaErr.name === "TrackStartError"
           ) {
             errorMsg =
-              "마이크 장치에 접근할 수 없습니다. 다른 프로그램(Zoom, Teams 등)이 마이크를 독점 중인지 확인해주세요.";
+              "마이크 장치에 접근할 수 없습니다. 다른 프로그램(Zoom, 통화 등)이 마이크를 독점 중인지 확인해주세요.";
           }
           showMicError(errorMsg, targetError);
           stopSpeechRecognition();
