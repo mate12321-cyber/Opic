@@ -1757,6 +1757,47 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
   return restResult;
 }
 
+/**
+ * Azure Speech-to-Text REST API를 통한 빠른 음성 전사 (STT)
+ * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
+ * @returns {Promise<string>} 전사된 영어 텍스트
+ */
+async function transcribeWithAzure(wavBuffer) {
+  if (
+    !azureApiKey ||
+    !azureApiKey.trim() ||
+    !wavBuffer ||
+    wavBuffer.byteLength < 100
+  ) {
+    return "";
+  }
+  const region = (azureRegion || "eastus").trim();
+  const endpoint = `https://${region}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US&format=detailed`;
+
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Ocp-Apim-Subscription-Key": azureApiKey.trim(),
+      "Content-Type": "audio/wav; codecs=audio/pcm; samplerate=16000",
+      Accept: "application/json",
+      "User-Agent": "OPIc-Trainer-STT",
+    },
+    body: wavBuffer,
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => "");
+    throw new Error(`Azure STT 오류 (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+  if (data.RecognitionStatus === "Success" && data.NBest && data.NBest[0]) {
+    return data.NBest[0].Display || data.DisplayText || "";
+  }
+  return "";
+}
+window.transcribeWithAzure = transcribeWithAzure;
+
 // =============================================================================
 // 8. 텍스트 정규화 및 단순 일치도(Diff) 평가
 // =============================================================================
@@ -2507,8 +2548,8 @@ async function renderPronunciationAssessment({
       }
     } catch (e) {}
   }
-  const isOpic = mode === "opic";
-  // OPIc 실전 모드는 모범 답안과 비교하지 않고 '내 실제 답변(userText)'을 기준으로 발음/유창성/운율을 정밀 진단!
+  const isOpic = mode === "opic" || mode === "speechPractice";
+  // OPIc 실전 및 발화 연습 모드는 모범 답안과 비교하지 않고 '내 실제 답변(userText)'을 기준으로 발음/유창성/운율을 정밀 진단!
   const targetAssessmentText = isOpic
     ? (userText || "").trim()
     : (referenceText || userText || "").trim();
@@ -3356,19 +3397,18 @@ function toggleSpeechRecognition(
   let shouldRunStt = true;
   let shouldRunRecord = true;
 
-  if (isMobileDevice) {
-    // ⚡ 모바일(갤럭시/안드로이드/아이폰) 최적화 정책:
-    // 모바일 OS(특히 안드로이드 AudioFlinger HAL)는 마이크 하드웨어를 한 번에 하나의 프로세스/소스에만 배정합니다.
-    // getUserMedia(MediaRecorder 녹음)와 Web Speech API(STT 음성 인식)를 동시에 구동하면,
-    // 안드로이드 OS가 마이크를 MediaRecorder에만 배정하여 Web Speech API가 무음(Silence)을 전달받아
-    // 녹음은 되지만 텍스트 입력(STT)이 전혀 동작하지 않는 치명적인 하드웨어 충돌이 발생합니다.
-    // 따라서 다른 모드(문장 연습, OPIc 실전, 만능 패턴)와 동일하게 발화 연습에서도 실시간 STT를 단독 배정하여
-    // 갤럭시/모바일 기기에서도 말하는 즉시 입력창에 텍스트가 실시간 전사되도록 보장합니다.
+  if (mode === "speechPractice") {
+    // ⚡ 발화 연습(speechPractice) 모드:
+    // '내 발음 다시 듣기' 및 'Azure AI 발음·유창성 정밀 채점'을 위해 전 기기에서 오디오 녹음(MediaRecorder)을 필수로 실행!
+    // 녹음 종료 시 모바일 환경에서도 Azure STT(또는 Whisper AI)가 오디오를 즉시 텍스트로 자동 전사합니다.
+    shouldRunRecord = true;
+    shouldRunStt = true;
+  } else if (isMobileDevice) {
+    // 문장 연습 / OPIc 실전 / 만능 패턴 모드는 모바일에서 실시간 Web Speech STT 단독 배정
     shouldRunStt = true;
     shouldRunRecord = false;
   } else {
-    // 데스크톱 환경에서는 브라우저의 마이크 멀티스트림 공유가 원활하므로
-    // 실시간 STT 전사와 MediaRecorder 고음질 오디오 녹음을 동시에 안전하게 진행합니다.
+    // 데스크톱 환경에서는 STT 실시간 전사와 MediaRecorder 고음질 녹음 동시 진행
     shouldRunStt = true;
     shouldRunRecord = true;
   }
@@ -3382,8 +3422,9 @@ function toggleSpeechRecognition(
         );
         shouldRunStt = false;
       } else {
-        const isWebView =
-          /KAKAOTALK|NAVER|Instagram|FB_IAB|Line\//i.test(navigator.userAgent);
+        const isWebView = /KAKAOTALK|NAVER|Instagram|FB_IAB|Line\//i.test(
+          navigator.userAgent,
+        );
         if (isWebView) {
           showMicError(
             "앱 내 브라우저에서는 음성 인식이 제한될 수 있습니다. 우측 상단 메뉴(⋮)를 눌러 'Chrome으로 열기' 또는 '삼성 인터넷으로 열기'를 선택해주세요.",
@@ -3812,19 +3853,22 @@ function createSpeechRecognitionInstance() {
             err,
           );
           if (listening && !userExplicitlyStoppedMic && activeTarget) {
-            setTimeout(() => {
-              if (!listening || userExplicitlyStoppedMic || !activeTarget)
-                return;
-              try {
-                createSpeechRecognitionInstance();
-                if (recognition) recognition.start();
-              } catch (e2) {
-                console.warn(
-                  "[SpeechRecognition] Secondary restart failed:",
-                  e2,
-                );
-              }
-            }, isAndroid ? 600 : 300);
+            setTimeout(
+              () => {
+                if (!listening || userExplicitlyStoppedMic || !activeTarget)
+                  return;
+                try {
+                  createSpeechRecognitionInstance();
+                  if (recognition) recognition.start();
+                } catch (e2) {
+                  console.warn(
+                    "[SpeechRecognition] Secondary restart failed:",
+                    e2,
+                  );
+                }
+              },
+              isAndroid ? 600 : 300,
+            );
           }
         }
       }, restartDelay);
@@ -3879,8 +3923,9 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
-    const isWebView =
-      /KAKAOTALK|NAVER|Instagram|FB_IAB|Line\//i.test(navigator.userAgent);
+    const isWebView = /KAKAOTALK|NAVER|Instagram|FB_IAB|Line\//i.test(
+      navigator.userAgent,
+    );
     if (isWebView) {
       alert(
         "앱 내 브라우저에서는 음성 인식이 제한될 수 있습니다. 우측 상단 메뉴(⋮)를 눌러 'Chrome으로 열기' 또는 '삼성 인터넷으로 열기'를 선택해주세요.",

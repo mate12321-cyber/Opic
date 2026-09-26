@@ -109,18 +109,18 @@ async function onSpeechPracticeRecordingDone(blob) {
   speechPracticeAudioUrl = URL.createObjectURL(blob);
   player.src = speechPracticeAudioUrl;
 
-  // 1. '내 녹음 듣기' 버튼 즉시 활성화 (지연 0초)
+  // 1. '내 발음 다시 듣기' 버튼 즉시 활성화 (지연 0초)
   if (playBtn) {
     playBtn.disabled = false;
     playBtn.classList.add("has-recording");
     playBtn.classList.remove("playing");
     playBtn.title = "녹음된 내 실제 목소리 재생하기";
   }
-  if (playText) playText.textContent = "내 녹음 듣기";
+  if (playText) playText.textContent = "내 발음 다시 듣기";
   if (playIcon) playIcon.textContent = "▶";
   if (bottomRecordBtn) bottomRecordBtn.style.display = "inline-flex";
 
-  // 2. 실시간 STT 성공 여부 검사: 이미 실시간 STT로 텍스트화가 완료된 경우 Whisper 중복 실행 차단!
+  // 2. 실시간 STT 성공 여부 검사: 이미 실시간 STT로 텍스트화가 완료된 경우
   const currentText = input ? input.value.trim() : "";
   const hasSttTranscribed = currentText.length > speechPracticeStartText.length;
 
@@ -128,81 +128,76 @@ async function onSpeechPracticeRecordingDone(blob) {
     if (statusDot) statusDot.className = "sp-status-dot ready";
     if (statusText) {
       statusText.textContent =
-        "✅ 녹음 완료! '내 녹음 듣기'로 발화를 확인하거나 채점해보세요.";
+        "✅ 녹음 완료! '내 발음 다시 듣기'로 발화를 확인하거나 채점해보세요.";
     }
     updateSpeechPracticeCount();
     return;
   }
 
-  // 3. 실시간 STT가 지원되지 않거나 음성이 감지되지 않은 브라우저 환경에서만 Whisper AI 백업 폴백 실행
-  const transcriber =
-    typeof transcribeAudioBlob === "function"
-      ? transcribeAudioBlob
-      : typeof window !== "undefined" &&
-          typeof window.transcribeAudioBlob === "function"
-        ? window.transcribeAudioBlob
-        : null;
+  // 3. 모바일(안드로이드/갤럭시 마이크 독점 등)로 인해 실시간 STT가 누락된 경우 AI 자동 전사 실행
+  if (statusDot) statusDot.className = "sp-status-dot recording";
+  if (statusText) statusText.textContent = "⚡ AI 음성 텍스트 변환 중...";
 
-  if (transcriber && blob && blob.size > 50) {
-    if (statusDot) statusDot.className = "sp-status-dot recording";
+  let transcribed = "";
+
+  // 3-1. Azure Speech API 등록 환경: 0.5초 초고속 Azure STT 전사 우선 시도
+  if (
+    typeof transcribeWithAzure === "function" &&
+    typeof blobTo16kHzWav === "function"
+  ) {
     try {
-      const transcribed = await transcriber(blob, (stepMsg) => {
-        if (statusText) statusText.textContent = stepMsg;
-      });
-
-      if (transcribed && input) {
-        const existing = input.value.trim();
-        const normExisting = existing
-          .replace(/[^\w\s가-힣]/g, " ")
-          .replace(/\s+/g, " ")
-          .toLowerCase()
-          .trim();
-        const normTranscribed = transcribed
-          .replace(/[^\w\s가-힣]/g, " ")
-          .replace(/\s+/g, " ")
-          .toLowerCase()
-          .trim();
-
-        if (!existing) {
-          input.value = transcribed;
-        } else if (
-          !normExisting ||
-          (!normExisting.includes(normTranscribed) &&
-            !normTranscribed.includes(normExisting))
-        ) {
-          input.value = `${existing} ${transcribed}`;
-        }
-
-        if (typeof resetBaseTranscript === "function") {
-          resetBaseTranscript(input.value.trim());
-        }
-        if (typeof autoResizeTextarea === "function") {
-          autoResizeTextarea(input);
-        }
-        updateSpeechPracticeCount();
+      const wav = await blobTo16kHzWav(blob);
+      if (wav) {
+        transcribed = await transcribeWithAzure(wav);
       }
+    } catch (azureSttErr) {
+      console.warn("[SpeechPractice] Azure STT fallback failed:", azureSttErr);
+    }
+  }
 
-      if (statusDot) statusDot.className = "sp-status-dot ready";
-      if (statusText) {
-        statusText.textContent =
-          "✅ 녹음 및 AI 텍스트 자동 완성! 내 녹음 듣기나 채점하기를 눌러보세요.";
+  // 3-2. Azure 미설정 또는 오류 시 온디바이스 Whisper AI 폴백 전사
+  if (!transcribed) {
+    const transcriber =
+      typeof transcribeAudioBlob === "function"
+        ? transcribeAudioBlob
+        : typeof window !== "undefined" &&
+            typeof window.transcribeAudioBlob === "function"
+          ? window.transcribeAudioBlob
+          : null;
+
+    if (transcriber && blob && blob.size > 50) {
+      try {
+        transcribed = await transcriber(blob, (stepMsg) => {
+          if (statusText) statusText.textContent = stepMsg;
+        });
+      } catch (asrErr) {
+        console.warn("[SpeechPractice] Whisper fallback failed:", asrErr);
       }
-    } catch (asrErr) {
-      console.warn(
-        "[SpeechPractice] Whisper transcription fallback failed:",
-        asrErr,
-      );
-      if (statusDot) statusDot.className = "sp-status-dot ready";
-      if (statusText) {
-        statusText.textContent =
-          "녹음 완료 · '내 녹음 듣기'로 발화를 확인해보세요";
-      }
+    }
+  }
+
+  if (transcribed && input) {
+    const existing = speechPracticeStartText || input.value.trim();
+    input.value = existing ? `${existing} ${transcribed}` : transcribed;
+
+    if (typeof resetBaseTranscript === "function") {
+      resetBaseTranscript(input.value.trim());
+    }
+    if (typeof autoResizeTextarea === "function") {
+      autoResizeTextarea(input);
+    }
+    updateSpeechPracticeCount();
+
+    if (statusDot) statusDot.className = "sp-status-dot ready";
+    if (statusText) {
+      statusText.textContent =
+        "✅ 녹음 및 AI 텍스트 변환 완료! '내 발음 다시 듣기'로 확인하거나 채점해보세요.";
     }
   } else {
     if (statusDot) statusDot.className = "sp-status-dot ready";
     if (statusText) {
       statusText.textContent =
-        "녹음 완료 · '내 녹음 듣기'로 발화를 확인해보세요";
+        "녹음 완료 · '내 발음 다시 듣기'로 발화를 확인해보세요";
     }
   }
 }
@@ -239,16 +234,15 @@ function updateSpeechPracticeMicUI(isListening) {
       if (statusDot) statusDot.className = "sp-status-dot ready";
       if (statusText) {
         statusText.textContent = speechPracticeRecordedBlob
-          ? "✅ 녹음 완료! '내 녹음 듣기'로 발화를 확인하거나 채점해보세요."
+          ? "✅ 녹음 완료! '내 발음 다시 듣기'로 발화를 확인하거나 채점해보세요."
           : "✅ 음성 입력 완료! 입력된 내용을 확인하거나 채점해보세요.";
       }
       updateSpeechPracticeCount();
     } else if (!speechPracticeRecordedBlob) {
       if (statusDot) statusDot.className = "sp-status-dot";
       if (statusText) {
-        statusText.textContent = isMobile
-          ? "마이크(🎤)를 누르고 말하면 실시간 텍스트 변환이 진행됩니다"
-          : "마이크(🎤)를 누르고 말하면 실시간 텍스트 변환과 녹음이 진행됩니다";
+        statusText.textContent =
+          "마이크(🎤)를 누르고 말하면 실시간 텍스트 변환과 녹음이 진행됩니다";
       }
     }
   }
@@ -288,9 +282,9 @@ function togglePlayRecordedAudio(triggerBtn = null) {
         .catch((err) => {
           console.warn("[SpeechPractice] Audio play failed:", err);
           if (playBtn) playBtn.classList.remove("playing");
-          if (playText) playText.textContent = "내 녹음 듣기";
+          if (playText) playText.textContent = "내 발음 다시 듣기";
           if (playIcon) playIcon.textContent = "▶";
-          if (bottomBtn) bottomBtn.innerHTML = "🎧 내 녹음 다시 듣기";
+          if (bottomBtn) bottomBtn.innerHTML = "🎧 내 발음 다시 듣기";
         });
     } else {
       if (playBtn) playBtn.classList.add("playing");
@@ -302,9 +296,9 @@ function togglePlayRecordedAudio(triggerBtn = null) {
     player.pause();
     player.currentTime = 0;
     if (playBtn) playBtn.classList.remove("playing");
-    if (playText) playText.textContent = "내 녹음 듣기";
+    if (playText) playText.textContent = "내 발음 다시 듣기";
     if (playIcon) playIcon.textContent = "▶";
-    if (bottomBtn) bottomBtn.innerHTML = "🎧 내 녹음 다시 듣기";
+    if (bottomBtn) bottomBtn.innerHTML = "🎧 내 발음 다시 듣기";
   }
 }
 
@@ -352,23 +346,7 @@ async function evaluateSpeechPracticeAnswer() {
   evalBox.style.display = "block";
   evalBox.classList.add("show");
 
-  // 1. 등급 및 점수 배지
-  if (badgesWrap) {
-    if (result && result.opicGrade) {
-      const score = result.compResult ? result.compResult.finalScore : 70;
-      badgesWrap.innerHTML = `
-        <span class="opic-grade-badge ${result.opicGrade.gradeClass}">${result.opicGrade.label}</span>
-        <span class="eval-score-badge ${score >= 80 ? "high" : score >= 50 ? "mid" : "low"}">${score}점</span>
-      `;
-    } else {
-      badgesWrap.innerHTML = `
-        <span class="opic-grade-badge grade-im">🥈 IM1 (Intermediate Mid 1)</span>
-        <span class="eval-score-badge mid">75점</span>
-      `;
-    }
-  }
-
-  // 2. 발화량 및 속도 통계 그리드
+  // 1. 발화량 및 속도 통계 그리드
   const words = userText.split(/\s+/).filter(Boolean);
   const wordCount = words.length;
   const uniqueWords = new Set(
@@ -396,6 +374,45 @@ async function evaluateSpeechPracticeAnswer() {
         <div class="sp-stat-lbl">발화량 수준</div>
       </div>
     `;
+  }
+
+  // 2. Azure AI 발음 / 음향 지표 / OPIc 정밀 채점 실행 (speech.js 내 renderPronunciationAssessment)
+  const evalDiff = document.getElementById("speechPracticeEvalDiff");
+  const playBtn = document.getElementById("speechPracticePlayRecordBtn");
+
+  if (typeof renderPronunciationAssessment === "function") {
+    await renderPronunciationAssessment({
+      boxEl: evalBox,
+      badgeEl: badgesWrap,
+      diffEl: evalDiff,
+      feedbackEl: feedbackText,
+      mode: "speechPractice",
+      referenceText: userText,
+      userText: userText,
+      voiceBtn: playBtn,
+      questionItem: null,
+    });
+  } else {
+    // 로컬 폴백 채점
+    const result =
+      typeof evaluateOpicSpeaking === "function"
+        ? evaluateOpicSpeaking(userText, null)
+        : null;
+
+    if (badgesWrap) {
+      if (result && result.opicGrade) {
+        const score = result.compResult ? result.compResult.finalScore : 70;
+        badgesWrap.innerHTML = `
+          <span class="opic-grade-badge ${result.opicGrade.gradeClass}">${result.opicGrade.label}</span>
+          <span class="eval-score-badge ${score >= 80 ? "high" : score >= 50 ? "mid" : "low"}">${score}점</span>
+        `;
+      } else {
+        badgesWrap.innerHTML = `
+          <span class="opic-grade-badge grade-im">🥈 IM1 (Intermediate Mid 1)</span>
+          <span class="eval-score-badge mid">75점</span>
+        `;
+      }
+    }
   }
 
   // 3. 담화 표지어 태그 (연결어, 필러, 과거시제 등)
@@ -579,7 +596,7 @@ function initSpeechPractice() {
         playBtn.classList.remove("has-recording", "playing");
         playBtn.title = "마이크로 발화 후 녹음본 청취 가능";
       }
-      if (playText) playText.textContent = "내 녹음 듣기";
+      if (playText) playText.textContent = "내 발음 다시 듣기";
       if (playIcon) playIcon.textContent = "▶";
       if (statusDot) statusDot.className = "sp-status-dot";
       if (statusText) {
@@ -637,7 +654,7 @@ function initSpeechPractice() {
         playBtn.classList.remove("has-recording", "playing");
         playBtn.title = "마이크로 발화 후 녹음본 청취 가능";
       }
-      if (playText) playText.textContent = "내 녹음 듣기";
+      if (playText) playText.textContent = "내 발음 다시 듣기";
       if (playIcon) playIcon.textContent = "▶";
       if (statusDot) statusDot.className = "sp-status-dot";
       if (statusText) {
@@ -665,7 +682,7 @@ function initSpeechPractice() {
       const playText = document.getElementById("speechPracticePlayRecordText");
       const playIcon = document.getElementById("speechPracticePlayRecordIcon");
       if (playBtn) playBtn.classList.remove("playing");
-      if (playText) playText.textContent = "내 녹음 듣기";
+      if (playText) playText.textContent = "내 발음 다시 듣기";
       if (playIcon) playIcon.textContent = "▶";
       if (replayBtnBottom) replayBtnBottom.innerHTML = "🎧 내 녹음 다시 듣기";
     };
