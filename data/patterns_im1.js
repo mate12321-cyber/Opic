@@ -1415,28 +1415,28 @@ window.PATTERNS_DATA = [
     desc: "돌발 문제 질문에 장소·경험 템플릿과 똑같은 6문장으로 쉽고 자연스럽게 답하는 만능 공식입니다.",
     skeleton: [
       {
-        en: "1. Whenever I think of [주제], I remember a big problem.",
-        ko: "1. [주제]를 생각할 때마다, 큰 문제가 하나 기억나요.",
+        en: "1. Well, let me see... You know, Eva, I remember a big problem.",
+        ko: "1. 음, 어디 보자... 에바, 큰 문제 하나가 기억나요.",
       },
       {
-        en: "2. Last year, I was [장소/활동], and suddenly [돌발 상황].",
-        ko: "2. 작년에, [장소/활동]을 하던 중 갑자기 [돌발 상황]이 일어났어요.",
+        en: "2. Last month, I was at [장소], and suddenly [돌발 상황].",
+        ko: "2. 지난달에, [장소]에 있었는데, 갑자기 [돌발 상황]이 일어났어요.",
       },
       {
-        en: "3. I was very surprised and worried.",
-        ko: "3. 저는 너무 놀라고 걱정이 되었어요.",
+        en: "3. At first, I was so surprised and worried.",
+        ko: "3. 처음에는, 너무 놀라고 걱정됐어요.",
       },
       {
-        en: "4. So, I quickly [대처 행동], and fixed it.",
-        ko: "4. 그래서 빠르게 [대처 행동]을 해서 해결했어요.",
+        en: "4. So, I quickly [대처 행동], and solved the problem.",
+        ko: "4. 그래서, 빠르게 [대처 행동]을 해서, 문제를 해결했어요.",
       },
       {
         en: "5. It was a hard day for me.",
         ko: "5. 저한테는 참 힘든 하루였어요.",
       },
       {
-        en: "6. So, it became a good memory.",
-        ko: "6. 그래도 결국 좋은 추억이 되었어요.",
+        en: "6. Anyway, it was solved well, so everything was okay.",
+        ko: "6. 어쨌든, 잘 해결되어서, 다 괜찮았어요.",
       },
     ],
     variations: [
@@ -1445,28 +1445,28 @@ window.PATTERNS_DATA = [
         keyword: "AC stopped working in summer",
         sentences: [
           {
-            en: "Whenever I think of my home, I remember a big problem.",
-            ko: "저희 집을 생각할 때마다, 큰 문제가 하나 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a big problem.",
+            ko: "음, 어디 보자... 에바, 큰 문제 하나가 기억나요.",
           },
           {
-            en: "Last year, I was at home, and suddenly my air conditioner broke down.",
-            ko: "작년에, 집에 있었는데 갑자기 에어컨이 고장 났어요.",
+            en: "Last month, I was at home, and suddenly my air conditioner broke down.",
+            ko: "지난달에, 집에 있었는데 갑자기 에어컨이 고장 났어요.",
           },
           {
-            en: "I was very surprised and worried.",
-            ko: "저는 너무 놀라고 걱정이 되었어요.",
+            en: "At first, I was so surprised and worried.",
+            ko: "처음에는, 너무 놀라고 걱정됐어요.",
           },
           {
-            en: "So, I quickly called the service center, and fixed it.",
-            ko: "그래서 빠르게 서비스 센터에 전화해서 고쳤어요.",
+            en: "So, I quickly called the service center, and solved the problem.",
+            ko: "그래서, 빠르게 서비스 센터에 전화해서 문제를 해결했어요.",
           },
           {
             en: "It was a hard day for me.",
             ko: "저한테는 참 힘든 하루였어요.",
           },
           {
-            en: "So, it became a good memory.",
-            ko: "그래도 결국 좋은 추억이 되었어요.",
+            en: "Anyway, it was solved well, so everything was okay.",
+            ko: "어쨌든, 잘 해결되어서, 다 괜찮았어요.",
           },
         ],
       },
@@ -1475,28 +1475,28 @@ window.PATTERNS_DATA = [
         keyword: "phone battery died outside",
         sentences: [
           {
-            en: "Whenever I think of my phone, I remember a big problem.",
-            ko: "휴대폰을 생각할 때마다, 큰 문제가 하나 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a big problem.",
+            ko: "음, 어디 보자... 에바, 큰 문제 하나가 기억나요.",
           },
           {
-            en: "Last year, I was outside, and suddenly my phone battery died.",
-            ko: "작년에, 밖에 있었는데 갑자기 휴대폰 배터리가 방전되었어요.",
+            en: "Last month, I was outside, and suddenly my phone battery died.",
+            ko: "지난달에, 밖에 있었는데 갑자기 휴대폰 배터리가 방전되었어요.",
           },
           {
-            en: "I was very surprised and worried.",
-            ko: "저는 너무 놀라고 걱정이 되었어요.",
+            en: "At first, I was so surprised and worried.",
+            ko: "처음에는, 너무 놀라고 걱정됐어요.",
           },
           {
-            en: "So, I quickly borrowed a charger, and fixed it.",
-            ko: "그래서 빠르게 충전기를 빌려서 해결했어요.",
+            en: "So, I quickly borrowed a charger, and solved the problem.",
+            ko: "그래서, 빠르게 충전기를 빌려서 문제를 해결했어요.",
           },
           {
             en: "It was a hard day for me.",
             ko: "저한테는 참 힘든 하루였어요.",
           },
           {
-            en: "So, it became a good memory.",
-            ko: "그래도 결국 좋은 추억이 되었어요.",
+            en: "Anyway, it was solved well, so everything was okay.",
+            ko: "어쨌든, 잘 해결되어서, 다 괜찮았어요.",
           },
         ],
       },
@@ -1505,28 +1505,28 @@ window.PATTERNS_DATA = [
         keyword: "smoke while cooking dinner",
         sentences: [
           {
-            en: "Whenever I think of cooking, I remember a big problem.",
-            ko: "요리를 생각할 때마다, 큰 문제가 하나 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a big problem.",
+            ko: "음, 어디 보자... 에바, 큰 문제 하나가 기억나요.",
           },
           {
-            en: "Last year, I was cooking dinner, and suddenly there was a lot of smoke.",
-            ko: "작년에, 저녁 요리를 하던 중 갑자기 연기가 많이 났어요.",
+            en: "Last month, I was cooking dinner, and suddenly there was a lot of smoke.",
+            ko: "지난달에, 저녁 요리를 하던 중 갑자기 연기가 많이 났어요.",
           },
           {
-            en: "I was very surprised and worried.",
-            ko: "저는 너무 놀라고 걱정이 되었어요.",
+            en: "At first, I was so surprised and worried.",
+            ko: "처음에는, 너무 놀라고 걱정됐어요.",
           },
           {
-            en: "So, I quickly opened all the windows, and fixed it.",
-            ko: "그래서 빠르게 모든 창문을 열어서 해결했어요.",
+            en: "So, I quickly opened all the windows, and solved the problem.",
+            ko: "그래서, 빠르게 모든 창문을 열어서 문제를 해결했어요.",
           },
           {
             en: "It was a hard day for me.",
             ko: "저한테는 참 힘든 하루였어요.",
           },
           {
-            en: "So, it became a good memory.",
-            ko: "그래도 결국 좋은 추억이 되었어요.",
+            en: "Anyway, it was solved well, so everything was okay.",
+            ko: "어쨌든, 잘 해결되어서, 다 괜찮았어요.",
           },
         ],
       },
@@ -1535,28 +1535,28 @@ window.PATTERNS_DATA = [
         keyword: "heavy rain while walking",
         sentences: [
           {
-            en: "Whenever I think of the park, I remember a big problem.",
-            ko: "공원을 생각할 때마다, 큰 문제가 하나 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a big problem.",
+            ko: "음, 어디 보자... 에바, 큰 문제 하나가 기억나요.",
           },
           {
-            en: "Last year, I was walking in the park, and suddenly it started raining hard.",
-            ko: "작년에, 공원을 걷던 중 갑자기 비가 세차게 내렸어요.",
+            en: "Last month, I was walking in the park, and suddenly it started raining hard.",
+            ko: "지난달에, 공원을 걷던 중 갑자기 비가 세차게 내렸어요.",
           },
           {
-            en: "I was very surprised and worried.",
-            ko: "저는 너무 놀라고 걱정이 되었어요.",
+            en: "At first, I was so surprised and worried.",
+            ko: "처음에는, 너무 놀라고 걱정됐어요.",
           },
           {
-            en: "So, I quickly ran into a cafe, and solved it.",
-            ko: "그래서 빠르게 카페로 뛰어가서 해결했어요.",
+            en: "So, I quickly ran into a cafe, and solved the problem.",
+            ko: "그래서, 빠르게 카페로 뛰어가서 문제를 해결했어요.",
           },
           {
             en: "It was a hard day for me.",
             ko: "저한테는 참 힘든 하루였어요.",
           },
           {
-            en: "So, it became a good memory.",
-            ko: "그래도 결국 좋은 추억이 되었어요.",
+            en: "Anyway, it was solved well, so everything was okay.",
+            ko: "어쨌든, 잘 해결되어서, 다 괜찮았어요.",
           },
         ],
       },
@@ -1565,28 +1565,28 @@ window.PATTERNS_DATA = [
         keyword: "friend was very late",
         sentences: [
           {
-            en: "Whenever I think of meeting friends, I remember a big problem.",
-            ko: "친구 만나는 걸 생각할 때마다, 큰 문제가 하나 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a big problem.",
+            ko: "음, 어디 보자... 에바, 큰 문제 하나가 기억나요.",
           },
           {
-            en: "Last year, I was waiting at a cafe, and suddenly my friend was very late.",
-            ko: "작년에, 카페에서 기다리던 중 갑자기 친구가 많이 늦었어요.",
+            en: "Last month, I was waiting at a cafe, and suddenly my friend was very late.",
+            ko: "지난달에, 카페에서 기다리던 중 갑자기 친구가 많이 늦었어요.",
           },
           {
-            en: "I was very surprised and worried.",
-            ko: "저는 너무 놀라고 걱정이 되었어요.",
+            en: "At first, I was so surprised and worried.",
+            ko: "처음에는, 너무 놀라고 걱정됐어요.",
           },
           {
-            en: "So, I quickly called my friend, and solved it.",
-            ko: "그래서 빠르게 친구에게 전화해서 해결했어요.",
+            en: "So, I quickly called my friend, and solved the problem.",
+            ko: "그래서, 빠르게 친구에게 전화해서 문제를 해결했어요.",
           },
           {
             en: "It was a hard day for me.",
             ko: "저한테는 참 힘든 하루였어요.",
           },
           {
-            en: "So, it became a good memory.",
-            ko: "그래도 결국 좋은 추억이 되었어요.",
+            en: "Anyway, it was solved well, so everything was okay.",
+            ko: "어쨌든, 잘 해결되어서, 다 괜찮았어요.",
           },
         ],
       },
