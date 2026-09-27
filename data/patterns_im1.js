@@ -951,28 +951,28 @@ window.PATTERNS_DATA = [
     desc: "어떤 주제든 과거에 있었던 기억에 남는 일을 물을 때, 6개 쉬운 문장으로 어떤 질문에도 자연스럽게 완주하는 만능 공식입니다.",
     skeleton: [
       {
-        en: "1. Talking about [주제], I remember a very special day.",
-        ko: "1. [주제] 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+        en: "1. Well, let me see... You know, Eva, I remember a very special day.",
+        ko: "1. 음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나.",
       },
       {
-        en: "2. Last year, I [과거 행동/대상] with my friend.",
-        ko: "2. 작년에, 저는 친구와 함께 [과거 행동/대상]을 했어요.",
+        en: "2. Last month, I went to [장소/대상] with my best friend.",
+        ko: "2. 지난달에, 저는 제 가장 친한 친구와 함께 [장소/대상]에 갔어요.",
       },
       {
-        en: "3. The [스토리/음식/경치/분위기] was very [특징 1] and [특징 2].",
-        ko: "3. [스토리/음식/경치/분위기]가 아주 [특징 1]하고 [특징 2]했어요.",
+        en: "3. Actually, the [대상] was very [특징 1] and [특징 2].",
+        ko: "3. 실은, [대상]이 아주 [특징 1]하고 [특징 2]했어요.",
       },
       {
-        en: "4. I had a really good time, so I really liked it.",
-        ko: "4. 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+        en: "4. We had a really good time together.",
+        ko: "4. 우리는 함께 정말 좋은 시간을 보냈어요.",
       },
       {
         en: "5. It was the best day for me.",
         ko: "5. 저한테는 최고의 날이었어요.",
       },
       {
-        en: "6. So, I want to go there again.",
-        ko: "6. 그래서 저는 거기 또 가고 싶어요.",
+        en: "6. So, I really want to go there again.",
+        ko: "6. 그래서, 저는 정말로 거기 또 가고 싶어요.",
       },
     ],
     variations: [
@@ -981,28 +981,28 @@ window.PATTERNS_DATA = [
         keyword: "watching an action movie with my friend",
         sentences: [
           {
-            en: "Talking about movies, I remember a very special day.",
-            ko: "영화 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I watched an exciting action movie with my friend.",
-            ko: "작년에, 저는 친구와 함께 재미있는 액션 영화를 보았어요.",
+            en: "Last month, I watched an exciting action movie with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 재미있는 액션 영화를 보았어요.",
           },
           {
-            en: "The story was very interesting and exciting.",
-            ko: "스토리가 정말 흥미롭고 흥미진진했어요.",
+            en: "Actually, the story was very interesting and exciting.",
+            ko: "실은, 스토리가 정말 흥미롭고 흥미진진했어요.",
           },
           {
-            en: "I had a really good time, so I really liked it.",
-            ko: "정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to watch it again.",
-            ko: "그래서 저는 그걸 또 보고 싶어요.",
+            en: "So, I really want to watch it again.",
+            ko: "그래서, 저는 그걸 정말 또 보고 싶어요.",
           },
         ],
       },
@@ -1011,28 +1011,28 @@ window.PATTERNS_DATA = [
         keyword: "local festival with friends",
         sentences: [
           {
-            en: "Talking about festivals, I remember a very special day.",
-            ko: "축제 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I went to a festival with my friends.",
-            ko: "작년에, 저는 친구들과 함께 축제에 갔어요.",
+            en: "Last month, I went to a festival with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 축제에 갔어요.",
           },
           {
-            en: "The music was very exciting, and the food was delicious.",
-            ko: "음악이 아주 신나고, 음식도 맛있었어요.",
+            en: "Actually, the music was very exciting and the food was delicious.",
+            ko: "실은, 음악이 아주 신나고 음식도 맛있었어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -1041,28 +1041,28 @@ window.PATTERNS_DATA = [
         keyword: "moving into my new apartment",
         sentences: [
           {
-            en: "Talking about my home, I remember a very special day.",
-            ko: "제 집 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I moved into my new apartment.",
-            ko: "작년에, 저는 새 아파트로 이사했어요.",
+            en: "Last month, I moved into my new apartment with my family.",
+            ko: "지난달에, 저는 가족과 함께 새 아파트로 이사했어요.",
           },
           {
-            en: "The new room was very clean, quiet, and cozy.",
-            ko: "새 방이 아주 깔끔하고 조용하며 아늑했어요.",
+            en: "Actually, the new room was very clean, quiet, and cozy.",
+            ko: "실은, 새 방이 아주 깔끔하고 조용하며 아늑했어요.",
           },
           {
-            en: "I had a really good time unpacking, so I really liked it.",
-            ko: "짐을 풀며 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I stay there all the time.",
-            ko: "그래서 저는 거기서 맨날 시간을 보내요.",
+            en: "So, I really like staying there.",
+            ko: "그래서, 저는 거기서 머무는 것을 정말 좋아해요.",
           },
         ],
       },
@@ -1071,28 +1071,28 @@ window.PATTERNS_DATA = [
         keyword: "camping near the lake with friend",
         sentences: [
           {
-            en: "Talking about camping, I remember a very special day.",
-            ko: "캠핑 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I went camping near the lake with my friend.",
-            ko: "작년에, 저는 친구와 함께 호숫가 근처로 캠핑을 갔어요.",
+            en: "Last month, I went camping near the lake with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 호숫가 근처로 캠핑을 갔어요.",
           },
           {
-            en: "The view was very beautiful and peaceful.",
-            ko: "경치가 아주 아름답고 평화로웠어요.",
+            en: "Actually, the view was very beautiful and peaceful.",
+            ko: "실은, 경치가 아주 아름답고 평화로웠어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -1101,28 +1101,28 @@ window.PATTERNS_DATA = [
         keyword: "meeting an old friend at Starbucks",
         sentences: [
           {
-            en: "Talking about cafes, I remember a very special day.",
-            ko: "카페 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I met an old friend at Starbucks.",
-            ko: "작년에, 저는 스타벅스에서 오랜 친구를 만났어요.",
+            en: "Last month, I met my best friend at Starbucks.",
+            ko: "지난달에, 저는 스타벅스에서 제 베프를 만났어요.",
           },
           {
-            en: "The coffee was delicious, and the vibe was very cozy.",
-            ko: "커피가 맛있었고, 분위기도 아주 아늑했어요.",
+            en: "Actually, the coffee was delicious, and the vibe was very cozy.",
+            ko: "실은, 커피가 맛있었고 분위기도 아주 아늑했어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -1131,28 +1131,28 @@ window.PATTERNS_DATA = [
         keyword: "trip to Haeundae beach",
         sentences: [
           {
-            en: "Talking about the beach, I remember a very special day.",
-            ko: "해변 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I went to Haeundae beach with my friends.",
-            ko: "작년에, 저는 친구들과 함께 해운대 해변에 갔어요.",
+            en: "Last month, I went to Haeundae beach with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 해운대 해변에 갔어요.",
           },
           {
-            en: "The ocean view was very beautiful and nice.",
-            ko: "바다 경치가 아주 아름답고 좋았어요.",
+            en: "Actually, the ocean view was very beautiful and nice.",
+            ko: "실은, 바다 경치가 아주 아름답고 좋았어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -1161,28 +1161,28 @@ window.PATTERNS_DATA = [
         keyword: "walking in the park with friend",
         sentences: [
           {
-            en: "Talking about parks, I remember a very special day.",
-            ko: "공원 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I walked in the park with my friends.",
-            ko: "작년에, 저는 친구들과 함께 공원을 걸었어요.",
+            en: "Last month, I walked in the park with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 공원을 걸었어요.",
           },
           {
-            en: "The weather was very sunny and nice.",
-            ko: "날씨가 아주 화창하고 좋았어요.",
+            en: "Actually, the weather was very sunny and nice.",
+            ko: "실은, 날씨가 아주 화창하고 좋았어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -1191,28 +1191,28 @@ window.PATTERNS_DATA = [
         keyword: "working out at the gym with friend",
         sentences: [
           {
-            en: "Talking about working out, I remember a very special day.",
-            ko: "운동 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I worked out at the gym with my friend.",
-            ko: "작년에, 저는 친구와 함께 헬스장에서 운동을 했어요.",
+            en: "Last month, I worked out at the gym with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 헬스장에서 운동했어요.",
           },
           {
-            en: "The workout was very fun and refreshing.",
-            ko: "운동이 아주 재미있고 상쾌했어요.",
+            en: "Actually, the workout was very fun and refreshing.",
+            ko: "실은, 운동이 아주 재미있고 상쾌했어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -1221,28 +1221,28 @@ window.PATTERNS_DATA = [
         keyword: "delicious dinner at pasta place",
         sentences: [
           {
-            en: "Talking about good food, I remember a very special day.",
-            ko: "맛있는 음식 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I had delicious dinner at the pasta restaurant.",
-            ko: "작년에, 저는 파스타 식당에서 맛있는 저녁을 먹었어요.",
+            en: "Last month, I had delicious dinner at the pasta restaurant with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 파스타 식당에서 맛있는 저녁을 먹었어요.",
           },
           {
-            en: "The food was very delicious and fresh.",
-            ko: "음식이 아주 맛있고 신선했어요.",
+            en: "Actually, the food was very delicious and fresh.",
+            ko: "실은, 음식이 아주 맛있고 신선했어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -1251,28 +1251,28 @@ window.PATTERNS_DATA = [
         keyword: "staying at Shilla Hotel",
         sentences: [
           {
-            en: "Talking about traveling, I remember a very special day.",
-            ko: "여행 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I stayed at the Shilla Hotel with my family.",
-            ko: "작년에, 저는 가족과 함께 신라 호텔에 묵었어요.",
+            en: "Last month, I stayed at the Shilla Hotel with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 신라 호텔에 묵었어요.",
           },
           {
-            en: "The room was very clean and comfortable.",
-            ko: "방이 아주 깨끗하고 편안했어요.",
+            en: "Actually, the room was very clean and comfortable.",
+            ko: "실은, 방이 아주 깨끗하고 편안했어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -1281,28 +1281,28 @@ window.PATTERNS_DATA = [
         keyword: "shopping at E-Mart",
         sentences: [
           {
-            en: "Talking about shopping, I remember a very special day.",
-            ko: "쇼핑 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I went to E-Mart with my friends.",
-            ko: "작년에, 저는 친구들과 함께 이마트에 갔어요.",
+            en: "Last month, I went to E-Mart with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 이마트에 갔어요.",
           },
           {
-            en: "The snacks were delicious, and the items were cheap.",
-            ko: "간식도 맛있고, 물건들도 저렴했어요.",
+            en: "Actually, the snacks were delicious, and the items were cheap.",
+            ko: "실은, 간식도 맛있고 물건들도 저렴했어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -1311,28 +1311,28 @@ window.PATTERNS_DATA = [
         keyword: "scenic drive on weekend",
         sentences: [
           {
-            en: "Talking about relaxing, I remember a very special day.",
-            ko: "휴식 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I went on a drive with my friend.",
-            ko: "작년에, 저는 친구와 함께 드라이브를 떠났어요.",
+            en: "Last month, I went on a drive with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 드라이브를 떠났어요.",
           },
           {
-            en: "The scenery was very beautiful and nice.",
-            ko: "풍경이 아주 아름답고 좋았어요.",
+            en: "Actually, the scenery was very beautiful and nice.",
+            ko: "실은, 풍경이 아주 아름답고 좋았어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -1341,28 +1341,28 @@ window.PATTERNS_DATA = [
         keyword: "studying at the library",
         sentences: [
           {
-            en: "Talking about studying, I remember a very special day.",
-            ko: "공부 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I studied at the library with my friend.",
-            ko: "작년에, 저는 친구와 함께 도서관에서 공부했어요.",
+            en: "Last month, I studied at the library with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 도서관에서 공부했어요.",
           },
           {
-            en: "The atmosphere was very quiet and calm.",
-            ko: "분위기가 아주 조용하고 차분했어요.",
+            en: "Actually, the atmosphere was very quiet and calm.",
+            ko: "실은, 분위기가 아주 조용하고 차분했어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
@@ -1371,28 +1371,28 @@ window.PATTERNS_DATA = [
         keyword: "wonderful trip to Jeju Island",
         sentences: [
           {
-            en: "Talking about vacations, I remember a very special day.",
-            ko: "휴가 얘기가 나와서 말인데, 아주 특별했던 하루가 기억나요.",
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
           },
           {
-            en: "Last year, I traveled to Jeju Island with my friends.",
-            ko: "작년에, 저는 친구들과 함께 제주도로 여행을 갔어요.",
+            en: "Last month, I traveled to Jeju Island with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 제주도로 여행을 갔어요.",
           },
           {
-            en: "The nature was very beautiful and peaceful.",
-            ko: "자연이 아주 아름답고 평화로웠어요.",
+            en: "Actually, the nature was very beautiful and peaceful.",
+            ko: "실은, 자연이 아주 아름답고 평화로웠어요.",
           },
           {
-            en: "I had a really good time there, so I really liked it.",
-            ko: "거기서 정말 좋은 시간을 보내서, 정말 마음에 들었어요.",
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
           },
           {
             en: "It was the best day for me.",
             ko: "저한테는 최고의 날이었어요.",
           },
           {
-            en: "So, I want to go there again.",
-            ko: "그래서 저는 거기 또 가고 싶어요.",
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
           },
         ],
       },
