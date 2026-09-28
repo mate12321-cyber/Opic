@@ -264,6 +264,70 @@
   letter-spacing: 0.02em;
 }
 
+/* ── OPIc 출제 번호(Slot) 및 유형(Type) 뱃지 시스템 ── */
+.opic-slot-badge,
+.bank-slot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.opic-type-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.1);
+  color: #4338ca;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+/* 슬롯별 컬러 테마 (Q 번호별 시각적 구분) */
+.slot-warmup {
+  background: #f3e8ff;
+  color: #7e22ce;
+  border-color: #d8b4fe;
+}
+.slot-step1 {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+.slot-step2 {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+.slot-step3 {
+  background: #fffbeb;
+  color: #b45309;
+  border-color: #fde68a;
+}
+.slot-step3-compare {
+  background: #faf5ff;
+  color: #6b21a8;
+  border-color: #e9d5ff;
+}
+.slot-rp {
+  background: #fff1f2;
+  color: #be123c;
+  border-color: #fecdd3;
+}
+.slot-default {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
 /* ── 말하기 타이머 & 실시간 발화 시간 게이지 ── */
 .speaking-timer-box {
   display: flex;
@@ -1766,6 +1830,48 @@ body.dark-theme .bank-cat-badge {
 body.dark-theme .bank-role-badge {
   background: #312e81;
   color: #c7d2fe;
+}
+
+body.dark-theme .opic-type-badge {
+  background: rgba(99, 102, 241, 0.2);
+  color: #c7d2fe;
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+body.dark-theme .slot-warmup {
+  background: #3b0764;
+  color: #e9d5ff;
+  border-color: #6b21a8;
+}
+body.dark-theme .slot-step1 {
+  background: #022c22;
+  color: #a7f3d0;
+  border-color: #047857;
+}
+body.dark-theme .slot-step2 {
+  background: #172554;
+  color: #bfdbfe;
+  border-color: #1d4ed8;
+}
+body.dark-theme .slot-step3 {
+  background: #451a03;
+  color: #fde68a;
+  border-color: #b45309;
+}
+body.dark-theme .slot-step3-compare {
+  background: #2e1065;
+  color: #ddd6fe;
+  border-color: #581c87;
+}
+body.dark-theme .slot-rp {
+  background: #4c0519;
+  color: #fecdd3;
+  border-color: #9f1239;
+}
+body.dark-theme .slot-default {
+  background: #1e293b;
+  color: #cbd5e1;
+  border-color: #475569;
 }
 
 body.dark-theme .bank-keyword-chip {

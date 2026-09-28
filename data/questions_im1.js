@@ -2,7 +2,7 @@
  * @file questions_im1.js
  * @description OPIc 실전 질문 및 IM1 맞춤 5~7문장 답변 데이터셋 (총 72문항)
  * - 12개 빈출 주제 × 6문항 (Set A 3단 콤보 3문항 + Set B 3단 콤보 3문항)
- * - 실제 OPIc 4-4 시험의 3단 콤보 및 에바 공식 기출 프롬프트 100% 일치
+ * - 실제 OPIc 3-3 시험의 3단 콤보 및 에바 공식 기출 프롬프트 100% 일치
  * - 정규화된 sentences 배열을 단일 진실 공급원(Single Source of Truth)으로 사용
  * - 파일 하단에서 q.answer_en, q.answer_ko를 자동 합성하여 무결성 보장
  *
@@ -48,7 +48,13 @@ window.QUESTIONS_DATA = [
         ko: "오늘 이 시험을 보게 되어 기쁘고, 최선을 다하겠습니다.",
       },
     ],
-    keywords: ["twenty-eight years old","live alone in cozy apartment","work nine to six","cooking and coding","positive and friendly"],
+    keywords: [
+      "twenty-eight years old",
+      "live alone in cozy apartment",
+      "work nine to six",
+      "cooking and coding",
+      "positive and friendly",
+    ],
     tip: "[초간단 자기소개] 이름/나이 → 1인 가구 거주지 → 9 to 6 근무 → 취미(요리, 코딩, 산책) → 긍정적 성격 → 최선 다짐.",
   },
   {
@@ -87,7 +93,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 저는 저의 단순하고 행복한 삶을 정말 좋아합니다.",
       },
     ],
-    keywords: ["work nine to six","eat dinner alone","park near my house","Starbucks iced Americano","makes me relaxed","simple and happy life"],
+    keywords: [
+      "work nine to six",
+      "eat dinner alone",
+      "park near my house",
+      "Starbucks iced Americano",
+      "makes me relaxed",
+      "simple and happy life",
+    ],
     tip: "[초간단 루틴] 평일 9 to 6 근무 → 퇴근 후 저녁 → 주말 집 근처 공원 산책 → 스타벅스 커피 → 스트레스 해소 → 행복한 삶.",
   },
   {
@@ -126,7 +139,13 @@ window.QUESTIONS_DATA = [
         ko: "그 일은 저에게 여전히 매우 기억에 남고 뿌듯한 추억입니다.",
       },
     ],
-    keywords: ["middle school","learning new words","foreign tourist","gave directions","proud memory"],
+    keywords: [
+      "middle school",
+      "learning new words",
+      "foreign tourist",
+      "gave directions",
+      "proud memory",
+    ],
     tip: "[영어 시작 계기/과거 기억] 중학교 첫 학습 → 외국인에게 길 안내한 에피소드 → 큰 보람과 동기부여 강조.",
   },
   {
@@ -165,7 +184,13 @@ window.QUESTIONS_DATA = [
         ko: "저의 다정한 에너지가 주변 사람들에게 좋은 기운을 주기를 바랍니다.",
       },
     ],
-    keywords: ["calm and friendly","listen carefully","reliable and easygoing","stay calm","positive mindset"],
+    keywords: [
+      "calm and friendly",
+      "listen carefully",
+      "reliable and easygoing",
+      "stay calm",
+      "positive mindset",
+    ],
     tip: "[성격 및 장점 묘사] 차분하고 친절함 선언 → 경청 태도 → 친구들의 긍정적 평가 → 긍정적 마인드 강조.",
   },
   {
@@ -204,7 +229,13 @@ window.QUESTIONS_DATA = [
         ko: "이 조용한 저녁 루틴은 바쁜 하루를 보낸 후 에너지를 재충전하는 데 큰 도움이 돼요.",
       },
     ],
-    keywords: ["free time after work","comfortable clothes","calm acoustic music","read an interesting book","recharge my energy"],
+    keywords: [
+      "free time after work",
+      "comfortable clothes",
+      "calm acoustic music",
+      "read an interesting book",
+      "recharge my energy",
+    ],
     tip: "[저녁 취미 루틴] 편한 옷 환복 → 차 준비 → 잔잔한 음악과 독서 → 일기 작성 및 힐링 마무리.",
   },
   {
@@ -243,7 +274,13 @@ window.QUESTIONS_DATA = [
         ko: "예전보다 훨씬 건강하고 생산적으로 느껴져서 매우 만족스럽습니다.",
       },
     ],
-    keywords: ["stay up late","physical health","wake up early","exercise regularly","healthier and more productive"],
+    keywords: [
+      "stay up late",
+      "physical health",
+      "wake up early",
+      "exercise regularly",
+      "healthier and more productive",
+    ],
     tip: "[라이프스타일 비교] 과거(밤샘 게임) vs 현재(규칙적 운동, 건강, 자기계발) 대비 → 긍정적 만족감.",
   },
   {
@@ -282,7 +319,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 저는 거기서 맨날 시간을 보내요.",
       },
     ],
-    keywords: ["living room favorite place","near my office","relaxing and cozy","soft sofa and big TV","watching YouTube","stay there all the time"],
+    keywords: [
+      "living room favorite place",
+      "near my office",
+      "relaxing and cozy",
+      "soft sofa and big TV",
+      "watching YouTube",
+      "stay there all the time",
+    ],
     tip: "[만능 집 묘사] 거실 최애 장소 → 회사 근처 편리함 → 편안하고 아늑한 분위기 → 소파와 TV → 유튜브 힐링 → 편안함.",
   },
   {
@@ -321,7 +365,14 @@ window.QUESTIONS_DATA = [
         ko: "이런 루틴을 하면 마음이 편안해져서 매일 이렇게 해요.",
       },
     ],
-    keywords: ["simple evening routine","casual clothes","simple dinner alone","watch YouTube videos","warm shower and sofa","makes me relaxed"],
+    keywords: [
+      "simple evening routine",
+      "casual clothes",
+      "simple dinner alone",
+      "watch YouTube videos",
+      "warm shower and sofa",
+      "makes me relaxed",
+    ],
     tip: "[초간단 집 루틴] 편한 옷 갈아입기 → 간단 요리(볶음밥) 혼밥 → 유튜브 시청 → 따뜻한 샤워 & 소파 휴식 → 스트레스 해소.",
   },
   {
@@ -360,7 +411,14 @@ window.QUESTIONS_DATA = [
         ko: "더웠지만, 정말 안도했고 좋은 추억이 되었습니다.",
       },
     ],
-    keywords: ["problem at home last summer","air conditioner stopped working","surprised and worried","called repair center","repairman fixed it quickly","great relief"],
+    keywords: [
+      "problem at home last summer",
+      "air conditioner stopped working",
+      "surprised and worried",
+      "called repair center",
+      "repairman fixed it quickly",
+      "great relief",
+    ],
     tip: "[초간단 집 문제해결] 에어컨 고장 → 놀람과 걱정 → 수리 센터 전화 → 기사님 빠른 수리 → 안도와 좋은 추억.",
   },
   {
@@ -399,7 +457,13 @@ window.QUESTIONS_DATA = [
         ko: "그 공간은 진정 제 온 집안에서 최고의 힐링 공간이에요.",
       },
     ],
-    keywords: ["cozy living room","warm sunlight","soft grey sofa","clean and peaceful","best healing spot"],
+    keywords: [
+      "cozy living room",
+      "warm sunlight",
+      "soft grey sofa",
+      "clean and peaceful",
+      "best healing spot",
+    ],
     tip: "[선호 공간 묘사] 거실 선언 → 큰 창문과 채광 → 가구(소파, 테이블, 화분) → 힐링 공간 강조.",
   },
   {
@@ -438,7 +502,13 @@ window.QUESTIONS_DATA = [
         ko: "모든 것이 깔끔하고 정돈되면 기분이 정말 상쾌하고 행복해져요.",
       },
     ],
-    keywords: ["Saturday morning","open all the windows","vacuum cleaner","wipe with a wet cloth","neat and tidy"],
+    keywords: [
+      "Saturday morning",
+      "open all the windows",
+      "vacuum cleaner",
+      "wipe with a wet cloth",
+      "neat and tidy",
+    ],
     tip: "[집 청소 루틴] 토요일 아침 환기 → 청소기 돌리기 → 걸레질 → 분리수거 및 식물 물주기 → 상쾌한 마무리.",
   },
   {
@@ -477,7 +547,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 저는 새집이 정말 마음에 들고 아주 행복합니다.",
       },
     ],
-    keywords: ["very different from now","room was small and old","clean and modern","cozy sofa and mood light","resting at home after work","very happy"],
+    keywords: [
+      "very different from now",
+      "room was small and old",
+      "clean and modern",
+      "cozy sofa and mood light",
+      "resting at home after work",
+      "very happy",
+    ],
     tip: "[초간단 집 변화 비교] 옛날 작은 집 ➔ 지금 새 아파트 깔끔함 ➔ 소파와 무드등 ➔ 퇴근 후 힐링 ➔ 대만족.",
   },
   {
@@ -516,7 +593,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 일할 때마다 저는 항상 보람과 자부심을 느껴요.",
       },
     ],
-    keywords: ["office near my house","easy to commute","clean, bright, and well-organized","nice desks and computers","kind and friendly colleagues","happy and proud"],
+    keywords: [
+      "office near my house",
+      "easy to commute",
+      "clean, bright, and well-organized",
+      "nice desks and computers",
+      "kind and friendly colleagues",
+      "happy and proud",
+    ],
     tip: "[초간단 직장 묘사] 집 근처 회사 → 편리한 출퇴근 → 깔끔하고 밝은 사무실 → 책상과 컴퓨터 → 친절한 동료들과 보람.",
   },
   {
@@ -555,7 +639,14 @@ window.QUESTIONS_DATA = [
         ko: "하루 일을 잘 마치면 큰 보람을 느껴서 매일 열심히 일합니다.",
       },
     ],
-    keywords: ["work nine to six","check emails and to-do list","morning team meeting","write reports and check data","clean desk before going home","great joy"],
+    keywords: [
+      "work nine to six",
+      "check emails and to-do list",
+      "morning team meeting",
+      "write reports and check data",
+      "clean desk before going home",
+      "great joy",
+    ],
     tip: "[초간단 업무 루틴] 9 to 6 근무 → 출근 후 이메일 & 할 일 체크 → 팀 아침 회의 → 보고서 작성 및 데이터 확인 → 퇴근 전 정돈 및 보람.",
   },
   {
@@ -594,7 +685,14 @@ window.QUESTIONS_DATA = [
         ko: "긴급했지만, 우리 팀의 협동심 덕분에 정말 자랑스러웠어요.",
       },
     ],
-    keywords: ["urgent problem at work","computer error before deadline","surprised and worried","checked file with colleague","fixed error on time","felt very proud"],
+    keywords: [
+      "urgent problem at work",
+      "computer error before deadline",
+      "surprised and worried",
+      "checked file with colleague",
+      "fixed error on time",
+      "felt very proud",
+    ],
     tip: "[초간단 직장 문제해결] 마감 직전 에러 발생 → 당황과 걱정 → 침착하게 동료와 파일 점검 → 신속 수정 및 제시간 전송 → 보람과 자부심.",
   },
   {
@@ -633,7 +731,13 @@ window.QUESTIONS_DATA = [
         ko: "이렇게 친절하고 신뢰할 수 있는 멘토와 함께 일할 수 있어 참 행운이라고 생각합니다.",
       },
     ],
-    keywords: ["team leader","calm and supportive","extremely professional","explains step by step","reliable mentor"],
+    keywords: [
+      "team leader",
+      "calm and supportive",
+      "extremely professional",
+      "explains step by step",
+      "reliable mentor",
+    ],
     tip: "[직장 동료/상사 묘사] 팀장님 소개 → 경력 및 전문성 → 친절한 지도 방식 → 협업 업무 → 존경과 감사.",
   },
   {
@@ -672,7 +776,13 @@ window.QUESTIONS_DATA = [
         ko: "이러한 체계적인 회의 덕분에 같은 방향을 공유하며 효율적으로 일할 수 있습니다.",
       },
     ],
-    keywords: ["regular project meeting","prepare the agenda","gather in conference room","share completed tasks","work efficiently"],
+    keywords: [
+      "regular project meeting",
+      "prepare the agenda",
+      "gather in conference room",
+      "share completed tasks",
+      "work efficiently",
+    ],
     tip: "[회의/협업 루틴] 월요일 회의 → 안건 준비 → 팀원 공유 및 논의 → 실행 과제 도출 → 효율적 업무.",
   },
   {
@@ -711,7 +821,14 @@ window.QUESTIONS_DATA = [
         ko: "정말 멋진 하루였고, 영원히 잊지 못할 거예요.",
       },
     ],
-    keywords: ["very first day at work","walked into office","felt a little nervous","colleagues smiled warmly","delicious lunch together","never forget it"],
+    keywords: [
+      "very first day at work",
+      "walked into office",
+      "felt a little nervous",
+      "colleagues smiled warmly",
+      "delicious lunch together",
+      "never forget it",
+    ],
     tip: "[초간단 첫 출근] 첫 출근의 설렘 → 새 책상과 긴장감 → 동료들의 따뜻한 미소와 사무실 안내 → 맛있는 점심 식사 → 잊지 못할 추억.",
   },
   {
@@ -750,7 +867,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
-    keywords: ["Starbucks near my house","just five minutes","relaxing and cozy","large windows and nice seats","best place for me","go there about two or three times a week"],
+    keywords: [
+      "Starbucks near my house",
+      "just five minutes",
+      "relaxing and cozy",
+      "large windows and nice seats",
+      "best place for me",
+      "go there about two or three times a week",
+    ],
     tip: "[만능 카페 묘사] 스타벅스 최애 장소 → 집 근처 편리함 → 편안하고 아늑한 분위기 → 큰 창문과 편한 좌석 → 퇴근 후 커피 힐링 → 편안함.",
   },
   {
@@ -789,7 +913,14 @@ window.QUESTIONS_DATA = [
         ko: "마음이 편안해져서 저는 그곳에 자주 갑니다.",
       },
     ],
-    keywords: ["Starbucks near my house","order with mobile app","table near the window","reading news or listening to music","one or two hours","makes me relaxed"],
+    keywords: [
+      "Starbucks near my house",
+      "order with mobile app",
+      "table near the window",
+      "reading news or listening to music",
+      "one or two hours",
+      "makes me relaxed",
+    ],
     tip: "[초간단 카페 루틴] 주말 오후 스타벅스 → 모바일 앱 주문 → 창가 조용한 자리 → 커피 마시며 뉴스/음악 → 재충전 및 스트레스 해소.",
   },
   {
@@ -828,7 +959,14 @@ window.QUESTIONS_DATA = [
         ko: "정말 멋진 하루였고, 저는 너무 행복했어요.",
       },
     ],
-    keywords: ["sweet memory at cafe","pretty dessert cafe near my house","flowers and soft music","warm coffee and strawberry cake","quiet rest for myself","never forget it"],
+    keywords: [
+      "sweet memory at cafe",
+      "pretty dessert cafe near my house",
+      "flowers and soft music",
+      "warm coffee and strawberry cake",
+      "quiet rest for myself",
+      "never forget it",
+    ],
     tip: "[초간단 카페 경험] 생일날 집 근처 디저트 카페 → 꽃과 잔잔한 음악 → 따뜻한 커피 & 딸기 케이크 → 혼자만의 조용한 힐링 휴식 → 평생 추억.",
   },
   {
@@ -867,7 +1005,13 @@ window.QUESTIONS_DATA = [
         ko: "그것이 바로 이 커피와 케이크 조합이 저의 최애 조합인 이유예요.",
       },
     ],
-    keywords: ["iced Americano","fresh and bold","slice of cheesecake","goes perfectly with","energy boost"],
+    keywords: [
+      "iced Americano",
+      "fresh and bold",
+      "slice of cheesecake",
+      "goes perfectly with",
+      "energy boost",
+    ],
     tip: "[음료/디저트 선호 묘사] 아이스 아메리카노 선언 → 깔끔한 맛 → 치즈케이크 곁들임 → 최고의 조합 강조.",
   },
   {
@@ -906,7 +1050,13 @@ window.QUESTIONS_DATA = [
         ko: "그것은 언제나 오후 시간을 보내는 매우 여유롭고 생산적인 방법이에요.",
       },
     ],
-    keywords: ["two or three hours","near an electrical outlet","pick up coffee","open laptop","relaxing and productive"],
+    keywords: [
+      "two or three hours",
+      "near an electrical outlet",
+      "pick up coffee",
+      "open laptop",
+      "relaxing and productive",
+    ],
     tip: "[카페 만남/공부 루틴] 콘센트 자리잡기 → 음료 픽업 → 노트북 작업 및 수다 → 여유로운 오후 마무리.",
   },
   {
@@ -945,7 +1095,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 저는 이런 좋은 변화들이 정말 마음에 들어요.",
       },
     ],
-    keywords: ["very different from now","simple and choices limited","convenient and modern","mobile order apps without line","delicious bakeries and desserts","really like these changes"],
+    keywords: [
+      "very different from now",
+      "simple and choices limited",
+      "convenient and modern",
+      "mobile order apps without line",
+      "delicious bakeries and desserts",
+      "really like these changes",
+    ],
     tip: "[초간단 카페 변화 비교] 과거 단순한 메뉴 ➔ 현재 모던하고 편리함 ➔ 줄 서지 않는 모바일 주문 ➔ 맛있는 베이커리 ➔ 대만족.",
   },
   {
@@ -984,7 +1141,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
-    keywords: ["park near my house","just five minutes","relaxing and cozy","green trees and nice benches","best place for me","go there about two or three times a week"],
+    keywords: [
+      "park near my house",
+      "just five minutes",
+      "relaxing and cozy",
+      "green trees and nice benches",
+      "best place for me",
+      "go there about two or three times a week",
+    ],
     tip: "[만능 공원 묘사] 집 근처 공원 → 접근성 편함 → 깔끔하고 아늑함 → 푸른 나무와 벤치 → 퇴근 후 혼자 산책 힐링 → 편안함.",
   },
   {
@@ -1023,7 +1187,14 @@ window.QUESTIONS_DATA = [
         ko: "마음이 편안해져서 저는 자주 이렇게 합니다.",
       },
     ],
-    keywords: ["walk in the park near my house","light sneakers and earphones","walk slowly along green trail","listening to soft ballad music","stretching on a bench","makes me relaxed"],
+    keywords: [
+      "walk in the park near my house",
+      "light sneakers and earphones",
+      "walk slowly along green trail",
+      "listening to soft ballad music",
+      "stretching on a bench",
+      "makes me relaxed",
+    ],
     tip: "[초간단 공원 루틴] 저녁 공원 산책 → 운동화 & 무선이어폰 → 푸른 산책로 걷기 → 발라드 음악 청취 → 벤치 스트레칭 → 스트레스 해소.",
   },
   {
@@ -1062,7 +1233,14 @@ window.QUESTIONS_DATA = [
         ko: "정말 멋진 하루였고, 영원히 잊지 못할 거예요.",
       },
     ],
-    keywords: ["nice surprise at park","saw an old colleague","very surprised and happy","live in same neighborhood","Starbucks and talked a lot","never forget it"],
+    keywords: [
+      "nice surprise at park",
+      "saw an old colleague",
+      "very surprised and happy",
+      "live in same neighborhood",
+      "Starbucks and talked a lot",
+      "never forget it",
+    ],
     tip: "[초간단 공원 만남] 저녁 산책 중 옛 동료 우연한 만남 → 깜짝 놀람과 반가움 → 같은 동네 주민 확인 → 스타벅스 커피 수다 → 뜻깊은 추억.",
   },
   {
@@ -1101,7 +1279,13 @@ window.QUESTIONS_DATA = [
         ko: "그곳은 정말 바쁜 도심 한가운데에 있는 멋진 녹색 오아시스입니다.",
       },
     ],
-    keywords: ["huge beautiful lake","wooden walking trail","wooden benches","soft warm lights","green oasis"],
+    keywords: [
+      "huge beautiful lake",
+      "wooden walking trail",
+      "wooden benches",
+      "soft warm lights",
+      "green oasis",
+    ],
     tip: "[공원 풍경/시설 묘사] 중심 호수 → 데크 산책로 → 나무와 벤치 → 야간 조명 → 도심 속 오아시스.",
   },
   {
@@ -1140,7 +1324,13 @@ window.QUESTIONS_DATA = [
         ko: "야외에서 소박한 피크닉을 즐기면 언제나 모든 스트레스가 완전히 해소됩니다.",
       },
     ],
-    keywords: ["sunny weather","pack a picnic mat","shady spot under tree","chat with companions","relieves all my stress"],
+    keywords: [
+      "sunny weather",
+      "pack a picnic mat",
+      "shady spot under tree",
+      "chat with companions",
+      "relieves all my stress",
+    ],
     tip: "[공원 피크닉 루틴] 봄/가을 피크닉 → 돗자리와 간식 준비 → 그늘 명당 찾기 → 식사 및 하늘 보기 힐링.",
   },
   {
@@ -1179,7 +1369,14 @@ window.QUESTIONS_DATA = [
         ko: "두 계절 모두 아주 매력적이고, 저는 혼자 걷는 것을 정말 좋아해요.",
       },
     ],
-    keywords: ["park looks different in each season","spring cherry blossoms","take pictures in warm sunshine","winter quiet with white snow","walking in warm jacket","both seasons charming"],
+    keywords: [
+      "park looks different in each season",
+      "spring cherry blossoms",
+      "take pictures in warm sunshine",
+      "winter quiet with white snow",
+      "walking in warm jacket",
+      "both seasons charming",
+    ],
     tip: "[초간단 공원 사계절] 봄 벚꽃 풍경 & 피크닉/사진 ➔ 겨울 조용한 설경 & 따뜻한 패딩 산책 ➔ 사계절 산책의 매력.",
   },
   {
@@ -1218,7 +1415,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 좋은 영화를 보는 것은 제가 가장 좋아하는 취미입니다.",
       },
     ],
-    keywords: ["comedies and touching dramas","make me laugh and happy","warm stories make me think","dislike scary horror movies","makes me relaxed","favorite hobby"],
+    keywords: [
+      "comedies and touching dramas",
+      "make me laugh and happy",
+      "warm stories make me think",
+      "dislike scary horror movies",
+      "makes me relaxed",
+      "favorite hobby",
+    ],
     tip: "[초간단 영화 선호] 코미디(웃음/행복) & 감동 드라마(따뜻한 생각) 선호 ➔ 공포/액션 불호 ➔ 집에서 힐링 ➔ 최애 취미.",
   },
   {
@@ -1257,7 +1461,14 @@ window.QUESTIONS_DATA = [
         ko: "마음이 편안해져서 저는 자주 이렇게 영화를 봅니다.",
       },
     ],
-    keywords: ["watch movies on TV at home","choose movie on Netflix","popcorn and cold drink","cozy sofa and focus","quiet room very peaceful","makes me relaxed"],
+    keywords: [
+      "watch movies on TV at home",
+      "choose movie on Netflix",
+      "popcorn and cold drink",
+      "cozy sofa and focus",
+      "quiet room very peaceful",
+      "makes me relaxed",
+    ],
     tip: "[초간단 영화 루틴] 주말 밤 집 영화 → 넷플릭스 선택 → 팝콘 & 시원한 음료 → 소파 몰입 감상 → 혼자만의 평화로운 힐링.",
   },
   {
@@ -1296,7 +1507,14 @@ window.QUESTIONS_DATA = [
         ko: "정말 멋진 영화였고, 영원히 잊지 못할 거예요.",
       },
     ],
-    keywords: ["The Truman Show at home","story about Truman","watch whole life on TV","tries hard to escape","ending scene goodbye made me cry","never forget it"],
+    keywords: [
+      "The Truman Show at home",
+      "story about Truman",
+      "watch whole life on TV",
+      "tries hard to escape",
+      "ending scene goodbye made me cry",
+      "never forget it",
+    ],
     tip: "[초간단 영화 경험] 집에서 '트루먼 쇼' 감상 → TV 생중계 비밀 줄거리 → 진짜 세상 탈출 노력 → 마지막 작별 인사 감동 → 잊지 못할 명작.",
   },
   {
@@ -1335,7 +1553,13 @@ window.QUESTIONS_DATA = [
         ko: "그곳은 의심할 여지 없이 우리 동네 최고의 영화관입니다.",
       },
     ],
-    keywords: ["CGV multiplex","shopping mall","comfortable leather seats","exact middle rows","top-notch sound"],
+    keywords: [
+      "CGV multiplex",
+      "shopping mall",
+      "comfortable leather seats",
+      "exact middle rows",
+      "top-notch sound",
+    ],
     tip: "[영화관 및 좌석 묘사] 쇼핑몰 내 멀티플렉스 → 시설 및 리클라이너 좌석 → 정중앙 G/H열 선호 → 뛰어난 음향.",
   },
   {
@@ -1374,7 +1598,13 @@ window.QUESTIONS_DATA = [
         ko: "영화가 끝난 후에는 엔딩 크레딧을 보고 나오며 영화 후기에 대해 이야기를 나눕니다.",
       },
     ],
-    keywords: ["smartphone app","twenty minutes before","caramel popcorn","stay focused","ending credits"],
+    keywords: [
+      "smartphone app",
+      "twenty minutes before",
+      "caramel popcorn",
+      "stay focused",
+      "ending credits",
+    ],
     tip: "[극장 관람 루틴] 앱 사전 예매 → 20분 전 도착 → 팝콘과 제로음료 구매 → 영화 집중 → 크레딧 후 퇴장.",
   },
   {
@@ -1413,7 +1643,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 저는 이런 좋은 변화들이 정말 마음에 들어요.",
       },
     ],
-    keywords: ["very different from now","had to rent DVDs","convenient and easy","watch on Netflix anytime","recliner seats and big screens","really like these changes"],
+    keywords: [
+      "very different from now",
+      "had to rent DVDs",
+      "convenient and easy",
+      "watch on Netflix anytime",
+      "recliner seats and big screens",
+      "really like these changes",
+    ],
     tip: "[초간단 영화 변화 비교] 과거 극장/DVD 대여 ➔ 현재 넷플릭스 스트리밍 편의성 ➔ 극장의 고급 리클라이너 좌석 ➔ 대만족.",
   },
   {
@@ -1452,7 +1689,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 음악은 제 일상의 중요한 부분이고, 항상 저를 행복하게 해줍니다.",
       },
     ],
-    keywords: ["soft ballads and acoustic pop","Roy Kim and The Beatles","sweet voice and famous songs","earphones in park near house","makes me relaxed","always makes me happy"],
+    keywords: [
+      "soft ballads and acoustic pop",
+      "Roy Kim and The Beatles",
+      "sweet voice and famous songs",
+      "earphones in park near house",
+      "makes me relaxed",
+      "always makes me happy",
+    ],
     tip: "[초간단 음악 선호] 감성 발라드/어쿠스틱 팝 → 로이킴 & 비틀즈 → 집 근처 공원 산책 중 감상 → 퇴근 후 힐링 → 필수 일상.",
   },
   {
@@ -1491,7 +1735,14 @@ window.QUESTIONS_DATA = [
         ko: "음악을 들으면 큰 기쁨을 얻기 때문에 매일 음악을 듣습니다.",
       },
     ],
-    keywords: ["listen to music every day","upbeat pop songs in morning","subway with earphones","acoustic ballads on sofa","calm down and peaceful","brings great joy"],
+    keywords: [
+      "listen to music every day",
+      "upbeat pop songs in morning",
+      "subway with earphones",
+      "acoustic ballads on sofa",
+      "calm down and peaceful",
+      "brings great joy",
+    ],
     tip: "[초간단 음악 루틴] 아침 출근 준비(신나는 팝) → 지하철 출퇴근길(차분한 음악) → 저녁 소파 휴식(어쿠스틱) → 마음 평화와 기쁨.",
   },
   {
@@ -1530,7 +1781,14 @@ window.QUESTIONS_DATA = [
         ko: "정말 멋진 하루였고, 저는 너무 행복했어요.",
       },
     ],
-    keywords: ["live concert with friend","outdoor festival in autumn","cool weather and stage lights","everyone sang along together","goosebumps and happy","never forget it"],
+    keywords: [
+      "live concert with friend",
+      "outdoor festival in autumn",
+      "cool weather and stage lights",
+      "everyone sang along together",
+      "goosebumps and happy",
+      "never forget it",
+    ],
     tip: "[초간단 콘서트 경험] 친구와 가을 야외 콘서트 → 시원한 날씨와 멋진 무대 → 최애곡 떼창 → 감동과 소름 → 잊지 못할 추억.",
   },
   {
@@ -1569,7 +1827,13 @@ window.QUESTIONS_DATA = [
         ko: "아무리 반복해서 들어도 결코 질리지 않는 명곡이에요.",
       },
     ],
-    keywords: ["all-time favorite song","acoustic guitar","gentle melody","warm voice","peace to my mind"],
+    keywords: [
+      "all-time favorite song",
+      "acoustic guitar",
+      "gentle melody",
+      "warm voice",
+      "peace to my mind",
+    ],
     tip: "[최애 노래 묘사] 어쿠스틱 발라드 곡 소개 → 부드러운 멜로디와 따뜻한 보컬 → 비 오는 날/밤 청취 → 마음에 평화.",
   },
   {
@@ -1608,7 +1872,13 @@ window.QUESTIONS_DATA = [
         ko: "이동 중에 음악을 들으면 하루 이동 시간이 정말 순식간에 지나갑니다.",
       },
     ],
-    keywords: ["wireless earbuds","noise-canceling","upbeat playlist","blocks out noisy sounds","time fly by"],
+    keywords: [
+      "wireless earbuds",
+      "noise-canceling",
+      "upbeat playlist",
+      "blocks out noisy sounds",
+      "time fly by",
+    ],
     tip: "[이동 중 청취 루틴] 무선 노이즈캔슬링 이어폰 착용 → 신나는 플레이리스트 선택 → 소음 차단 및 운동 동기부여.",
   },
   {
@@ -1647,7 +1917,13 @@ window.QUESTIONS_DATA = [
         ko: "과거보다 훨씬 더 편리해지고 저렴해졌으며 음악 감상이 즐거워졌습니다.",
       },
     ],
-    keywords: ["changed tremendously","bought CDs or MP3","storage space limited","stream millions of songs","smart algorithms"],
+    keywords: [
+      "changed tremendously",
+      "bought CDs or MP3",
+      "storage space limited",
+      "stream millions of songs",
+      "smart algorithms",
+    ],
     tip: "[음악 청취 방식 비교] 과거(CD, MP3 다운로드, 용량 부족) vs 현재(스마트폰 무제한 스트리밍, 추천 알고리즘) 비교.",
   },
   {
@@ -1686,7 +1962,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
-    keywords: ["gym near my house","just five minutes","relaxing and cozy","clean machines and free weights","best place for me","go there about two or three times a week"],
+    keywords: [
+      "gym near my house",
+      "just five minutes",
+      "relaxing and cozy",
+      "clean machines and free weights",
+      "best place for me",
+      "go there about two or three times a week",
+    ],
     tip: "[만능 헬스장 묘사] 집 근처 헬스장 → 접근성 편함 → 편안하고 아늑한 분위기 → 머신과 프리웨이트 → 퇴근 후 운동 힐링 → 편안함.",
   },
   {
@@ -1725,7 +2008,14 @@ window.QUESTIONS_DATA = [
         ko: "마음이 편안해져서 저는 운동을 자주 합니다.",
       },
     ],
-    keywords: ["gym near my house","workout clothes and water bottle","treadmill for ten minutes","chest presses and squats","warm shower feels refreshed","makes me relaxed"],
+    keywords: [
+      "gym near my house",
+      "workout clothes and water bottle",
+      "treadmill for ten minutes",
+      "chest presses and squats",
+      "warm shower feels refreshed",
+      "makes me relaxed",
+    ],
     tip: "[초간단 헬스 루틴] 집 근처 헬스장 도착 → 러닝머신 10분 웜업 → 웨이트(체스트 프레스, 스쿼트) → 스트레칭 & 샤워 → 스트레스 해소.",
   },
   {
@@ -1764,7 +2054,14 @@ window.QUESTIONS_DATA = [
         ko: "운동 전에는 항상 준비운동을 꼼꼼히 해야 한다는 교훈을 얻었습니다.",
       },
     ],
-    keywords: ["problem while exercising","lower back felt painful","surprised and worried","stopped and put ice","resting for two days fine","warm up carefully lesson"],
+    keywords: [
+      "problem while exercising",
+      "lower back felt painful",
+      "surprised and worried",
+      "stopped and put ice",
+      "resting for two days fine",
+      "warm up carefully lesson",
+    ],
     tip: "[초간단 운동 부상 경험] 웨이트 중 허리 통증 발생 → 당황과 걱정 → 즉시 중단 및 얼음찜질 대처 → 이틀 휴식 후 완쾌 → 준비운동의 교훈.",
   },
   {
@@ -1803,7 +2100,13 @@ window.QUESTIONS_DATA = [
         ko: "적절한 운동복은 운동에 전념할 수 있는 올바른 마음가짐을 갖게 해줘요.",
       },
     ],
-    keywords: ["comfort and safety","breathable athletic T-shirt","running shoes","water bottle and towel","prevents injuries"],
+    keywords: [
+      "comfort and safety",
+      "breathable athletic T-shirt",
+      "running shoes",
+      "water bottle and towel",
+      "prevents injuries",
+    ],
     tip: "[운동 복장/장비 묘사] 기능성 티셔츠와 반바지 → 쿠션 러닝화 → 물병과 땀수건 지참 → 안전과 부상 방지.",
   },
   {
@@ -1842,7 +2145,13 @@ window.QUESTIONS_DATA = [
         ko: "이러한 체계적인 루틴 덕분에 매일 몸이 훨씬 빠르게 회복됩니다.",
       },
     ],
-    keywords: ["warm-up and cool-down","ten minutes stretching","prevents muscle cramps","warm refreshing shower","protein shake"],
+    keywords: [
+      "warm-up and cool-down",
+      "ten minutes stretching",
+      "prevents muscle cramps",
+      "warm refreshing shower",
+      "protein shake",
+    ],
     tip: "[운동 전후 루틴] 10분 관절 스트레칭 및 러닝머신 → 본 운동 → 쿨다운 → 온수 샤워 및 프로틴 섭취.",
   },
   {
@@ -1881,7 +2190,13 @@ window.QUESTIONS_DATA = [
         ko: "운동을 시작한 것은 제가 살면서 내린 최고의 결정 중 하나임에 틀림없습니다.",
       },
     ],
-    keywords: ["severe back pain","sat at desk all day","posture improved","built lean muscle","rarely feel fatigued"],
+    keywords: [
+      "severe back pain",
+      "sat at desk all day",
+      "posture improved",
+      "built lean muscle",
+      "rarely feel fatigued",
+    ],
     tip: "[운동 계기 및 변화] 허리 통증으로 시작 → 과거(쉬운 피로) vs 현재(자세 교정, 근력 증가, 체력 증진) 대비.",
   },
   {
@@ -1920,7 +2235,13 @@ window.QUESTIONS_DATA = [
         ko: "친구들이 집에 놀러 올 때마다 항상 이 요리를 만들어 달라고 부탁하곤 해요.",
       },
     ],
-    keywords: ["small but modern","clean induction stove","kimchi fried rice","sunny-side-up fried egg","simple to cook"],
+    keywords: [
+      "small but modern",
+      "clean induction stove",
+      "kimchi fried rice",
+      "sunny-side-up fried egg",
+      "simple to cook",
+    ],
     tip: "[주방 및 자신 있는 요리 묘사] 깔끔한 주방 풍경 → 인덕션과 냉장고 → 김치볶음밥 소개 → 조리법과 친구들 호평.",
   },
   {
@@ -1959,7 +2280,14 @@ window.QUESTIONS_DATA = [
         ko: "나를 위해 요리하면 마음이 편안해져서 자주 요리를 해요.",
       },
     ],
-    keywords: ["cook simple food at home","buy eggs, vegetables, meat","wash and chop ingredients","tomato pasta or kimchi fried rice","eating food watching YouTube","makes me relaxed"],
+    keywords: [
+      "cook simple food at home",
+      "buy eggs, vegetables, meat",
+      "wash and chop ingredients",
+      "tomato pasta or kimchi fried rice",
+      "eating food watching YouTube",
+      "makes me relaxed",
+    ],
     tip: "[초간단 요리 루틴] 마트 장보기(계란/야채/고기) → 재료 손질 → 토마토 파스타 또는 김치볶음밥 조리 → 유튜브 보며 냠냠 → 스트레스 해소.",
   },
   {
@@ -1998,7 +2326,14 @@ window.QUESTIONS_DATA = [
         ko: "정말 멋진 저녁이었고, 영원히 잊지 못할 거예요.",
       },
     ],
-    keywords: ["cooked dinner for close friend","friend visited my apartment","beef steak and creamy pasta","friend said very delicious","warm food and talked a lot","never forget it"],
+    keywords: [
+      "cooked dinner for close friend",
+      "friend visited my apartment",
+      "beef steak and creamy pasta",
+      "friend said very delicious",
+      "warm food and talked a lot",
+      "never forget it",
+    ],
     tip: "[초간단 요리 대접] 친구 집들이 방문 → 소고기 스테이크 & 크림 파스타 조리 → 친구의 폭풍 칭찬 → 즐거운 식사와 대화 → 뿌듯한 추억.",
   },
   {
@@ -2037,7 +2372,13 @@ window.QUESTIONS_DATA = [
         ko: "이 필수 아이템들 없이는 저의 일상 요리 생활을 상상조차 할 수 없어요.",
       },
     ],
-    keywords: ["air fryer","easy to clean","eggs, onions, garlic","crispy chicken","saves cooking time"],
+    keywords: [
+      "air fryer",
+      "easy to clean",
+      "eggs, onions, garlic",
+      "crispy chicken",
+      "saves cooking time",
+    ],
     tip: "[식재료/주방가전 묘사] 에어프라이어 소개 → 필수 식재료(계란, 양파, 마늘) → 빠른 조리와 기름 절약 장점.",
   },
   {
@@ -2076,7 +2417,13 @@ window.QUESTIONS_DATA = [
         ko: "식재료를 미리 손질해 두면 한 주 동안 요리하는 일이 훨씬 수월해집니다.",
       },
     ],
-    keywords: ["grocery shopping","shopping list on phone","fresh vegetables and meat","wash under cold water","store in containers"],
+    keywords: [
+      "grocery shopping",
+      "shopping list on phone",
+      "fresh vegetables and meat",
+      "wash under cold water",
+      "store in containers",
+    ],
     tip: "[장보기 및 손질 루틴] 장보기 메모 작성 → 신선 식재료 구매 → 귀가 후 세척 및 소분 보관 → 주중 간편 요리.",
   },
   {
@@ -2115,7 +2462,14 @@ window.QUESTIONS_DATA = [
         ko: "놀라운 일이었지만, 재미있고 좋은 추억이 되었습니다.",
       },
     ],
-    keywords: ["problem while cooking dinner","smoke while cooking steak","smoke alarm rang surprised","turned off stove opened windows","smoke went away steak tasted great","funny and good memory"],
+    keywords: [
+      "problem while cooking dinner",
+      "smoke while cooking steak",
+      "smoke alarm rang surprised",
+      "turned off stove opened windows",
+      "smoke went away steak tasted great",
+      "funny and good memory",
+    ],
     tip: "[초간단 요리 돌발상황] 스테이크 연기 발생 → 화재경보기 울림 당황 → 침착하게 불 끄고 창문 환기 대처 → 연기 배출 및 맛있는 식사 → 유쾌한 교훈.",
   },
   {
@@ -2154,7 +2508,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
-    keywords: ["quiet route favorite place","near my house just five minutes","relaxing and cozy","scenic views and quiet roads","best place for me","go there about two or three times a week"],
+    keywords: [
+      "quiet route favorite place",
+      "near my house just five minutes",
+      "relaxing and cozy",
+      "scenic views and quiet roads",
+      "best place for me",
+      "go there about two or three times a week",
+    ],
     tip: "[만능 드라이브 묘사] 집 근처 한적한 길 → 접근성 편리함 → 편안하고 아늑한 분위기 → 멋진 풍경과 도로 → 퇴근 후 드라이브 힐링 → 편안함.",
   },
   {
@@ -2193,7 +2554,14 @@ window.QUESTIONS_DATA = [
         ko: "모든 준비가 끝나면 여행을 떠날 생각에 정말 설레요.",
       },
     ],
-    keywords: ["prepare everything step by step","check weather and packing list","pack clothes and chargers","check windows and gas","safe and happy","excited to start trip"],
+    keywords: [
+      "prepare everything step by step",
+      "check weather and packing list",
+      "pack clothes and chargers",
+      "check windows and gas",
+      "safe and happy",
+      "excited to start trip",
+    ],
     tip: "[초간단 여행 준비] 날씨 확인 및 스마트폰 체크리스트 → 옷/충전기/세면도구 패킹 → 창문/가스 밸브 확인 → 안전하고 설레는 출발.",
   },
   {
@@ -2232,7 +2600,14 @@ window.QUESTIONS_DATA = [
         ko: "정말 멋진 여행이었고, 영원히 잊지 못할 거예요.",
       },
     ],
-    keywords: ["trip to Jeju Island last year","alone for three days","blue ocean and fresh air","drove coast road and seafood","walked on beach and sunset","never forget it"],
+    keywords: [
+      "trip to Jeju Island last year",
+      "alone for three days",
+      "blue ocean and fresh air",
+      "drove coast road and seafood",
+      "walked on beach and sunset",
+      "never forget it",
+    ],
     tip: "[초간단 제주도 여행] 나 홀로 2박 3일 제주 힐링 여행 → 푸른 바다와 상쾌한 공기 → 해안도로 드라이브 & 해산물 먹방 → 일몰 감상 및 사진 → 평생 추억.",
   },
   {
@@ -2271,7 +2646,13 @@ window.QUESTIONS_DATA = [
         ko: "그곳은 제가 지금까지 묵어본 숙소 중 단연 가장 로맨틱하고 기억에 남는 숙소였습니다.",
       },
     ],
-    keywords: ["Jeju Island","ocean-view resort","floor-to-ceiling windows","breathtaking sunrise","peaceful and soothing"],
+    keywords: [
+      "Jeju Island",
+      "ocean-view resort",
+      "floor-to-ceiling windows",
+      "breathtaking sunrise",
+      "peaceful and soothing",
+    ],
     tip: "[여행 숙소 묘사] 제주도 오션뷰 리조트 → 통유리창과 바다 전망 → 발코니와 침대 → 침대 위 일출 감상과 파도 소리.",
   },
   {
@@ -2310,7 +2691,13 @@ window.QUESTIONS_DATA = [
         ko: "밤에는 숙소로 돌아와 사진들을 둘러본 뒤 기분 좋게 잠자리에 듭니다.",
       },
     ],
-    keywords: ["hearty local breakfast","famous attractions","scenic cafe","local delicacies","look through photos"],
+    keywords: [
+      "hearty local breakfast",
+      "famous attractions",
+      "scenic cafe",
+      "local delicacies",
+      "look through photos",
+    ],
     tip: "[여행 하루 루틴] 이른 기상 및 조식 → 명소 탐방 및 사진 촬영 → 전망 좋은 카페 휴식 → 현지 별미 저녁 → 숙소 사진 정리.",
   },
   {
@@ -2349,7 +2736,13 @@ window.QUESTIONS_DATA = [
         ko: "실내에서 비 내리는 날을 보낸 것은 뜻밖에도 매우 평화롭고 멋진 추억이 되었습니다.",
       },
     ],
-    keywords: ["heavy rainstorm","sightseeing canceled","quickly calmed down","searched indoor places","cozy art gallery"],
+    keywords: [
+      "heavy rainstorm",
+      "sightseeing canceled",
+      "quickly calmed down",
+      "searched indoor places",
+      "cozy art gallery",
+    ],
     tip: "[여행 돌발 해결] 동해안 폭우로 야외 일정 취소 → 당황 후 침착하게 실내 대안 검색 → 미술관 및 카페 힐링 전환.",
   },
   {
@@ -2388,7 +2781,14 @@ window.QUESTIONS_DATA = [
         ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
       },
     ],
-    keywords: ["campsite near the lake","one hour by car","clean, quiet, and peaceful","tall green trees and clean lake","best place for me","go there about two or three times a week"],
+    keywords: [
+      "campsite near the lake",
+      "one hour by car",
+      "clean, quiet, and peaceful",
+      "tall green trees and clean lake",
+      "best place for me",
+      "go there about two or three times a week",
+    ],
     tip: "[만능 캠핑장 묘사] 호숫가 캠핑장 → 차로 1시간 거리 → 조용하고 평화로운 자연 → 나무와 호수 → 자연 속 힐링 → 편안함.",
   },
   {
@@ -2427,7 +2827,14 @@ window.QUESTIONS_DATA = [
         ko: "자연 속에서 쉬면 마음이 편안해져서 자주 캠핑을 가요.",
       },
     ],
-    keywords: ["simple camping routine","set up tent and chair","drink coffee looking at mountain","cook meat and listen to music","stars in night sky peaceful","makes me relaxed"],
+    keywords: [
+      "simple camping routine",
+      "set up tent and chair",
+      "drink coffee looking at mountain",
+      "cook meat and listen to music",
+      "stars in night sky peaceful",
+      "makes me relaxed",
+    ],
     tip: "[초간단 캠핑 루틴] 텐트 & 의자 설치 → 산 보며 커피 한 잔 → 고기 구이 & 음악 → 밤하늘 별 보기 → 스트레스 해소.",
   },
   {
@@ -2466,7 +2873,14 @@ window.QUESTIONS_DATA = [
         ko: "무서웠지만, 항상 꼼꼼하게 준비해야 한다는 교훈을 얻었어요.",
       },
     ],
-    keywords: ["problem while camping","strong wind shaking tent","wind noise loud worried","flashlight fixed tent ropes","tent safe slept well","prepare carefully lesson"],
+    keywords: [
+      "problem while camping",
+      "strong wind shaking tent",
+      "wind noise loud worried",
+      "flashlight fixed tent ropes",
+      "tent safe slept well",
+      "prepare carefully lesson",
+    ],
     tip: "[초간단 캠핑 문제해결] 야간 강풍에 텐트 흔들림 → 당황과 걱정 → 손전등 들고 텐트 줄 고정 대처 → 안전 확보 후 숙면 → 사전 대비의 교훈.",
   },
   {
@@ -2505,7 +2919,13 @@ window.QUESTIONS_DATA = [
         ko: "저는 이 편안한 의자 없이는 결코 어떤 야외 여행도 떠나지 않아요.",
       },
     ],
-    keywords: ["foldable reclining chair","lightweight aluminum","waterproof canvas","cup holder","pure happiness"],
+    keywords: [
+      "foldable reclining chair",
+      "lightweight aluminum",
+      "waterproof canvas",
+      "cup holder",
+      "pure happiness",
+    ],
     tip: "[캠핑 장비 묘사] 접이식 캠핑 의자 소개 → 가벼운 알루미늄 및 방수 원단 → 컵홀더 편의성 → 자연 속 커피 휴식.",
   },
   {
@@ -2544,7 +2964,13 @@ window.QUESTIONS_DATA = [
         ko: "이 평화로운 불멍 시간은 마음을 따뜻하게 녹여주고 모든 스트레스를 날려줍니다.",
       },
     ],
-    keywords: ["highlight of camping","light charcoal grill","thick pork belly","wood campfire","dancing flames"],
+    keywords: [
+      "highlight of camping",
+      "light charcoal grill",
+      "thick pork belly",
+      "wood campfire",
+      "dancing flames",
+    ],
     tip: "[캠핑 저녁/불멍 루틴] 숯불 점화 및 삼겹살 바비큐 → 식사 후 장작 모닥불 피우기 → 마시멜로 구이와 불멍 힐링.",
   },
   {
@@ -2583,7 +3009,13 @@ window.QUESTIONS_DATA = [
         ko: "과거와 비교할 때 오늘날의 캠핑은 대자연 속 아늑한 호텔처럼 느껴집니다.",
       },
     ],
-    keywords: ["first camping trip","took over two hours","cold at night","modern gear","cozy hotel in outdoors"],
+    keywords: [
+      "first camping trip",
+      "took over two hours",
+      "cold at night",
+      "modern gear",
+      "cozy hotel in outdoors",
+    ],
     tip: "[첫 캠핑 기억 및 트렌드 비교] 과거(텐트 치기 고생, 추위) vs 현재(원터치 텐트, 전기 히터, 편리한 캠핑 문화) 대비.",
   },
   {
@@ -2622,7 +3054,14 @@ window.QUESTIONS_DATA = [
         ko: "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
       },
     ],
-    keywords: ["ask about festival tickets","where is hall near subway","what time start today","ticket price and discounts","parking free for tickets","thank you have a nice day"],
+    keywords: [
+      "ask about festival tickets",
+      "where is hall near subway",
+      "what time start today",
+      "ticket price and discounts",
+      "parking free for tickets",
+      "thank you have a nice day",
+    ],
     tip: "[초간단 롤플레이 정보문의] 전화 목적 ➔ 위치 문의 ➔ 시작 시간 문의 ➔ 가격 & 할인 확인 ➔ 무료 주차 문의 ➔ 감사 인사.",
   },
   {
@@ -2661,7 +3100,14 @@ window.QUESTIONS_DATA = [
         ko: "최대한 빨리 달려갈게. 곧 보자!",
       },
     ],
-    keywords: ["calling there is a problem","heavy traffic thirty minutes late","surprised and worried sorry","Starbucks will buy coffee","meet tomorrow instead","get there as fast as I can"],
+    keywords: [
+      "calling there is a problem",
+      "heavy traffic thirty minutes late",
+      "surprised and worried sorry",
+      "Starbucks will buy coffee",
+      "meet tomorrow instead",
+      "get there as fast as I can",
+    ],
     tip: "[초간단 롤플레이 지연 대안] 문제 발생 전화 ➔ 30분 지연 사유 ➔ 당황·사과 ➔ 대안 1 (스벅 대기 & 커피 사기) ➔ 대안 2 (내일 만남) ➔ 도착 다짐.",
   },
   {
@@ -2700,7 +3146,14 @@ window.QUESTIONS_DATA = [
         ko: "그래도 결국 좋은 추억이 되었어요.",
       },
     ],
-    keywords: ["remember a big problem","website suddenly crashed","very surprised and worried","opened smartphone app and fixed it","hard day for me","became a good memory"],
+    keywords: [
+      "remember a big problem",
+      "website suddenly crashed",
+      "very surprised and worried",
+      "opened smartphone app and fixed it",
+      "hard day for me",
+      "became a good memory",
+    ],
     tip: "[초간단 롤플레이 13번 과거경험] 4번 패턴(문제해결 템플릿) 100% 재활용: Whenever I think of... ➔ Last year... ➔ surprised and worried ➔ fixed it ➔ hard day ➔ good memory.",
   },
   {
@@ -2739,7 +3192,13 @@ window.QUESTIONS_DATA = [
         ko: "친절하게 안내해 주셔서 대단히 감사합니다. 좋은 하루 보내세요!",
       },
     ],
-    keywords: ["room reservation","ocean view double room","complimentary breakfast","check-in check-out time","free parking"],
+    keywords: [
+      "room reservation",
+      "ocean view double room",
+      "complimentary breakfast",
+      "check-in check-out time",
+      "free parking",
+    ],
     tip: "[롤플레이 11번 호텔 예약 질문] 용건(다음 주말 예약) → 오션뷰 더블룸 잔여 여부 → 1박 요금 및 조식 포함 여부 → 체크인/아웃 시간 → 주차 문의.",
   },
   {
@@ -2778,7 +3237,13 @@ window.QUESTIONS_DATA = [
         ko: "가능한 옵션을 확인하시고 바로 말씀해 주세요. 감사합니다.",
       },
     ],
-    keywords: ["room not cleaned yet","family very tired","upgrade to another room","complimentary beverage coupons","store luggage"],
+    keywords: [
+      "room not cleaned yet",
+      "family very tired",
+      "upgrade to another room",
+      "complimentary beverage coupons",
+      "store luggage",
+    ],
     tip: "[롤플레이 12번 호텔 방 문제 대안] 문제 설명(방 미준비, 피곤함) → 대안 1(다른 빈 방 업그레이드) → 대안 2(짐 보관 및 라운지 쿠폰 요청) → 신속 해결 부탁.",
   },
   {
@@ -2817,9 +3282,15 @@ window.QUESTIONS_DATA = [
         ko: "그들의 빠르고 전문적인 대처 덕분에 남은 여행을 기분 좋게 즐길 수 있었습니다.",
       },
     ],
-    keywords: ["air conditioner problem","hot and humid","called front desk","moved to spacious suite","quick and professional"],
+    keywords: [
+      "air conditioner problem",
+      "hot and humid",
+      "called front desk",
+      "moved to spacious suite",
+      "quick and professional",
+    ],
     tip: "[롤플레이 13번 유사 돌발 경험] 부산 호텔 에어컨 고장 발생 → 프런트 전화 요청 → 즉시 수리 불가 → 스위트룸 교체 해결로 만족.",
-  }
+  },
 ];
 
 // -----------------------------------------------------------------------------

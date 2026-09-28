@@ -44,6 +44,176 @@ let opicPlayMode = "random"; // 출제 모드: "random" (무작위) | "combo" (�
 let savedOpicInputs = {}; // 질문별 사용자 작성 답변 캐시 { [questionIdx]: string }
 
 // =============================================================================
+// 1.1 주제별 실전 3단 콤보 시나리오 서브테마 맵 (Subthemes Map)
+// =============================================================================
+
+const OPIC_SUBTHEMES = {
+  자기소개: {
+    1: "기본 프로필 & 일과",
+    2: "성격 & 여가 라이프",
+  },
+  "집/주거": {
+    1: "집 구조 & 일상 루틴",
+    2: "좋아하는 방 & 인테리어",
+  },
+  "직장/업무": {
+    1: "회사 & 업무 일과",
+    2: "동료 & 첫 출근 기억",
+  },
+  카페가기: {
+    1: "자주 가는 카페 & 일상",
+    2: "선호 메뉴 & 약속 루틴",
+  },
+  공원가기: {
+    1: "동네 공원 & 산책 루틴",
+    2: "공원 시설 & 피크닉",
+  },
+  영화보기: {
+    1: "선호 장르 & 최근 영화",
+    2: "영화관 시설 & 관람 루틴",
+  },
+  음악감상: {
+    1: "선호 장르 & 콘서트 기억",
+    2: "좋아하는 곡 & 청취 루틴",
+  },
+  운동하기: {
+    1: "자주 하는 운동 & 헬스장",
+    2: "운동 복장 & 시작 계기",
+  },
+  요리하기: {
+    1: "자신 있는 요리 & 주방",
+    2: "식재료 & 장보기 루틴",
+  },
+  국내여행: {
+    1: "추천 여행지 & 여행 준비",
+    2: "기억에 남는 숙소 & 일정",
+  },
+  캠핑하기: {
+    1: "추천 캠핑장 & 캠핑 루틴",
+    2: "캠핑 장비 & 저녁 불멍",
+  },
+  롤플레이: {
+    1: "공연 티켓 예매 & 약속 문의",
+    2: "호텔 객실 예약 & 체크인",
+  },
+};
+
+/**
+ * 특정 주제와 세트 번호에 대응하는 직관적 시나리오 서브테마 명칭을 반환합니다.
+ * @param {string} cat 주제명
+ * @param {number} setNum 세트 번호 (1 또는 2)
+ * @returns {string} 서브테마 명칭
+ */
+function getOpicSubtheme(cat, setNum) {
+  const num = setNum === 2 ? 2 : 1;
+  if (OPIC_SUBTHEMES[cat] && OPIC_SUBTHEMES[cat][num]) {
+    return OPIC_SUBTHEMES[cat][num];
+  }
+  return num === 2 ? "시나리오 2" : "시나리오 1";
+}
+
+/**
+ * OPIc 난이도 3-3 시험 기준 각 질문의 출제 문항 번호와 유형 메타데이터를 반환합니다.
+ * @param {Object} q 질문 데이터 객체
+ * @returns {{ slot: string, type: string, slotClass: string, step: number, subtheme: string }}
+ */
+function getOpicQuestionMeta(q) {
+  if (!q)
+    return {
+      slot: "Q-",
+      type: "실전 질문",
+      slotClass: "slot-default",
+      step: 1,
+      subtheme: "공통",
+    };
+
+  const subtheme = getOpicSubtheme(q.cat, q.combo_set || 1);
+
+  if (q.cat === "자기소개") {
+    return {
+      slot: "Q1",
+      type: q.type ? `자기소개 · ${q.type}` : "자기소개",
+      slotClass: "slot-warmup",
+      step: 1,
+      subtheme: subtheme,
+    };
+  }
+
+  if (q.cat === "롤플레이") {
+    if (q.combo_step === 1) {
+      return {
+        slot: "Q11",
+        type: "롤플레이 · 정보 문의",
+        slotClass: "slot-rp",
+        step: 1,
+        subtheme: subtheme,
+      };
+    }
+    if (q.combo_step === 2) {
+      return {
+        slot: "Q12",
+        type: "롤플레이 · 문제 해결 및 대안",
+        slotClass: "slot-rp",
+        step: 2,
+        subtheme: subtheme,
+      };
+    }
+    return {
+      slot: "Q13",
+      type: "롤플레이 · 유사 경험",
+      slotClass: "slot-rp",
+      step: 3,
+      subtheme: subtheme,
+    };
+  }
+
+  // 일반 서베이 및 돌발 주제 (10개 주제: 집, 직장, 카페, 공원, 영화, 음악, 운동, 요리, 국내여행, 캠핑)
+  const isCompare =
+    (q.combo_role &&
+      (q.combo_role.includes("변화") || q.combo_role.includes("비교"))) ||
+    (q.type && (q.type.includes("변화") || q.type.includes("비교")));
+
+  if (q.combo_step === 1) {
+    return {
+      slot: "Q2, Q5, Q8",
+      type: `1단계 · ${q.type || "장소/대상 묘사"}`,
+      slotClass: "slot-step1",
+      step: 1,
+      subtheme: subtheme,
+    };
+  }
+
+  if (q.combo_step === 2) {
+    return {
+      slot: "Q3, Q6, Q9",
+      type: `2단계 · ${q.type || "일상 루틴/활동"}`,
+      slotClass: "slot-step2",
+      step: 2,
+      subtheme: subtheme,
+    };
+  }
+
+  // combo_step === 3
+  if (isCompare) {
+    return {
+      slot: "Q4, Q7, Q10 / Q14",
+      type: `3단계/14번 · ${q.type || "과거 vs 현재 비교"}`,
+      slotClass: "slot-step3-compare",
+      step: 3,
+      subtheme: subtheme,
+    };
+  }
+
+  return {
+    slot: "Q4, Q7, Q10",
+    type: `3단계 · ${q.type || "과거 기억/경험"}`,
+    slotClass: "slot-step3",
+    step: 3,
+    subtheme: subtheme,
+  };
+}
+
+// =============================================================================
 // 2. 진행 상태 영속화 및 모드 UI 동기화 (Storage & Mode Tabs)
 // =============================================================================
 
@@ -373,7 +543,7 @@ function renderOpicCard() {
   opicModelRevealed = false;
   opicReplayCount = 0;
 
-  // 상단 라벨 및 3단 콤보 배지 처리
+  // 상단 라벨 및 3단 콤보 / 출제 번호 배지 처리
   els.opicCatLabel.textContent = item.cat;
   els.opicIdxLabel.textContent = `${String(opicCur + 1).padStart(2, "0")} / ${String(opicOrder.length).padStart(2, "0")}`;
   if (els.btnPrevOpic) {
@@ -381,14 +551,27 @@ function renderOpicCard() {
     els.btnPrevOpic.title =
       opicCur === 0 ? "실전 주제 선택 목록으로 돌아가기 (P)" : "이전 질문 (P)";
   }
-  if (els.evaTypeBadge) els.evaTypeBadge.textContent = item.type || "실전 질문";
 
-  // 3단 콤보 배지 표시 (Set A / Set B 구분 명시)
+  // OPIc 난이도 3-3 시험 기준 출제 번호(Slot) 및 유형(Type) 뱃지 동기화
+  const meta = getOpicQuestionMeta(item);
+  if (els.opicSlotBadge) {
+    els.opicSlotBadge.textContent = meta.slot;
+    els.opicSlotBadge.className = `opic-slot-badge ${meta.slotClass}`;
+    els.opicSlotBadge.title = `OPIc 3-3 시험 출제 문항 번호: ${meta.slot}`;
+  }
+  if (els.opicTypeBadge) {
+    els.opicTypeBadge.textContent = meta.type;
+    els.opicTypeBadge.title = `출제 유형: ${meta.type}`;
+  }
+  if (els.evaTypeBadge) {
+    els.evaTypeBadge.textContent = `${meta.slot} · ${item.type || meta.type}`;
+  }
+
+  // 3단 콤보 배지 표시 (직관적인 시나리오 서브테마 명칭 반영)
   if (els.opicComboStepBadge) {
     if (opicPlayMode === "combo") {
-      const setLabel = item.combo_set === 2 ? "Set B" : "Set A";
       const stepText = item.combo_role || `콤보 ${item.combo_step || 1}단계`;
-      els.opicComboStepBadge.textContent = `🎯 [${setLabel}] ${stepText}`;
+      els.opicComboStepBadge.textContent = `🎯 [${meta.subtheme}] ${stepText}`;
       els.opicComboStepBadge.style.display = "inline-flex";
     } else {
       els.opicComboStepBadge.style.display = "none";
@@ -1239,16 +1422,23 @@ function renderBankCardList() {
     const badges = document.createElement("div");
     badges.className = "bank-card-badges";
 
+    const meta = getOpicQuestionMeta(q);
+
     const catBadge = document.createElement("span");
     catBadge.className = "bank-cat-badge";
     catBadge.textContent = q.cat;
 
-    const setLabel = q.combo_set === 2 ? "Set B" : "Set A";
+    const slotBadge = document.createElement("span");
+    slotBadge.className = `bank-slot-badge ${meta.slotClass}`;
+    slotBadge.textContent = meta.slot;
+    slotBadge.title = `OPIc 3-3 출제 문항 번호: ${meta.slot}`;
+
     const roleBadge = document.createElement("span");
     roleBadge.className = "bank-role-badge";
-    roleBadge.textContent = `[${setLabel}] ${q.combo_role || q.type || `콤보 ${q.combo_step || 1}단계`}`;
+    roleBadge.textContent = `[${meta.subtheme}] ${meta.type}`;
 
     badges.appendChild(catBadge);
+    badges.appendChild(slotBadge);
     badges.appendChild(roleBadge);
 
     const idLabel = document.createElement("span");

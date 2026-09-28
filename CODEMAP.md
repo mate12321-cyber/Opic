@@ -12,6 +12,7 @@ OPIc/
 ├── style.css                   # [Style] 메인 통합 스타일시트 (@import 모듈 번들러)
 ├── app.js                      # [Main] 메인 진입점 (이벤트 리스너 등록 & 6대 모드 앱 라이프사이클 초기화)
 ├── CODEMAP.md                  # [Doc] 전체 코드 구조 및 아키텍처 맵
+├── OPIC_QUESTIONS_3_3.md       # [Doc] OPIc 난이도 3-3 완벽 대비 72개 질문 & 3단 콤보 매핑 레퍼런스
 │
 ├── lib/                        # ── [External Vendor Libraries - Zero-Dependency Local Fallback] ─
 │   ├── html2canvas.min.js      # 고해상도 DOM-to-Canvas 렌더러 (치트시트 개별 페이지 캡처)
