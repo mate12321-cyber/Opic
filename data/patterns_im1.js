@@ -187,8 +187,8 @@ window.PATTERNS_DATA = [
             ko: "큰 스크린과 편안한 좌석이 있어서, 저를 너무 신나고 행복하게 만들어줘요.",
           },
           {
-            en: "When I go there, I usually eat popcorn and watch movies, and just relax.",
-            ko: "거기 가면, 저는 보통 팝콘을 먹고 영화를 보며 그냥 편하게 쉬어요.",
+            en: "When I go there, I usually eat popcorn and watch movies, and have a good time.",
+            ko: "거기 가면, 저는 보통 팝콘을 먹고 영화를 보며 좋은 시간을 보내요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -217,8 +217,8 @@ window.PATTERNS_DATA = [
             ko: "깨끗한 머신들과 프리웨이트가 있어서, 저를 너무 개운하고 행복하게 만들어줘요.",
           },
           {
-            en: "When I go there, I usually run on the treadmill, and just exercise.",
-            ko: "거기 가면, 저는 보통 러닝머신을 달리고 그냥 운동해요.",
+            en: "When I go there, I usually run on the treadmill, and sweat a lot.",
+            ko: "거기 가면, 저는 보통 러닝머신을 달리고 땀을 푹 흘려요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -367,8 +367,8 @@ window.PATTERNS_DATA = [
             ko: "맛있는 파스타와 좋은 와인이 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
           },
           {
-            en: "When I go there, I usually eat spicy pasta, and just relax.",
-            ko: "거기 가면, 저는 보통 매콤한 파스타를 먹고 그냥 편하게 쉬어요.",
+            en: "When I go there, I usually eat spicy pasta, and enjoy the food.",
+            ko: "거기 가면, 저는 보통 매콤한 파스타를 먹고 음식을 즐겨요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -427,8 +427,8 @@ window.PATTERNS_DATA = [
             ko: "많은 책들과 편안한 책상이 있어서, 저를 너무 차분하고 편안하게 만들어줘요.",
           },
           {
-            en: "When I go there, I usually read bestsellers, and just relax.",
-            ko: "거기 가면, 저는 보통 베스트셀러를 읽고 그냥 편하게 쉬어요.",
+            en: "When I go there, I usually read bestsellers, and enjoy reading.",
+            ko: "거기 가면, 저는 보통 베스트셀러를 읽고 독서를 즐겨요.",
           },
           {
             en: "So, I go there about two or three times a week.",
@@ -457,8 +457,8 @@ window.PATTERNS_DATA = [
             ko: "아름다운 자연과 신선한 해산물이 있어서, 저를 너무 상쾌하고 행복하게 만들어줘요.",
           },
           {
-            en: "When I go there, I usually drive along the coast, and just relax.",
-            ko: "거기 가면, 저는 보통 해안가를 따라 드라이브하고 그냥 편하게 쉬어요.",
+            en: "When I go there, I usually drive along the coast, and make good memories.",
+            ko: "거기 가면, 저는 보통 해안가를 따라 드라이브하고 좋은 추억을 만들어요.",
           },
           {
             en: "So, I go there every summer vacation.",
