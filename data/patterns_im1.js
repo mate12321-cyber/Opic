@@ -55,8 +55,8 @@ window.PATTERNS_DATA = [
         ko: "1. 음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 [장소명]이야.",
       },
       {
-        en: "2. It is near my house, so it takes five minutes on foot.",
-        ko: "2. 저희 집 근처에 있어서, 걸어서 5분 걸려요.",
+        en: "2. It is near my house, so it takes about five minutes on foot.",
+        ko: "2. 저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
       },
       {
         en: "3. How can I say... inside, it is very clean, comfortable, and cozy.",
@@ -85,8 +85,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 제 방이에요.",
           },
           {
-            en: "It is near my office, so it takes five minutes on foot.",
-            ko: "회사 근처에 있어서, 걸어서 5분 걸려요.",
+            en: "It is near my office, so it takes about five minutes on foot.",
+            ko: "회사 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
             en: "How can I say... inside, it is very clean, comfortable, and cozy.",
@@ -115,8 +115,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 스타벅스예요.",
           },
           {
-            en: "It is near my house, so it takes five minutes on foot.",
-            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
+            en: "It is near my house, so it takes about five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
             en: "How can I say... inside, it is very clean, comfortable, and cozy.",
@@ -145,8 +145,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 공원이에요.",
           },
           {
-            en: "It is near my house, so it takes five minutes on foot.",
-            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
+            en: "It is near my house, so it takes about five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
             en: "How can I say... inside, it is very clean, comfortable, and cozy.",
@@ -175,8 +175,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 메가박스예요.",
           },
           {
-            en: "It is near my house, so it takes five minutes on foot.",
-            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
+            en: "It is near my house, so it takes about five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
             en: "How can I say... inside, it is very clean, comfortable, and cozy.",
@@ -205,8 +205,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 헬스장이에요.",
           },
           {
-            en: "It is near my house, so it takes five minutes on foot.",
-            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
+            en: "It is near my house, so it takes about five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
             en: "How can I say... inside, it is very clean, comfortable, and cozy.",
@@ -235,8 +235,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 이마트예요.",
           },
           {
-            en: "It is near my house, so it takes five minutes on foot.",
-            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
+            en: "It is near my house, so it takes about five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
             en: "How can I say... inside, it is very clean, comfortable, and cozy.",
@@ -265,8 +265,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 한적한 코스예요.",
           },
           {
-            en: "It is near my house, so it takes five minutes by car.",
-            ko: "저희 집 근처에 있어서, 차로 5분 걸려요.",
+            en: "It is near my house, so it takes about five minutes by car.",
+            ko: "저희 집 근처에 있어서, 차로 약 5분 정도 걸려요.",
           },
           {
             en: "How can I say... inside, it is very clean, comfortable, and cozy.",
@@ -295,8 +295,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 캠핑장이에요.",
           },
           {
-            en: "It is near my house, so it takes thirty minutes by car.",
-            ko: "저희 집 근처에 있어서, 차로 30분 걸려요.",
+            en: "It is near my house, so it takes about thirty minutes by car.",
+            ko: "저희 집 근처에 있어서, 차로 약 30분 정도 걸려요.",
           },
           {
             en: "How can I say... the campsite is very clean, comfortable, and cozy.",
@@ -325,8 +325,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 해운대 해변이에요.",
           },
           {
-            en: "It is near my hotel, so it takes five minutes on foot.",
-            ko: "제가 묵는 호텔 근처에 있어서, 걸어서 5분 걸려요.",
+            en: "It is near my hotel, so it takes about five minutes on foot.",
+            ko: "제가 묵는 호텔 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
             en: "How can I say... the beach is very clean, comfortable, and cozy.",
@@ -355,8 +355,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 파스타 식당이에요.",
           },
           {
-            en: "It is near my house, so it takes five minutes on foot.",
-            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
+            en: "It is near my house, so it takes about five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
             en: "How can I say... inside, it is very clean, comfortable, and cozy.",
@@ -385,8 +385,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 신라 호텔이에요.",
           },
           {
-            en: "It is near the beach, so it takes five minutes on foot.",
-            ko: "해변 근처에 있어서, 걸어서 5분 걸려요.",
+            en: "It is near the beach, so it takes about five minutes on foot.",
+            ko: "해변 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
             en: "How can I say... inside, it is very clean, comfortable, and cozy.",
@@ -415,8 +415,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 공공 도서관이에요.",
           },
           {
-            en: "It is near my house, so it takes five minutes on foot.",
-            ko: "저희 집 근처에 있어서, 걸어서 5분 걸려요.",
+            en: "It is near my house, so it takes about five minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
             en: "How can I say... inside, it is very clean, comfortable, and cozy.",
@@ -445,8 +445,8 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 제주도예요.",
           },
           {
-            en: "It is in the south, so it takes one hour by plane.",
-            ko: "남쪽에 있어서, 비행기로 1시간 걸려요.",
+            en: "It is in the south, so it takes about one hour by plane.",
+            ko: "남쪽에 있어서, 비행기로 약 1시간 정도 걸려요.",
           },
           {
             en: "How can I say... the island is very clean, comfortable, and cozy.",
@@ -1804,28 +1804,28 @@ window.PATTERNS_DATA = [
     desc: "롤플레이 3대 핵심(11번 질문 문의 ➔ 12번 돌발 대안 제시 ➔ 13번 과거 유사 경험)을 쉬운 6문장으로 완벽 해결하는 공식입니다.",
     skeleton: [
       {
-        en: "1. Hi, I'm calling about [주제].",
-        ko: "1. 안녕하세요, [주제] 때문에 전화드렸는데요.",
+        en: "1. Hello, I'm calling to ask about [주제].",
+        ko: "1. 안녕하세요, [주제]에 대해 여쭤보려고 전화드렸어요.",
       },
       {
-        en: "2. First, where are you located? Is it near the subway station?",
-        ko: "2. 먼저 위치가 어디인가요? 지하철역 근처인가요?",
+        en: "2. First, where are you located? Is it near [역/장소]?",
+        ko: "2. 먼저 위치가 어디인가요? 역 근처인가요?",
       },
       {
-        en: "3. And what are your business hours today?",
-        ko: "3. 그리고 오늘 영업시간은 어떻게 되나요?",
+        en: "3. And what are your opening hours today?",
+        ko: "3. 그리고 오늘 운영 시간은 어떻게 되나요?",
       },
       {
-        en: "4. Also, how much is it, and do you have any discounts?",
-        ko: "4. 또한, 얼마인가요? 그리고 혹시 할인되는 게 있나요?",
+        en: "4. Also, how much is the price, and do you have discounts?",
+        ko: "4. 또한 가격은 얼마이고, 혹시 할인이 있나요?",
       },
       {
-        en: "5. One more question, is parking free?",
-        ko: "5. 질문 하나만 더 드릴게요, 주차는 무료인가요?",
+        en: "5. By the way, is parking free for visitors?",
+        ko: "5. 그런데 방문객 주차는 무료인가요?",
       },
       {
-        en: "6. Thank you so much. Have a nice day!",
-        ko: "6. 정말 감사합니다. 좋은 하루 보내세요!",
+        en: "6. Thank you so much for your help. Have a nice day!",
+        ko: "6. 도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
       },
     ],
     variations: [
@@ -1834,54 +1834,54 @@ window.PATTERNS_DATA = [
         keyword: "location, hours, price, parking",
         skeleton: [
           {
-            en: "1. Hi, I'm calling about [주제].",
-            ko: "1. 안녕하세요, [주제] 때문에 전화드렸는데요.",
+            en: "1. Hello, I'm calling to ask about [주제].",
+            ko: "1. 안녕하세요, [주제]에 대해 여쭤보려고 전화드렸어요.",
           },
           {
-            en: "2. First, where are you located? Is it near the subway station?",
-            ko: "2. 먼저 위치가 어디인가요? 지하철역 근처인가요?",
+            en: "2. First, where are you located? Is it near [역/장소]?",
+            ko: "2. 먼저 위치가 어디인가요? 역 근처인가요?",
           },
           {
-            en: "3. And what are your business hours today?",
-            ko: "3. 그리고 오늘 영업시간은 어떻게 되나요?",
+            en: "3. And what are your opening hours today?",
+            ko: "3. 그리고 오늘 운영 시간은 어떻게 되나요?",
           },
           {
-            en: "4. Also, how much is it, and do you have any discounts?",
-            ko: "4. 또한, 얼마인가요? 그리고 혹시 할인되는 게 있나요?",
+            en: "4. Also, how much is the price, and do you have discounts?",
+            ko: "4. 또한 가격은 얼마이고, 혹시 할인이 있나요?",
           },
           {
-            en: "5. One more question, is parking free?",
-            ko: "5. 질문 하나만 더 드릴게요, 주차는 무료인가요?",
+            en: "5. By the way, is parking free for visitors?",
+            ko: "5. 그런데 방문객 주차는 무료인가요?",
           },
           {
-            en: "6. Thank you so much. Have a nice day!",
-            ko: "6. 정말 감사합니다. 좋은 하루 보내세요!",
+            en: "6. Thank you so much for your help. Have a nice day!",
+            ko: "6. 도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
           },
         ],
         sentences: [
           {
-            en: "Hi, I'm calling about the festival tickets.",
-            ko: "안녕하세요, 축제 티켓 때문에 전화드렸는데요.",
+            en: "Hello, I'm calling to ask about the festival tickets.",
+            ko: "안녕하세요, 축제 티켓에 대해 문의하려고 전화드렸어요.",
           },
           {
-            en: "First, where are you located? Is it near the subway station?",
-            ko: "먼저 위치가 어디인가요? 지하철역 근처인가요?",
+            en: "First, where is the hall? Is it near the subway station?",
+            ko: "먼저 공연장이 어디인가요? 지하철역 근처인가요?",
           },
           {
-            en: "And what are your business hours today?",
-            ko: "그리고 오늘 영업시간은 어떻게 되나요?",
+            en: "And what time does the festival start today?",
+            ko: "그리고 축제는 오늘 몇 시에 시작하나요?",
           },
           {
-            en: "Also, how much is it, and do you have any discounts?",
-            ko: "또한, 얼마인가요? 그리고 혹시 할인되는 게 있나요?",
+            en: "Also, what is the ticket price, and do you have discounts?",
+            ko: "또한 티켓 가격은 얼마이고, 혹시 할인이 있나요?",
           },
           {
-            en: "One more question, is parking free?",
-            ko: "질문 하나만 더 드릴게요, 주차는 무료인가요?",
+            en: "By the way, is parking free for ticket holders?",
+            ko: "그런데 티켓이 있으면 주차는 무료인가요?",
           },
           {
-            en: "Thank you so much. Have a nice day!",
-            ko: "정말 감사합니다. 좋은 하루 보내세요!",
+            en: "Thank you so much for your help. Have a nice day!",
+            ko: "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
           },
         ],
       },
@@ -1890,54 +1890,54 @@ window.PATTERNS_DATA = [
         keyword: "gym membership & free parking",
         skeleton: [
           {
-            en: "1. Hi, I'm calling about [주제].",
-            ko: "1. 안녕하세요, [주제] 때문에 전화드렸는데요.",
+            en: "1. Hello, I'm calling to ask about [주제].",
+            ko: "1. 안녕하세요, [주제]에 대해 여쭤보려고 전화드렸어요.",
           },
           {
-            en: "2. First, where are you located? Is it near the subway station?",
-            ko: "2. 먼저 위치가 어디인가요? 지하철역 근처인가요?",
+            en: "2. First, where are you located? Is it near [역/장소]?",
+            ko: "2. 먼저 위치가 어디인가요? 역 근처인가요?",
           },
           {
-            en: "3. And what are your business hours today?",
-            ko: "3. 그리고 오늘 영업시간은 어떻게 되나요?",
+            en: "3. And what are your opening hours today?",
+            ko: "3. 그리고 오늘 운영 시간은 어떻게 되나요?",
           },
           {
-            en: "4. Also, how much is it, and do you have any discounts?",
-            ko: "4. 또한, 얼마인가요? 그리고 혹시 할인되는 게 있나요?",
+            en: "4. Also, how much is the price, and do you have discounts?",
+            ko: "4. 또한 가격은 얼마이고, 혹시 할인이 있나요?",
           },
           {
-            en: "5. One more question, is parking free?",
-            ko: "5. 질문 하나만 더 드릴게요, 주차는 무료인가요?",
+            en: "5. By the way, is parking free for visitors?",
+            ko: "5. 그런데 방문객 주차는 무료인가요?",
           },
           {
-            en: "6. Thank you so much. Have a nice day!",
-            ko: "6. 정말 감사합니다. 좋은 하루 보내세요!",
+            en: "6. Thank you so much for your help. Have a nice day!",
+            ko: "6. 도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
           },
         ],
         sentences: [
           {
-            en: "Hi, I'm calling about the gym membership.",
-            ko: "안녕하세요, 헬스장 회원권 때문에 전화드렸는데요.",
+            en: "Hello, I'm calling to ask about the gym membership.",
+            ko: "안녕하세요, 헬스장 회원권에 대해 문의하려고 전화드렸어요.",
           },
           {
-            en: "First, where are you located? Is it near the subway station?",
-            ko: "먼저 위치가 어디인가요? 지하철역 근처인가요?",
+            en: "First, where are you located? Is it near my station?",
+            ko: "먼저 위치가 어디인가요? 역 근처에 있나요?",
           },
           {
-            en: "And what are your business hours today?",
-            ko: "그리고 오늘 영업시간은 어떻게 되나요?",
+            en: "And what are your opening hours on weekends?",
+            ko: "그리고 주말 영업 시간은 어떻게 되나요?",
           },
           {
-            en: "Also, how much is it, and do you have any discounts?",
-            ko: "또한, 얼마인가요? 그리고 혹시 할인되는 게 있나요?",
+            en: "Also, how much is the price, and do you have discounts?",
+            ko: "또한 가격은 얼마이고, 혹시 할인이 있나요?",
           },
           {
-            en: "One more question, is parking free?",
-            ko: "질문 하나만 더 드릴게요, 주차는 무료인가요?",
+            en: "By the way, is parking free for gym members?",
+            ko: "그런데 헬스장 회원은 주차가 무료인가요?",
           },
           {
-            en: "Thank you so much. Have a nice day!",
-            ko: "정말 감사합니다. 좋은 하루 보내세요!",
+            en: "Thank you so much for your help. Have a nice day!",
+            ko: "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
           },
         ],
       },
@@ -2022,8 +2022,8 @@ window.PATTERNS_DATA = [
             ko: "5. 만약 그게 어렵다면, [대안 2: 전액 환불]받을 수 있을까요?",
           },
           {
-            en: "6. Thank you so much. Have a nice day!",
-            ko: "6. 정말 감사합니다. 좋은 하루 보내세요!",
+            en: "6. Thank you so much for your help. Have a nice day!",
+            ko: "6. 도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
           },
         ],
         sentences: [
@@ -2048,8 +2048,8 @@ window.PATTERNS_DATA = [
             ko: "만약 그게 어렵다면, 전액 환불받을 수 있을까요?",
           },
           {
-            en: "Thank you so much. Have a nice day!",
-            ko: "정말 감사합니다. 좋은 하루 보내세요!",
+            en: "Thank you so much for your help. Have a nice day!",
+            ko: "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
           },
         ],
       },
@@ -2078,8 +2078,8 @@ window.PATTERNS_DATA = [
             ko: "5. 만약 그게 어렵다면, [대안 2: 날짜 변경]할 수 있을까요?",
           },
           {
-            en: "6. Thank you so much. Have a nice day!",
-            ko: "6. 정말 감사합니다. 좋은 하루 보내세요!",
+            en: "6. Thank you so much for your help. Have a nice day!",
+            ko: "6. 도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
           },
         ],
         sentences: [
@@ -2104,8 +2104,8 @@ window.PATTERNS_DATA = [
             ko: "만약 그게 어렵다면, 내일로 날짜를 옮길 수 있을까요?",
           },
           {
-            en: "Thank you so much. Have a nice day!",
-            ko: "정말 감사합니다. 좋은 하루 보내세요!",
+            en: "Thank you so much for your help. Have a nice day!",
+            ko: "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
           },
         ],
       },
@@ -2114,54 +2114,54 @@ window.PATTERNS_DATA = [
         keyword: "server crash & app booking",
         skeleton: [
           {
-            en: "1. Well, let me see... You know, Eva, I remember a big problem.",
-            ko: "1. 음, 어디 보자... 에바, 큰 문제 하나가 기억나요.",
+            en: "1. Whenever I think of [주제], I remember a big problem.",
+            ko: "1. [주제]를 생각할 때마다, 큰 문제가 하나 기억나요.",
           },
           {
-            en: "2. Last month, I was at [장소], and suddenly [돌발 상황].",
-            ko: "2. 지난달에, [장소]에 있었는데, 갑자기 [돌발 상황]이 일어났어요.",
+            en: "2. Last year, I [활동], and suddenly [돌발 상황].",
+            ko: "2. 작년에, [활동]을 하던 중 갑자기 [돌발 상황]이 일어났어요.",
           },
           {
-            en: "3. At first, I was so surprised and worried.",
-            ko: "3. 처음에는, 너무 놀라고 걱정됐어요.",
+            en: "3. I was very surprised and worried.",
+            ko: "3. 저는 너무 놀라고 걱정이 되었어요.",
           },
           {
-            en: "4. So, I quickly [대처 행동], and solved the problem.",
-            ko: "4. 그래서, 빠르게 [대처 행동]을 해서, 문제를 해결했어요.",
+            en: "4. So, I quickly [대처 행동], and fixed it.",
+            ko: "4. 그래서 빠르게 [대처 행동]을 해서 해결했어요.",
           },
           {
             en: "5. It was a hard day for me.",
             ko: "5. 저한테는 참 힘든 하루였어요.",
           },
           {
-            en: "6. Anyway, it was solved well, so everything was okay.",
-            ko: "6. 어쨌든, 잘 해결되어서, 다 괜찮았어요.",
+            en: "6. So, it became a good memory.",
+            ko: "6. 그래도 결국 좋은 추억이 되었어요.",
           },
         ],
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, I remember a big problem.",
-            ko: "음, 어디 보자... 에바, 큰 문제 하나가 기억나요.",
+            en: "Whenever I think of tickets, I remember a big problem.",
+            ko: "티켓 예매를 생각할 때마다, 큰 문제가 하나 기억나요.",
           },
           {
-            en: "Last month, I tried to book concert tickets, and suddenly the website crashed.",
-            ko: "지난달에 콘서트 티켓을 예매하려 했는데, 갑자기 웹사이트 서버가 다운되었어요.",
+            en: "Last year, I tried to book concert tickets, and suddenly the website crashed.",
+            ko: "작년에 콘서트 티켓을 예매하려 했는데, 갑자기 웹사이트 서버가 다운되었어요.",
           },
           {
-            en: "At first, I was so surprised and worried.",
-            ko: "처음에는, 너무 놀라고 걱정됐어요.",
+            en: "I was very surprised and worried.",
+            ko: "저는 너무 놀라고 걱정이 되었어요.",
           },
           {
-            en: "So, I quickly opened the smartphone app, and solved the problem.",
-            ko: "그래서, 빠르게 스마트폰 앱을 켜서 문제를 해결했어요.",
+            en: "So, I quickly opened the smartphone app, and fixed it.",
+            ko: "그래서 빠르게 스마트폰 앱을 켜서 예매를 해결했어요.",
           },
           {
             en: "It was a hard day for me.",
             ko: "저한테는 참 힘든 하루였어요.",
           },
           {
-            en: "Anyway, it was solved well, so everything was okay.",
-            ko: "어쨌든, 잘 해결되어서, 다 괜찮았어요.",
+            en: "So, it became a good memory.",
+            ko: "그래도 결국 좋은 추억이 되었어요.",
           },
         ],
       },
