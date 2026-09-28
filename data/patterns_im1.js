@@ -149,8 +149,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
-            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
-            ko: "뭐라고 말해야 할까... 공원 안은 아주 깔끔하고, 편안하고, 아늑해요.",
+            en: "How can I say... the park is very clean, beautiful, and peaceful.",
+            ko: "뭐라고 말해야 할까... 공원은 아주 깨끗하고, 아름답고, 평화로워요.",
           },
           {
             en: "There are green trees and nice benches, so it feels very nice.",
@@ -209,8 +209,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
-            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
-            ko: "뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
+            en: "How can I say... inside, it is very clean, big, and convenient.",
+            ko: "뭐라고 말해야 할까... 안에는 아주 깨끗하고, 넓고, 편리해요.",
           },
           {
             en: "There are clean machines and free weights, so it feels very nice.",
@@ -239,8 +239,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
-            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
-            ko: "뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
+            en: "How can I say... inside, it is very clean, big, and convenient.",
+            ko: "뭐라고 말해야 할까... 안에는 아주 깨끗하고, 크고, 편리해요.",
           },
           {
             en: "There are fresh food and nice snacks, so it feels very nice.",
@@ -299,8 +299,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 차로 약 30분 정도 걸려요.",
           },
           {
-            en: "How can I say... the campsite is very clean, comfortable, and cozy.",
-            ko: "뭐라고 말해야 할까... 캠핑장은 아주 깔끔하고, 편안하고, 아늑해요.",
+            en: "How can I say... the campsite is very clean, beautiful, and peaceful.",
+            ko: "뭐라고 말해야 할까... 캠핑장은 아주 깨끗하고, 아름답고, 평화로워요.",
           },
           {
             en: "There are tall green trees and a clean lake, so it feels very nice.",
@@ -329,8 +329,8 @@ window.PATTERNS_DATA = [
             ko: "제가 묵는 호텔 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
-            en: "How can I say... the beach is very clean, comfortable, and cozy.",
-            ko: "뭐라고 말해야 할까... 해변은 아주 깔끔하고, 편안하고, 아늑해요.",
+            en: "How can I say... the beach is very clean, beautiful, and peaceful.",
+            ko: "뭐라고 말해야 할까... 해변은 아주 깨끗하고, 아름답고, 평화로워요.",
           },
           {
             en: "There are blue ocean and soft white sand, so it feels very nice.",
@@ -419,8 +419,8 @@ window.PATTERNS_DATA = [
             ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
-            en: "How can I say... inside, it is very clean, comfortable, and cozy.",
-            ko: "뭐라고 말해야 할까... 안에는 아주 깔끔하고, 편안하고, 아늑해요.",
+            en: "How can I say... inside, it is very clean, quiet, and comfortable.",
+            ko: "뭐라고 말해야 할까... 안에는 아주 깨끗하고, 조용하고, 편안해요.",
           },
           {
             en: "There are lots of books and nice desks, so it feels very nice.",
@@ -449,8 +449,8 @@ window.PATTERNS_DATA = [
             ko: "남쪽에 있어서, 비행기로 약 1시간 정도 걸려요.",
           },
           {
-            en: "How can I say... the island is very clean, comfortable, and cozy.",
-            ko: "뭐라고 말해야 할까... 섬 전체가 아주 깨끗하고, 편안하고, 아늑해요.",
+            en: "How can I say... the island is very clean, beautiful, and peaceful.",
+            ko: "뭐라고 말해야 할까... 섬 전체가 아주 깨끗하고, 아름답고, 평화로워요.",
           },
           {
             en: "There are beautiful nature and fresh seafood, so it feels very nice.",
