@@ -1804,22 +1804,23 @@ window.PATTERNS_DATA = [
   {
     id: "pat_06",
     name: "롤플레이 (Role-play)",
-    whenToUse: "상대방에게 문의(11번) / 문제 생겨 대안 제시(12번) 롤플레이",
-    comboRole: "롤플레이 세트 (Q11, Q12, Q13)",
-    slotBadge: "Q11, Q12, Q13",
-    typeBadge: "롤플레이: 문의·대안·경험",
+    whenToUse:
+      "상대방 문의(11번) / 문제 대안(12번) / 에바에게 역질문(15번) 롤플레이",
+    comboRole: "롤플레이 & 에바 질문 (Q11, Q12, Q13, Q15)",
+    slotBadge: "Q11~Q13, Q15",
+    typeBadge: "롤플레이: 문의·대안·에바 질문",
     slotClass: "slot-rp",
     questionSignals: [
       "Ask 3 to 4 questions to find out more...",
       "Call and explain the situation, and give 2 to 3 alternatives.",
-      "There is a problem you need to solve...",
+      "I also like to [topic]. Ask me three or four questions...",
     ],
     exampleQuestion:
       "You want to buy concert tickets. Call the ticket box office and ask 3-4 questions to get information.",
     category:
-      "티켓 문의(11번), 헬스장 문의(11번), 약속 지연(12번), 교환/환불(12번), 예약 변경(12번), 티켓 돌발(13번)",
+      "티켓 문의(11번), 헬스장 문의(11번), 약속 지연(12번), 교환/환불(12번), 예약 변경(12번), 티켓 돌발(13번), 에바 역질문(15번)",
     icon: "🎭",
-    desc: "롤플레이 3대 핵심(11번 질문 문의 ➔ 12번 돌발 대안 제시 ➔ 13번 과거 유사 경험)을 쉬운 6문장으로 완벽 해결하는 공식입니다.",
+    desc: "롤플레이 3대 핵심(11번 질문 문의 ➔ 12번 돌발 대안 제시 ➔ 13번 과거 유사 경험)과 3-3 최신 단골인 15번 에바 역질문을 쉬운 6문장으로 완벽 해결하는 공식입니다.",
     skeleton: [
       {
         en: "1. Hello, I'm calling to ask about [주제].",
@@ -2180,6 +2181,62 @@ window.PATTERNS_DATA = [
           {
             en: "So, it became a good memory.",
             ko: "그래도 결국 좋은 추억이 되었어요.",
+          },
+        ],
+      },
+      {
+        topic: "🗣️ 에바 역질문 (15번)",
+        keyword: "favorite place, who with, activities, memorable story",
+        skeleton: [
+          {
+            en: "1. Oh, Eva, you also like [주제]? That sounds wonderful!",
+            ko: "1. 아, 에바 당신도 [주제]를 좋아하시나요? 정말 멋지네요!",
+          },
+          {
+            en: "2. First, where is your favorite place to [활동]?",
+            ko: "2. 먼저, 당신이 [활동]하기에 가장 좋아하는 장소는 어디인가요?",
+          },
+          {
+            en: "3. And who do you usually [활동] with?",
+            ko: "3. 그리고 보통 누구와 함께 [활동]을 즐기시나요?",
+          },
+          {
+            en: "4. Also, what kind of activities do you enjoy doing there?",
+            ko: "4. 또한, 그곳에서 어떤 활동을 하는 것을 즐기시나요?",
+          },
+          {
+            en: "5. Lastly, what was your most memorable experience so far?",
+            ko: "5. 마지막으로, 지금까지 가장 기억에 남는 경험은 무엇이었나요?",
+          },
+          {
+            en: "6. Please tell me all about it next time!",
+            ko: "6. 다음에 꼭 저에게 자세히 들려주세요!",
+          },
+        ],
+        sentences: [
+          {
+            en: "Oh, Eva, you also like traveling? That sounds wonderful!",
+            ko: "아, 에바 당신도 여행을 좋아하시나요? 정말 멋지네요!",
+          },
+          {
+            en: "First, where is your favorite place to visit on vacations?",
+            ko: "먼저, 휴가 때 방문하기 가장 좋아하는 여행지는 어디인가요?",
+          },
+          {
+            en: "And who do you usually go on trips with?",
+            ko: "그리고 보통 누구와 함께 여행을 떠나시나요?",
+          },
+          {
+            en: "Also, what kind of activities do you enjoy during your trip?",
+            ko: "또한, 여행 중에 어떤 활동을 즐기시나요?",
+          },
+          {
+            en: "Lastly, what was your most memorable travel destination so far?",
+            ko: "마지막으로, 지금까지 가장 기억에 남는 여행지는 어디였나요?",
+          },
+          {
+            en: "Please tell me all about your travel stories next time!",
+            ko: "다음에 꼭 당신의 여행 이야기를 들려주세요!",
           },
         ],
       },
