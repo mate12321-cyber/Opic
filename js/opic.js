@@ -213,6 +213,11 @@ function getOpicQuestionMeta(q) {
   };
 }
 
+// 전역 공유 바인딩 (만능 패턴 모드 등 타 모듈 연동용)
+window.getOpicQuestionMeta = getOpicQuestionMeta;
+window.getOpicSubtheme = getOpicSubtheme;
+window.OPIC_SUBTHEMES = OPIC_SUBTHEMES;
+
 // =============================================================================
 // 2. 진행 상태 영속화 및 모드 UI 동기화 (Storage & Mode Tabs)
 // =============================================================================
@@ -1424,22 +1429,33 @@ function renderBankCardList() {
 
     const meta = getOpicQuestionMeta(q);
 
+    // 1. 카테고리 뱃지
     const catBadge = document.createElement("span");
     catBadge.className = "bank-cat-badge";
     catBadge.textContent = q.cat;
 
+    // 2. OPIc 3-3 출제 번호(Slot) 뱃지
     const slotBadge = document.createElement("span");
     slotBadge.className = `bank-slot-badge ${meta.slotClass}`;
     slotBadge.textContent = meta.slot;
     slotBadge.title = `OPIc 3-3 출제 문항 번호: ${meta.slot}`;
 
-    const roleBadge = document.createElement("span");
-    roleBadge.className = "bank-role-badge";
-    roleBadge.textContent = `[${meta.subtheme}] ${meta.type}`;
+    // 3. 실전 시나리오 테마 뱃지
+    const themeBadge = document.createElement("span");
+    themeBadge.className = "bank-theme-badge";
+    themeBadge.textContent = meta.subtheme;
+    themeBadge.title = `실전 시나리오 테마: ${meta.subtheme}`;
+
+    // 4. 문제 출제 유형 뱃지
+    const typeBadge = document.createElement("span");
+    typeBadge.className = "bank-type-badge";
+    typeBadge.textContent = meta.type;
+    typeBadge.title = `문제 출제 유형: ${meta.type}`;
 
     badges.appendChild(catBadge);
     badges.appendChild(slotBadge);
-    badges.appendChild(roleBadge);
+    badges.appendChild(themeBadge);
+    badges.appendChild(typeBadge);
 
     const idLabel = document.createElement("span");
     idLabel.className = "bank-id-label";
@@ -1488,8 +1504,11 @@ function renderBankCardList() {
       const toggleBtn = document.createElement("button");
       toggleBtn.type = "button";
       toggleBtn.className = "btn-toggle-bank-skeleton";
+      const patSlotBadge = pattern.slotBadge
+        ? `<span class="bank-pat-slot-badge ${pattern.slotClass || "slot-step1"}">${pattern.slotBadge}</span>`
+        : "";
       toggleBtn.innerHTML = `
-        <span>${pattern.icon || "🧩"} 만능 뼈대: ${pattern.name}</span>
+        <span>${pattern.icon || "🧩"} 만능 뼈대: ${pattern.name} ${patSlotBadge}</span>
         <span class="toggle-icon">▾</span>
       `;
 

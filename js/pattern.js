@@ -274,8 +274,11 @@ function renderPatternTopics() {
           .map((s) => `<span class="signal-tag">${safeEscapeHtml(s)}</span>`)
           .join(" ")
       : "";
+    const slotBadge = pat.slotBadge
+      ? `<span class="pattern-slot-badge ${pat.slotClass || "slot-step1"}">${safeEscapeHtml(pat.slotBadge)}</span>`
+      : "";
     const comboBadge = pat.comboRole
-      ? `<span class="pattern-combo-badge">${safeEscapeHtml(pat.comboRole)}</span>`
+      ? `<span class="pattern-combo-badge">${safeEscapeHtml(pat.typeBadge || pat.comboRole)}</span>`
       : "";
 
     const catBadges = (pat.category || "")
@@ -292,6 +295,7 @@ function renderPatternTopics() {
           <div class="pattern-select-name-row">
             <span class="pattern-select-name-text">${idx + 1}. ${safeEscapeHtml(pat.name)}</span>
             <div class="pattern-badge-group">
+              ${slotBadge}
               ${comboBadge}
               ${isDone ? '<span class="pattern-select-badge">완료 ✓</span>' : ""}
             </div>
@@ -587,11 +591,58 @@ function updatePatternMatchGuideQuestion(pat, curVar) {
   const matchedQ = getMatchingQuestionForVariation(pat, curVar);
   if (!matchedQ) return;
 
-  // 1. 현재 주제 뱃지 업데이트
+  // 1. 질문 메타데이터 조회 (출제 번호, 시나리오 테마, 유형 배지)
+  let meta = null;
+  if (
+    typeof window.getOpicQuestionMeta === "function" &&
+    matchedQ.id &&
+    window.QUESTIONS_DATA
+  ) {
+    const fullQ = window.QUESTIONS_DATA.find((q) => q.id === matchedQ.id);
+    if (fullQ) {
+      meta = window.getOpicQuestionMeta(fullQ);
+    }
+  }
+  if (!meta) {
+    meta = {
+      slot: pat.slotBadge || "Q2, Q5, Q8",
+      type: pat.typeBadge || pat.comboRole || "실전 패턴",
+      slotClass: pat.slotClass || "slot-step1",
+      subtheme: matchedQ.cat || "실전 시나리오",
+    };
+  }
+
+  // 1-1. 출제 번호 뱃지 업데이트
+  const slotBadge = document.getElementById("pmgSlotBadge");
+  if (slotBadge) {
+    slotBadge.textContent = meta.slot;
+    slotBadge.className = `pmg-slot-badge ${meta.slotClass || pat.slotClass || "slot-step1"}`;
+    slotBadge.title = `OPIc 3-3 시험 출제 문항 번호: ${meta.slot}`;
+  }
+
+  // 1-2. 현재 주제 뱃지 업데이트
   const topicBadge = document.getElementById("pmgTopicBadge");
   if (topicBadge) {
     const cleanTopic = (curVar.topic || "").replace(/\s*\([^)]*\)/g, "").trim();
     topicBadge.textContent = cleanTopic || "주제 예시";
+  }
+
+  // 1-3. 실전 시나리오 테마 뱃지 업데이트
+  const themeBadge = document.getElementById("pmgThemeBadge");
+  if (themeBadge) {
+    if (meta.subtheme && meta.subtheme !== "공통") {
+      themeBadge.textContent = meta.subtheme;
+      themeBadge.style.display = "inline-flex";
+    } else {
+      themeBadge.style.display = "none";
+    }
+  }
+
+  // 1-4. 질문 출제 유형 뱃지 업데이트
+  const typeBadge = document.getElementById("pmgTypeBadge");
+  if (typeBadge) {
+    typeBadge.textContent = meta.type || pat.typeBadge || "실전 질문";
+    typeBadge.style.display = "inline-flex";
   }
 
   // 2. 영문 및 한글 질문 업데이트
