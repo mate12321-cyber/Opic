@@ -95,21 +95,22 @@ const OPIC_SUBTHEMES = {
   롤플레이: {
     1: "공연 티켓 예매 & 약속 문의",
     2: "호텔 객실 예약 & 체크인",
+    3: "15번 에바 역질문 (최신 단골)",
   },
 };
 
 /**
  * 특정 주제와 세트 번호에 대응하는 직관적 시나리오 서브테마 명칭을 반환합니다.
  * @param {string} cat 주제명
- * @param {number} setNum 세트 번호 (1 또는 2)
+ * @param {number} setNum 세트 번호 (1, 2, 3)
  * @returns {string} 서브테마 명칭
  */
 function getOpicSubtheme(cat, setNum) {
-  const num = setNum === 2 ? 2 : 1;
+  const num = setNum || 1;
   if (OPIC_SUBTHEMES[cat] && OPIC_SUBTHEMES[cat][num]) {
     return OPIC_SUBTHEMES[cat][num];
   }
-  return num === 2 ? "시나리오 2" : "시나리오 1";
+  return num === 2 ? "시나리오 2" : (num === 3 ? "시나리오 3" : "시나리오 1");
 }
 
 /**
@@ -140,6 +141,19 @@ function getOpicQuestionMeta(q) {
   }
 
   if (q.cat === "롤플레이") {
+    const isQ15 =
+      (q.combo_role && q.combo_role.includes("15번")) ||
+      q.combo_set === 3 ||
+      (q.type && q.type.includes("역질문"));
+    if (isQ15) {
+      return {
+        slot: "Q15",
+        type: `15번 · ${q.type || "에바에게 역질문"}`,
+        slotClass: "slot-q15",
+        step: 3,
+        subtheme: subtheme,
+      };
+    }
     if (q.combo_step === 1) {
       return {
         slot: "Q11",
@@ -1357,10 +1371,17 @@ function renderBankCardList() {
 
     // 콤보 단계 필터
     if (bankSelectedStep !== "all") {
+      const isQ15 =
+        (q.combo_role && q.combo_role.includes("15번")) ||
+        q.combo_set === 3 ||
+        (q.type && q.type.includes("역질문"));
+
       if (bankSelectedStep === "rp") {
-        if (q.cat !== "롤플레이") return false;
+        if (q.cat !== "롤플레이" || isQ15) return false;
+      } else if (bankSelectedStep === "q15") {
+        if (!isQ15) return false;
       } else if (bankSelectedStep === "compare" || bankSelectedStep === "4") {
-        // 변화·비교 심화 문항 필터링
+        // 변화·비교 심화 문항 필터링 (14번 문항군)
         const isChange =
           (q.combo_role &&
             (q.combo_role.includes("변화") || q.combo_role.includes("비교"))) ||
@@ -1368,6 +1389,7 @@ function renderBankCardList() {
         if (!isChange) return false;
       } else {
         const stepNum = Number(bankSelectedStep);
+        if (q.cat === "롤플레이") return false;
         if (q.combo_step !== stepNum) return false;
       }
     }

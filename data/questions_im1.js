@@ -3291,6 +3291,141 @@ window.QUESTIONS_DATA = [
     ],
     tip: "[롤플레이 13번 유사 돌발 경험] 부산 호텔 에어컨 고장 발생 → 프런트 전화 요청 → 즉시 수리 불가 → 상위 룸 교체 해결로 만족.",
   },
+  {
+    id: "q_rp_07",
+    cat: "롤플레이",
+    type: "에바 역질문",
+    combo_set: 3,
+    combo_step: 1,
+    combo_role: "15번: 에바에게 역질문",
+    pattern_id: "pat_06",
+    q_en: "I also enjoy traveling on vacations both in Korea and overseas. Ask me three or four questions to find out more about my favorite travel destinations and travel style.",
+    q_ko: "저 역시 휴가 때 국내외로 여행 다니는 것을 좋아합니다. 제가 가장 좋아하는 여행지와 여행 스타일에 대해 3~4가지 질문을 해보세요.",
+    sentences: [
+      {
+        en: "Oh, Eva, you also like traveling? That sounds wonderful!",
+        ko: "아, 에바 당신도 여행을 좋아하시나요? 정말 멋지네요!",
+      },
+      {
+        en: "First, where is your favorite place to visit on vacations?",
+        ko: "먼저, 휴가 때 방문하기 가장 좋아하는 여행지는 어디인가요?",
+      },
+      {
+        en: "And who do you usually go on trips with?",
+        ko: "그리고 보통 누구와 함께 여행을 떠나시나요?",
+      },
+      {
+        en: "Also, what kind of activities do you enjoy during your trip?",
+        ko: "또한, 여행 중에 어떤 활동을 즐기시나요?",
+      },
+      {
+        en: "Lastly, what was your most memorable travel destination so far?",
+        ko: "마지막으로, 지금까지 가장 기억에 남는 여행지는 어디였나요?",
+      },
+      {
+        en: "Please tell me all about your travel stories next time!",
+        ko: "다음에 꼭 당신의 여행 이야기를 들려주세요!",
+      },
+    ],
+    keywords: [
+      "also like traveling",
+      "favorite place on vacations",
+      "who with",
+      "activities during trip",
+      "memorable destination",
+    ],
+    tip: "[15번 에바 여행 역질문] 맞장구 공감 ➔ 선호 여행지(Where) ➔ 동행(Who) ➔ 즐기는 활동(What) ➔ 최고 기억(Memorable) ➔ 마무리.",
+  },
+  {
+    id: "q_rp_08",
+    cat: "롤플레이",
+    type: "에바 역질문",
+    combo_set: 3,
+    combo_step: 2,
+    combo_role: "15번: 에바에게 역질문",
+    pattern_id: "pat_06",
+    q_en: "I also love listening to music in my free time and attending concerts. Ask me three or four questions about the music genres and singers I like.",
+    q_ko: "저도 여가 시간에 음악을 듣고 콘서트 가는 것을 정말 좋아합니다. 제가 좋아하는 음악 장르와 가수에 대해 3~4가지 질문을 해보세요.",
+    sentences: [
+      {
+        en: "Oh, Eva, you love listening to music too? That sounds so exciting!",
+        ko: "아, 에바 당신도 음악 듣는 걸 좋아한다고요? 정말 신나네요!",
+      },
+      {
+        en: "First, what kind of music genres do you listen to most?",
+        ko: "먼저, 어떤 음악 장르를 가장 많이 들으시나요?",
+      },
+      {
+        en: "And who is your all-time favorite singer or band?",
+        ko: "그리고 당신이 가장 좋아하는 가수나 밴드는 누구인가요?",
+      },
+      {
+        en: "Also, when and where do you usually enjoy listening to music?",
+        ko: "또한, 주로 언제 어디서 음악을 즐겨 들으시나요?",
+      },
+      {
+        en: "Lastly, have you ever been to a live music concert recently?",
+        ko: "마지막으로, 최근에 라이브 콘서트에 가본 적이 있나요?",
+      },
+      {
+        en: "I would really love to hear your favorite playlist sometime!",
+        ko: "언제 당신의 추천 플레이리스트를 꼭 들어보고 싶어요!",
+      },
+    ],
+    keywords: [
+      "love music too",
+      "music genres",
+      "favorite singer or band",
+      "when and where listen",
+      "live music concert",
+    ],
+    tip: "[15번 에바 음악 역질문] 맞장구 공감 ➔ 선호 장르(What genre) ➔ 최애 가수(Who) ➔ 청취 장소/시간(When/Where) ➔ 콘서트 경험 ➔ 플레이리스트 추천 기대.",
+  },
+  {
+    id: "q_rp_09",
+    cat: "롤플레이",
+    type: "에바 역질문",
+    combo_set: 3,
+    combo_step: 3,
+    combo_role: "15번: 에바에게 역질문",
+    pattern_id: "pat_06",
+    q_en: "I also like visiting cafes to drink coffee and relax with friends. Ask me three or four questions about what I do at cafes and what I like to order.",
+    q_ko: "저도 친구들과 카페에 방문해 커피를 마시며 쉬는 것을 좋아합니다. 제가 카페에서 무엇을 하고 어떤 메뉴를 시키는지 3~4가지 질문을 해보세요.",
+    sentences: [
+      {
+        en: "Oh, Eva, you like visiting cafes too? That sounds great!",
+        ko: "아, 에바 당신도 카페 가는 걸 좋아하시나요? 너무 좋네요!",
+      },
+      {
+        en: "First, what kind of cafe do you usually like to visit?",
+        ko: "먼저, 평소에 어떤 스타일의 카페를 주로 찾으시나요?",
+      },
+      {
+        en: "And what is your favorite drink or dessert to order there?",
+        ko: "그리고 그곳에서 가장 즐겨 주문하는 음료나 디저트는 무엇인가요?",
+      },
+      {
+        en: "Also, do you prefer going alone, or do you go with friends?",
+        ko: "또한, 혼자 가시는 걸 좋아하시나요, 아니면 친구들과 가시나요?",
+      },
+      {
+        en: "Lastly, is there a memorable cafe you would recommend to me?",
+        ko: "마지막으로, 저에게 추천해 주고 싶은 기억에 남는 카페가 있나요?",
+      },
+      {
+        en: "Please tell me about your favorite cafe next time!",
+        ko: "다음에 당신의 최애 카페에 대해 꼭 알려주세요!",
+      },
+    ],
+    keywords: [
+      "like visiting cafes",
+      "what kind of cafe",
+      "favorite drink or dessert",
+      "alone or with friends",
+      "recommend memorable cafe",
+    ],
+    tip: "[15번 에바 카페 역질문] 맞장구 공감 ➔ 카페 분위기(What kind) ➔ 선호 메뉴(Drink/Dessert) ➔ 동행 여부(Alone or friends) ➔ 추천 카페 ➔ 마무리.",
+  },
 ];
 
 // -----------------------------------------------------------------------------

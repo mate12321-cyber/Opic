@@ -322,6 +322,11 @@
   color: #be123c;
   border-color: #fecdd3;
 }
+.slot-q15 {
+  background: #fdf2f8;
+  color: #be185d;
+  border-color: #fbcfe8;
+}
 .slot-default {
   background: #f1f5f9;
   color: #475569;
@@ -1910,6 +1915,11 @@ body.dark-theme .slot-rp {
   background: #4c0519;
   color: #fecdd3;
   border-color: #9f1239;
+}
+body.dark-theme .slot-q15 {
+  background: #500724;
+  color: #fbcfe8;
+  border-color: #9d174d;
 }
 body.dark-theme .slot-default {
   background: #1e293b;

@@ -1,11 +1,11 @@
-# 🎯 OPIc 난이도 3-3 완벽 대비: 프로젝트 72개 실전 질문 및 3단 콤보 총정리 매핑
+# 🎯 OPIc 난이도 3-3 완벽 대비: 프로젝트 75개 실전 질문 및 3단 콤보 총정리 매핑
 
-본 문서는 프로젝트 내의 **12개 핵심 주제, 72개 실전 질문 데이터(`data/questions_im1.js`)**를 **실제 OPIc 난이도 3-3 시험 출제 공식(주제별 2대 핵심 실전 시나리오)**과 **6대 만능 뼈대 템플릿(`data/patterns_im1.js`)**에 1:1로 정밀 매핑한 최신 종합 레퍼런스입니다.
+본 문서는 프로젝트 내의 **12개 핵심 주제, 75개 실전 질문 데이터(`data/questions_im1.js`)**를 **실제 OPIc 난이도 3-3 시험 출제 공식(주제별 핵심 실전 시나리오)**과 **6대 만능 뼈대 템플릿(`data/patterns_im1.js`)**에 1:1로 정밀 매핑한 최신 종합 레퍼런스입니다.
 
 > **💡 핵심 원칙 & 목표 등급**:
 >
 > - **목표 등급**: **IM1 ~ IM2 안정권 달성** (난이도 3-3 선택 시 복잡한 사회 이슈·시사 문항이 배제되어 IM 등급 취득에 가장 유리하고 안전함)
-> - 모든 12개 주제는 실제 시험과 동일하게 **정확히 6문항(시나리오 1 3문항 + 시나리오 2 3문항)**으로 통일되어 있으며, 각각 **1단계(묘사) ➔ 2단계(루틴) ➔ 3단계(경험/돌발/비교)**의 완벽한 3단 콤보 구조를 갖추고 있습니다.
+> - 1~10번 콤보(묘사 ➔ 루틴 ➔ 경험), 11~13번 롤플레이(문의 ➔ 대안 ➔ 경험), 14번 비교 및 **15번 최신 기출 에바 역질문 실전 3세트**까지 완벽 대비합니다.
 
 ---
 
@@ -267,7 +267,7 @@
 
 ---
 
-### 12) 롤플레이 (총 6문항: 시나리오 1·2 각 3문항)
+### 12) 롤플레이 & 에바 질문 (총 9문항: 시나리오 1·2·3 각 3문항)
 
 #### 🎯 시나리오 1: 공연 티켓 예매 & 약속 문의 (3단 콤보)
 
@@ -284,6 +284,14 @@
 | `q_rp_04` |      `Q11`       | `🏷️ 롤플레이 질문` · 정보 문의 | **호텔 객실 예약 & 체크인** (1단계) | `pat_06`  | **상황을 하나 드릴 테니 연기해 보세요. 다가오는 여행을 위해 호텔 객실을 예약하려고 합니다. 호텔 프런트에 전화해 예약과 관련된 질문 3~4가지를 해보세요.**<br>`I'd like to give you a situation and ask you to act it out. You want to book a room at a hotel for an upcoming trip. Call the hotel front desk and ask three or four questions about the reservation.`                                                    |
 | `q_rp_05` |      `Q12`       | `🏷️ 롤플레이 대안` · 문제 해결 | **호텔 객실 예약 & 체크인** (2단계) | `pat_06`  | **죄송하지만 해결해야 할 문제가 생겼습니다. 호텔에 도착했는데 예약에 문제가 생겨 방이 아직 준비되지 않았습니다. 호텔 직원에게 상황을 설명하고 2가지 대안을 제시해 보세요.**<br>`I'm sorry, but there is a problem you need to resolve. You arrived at the hotel, but there is a problem with your reservation and your room is not ready. Explain the situation to the front desk clerk and suggest two alternatives.` |
 | `q_rp_06` |      `Q13`       | `🏷️ 롤플레이 경험` · 유사 경험 | **호텔 객실 예약 & 체크인** (3단계) | `pat_04`  | **여행 중 호텔 예약이나 객실 시설과 관련하여 예상치 못한 문제를 겪은 적이 있나요? 무슨 일이 있었고 어떻게 해결하셨는지 처음부터 끝까지 말씀해 주세요.**<br>`Have you ever experienced an unexpected problem with a hotel reservation or room facilities during a trip? What happened and how did you resolve it? Tell me everything from beginning to end.`                                                            |
+
+#### 🎯 시나리오 3: 15번 에바 역질문 (최신 단골 3종 실전 세트)
+
+| ID        | 출제 문항 (Slot) | 문제 유형 배지 (Type)            |           실전 시나리오 테마            | 추천 뼈대 | 질문 내용 (한국어 & 영어)                                                                                                                                                                                                                                                                                       |
+| :-------- | :--------------: | :------------------------------- | :-------------------------------------: | :-------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `q_rp_07` |      `Q15`       | `🏷️ 15번 에바 질문` · 여행 역질문 | **15번 에바 역질문 (최신 단골)** (1단계) | `pat_06`  | **저 역시 휴가 때 국내외로 여행 다니는 것을 좋아합니다. 제가 가장 좋아하는 여행지와 여행 스타일에 대해 3~4가지 질문을 해보세요.**<br>`I also enjoy traveling on vacations both in Korea and overseas. Ask me three or four questions to find out more about my favorite travel destinations and travel style.` |
+| `q_rp_08` |      `Q15`       | `🏷️ 15번 에바 질문` · 음악 역질문 | **15번 에바 역질문 (최신 단골)** (2단계) | `pat_06`  | **저도 여가 시간에 음악을 듣고 콘서트 가는 것을 정말 좋아합니다. 제가 좋아하는 음악 장르와 가수에 대해 3~4가지 질문을 해보세요.**<br>`I also love listening to music in my free time and attending concerts. Ask me three or four questions about the music genres and singers I like.`                         |
+| `q_rp_09` |      `Q15`       | `🏷️ 15번 에바 질문` · 카페 역질문 | **15번 에바 역질문 (최신 단골)** (3단계) | `pat_06`  | **저도 친구들과 카페에 방문해 커피를 마시며 쉬는 것을 좋아합니다. 제가 카페에서 무엇을 하고 어떤 메뉴를 시키는지 3~4가지 질문을 해보세요.**<br>`I also like visiting cafes to drink coffee and relax with friends. Ask me three or four questions about what I do at cafes and what I like to order.`             |
 
 ---
 
