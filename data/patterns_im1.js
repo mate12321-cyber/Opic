@@ -191,8 +191,8 @@ window.PATTERNS_DATA = [
             ko: "거기 가면, 저는 보통 팝콘을 먹고 영화를 보며 좋은 시간을 보내요.",
           },
           {
-            en: "So, I go there about two or three times a week.",
-            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
+            en: "So, I go there about two or three times a month.",
+            ko: "그래서 저는 거기를 대략 한 달에 2~3번 정도 가요.",
           },
         ],
       },
@@ -281,8 +281,8 @@ window.PATTERNS_DATA = [
             ko: "거기 가면, 저는 보통 음악을 듣고 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I go there about two or three times a week.",
-            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
+            en: "So, I go there about two or three times a month.",
+            ko: "그래서 저는 거기를 대략 한 달에 2~3번 정도 가요.",
           },
         ],
       },
@@ -341,8 +341,8 @@ window.PATTERNS_DATA = [
             ko: "거기 가면, 저는 보통 바다를 바라보고 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I go there whenever I travel.",
-            ko: "그래서 저는 여행을 갈 때마다 거기를 가요.",
+            en: "So, I go there about two or three times a year.",
+            ko: "그래서 저는 거기를 대략 일년에 2~3번 정도 가요.",
           },
         ],
       },
@@ -461,8 +461,8 @@ window.PATTERNS_DATA = [
             ko: "거기 가면, 저는 보통 해안가를 따라 드라이브하고 좋은 추억을 만들어요.",
           },
           {
-            en: "So, I go there every summer vacation.",
-            ko: "그래서 저는 여름 휴가마다 거기를 가요.",
+            en: "So, I go there about two or three times a year.",
+            ko: "그래서 저는 거기를 대략 일년에 2~3번 정도 가요.",
           },
         ],
       },
