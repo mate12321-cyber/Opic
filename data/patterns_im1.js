@@ -63,8 +63,8 @@ window.PATTERNS_DATA = [
         ko: "3. 뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
       },
       {
-        en: "4. There are [특징 1] and [특징 2], so it feels very nice.",
-        ko: "4. [특징 1]과 [특징 2]가 있어서 느낌이 정말 좋아요.",
+        en: "4. There are [특징 1] and [특징 2], so it makes me feel so happy and relaxed.",
+        ko: "4. [특징 1]과 [특징 2]가 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
       },
       {
         en: "5. When I go there, I usually [쉬운 행동], and just relax.",
@@ -93,8 +93,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are a soft bed and a nice desk, so it feels very nice.",
-            ko: "푹신한 침대와 좋은 책상이 있어서 느낌이 정말 좋아요.",
+            en: "There are a soft bed and a nice desk, so it makes me feel so comfortable and relaxed.",
+            ko: "푹신한 침대와 좋은 책상이 있어서, 저를 너무 편안하게 푹 쉴 수 있게 해줘요.",
           },
           {
             en: "When I stay there, I usually watch YouTube, and just relax.",
@@ -123,8 +123,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are large windows and nice seats, so it feels very nice.",
-            ko: "큰 창문과 편안한 좌석이 있어서 느낌이 정말 좋아요.",
+            en: "There are large windows and nice seats, so it makes me feel so happy and relaxed.",
+            ko: "큰 창문과 편안한 좌석이 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually drink iced Americano, and just relax.",
@@ -153,8 +153,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 아름답고, 평화로워요.",
           },
           {
-            en: "There are green trees and nice benches, so it feels very nice.",
-            ko: "푸른 나무들과 편안한 벤치가 있어서 느낌이 정말 좋아요.",
+            en: "There are green trees and nice benches, so it makes me feel so peaceful and relaxed.",
+            ko: "푸른 나무들과 편안한 벤치가 있어서, 저를 너무 평화롭고 편안하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually take a walk, and just relax.",
@@ -183,8 +183,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are large screens and nice seats, so it feels very nice.",
-            ko: "큰 스크린과 편안한 좌석이 있어서 느낌이 정말 좋아요.",
+            en: "There are large screens and nice seats, so it makes me feel so excited and happy.",
+            ko: "큰 스크린과 편안한 좌석이 있어서, 저를 너무 신나고 행복하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually eat popcorn and watch movies, and just relax.",
@@ -213,8 +213,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 넓고, 편리해요.",
           },
           {
-            en: "There are clean machines and free weights, so it feels very nice.",
-            ko: "깨끗한 머신들과 프리웨이트가 있어서 느낌이 정말 좋아요.",
+            en: "There are clean machines and free weights, so it makes me feel so fresh and happy.",
+            ko: "깨끗한 머신들과 프리웨이트가 있어서, 저를 너무 개운하고 행복하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually run on the treadmill, and just exercise.",
@@ -243,8 +243,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 크고, 편리해요.",
           },
           {
-            en: "There are fresh food and nice snacks, so it feels very nice.",
-            ko: "신선한 음식과 맛있는 간식이 있어서 느낌이 정말 좋아요.",
+            en: "There are fresh food and nice snacks, so it makes me feel so excited and happy.",
+            ko: "신선한 음식과 맛있는 간식이 있어서, 저를 너무 신나고 행복하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually buy groceries, and just look around.",
@@ -273,8 +273,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are scenic views and quiet roads, so it feels very nice.",
-            ko: "멋진 풍경과 한적한 도로가 있어서 느낌이 정말 좋아요.",
+            en: "There are scenic views and quiet roads, so it makes me feel so free and peaceful.",
+            ko: "멋진 풍경과 한적한 도로가 있어서, 저를 너무 자유롭고 평화롭게 만들어줘요.",
           },
           {
             en: "When I go there, I usually listen to music, and just relax.",
@@ -303,8 +303,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 아름답고, 평화로워요.",
           },
           {
-            en: "There are tall green trees and a clean lake, so it feels very nice.",
-            ko: "키 큰 푸른 나무들과 깨끗한 호수가 있어서 느낌이 정말 좋아요.",
+            en: "There are tall green trees and a clean lake, so it makes me feel so peaceful and relaxed.",
+            ko: "키 큰 푸른 나무들과 깨끗한 호수가 있어서, 저를 너무 평화롭고 편안하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually grill delicious meat, and just relax.",
@@ -333,8 +333,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 아름답고, 평화로워요.",
           },
           {
-            en: "There are blue ocean and soft white sand, so it feels very nice.",
-            ko: "푸른 바다와 부드러운 하얀 모래가 있어서 느낌이 정말 좋아요.",
+            en: "There are blue ocean and soft white sand, so it makes me feel so refreshed and happy.",
+            ko: "푸른 바다와 부드러운 하얀 모래가 있어서, 저를 너무 상쾌하고 행복하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually look at the ocean, and just relax.",
@@ -363,8 +363,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are delicious pasta and nice wine, so it feels very nice.",
-            ko: "맛있는 파스타와 좋은 와인이 있어서 느낌이 정말 좋아요.",
+            en: "There are delicious pasta and nice wine, so it makes me feel so happy and comfortable.",
+            ko: "맛있는 파스타와 좋은 와인이 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually eat spicy pasta, and just relax.",
@@ -393,8 +393,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are a clean swimming pool and a soft bed, so it feels very nice.",
-            ko: "깨끗한 수영장과 푹신한 침대가 있어서 느낌이 정말 좋아요.",
+            en: "There are a clean swimming pool and a soft bed, so it makes me feel so comfortable and relaxed.",
+            ko: "깨끗한 수영장과 푹신한 침대가 있어서, 저를 너무 편안하게 푹 쉴 수 있게 해줘요.",
           },
           {
             en: "When I go there, I usually swim in the pool, and just relax.",
@@ -423,8 +423,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 조용하고, 편안해요.",
           },
           {
-            en: "There are lots of books and nice desks, so it feels very nice.",
-            ko: "많은 책들과 편안한 책상이 있어서 느낌이 정말 좋아요.",
+            en: "There are lots of books and nice desks, so it makes me feel so quiet and comfortable.",
+            ko: "많은 책들과 편안한 책상이 있어서, 저를 너무 차분하고 편안하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually read bestsellers, and just relax.",
@@ -453,8 +453,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 아름답고, 평화로워요.",
           },
           {
-            en: "There are beautiful nature and fresh seafood, so it feels very nice.",
-            ko: "아름다운 자연과 신선한 해산물이 있어서 느낌이 정말 좋아요.",
+            en: "There are beautiful nature and fresh seafood, so it makes me feel so refreshed and happy.",
+            ko: "아름다운 자연과 신선한 해산물이 있어서, 저를 너무 상쾌하고 행복하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually drive along the coast, and just relax.",
@@ -483,8 +483,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 멜로디가 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are sweet voices and soft guitar sounds, so it feels very nice.",
-            ko: "감미로운 목소리와 부드러운 기타 소리가 있어서 느낌이 정말 좋아요.",
+            en: "There are sweet voices and soft guitar sounds, so it makes me feel so happy and relaxed.",
+            ko: "감미로운 목소리와 부드러운 기타 소리가 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
           },
           {
             en: "When I listen to it, I usually close my eyes, and just relax.",
