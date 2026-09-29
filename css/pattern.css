@@ -134,8 +134,10 @@
 .pattern-badge-group {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
   flex-shrink: 0;
+  max-width: 100%;
 }
 
 .pattern-slot-badge {

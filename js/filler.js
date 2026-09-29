@@ -157,7 +157,8 @@ function renderFillerCard() {
           onclick="selectFiller(${idx})"
           title="${escapeFillerHtml(item.phrase)} (${escapeFillerHtml(item.meaning)})"
         >
-          <span>${idx + 1}. ${escapeFillerHtml(shortPhrase)}</span>
+          <span class="filler-chip-num">${idx + 1}.</span>
+          <span class="filler-chip-text">${escapeFillerHtml(shortPhrase)}</span>
           ${isDone ? '<span class="filler-chip-check">✓</span>' : ""}
         </button>
       `;
