@@ -381,7 +381,8 @@ function playFillerTTS(text, btn = null) {
 function playCurrentFillerTTS() {
   if (!FILLER_ITEMS || !FILLER_ITEMS[fillerCur]) return;
   const cleanPhrase = FILLER_ITEMS[fillerCur].phrase
-    .replace(/[\.\.\.\/]/g, "")
+    .split("/")[0]
+    .replace(/[\.\.\.]/g, "")
     .trim();
   const ttsBtn = document.getElementById("fillerTtsMainBtn");
   playFillerTTS(cleanPhrase, ttsBtn);

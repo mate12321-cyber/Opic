@@ -1,11 +1,12 @@
 /**
  * @file fillers_im1.js
- * @description OPIc 핵심 필러(Filler Words) 16선 및 상황별 활용 가이드 데이터셋
- * - 시작/생각 시간 벌기, 공감 유도, 문맥 전환/수정, 감정/강조, 마무리 등 5대 카테고리
+ * @description OPIc 핵심 필러(Filler Words) 22선 및 만능 답변 연계 실전 활용 가이드 데이터셋
+ * - 시작/생각 시간 벌기, 문장 연결/호흡, 감정/스토리텔링 반전, 깔끔한 마무리 등 4대 카테고리
+ * - 만능 템플릿 6대 공식(1단계 묘사, 2단계 루틴, 3단계 과거경험, 4단계 문제해결, 5단계 비교변화, 6단계 롤플레이) 100% 연계
  * - 한국어 발음 표기, 타이밍 가이드, 실전 상황별 대화 예문 제공
  *
  * @author Kim Hyo-sang
- * @version 2.2.5
+ * @version 2.3.0
  */
 
 /**
@@ -18,7 +19,7 @@
 /**
  * @typedef {Object} FillerItem
  * @property {string} id - 필러 고유 식별자 (예: "fil_01")
- * @property {string} category - 카테고리 키 (예: "start", "connect")
+ * @property {string} category - 카테고리 키 ("start", "bridge", "emotion", "finish")
  * @property {string} categoryName - 카테고리 표시명
  * @property {string} categoryIcon - 이모지 아이콘
  * @property {string} phrase - 필러 영문 표현
@@ -31,6 +32,7 @@
 
 /** @type {FillerItem[]} */
 window.FILLERS_DATA = [
+  // ── [카테고리 1: 시작 & 생각 시간 벌기 (start)] ──
   {
     id: "fil_01",
     category: "start",
@@ -44,9 +46,9 @@ window.FILLERS_DATA = [
     tip: "한국어의 '어...'나 '음...' 대신 'Well...'을 1초 정도 길게 끌어주면 아주 자연스러운 원어민 억양이 됩니다.",
     examples: [
       {
-        context: "좋아하는 카페 질문을 받았을 때",
-        en: "Well, whenever I think of cafes, Starbucks is my favorite place.",
-        ko: "음, 카페를 생각할 때마다, 스타벅스가 제 최애 장소예요.",
+        context: "[만능 템플릿 1단계 뼈대] 최애 장소 선호 묘사 오프닝",
+        en: "Well, let me see... You know, Eva, my favorite place is Starbucks.",
+        ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 스타벅스야.",
       },
       {
         context: "주말 루틴 질문을 받았을 때",
@@ -68,14 +70,14 @@ window.FILLERS_DATA = [
     tip: "외운 티를 벗고 실제 원어민과 편안하게 수다를 떠는 듯한 인상을 주는 OPIc 최고의 만능 필러입니다.",
     examples: [
       {
+        context: "[만능 템플릿 2단계 뼈대] 자유 시간 루틴 활동 묘사",
+        en: "Well, you know, when I have free time, I usually love to walk in the park.",
+        ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 공원에서 산책하는 걸 정말 좋아해요.",
+      },
+      {
         context: "주거 환경을 묘사할 때",
         en: "You know, my apartment is located near the park, so it is super convenient to live in.",
         ko: "있잖아요, 제 아파트는 공원 근처에 위치해 있어서 살기에 정말 편리해요.",
-      },
-      {
-        context: "스트레스 해소법을 말할 때",
-        en: "You know, walking in the park is really the best way to make me relaxed.",
-        ko: "아시다시피, 공원을 걷는 것은 마음을 편안하게 만드는 데 정말 최고의 방법이에요.",
       },
     ],
   },
@@ -92,14 +94,62 @@ window.FILLERS_DATA = [
     tip: "'Let me think...'와 함께 쓰이며, 에바의 질문에 진지하게 고민해서 답하는 자연스러운 리듬을 만듭니다.",
     examples: [
       {
-        context: "가장 기억에 남는 과거 경험을 떠올릴 때",
-        en: "Let me see... I remember a very memorable trip to Hongcheon with my family a few years ago.",
-        ko: "어디 보자... 몇 년 전 가족들과 함께 홍천으로 갔던 아주 기억에 남는 여행이 생각나네요.",
+        context: "[만능 템플릿 3단계 뼈대] 가장 기억에 남는 과거 경험 회상",
+        en: "Well, let me see... You know, Eva, I remember a very special day.",
+        ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나.",
       },
       {
         context: "좋아하는 영화 장르를 고를 때",
         en: "Let me see... I think my favorite movie of all time is definitely The Truman Show.",
         ko: "어디 생각 좀 해볼게요... 제가 가장 좋아하는 인생 영화는 확실히 '트루먼 쇼'인 것 같아요.",
+      },
+    ],
+  },
+  {
+    id: "fil_17",
+    category: "start",
+    categoryName: "시작 & 생각 시간 벌기",
+    categoryIcon: "⏱️",
+    phrase: "You know, Eva, ...",
+    pronunciation: "[유노, 에바~]",
+    meaning: "있잖아 에바, 에바 당신도 알다시피...",
+    timingGuide:
+      "답변 첫 문장을 시작할 때 에바의 이름을 부르며 1:1 대화하듯 친근하게 운을 뗄 때 사용합니다.",
+    tip: "만능 템플릿 1, 3, 4단계 공통 오프닝('Well, let me see... You know, Eva, ...')의 핵심 필러입니다. 에바(Eva)의 이름을 부르면 암기한 답변이 아닌 진짜 수다를 떠는 자연스러운 인터랙션 점수를 받습니다.",
+    examples: [
+      {
+        context: "[만능 템플릿 1단계] 최애 장소 첫 문장 오프닝",
+        en: "Well, let me see... You know, Eva, my favorite place is my room.",
+        ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 제 방이야.",
+      },
+      {
+        context: "[만능 템플릿 4단계] 잊지 못할 돌발 문제 오프닝",
+        en: "Well, let me see... You know, Eva, I remember a big problem I had last month.",
+        ko: "음, 어디 보자... 있잖아 에바, 지난달에 겪었던 큰 문제가 하나 기억나.",
+      },
+    ],
+  },
+  {
+    id: "fil_18",
+    category: "start",
+    categoryName: "시작 & 생각 시간 벌기",
+    categoryIcon: "⏱️",
+    phrase: "Whenever I think of...",
+    pronunciation: "[웬에버 아이 띵크 오브~]",
+    meaning: "~를 생각할 때마다, ~에 대해 떠올리면...",
+    timingGuide:
+      "5단계 과거 vs 현재 비교 변화 질문이나, 특정 장소·추억을 회상하는 답변의 첫 시작으로 사용합니다.",
+    tip: "만능 템플릿 5단계 뼈대('Whenever I think of [주제], it changed a lot.')의 도입 공식입니다. 단순 나열보다 훨씬 세련된 인상을 주어 IM1~IM2 고득점을 확정 짓습니다.",
+    examples: [
+      {
+        context: "[만능 템플릿 5단계] 과거 vs 현재 변화 비교 도입",
+        en: "Whenever I think of coffee shops, they changed a lot compared to the past.",
+        ko: "카페를 생각할 때마다, 과거와 비교해 정말 많이 변했어요.",
+      },
+      {
+        context: "[만능 템플릿 4단계] 기억에 남는 돌발 문제 회상",
+        en: "Whenever I think of camping, I remember a big problem I had last year.",
+        ko: "캠핑을 생각할 때마다, 작년에 겪었던 큰 문제가 하나 기억나요.",
       },
     ],
   },
@@ -140,14 +190,64 @@ window.FILLERS_DATA = [
     tip: "‘한국어의 실은 말이죠~’처럼 문장 맨 앞이나 동사 바로 앞에 배치하여 자연스럽게 치고 나갑니다.",
     examples: [
       {
+        context: "[만능 템플릿 3단계 뼈대] 과거 경험 장소 현장 묘사",
+        en: "Actually, the place was very large, clean, and beautiful.",
+        ko: "사실은, 그 장소가 정말 크고 깨끗하고 아름다웠어요.",
+      },
+      {
         context: "직장 및 일상 루틴을 소개할 때",
         en: "Actually, I work at an office from nine to six, so my daily schedule is quite consistent.",
         ko: "사실은, 제가 사무실에서 9시부터 6시까지 일해서 일상 일정이 꽤 일정해요.",
       },
+    ],
+  },
+
+  // ── [카테고리 2: 문장 연결 & 단어 생각 안 날 때 (bridge)] ──
+  {
+    id: "fil_19",
+    category: "bridge",
+    categoryName: "문장 연결 & 단어 생각 안 날 때",
+    categoryIcon: "🔄",
+    phrase: "How can I say...",
+    pronunciation: "[하우 캔 아이 세이~]",
+    meaning: "뭐라고 말해야 할까... / 어떻게 표현해야 할까...",
+    timingGuide:
+      "장소나 사물의 분위기, 특징을 묘사하는 형용사를 떠올릴 때 침묵 없이 1~2초 자연스럽게 호흡을 둘 때 사용합니다.",
+    tip: "만능 템플릿 1단계 뼈대 문장 3번('How can I say... it is very clean, comfortable, and cozy.')의 상징적 필러입니다. 외운 티를 벗고 현장에서 직접 묘사하는 듯한 원어민 억양을 만들어 줍니다.",
+    examples: [
       {
-        context: "공원에 자주 가는 이유를 설명할 때",
-        en: "Actually, the park is located near my house, so I go there almost every day.",
-        ko: "실은, 공원이 집 근처에 있어서 거의 매일 가다시피 해요.",
+        context: "[만능 템플릿 1단계 뼈대] 장소 실내 분위기 및 특징 묘사",
+        en: "How can I say... it is very clean, comfortable, and cozy.",
+        ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
+      },
+      {
+        context: "동네 공원의 차분한 힐링 분위기를 묘사할 때",
+        en: "How can I say... it is very peaceful and relaxing with tall green trees.",
+        ko: "어떻게 말해야 할까... 푸른 나무들이 많아서 아주 평화롭고 마음이 편안해져요.",
+      },
+    ],
+  },
+  {
+    id: "fil_09",
+    category: "bridge",
+    categoryName: "문장 연결 & 단어 생각 안 날 때",
+    categoryIcon: "🔄",
+    phrase: "How should I put it?",
+    pronunciation: "[하우 슈다이 푸딧?]",
+    meaning: "어떻게 표현해야 할까요? / 뭐라고 말해야 할까?",
+    timingGuide:
+      "적절한 영어 단어나 문장이 바로 떠오르지 않을 때 당황한 침묵 대신 3초를 벌어주는 고득점 필러입니다.",
+    tip: "이 한 문장을 던지는 순간 시험관은 '단어가 막혔다'가 아니라 '적절한 표현을 고르고 있구나'로 인식합니다.",
+    examples: [
+      {
+        context: "영화 '트루먼 쇼'의 감상을 설명할 때",
+        en: "How should I put it? The movie makes people think deeply about true freedom and reality.",
+        ko: "어떻게 표현해야 할까요? 그 영화는 사람들에게 진정한 자유와 현실에 대해 깊이 생각하게 만들어요.",
+      },
+      {
+        context: "공원의 특별한 매력을 설명할 때",
+        en: "How should I put it? It has a very calming atmosphere that heals my mind.",
+        ko: "뭐라고 말해야 할까요? 그곳은 제 마음을 치유해 주는 아주 차분한 분위기를 가지고 있어요.",
       },
     ],
   },
@@ -224,30 +324,6 @@ window.FILLERS_DATA = [
     ],
   },
   {
-    id: "fil_09",
-    category: "bridge",
-    categoryName: "문장 연결 & 단어 생각 안 날 때",
-    categoryIcon: "🔄",
-    phrase: "How should I put it?",
-    pronunciation: "[하우 슈다이 푸딧?]",
-    meaning: "어떻게 표현해야 할까요? / 뭐라고 말해야 할까?",
-    timingGuide:
-      "적절한 영어 단어나 문장이 바로 떠오르지 않을 때 당황한 침묵 대신 3초를 벌어주는 고득점 필러입니다.",
-    tip: "이 한 문장을 던지는 순간 시험관은 '단어가 막혔다'가 아니라 '적절한 표현을 고르고 있구나'로 인식합니다.",
-    examples: [
-      {
-        context: "영화 '트루먼 쇼'의 감상을 설명할 때",
-        en: "How should I put it? The movie makes people think deeply about true freedom and reality.",
-        ko: "어떻게 표현해야 할까요? 그 영화는 사람들에게 진정한 자유와 현실에 대해 깊이 생각하게 만들어요.",
-      },
-      {
-        context: "공원의 특별한 매력을 설명할 때",
-        en: "How should I put it? It has a very calming atmosphere that heals my mind.",
-        ko: "뭐라고 말해야 할까요? 그곳은 제 마음을 치유해 주는 아주 차분한 분위기를 가지고 있어요.",
-      },
-    ],
-  },
-  {
     id: "fil_10",
     category: "bridge",
     categoryName: "문장 연결 & 단어 생각 안 날 때",
@@ -272,9 +348,83 @@ window.FILLERS_DATA = [
     ],
   },
   {
+    id: "fil_20",
+    category: "bridge",
+    categoryName: "문장 연결 & 단어 생각 안 날 때",
+    categoryIcon: "🔄",
+    phrase: "By the way...",
+    pronunciation: "[바이 더 웨이~]",
+    meaning: "그나저나, 그런데 말이죠...",
+    timingGuide:
+      "6단계 롤플레이(11번 질문하기, 15번 역질문)에서 자연스럽게 추가 질문을 던지거나 화제를 넘길 때 사용합니다.",
+    tip: "전화 문의나 에바와의 대화에서 'First... And... By the way...' 순서로 질문을 던지면 실제 원어민과 통화하듯 매끄러운 흐름이 유지됩니다.",
+    examples: [
+      {
+        context: "[만능 템플릿 6단계 롤플레이] 11번 문의 전화 추가 질문",
+        en: "By the way, what are your opening hours today? Is there parking available?",
+        ko: "그런데 말이죠, 오늘 영업시간이 어떻게 되나요? 주차는 가능한가요?",
+      },
+      {
+        context: "[만능 템플릿 6단계 15번 문항] 에바에게 역질문하기",
+        en: "By the way, Eva, where is your favorite place to hang out with friends?",
+        ko: "그나저나 에바, 당신이 친구들과 어울려 놀기 가장 좋아하는 장소는 어디인가요?",
+      },
+    ],
+  },
+
+  // ── [카테고리 3: 감정 & 스토리텔링 위기극복 전환 (emotion)] ──
+  {
+    id: "fil_21",
+    category: "emotion",
+    categoryName: "감정 & 스토리텔링 전환",
+    categoryIcon: "💡",
+    phrase: "At first...",
+    pronunciation: "[앳 퍼스트~]",
+    meaning: "처음에는, 시작할 때는...",
+    timingGuide:
+      "4단계 돌발 문제나 과거 경험을 시간 순서대로 풀어나갈 때, 초기의 당황했던 감정('so surprised and worried')을 실감 나게 전할 때 사용합니다.",
+    tip: "만능 템플릿 4단계 뼈대('At first, I was so surprised and worried.')의 스토리 전개 필러입니다. 'At first(처음엔) → Then(그 다음에) → Fortunately(다행히도)'로 이어지는 극적인 스토리텔링을 완성합니다.",
+    examples: [
+      {
+        context: "[만능 템플릿 4단계 뼈대] 돌발 문제 발생 직후의 감정",
+        en: "At first, I was so surprised and worried, and I didn't know what to do.",
+        ko: "처음에는, 너무 놀라고 걱정되어서 어떻게 해야 할지 몰랐어요.",
+      },
+      {
+        context: "처음 외국인을 만나거나 영어를 말했던 경험",
+        en: "At first, I was very nervous, but as time passed, it became much easier.",
+        ko: "처음에는 매우 긴장했지만, 시간이 지나면서 훨씬 수월해졌어요.",
+      },
+    ],
+  },
+  {
+    id: "fil_22",
+    category: "emotion",
+    categoryName: "감정 & 스토리텔링 전환",
+    categoryIcon: "💡",
+    phrase: "Fortunately... / Luckily...",
+    pronunciation: "[포츄너틀리 / 럭킬리]",
+    meaning: "다행히도, 천만다행으로...",
+    timingGuide:
+      "4단계 돌발 문제 및 해결 답변에서, 당황스러웠던 위기 상황이 극적으로 해결되는 반전 타이밍에 사용합니다.",
+    tip: "만능 템플릿 4단계 뼈대 문장 5번('Fortunately, [해결 행동], and everything was okay.')의 핵심 전환 필러입니다. 걱정('worried') 뒤에 'Fortunately'를 던지면 답변의 완급 조절과 몰입도가 극대화됩니다.",
+    examples: [
+      {
+        context: "[만능 템플릿 4단계 뼈대] 돌발 문제 해결 상황",
+        en: "Fortunately, a kind staff helped me, and everything was okay.",
+        ko: "다행히도, 친절한 직원이 도와주어서 모든 것이 괜찮아졌어요.",
+      },
+      {
+        context: "카페에서 커피를 쏟았거나 물건을 잃어버렸을 때",
+        en: "Fortunately, the barista made me a new drink with a bright smile.",
+        ko: "다행스럽게도, 바리스타가 환한 미소로 새 음료를 만들어 주셨어요.",
+      },
+    ],
+  },
+  {
     id: "fil_11",
     category: "emotion",
-    categoryName: "감정 & 강조 뉘앙스 살리기",
+    categoryName: "감정 & 스토리텔링 전환",
     categoryIcon: "💡",
     phrase: "Seriously...",
     pronunciation: "[씨리어슬리~]",
@@ -298,7 +448,7 @@ window.FILLERS_DATA = [
   {
     id: "fil_12",
     category: "emotion",
-    categoryName: "감정 & 강조 뉘앙스 살리기",
+    categoryName: "감정 & 스토리텔링 전환",
     categoryIcon: "💡",
     phrase: "Definitely... / Absolutely...",
     pronunciation: "[데피닛리 / 앱솔루틀리]",
@@ -322,7 +472,7 @@ window.FILLERS_DATA = [
   {
     id: "fil_13",
     category: "emotion",
-    categoryName: "감정 & 강조 뉘앙스 살리기",
+    categoryName: "감정 & 스토리텔링 전환",
     categoryIcon: "💡",
     phrase: "You know what I mean?",
     pronunciation: "[유노 왓아이민?]",
@@ -346,7 +496,7 @@ window.FILLERS_DATA = [
   {
     id: "fil_14",
     category: "emotion",
-    categoryName: "감정 & 강조 뉘앙스 살리기",
+    categoryName: "감정 & 스토리텔링 전환",
     categoryIcon: "💡",
     phrase: "I guess...",
     pronunciation: "[아이 게스~]",
@@ -367,6 +517,8 @@ window.FILLERS_DATA = [
       },
     ],
   },
+
+  // ── [카테고리 4: 깔끔한 답변 마무리 (finish)] ──
   {
     id: "fil_15",
     category: "finish",
