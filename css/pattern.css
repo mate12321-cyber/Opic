@@ -868,36 +868,42 @@ body.dark-theme .pattern-slot-tag {
   #patternCard .card-nav-left .mode-switch-pill,
   #patternCard .card-nav-right .mode-switch-pill,
   #patternCard .card-nav-right .btn-prev-q {
-    padding: 5px 8px;
-    font-size: 11px;
+    padding: 8px 11px;
+    font-size: 12px;
+    min-height: 38px;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   #patternCard .pattern-header-box {
     order: 3;
     width: 100%;
-    margin-top: 4px;
-    padding-top: 6px;
+    margin-top: 6px;
+    padding-top: 8px;
     border-top: 1px dashed var(--border-light);
     text-align: center;
   }
   #patternCard .pattern-main-title {
-    font-size: 15px;
+    font-size: 15.5px;
     font-weight: 700;
   }
 
   .switcher-card {
-    padding: 8px 10px;
-    margin-bottom: 12px;
+    padding: 10px 12px;
+    margin-bottom: 14px;
   }
   .switcher-header-row {
-    margin-bottom: 6px;
-    padding-bottom: 4px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
   }
+  /* 주제별 단어 갈아끼우기 모바일 2줄(2 rows) 배치 */
   .switcher-chips-wrap {
-    display: flex;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-rows: repeat(2, 40px);
+    grid-auto-flow: column;
     overflow-x: auto;
-    gap: 6px;
+    gap: 8px 6px;
     padding-bottom: 6px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -906,11 +912,17 @@ body.dark-theme .pattern-slot-tag {
     display: none;
   }
   .switcher-chip {
-    flex: 0 0 auto;
-    width: auto;
-    min-width: 68px;
-    padding: 5px 10px;
-    font-size: 11.5px;
+    white-space: nowrap;
+    min-width: 82px;
+    height: 40px;
+    min-height: 40px;
+    padding: 0 12px;
+    font-size: 12.5px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
   }
 
   .pattern-select-card {

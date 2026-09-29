@@ -1070,12 +1070,13 @@
   /* 실전 모드 탭 (무작위 / 3단 콤보) 모바일 1열 확장 */
   .opic-play-mode-tabs {
     flex-direction: column !important;
-    gap: 6px !important;
+    gap: 8px !important;
   }
   .btn-play-mode {
     width: 100%;
-    padding: 10px 14px;
-    font-size: 13px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    min-height: 48px;
     justify-content: flex-start;
   }
 
@@ -1093,10 +1094,14 @@
   }
   .mode-switch-row .mode-switch,
   .mode-switch-row .mode-switch-pill {
-    padding: 6px 10px;
-    font-size: 11.5px;
+    padding: 8px 12px;
+    font-size: 12.5px;
+    min-height: 38px;
     white-space: nowrap;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* 문제 은행 필터 칩 모바일 최적화 */
@@ -1115,15 +1120,17 @@
   .btn-step-chip {
     flex-shrink: 0;
     white-space: nowrap;
-    padding: 5px 10px;
-    font-size: 11.5px;
+    padding: 8px 12px;
+    font-size: 12.5px;
+    min-height: 38px;
   }
   .bank-topic-filter-chips {
-    gap: 5px;
+    gap: 6px;
   }
   .bank-topic-chip {
-    padding: 4px 8px;
-    font-size: 11px;
+    padding: 7px 11px;
+    font-size: 12px;
+    min-height: 36px;
   }
 
   /* 문제 은행 카드 하단 액션 버튼 */
@@ -1140,16 +1147,17 @@
     min-width: 0;
     text-align: center;
     justify-content: center;
-    padding: 8px 10px;
-    font-size: 12px;
+    padding: 11px 12px;
+    font-size: 13px;
+    min-height: 44px;
   }
 
   /* 타이머 게이지 라벨 폰트 조정 */
   .speaking-timer-box {
-    padding: 8px 10px;
+    padding: 10px 12px;
   }
   .timer-gauge-labels {
-    font-size: 9px;
+    font-size: 9.5px;
   }
 
   /* 모바일 화면에서는 3열 대신 메인 채점 버튼을 상단 전체 너비로, 보조 버튼 2개를 하단 2열로 배치 */
@@ -1161,15 +1169,16 @@
 
   .opic-btn-row-3 button:first-child {
     grid-column: 1 / -1;
-    height: 48px;
-    min-height: 48px;
-    font-size: 15px;
+    height: 52px;
+    min-height: 52px;
+    font-size: 16px;
+    font-weight: 700;
   }
 
   .opic-btn-row-3 button:not(:first-child) {
-    height: 44px;
-    min-height: 44px;
-    font-size: 13.5px;
+    height: 48px;
+    min-height: 48px;
+    font-size: 14px;
   }
 
   /* 모바일 평가 그리드: 2x2 배치이되 평가 버튼(잘했어요, 다시)을 더 크고 돋보이게 */
@@ -1181,17 +1190,17 @@
 
   .opic-rate-grid button {
     padding: 0 8px;
-    font-size: 13.5px;
-    height: 44px;
-    min-height: 44px;
+    font-size: 14px;
+    height: 48px;
+    min-height: 48px;
     gap: 4px;
   }
 
   .opic-rate-grid .good,
   .opic-rate-grid .bad {
-    height: 48px;
-    min-height: 48px;
-    font-size: 15px;
+    height: 52px;
+    min-height: 52px;
+    font-size: 15.5px;
     font-weight: 700;
   }
 }

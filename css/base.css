@@ -511,35 +511,50 @@ h1 {
   #startBtn,
   #opicStartBtn,
   #wordStartBtn {
-    height: 48px;
-    min-height: 48px;
-    font-size: 15px;
-    padding: 0 14px;
+    height: 52px;
+    min-height: 52px;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 0 16px;
   }
   .action-btn-group .copy-btn,
   .action-btn-group .tts-btn {
-    height: 34px;
-    min-height: 34px;
-    padding: 0 10px;
-    font-size: 12px;
+    height: 40px;
+    min-height: 40px;
+    padding: 0 12px;
+    font-size: 12.5px;
   }
   .mode-switch,
   .mode-switch-pill,
-  .settings-trigger-btn,
+  .change-topic,
   .btn-select-all,
-  .btn-prev-q,
+  .btn-prev-q {
+    min-height: 40px !important;
+    padding: 8px 12px !important;
+    font-size: 12.5px !important;
+  }
+  .settings-trigger-btn {
+    min-height: 40px !important;
+    padding: 8px 10px !important;
+    font-size: 12.5px !important;
+  }
   .switcher-chip,
   .bank-step-chip,
   .btn-step-chip,
-  .bank-topic-chip,
+  .bank-topic-chip {
+    min-height: 38px !important;
+    padding: 8px 12px !important;
+    font-size: 12.5px !important;
+  }
   .speed-btn,
   .chip,
   .topic-chip,
   .signal-tag,
   .filter-pill,
   .view-tab-btn {
-    height: auto !important;
-    min-height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 14px !important;
+    font-size: 13px !important;
   }
 }
 
