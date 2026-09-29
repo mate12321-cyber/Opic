@@ -1067,6 +1067,91 @@
 }
 
 @media (max-width: 600px) {
+  /* 실전 모드 탭 (무작위 / 3단 콤보) 모바일 1열 확장 */
+  .opic-play-mode-tabs {
+    flex-direction: column !important;
+    gap: 6px !important;
+  }
+  .btn-play-mode {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 13px;
+    justify-content: flex-start;
+  }
+
+  /* 상단 모드 전환 네비게이션 행 */
+  .mode-switch-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mode-switch-row::-webkit-scrollbar {
+    display: none;
+  }
+  .mode-switch-row .mode-switch,
+  .mode-switch-row .mode-switch-pill {
+    padding: 6px 10px;
+    font-size: 11.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* 문제 은행 필터 칩 모바일 최적화 */
+  .bank-step-filter {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .bank-step-filter::-webkit-scrollbar {
+    display: none;
+  }
+  .btn-step-chip {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 5px 10px;
+    font-size: 11.5px;
+  }
+  .bank-topic-filter-chips {
+    gap: 5px;
+  }
+  .bank-topic-chip {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  /* 문제 은행 카드 하단 액션 버튼 */
+  .bank-card {
+    padding: 14px 12px;
+  }
+  .bank-card-actions {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .btn-bank-tts,
+  .btn-bank-practice {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  /* 타이머 게이지 라벨 폰트 조정 */
+  .speaking-timer-box {
+    padding: 8px 10px;
+  }
+  .timer-gauge-labels {
+    font-size: 9px;
+  }
+
   /* 모바일 화면에서는 3열 대신 메인 채점 버튼을 상단 전체 너비로, 보조 버튼 2개를 하단 2열로 배치 */
   .opic-btn-row-3 {
     grid-template-columns: 1fr 1fr;
@@ -1076,9 +1161,9 @@
 
   .opic-btn-row-3 button:first-child {
     grid-column: 1 / -1;
-    height: 50px;
-    min-height: 50px;
-    font-size: 15.5px;
+    height: 48px;
+    min-height: 48px;
+    font-size: 15px;
   }
 
   .opic-btn-row-3 button:not(:first-child) {
@@ -1104,8 +1189,8 @@
 
   .opic-rate-grid .good,
   .opic-rate-grid .bad {
-    height: 50px;
-    min-height: 50px;
+    height: 48px;
+    min-height: 48px;
     font-size: 15px;
     font-weight: 700;
   }
@@ -1554,9 +1639,7 @@ body.dark-theme .single-sen-eval-box {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  max-height: 110px;
-  overflow-y: auto;
-  padding-right: 4px;
+  padding-right: 0;
 }
 
 .bank-topic-chip {

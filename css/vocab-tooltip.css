@@ -23,6 +23,7 @@
   font-family: inherit;
   color: var(--text-main, #0f172a);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transition:
     opacity 0.16s cubic-bezier(0.16, 1, 0.3, 1),
@@ -37,6 +38,7 @@
 }
 
 .vocab-tooltip.show {
+  visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
   transform: translateY(0) scale(1) !important;

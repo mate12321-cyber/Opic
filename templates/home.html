@@ -14,8 +14,12 @@
        - 다크/라이트 테마 토글, 단어장 모달 열기, TTS 음성 설정, 오늘 날짜
        ========================================================================= -->
   <div class="home-header">
-    <div class="home-eyebrow">OPIc 연습</div>
-    <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap">
+    <div class="home-header-top">
+      <div class="home-eyebrow">OPIc 연습</div>
+      <!-- 📅 오늘 날짜 표시 레이블 (dashboard.js 동적 렌더링) -->
+      <div class="home-date" id="homeDate"></div>
+    </div>
+    <div class="home-header-actions">
       <!-- 🌙 테마 전환 버튼 (theme.js) -->
       <button
         type="button"
@@ -65,9 +69,6 @@
       >
         📄 치트시트 PDF
       </button>
-
-      <!-- 📅 오늘 날짜 표시 레이블 (dashboard.js 동적 렌더링) -->
-      <div class="home-date" id="homeDate"></div>
     </div>
   </div>
   <!-- // .home-header -->
@@ -149,7 +150,7 @@
           ></span
         >
         <span class="nav-card-sub" id="navOpicBankSub"
-          >12개 주제 72문항 한눈에 보기 · 뼈대 연동 & TTS</span
+          >12개 주제 75문항 한눈에 보기 · 뼈대 연동 & TTS</span
         >
       </span>
       <span class="nav-card-arrow">›</span>

@@ -110,7 +110,7 @@ function getOpicSubtheme(cat, setNum) {
   if (OPIC_SUBTHEMES[cat] && OPIC_SUBTHEMES[cat][num]) {
     return OPIC_SUBTHEMES[cat][num];
   }
-  return num === 2 ? "시나리오 2" : (num === 3 ? "시나리오 3" : "시나리오 1");
+  return num === 2 ? "시나리오 2" : num === 3 ? "시나리오 3" : "시나리오 1";
 }
 
 /**

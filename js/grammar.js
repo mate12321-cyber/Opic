@@ -18,7 +18,60 @@ let wordResults = {}; // 채점 결과 매핑 { [itemIdx]: 'good' | 'bad' }
 let wordAnswered = false; // 현재 문제의 보기 선택 완료 여부 플래그
 
 // =============================================================================
-// 2. 진행 상태 인디케이터 Dot 렌더러 (Progress Indicator)
+// 2. 문법 유형 선택 칩 렌더러 (Topic Chips Renderer)
+// =============================================================================
+
+/**
+ * 문법 카테고리 칩 목록을 렌더링하고 전체 선택/해제 및 시작 버튼 상태를 갱신합니다.
+ * @returns {void}
+ */
+function renderWordChips() {
+  if (!els.wordTopicChips) return;
+  els.wordTopicChips.innerHTML = "";
+
+  const isAllSelected =
+    wordSelectedCats.size === WORD_CATEGORIES.length &&
+    WORD_CATEGORIES.length > 0;
+  if (els.allWordTopicToggleBtn) {
+    els.allWordTopicToggleBtn.textContent = isAllSelected
+      ? "전체 해제"
+      : "전체 선택";
+    els.allWordTopicToggleBtn.onclick = () => {
+      wordSelectedCats = isAllSelected ? new Set() : new Set(WORD_CATEGORIES);
+      renderWordChips();
+    };
+  }
+
+  WORD_CATEGORIES.forEach((cat) => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "chip" + (wordSelectedCats.has(cat) ? " active" : "");
+    chip.textContent = cat;
+    chip.onclick = () => {
+      if (wordSelectedCats.has(cat)) wordSelectedCats.delete(cat);
+      else wordSelectedCats.add(cat);
+      renderWordChips();
+    };
+    els.wordTopicChips.appendChild(chip);
+  });
+
+  const count = WORD_ITEMS.filter((w) => wordSelectedCats.has(w.cat)).length;
+  if (els.wordTopicCount) {
+    els.wordTopicCount.textContent = wordSelectedCats.size
+      ? `(${count}문제 · ${wordSelectedCats.size}개 유형)`
+      : "(유형을 선택하세요)";
+  }
+  if (els.wordStartBtn) {
+    els.wordStartBtn.disabled = wordSelectedCats.size === 0;
+    els.wordStartBtn.style.opacity = wordSelectedCats.size === 0 ? ".45" : "1";
+    els.wordStartBtn.style.cursor =
+      wordSelectedCats.size === 0 ? "not-allowed" : "pointer";
+  }
+}
+window.renderWordChips = renderWordChips;
+
+// =============================================================================
+// 3. 진행 상태 인디케이터 Dot 렌더러 (Progress Indicator)
 // =============================================================================
 
 /**

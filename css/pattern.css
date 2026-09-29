@@ -845,6 +845,74 @@ body.dark-theme .pattern-slot-tag {
 
 /* ── 모바일 반응형 ── */
 @media (max-width: 540px) {
+  #patternCard .card-nav-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  #patternCard .card-nav-left {
+    order: 1;
+    display: flex;
+    gap: 4px;
+    flex-wrap: nowrap;
+  }
+  #patternCard .card-nav-right {
+    order: 2;
+    display: flex;
+    gap: 4px;
+    flex-wrap: nowrap;
+  }
+  #patternCard .card-nav-left .mode-switch-pill,
+  #patternCard .card-nav-right .mode-switch-pill,
+  #patternCard .card-nav-right .btn-prev-q {
+    padding: 5px 8px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  #patternCard .pattern-header-box {
+    order: 3;
+    width: 100%;
+    margin-top: 4px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border-light);
+    text-align: center;
+  }
+  #patternCard .pattern-main-title {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .switcher-card {
+    padding: 8px 10px;
+    margin-bottom: 12px;
+  }
+  .switcher-header-row {
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+  }
+  .switcher-chips-wrap {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 6px;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .switcher-chips-wrap::-webkit-scrollbar {
+    display: none;
+  }
+  .switcher-chip {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 68px;
+    padding: 5px 10px;
+    font-size: 11.5px;
+  }
+
   .pattern-select-card {
     padding: 14px 14px;
     gap: 12px;
