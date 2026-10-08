@@ -202,6 +202,24 @@ body {
   }
 }
 
+@media (min-width: 1024px) {
+  .wrap {
+    max-width: 740px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .wrap {
+    max-width: 780px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .wrap {
+    max-width: 820px;
+  }
+}
+
 header {
   margin-bottom: 20px;
 }
@@ -303,21 +321,29 @@ h1 {
 /* ── 모달 (TTS 설정 및 다이얼로그) ── */
 .modal-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  width: 100vw !important;
+  height: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: 16px;
   background: rgba(15, 23, 42, 0.45);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   z-index: 1000000;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
+  box-sizing: border-box;
 }
 
 .modal-backdrop.show {
@@ -326,6 +352,7 @@ h1 {
 }
 
 .modal-card {
+  margin: auto;
   background: #ffffff;
   width: 100%;
   max-width: 480px;
@@ -654,4 +681,151 @@ h1 {
   .desktop-only-tip {
     display: none !important;
   }
+}
+
+/* =============================================================================
+ * 🖥️ [방법 1] 대화면(맥북 15인치 / 랩탑 / 데스크톱) 반응형 자동 최적화
+ * - 모달 백드롭 정렬을 위해 body가 아닌 메인 콘텐츠(.wrap) 및 모달 카드에 적용
+ * ============================================================================= */
+
+/* 💻 1024px 이상: 13~14인치 노트북 & 태블릿 가로 (기본 8% 스케일업) */
+@media (min-width: 1024px) {
+  .wrap {
+    zoom: 1.08;
+  }
+}
+
+/* 🖥️ 1280px 이상: 맥북 15인치(1440~1710px) 및 일반 데스크톱 (기본 14% 스케일업) */
+@media (min-width: 1280px) {
+  .wrap {
+    zoom: 1.14;
+  }
+  .modal-card {
+    max-width: 520px;
+  }
+}
+
+/* 🖥️ 1600px 이상: 대형 고해상도 모니터 (기본 18% 스케일업) */
+@media (min-width: 1600px) {
+  .wrap {
+    zoom: 1.18;
+  }
+  .modal-card {
+    max-width: 540px;
+  }
+}
+
+/* =============================================================================
+ * 🔍 [방법 2] 사용자 맞춤 화면 및 글자 크기 스케일 (data-font-scale)
+ * ============================================================================= */
+
+/* 1단계: 크게 (Large, 모바일 +12% / 랩탑 +22% / 맥북 15인치 +26%) */
+html[data-font-scale="large"] .wrap,
+body[data-font-scale="large"] .wrap {
+  zoom: 1.12 !important;
+}
+@media (min-width: 1024px) {
+  html[data-font-scale="large"] .wrap,
+  body[data-font-scale="large"] .wrap {
+    zoom: 1.22 !important;
+  }
+}
+@media (min-width: 1280px) {
+  html[data-font-scale="large"] .wrap,
+  body[data-font-scale="large"] .wrap {
+    zoom: 1.26 !important;
+  }
+}
+
+html[data-font-scale="large"] .modal-card,
+body[data-font-scale="large"] .modal-card {
+  zoom: 1.08 !important;
+}
+
+/* 2단계: 아주 크게 (Extra Large, 모바일 +24% / 랩탑 +34% / 맥북 15인치 +38%) */
+html[data-font-scale="xlarge"] .wrap,
+body[data-font-scale="xlarge"] .wrap {
+  zoom: 1.24 !important;
+}
+@media (min-width: 1024px) {
+  html[data-font-scale="xlarge"] .wrap,
+  body[data-font-scale="xlarge"] .wrap {
+    zoom: 1.34 !important;
+  }
+}
+@media (min-width: 1280px) {
+  html[data-font-scale="xlarge"] .wrap,
+  body[data-font-scale="xlarge"] .wrap {
+    zoom: 1.38 !important;
+  }
+}
+
+html[data-font-scale="xlarge"] .modal-card,
+body[data-font-scale="xlarge"] .modal-card {
+  zoom: 1.16 !important;
+}
+
+/* =============================================================================
+ * 🎛️ 글자 크기 선택 세그먼트 UI 컴포넌트
+ * ============================================================================= */
+.font-scale-btn-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: var(--surface-subtle);
+  padding: 4px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+}
+
+.font-scale-chip {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 8px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-body);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 48px;
+  transition: all 0.15s ease;
+  font-family: var(--font-sans);
+}
+
+.font-scale-chip:hover {
+  background: var(--surface-hover);
+  color: var(--text-main);
+}
+
+.font-scale-chip.active {
+  background: var(--surface);
+  color: var(--primary);
+  border-color: var(--primary-border);
+  box-shadow: var(--shadow-sm);
+  font-weight: 700;
+}
+
+body.dark-theme .font-scale-chip.active {
+  background: #1e293b;
+  color: #818cf8;
+  border-color: #4f46e5;
+}
+
+.font-scale-chip .chip-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.font-scale-chip.active .chip-sub {
+  color: var(--primary);
+}
+
+body.dark-theme .font-scale-chip.active .chip-sub {
+  color: #a5b4fc;
 }

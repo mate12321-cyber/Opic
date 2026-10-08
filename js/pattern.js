@@ -451,6 +451,7 @@ const PATTERN_TOPIC_QUESTION_MAP = {
       q_ko: "도서관에서 공부하거나 책을 읽다가 겪었던 기억에 남는 경험에 대해 말씀해 주세요.",
     },
     제주도: { qId: "q_trip_03" },
+    음악: { qId: "q_music_03" },
   },
   pat_04: {
     "에어컨 고장": { qId: "q_home_03" },

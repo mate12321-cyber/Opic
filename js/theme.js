@@ -73,8 +73,102 @@ function toggleTheme() {
 }
 
 // =============================================================================
-// 3. 전역(Global Window) 바인딩
+// 3. 화면 및 글자 크기 (Font Scale & Zoom) 관리 시스템
+// =============================================================================
+
+/** @const {string} 로컬 스토리지 글자 크기 설정 키 */
+const FONT_SCALE_STORAGE_KEY = "ko-en-opic-font-scale";
+
+/**
+ * 화면 및 글자 크기 설정값을 적용하고 LocalStorage에 영구 저장합니다.
+ * @param {string} scale - 'auto' | 'large' | 'xlarge'
+ */
+function setFontScale(scale) {
+  const validScale = ["auto", "large", "xlarge"].includes(scale)
+    ? scale
+    : "auto";
+
+  if (validScale === "auto") {
+    if (document.body) document.body.removeAttribute("data-font-scale");
+    document.documentElement.removeAttribute("data-font-scale");
+  } else {
+    if (document.body)
+      document.body.setAttribute("data-font-scale", validScale);
+    document.documentElement.setAttribute("data-font-scale", validScale);
+  }
+
+  try {
+    localStorage.setItem(FONT_SCALE_STORAGE_KEY, validScale);
+  } catch (e) {}
+
+  updateFontScaleUI(validScale);
+}
+
+/**
+ * 앱 구동 시 저장된 글자 크기 설정값을 불러와 즉시 적용합니다.
+ */
+function initFontScale() {
+  try {
+    const saved = localStorage.getItem(FONT_SCALE_STORAGE_KEY) || "auto";
+    setFontScale(saved);
+  } catch (e) {
+    setFontScale("auto");
+  }
+}
+
+/**
+ * 설정 모달 내 글자 크기 버튼 상태 및 뱃지 라벨을 갱신합니다.
+ * @param {string} [currentScale]
+ */
+function updateFontScaleUI(currentScale) {
+  const scale =
+    currentScale ||
+    (typeof localStorage !== "undefined"
+      ? localStorage.getItem(FONT_SCALE_STORAGE_KEY)
+      : "auto") ||
+    "auto";
+
+  const chips = document.querySelectorAll(".font-scale-chip");
+  chips.forEach((chip) => {
+    if (chip.getAttribute("data-scale") === scale) {
+      chip.classList.add("active");
+    } else {
+      chip.classList.remove("active");
+    }
+  });
+
+  const badge = document.getElementById("fontScaleDisplayBadge");
+  if (badge) {
+    const labels = {
+      auto: "기본 (자동 최적화)",
+      large: "크게 (+15%~25%)",
+      xlarge: "아주 크게 (+28%~38%)",
+    };
+    badge.textContent = labels[scale] || "기본 (자동 최적화)";
+  }
+}
+
+// 문서 전체 이벤트 위임: .font-scale-chip 클릭 시 즉시 글자 크기 전환
+document.addEventListener("click", function (e) {
+  const chip = e.target.closest && e.target.closest(".font-scale-chip");
+  if (chip) {
+    e.preventDefault();
+    const scale = chip.getAttribute("data-scale");
+    if (scale) {
+      setFontScale(scale);
+    }
+  }
+});
+
+// 스크립트 로드 시 즉시 글자 크기 적용
+initFontScale();
+
+// =============================================================================
+// 4. 전역(Global Window) 바인딩
 // =============================================================================
 window.initTheme = initTheme;
 window.applyTheme = applyTheme;
 window.toggleTheme = toggleTheme;
+window.initFontScale = initFontScale;
+window.setFontScale = setFontScale;
+window.updateFontScaleUI = updateFontScaleUI;

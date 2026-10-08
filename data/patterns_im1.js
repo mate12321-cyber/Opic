@@ -955,7 +955,7 @@ window.PATTERNS_DATA = [
     exampleQuestion:
       "Tell me about a memorable day or experience you had recently. What did you do and how was it?",
     category:
-      "영화, 축제, 새집 이사, 캠핑, 카페, 해변, 공원, 헬스장, 단골 식당, 호텔, 대형마트, 드라이브, 도서관, 제주도",
+      "영화, 축제, 새집 이사, 캠핑, 카페, 해변, 공원, 헬스장, 단골 식당, 호텔, 대형마트, 드라이브, 도서관, 제주도, 음악",
     icon: "✨",
     desc: "어떤 주제든 과거에 있었던 기억에 남는 일을 물을 때, 6개 쉬운 문장으로 어떤 질문에도 자연스럽게 완주하는 만능 공식입니다.",
     skeleton: [
@@ -1390,6 +1390,36 @@ window.PATTERNS_DATA = [
           {
             en: "Actually, the nature was very beautiful and peaceful.",
             ko: "실은, 자연이 아주 아름답고 평화로웠어요.",
+          },
+          {
+            en: "We had a really good time together.",
+            ko: "우리는 함께 정말 좋은 시간을 보냈어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I really want to go there again.",
+            ko: "그래서, 저는 정말로 거기 또 가고 싶어요.",
+          },
+        ],
+      },
+      {
+        topic: "🎵 음악",
+        keyword: "live music concert with friend",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
+          },
+          {
+            en: "Last month, I went to a live concert with my best friend.",
+            ko: "지난달에, 저는 제 베프와 함께 라이브 콘서트에 갔어요.",
+          },
+          {
+            en: "Actually, the music was very beautiful and exciting.",
+            ko: "실은, 음악이 아주 아름답고 신났어요.",
           },
           {
             en: "We had a really good time together.",

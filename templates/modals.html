@@ -16,7 +16,7 @@
   <div class="modal-card">
     <div class="modal-header">
       <div class="modal-title">
-        <span>🎧 원어민 음성(TTS) & 캐시 설정</span>
+        <span>⚙️ 앱 환경 및 원어민 음성 설정</span>
       </div>
       <button
         type="button"
@@ -26,6 +26,60 @@
       >
         ✕
       </button>
+    </div>
+
+    <!-- 🖥️ 화면 및 글자 크기 설정 영역 -->
+    <div class="form-group" style="margin-bottom: 4px">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <label class="form-label" style="margin: 0">🖥️ 화면 및 글자 크기</label>
+        <span
+          id="fontScaleDisplayBadge"
+          style="font-size: 11.5px; font-weight: 700; color: var(--primary)"
+          >기본 (자동 최적화)</span
+        >
+      </div>
+      <div class="font-scale-btn-group" id="fontScaleBtnGroup">
+        <button
+          type="button"
+          class="font-scale-chip active"
+          data-scale="auto"
+          onclick="if (window.setFontScale) window.setFontScale('auto');"
+          title="화면 해상도(모바일/맥북 15인치 등)에 맞춰 최적 배율 자동 적용"
+        >
+          <span>📱 기본 / 자동</span>
+          <span class="chip-sub">자동 최적화</span>
+        </button>
+        <button
+          type="button"
+          class="font-scale-chip"
+          data-scale="large"
+          onclick="if (window.setFontScale) window.setFontScale('large');"
+          title="글자와 카드를 15~25% 확대하여 편안하게 학습"
+        >
+          <span>🔍 크게</span>
+          <span class="chip-sub">+15% 확대</span>
+        </button>
+        <button
+          type="button"
+          class="font-scale-chip"
+          data-scale="xlarge"
+          onclick="if (window.setFontScale) window.setFontScale('xlarge');"
+          title="글자와 카드를 28~38% 시원하게 확대"
+        >
+          <span>🔎 아주 크게</span>
+          <span class="chip-sub">+28% 확대</span>
+        </button>
+      </div>
+      <span class="form-sublabel">
+        맥북 15인치 등 고해상도 환경에서는 기본적으로 자동 확대(14%+)되며,
+        취향에 따라 추가 확대할 수 있습니다.
+      </span>
     </div>
 
     <div class="form-group">
@@ -598,11 +652,11 @@
                 >
               </div>
               <div class="cs-line">
-                <b>3.</b> How can I say... it is very clean, comfortable, and
-                cozy.
+                <b>3.</b> How can I say... it is very <u>[분위기/느낌]</u>.
                 <span class="ko"
-                  >(뭐랄까... 거기는 아주 깔끔하고 편안하며 아늑해요 ※야외:
-                  peaceful, 헬스장/마트: convenient, 도서관: quiet)</span
+                  >(뭐랄까... 거기는 아주 [분위기/느낌]해요 ※기본: clean,
+                  comfortable, and cozy / 야외: peaceful / 헬스장: convenient /
+                  도서관: quiet)</span
                 >
               </div>
               <div class="cs-line">
@@ -654,10 +708,10 @@
                 >
               </div>
               <div class="cs-line">
-                <b>2.</b> First, I change into comfortable clothes, and get
-                ready.
+                <b>2.</b> First, I <u>[준비 행동]</u>, and get ready.
                 <span class="ko"
-                  >(우선 편안한 옷으로 갈아입고 준비를 해요)</span
+                  >(우선 [준비 행동]을 하고 준비를 해요 ※기본: change into
+                  comfortable clothes)</span
                 >
               </div>
               <div class="cs-line">
@@ -689,7 +743,7 @@
               <span class="cs-pattern-badge">패턴 3</span>
               <span class="cs-pattern-name">과거 경험</span>
               <span class="cs-pattern-target"
-                >영화, 축제, 이사, 캠핑, 여행 등</span
+                >영화, 축제, 음악, 이사, 캠핑, 여행 등</span
               >
             </div>
             <div class="cs-flow-tag">
@@ -804,17 +858,19 @@
                 <span class="ko">(예전에는 좁고 느리며 꽤 불편했습니다)</span>
               </div>
               <div class="cs-line">
-                <b>3.</b> However, nowadays, everything has become very clean
-                and modern.
+                <b>3.</b> However, nowadays, everything has become very
+                <u>[현재 특징]</u>.
                 <span class="ko"
-                  >(하지만 요즘에는 모든 것이 매우 깔끔하고 현대적이에요)</span
+                  >(하지만 요즘에는 모든 것이 아주 [현재 특징]해요 ※기본: clean
+                  and modern / clean and convenient)</span
                 >
               </div>
               <div class="cs-line">
-                <b>4.</b> For example, we can use smart mobile apps anytime,
-                anywhere.
+                <b>4.</b> For example, we can use
+                <u>[스마트폰/앱 기술]</u> anytime, anywhere.
                 <span class="ko"
-                  >(예를 들어 언제 어디서나 스마트폰 앱을 쓸 수 있어요)</span
+                  >(예를 들어 언제 어디서나 [스마트폰/앱 기술]을 쓸 수
+                  있어요)</span
                 >
               </div>
               <div class="cs-line">
