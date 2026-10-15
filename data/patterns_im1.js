@@ -81,31 +81,31 @@ window.PATTERNS_DATA = [
     variations: [
       {
         topic: "🏠 내 방",
-        keyword: "my room in my apartment",
+        keyword: "my bedroom in my apartment",
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, my favorite place is my room.",
-            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 제 방이에요.",
+            en: "Well, you know, Eva, my favorite room is my bedroom.",
+            ko: "음, 있잖아 에바, 내가 제일 좋아하는 방은 내 침실이야.",
           },
           {
-            en: "It is near my office, so it takes about five minutes on foot.",
-            ko: "회사 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
+            en: "I live in an apartment with three rooms, two bathrooms, and a living room.",
+            ko: "저는 방 세 개, 화장실 두 개, 거실이 있는 아파트에 살아요.",
           },
           {
-            en: "How can I say... it is very clean, comfortable, and cozy.",
-            ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
+            en: "How can I say... my bedroom is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 제 침실은 아주 깨끗하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are a soft bed and a nice desk, so it makes me feel so comfortable and relaxed.",
-            ko: "푹신한 침대와 좋은 책상이 있어서, 저를 너무 편안하게 푹 쉴 수 있게 해줘요.",
+            en: "There is a soft bed and a nice desk, so it makes me feel so happy and relaxed.",
+            ko: "푹신한 침대와 좋은 책상이 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
           },
           {
-            en: "When I stay there, I usually watch YouTube, and just relax.",
-            ko: "거기 머물 때, 저는 보통 유튜브를 보며 그냥 편하게 쉬어요.",
+            en: "When I go there, I usually watch Netflix, and just relax.",
+            ko: "거기 가면, 저는 보통 넷플릭스를 보며 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I stay there all the time.",
-            ko: "그래서 저는 거기서 맨날 시간을 보내요.",
+            en: "So, I go there about two or three times a day.",
+            ko: "그래서 저는 하루에 대략 2~3번 정도 거기로 가요.",
           },
         ],
       },
@@ -1853,7 +1853,7 @@ window.PATTERNS_DATA = [
     desc: "롤플레이 3대 핵심(11번 질문 문의 ➔ 12번 돌발 대안 제시 ➔ 13번 과거 유사 경험)과 3-3 최신 단골인 15번 에바 역질문을 쉬운 6문장으로 완벽 해결하는 공식입니다.",
     skeleton: [
       {
-        en: "1. Hello, I'm calling to ask about [주제].",
+        en: "1. Hi, I'm calling to ask about [주제].",
         ko: "1. 안녕하세요, [주제]에 대해 여쭤보려고 전화드렸어요.",
       },
       {
@@ -1883,7 +1883,7 @@ window.PATTERNS_DATA = [
         keyword: "location, hours, price, parking",
         skeleton: [
           {
-            en: "1. Hello, I'm calling to ask about [주제].",
+            en: "1. Hi, I'm calling to ask about [주제].",
             ko: "1. 안녕하세요, [주제]에 대해 여쭤보려고 전화드렸어요.",
           },
           {
@@ -1909,7 +1909,7 @@ window.PATTERNS_DATA = [
         ],
         sentences: [
           {
-            en: "Hello, I'm calling to ask about the festival tickets.",
+            en: "Hi, I'm calling to ask about the festival tickets.",
             ko: "안녕하세요, 축제 티켓에 대해 문의하려고 전화드렸어요.",
           },
           {
@@ -1939,7 +1939,7 @@ window.PATTERNS_DATA = [
         keyword: "gym membership & free parking",
         skeleton: [
           {
-            en: "1. Hello, I'm calling to ask about [주제].",
+            en: "1. Hi, I'm calling to ask about [주제].",
             ko: "1. 안녕하세요, [주제]에 대해 여쭤보려고 전화드렸어요.",
           },
           {
@@ -1965,7 +1965,7 @@ window.PATTERNS_DATA = [
         ],
         sentences: [
           {
-            en: "Hello, I'm calling to ask about the gym membership.",
+            en: "Hi, I'm calling to ask about the gym membership.",
             ko: "안녕하세요, 헬스장 회원권에 대해 문의하려고 전화드렸어요.",
           },
           {
