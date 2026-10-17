@@ -3228,12 +3228,13 @@ async function translateToKorean(text) {
   // 2. 1차 번역 엔진: Google Translate API (실시간 전사에 최적화)
   if (Date.now() > googleTranslateCooldownUntil) {
     try {
+      const queryText = clean.slice(0, 300);
       const url =
         "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=" +
-        encodeURIComponent(clean);
+        encodeURIComponent(queryText);
       const res = await fetch(url);
       if (res.status === 429) {
-        googleTranslateCooldownUntil = Date.now() + 60000;
+        googleTranslateCooldownUntil = Date.now() + 600000; // 10분 쿨다운
       } else if (res.ok) {
         const data = await res.json();
         translated = (data[0] || [])
@@ -3242,17 +3243,17 @@ async function translateToKorean(text) {
           .trim();
       }
     } catch (e) {
-      googleTranslateCooldownUntil = Date.now() + 60000;
+      googleTranslateCooldownUntil = Date.now() + 600000;
     }
   }
 
-  // 3. 2차 번역 엔진: MyMemory API 폴백 (429 감지 시 2분 쿨다운)
+  // 3. 2차 번역 엔진: MyMemory API 폴백 (429 감지 시 10분 쿨다운)
   if (!translated && Date.now() > myMemoryCooldownUntil) {
     try {
-      const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean.slice(0, 500))}&langpair=en|ko`;
+      const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean.slice(0, 300))}&langpair=en|ko`;
       const res = await fetch(myMemoryUrl);
       if (res.status === 429) {
-        myMemoryCooldownUntil = Date.now() + 120000;
+        myMemoryCooldownUntil = Date.now() + 600000;
       } else if (res.ok) {
         const data = await res.json();
         if (
@@ -3262,10 +3263,12 @@ async function translateToKorean(text) {
           !data.responseData.translatedText.startsWith("MYMEMORY WARNING:")
         ) {
           translated = data.responseData.translatedText.trim();
+        } else {
+          myMemoryCooldownUntil = Date.now() + 600000;
         }
       }
     } catch (e) {
-      myMemoryCooldownUntil = Date.now() + 120000;
+      myMemoryCooldownUntil = Date.now() + 600000;
     }
   }
 
