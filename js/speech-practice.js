@@ -359,7 +359,12 @@ async function evaluateSpeechPracticeAnswer() {
   // 1. 등급 및 점수 배지
   if (badgesWrap) {
     if (result && result.opicGrade) {
-      const score = result.compResult ? result.compResult.finalScore : 70;
+      const score =
+        typeof result.score === "number"
+          ? result.score
+          : result.compResult
+            ? result.compResult.finalScore
+            : 70;
       badgesWrap.innerHTML = `
         <span class="opic-grade-badge ${result.opicGrade.gradeClass}">${result.opicGrade.label}</span>
         <span class="eval-score-badge ${score >= 80 ? "high" : score >= 50 ? "mid" : "low"}">${score}점</span>

@@ -1419,25 +1419,56 @@ function aggregateAzureSegments(segments) {
     const count = Math.max(1, rawWords.length);
     totalWords += count;
 
-    weightedPron += (nbest.PronScore || 0) * count;
-    weightedAccuracy += (nbest.AccuracyScore || 0) * count;
-    weightedFluency += (nbest.FluencyScore || 0) * count;
-    weightedProsody += (nbest.ProsodyScore || 0) * count;
-    weightedCompleteness += (nbest.CompletenessScore || 0) * count;
+    // Azure STT REST API 및 Speech SDK NBest 객체 구조 지원:
+    // 점수 필드는 NBest[0].PronunciationAssessment 또는 NBest[0].PronAssessment 객체 내에 존재함
+    const pa =
+      nbest.PronunciationAssessment ||
+      nbest.PronAssessment ||
+      nbest;
 
-    if (nbest.Display) {
-      displayTexts.push(nbest.Display);
+    const pron = Number(pa.PronScore ?? nbest.PronScore ?? 0);
+    const acc = Number(pa.AccuracyScore ?? nbest.AccuracyScore ?? 0);
+    const flu = Number(pa.FluencyScore ?? nbest.FluencyScore ?? 0);
+    const pro = Number(pa.ProsodyScore ?? nbest.ProsodyScore ?? 0);
+    const comp = Number(pa.CompletenessScore ?? nbest.CompletenessScore ?? 0);
+
+    weightedPron += pron * count;
+    weightedAccuracy += acc * count;
+    weightedFluency += flu * count;
+    weightedProsody += pro * count;
+    weightedCompleteness += comp * count;
+
+    const display = nbest.Display || nbest.DisplayText || nbest.Lexical;
+    if (display) {
+      displayTexts.push(display);
     }
 
     rawWords.forEach((w) => {
+      // 단어 레벨 점수 및 오류 유형 추출
+      const wpa =
+        w.PronunciationAssessment ||
+        w.PronAssessment ||
+        w;
+
+      const wordAccuracy = Number(wpa.AccuracyScore ?? w.AccuracyScore ?? 0);
+      const wordError = wpa.ErrorType || w.ErrorType || "None";
+
       allWords.push({
         word: w.Word,
-        accuracyScore: Math.round(w.AccuracyScore || 0),
-        errorType: w.ErrorType || "None",
-        phonemes: (w.Phonemes || []).map((p) => ({
-          phoneme: p.Phoneme,
-          accuracyScore: Math.round(p.AccuracyScore || 0),
-        })),
+        accuracyScore: Math.round(wordAccuracy),
+        errorType: wordError,
+        phonemes: (w.Phonemes || []).map((p) => {
+          const ppa =
+            p.PronunciationAssessment ||
+            p.PronAssessment ||
+            p;
+          return {
+            phoneme: p.Phoneme,
+            accuracyScore: Math.round(
+              Number(ppa.AccuracyScore ?? p.AccuracyScore ?? 0),
+            ),
+          };
+        }),
       });
     });
   });
@@ -2739,6 +2770,7 @@ function evaluateOpicSpeaking(userInput, questionItem = null) {
     isAzure: false,
     score: compResult.finalScore,
     opicGrade: compResult.opicGrade,
+    compResult: compResult,
     diffHtml: statsHtml + `<div class="eval-diff">${wordsHtml}</div>`,
     feedback: compResult.feedback,
   };
