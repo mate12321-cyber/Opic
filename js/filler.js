@@ -262,6 +262,7 @@ function renderFillerCard() {
   if (micBtn) {
     micBtn.classList.remove("listening");
     micBtn.innerHTML = `🎤 마이크 켜기`;
+    micBtn.setAttribute("title", "마이크 켜기 (소리 내어 말해보기)");
     micBtn.onclick = () => toggleFillerMic(f.id, f.phrase);
   }
 
@@ -435,7 +436,8 @@ function toggleFillerMic(fillerId, targetPhrase) {
 
     if (micBtn) {
       micBtn.classList.add("listening");
-      micBtn.innerHTML = `🔴 듣는 중... (말씀하세요)`;
+      micBtn.innerHTML = `⏹️ 정지`;
+      micBtn.setAttribute("title", "마이크 끄기 / 정지 (말씀을 마치셨다면 클릭)");
     }
     if (sttBox) {
       sttBox.innerHTML = `<span style="color: #059669; font-weight: 600;">듣고 있습니다... 소리 내어 말해보세요!</span>`;
@@ -510,6 +512,7 @@ function stopFillerMic() {
   if (micBtn) {
     micBtn.classList.remove("listening");
     micBtn.innerHTML = `🎤 마이크 켜기`;
+    micBtn.setAttribute("title", "마이크 켜기 (소리 내어 말해보기)");
   }
 }
 

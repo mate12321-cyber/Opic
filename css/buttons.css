@@ -1363,6 +1363,31 @@ body.dark-theme .google-copy-btn {
   animation: micPulse 1.2s infinite !important;
 }
 
+@media (hover: hover) {
+  .mic-btn.listening:hover,
+  .sentence-mic-btn.listening:hover,
+  .filler-mic-btn-main.listening:hover,
+  .ps-mic-btn.listening:hover {
+    background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%) !important;
+    border-color: #991b1b !important;
+    transform: translateY(-0.5px) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      0 2px 0 #7f1d1d,
+      0 0 16px rgba(239, 68, 68, 0.55) !important;
+  }
+}
+
+.mic-btn.listening:active,
+.sentence-mic-btn.listening:active,
+.filler-mic-btn-main.listening:active,
+.ps-mic-btn.listening:active {
+  transform: translateY(1.5px) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(0, 0, 0, 0.2),
+    0 0 0 #991b1b !important;
+}
+
 /* 블라인드 질문 보기 버튼 (.btn-reveal-blind) */
 .btn-reveal-blind {
   background: #eef2ff !important;

@@ -222,14 +222,18 @@ function updateSpeechPracticeMicUI(isListening) {
 
   if (isListening) {
     btn.classList.add("listening");
+    btn.innerHTML = "⏹️";
+    btn.setAttribute("title", "음성 입력 및 녹음 중지 (클릭 시 정지)");
     if (statusDot) statusDot.className = "sp-status-dot recording";
     if (statusText) {
       statusText.textContent = isMobile
-        ? "🎙️ 음성 인식 중... (말을 마치면 마이크를 다시 누르세요)"
-        : "🎙️ 음성 인식 및 녹음 중... (말을 마치면 마이크를 다시 누르세요)";
+        ? "🎙️ 음성 인식 중... (말을 마치면 정지 버튼(⏹️)을 누르세요)"
+        : "🎙️ 음성 인식 및 녹음 중... (말을 마치면 정지 버튼(⏹️)을 누르세요)";
     }
   } else {
     btn.classList.remove("listening");
+    btn.innerHTML = "🎤";
+    btn.setAttribute("title", "마이크 켜기/끄기 (음성 입력 & 동시 녹음)");
     const input = document.getElementById("speechPracticeInput");
     const currentText = input ? input.value.trim() : "";
     const hasSttTranscribed =

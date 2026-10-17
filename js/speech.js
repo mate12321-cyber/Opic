@@ -3513,6 +3513,49 @@ function splitIntoVirtualSentences(text) {
 let userExplicitlyStoppedMic = false;
 
 /**
+ * 마이크/녹음 버튼을 '듣는 중(정지 가능)' 상태(⏹️)로 전환
+ * @param {HTMLElement|null} btn - 대상 마이크 버튼
+ */
+function setMicBtnListeningUI(btn) {
+  if (!btn) return;
+  btn.classList.add("listening");
+  if (!btn.hasAttribute("data-orig-html")) {
+    btn.setAttribute("data-orig-html", btn.innerHTML.trim() || "🎤");
+  }
+  if (!btn.hasAttribute("data-orig-title")) {
+    btn.setAttribute("data-orig-title", btn.getAttribute("title") || "");
+  }
+  btn.innerHTML = "⏹️";
+  btn.setAttribute("title", "음성 입력 및 녹음 중지 (클릭 시 정지)");
+}
+
+/**
+ * 마이크/녹음 버튼을 원래 대기 상태(🎤)로 복원
+ * @param {HTMLElement|null} btn - 대상 마이크 버튼
+ */
+function resetMicBtnListeningUI(btn) {
+  if (!btn) return;
+  btn.classList.remove("listening");
+  if (btn.hasAttribute("data-orig-html")) {
+    btn.innerHTML = btn.getAttribute("data-orig-html") || "🎤";
+    btn.removeAttribute("data-orig-html");
+  } else {
+    btn.innerHTML = "🎤";
+  }
+  if (btn.hasAttribute("data-orig-title")) {
+    const origTitle = btn.getAttribute("data-orig-title");
+    if (origTitle) {
+      btn.setAttribute("title", origTitle);
+    } else {
+      btn.removeAttribute("title");
+    }
+    btn.removeAttribute("data-orig-title");
+  }
+}
+window.setMicBtnListeningUI = setMicBtnListeningUI;
+window.resetMicBtnListeningUI = resetMicBtnListeningUI;
+
+/**
  * 마이크 수신 상태 UI 비활성화 및 타이머 정리
  */
 function stopListeningUI() {
@@ -3527,13 +3570,13 @@ function stopListeningUI() {
     speechRestartTimer = null;
   }
   if (activeTarget && activeTarget.btn) {
-    activeTarget.btn.classList.remove("listening");
+    resetMicBtnListeningUI(activeTarget.btn);
   }
-  if (els.micBtn) els.micBtn.classList.remove("listening");
-  if (els.opicMicBtn) els.opicMicBtn.classList.remove("listening");
-  if (els.patternMicBtn) els.patternMicBtn.classList.remove("listening");
+  if (els.micBtn) resetMicBtnListeningUI(els.micBtn);
+  if (els.opicMicBtn) resetMicBtnListeningUI(els.opicMicBtn);
+  if (els.patternMicBtn) resetMicBtnListeningUI(els.patternMicBtn);
   const spMicBtn = document.getElementById("speechPracticeMicBtn");
-  if (spMicBtn) spMicBtn.classList.remove("listening");
+  if (spMicBtn) resetMicBtnListeningUI(spMicBtn);
   if (typeof updateSpeechPracticeMicUI === "function")
     updateSpeechPracticeMicUI(false);
 
@@ -3787,7 +3830,7 @@ function toggleSpeechRecognition(
     micStarted = true;
   }
 
-  if (targetBtn) targetBtn.classList.add("listening");
+  if (targetBtn) setMicBtnListeningUI(targetBtn);
 
   if (isOpic && typeof startSpeakingTimer === "function") {
     startSpeakingTimer();
@@ -4038,7 +4081,7 @@ function createSpeechRecognitionInstance() {
     }
     clearMicError();
     if (activeTarget && activeTarget.btn) {
-      activeTarget.btn.classList.add("listening");
+      setMicBtnListeningUI(activeTarget.btn);
     }
   };
 
@@ -4102,7 +4145,7 @@ function createSpeechRecognitionInstance() {
         `[SpeechRecognition] Non-fatal STT error (${e.error}) suppressed during speech recording; Whisper AI will handle transcription on stop.`,
       );
       if (activeTarget && activeTarget.btn) {
-        activeTarget.btn.classList.add("listening");
+        setMicBtnListeningUI(activeTarget.btn);
       }
       return;
     }
@@ -4271,7 +4314,14 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
     micBtn.classList.add("listening");
     const origHtml = micBtn.innerHTML;
     micBtn.setAttribute("data-orig-html", origHtml);
-    micBtn.innerHTML = "🔴 듣는 중...";
+    const origTitle = micBtn.getAttribute("title") || "";
+    micBtn.setAttribute("data-orig-title", origTitle);
+    micBtn.setAttribute("title", "말하기 중지 (클릭 시 정지)");
+    if (micBtn.classList.contains("sentence-mic-btn")) {
+      micBtn.innerHTML = "⏹️";
+    } else {
+      micBtn.innerHTML = "⏹️ 정지";
+    }
 
     if (evalBoxEl) {
       evalBoxEl.style.display = "block";
@@ -4365,8 +4415,14 @@ function stopSingleSentenceSpeech() {
   }
   if (btn) {
     btn.classList.remove("listening");
-    const origHtml = btn.getAttribute("data-orig-html") || "🎤 말하기";
+    const origHtml = btn.getAttribute("data-orig-html") || "🎤";
     btn.innerHTML = origHtml;
+    const origTitle = btn.getAttribute("data-orig-title");
+    if (origTitle) {
+      btn.setAttribute("title", origTitle);
+      btn.removeAttribute("data-orig-title");
+    }
+    btn.removeAttribute("data-orig-html");
   }
   activeSingleSentenceRec = null;
 }
