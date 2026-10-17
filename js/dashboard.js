@@ -85,6 +85,9 @@ function hideAllScreens() {
   if (typeof stopPatternSpeakingTimer === "function") {
     stopPatternSpeakingTimer();
   }
+  if (typeof stopSlotMachineTimers === "function") {
+    stopSlotMachineTimers();
+  }
   if (typeof stopFillerMic === "function") {
     stopFillerMic();
   }

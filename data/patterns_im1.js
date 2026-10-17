@@ -471,31 +471,31 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🎵 음악",
-        keyword: "soft ballads & acoustic pop",
+        keyword: "K-pop & BTS",
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, my favorite music is acoustic pop.",
-            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 음악은 어쿠스틱 팝이에요.",
+            en: "Well, let me see... You know, Eva, my favorite music is K-pop.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 음악은 K-pop이에요.",
           },
           {
-            en: "My favorite singer is Roy Kim, and I love his sweet voice.",
-            ko: "제가 가장 좋아하는 가수는 로이킴이고, 그의 감미로운 목소리를 정말 좋아해요.",
+            en: "My favorite singer is BTS, and I love their sweet voices.",
+            ko: "제가 가장 좋아하는 가수는 BTS이고, 그들의 감미로운 목소리를 정말 좋아해요.",
           },
           {
             en: "How can I say... the melody is very clean, comfortable, and cozy.",
             ko: "뭐라고 말해야 할까... 멜로디가 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are sweet voices and soft guitar sounds, so it makes me feel so happy and relaxed.",
-            ko: "감미로운 목소리와 부드러운 기타 소리가 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
+            en: "There are sweet voices and trendy sounds, so it makes me feel so happy and relaxed.",
+            ko: "감미로운 목소리와 세련된 사운드가 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
           },
           {
-            en: "When I listen to it, I usually close my eyes, and just relax.",
-            ko: "그 음악을 들을 때, 저는 보통 눈을 감고 그냥 편하게 쉬어요.",
+            en: "When I listen to music, I usually close my eyes, and just relax.",
+            ko: "음악을 들을 때, 저는 보통 눈을 감고 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I listen to it about two or three times a day.",
-            ko: "그래서 저는 그 음악을 대략 하루에 2~3번 정도 들어요.",
+            en: "So, I listen to music about two or three times a day.",
+            ko: "그래서 저는 음악을 대략 하루에 2~3번 정도 들어요.",
           },
         ],
       },

@@ -1665,16 +1665,16 @@ window.QUESTIONS_DATA = [
     q_ko: "설문에서 음악 감상을 좋아한다고 하셨습니다. 어떤 음악을 좋아하시고 가장 좋아하는 가수는 누구인가요? 왜 좋아하시나요?",
     sentences: [
       {
-        en: "Whenever I listen to music, my favorite genres are soft ballads and acoustic pop.",
-        ko: "음악을 들을 때마다, 제가 가장 좋아하는 장르는 잔잔한 발라드와 어쿠스틱 팝이에요.",
+        en: "Whenever I listen to music, my favorite genre is K-pop.",
+        ko: "음악을 들을 때마다, 제가 가장 좋아하는 장르는 K-pop이에요.",
       },
       {
-        en: "My favorite singers are Roy Kim and The Beatles.",
-        ko: "제가 가장 좋아하는 가수는 로이킴과 비틀즈입니다.",
+        en: "My favorite singers are BTS and The Beatles.",
+        ko: "제가 가장 좋아하는 가수는 BTS와 비틀즈입니다.",
       },
       {
-        en: "I love Roy Kim's sweet voice and The Beatles' famous songs.",
-        ko: "로이킴의 감미로운 목소리와 비틀즈의 유명한 노래들을 정말 좋아해요.",
+        en: "I love BTS's great songs and sweet voices.",
+        ko: "BTS의 멋진 노래들과 감미로운 목소리를 정말 좋아해요.",
       },
       {
         en: "I usually listen to music with wireless earphones while walking in the park near my house.",
@@ -1690,14 +1690,14 @@ window.QUESTIONS_DATA = [
       },
     ],
     keywords: [
-      "soft ballads and acoustic pop",
-      "Roy Kim and The Beatles",
-      "sweet voice and famous songs",
+      "K-pop",
+      "BTS and The Beatles",
+      "great songs and sweet voices",
       "earphones in park near house",
       "makes me relaxed",
       "always makes me happy",
     ],
-    tip: "[초간단 음악 선호] 감성 발라드/어쿠스틱 팝 → 로이킴 & 비틀즈 → 집 근처 공원 산책 중 감상 → 퇴근 후 힐링 → 필수 일상.",
+    tip: "[초간단 음악 선호] K-pop → BTS & 비틀즈 → 집 근처 공원 산책 중 감상 → 퇴근 후 힐링 → 필수 일상.",
   },
   {
     id: "q_music_02",

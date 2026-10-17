@@ -1,14 +1,15 @@
 /**
  * @file pattern-game.js
  * @description [모드 4-2] 만능 패턴 게임 훈련 (Pattern Game Training) 컨트롤러
- * - 게임 1: 「슬롯 조립 퍼즐 (Block / Slot Assembly Game)」
- * - 6대 만능 패턴의 고정 뼈대(skeleton)와 주제별 문장(variations)을 비교 분석하여
+ * - 게임 1 (puzzle): 「🧩 슬롯 조립 퍼즐 (Block / Slot Assembly Game)」
+ *   6대 만능 패턴의 고정 뼈대(skeleton)와 주제별 문장(variations)을 비교 분석하여
  *   주제마다 바뀌는 핵심 가변 슬롯(Slot)을 자동으로 추출하고 조립 퍼즐을 생성합니다.
- * - 다른 주제의 슬롯 조각을 오답 함정 카드(Distractors)로 섞어 제공하며,
- *   정답 스냅 효과, TTS 자동 발음, 콤보/점수/클리어 기록 영속화를 지원합니다.
+ * - 게임 2 (slotmachine): 「🎰 랜덤 슬롯머신 5초 순발력 챌린지 (Slot Machine Roulette)」
+ *   고정된 뼈대 문장에서 슬롯머신 룰렛이 돌아가며 주제가 무작위로 바뀌면,
+ *   제한 시간(기본 5초) 안에 해당 주제의 알맞은 영어 슬롯 블록을 순발력 있게 고르는 게임입니다.
  *
  * @author Kim Hyo-sang
- * @version 2.2.5
+ * @version 2.3.0
  */
 
 // =============================================================================
@@ -16,45 +17,50 @@
 // =============================================================================
 
 const PATTERN_GAME_STORAGE_KEY = "opic_pattern_game_clears_v1";
+const SLOT_MACHINE_STORAGE_KEY = "opic_slot_machine_records_v1";
+
+/** @type {'puzzle' | 'slotmachine'} 현재 선택된 게임 서브모드 */
+let pgGameMode = "puzzle";
 
 let pgCurPatternIdx = 0; // 현재 선택된 만능 패턴 인덱스 (0 ~ 5)
 let pgCurVarIdx = 0; // 현재 선택된 주제 스테이지 인덱스
 let pgShowKoHint = true; // 한글 해석 힌트 표시 여부
 
-let pgCombo = 0; // 연속 정답 콤보
-let pgScore = 0; // 누적 점수
-let pgClearsMap = {}; // 스테이지 클리어 기록 { "pat_01_0": true, ... }
+let pgCombo = 0; // 연속 정답 콤보 (Game 1)
+let pgScore = 0; // 누적 점수 (Game 1)
+let pgClearsMap = {}; // Game 1 스테이지 클리어 기록 { "pat_01_0": true, ... }
+let smRecordsMap = {}; // Game 2 패턴별 최고 기록 { "pat_01": { bestCombo: 8, bestScore: 1200, clears: 2 } }
 
 /**
- * 현재 스테이지의 슬롯 퍼즐 상태
- * @type {{
- *   sentences: Array<{
- *     senIdx: number,
- *     enFull: string,
- *     koFull: string,
- *     segments: Array<{ type: 'text'|'slot', text: string, slotId?: number, label?: string }>
- *   }>,
- *   slots: Array<{
- *     slotId: number,
- *     senIdx: number,
- *     label: string,
- *     answer: string,
- *     filled: boolean,
- *     justSnapped?: boolean
- *   }>,
- *   activeSlotId: number | null,
- *   deck: Array<{
- *     cardId: string,
- *     text: string,
- *     isUsed: boolean
- *   }>
- * }}
+ * [Game 1] 현재 스테이지의 슬롯 퍼즐 상태
  */
 let pgStageState = {
   sentences: [],
   slots: [],
   activeSlotId: null,
   deck: [],
+};
+
+/**
+ * [Game 2] 랜덤 슬롯머신 5초 챌린지 상태
+ */
+let smState = {
+  totalRounds: 10,
+  curRound: 1,
+  timeLimitSec: 5, // 5초(실전), 8초(여유), 0(무제한)
+  remainingMs: 5000,
+  timerInterval: null,
+  spinTimeout: null,
+  nextRoundTimeout: null,
+  isSpinning: false,
+  isRoundResolved: false,
+  combo: 0,
+  maxCombo: 0,
+  score: 0,
+  correctCount: 0,
+  sentenceFilter: "all", // 'all' 또는 0~5 문장 인덱스
+  currentQuestion: null, // 현재 라운드 출제 슬롯 정보
+  options: [], // 4지선다 보기 배열
 };
 
 // =============================================================================
@@ -70,11 +76,28 @@ function loadPatternGameClears() {
   } catch (e) {
     pgClearsMap = {};
   }
+  try {
+    const rawSm = localStorage.getItem(SLOT_MACHINE_STORAGE_KEY);
+    if (rawSm) {
+      smRecordsMap = JSON.parse(rawSm) || {};
+    }
+  } catch (e) {
+    smRecordsMap = {};
+  }
 }
 
 function savePatternGameClears() {
   try {
     localStorage.setItem(PATTERN_GAME_STORAGE_KEY, JSON.stringify(pgClearsMap));
+  } catch (e) {}
+}
+
+function saveSlotMachineRecords() {
+  try {
+    localStorage.setItem(
+      SLOT_MACHINE_STORAGE_KEY,
+      JSON.stringify(smRecordsMap),
+    );
   } catch (e) {}
 }
 
@@ -90,18 +113,21 @@ function getPatternClearedCount(patIdx) {
 }
 
 function getTotalPatternGameClears() {
-  return Object.keys(pgClearsMap).filter((k) => pgClearsMap[k]).length;
+  loadPatternGameClears();
+  const puzzleClears = Object.keys(pgClearsMap).filter(
+    (k) => pgClearsMap[k],
+  ).length;
+  const smClears = Object.values(smRecordsMap).reduce(
+    (acc, r) => acc + (r && r.clears ? r.clears : 0),
+    0,
+  );
+  return puzzleClears + smClears;
 }
 
 // =============================================================================
 // 3. 핵심 알고리즘: 뼈대(Skeleton) vs 변형(Variation) 슬롯 자동 추출기
 // =============================================================================
 
-/**
- * 문장 앞의 번호("1. ", "2. ")를 제거합니다.
- * @param {string} str
- * @returns {string}
- */
 function stripLeadingNumber(str) {
   return String(str || "")
     .replace(/^\d+\.\s*/, "")
@@ -109,18 +135,7 @@ function stripLeadingNumber(str) {
 }
 
 /**
- * 스켈레톤 문장(예: "There are [특징 1] and [특징 2], so it makes me...")과
- * 실제 주제 문장(예: "There are large windows and nice seats, so it makes me...")을 비교해
- * 텍스트 구간과 슬롯 구간 배열을 반환합니다.
- *
- * 만약 주제 문장이 스켈레톤의 고정 텍스트와 일부 달라서 정규식 매칭이 안 될 경우,
- * 다른 주제 문장들과의 단어 비교(Prefix/Suffix 공통 부분 제거)를 통해 핵심 가변 구문을 스마트하게 추출합니다.
- *
- * @param {string} skelEn - 스켈레톤 영문 문장
- * @param {string} targetEn - 현재 주제의 영문 문장
- * @param {string[]} siblingEnList - 같은 패턴 내 다른 주제들의 동일 번호 영문 문장 목록
- * @param {number} senIdx - 문장 인덱스 (0~5)
- * @returns {Array<{ type: 'text'|'slot', text: string, label?: string }>}
+ * 스켈레톤 문장과 실제 주제 문장을 비교해 텍스트 구간과 슬롯 구간 배열을 반환합니다.
  */
 function extractSentenceSegments(skelEn, targetEn, siblingEnList, senIdx) {
   const cleanSkel = stripLeadingNumber(skelEn);
@@ -130,15 +145,11 @@ function extractSentenceSegments(skelEn, targetEn, siblingEnList, senIdx) {
   const slotMatches = [...cleanSkel.matchAll(/\[([^\]]+)\]/g)];
   if (slotMatches.length > 0) {
     const labels = slotMatches.map((m) => m[1]);
-    // 스켈레톤을 [슬롯] 기준으로 분할한 고정 텍스트 조각들
     const staticParts = cleanSkel.split(/\[[^\]]+\]/g);
 
-    // 정규식 패턴 생성 (고정 조각들을 escape하고 슬롯 자리에 (.+?) 배치)
     const regexParts = [];
     for (let i = 0; i < staticParts.length; i++) {
-      regexParts.push(
-        staticParts[i].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-      );
+      regexParts.push(staticParts[i].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
       if (i < labels.length) {
         regexParts.push("(.+?)");
       }
@@ -166,16 +177,13 @@ function extractSentenceSegments(skelEn, targetEn, siblingEnList, senIdx) {
   }
 
   // 2. 다른 주제들의 같은 번호 문장과 비교하여 가변 구간(Diff Span) 자동 추출
-  // (예: 스켈레톤에 대괄호가 없지만 주제별로 단어가 바뀌는 문장이나, 문장 구조가 약간 변형된 경우)
   if (siblingEnList && siblingEnList.length > 1) {
     const targetWords = cleanTarget.split(/\s+/);
-    // 가장 비슷한 형제 문장 하나(단, 완전히 같지는 않은 문장)들을 대상으로 공통 접두/접미어 탐색
     const diffCandidates = siblingEnList
       .map((s) => stripLeadingNumber(s))
       .filter((s) => s && s.toLowerCase() !== cleanTarget.toLowerCase());
 
     if (diffCandidates.length > 0) {
-      // 형제 문장들 중 공통 토큰 수가 가장 많은 문장 선택
       let bestSiblingWords = null;
       let bestOverlapScore = -1;
 
@@ -211,7 +219,6 @@ function extractSentenceSegments(skelEn, targetEn, siblingEnList, senIdx) {
         const middleWords = targetWords.slice(p, targetWords.length - s);
         const suffixWords = targetWords.slice(targetWords.length - s);
 
-        // 중간 가변 구간이 너무 길지 않을 때(1~7단어) 슬롯으로 채택
         if (middleWords.length >= 1 && middleWords.length <= 7) {
           let middleText = middleWords.join(" ");
           let trailingPunct = "";
@@ -244,7 +251,7 @@ function extractSentenceSegments(skelEn, targetEn, siblingEnList, senIdx) {
     }
   }
 
-  // 3. 스켈레톤에 [슬롯]이 있었으나 위 매칭에 모두 실패한 경우: 문장 후반부 핵심 구문을 슬롯화
+  // 3. 스켈레톤에 [슬롯]이 있었으나 위 매칭에 실패한 경우: 문장 후반부 핵심 구문을 슬롯화
   if (slotMatches.length > 0) {
     const words = cleanTarget.split(/\s+/);
     if (words.length >= 5) {
@@ -265,13 +272,88 @@ function extractSentenceSegments(skelEn, targetEn, siblingEnList, senIdx) {
     }
   }
 
-  // 4. 고정 뼈대 문장 (모든 주제에서 동일한 문장)
+  // 4. 고정 뼈대 문장
   return [{ type: "text", text: cleanTarget }];
 }
 
+// =============================================================================
+// 4. 게임 모드 전환 (Mode 1: Puzzle ↔ Mode 2: Slot Machine)
+// =============================================================================
+
 /**
- * 현재 선택된 패턴과 주제(variation)에 대한 조립 퍼즐 스테이지 데이터를 생성합니다.
+ * 슬롯머신 타이머 및 진행 중인 스핀 애니메이션을 모두 정리합니다.
  */
+function stopSlotMachineTimers() {
+  if (smState.timerInterval) {
+    clearInterval(smState.timerInterval);
+    smState.timerInterval = null;
+  }
+  if (smState.spinTimeout) {
+    clearTimeout(smState.spinTimeout);
+    smState.spinTimeout = null;
+  }
+  if (smState.nextRoundTimeout) {
+    clearTimeout(smState.nextRoundTimeout);
+    smState.nextRoundTimeout = null;
+  }
+  smState.isSpinning = false;
+}
+
+/**
+ * 게임 서브모드('puzzle' | 'slotmachine')를 전환합니다.
+ * @param {'puzzle' | 'slotmachine'} mode
+ */
+function switchPatternGameMode(mode) {
+  if (mode !== "puzzle" && mode !== "slotmachine") return;
+  if (typeof stopTTS === "function") stopTTS();
+  stopSlotMachineTimers();
+
+  pgGameMode = mode;
+
+  // 로비 탭 활성화 상태 동기화
+  const lobbyPuzzleBtn = document.getElementById("pgLobbyTabPuzzle");
+  const lobbySmBtn = document.getElementById("pgLobbyTabSlotMachine");
+  if (lobbyPuzzleBtn)
+    lobbyPuzzleBtn.classList.toggle("active", mode === "puzzle");
+  if (lobbySmBtn)
+    lobbySmBtn.classList.toggle("active", mode === "slotmachine");
+
+  // 카드 상단 스위처 버튼 동기화
+  const cardPuzzleBtn = document.getElementById("pgCardModePuzzleBtn");
+  const cardSmBtn = document.getElementById("pgCardModeSlotMachineBtn");
+  if (cardPuzzleBtn)
+    cardPuzzleBtn.classList.toggle("active", mode === "puzzle");
+  if (cardSmBtn)
+    cardSmBtn.classList.toggle("active", mode === "slotmachine");
+
+  // 로비 화면이 열려 있다면 스테이지 카드 뱃지 재렌더링
+  const lobbyScreen = document.getElementById("patternGameTopicScreen");
+  if (lobbyScreen && lobbyScreen.style.display !== "none") {
+    renderPatternGameLobby();
+  }
+
+  // 플레이 카드 화면이 열려 있다면 해당 모드 뷰로 즉시 전환
+  const gameCard = document.getElementById("patternGameCard");
+  if (gameCard && gameCard.style.display !== "none") {
+    startPatternGameStage();
+  }
+}
+
+/**
+ * 상단 우측 [🎲 랜덤 주제 / 즉시 스핀] 버튼 액션
+ */
+function randomPatternGameAction() {
+  if (pgGameMode === "slotmachine") {
+    spinSlotMachineRound();
+  } else {
+    randomPatternGameTopic();
+  }
+}
+
+// =============================================================================
+// 5. [GAME 1] 슬롯 조립 퍼즐 스테이지 빌더 & 렌더러
+// =============================================================================
+
 function buildPatternGameStage() {
   const items = window.PATTERNS_DATA || [];
   const pat = items[pgCurPatternIdx];
@@ -327,7 +409,6 @@ function buildPatternGameStage() {
     });
   });
 
-  // 만약 추출된 슬롯이 너무 적으면(예: 1개 이하), 4번/5번 핵심 문장의 후반부를 추가 슬롯으로 보강
   if (stageSlots.length < 2 && stageSentences.length >= 5) {
     [3, 4].forEach((targetSenIdx) => {
       const sen = stageSentences[targetSenIdx];
@@ -370,10 +451,8 @@ function buildPatternGameStage() {
     });
   }
 
-  // 슬롯 번호를 문장 순서대로 재정렬
   stageSlots.sort((a, b) => a.senIdx - b.senIdx || a.slotId - b.slotId);
 
-  // 오답 함정 블록(Distractors) 추출: 같은 패턴의 다른 주제들에서 슬롯 텍스트 수집
   const answerSet = new Set(
     stageSlots.map((s) => s.answer.toLowerCase().trim()),
   );
@@ -400,7 +479,6 @@ function buildPatternGameStage() {
     });
   });
 
-  // 함정 블록 무작위 셔플 후 4개 선택
   for (let i = distractorPool.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [distractorPool[i], distractorPool[j]] = [
@@ -410,7 +488,6 @@ function buildPatternGameStage() {
   }
   const chosenDistractors = distractorPool.slice(0, 4);
 
-  // 덱 카드 생성 (정답 카드 + 함정 카드)
   const deckCards = [
     ...stageSlots.map((s, idx) => ({
       cardId: `ans_${idx}_${s.slotId}`,
@@ -424,7 +501,6 @@ function buildPatternGameStage() {
     })),
   ];
 
-  // 덱 카드 무작위 셔플
   for (let i = deckCards.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [deckCards[i], deckCards[j]] = [deckCards[j], deckCards[i]];
@@ -438,12 +514,8 @@ function buildPatternGameStage() {
   };
 }
 
-// =============================================================================
-// 4. 로비 및 게임 보드 UI 렌더링 (Renderers)
-// =============================================================================
-
 /**
- * 만능 패턴 게임 훈련 로비 화면(#patternGameTopicScreen)의 6대 패턴 스테이지 카드를 렌더링합니다.
+ * 만능 패턴 게임 훈련 로비 화면(#patternGameTopicScreen)을 렌더링합니다.
  */
 function renderPatternGameLobby() {
   loadPatternGameClears();
@@ -456,17 +528,30 @@ function renderPatternGameLobby() {
     return;
   }
 
+  // 로비 모드 탭 상태 동기화
+  const lobbyPuzzleBtn = document.getElementById("pgLobbyTabPuzzle");
+  const lobbySmBtn = document.getElementById("pgLobbyTabSlotMachine");
+  if (lobbyPuzzleBtn)
+    lobbyPuzzleBtn.classList.toggle("active", pgGameMode === "puzzle");
+  if (lobbySmBtn)
+    lobbySmBtn.classList.toggle("active", pgGameMode === "slotmachine");
+
   const totalClearsBadge = document.getElementById(
     "patternGameTotalClearsBadge",
   );
   if (totalClearsBadge) {
-    totalClearsBadge.textContent = `🏆 총 ${getTotalPatternGameClears()}개 주제 클리어`;
+    totalClearsBadge.textContent = `🏆 총 ${getTotalPatternGameClears()}회 클리어`;
   }
 
   container.innerHTML = items
     .map((pat, idx) => {
       const totalVars = pat.variations ? pat.variations.length : 0;
       const clearedVars = getPatternClearedCount(idx);
+      const smRec = smRecordsMap[pat.id] || {
+        bestCombo: 0,
+        bestScore: 0,
+        clears: 0,
+      };
       const slotBadge = pat.slotBadge
         ? `<span class="pattern-slot-badge ${pat.slotClass || "slot-step1"}">${safeEscapeHtml(pat.slotBadge)}</span>`
         : "";
@@ -476,6 +561,15 @@ function renderPatternGameLobby() {
           ? stripLeadingNumber(pat.skeleton[0].en)
           : "";
 
+      const progressBadgeHtml =
+        pgGameMode === "slotmachine"
+          ? `<span class="pattern-combo-badge pg-badge-sm">
+               🎰 최고 ${smRec.bestCombo}콤보 · ${smRec.clears}회 완주
+             </span>`
+          : `<span class="pattern-combo-badge pg-badge-puzzle">
+               🧩 ${clearedVars} / ${totalVars} 조립 클리어
+             </span>`;
+
       return `
         <button type="button" class="pattern-select-card" onclick="openPatternGameStage(${idx}, 0)">
           <div class="pattern-select-icon">${pat.icon || "🎮"}</div>
@@ -484,16 +578,14 @@ function renderPatternGameLobby() {
               <span class="pattern-select-name-text">STAGE ${idx + 1}. ${safeEscapeHtml(pat.name)}</span>
               <div class="pattern-badge-group">
                 ${slotBadge}
-                <span class="pattern-combo-badge" style="color:#6d28d9; background:#ede9fe; border-color:#ddd6fe;">
-                  🕹️ ${clearedVars} / ${totalVars} 클리어
-                </span>
+                ${progressBadgeHtml}
               </div>
             </div>
             <div class="pattern-match-summary">
               <span class="pms-icon">🎯</span>
               <span class="pms-text">${safeEscapeHtml(pat.whenToUse || pat.desc)}</span>
             </div>
-            <div style="font-size:12px; color:#6d28d9; font-weight:600; background:#f5f3ff; padding:5px 9px; border-radius:6px; border:1px dashed #c4b5fd; margin-top:2px;">
+            <div class="pg-stage-skel-preview">
               🧩 대표 뼈대: ${formatSlotText(sampleSkel)}
             </div>
           </div>
@@ -504,10 +596,7 @@ function renderPatternGameLobby() {
 }
 
 /**
- * 특정 패턴 및 주제 인덱스로 슬롯 조립 게임을 시작합니다.
- * @param {number} patIdx
- * @param {number} [varIdx=0]
- * @param {boolean} [pushHistory=true]
+ * 특정 패턴 및 주제 인덱스로 게임 화면에 진입합니다.
  */
 function openPatternGameStage(patIdx, varIdx = 0, pushHistory = true) {
   const items = window.PATTERNS_DATA || [];
@@ -522,7 +611,7 @@ function openPatternGameStage(patIdx, varIdx = 0, pushHistory = true) {
   if (typeof navigateTo === "function") {
     navigateTo(
       "patternGameCard",
-      { patIdx: pgCurPatternIdx, varIdx: pgCurVarIdx },
+      { patIdx: pgCurPatternIdx, varIdx: pgCurVarIdx, mode: pgGameMode },
       pushHistory,
     );
     return;
@@ -530,17 +619,37 @@ function openPatternGameStage(patIdx, varIdx = 0, pushHistory = true) {
 }
 
 /**
- * 현재 설정된 패턴과 주제로 게임 스테이지를 초기화하고 화면을 렌더링합니다.
+ * 현재 설정된 게임 모드(puzzle 또는 slotmachine)에 맞춰 스테이지를 시작합니다.
  */
 function startPatternGameStage() {
   loadPatternGameClears();
-  buildPatternGameStage();
-  renderPatternGameCardUI();
+  stopSlotMachineTimers();
+
+  const puzzleView = document.getElementById("pgPuzzleView");
+  const smView = document.getElementById("pgSlotMachineView");
+  const cardPuzzleBtn = document.getElementById("pgCardModePuzzleBtn");
+  const cardSmBtn = document.getElementById("pgCardModeSlotMachineBtn");
+  const randomBtn = document.getElementById("pgRandomTopicBtn");
+
+  if (cardPuzzleBtn)
+    cardPuzzleBtn.classList.toggle("active", pgGameMode === "puzzle");
+  if (cardSmBtn)
+    cardSmBtn.classList.toggle("active", pgGameMode === "slotmachine");
+
+  if (pgGameMode === "slotmachine") {
+    if (puzzleView) puzzleView.style.display = "none";
+    if (smView) smView.style.display = "block";
+    if (randomBtn) randomBtn.textContent = "🎰 즉시 스핀";
+    startSlotMachineGame();
+  } else {
+    if (puzzleView) puzzleView.style.display = "block";
+    if (smView) smView.style.display = "none";
+    if (randomBtn) randomBtn.textContent = "🎲 랜덤 주제";
+    buildPatternGameStage();
+    renderPatternGameCardUI();
+  }
 }
 
-/**
- * 게임 카드 전체 UI(헤더, 주제 칩, HUD, 6문장 조립 보드, 블록 덱)를 업데이트합니다.
- */
 function renderPatternGameCardUI() {
   const items = window.PATTERNS_DATA || [];
   const pat = items[pgCurPatternIdx];
@@ -549,13 +658,11 @@ function renderPatternGameCardUI() {
   const curVar = pat.variations[pgCurVarIdx];
   const cleanTopic = (curVar.topic || "").replace(/\s*\([^)]*\)/g, "").trim();
 
-  // 1. 상단 타이틀
   const titleEl = document.getElementById("pgMainTitle");
   if (titleEl) {
     titleEl.innerHTML = `${pat.icon || "🧩"} ${safeEscapeHtml(pat.name)} · 조립 퍼즐`;
   }
 
-  // 2. 미션 주제 뱃지 & 에바 질문 연동
   const topicBadge = document.getElementById("pgTopicBadge");
   if (topicBadge) {
     topicBadge.textContent = cleanTopic;
@@ -582,7 +689,6 @@ function renderPatternGameCardUI() {
     };
   }
 
-  // 3. 주제 선택 칩 렌더링 (클리어한 주제는 ✓ 표시)
   const chipsWrap = document.getElementById("pgTopicChips");
   if (chipsWrap && pat.variations) {
     chipsWrap.innerHTML = pat.variations
@@ -604,7 +710,6 @@ function renderPatternGameCardUI() {
       .join("");
   }
 
-  // 4. 전체 6문장 듣기 버튼 바인딩
   const listenAllBtn = document.getElementById("pgListenAllBtn");
   const clearListenBtn = document.getElementById("pgClearListenBtn");
   const fullSpeech = curVar.sentences
@@ -626,13 +731,9 @@ function renderPatternGameCardUI() {
     };
   }
 
-  // 5. 보드, 덱, HUD 렌더링
   renderPatternGameBoardAndDeck();
 }
 
-/**
- * 진행 상태에 따라 HUD, 6문장 조립 보드, 하단 블록 덱, 클리어 배너를 갱신합니다.
- */
 function renderPatternGameBoardAndDeck() {
   const items = window.PATTERNS_DATA || [];
   const pat = items[pgCurPatternIdx];
@@ -642,7 +743,6 @@ function renderPatternGameBoardAndDeck() {
   const filledSlots = pgStageState.slots.filter((s) => s.filled).length;
   const isAllCleared = totalSlots > 0 && filledSlots === totalSlots;
 
-  // 1. HUD 업데이트
   const hudStage = document.getElementById("pgHudStage");
   if (hudStage) {
     hudStage.textContent = `${pgCurVarIdx + 1} / ${pat.variations.length}`;
@@ -660,7 +760,6 @@ function renderPatternGameBoardAndDeck() {
     hudScore.textContent = `${pgScore}`;
   }
 
-  // 2. 6문장 보드 렌더링
   const boardEl = document.getElementById("pgSentencesBoard");
   if (boardEl) {
     boardEl.innerHTML = pgStageState.sentences
@@ -724,13 +823,11 @@ function renderPatternGameBoardAndDeck() {
       })
       .join("");
 
-    // 스냅 애니메이션 플래그 초기화
     pgStageState.slots.forEach((s) => {
       s.justSnapped = false;
     });
   }
 
-  // 3. 하단 블록 덱 및 클리어 배너 토글
   const deckSection = document.getElementById("pgDeckSection");
   const clearBanner = document.getElementById("pgClearBanner");
   const indicatorEl = document.getElementById("pgActiveSlotIndicator");
@@ -775,14 +872,6 @@ function renderPatternGameBoardAndDeck() {
   }
 }
 
-// =============================================================================
-// 5. 사용자 인터랙션 핸들러 (Slot & Block Click Handlers)
-// =============================================================================
-
-/**
- * 특정 빈칸 슬롯을 타겟으로 활성화합니다.
- * @param {number} slotId
- */
 function setActivePatternGameSlot(slotId) {
   const slotObj = pgStageState.slots.find((s) => s.slotId === slotId);
   if (!slotObj || slotObj.filled) return;
@@ -790,11 +879,13 @@ function setActivePatternGameSlot(slotId) {
   renderPatternGameBoardAndDeck();
 }
 
-/**
- * 하단 블록 덱에서 영어 블록 카드를 클릭했을 때 정답 여부를 판별합니다.
- * @param {number} cardIdx
- */
 function handlePatternGameBlockClick(cardIdx) {
+  // 만약 현재 모드가 슬롯머신이면 슬롯머신 카드 선택 핸들러로 위임 (키보드 단축키 1~4 호환)
+  if (pgGameMode === "slotmachine") {
+    handleSlotMachineOptionClick(cardIdx);
+    return;
+  }
+
   const card = pgStageState.deck[cardIdx];
   if (!card || card.isUsed) return;
 
@@ -811,7 +902,6 @@ function handlePatternGameBlockClick(cardIdx) {
     card.text.trim().toLowerCase() === activeSlot.answer.trim().toLowerCase();
 
   if (isCorrect) {
-    // 정답 처리
     card.isUsed = true;
     activeSlot.filled = true;
     activeSlot.justSnapped = true;
@@ -819,7 +909,6 @@ function handlePatternGameBlockClick(cardIdx) {
     pgCombo++;
     pgScore += 100 + (pgCombo - 1) * 20;
 
-    // 콤보 팝업 효과
     const comboBox = document.getElementById("pgHudComboBox");
     if (comboBox) {
       comboBox.classList.remove("combo-pop");
@@ -827,7 +916,6 @@ function handlePatternGameBlockClick(cardIdx) {
       comboBox.classList.add("combo-pop");
     }
 
-    // 해당 문장의 모든 슬롯이 채워졌는지 확인하여 문장 TTS 자동 재생
     const senIdx = activeSlot.senIdx;
     const senSlots = pgStageState.slots.filter((s) => s.senIdx === senIdx);
     const isSentenceComplete = senSlots.every((s) => s.filled);
@@ -837,11 +925,9 @@ function handlePatternGameBlockClick(cardIdx) {
       speakText(senObj.enFull, "en-US", null);
     }
 
-    // 다음 미완성 슬롯 자동 포커스
     const nextEmpty = pgStageState.slots.find((s) => !s.filled);
     pgStageState.activeSlotId = nextEmpty ? nextEmpty.slotId : null;
 
-    // 모든 슬롯 완료 시 클리어 기록 저장 및 학습 로그 반영
     if (!nextEmpty) {
       const items = window.PATTERNS_DATA || [];
       const pat = items[pgCurPatternIdx];
@@ -856,7 +942,6 @@ function handlePatternGameBlockClick(cardIdx) {
 
     renderPatternGameBoardAndDeck();
   } else {
-    // 오답 처리: 콤보 초기화 & 카드 흔들림 효과
     pgCombo = 0;
     const hudCombo = document.getElementById("pgHudCombo");
     if (hudCombo) hudCombo.textContent = `🔥 0`;
@@ -870,11 +955,587 @@ function handlePatternGameBlockClick(cardIdx) {
   }
 }
 
+// =============================================================================
+// 6. [GAME 2] 🎰 랜덤 슬롯머신 & 5초 순발력 챌린지 엔진
+// =============================================================================
+
 /**
- * 개별 문장의 TTS 발음을 재생합니다.
- * @param {number} senIdx
- * @param {HTMLElement} btnEl
+ * 현재 선택된 만능 패턴(pgCurPatternIdx)의 모든 주제에서 출제 가능한 슬롯 문제 풀을 생성합니다.
  */
+function buildSlotMachinePool(patIdx, senFilter = "all") {
+  const items = window.PATTERNS_DATA || [];
+  const pat = items[patIdx];
+  if (!pat || !pat.variations) return [];
+
+  const pool = [];
+
+  pat.variations.forEach((v, vIdx) => {
+    const cleanTopic = (v.topic || "").replace(/\s*\([^)]*\)/g, "").trim();
+    const activeSkel = v.skeleton || pat.skeleton || [];
+
+    v.sentences.forEach((senObj, sIdx) => {
+      if (senFilter !== "all" && Number(senFilter) !== sIdx) return;
+
+      const skelObj = activeSkel[sIdx] || { en: senObj.en, ko: senObj.ko };
+      const skelEn = typeof skelObj === "object" ? skelObj.en : skelObj;
+      const siblingEnList = pat.variations
+        .map((otherV) =>
+          otherV.sentences && otherV.sentences[sIdx]
+            ? otherV.sentences[sIdx].en
+            : "",
+        )
+        .filter(Boolean);
+
+      const segs = extractSentenceSegments(
+        skelEn,
+        senObj.en,
+        siblingEnList,
+        sIdx,
+      );
+
+      const slotSegIndices = [];
+      segs.forEach((sg, idx) => {
+        if (sg.type === "slot") slotSegIndices.push(idx);
+      });
+
+      slotSegIndices.forEach((targetSegIdx) => {
+        const targetSeg = segs[targetSegIdx];
+        pool.push({
+          vIdx,
+          topic: cleanTopic,
+          senIdx: sIdx,
+          label: targetSeg.label || "핵심 표현",
+          answer: targetSeg.text.trim(),
+          enFull: stripLeadingNumber(senObj.en),
+          koFull: stripLeadingNumber(senObj.ko),
+          segments: segs,
+          targetSegIdx,
+        });
+      });
+    });
+  });
+
+  return pool;
+}
+
+/**
+ * 슬롯머신 10라운드 새 세션을 시작합니다.
+ */
+function startSlotMachineGame() {
+  stopSlotMachineTimers();
+  if (typeof stopTTS === "function") stopTTS();
+
+  const items = window.PATTERNS_DATA || [];
+  const pat = items[pgCurPatternIdx];
+  if (!pat) return;
+
+  const titleEl = document.getElementById("pgMainTitle");
+  if (titleEl) {
+    titleEl.innerHTML = `🎰 ${safeEscapeHtml(pat.name)} · 5초 슬롯머신`;
+  }
+
+  smState.curRound = 1;
+  smState.combo = 0;
+  smState.maxCombo = 0;
+  smState.score = 0;
+  smState.correctCount = 0;
+  smState.isRoundResolved = false;
+
+  const cabinetEl = document.getElementById("smCabinet");
+  const resultBanner = document.getElementById("smResultBanner");
+  if (cabinetEl) cabinetEl.style.display = "block";
+  if (resultBanner) resultBanner.style.display = "none";
+
+  renderSlotMachineSentenceFilter();
+  updateSlotMachineHud();
+  spinSlotMachineRound();
+}
+
+/**
+ * 타겟 문장 필터 칩(전체 랜덤 / 슬롯이 있는 문장 번호)을 렌더링합니다.
+ */
+function renderSlotMachineSentenceFilter() {
+  const wrap = document.getElementById("smSentenceFilterWrap");
+  if (!wrap) return;
+
+  const fullPool = buildSlotMachinePool(pgCurPatternIdx, "all");
+  const availableSenIndices = Array.from(
+    new Set(fullPool.map((item) => item.senIdx)),
+  ).sort((a, b) => a - b);
+
+  // 만약 현재 설정된 문장 필터가 이 패턴에 없으면 'all'로 리셋
+  if (
+    smState.sentenceFilter !== "all" &&
+    !availableSenIndices.includes(Number(smState.sentenceFilter))
+  ) {
+    smState.sentenceFilter = "all";
+  }
+
+  const chips = [
+    `<button type="button" class="sm-sen-chip ${smState.sentenceFilter === "all" ? "active" : ""}" onclick="setSlotMachineSentenceFilter('all')">전체 문장</button>`,
+    ...availableSenIndices.map(
+      (sIdx) =>
+        `<button type="button" class="sm-sen-chip ${Number(smState.sentenceFilter) === sIdx ? "active" : ""}" onclick="setSlotMachineSentenceFilter(${sIdx})">${sIdx + 1}번 문장</button>`,
+    ),
+  ];
+
+  wrap.innerHTML = chips.join("");
+}
+
+/**
+ * 슬롯머신 제한 시간(5초 / 8초 / 무제한)을 변경합니다.
+ * @param {number} sec
+ */
+function setSlotMachineTimeLimit(sec) {
+  smState.timeLimitSec = Number(sec);
+  document.querySelectorAll(".sm-speed-chip").forEach((btn) => {
+    btn.classList.toggle("active", Number(btn.dataset.sec) === smState.timeLimitSec);
+  });
+  spinSlotMachineRound();
+}
+
+/**
+ * 슬롯머신 타겟 문장 필터('all' 또는 0~5)를 변경합니다.
+ * @param {'all'|number} filterVal
+ */
+function setSlotMachineSentenceFilter(filterVal) {
+  smState.sentenceFilter = filterVal === "all" ? "all" : Number(filterVal);
+  renderSlotMachineSentenceFilter();
+  spinSlotMachineRound();
+}
+
+/**
+ * 슬롯머신 룰렛을 회전시켜 새 라운드 문제를 출제합니다.
+ */
+function spinSlotMachineRound() {
+  stopSlotMachineTimers();
+  if (typeof stopTTS === "function") stopTTS();
+
+  const items = window.PATTERNS_DATA || [];
+  const pat = items[pgCurPatternIdx];
+  if (!pat) return;
+
+  let pool = buildSlotMachinePool(pgCurPatternIdx, smState.sentenceFilter);
+  if (!pool.length) {
+    pool = buildSlotMachinePool(pgCurPatternIdx, "all");
+  }
+  if (!pool.length) return;
+
+  // 직전 문제와 다른 문제 우선 추첨
+  let nextQ = pool[Math.floor(Math.random() * pool.length)];
+  if (pool.length > 1 && smState.currentQuestion) {
+    let tries = 0;
+    while (
+      nextQ.vIdx === smState.currentQuestion.vIdx &&
+      nextQ.senIdx === smState.currentQuestion.senIdx &&
+      nextQ.targetSegIdx === smState.currentQuestion.targetSegIdx &&
+      tries < 10
+    ) {
+      nextQ = pool[Math.floor(Math.random() * pool.length)];
+      tries++;
+    }
+  }
+  smState.currentQuestion = nextQ;
+  smState.isRoundResolved = false;
+  smState.isSpinning = true;
+
+  // 오답 보기(Distractors) 3개 생성 (같은 문장 번호의 다른 주제 슬롯 우선)
+  const allPool = buildSlotMachinePool(pgCurPatternIdx, "all");
+  const sameSenDistractors = [];
+  const otherDistractors = [];
+  const normAns = nextQ.answer.toLowerCase();
+
+  allPool.forEach((p) => {
+    const normP = p.answer.toLowerCase();
+    if (normP === normAns) return;
+    if (p.senIdx === nextQ.senIdx) {
+      if (!sameSenDistractors.some((d) => d.toLowerCase() === normP)) {
+        sameSenDistractors.push(p.answer);
+      }
+    } else {
+      if (!otherDistractors.some((d) => d.toLowerCase() === normP)) {
+        otherDistractors.push(p.answer);
+      }
+    }
+  });
+
+  const shuffleArr = (arr) => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  };
+
+  shuffleArr(sameSenDistractors);
+  shuffleArr(otherDistractors);
+
+  const combinedDistractors = [
+    ...sameSenDistractors,
+    ...otherDistractors,
+  ].slice(0, 3);
+
+  const options = shuffleArr([
+    { text: nextQ.answer, isCorrect: true },
+    ...combinedDistractors.map((d) => ({ text: d, isCorrect: false })),
+  ]);
+  smState.options = options;
+
+  // 룰렛 회전 연출 (450ms 동안 빠르게 토픽 이름이 바뀌는 애니메이션)
+  const reelTopicBox = document.getElementById("smReelTopicBox");
+  const reelSlotBox = document.getElementById("smReelSlotBox");
+  const reelTopicVal = document.getElementById("smReelTopicValue");
+  const reelSlotVal = document.getElementById("smReelSlotValue");
+  const statusMsg = document.getElementById("smStatusMsg");
+
+  if (reelTopicBox) reelTopicBox.classList.add("is-spinning");
+  if (reelSlotBox) reelSlotBox.classList.add("is-spinning");
+  if (statusMsg) {
+    statusMsg.textContent = "🎰 슬롯머신 룰렛 회전 중...";
+    statusMsg.className = "sm-status-msg";
+  }
+
+  let spinTick = 0;
+  const spinEffectInterval = setInterval(() => {
+    const randItem = pool[spinTick % pool.length];
+    if (reelTopicVal && randItem) reelTopicVal.textContent = randItem.topic;
+    if (reelSlotVal && randItem)
+      reelSlotVal.textContent = `문장 ${randItem.senIdx + 1} · [${randItem.label}]`;
+    spinTick++;
+  }, 55);
+
+  smState.spinTimeout = setTimeout(() => {
+    clearInterval(spinEffectInterval);
+    smState.isSpinning = false;
+    if (reelTopicBox) reelTopicBox.classList.remove("is-spinning");
+    if (reelSlotBox) reelSlotBox.classList.remove("is-spinning");
+    if (reelTopicVal) reelTopicVal.textContent = nextQ.topic;
+    if (reelSlotVal)
+      reelSlotVal.textContent = `문장 ${nextQ.senIdx + 1} · [${nextQ.label}]`;
+
+    renderSlotMachineStageQuestion();
+    startSlotMachineCountdown();
+  }, 420);
+
+  updateSlotMachineHud();
+}
+
+/**
+ * 슬롯머신 전광판의 타겟 문장과 4지선다 카드를 렌더링합니다.
+ */
+function renderSlotMachineStageQuestion() {
+  const q = smState.currentQuestion;
+  if (!q) return;
+
+  const badgeEl = document.getElementById("smSenBadge");
+  if (badgeEl) {
+    badgeEl.textContent = `문장 ${q.senIdx + 1} · ${q.topic}`;
+  }
+
+  const statusMsg = document.getElementById("smStatusMsg");
+  if (statusMsg && !smState.isRoundResolved) {
+    statusMsg.textContent =
+      smState.timeLimitSec > 0
+        ? `⚡ ${smState.timeLimitSec}초 안에 [${q.topic}]에 맞는 블록을 터치하세요!`
+        : `🎯 [${q.topic}]에 맞는 블록을 선택하세요!`;
+    statusMsg.className = "sm-status-msg";
+  }
+
+  const listenBtn = document.getElementById("smListenSenBtn");
+  if (listenBtn) {
+    listenBtn.onclick = () => {
+      if (typeof speakText === "function") {
+        speakText(q.enFull, "en-US", listenBtn);
+      }
+    };
+  }
+
+  const enDisplay = document.getElementById("smSenEnDisplay");
+  if (enDisplay) {
+    enDisplay.innerHTML = q.segments
+      .map((seg, idx) => {
+        if (idx === q.targetSegIdx) {
+          if (smState.isRoundResolved) {
+            return `<span class="pg-slot-blank is-filled snap-anim">✓ ${safeEscapeHtml(q.answer)}</span>`;
+          }
+          return `<span class="pg-slot-blank is-target">🎰 [ ${safeEscapeHtml(q.label)} ? ]</span>`;
+        }
+        return safeEscapeHtml(seg.text);
+      })
+      .join("");
+  }
+
+  const koDisplay = document.getElementById("smSenKoDisplay");
+  if (koDisplay) {
+    koDisplay.textContent = q.koFull;
+    koDisplay.classList.toggle("hidden-hint", !pgShowKoHint);
+  }
+
+  const gridEl = document.getElementById("smOptionsGrid");
+  if (gridEl) {
+    gridEl.innerHTML = smState.options
+      .map((opt, idx) => {
+        return `
+          <button
+            type="button"
+            class="sm-option-card"
+            id="smOptCard_${idx}"
+            onclick="handleSlotMachineOptionClick(${idx})"
+          >
+            <kbd class="pg-block-key shortcut-key">${idx + 1}</kbd>
+            <span class="sm-opt-text">${safeEscapeHtml(opt.text)}</span>
+          </button>
+        `;
+      })
+      .join("");
+  }
+}
+
+/**
+ * 실시간 카운트다운 게이지 타이머를 작동시킵니다.
+ */
+function startSlotMachineCountdown() {
+  const timerBar = document.getElementById("smTimerBar");
+  const hudTime = document.getElementById("smHudTime");
+
+  if (smState.timeLimitSec <= 0) {
+    if (timerBar) {
+      timerBar.style.width = "100%";
+      timerBar.className = "sm-timer-bar";
+    }
+    if (hudTime) hudTime.textContent = "♾️";
+    return;
+  }
+
+  const totalMs = smState.timeLimitSec * 1000;
+  smState.remainingMs = totalMs;
+
+  if (timerBar) {
+    timerBar.style.width = "100%";
+    timerBar.className = "sm-timer-bar";
+  }
+
+  smState.timerInterval = setInterval(() => {
+    smState.remainingMs = Math.max(0, smState.remainingMs - 50);
+    const pct = (smState.remainingMs / totalMs) * 100;
+
+    if (timerBar) {
+      timerBar.style.width = `${pct}%`;
+      if (pct <= 30) {
+        timerBar.className = "sm-timer-bar danger";
+      } else if (pct <= 60) {
+        timerBar.className = "sm-timer-bar warning";
+      } else {
+        timerBar.className = "sm-timer-bar";
+      }
+    }
+
+    if (hudTime) {
+      hudTime.textContent = `${(smState.remainingMs / 1000).toFixed(1)}s`;
+    }
+
+    if (smState.remainingMs <= 0) {
+      handleSlotMachineTimeout();
+    }
+  }, 50);
+}
+
+/**
+ * 제한 시간 초과(TIME OUT) 시 처리합니다.
+ */
+function handleSlotMachineTimeout() {
+  stopSlotMachineTimers();
+  smState.isRoundResolved = true;
+  smState.combo = 0;
+
+  const statusMsg = document.getElementById("smStatusMsg");
+  if (statusMsg) {
+    statusMsg.textContent = "⏰ TIME OUT! 정답 블록을 확인하세요!";
+    statusMsg.className = "sm-status-msg is-timeout";
+  }
+
+  // 정답 카드 하이라이트 표시
+  smState.options.forEach((opt, idx) => {
+    const btn = document.getElementById(`smOptCard_${idx}`);
+    if (btn && opt.isCorrect) {
+      btn.classList.add("correct-choice");
+    }
+  });
+
+  renderSlotMachineStageQuestion();
+  updateSlotMachineHud();
+
+  smState.nextRoundTimeout = setTimeout(() => {
+    advanceSlotMachineRound();
+  }, 1500);
+}
+
+/**
+ * 슬롯머신 4지선다 보기 카드를 선택했을 때 정답 여부를 판정합니다.
+ * @param {number} optIdx
+ */
+function handleSlotMachineOptionClick(optIdx) {
+  if (smState.isSpinning || smState.isRoundResolved) return;
+  const opt = smState.options[optIdx];
+  if (!opt) return;
+
+  const btnEl = document.getElementById(`smOptCard_${optIdx}`);
+
+  if (opt.isCorrect) {
+    stopSlotMachineTimers();
+    smState.isRoundResolved = true;
+    smState.correctCount++;
+    smState.combo++;
+    if (smState.combo > smState.maxCombo) {
+      smState.maxCombo = smState.combo;
+    }
+
+    const speedBonus =
+      smState.timeLimitSec > 0
+        ? Math.round((smState.remainingMs / (smState.timeLimitSec * 1000)) * 50)
+        : 20;
+    smState.score += 100 + smState.combo * 25 + speedBonus;
+
+    if (btnEl) btnEl.classList.add("correct-choice");
+
+    const comboBox = document.getElementById("smHudComboBox");
+    if (comboBox) {
+      comboBox.classList.remove("combo-pop");
+      void comboBox.offsetWidth;
+      comboBox.classList.add("combo-pop");
+    }
+
+    const statusMsg = document.getElementById("smStatusMsg");
+    if (statusMsg) {
+      statusMsg.textContent = `🎉 정답! (+${100 + smState.combo * 25 + speedBonus}점 · ${smState.combo} COMBO!)`;
+      statusMsg.className = "sm-status-msg is-correct";
+    }
+
+    // 전광판 빈칸에 정답 장착 표시
+    const q = smState.currentQuestion;
+    const enDisplay = document.getElementById("smSenEnDisplay");
+    if (enDisplay && q) {
+      enDisplay.innerHTML = q.segments
+        .map((seg, idx) => {
+          if (idx === q.targetSegIdx) {
+            return `<span class="pg-slot-blank is-filled snap-anim">✓ ${safeEscapeHtml(q.answer)}</span>`;
+          }
+          return safeEscapeHtml(seg.text);
+        })
+        .join("");
+    }
+
+    if (q && typeof speakText === "function") {
+      speakText(q.enFull, "en-US", null);
+    }
+
+    updateSlotMachineHud();
+
+    smState.nextRoundTimeout = setTimeout(() => {
+      advanceSlotMachineRound();
+    }, 1250);
+  } else {
+    // 오답 선택 시: 콤보 초기화 & 해당 카드 흔들림
+    smState.combo = 0;
+    updateSlotMachineHud();
+
+    if (btnEl) {
+      btnEl.classList.remove("wrong-shake");
+      void btnEl.offsetWidth;
+      btnEl.classList.add("wrong-shake");
+    }
+
+    const statusMsg = document.getElementById("smStatusMsg");
+    if (statusMsg) {
+      statusMsg.textContent = "❌ 다른 주제의 블록입니다! 다시 골라보세요!";
+      statusMsg.className = "sm-status-msg is-timeout";
+    }
+  }
+}
+
+/**
+ * 다음 라운드로 진행하거나 10라운드 종료 시 결과 리포트를 표시합니다.
+ */
+function advanceSlotMachineRound() {
+  if (smState.curRound >= smState.totalRounds) {
+    finishSlotMachineSession();
+  } else {
+    smState.curRound++;
+    spinSlotMachineRound();
+  }
+}
+
+/**
+ * 10라운드 완주 시 최고 기록을 저장하고 결과 배너를 표시합니다.
+ */
+function finishSlotMachineSession() {
+  stopSlotMachineTimers();
+  const items = window.PATTERNS_DATA || [];
+  const pat = items[pgCurPatternIdx];
+
+  if (pat) {
+    const prev = smRecordsMap[pat.id] || {
+      bestCombo: 0,
+      bestScore: 0,
+      clears: 0,
+    };
+    smRecordsMap[pat.id] = {
+      bestCombo: Math.max(prev.bestCombo || 0, smState.maxCombo),
+      bestScore: Math.max(prev.bestScore || 0, smState.score),
+      clears: (prev.clears || 0) + 1,
+    };
+    saveSlotMachineRecords();
+  }
+
+  if (typeof incrementDailyCount === "function") {
+    incrementDailyCount();
+  }
+
+  const cabinetEl = document.getElementById("smCabinet");
+  const resultBanner = document.getElementById("smResultBanner");
+  const resultTitle = document.getElementById("smResultTitle");
+  const resultDesc = document.getElementById("smResultDesc");
+
+  if (cabinetEl) cabinetEl.style.display = "none";
+  if (resultBanner) resultBanner.style.display = "block";
+
+  if (resultTitle) {
+    resultTitle.textContent = `🎰 10 ROUND CLEAR! (${smState.correctCount} / ${smState.totalRounds} 성공)`;
+  }
+  if (resultDesc) {
+    resultDesc.textContent = `최종 점수: ${smState.score}점 · 최고 콤보: ⚡ ${smState.maxCombo} COMBO 달성! 이제 어떤 주제가 나와도 1초 만에 슬롯을 바꿀 수 있어요!`;
+  }
+}
+
+/**
+ * 슬롯머신 HUD(ROUND, TIME, COMBO, SCORE)를 갱신합니다.
+ */
+function updateSlotMachineHud() {
+  const rEl = document.getElementById("smHudRound");
+  if (rEl) rEl.textContent = `${smState.curRound} / ${smState.totalRounds}`;
+
+  const cEl = document.getElementById("smHudCombo");
+  if (cEl) cEl.textContent = `⚡ ${smState.combo}`;
+
+  const sEl = document.getElementById("smHudScore");
+  if (sEl) sEl.textContent = `${smState.score}`;
+}
+
+/**
+ * 슬롯머신 완료 후 다음 만능 패턴으로 이동합니다.
+ */
+function nextSlotMachinePattern() {
+  const items = window.PATTERNS_DATA || [];
+  if (!items.length) return;
+  pgCurPatternIdx = (pgCurPatternIdx + 1) % items.length;
+  pgCurVarIdx = 0;
+  startSlotMachineGame();
+}
+
+// =============================================================================
+// 7. 공통 유틸리티 및 네비게이션 핸들러
+// =============================================================================
+
 function speakPatternGameSentence(senIdx, btnEl) {
   const senObj = pgStageState.sentences.find((s) => s.senIdx === senIdx);
   if (senObj && typeof speakText === "function") {
@@ -882,9 +1543,6 @@ function speakPatternGameSentence(senIdx, btnEl) {
   }
 }
 
-/**
- * 한글 해석 힌트 표시 여부를 토글합니다.
- */
 function togglePatternGameHint() {
   pgShowKoHint = !pgShowKoHint;
   const btn = document.getElementById("pgHintToggleBtn");
@@ -894,12 +1552,12 @@ function togglePatternGameHint() {
   document.querySelectorAll("#pgSentencesBoard .pg-sen-ko").forEach((el) => {
     el.classList.toggle("hidden-hint", !pgShowKoHint);
   });
+  const smKo = document.getElementById("smSenKoDisplay");
+  if (smKo) {
+    smKo.classList.toggle("hidden-hint", !pgShowKoHint);
+  }
 }
 
-/**
- * 같은 패턴 내 특정 주제 인덱스로 전환합니다.
- * @param {number} vIdx
- */
 function selectPatternGameTopic(vIdx) {
   if (typeof stopTTS === "function") stopTTS();
   const items = window.PATTERNS_DATA || [];
@@ -909,10 +1567,17 @@ function selectPatternGameTopic(vIdx) {
   startPatternGameStage();
 }
 
-/**
- * 다음 주제 스테이지로 이동합니다.
- */
 function nextPatternGameTopic() {
+  if (pgGameMode === "slotmachine") {
+    const resultBanner = document.getElementById("smResultBanner");
+    if (resultBanner && resultBanner.style.display !== "none") {
+      startSlotMachineGame();
+    } else {
+      spinSlotMachineRound();
+    }
+    return;
+  }
+
   if (typeof stopTTS === "function") stopTTS();
   const items = window.PATTERNS_DATA || [];
   const pat = items[pgCurPatternIdx];
@@ -921,9 +1586,6 @@ function nextPatternGameTopic() {
   startPatternGameStage();
 }
 
-/**
- * 현재 패턴 내에서 무작위 주제로 변경합니다.
- */
 function randomPatternGameTopic() {
   if (typeof stopTTS === "function") stopTTS();
   const items = window.PATTERNS_DATA || [];
@@ -939,9 +1601,6 @@ function randomPatternGameTopic() {
   startPatternGameStage();
 }
 
-/**
- * 전체 6대 패턴 중 무작위 패턴 & 무작위 주제로 즉시 게임을 시작합니다.
- */
 function startRandomPatternGame() {
   const items = window.PATTERNS_DATA || [];
   if (!items.length) return;
@@ -951,20 +1610,23 @@ function startRandomPatternGame() {
   openPatternGameStage(rPatIdx, rVarIdx);
 }
 
-/**
- * 현재 스테이지를 처음부터 다시 조립하도록 리셋합니다.
- */
 function resetCurrentPatternGameStage() {
   if (typeof stopTTS === "function") stopTTS();
-  startPatternGameStage();
+  if (pgGameMode === "slotmachine") {
+    spinSlotMachineRound();
+  } else {
+    startPatternGameStage();
+  }
 }
 
 // =============================================================================
-// 6. 전역 스코프(Window) 바인딩
+// 8. 전역 스코프(Window) 바인딩
 // =============================================================================
 window.renderPatternGameLobby = renderPatternGameLobby;
 window.openPatternGameStage = openPatternGameStage;
 window.startPatternGameStage = startPatternGameStage;
+window.switchPatternGameMode = switchPatternGameMode;
+window.randomPatternGameAction = randomPatternGameAction;
 window.setActivePatternGameSlot = setActivePatternGameSlot;
 window.handlePatternGameBlockClick = handlePatternGameBlockClick;
 window.speakPatternGameSentence = speakPatternGameSentence;
@@ -975,4 +1637,10 @@ window.randomPatternGameTopic = randomPatternGameTopic;
 window.startRandomPatternGame = startRandomPatternGame;
 window.resetCurrentPatternGameStage = resetCurrentPatternGameStage;
 window.getTotalPatternGameClears = getTotalPatternGameClears;
-
+window.startSlotMachineGame = startSlotMachineGame;
+window.spinSlotMachineRound = spinSlotMachineRound;
+window.setSlotMachineTimeLimit = setSlotMachineTimeLimit;
+window.setSlotMachineSentenceFilter = setSlotMachineSentenceFilter;
+window.handleSlotMachineOptionClick = handleSlotMachineOptionClick;
+window.nextSlotMachinePattern = nextSlotMachinePattern;
+window.stopSlotMachineTimers = stopSlotMachineTimers;

@@ -321,8 +321,14 @@ document.addEventListener("keydown", (e) => {
       return;
     } else if (isSpace) {
       e.preventDefault();
-      const listenAllBtn = document.getElementById("pgListenAllBtn");
-      if (listenAllBtn) listenAllBtn.click();
+      const smView = document.getElementById("pgSlotMachineView");
+      if (smView && smView.style.display !== "none") {
+        const smListenBtn = document.getElementById("smListenSenBtn");
+        if (smListenBtn) smListenBtn.click();
+      } else {
+        const listenAllBtn = document.getElementById("pgListenAllBtn");
+        if (listenAllBtn) listenAllBtn.click();
+      }
       return;
     } else if (isKeyH) {
       e.preventDefault();
