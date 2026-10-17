@@ -1996,11 +1996,8 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     }
   }
 
-  // 2. SpeechSDK 실패 또는 미지원 시 문장별 슬라이싱 + 병렬 REST 호출 폴백
-  const rawSentences = referenceText
-    .split(/[.!?\n]+/)
-    .map((s) => s.trim())
-    .filter((s) => s.length >= 2);
+  // 2. SpeechSDK 실패 또는 미지원 시 문장/발화 청크별 슬라이싱 + 병렬 REST 호출 폴백
+  const rawSentences = splitIntoUtteranceChunks(referenceText, 8);
 
   if (rawSentences.length > 1) {
     try {
