@@ -1542,9 +1542,30 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
   const speechConfig = sdk.SpeechConfig.fromSubscription(apiKey, region);
   speechConfig.speechRecognitionLanguage = "en-US";
 
-  const streamFormat = sdk.AudioStreamFormat.getWaveFormatPCM(16000, 16, 1);
-  const pushStream = sdk.AudioInputStream.createPushStream(streamFormat);
-  const audioConfig = sdk.AudioConfig.fromStreamInput(pushStream);
+  // 브라우저 File 객체를 생성하여 AudioConfig.fromWavFileInput으로 전체 WAV 스트리밍
+  const wavBlob = new Blob([wavBuffer], { type: "audio/wav" });
+  let audioConfig = null;
+  let pushStream = null;
+
+  if (
+    typeof File !== "undefined" &&
+    typeof sdk.AudioConfig.fromWavFileInput === "function"
+  ) {
+    try {
+      const wavFile = new File([wavBlob], "assessment.wav", {
+        type: "audio/wav",
+      });
+      audioConfig = sdk.AudioConfig.fromWavFileInput(wavFile);
+    } catch (fileErr) {
+      console.warn("[SpeechSDK] fromWavFileInput fallback to pushStream:", fileErr);
+    }
+  }
+
+  if (!audioConfig) {
+    const streamFormat = sdk.AudioStreamFormat.getWaveFormatPCM(16000, 16, 1);
+    pushStream = sdk.AudioInputStream.createPushStream(streamFormat);
+    audioConfig = sdk.AudioConfig.fromStreamInput(pushStream);
+  }
 
   const pronConfig = new sdk.PronunciationAssessmentConfig(
     cleanRef,
@@ -1678,28 +1699,35 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
 
     recognizer.startContinuousRecognitionAsync(
       () => {
-        try {
-          const pcmBytes =
-            wavBuffer.byteLength > 44 ? wavBuffer.slice(44) : wavBuffer;
-          const chunkSize = 4096;
-          let offset = 0;
-          while (offset < pcmBytes.byteLength) {
-            const chunk = pcmBytes.slice(
-              offset,
-              Math.min(offset + chunkSize, pcmBytes.byteLength),
+        // fromWavFileInput 사용 시 SDK가 자체적으로 파일 스트림을 관리하므로 수동 pushStream 처리가 불필요함
+        if (pushStream) {
+          try {
+            const pcmBytes =
+              wavBuffer.byteLength > 44 ? wavBuffer.slice(44) : wavBuffer;
+            const chunkSize = 4096;
+            let offset = 0;
+            while (offset < pcmBytes.byteLength) {
+              const chunk = pcmBytes.slice(
+                offset,
+                Math.min(offset + chunkSize, pcmBytes.byteLength),
+              );
+              pushStream.write(chunk);
+              offset += chunkSize;
+            }
+            // 전체 오디오가 SDK 내부 버퍼를 통해 WebSocket으로 전송될 수 있도록 충분한 여유 시간을 두고 close
+            const waitTime = Math.max(
+              1500,
+              Math.min(8000, Math.round((pcmBytes.byteLength / 32000) * 150)),
             );
-            pushStream.write(chunk);
-            offset += chunkSize;
+            setTimeout(() => {
+              try {
+                pushStream.close();
+              } catch (closeErr) {}
+            }, waitTime);
+          } catch (writeErr) {
+            console.error("[SpeechSDK] PushStream write error:", writeErr);
+            finish();
           }
-          // 오디오 데이터가 SDK 파이프라인에 안전하게 공급되도록 미세 지연 후 스트림 종료
-          setTimeout(() => {
-            try {
-              pushStream.close();
-            } catch (closeErr) {}
-          }, 100);
-        } catch (writeErr) {
-          console.error("[SpeechSDK] PushStream write error:", writeErr);
-          finish();
         }
       },
       (startErr) => {
@@ -3145,12 +3173,15 @@ const translationCache = new Map();
 /** @type {number} Google 번역 API 429 Too Many Requests 방지용 쿨다운 타임스탬프 */
 let googleTranslateCooldownUntil = 0;
 
+/** @type {number} MyMemory 번역 API 429 Too Many Requests 방지용 쿨다운 타임스탬프 */
+let myMemoryCooldownUntil = 0;
+
 /**
  * 영문 문장을 한국어로 실시간 번역
  * [하이브리드 아키텍처]
  * 1. 번역 인메모리 캐시 히트 검사
- * 2. 1차 번역 엔진: MyMemory API (CORS 친화적 & 브라우저 안정성 우수)
- * 3. 2차 번역 엔진: Google Translate gtx 엔드포인트 폴백 (429 발생 시 60초간 쿨다운 보호)
+ * 2. 1차 번역 엔진: Google Translate gtx 엔드포인트 (고속 & 실시간 STT 최적화)
+ * 3. 2차 번역 엔진: MyMemory API 폴백 (429 쿨다운 보호 적용)
  * @param {string} text - 번역할 영문 문자열
  * @returns {Promise<string>} 번역된 한국어 문자열
  */
@@ -3165,34 +3196,14 @@ async function translateToKorean(text) {
 
   let translated = "";
 
-  // 2. 1차 번역 엔진: MyMemory API (CORS 친화적 & 브라우저 안정성 우수)
-  try {
-    const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean.slice(0, 500))}&langpair=en|ko`;
-    const res = await fetch(myMemoryUrl);
-    if (res.ok) {
-      const data = await res.json();
-      if (
-        data &&
-        data.responseData &&
-        data.responseData.translatedText &&
-        !data.responseData.translatedText.startsWith("MYMEMORY WARNING:")
-      ) {
-        translated = data.responseData.translatedText.trim();
-      }
-    }
-  } catch (e) {
-    /* fallback to google */
-  }
-
-  // 3. 2차 번역 엔진: Google Translate API (쿨다운 상태가 아닐 때만 시도)
-  if (!translated && Date.now() > googleTranslateCooldownUntil) {
+  // 2. 1차 번역 엔진: Google Translate API (실시간 전사에 최적화)
+  if (Date.now() > googleTranslateCooldownUntil) {
     try {
       const url =
         "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ko&dt=t&q=" +
         encodeURIComponent(clean);
       const res = await fetch(url);
       if (res.status === 429) {
-        // 429 Too Many Requests 감지 시 60초간 Google 호출 차단 (CORS 에러 방지)
         googleTranslateCooldownUntil = Date.now() + 60000;
       } else if (res.ok) {
         const data = await res.json();
@@ -3202,8 +3213,30 @@ async function translateToKorean(text) {
           .trim();
       }
     } catch (e) {
-      // CORS 또는 네트워크 에러 발생 시 60초 쿨다운 설정
       googleTranslateCooldownUntil = Date.now() + 60000;
+    }
+  }
+
+  // 3. 2차 번역 엔진: MyMemory API 폴백 (429 감지 시 2분 쿨다운)
+  if (!translated && Date.now() > myMemoryCooldownUntil) {
+    try {
+      const myMemoryUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean.slice(0, 500))}&langpair=en|ko`;
+      const res = await fetch(myMemoryUrl);
+      if (res.status === 429) {
+        myMemoryCooldownUntil = Date.now() + 120000;
+      } else if (res.ok) {
+        const data = await res.json();
+        if (
+          data &&
+          data.responseData &&
+          data.responseData.translatedText &&
+          !data.responseData.translatedText.startsWith("MYMEMORY WARNING:")
+        ) {
+          translated = data.responseData.translatedText.trim();
+        }
+      }
+    } catch (e) {
+      myMemoryCooldownUntil = Date.now() + 120000;
     }
   }
 
@@ -3571,8 +3604,8 @@ function stopSpeechRecognition() {
     try {
       currentMediaRecorder.stop();
     } catch (e) {}
-  }
-  if (currentMediaStream) {
+    // ⚡ 트랙 종료는 onstop 콜백에서 녹음 데이터가 완전히 플러시된 후 수행하여 조기 절단 방지
+  } else if (currentMediaStream) {
     try {
       currentMediaStream.getTracks().forEach((track) => track.stop());
     } catch (e) {}
@@ -3867,6 +3900,14 @@ function toggleSpeechRecognition(
 
         currentMediaRecorder.onstop = async () => {
           try {
+            // 녹음 완료 후 안전하게 마이크 트랙 정지 (인코딩 조기 중단 방지)
+            if (currentMediaStream) {
+              try {
+                currentMediaStream.getTracks().forEach((track) => track.stop());
+              } catch (e) {}
+              currentMediaStream = null;
+            }
+
             if (recordedAudioChunks.length > 0) {
               const actualMime =
                 currentMediaRecorder.mimeType || mime || "audio/webm";
