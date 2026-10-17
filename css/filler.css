@@ -651,3 +651,49 @@ body.dark-theme .filler-btn-prev {
   border-color: #374151;
   color: #d1d5db;
 }
+
+/* ── 모바일 반응형 (540px 이하) ── */
+@media (max-width: 540px) {
+  .filler-hero-box {
+    padding: 16px 16px;
+  }
+  .filler-hero-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .filler-hero-phrase {
+    font-size: 22px;
+    word-break: keep-all;
+  }
+  .filler-hero-meaning {
+    font-size: 15px;
+  }
+  .filler-hero-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+  .btn-filler-tts-large,
+  .btn-filler-master-large {
+    width: 100%;
+    min-height: 42px;
+    justify-content: center;
+  }
+  .filler-stt-hdr {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .filler-ex-en-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .btn-ex-tts {
+    align-self: flex-end;
+    min-height: 34px;
+    padding: 6px 12px;
+  }
+}
+

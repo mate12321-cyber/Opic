@@ -1064,6 +1064,10 @@ async function evaluatePatternAnswer() {
     return;
   }
 
+  if (userInputEl && document.activeElement === userInputEl) {
+    userInputEl.blur();
+  }
+
   savedPatternUserInputs[slotKey] = userText;
   const fullEnSpeech = curVar.sentences.map((s) => s.en).join(" ");
 

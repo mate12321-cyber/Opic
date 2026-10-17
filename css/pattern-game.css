@@ -1,0 +1,814 @@
+/**
+ * @file pattern-game.css
+ * @description [모드 4-2] 만능 패턴 게임 훈련 전용 스타일시트
+ * - 홈 화면 '만능 패턴 게임 훈련' 진입 카드 강조 스타일
+ * - 게임 모드 탭 배너, 스코어 HUD 바, 6문장 조립 보드, 빈칸 슬롯 칩
+ * - 하단 영어 블록 덱(Block Deck) 및 정답 스냅/오답 흔들림 애니메이션
+ */
+
+/* ── 홈 화면 패턴 게임 진입 카드 강조 ── */
+#navPatternGame {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+  border: 1.5px solid #ddd6fe;
+}
+#navPatternGame:hover {
+  border-color: #c4b5fd;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.14);
+}
+#navPatternGame .nav-card-icon {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+body.dark-theme #navPatternGame {
+  background: linear-gradient(135deg, #1e293b 0%, #2e1065 100%);
+  border-color: #4c1d95;
+}
+body.dark-theme #navPatternGame .nav-card-icon {
+  background: #4c1d95;
+  color: #ddd6fe;
+}
+
+/* ── 게임 로비 모드 탭 배너 ── */
+.pg-mode-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+  .pg-mode-tabs {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pg-mode-tab {
+  border-radius: var(--radius-lg);
+  padding: 13px 15px;
+  border: 1.5px solid var(--border-light);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.pg-mode-tab.active {
+  background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 100%);
+  border-color: #8b5cf6;
+  box-shadow: 0 3px 10px rgba(139, 92, 246, 0.12);
+}
+
+.pg-mode-tab.coming-soon {
+  opacity: 0.68;
+  background: var(--surface-muted, #f8fafc);
+  border-style: dashed;
+}
+
+.pg-mode-tab-badge {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #6d28d9;
+  background: #ede9fe;
+  padding: 2px 7px;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+.pg-mode-tab.coming-soon .pg-mode-tab-badge {
+  color: #64748b;
+  background: #e2e8f0;
+}
+
+.pg-mode-tab-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 2px;
+}
+
+.pg-mode-tab-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ── 상단 HUD 스코어보드 바 ── */
+.pg-hud-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 14px;
+  box-shadow: 0 4px 12px rgba(49, 46, 129, 0.2);
+}
+
+.pg-hud-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-md);
+  padding: 6px 8px;
+}
+
+.pg-hud-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #c7d2fe;
+}
+
+.pg-hud-value {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-top: 2px;
+}
+
+.pg-hud-combo.combo-pop {
+  animation: comboBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: rgba(245, 158, 11, 0.25);
+  border-color: #fbbf24;
+}
+
+@keyframes comboBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.14);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ── 미션 주제 & 질문 바 ── */
+.pg-topic-bar {
+  background: var(--surface);
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.pg-topic-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.pg-topic-bar-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pg-topic-pill {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6d28d9;
+  background: #ede9fe;
+  border: 1px solid #ddd6fe;
+  padding: 2px 9px;
+  border-radius: 999px;
+}
+
+.pg-topic-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pg-mini-btn {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pg-mini-btn:hover {
+  border-color: #6366f1;
+  color: #4f46e5;
+  background: #eef2ff;
+}
+
+.pg-question-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #f8fafc;
+  border-left: 3px solid #7c3aed;
+  padding: 8px 11px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 12.5px;
+  color: #1e293b;
+  line-height: 1.45;
+}
+
+.pg-q-label {
+  font-weight: 800;
+  color: #7c3aed;
+  flex-shrink: 0;
+}
+
+.pg-q-text {
+  font-weight: 600;
+}
+
+/* ── 메인 6문장 조립 보드 ── */
+.pg-board-section {
+  background: var(--surface);
+  border: 1.5px solid #ddd6fe;
+  border-radius: var(--radius-lg);
+  padding: 15px 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 3px 10px rgba(124, 58, 237, 0.05);
+}
+
+.pg-board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 12px;
+}
+
+.pg-board-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pg-board-title > span:first-child {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.pg-board-sub {
+  font-size: 12px;
+  color: #6d28d9;
+  font-weight: 600;
+}
+
+.pg-board-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pg-reset-btn {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #fca5a5;
+  background: #fef2f2;
+  color: #dc2626;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pg-reset-btn:hover {
+  background: #fee2e2;
+}
+
+.pg-sentences-board {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pg-sentence-row {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 11px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.pg-sentence-row.has-active-slot {
+  background: #faf5ff;
+  border-color: #a855f7;
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.12);
+}
+
+.pg-sentence-row.row-completed {
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+
+.pg-sen-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pg-sen-num {
+  font-size: 11px;
+  font-weight: 800;
+  color: #475569;
+  background: #e2e8f0;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.pg-sentence-row.row-completed .pg-sen-num {
+  color: #15803d;
+  background: #dcfce7;
+}
+
+.pg-sen-en {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.65;
+  word-break: keep-all;
+}
+
+.pg-sen-ko {
+  font-size: 12.5px;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.pg-sen-ko.hidden-hint {
+  display: none;
+}
+
+.pg-ko-slot-highlight {
+  color: #7c3aed;
+  font-weight: 700;
+  background: #f3e8ff;
+  padding: 0 5px;
+  border-radius: 4px;
+}
+
+/* ── 문장 내부 빈칸 슬롯 버튼 (Blank / Filled Slot) ── */
+.pg-slot-blank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 90px;
+  padding: 2px 10px;
+  margin: 2px 3px;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  vertical-align: baseline;
+}
+
+.pg-slot-blank.is-empty {
+  background: #ffffff;
+  color: #7c3aed;
+  border: 2px dashed #a855f7;
+  box-shadow: inset 0 1px 3px rgba(124, 58, 237, 0.08);
+}
+
+.pg-slot-blank.is-empty:hover {
+  background: #f3e8ff;
+  border-color: #7c3aed;
+}
+
+.pg-slot-blank.is-target {
+  background: #fef08a;
+  color: #854d0e;
+  border: 2px solid #eab308;
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.25);
+  animation: targetPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes targetPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+.pg-slot-blank.is-filled {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: 2px solid #059669;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
+  cursor: default;
+}
+
+.pg-slot-blank.snap-anim {
+  animation: slotSnap 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slotSnap {
+  0% {
+    transform: scale(0.8);
+  }
+  60% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ── 하단 영어 슬롯 블록 덱 (Block Deck) ── */
+.pg-deck-section {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1.5px solid #cbd5e1;
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.pg-deck-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.pg-deck-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.pg-deck-target-indicator {
+  font-size: 12px;
+  font-weight: 700;
+  color: #b45309;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.pg-deck-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pg-block-card {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-bottom: 3px solid #94a3b8;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0f172a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05);
+}
+
+.pg-block-card:hover {
+  border-color: #7c3aed;
+  border-bottom-color: #5b21b6;
+  background: #f5f3ff;
+  color: #5b21b6;
+  transform: translateY(-2px);
+}
+
+.pg-block-card:active {
+  transform: translateY(1px);
+  border-bottom-width: 1.5px;
+}
+
+.pg-block-card.is-used {
+  opacity: 0.3;
+  pointer-events: none;
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  text-decoration: line-through;
+}
+
+.pg-block-card.wrong-shake {
+  animation: blockShake 0.4s ease;
+  background: #fef2f2 !important;
+  border-color: #ef4444 !important;
+  color: #dc2626 !important;
+}
+
+@keyframes blockShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+/* ── 스테이지 클리어 배너 ── */
+.pg-clear-banner {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 2px solid #10b981;
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  text-align: center;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.15);
+  animation: slotSnap 0.4s ease-out;
+}
+
+.pg-clear-confetti {
+  font-size: 17px;
+  font-weight: 800;
+  color: #065f46;
+  margin-bottom: 6px;
+}
+
+.pg-clear-desc {
+  font-size: 13px;
+  font-weight: 600;
+  color: #047857;
+  margin-bottom: 14px;
+}
+
+.pg-clear-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pg-next-stage-btn {
+  padding: 9px 18px !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  width: auto !important;
+}
+
+/* ── 다크 테마 대응 ── */
+body.dark-theme .pg-mode-tab.active {
+  background: linear-gradient(135deg, #2e1065 0%, #1e1b4b 100%);
+  border-color: #7c3aed;
+}
+body.dark-theme .pg-question-banner {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+body.dark-theme .pg-sentence-row {
+  background: #0f172a;
+  border-color: #334155;
+}
+body.dark-theme .pg-sentence-row.has-active-slot {
+  background: #1e1b4b;
+  border-color: #8b5cf6;
+}
+body.dark-theme .pg-sentence-row.row-completed {
+  background: #064e3b;
+  border-color: #059669;
+}
+body.dark-theme .pg-slot-blank.is-empty {
+  background: #1e293b;
+  color: #c4b5fd;
+  border-color: #8b5cf6;
+}
+body.dark-theme .pg-slot-blank.is-target {
+  background: #713f12;
+  color: #fef08a;
+  border-color: #eab308;
+}
+body.dark-theme .pg-deck-section {
+  background: #0f172a;
+  border-color: #334155;
+}
+body.dark-theme .pg-deck-title {
+  color: #f1f5f9;
+}
+body.dark-theme .pg-block-card {
+  background: #1e293b;
+  border-color: #475569;
+  border-bottom-color: #334155;
+  color: #f8fafc;
+}
+body.dark-theme .pg-block-card:hover {
+  background: #2e1065;
+  border-color: #8b5cf6;
+  color: #ddd6fe;
+}
+body.dark-theme .pg-clear-banner {
+  background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
+  border-color: #10b981;
+}
+body.dark-theme .pg-clear-confetti,
+body.dark-theme .pg-clear-desc {
+  color: #a7f3d0;
+}
+
+/* ── 블록 덱 숫자 단축키 뱃지 ── */
+.pg-block-key {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #6d28d9;
+  background: #ede9fe;
+  border: 1px solid #ddd6fe;
+  padding: 1px 5px;
+  border-radius: 4px;
+  line-height: 1.2;
+}
+
+body.dark-theme .pg-block-key {
+  color: #ddd6fe;
+  background: #4c1d95;
+  border-color: #6d28d9;
+}
+
+/* ── 모바일 반응형 & 터치 타겟 최적화 (540px 이하) ── */
+@media (max-width: 540px) {
+  #patternGameCard .card-nav-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  #patternGameCard .card-nav-left {
+    order: 1;
+    display: flex;
+    gap: 4px;
+  }
+  #patternGameCard .card-nav-right {
+    order: 2;
+    display: flex;
+    gap: 4px;
+  }
+  #patternGameCard .pattern-header-box {
+    order: 3;
+    width: 100%;
+    margin-top: 4px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border-light);
+    text-align: center;
+  }
+  #patternGameCard .pattern-main-title {
+    font-size: 15px;
+    font-weight: 800;
+  }
+
+  .pg-hud-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    padding: 8px 10px;
+  }
+  .pg-hud-item {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 6px 10px;
+  }
+  .pg-hud-value {
+    margin-top: 0;
+    font-size: 14px;
+  }
+
+  .pg-topic-bar {
+    padding: 10px 12px;
+  }
+  .pg-topic-bar-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .pg-topic-bar-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .pg-mini-btn {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  .pg-board-section {
+    padding: 12px 12px;
+  }
+  .pg-sentence-row {
+    padding: 10px 11px;
+  }
+  .pg-sen-en {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .pg-slot-blank {
+    min-height: 36px;
+    padding: 4px 10px;
+    margin: 3px 2px;
+    font-size: 13px;
+  }
+
+  .pg-deck-section {
+    padding: 12px 12px;
+  }
+  .pg-deck-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+  .pg-block-card {
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 10px;
+    font-size: 13px;
+    justify-content: flex-start;
+    text-align: left;
+    line-height: 1.3;
+  }
+
+  .pg-clear-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .pg-clear-actions button,
+  .pg-next-stage-btn {
+    width: 100% !important;
+    min-height: 44px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .pg-deck-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── 모바일 가로 모드 (Landscape) 대응 ── */
+@media (max-width: 920px) and (orientation: landscape) and (max-height: 500px) {
+  .pg-hud-bar {
+    grid-template-columns: repeat(4, 1fr);
+    padding: 6px 10px;
+    margin-bottom: 10px;
+  }
+  .pg-board-section,
+  .pg-deck-section {
+    padding: 10px 12px;
+    margin-bottom: 10px;
+  }
+}
+
+

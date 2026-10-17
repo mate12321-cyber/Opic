@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="css/grammar.css" />
     <link rel="stylesheet" href="css/opic.css" />
     <link rel="stylesheet" href="css/pattern.css" />
+    <link rel="stylesheet" href="css/pattern-game.css" />
     <link rel="stylesheet" href="css/filler.css" />
     <link rel="stylesheet" href="css/speech-practice.css" />
     <link rel="stylesheet" href="css/vocab-tooltip.css" />
@@ -55,6 +56,15 @@
     </script>
   </head>
   <body>
+    <script>
+      if (document.documentElement.classList.contains("dark-theme")) {
+        document.body.classList.add("dark-theme");
+      }
+      var _initScale = document.documentElement.getAttribute("data-font-scale");
+      if (_initScale) {
+        document.body.setAttribute("data-font-scale", _initScale);
+      }
+    </script>
     <!-- =========================================================================
          [Section 1] 앱 초기 비동기 템플릿 로딩 스켈레톤
          - 템플릿 fetch 완료 전 깜빡임 방지용 인라인 CSS 로더 (template-loader.js가 은닉)
@@ -115,6 +125,9 @@
       <!-- 5. 6대 만능 패턴 집중 훈련 화면 슬롯 (templates/pattern.html) -->
       <div id="patternSlot"></div>
 
+      <!-- 5-2. 만능 패턴 게임 훈련 화면 슬롯 (templates/pattern-game.html) -->
+      <div id="patternGameSlot"></div>
+
       <!-- 6. 핵심 16대 필러 훈련 화면 슬롯 (templates/filler.html) -->
       <div id="fillerSlot"></div>
 
@@ -132,6 +145,6 @@
     <!-- =========================================================================
          [Section 4] 애플리케이션 비동기 템플릿 & 컴포넌트 로더 진입점
          ========================================================================= -->
-    <script src="js/template-loader.js?v=27"></script>
+    <script src="js/template-loader.js?v=29"></script>
   </body>
 </html>

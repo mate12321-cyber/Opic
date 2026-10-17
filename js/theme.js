@@ -48,9 +48,11 @@ function initTheme() {
  */
 function applyTheme(isDark) {
   if (isDark) {
-    document.body.classList.add("dark-theme");
+    document.documentElement.classList.add("dark-theme");
+    if (document.body) document.body.classList.add("dark-theme");
   } else {
-    document.body.classList.remove("dark-theme");
+    document.documentElement.classList.remove("dark-theme");
+    if (document.body) document.body.classList.remove("dark-theme");
   }
   const btn = document.getElementById("themeToggleBtn");
   if (btn) {

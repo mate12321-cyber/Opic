@@ -852,27 +852,27 @@ body.dark-theme .pattern-slot-tag {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     margin-bottom: 12px;
   }
   #patternCard .card-nav-left {
     order: 1;
     display: flex;
     gap: 4px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
   #patternCard .card-nav-right {
     order: 2;
     display: flex;
     gap: 4px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
   #patternCard .card-nav-left .mode-switch-pill,
   #patternCard .card-nav-right .mode-switch-pill,
   #patternCard .card-nav-right .btn-prev-q {
-    padding: 8px 11px;
-    font-size: 12px;
-    min-height: 38px;
+    padding: 6px 8px;
+    font-size: 11.5px;
+    min-height: 36px;
     white-space: nowrap;
     display: inline-flex;
     align-items: center;

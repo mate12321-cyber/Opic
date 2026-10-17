@@ -767,8 +767,35 @@
    * - PC: 위쪽 공간 우선 배치
    * @param {DOMRect} rect - 선택 텍스트의 바운딩 렉트
    */
-  function positionTooltip(rect) {
-    if (!tooltipEl || !rect) return;
+  function normalizeRectForViewport(rawRect) {
+    if (!rawRect) return rawRect;
+    const vw = window.innerWidth || document.documentElement.clientWidth || 1024;
+    // 만약 브라우저의 getBoundingClientRect가 CSS zoom이 적용된 좌표(뷰포트 폭을 초과하는 값 등)나
+    // 스케일 차이를 반환하는 구형 엔진일 경우 안전하게 보정
+    const wrapEl = document.querySelector(".wrap");
+    if (wrapEl) {
+      const wrapRect = wrapEl.getBoundingClientRect();
+      // wrapRect.width가 clientWidth와 동일한 스케일(최신 표준)이면 그대로 사용
+      if (wrapRect.width > vw * 1.05 && wrapEl.style.zoom) {
+        const z = parseFloat(window.getComputedStyle(wrapEl).zoom) || 1;
+        if (z !== 1) {
+          return {
+            left: rawRect.left * z,
+            right: rawRect.right * z,
+            top: rawRect.top * z,
+            bottom: rawRect.bottom * z,
+            width: rawRect.width * z,
+            height: rawRect.height * z,
+          };
+        }
+      }
+    }
+    return rawRect;
+  }
+
+  function positionTooltip(rawRect) {
+    if (!tooltipEl || !rawRect) return;
+    const rect = normalizeRectForViewport(rawRect);
     lastTargetRect = rect;
 
     const viewportWidth =

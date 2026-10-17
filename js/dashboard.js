@@ -192,6 +192,18 @@ function renderHomeDashboard() {
     els.navPatternSub.textContent = `${PATTERN_ITEMS.length || 6}대 만능 템플릿으로 모든 질문 정복`;
   }
 
+  // 만능 패턴 게임 훈련 모드
+  if (els.navPatternGameSub) {
+    const clears =
+      typeof getTotalPatternGameClears === "function"
+        ? getTotalPatternGameClears()
+        : 0;
+    els.navPatternGameSub.textContent =
+      clears > 0
+        ? `슬롯 조립 퍼즐 · 🏆 ${clears}개 주제 클리어 달성!`
+        : `슬롯 조립 퍼즐 · 뼈대는 그대로 핵심 블록만 착착!`;
+  }
+
   // 필러 집중 훈련 모드
   if (els.navFillerSub) {
     els.navFillerSub.textContent = `${FILLER_ITEMS.length || 16}개 핵심 필러 · 시점별 가이드 & 실전 연습`;
@@ -405,6 +417,35 @@ function navigateTo(screen, params = {}, pushHistory = true) {
       }
       break;
 
+    case "patternGameTopic":
+      if (els.patternGameTopicScreen) {
+        els.patternGameTopicScreen.style.display = "block";
+        if (typeof renderPatternGameLobby === "function") {
+          renderPatternGameLobby();
+        }
+      }
+      break;
+
+    case "patternGameCard":
+      if (els.patternGameCard) {
+        els.patternGameCard.style.display = "block";
+        if (params && typeof params.patIdx === "number") {
+          if (typeof pgCurPatternIdx !== "undefined") {
+            pgCurPatternIdx = params.patIdx;
+          }
+          if (
+            typeof params.varIdx === "number" &&
+            typeof pgCurVarIdx !== "undefined"
+          ) {
+            pgCurVarIdx = params.varIdx;
+          }
+        }
+        if (typeof startPatternGameStage === "function") {
+          startPatternGameStage();
+        }
+      }
+      break;
+
     case "filler":
       const fCard = document.getElementById("fillerCard");
       if (fCard) {
@@ -497,6 +538,14 @@ function showPatternTopics(pushHistory = true) {
 }
 
 /**
+ * 만능 패턴 게임 훈련 로비 화면으로 이동합니다.
+ * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
+ */
+function showPatternGameTopics(pushHistory = true) {
+  navigateTo("patternGameTopic", {}, pushHistory);
+}
+
+/**
  * 특정 필러(Filler) 집중 훈련 화면으로 이동합니다.
  * @param {number} [targetIdx=0] - 대상 필러 인덱스 (0 ~ 15)
  * @param {boolean} [pushHistory=true] - 브라우저 히스토리 기록 여부
@@ -530,6 +579,7 @@ window.showTopicScreen = showTopicScreen;
 window.showWordTopicScreen = showWordTopicScreen;
 window.showOpicTopicScreen = showOpicTopicScreen;
 window.showPatternTopics = showPatternTopics;
+window.showPatternGameTopics = showPatternGameTopics;
 window.showFillerScreen = showFillerScreen;
 window.showSpeechPractice = showSpeechPractice;
 window.renderHomeDashboard = renderHomeDashboard;

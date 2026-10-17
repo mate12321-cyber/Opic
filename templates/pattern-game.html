@@ -1,0 +1,281 @@
+<!--
+  @file templates/pattern-game.html
+  @description [모드 4-2] 만능 패턴 게임 훈련 템플릿 컴포넌트
+  - 주입 슬롯: index.html의 #patternGameSlot
+  - 주요 구성:
+    1. 만능 패턴 게임 훈련 로비 & 패턴 선택 화면 (#patternGameTopicScreen)
+    2. 게임 1: 「슬롯 조립 퍼즐」 플레이 화면 (#patternGameCard)
+-->
+
+<!-- =========================================================================
+     [Screen 1] 만능 패턴 게임 훈련 로비 화면 (#patternGameTopicScreen)
+     ========================================================================= -->
+<div
+  class="topic-screen app-screen"
+  id="patternGameTopicScreen"
+  style="display: none"
+>
+  <div class="mode-switch-row">
+    <button type="button" class="mode-switch-pill" id="homeFromPatternGameTopic">
+      🏠 홈
+    </button>
+    <button
+      type="button"
+      class="mode-switch-pill"
+      id="toPatternStudyFromGame"
+      style="color: #16a34a; font-weight: 700"
+    >
+      🧩 패턴 집중 훈련 →
+    </button>
+  </div>
+
+  <div class="topic-header-row">
+    <div class="topic-lbl">
+      🎮 만능 패턴 게임 훈련
+      <span class="topic-count-badge" id="patternGameTotalClearsBadge"
+        >0 클리어</span
+      >
+    </div>
+    <button
+      type="button"
+      class="btn-select-all"
+      id="btnRandomStartPatternGame"
+      onclick="
+        if (typeof startRandomPatternGame === 'function')
+          startRandomPatternGame();
+      "
+      style="
+        background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+        color: #fff;
+        border: none;
+        font-weight: 700;
+      "
+    >
+      🎲 랜덤 스테이지 시작
+    </button>
+  </div>
+
+  <!-- 게임 모드 안내 배너 (Mode 1 활성 / Mode 2 추후 오픈 예고) -->
+  <div class="pg-mode-tabs">
+    <div class="pg-mode-tab active">
+      <div class="pg-mode-tab-badge">GAME 1 · ACTIVE</div>
+      <div class="pg-mode-tab-title">🧩 슬롯 조립 퍼즐</div>
+      <div class="pg-mode-tab-desc">
+        6문장 뼈대의 빈칸 슬롯에 주제별 핵심 블록을 터치하여 끼워 넣으세요!
+      </div>
+    </div>
+    <div class="pg-mode-tab coming-soon" title="다음 업데이트에서 오픈됩니다">
+      <div class="pg-mode-tab-badge">GAME 2 · NEXT</div>
+      <div class="pg-mode-tab-title">🎰 랜덤 슬롯머신 5초 챌린지</div>
+      <div class="pg-mode-tab-desc">
+        룰렛으로 바뀌는 주제를 보고 5초 안에 순발력 있게 슬롯을 전환하세요!
+      </div>
+    </div>
+  </div>
+
+  <!-- 6대 만능 패턴 스테이지 그리드 -->
+  <div class="pattern-topic-grid" id="patternGameTopicGrid"></div>
+</div>
+<!-- // #patternGameTopicScreen -->
+
+<!-- =========================================================================
+     [Screen 2] 슬롯 조립 퍼즐 플레이 화면 (#patternGameCard)
+     ========================================================================= -->
+<div class="card app-screen" id="patternGameCard" style="display: none">
+  <!-- 상단 네비게이션 바 -->
+  <div class="card-nav-bar">
+    <div class="card-nav-left">
+      <button
+        type="button"
+        class="mode-switch-pill"
+        id="homeFromPatternGameCard"
+        title="홈 대시보드로 이동"
+      >
+        🏠 홈
+      </button>
+      <button
+        type="button"
+        class="mode-switch-pill"
+        id="patternGameChangeListBtn"
+        title="게임 스테이지 목록으로 이동"
+      >
+        🎮 스테이지 목록
+      </button>
+    </div>
+
+    <div class="pattern-header-box">
+      <div class="pattern-title-row">
+        <div class="pattern-main-title" id="pgMainTitle">🧩 슬롯 조립 퍼즐</div>
+      </div>
+    </div>
+
+    <div class="card-nav-right">
+      <button
+        type="button"
+        class="mode-switch-pill"
+        id="pgRandomTopicBtn"
+        onclick="if (typeof randomPatternGameTopic === 'function') randomPatternGameTopic();"
+        title="다른 주제로 무작위 변경"
+        style="color: #7c3aed; font-weight: 700"
+      >
+        🎲 랜덤 주제
+      </button>
+    </div>
+  </div>
+
+  <!-- 게임 스코어보드 & 콤보 상태 바 -->
+  <div class="pg-hud-bar">
+    <div class="pg-hud-item">
+      <span class="pg-hud-label">STAGE</span>
+      <span class="pg-hud-value" id="pgHudStage">1 / 14</span>
+    </div>
+    <div class="pg-hud-item">
+      <span class="pg-hud-label">SLOTS</span>
+      <span class="pg-hud-value" id="pgHudSlots">0 / 4</span>
+    </div>
+    <div class="pg-hud-item pg-hud-combo" id="pgHudComboBox">
+      <span class="pg-hud-label">COMBO</span>
+      <span class="pg-hud-value" id="pgHudCombo">🔥 0</span>
+    </div>
+    <div class="pg-hud-item">
+      <span class="pg-hud-label">SCORE</span>
+      <span class="pg-hud-value" id="pgHudScore">0</span>
+    </div>
+  </div>
+
+  <!-- 주제 스테이지 선택 칩 바 -->
+  <div class="pg-topic-bar">
+    <div class="pg-topic-bar-header">
+      <span class="pg-topic-bar-title"
+        >🎯 미션 주제 선택 <span id="pgTopicBadge" class="pg-topic-pill">☕ 카페</span></span
+      >
+      <div class="pg-topic-bar-actions">
+        <button
+          type="button"
+          class="pg-mini-btn"
+          id="pgListenQuestionBtn"
+          title="이 주제의 에바 실전 질문 듣기"
+        >
+          🔊 에바 질문 듣기
+        </button>
+        <button
+          type="button"
+          class="pg-mini-btn"
+          id="pgHintToggleBtn"
+          onclick="if (typeof togglePatternGameHint === 'function') togglePatternGameHint();"
+          title="한글 해석 힌트 켜기/끄기"
+        >
+          💡 한글 힌트 ON
+        </button>
+      </div>
+    </div>
+    <div class="pg-question-banner" id="pgQuestionBanner">
+      <span class="pg-q-label">Q.</span>
+      <span class="pg-q-text" id="pgQuestionText"
+        >"Describe your favorite place you like to visit and what it looks like."</span
+      >
+    </div>
+    <div class="switcher-chips-wrap" id="pgTopicChips"></div>
+  </div>
+
+  <!-- 메인 조립 보드: 6문장 뼈대 + 빈칸 슬롯 -->
+  <div class="pg-board-section">
+    <div class="pg-board-header">
+      <div class="pg-board-title">
+        <span>🛠️ 6문장 뼈대 조립 보드</span>
+        <span class="pg-board-sub" id="pgBoardInstruction"
+          >반짝이는 빈칸 슬롯을 선택하고 아래에서 알맞은 영어 블록을 터치하세요!</span
+        >
+      </div>
+      <div class="pg-board-actions">
+        <button
+          type="button"
+          class="tts-btn tts-btn-sm"
+          id="pgListenAllBtn"
+          title="완성된 6문장 전체 연속 듣기"
+        >
+          🔊 전체 듣기
+        </button>
+        <button
+          type="button"
+          class="pg-reset-btn"
+          id="pgResetBoardBtn"
+          onclick="if (typeof resetCurrentPatternGameStage === 'function') resetCurrentPatternGameStage();"
+          title="현재 스테이지 처음부터 다시 조립"
+        >
+          ↺ 초기화
+        </button>
+      </div>
+    </div>
+
+    <!-- 6개 문장 슬롯 리스트 -->
+    <div class="pg-sentences-board" id="pgSentencesBoard"></div>
+  </div>
+
+  <!-- 하단 블록 덱 (정답 블록 + 다른 주제의 함정 블록 섞임) -->
+  <div class="pg-deck-section" id="pgDeckSection">
+    <div class="pg-deck-header">
+      <div class="pg-deck-title">
+        <span>🧱 영어 슬롯 블록 덱 (Block Deck)</span>
+        <span class="pg-deck-target-indicator" id="pgActiveSlotIndicator"
+          >1번 빈칸에 들어갈 블록을 골라주세요</span
+        >
+      </div>
+    </div>
+    <div class="pg-deck-grid" id="pgDeckGrid"></div>
+  </div>
+
+  <!-- 스테이지 클리어 축하 배너 (모든 슬롯 조립 완료 시 표시) -->
+  <div class="pg-clear-banner" id="pgClearBanner" style="display: none">
+    <div class="pg-clear-confetti">🎉 STAGE CLEAR! 완벽하게 조립했습니다!</div>
+    <div class="pg-clear-desc" id="pgClearDesc">
+      고정된 만능 뼈대에 핵심 블록만 끼워 넣어 6문장 답변을 완성했어요!
+    </div>
+    <div class="pg-clear-actions">
+      <button
+        type="button"
+        class="tts-btn tts-btn-primary"
+        id="pgClearListenBtn"
+      >
+        🔊 완성된 6문장 연속 듣기
+      </button>
+      <button
+        type="button"
+        class="primary pg-next-stage-btn"
+        id="pgNextStageBtn"
+        onclick="if (typeof nextPatternGameTopic === 'function') nextPatternGameTopic();"
+      >
+        다음 주제 조립하기 →
+      </button>
+    </div>
+  </div>
+
+  <!-- PC 단축키 안내 -->
+  <div class="shortcut-helper desktop-only-tip" style="margin-top: 14px">
+    <span class="shortcut-item"><kbd>1</kbd>~<kbd>9</kbd> 블록 선택</span>
+    <span class="shortcut-item"><kbd>Space</kbd> 전체 듣기</span>
+    <span class="shortcut-item"><kbd>H</kbd> 한글 힌트 토글</span>
+    <span class="shortcut-item"><kbd>R</kbd> 보드 초기화</span>
+    <span class="shortcut-item"><kbd>Enter</kbd> 다음 주제</span>
+  </div>
+
+  <!-- 하단 네비게이션 -->
+  <div class="change-topic-row" style="margin-top: 14px">
+    <button type="button" class="change-topic" id="homeFromPatternGameCardBottom">
+      🏠 홈
+    </button>
+    <button type="button" class="change-topic" id="patternGameChangeListBtnBottom">
+      🎮 스테이지 목록
+    </button>
+    <button
+      type="button"
+      class="change-topic"
+      id="toPatternStudyFromGameCard"
+      style="color: #16a34a; font-weight: 700"
+    >
+      🧩 이 패턴 집중 훈련으로 이동
+    </button>
+  </div>
+</div>
+<!-- // #patternGameCard -->
+

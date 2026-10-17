@@ -13,7 +13,7 @@
   "use strict";
 
   /** @const {string} 캐시 버스팅용 빌드 버전 태그 */
-  const BUILD_VERSION = "2.2.24";
+  const BUILD_VERSION = "2.2.28";
 
   /**
    * @typedef {Object} ScreenConfig
@@ -28,6 +28,7 @@
     { id: "grammarSlot", file: "templates/grammar.html" },
     { id: "opicSlot", file: "templates/opic.html" },
     { id: "patternSlot", file: "templates/pattern.html" },
+    { id: "patternGameSlot", file: "templates/pattern-game.html" },
     { id: "fillerSlot", file: "templates/filler.html" },
     { id: "speechSlot", file: "templates/speech.html" },
   ];
@@ -42,10 +43,12 @@
    * @typedef {Object} ScriptItem
    * @property {string} src - 스크립트 소스 경로 (로컬 또는 CDN)
    * @property {string} [type] - 스크립트 모듈 타입 (예: "module")
+   * @property {boolean} [optional] - 파일 부재 시에도 부팅을 중단하지 않는 선택적 스크립트 여부
    */
 
   /** @type {ScriptItem[]} 실행 의존성 순서가 보장되어야 하는 스크립트 목록 */
   const SCRIPTS_TO_LOAD = [
+    { src: "js/config.js", optional: true },
     {
       src: "https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle.js",
     },
@@ -65,6 +68,7 @@
     { src: "js/grammar.js" },
     { src: "js/opic.js" },
     { src: "js/pattern.js" },
+    { src: "js/pattern-game.js" },
     { src: "js/filler.js" },
     { src: "js/whisper-transcriber.js", type: "module" },
     { src: "js/speech-practice.js" },
@@ -177,7 +181,14 @@
       s.src = isExternal ? item.src : `${item.src}?v=${BUILD_VERSION}`;
       s.async = false;
       s.onload = () => resolve();
-      s.onerror = () => reject(new Error(`스크립트 로드 실패: ${item.src}`));
+      s.onerror = () => {
+        if (item.optional) {
+          // 로컬 환경설정 등 선택적 스크립트는 파일 부재 시 건너뜀
+          resolve();
+        } else {
+          reject(new Error(`스크립트 로드 실패: ${item.src}`));
+        }
+      };
       document.body.appendChild(s);
     });
   }

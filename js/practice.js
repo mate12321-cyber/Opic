@@ -194,6 +194,9 @@ function renderCard() {
 function reveal() {
   if (revealed) return;
   revealed = true;
+  if (els.userInput && document.activeElement === els.userInput) {
+    els.userInput.blur();
+  }
   els.answerBox.classList.add("show");
   els.revealRow.style.display = "none";
   els.rateRow.style.display = "flex";

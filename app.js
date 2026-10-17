@@ -455,6 +455,12 @@ if (els.navPattern) {
   });
 }
 
+if (els.navPatternGame) {
+  els.navPatternGame.addEventListener("click", () => {
+    showPatternGameTopics();
+  });
+}
+
 const homeFromPatternTopic = document.getElementById("homeFromPatternTopic");
 const homeFromPatternCard = document.getElementById("homeFromPatternCard");
 const patternChangeListBtn = document.getElementById("patternChangeListBtn");
@@ -462,9 +468,56 @@ const toOpicFromPattern = document.getElementById("toOpicFromPattern");
 const patternNextBtn = document.getElementById("patternNextBtn");
 const btnPrevPattern = document.getElementById("btnPrevPattern");
 
+const homeFromPatternGameTopic = document.getElementById(
+  "homeFromPatternGameTopic",
+);
+const homeFromPatternGameCard = document.getElementById(
+  "homeFromPatternGameCard",
+);
+const homeFromPatternGameCardBottom = document.getElementById(
+  "homeFromPatternGameCardBottom",
+);
+const patternGameChangeListBtn = document.getElementById(
+  "patternGameChangeListBtn",
+);
+const patternGameChangeListBtnBottom = document.getElementById(
+  "patternGameChangeListBtnBottom",
+);
+const toPatternStudyFromGame = document.getElementById(
+  "toPatternStudyFromGame",
+);
+const toPatternStudyFromGameCard = document.getElementById(
+  "toPatternStudyFromGameCard",
+);
+
 if (toOpicFromPattern) {
   toOpicFromPattern.addEventListener("click", () => {
     showOpicTopicScreen();
+  });
+}
+
+if (toPatternStudyFromGame) {
+  toPatternStudyFromGame.addEventListener("click", () => {
+    showPatternTopics();
+  });
+}
+if (toPatternStudyFromGameCard) {
+  toPatternStudyFromGameCard.addEventListener("click", () => {
+    if (typeof pgCurPatternIdx === "number" && typeof showPatternCard === "function") {
+      showPatternCard(pgCurPatternIdx);
+    } else {
+      showPatternTopics();
+    }
+  });
+}
+if (patternGameChangeListBtn) {
+  patternGameChangeListBtn.addEventListener("click", () => {
+    showPatternGameTopics();
+  });
+}
+if (patternGameChangeListBtnBottom) {
+  patternGameChangeListBtnBottom.addEventListener("click", () => {
+    showPatternGameTopics();
   });
 }
 
@@ -532,6 +585,9 @@ if (toPatternFromFiller) {
   homeFromPatternTopic,
   homeFromPatternCard,
   document.getElementById("homeFromPatternCardBottom"),
+  homeFromPatternGameTopic,
+  homeFromPatternGameCard,
+  homeFromPatternGameCardBottom,
   document.getElementById("homeFromFiller"),
   els.homeFromSpeechPractice,
 ].forEach((el) => el && el.addEventListener("click", () => showHomeScreen()));

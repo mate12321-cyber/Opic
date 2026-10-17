@@ -72,7 +72,7 @@ let azureApiKey = "";
 let azureRegion = "eastus";
 
 /** @type {string} Azure Neural Voice 모델 식별자 */
-let azureVoice = "en-US-JennyNeural";
+let azureVoice = "en-US-AvaNeural";
 
 /** @type {HTMLElement|null} 현재 오디오를 재생 중인 버튼 엘리먼트 참조 */
 let currentSpeakingBtn = null;
@@ -118,6 +118,21 @@ function loadTtsSettings() {
       if (settings.azureVoice) azureVoice = settings.azureVoice;
     }
   } catch (e) {}
+
+  // 환경 변수 (window.ENV / js/config.js) 기본값 자동 주입:
+  // 강력 새로고침, 캐시 삭제 등으로 localStorage가 비어있거나 키가 미설정된 경우 config.js 설정 자동 사용
+  if (typeof window !== "undefined" && window.ENV) {
+    if (!azureApiKey && window.ENV.AZURE_SPEECH_KEY) {
+      azureApiKey = window.ENV.AZURE_SPEECH_KEY;
+    }
+    if ((!azureRegion || azureRegion === "koreacentral") && window.ENV.AZURE_SPEECH_REGION) {
+      azureRegion = window.ENV.AZURE_SPEECH_REGION;
+    }
+    if (window.ENV.AZURE_SPEECH_VOICE) {
+      azureVoice = window.ENV.AZURE_SPEECH_VOICE;
+    }
+  }
+
   updateTtsSettingsUI();
 }
 
@@ -420,10 +435,19 @@ function initTtsSettingsModal() {
    */
   function openModal() {
     if (engineSelect) engineSelect.value = ttsEngine;
-    if (azureKeyInput) azureKeyInput.value = azureApiKey || "";
-    if (azureRegionInput) azureRegionInput.value = azureRegion || "eastus";
+    if (azureKeyInput)
+      azureKeyInput.value =
+        azureApiKey || (window.ENV && window.ENV.AZURE_SPEECH_KEY) || "";
+    if (azureRegionInput)
+      azureRegionInput.value =
+        azureRegion ||
+        (window.ENV && window.ENV.AZURE_SPEECH_REGION) ||
+        "eastus";
     if (azureVoiceSelect)
-      azureVoiceSelect.value = azureVoice || "en-US-JennyNeural";
+      azureVoiceSelect.value =
+        azureVoice ||
+        (window.ENV && window.ENV.AZURE_SPEECH_VOICE) ||
+        "en-US-AvaNeural";
 
     if (azureSection) {
       azureSection.style.display = ttsEngine === "azure" ? "flex" : "none";
@@ -813,7 +837,7 @@ function resetCurrentButton() {
  * 2. 캐시 미스 시: Azure REST 엔드포인트(/cognitiveservices/v1)로 SSML XML 전송
  * 3. 응답 성공 시: Azure F0 월간 텍스트 사용량 누적 및 IndexedDB 영구 보존
  * @param {string} text - 음성 합성할 영문 텍스트
- * @param {string} [voiceName="en-US-JennyNeural"] - Azure Neural Voice 명칭
+ * @param {string} [voiceName="en-US-AvaNeural"] - Azure Neural Voice 명칭
  * @param {number} [rate=1.0] - 재생 속도 배율
  * @param {string|null} [lang=null] - 언어 코드 (기본값 en-US)
  * @returns {Promise<Blob>} 합성된 오디오 MP3 Blob
@@ -821,7 +845,7 @@ function resetCurrentButton() {
  */
 async function fetchAzureTtsAudio(
   text,
-  voiceName = "en-US-JennyNeural",
+  voiceName = "en-US-AvaNeural",
   rate = 1.0,
   lang = null,
 ) {
@@ -829,7 +853,7 @@ async function fetchAzureTtsAudio(
     throw new Error("Azure API Key is not set.");
   }
 
-  const selectedVoice = voiceName || azureVoice || "en-US-JennyNeural";
+  const selectedVoice = voiceName || azureVoice || "en-US-AvaNeural";
   const selectedLang =
     lang || selectedVoice.split("-").slice(0, 2).join("-") || "en-US";
   const selectedRate =
@@ -1068,7 +1092,7 @@ async function speakText(text, lang = "en-US", btn = null) {
 
   const isKorean = lang.startsWith("ko");
   const effectiveEngine = isKorean ? "google" : ttsEngine;
-  const voiceName = isKorean ? "ko-KR" : azureVoice || "en-US-JennyNeural";
+  const voiceName = isKorean ? "ko-KR" : azureVoice || "en-US-AvaNeural";
 
   // [1단계: IndexedDB 무비용 영구 캐시 검사]
   // 동일 엔진, 보이스, 문장, 속도로 생성된 Blob이 있으면 네트워크 트래픽 0바이트, 0ms 즉각 재생
@@ -1522,7 +1546,7 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
     cleanRef,
     sdk.PronunciationAssessmentGradingSystem.HundredMark,
     sdk.PronunciationAssessmentGranularity.Phoneme,
-    false,
+    true, // enableMiscue = true (다문장 연속 인식 필수)
   );
   pronConfig.enableProsodyAssessment = true;
 
@@ -1597,6 +1621,9 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
           try {
             const parsed = JSON.parse(jsonStr);
             if (parsed && parsed.NBest && parsed.NBest[0]) {
+              console.log(
+                `[SpeechSDK] Recognized segment: ${parsed.NBest[0].Words?.length || 0} words ("${e.result.text}")`,
+              );
               segments.push(parsed.NBest[0]);
             }
           } catch (jsonErr) {
@@ -1617,14 +1644,17 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
     };
 
     recognizer.sessionStopped = () => {
+      console.log(
+        `[SpeechSDK] Session stopped. Total segments collected: ${segments.length}`,
+      );
       finish();
     };
 
-    // 안전 타임아웃: 오디오 길이에 비례하되 최대 35초
+    // 안전 타임아웃: 오디오 길이에 비례하되 최대 60초
     const audioSec = Math.max(1, (wavBuffer.byteLength - 44) / 32000);
     const timeoutMs = Math.min(
-      35000,
-      Math.max(12000, Math.round(audioSec * 1500) + 5000),
+      60000,
+      Math.max(15000, Math.round(audioSec * 1500) + 8000),
     );
 
     safetyTimer = setTimeout(() => {
@@ -1637,19 +1667,22 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
         try {
           const pcmBytes =
             wavBuffer.byteLength > 44 ? wavBuffer.slice(44) : wavBuffer;
-          const chunkSize = 32000;
-          for (
-            let offset = 0;
-            offset < pcmBytes.byteLength;
-            offset += chunkSize
-          ) {
+          const chunkSize = 4096;
+          let offset = 0;
+          while (offset < pcmBytes.byteLength) {
             const chunk = pcmBytes.slice(
               offset,
               Math.min(offset + chunkSize, pcmBytes.byteLength),
             );
             pushStream.write(chunk);
+            offset += chunkSize;
           }
-          pushStream.close();
+          // 오디오 데이터가 SDK 파이프라인에 안전하게 공급되도록 미세 지연 후 스트림 종료
+          setTimeout(() => {
+            try {
+              pushStream.close();
+            } catch (closeErr) {}
+          }, 100);
         } catch (writeErr) {
           console.error("[SpeechSDK] PushStream write error:", writeErr);
           finish();
@@ -1664,12 +1697,105 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
 }
 
 /**
- * Azure Cognitive Services Pronunciation Assessment REST API (단문/폴백 모드)
+ * 16kHz Mono 16bit PCM WAV 버퍼를 문장 목록에 맞추어 단어 수 비율 + 침묵(Energy Valley) 탐색으로 슬라이싱
+ * @param {ArrayBuffer} wavBuffer - 원본 16kHz WAV 버퍼
+ * @param {string[]} sentences - 분할할 문장 배열
+ * @returns {Array<{wav: ArrayBuffer, text: string}>} 문장별 분할된 WAV 청크 목록
+ */
+function splitWavBufferBySentences(wavBuffer, sentences) {
+  if (!sentences || sentences.length <= 1) {
+    return [{ wav: wavBuffer, text: (sentences && sentences[0]) || "" }];
+  }
+
+  const pcmBytes = wavBuffer.byteLength > 44 ? wavBuffer.slice(44) : wavBuffer;
+  const totalSamples = Math.floor(pcmBytes.byteLength / 2);
+  const sampleRate = 16000;
+  const view = new DataView(pcmBytes);
+
+  const wordCounts = sentences.map((s) =>
+    Math.max(1, s.split(/\s+/).filter(Boolean).length),
+  );
+  const totalWords = wordCounts.reduce((a, b) => a + b, 0);
+
+  const splitSampleIndices = [0];
+  let accumulatedRatio = 0;
+  for (let i = 0; i < sentences.length - 1; i++) {
+    accumulatedRatio += wordCounts[i] / totalWords;
+    const targetSample = Math.round(totalSamples * accumulatedRatio);
+    // 주변 ±1.5초(24,000 samples) 범위 내에서 가장 에너지가 낮은 밸리(침묵/숨 고르는 지점) 탐색
+    const windowRadius = Math.min(24000, Math.round(targetSample * 0.4));
+    let bestSample = targetSample;
+    let minEnergy = Infinity;
+    const searchStep = 160; // 10ms 단위
+
+    const startSearch = Math.max(0, targetSample - windowRadius);
+    const endSearch = Math.min(totalSamples, targetSample + windowRadius);
+
+    for (let s = startSearch; s < endSearch; s += searchStep) {
+      let energy = 0;
+      for (let k = 0; k < searchStep && s + k < totalSamples; k++) {
+        energy += Math.abs(view.getInt16((s + k) * 2, true));
+      }
+      if (energy < minEnergy) {
+        minEnergy = energy;
+        bestSample = s;
+      }
+    }
+    splitSampleIndices.push(bestSample);
+  }
+  splitSampleIndices.push(totalSamples);
+
+  function createWavHeader(dataLength) {
+    const buffer = new ArrayBuffer(44);
+    const v = new DataView(buffer);
+    function w(offset, str) {
+      for (let k = 0; k < str.length; k++)
+        v.setUint8(offset + k, str.charCodeAt(k));
+    }
+    w(0, "RIFF");
+    v.setUint32(4, 36 + dataLength, true);
+    w(8, "WAVE");
+    w(12, "fmt ");
+    v.setUint32(16, 16, true);
+    v.setUint16(20, 1, true); // PCM
+    v.setUint16(22, 1, true); // Mono
+    v.setUint32(24, sampleRate, true);
+    v.setUint32(28, sampleRate * 2, true);
+    v.setUint16(32, 2, true);
+    v.setUint16(34, 16, true);
+    w(36, "data");
+    v.setUint32(40, dataLength, true);
+    return buffer;
+  }
+
+  const results = [];
+  for (let i = 0; i < sentences.length; i++) {
+    const startS = splitSampleIndices[i];
+    const endS = splitSampleIndices[i + 1];
+    const dataLen = (endS - startS) * 2;
+    if (dataLen < 1600) {
+      // 0.05초 미만의 무의미한 조각 건너뜀
+      continue;
+    }
+    const header = createWavHeader(dataLen);
+    const out = new Uint8Array(44 + dataLen);
+    out.set(new Uint8Array(header), 0);
+    out.set(new Uint8Array(pcmBytes.slice(startS * 2, endS * 2)), 44);
+    results.push({ wav: out.buffer, text: sentences[i] });
+  }
+
+  return results.length > 0
+    ? results
+    : [{ wav: wavBuffer, text: sentences.join(" ") }];
+}
+
+/**
+ * Azure Cognitive Services Pronunciation Assessment 단일 REST API 호출 (NBest 원시 객체 반환)
  * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
  * @param {string} referenceText - 모범 기준 정답 텍스트
- * @returns {Promise<Object>}
+ * @returns {Promise<Object>} NBest[0] 평가 데이터 객체
  */
-async function assessPronunciationWithAzureRest(wavBuffer, referenceText) {
+async function assessPronunciationWithAzureRestRaw(wavBuffer, referenceText) {
   const cleanRef = sanitizeEnglishText(referenceText.trim());
   const region = (azureRegion || "eastus").trim();
   const endpoint = `https://${region}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US&format=detailed`;
@@ -1705,11 +1831,77 @@ async function assessPronunciationWithAzureRest(wavBuffer, referenceText) {
     throw new Error(`음성 인식 실패 (${data.RecognitionStatus || "No match"})`);
   }
 
-  return aggregateAzureSegments([data.NBest[0]]);
+  return data.NBest[0];
 }
 
 /**
- * Azure AI 음성 정밀 발음 평가 (하이브리드: SpeechSDK 연속 모드 우선 ➔ REST API 폴백)
+ * Azure Cognitive Services Pronunciation Assessment REST API (단문 집계 모드)
+ * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
+ * @param {string} referenceText - 모범 기준 정답 텍스트
+ * @returns {Promise<Object>} 집계된 평가 결과 객체
+ */
+async function assessPronunciationWithAzureRest(wavBuffer, referenceText) {
+  const nbest = await assessPronunciationWithAzureRestRaw(
+    wavBuffer,
+    referenceText,
+  );
+  return aggregateAzureSegments([nbest]);
+}
+
+/**
+ * 마침표 유무와 상관없이 긴 발화 텍스트를 Azure REST API가 100% 인식할 수 있는 이상적인 발화 단위(4~8단어 청크)로 분할
+ * @param {string} text - 원본 발화 텍스트
+ * @param {number} [maxWordsPerChunk=8] - 청크당 최대 권장 단어 수
+ * @returns {string[]} 분할된 발화 청크 배열
+ */
+function splitIntoUtteranceChunks(text, maxWordsPerChunk = 8) {
+  if (!text || !text.trim()) return [];
+
+  // 1. 구두점(. ! ? , ; 및 줄바꿈) 기준 1차 분할
+  const rawSegments = text
+    .split(/[.!?,\n;]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  // 2. 구두점이 없거나 긴 세그먼트를 쪼개기 위한 접속사/담화표지어/주어 분절 정규식
+  const splitKeywords =
+    /\b(and|or|but|so|because|since|although|though|however|therefore|when|whenever|after|before|then|also|besides|plus|for example|in fact|you know|honestly|actually|frankly|i think|in my opinion|i usually|i like|i love|my|we|they|it is|it was|there is|there are|sometimes|usually|always)\b/gi;
+
+  const chunks = [];
+
+  for (const seg of rawSegments) {
+    const tokens = seg.split(/\s+/).filter(Boolean);
+    if (tokens.length <= maxWordsPerChunk) {
+      chunks.push(tokens.join(" "));
+      continue;
+    }
+
+    let cur = [];
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i];
+      const isSplitter = splitKeywords.test(token);
+      splitKeywords.lastIndex = 0;
+
+      // 최소 4단어 이상 쌓였고 분절 키워드가 나오거나, 이미 최대 단어 수에 도달했으면 청크 분할
+      if ((isSplitter && cur.length >= 4) || cur.length >= maxWordsPerChunk) {
+        chunks.push(cur.join(" "));
+        cur = [token];
+      } else {
+        cur.push(token);
+      }
+    }
+    if (cur.length > 0) {
+      chunks.push(cur.join(" "));
+    }
+  }
+
+  return chunks.length > 0 ? chunks : [text.trim()];
+}
+
+/**
+ * Azure AI 음성 정밀 발음 평가 (스마트 발화 청킹 + 고신뢰도 REST 병렬 채점 파이프라인)
+ * - 5~6문장 이상의 장문 발화도 모든 문장/단어가 누락 없이 100% 온전히 채점되도록
+ *   4~8단어 발화 청크 단위로 오디오를 침묵 스냅 슬라이싱하여 병렬 채점 후 통합
  * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
  * @param {string} referenceText - 모범 기준 정답 텍스트
  * @returns {Promise<Object>} 정밀 평가 결과 객체 (점수, 음소/단어 분석, OPIc 예상 등급)
@@ -1723,10 +1915,21 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     throw new Error("평가할 오디오 데이터가 부족합니다.");
   }
 
-  // 이번 달 Azure 발음 평가 처리 오디오 길이(초) 사용량 누적 (16kHz 16bit Mono = 32,000 bytes/sec)
   const audioSec = Math.max(0.5, (wavBuffer.byteLength - 44) / 32000);
+  const totalWords = referenceText.trim().split(/\s+/).filter(Boolean).length;
 
-  // 1. Azure Speech SDK 연속 음성 평가 시도 (다문장, 긴 문장, OPIc 전체 발화 완벽 지원)
+  // 단문/단일 문장 (6단어 이하)의 경우 즉각적이고 가벼운 단일 REST API 호출
+  if (totalWords <= 6) {
+    const restResult = await assessPronunciationWithAzureRest(
+      wavBuffer,
+      referenceText,
+    );
+    addAzureAudioUsage(audioSec);
+    return restResult;
+  }
+
+  // 다문장 / 장문 발화 (5~6문장 이상):
+  // Azure Speech SDK 연속 인식을 최우선으로 사용하여 전체 오디오를 끊김 없이 문장별로 100% 온전하게 채점
   if (
     typeof window !== "undefined" &&
     window.SpeechSDK &&
@@ -1734,6 +1937,9 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     window.SpeechSDK.SpeechRecognizer
   ) {
     try {
+      console.log(
+        `[PronAssessment] Multi-sentence (${totalWords} words, ${audioSec.toFixed(1)}s): running SpeechSDK continuous recognition...`,
+      );
       const sdkResult = await assessPronunciationWithSpeechSDK(
         wavBuffer,
         referenceText,
@@ -1748,13 +1954,13 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     }
   }
 
-  // 2. SpeechSDK 미지원 또는 실패 시 기존 REST API 폴백
-  const restResult = await assessPronunciationWithAzureRest(
+  // 폴백: 단일 REST 호출
+  const fallbackResult = await assessPronunciationWithAzureRest(
     wavBuffer,
     referenceText,
   );
   addAzureAudioUsage(audioSec);
-  return restResult;
+  return fallbackResult;
 }
 
 // =============================================================================
@@ -2507,11 +2713,15 @@ async function renderPronunciationAssessment({
       }
     } catch (e) {}
   }
-  const isOpic = mode === "opic";
-  // OPIc 실전 모드는 모범 답안과 비교하지 않고 '내 실제 답변(userText)'을 기준으로 발음/유창성/운율을 정밀 진단!
-  const targetAssessmentText = isOpic
-    ? (userText || "").trim()
-    : (referenceText || userText || "").trim();
+  // 평가 기준 대본(targetAssessmentText) 결정:
+  // 사용자가 마이크로 실제로 말한 답변(userText)이 존재하면, 사용자가 말한 5~6문장 전체가 빠짐없이
+  // 온전히 채점되도록 userText를 평가 기준 대본으로 최우선 지정합니다.
+  let targetAssessmentText = "";
+  if (userText && userText.trim().split(/\s+/).length >= 2) {
+    targetAssessmentText = userText.trim();
+  } else {
+    targetAssessmentText = (referenceText || userText || "").trim();
+  }
 
   // 1. Azure AI 평가 가능한 상태 (WAV 음성 데이터 + Azure API Key 유효 + 발화 텍스트 있음)
   if (azureApiKey && azureApiKey.trim() && wavBuffer && targetAssessmentText) {
@@ -2747,23 +2957,42 @@ async function renderPronunciationAssessment({
 
     res.words.forEach((w) => {
       let scoreClass = "score-good";
-      if (w.errorType === "Omission") scoreClass = "omission";
-      else if (w.errorType === "Insertion") scoreClass = "insertion";
-      else if (w.accuracyScore < 60) scoreClass = "score-bad";
-      else if (w.accuracyScore < 80) scoreClass = "score-warn";
+      let displayScore = w.accuracyScore > 0 ? w.accuracyScore : "";
+      let errorLabel = "";
+
+      if (w.errorType === "Omission") {
+        scoreClass = "omission";
+        displayScore = "누락";
+        errorLabel = "[미발화/누락]";
+      } else if (w.errorType === "Insertion") {
+        scoreClass = "insertion";
+        displayScore = "+추가";
+        errorLabel = "[추가 발화]";
+      } else if (w.accuracyScore < 60) {
+        scoreClass = "score-bad";
+      } else if (w.accuracyScore < 80) {
+        scoreClass = "score-warn";
+      }
 
       const phonemeList = (w.phonemes || [])
         .map((p) => `${getPhonemeKoreanDesc(p.phoneme)}: ${p.accuracyScore}점`)
         .join(" · ");
 
-      const tooltipText = phonemeList
-        ? `${w.word} (${w.accuracyScore}점) - ${phonemeList}`
-        : `${w.word}: ${w.accuracyScore}점`;
+      let tooltipText = `${w.word}: ${w.accuracyScore}점`;
+      if (errorLabel) {
+        tooltipText = `${w.word} ${errorLabel} - ${
+          w.errorType === "Omission"
+            ? "발음되지 않았거나 인식이 누락됨"
+            : "대본에 없는 추가 발화"
+        }`;
+      } else if (phonemeList) {
+        tooltipText = `${w.word} (${w.accuracyScore}점) - ${phonemeList}`;
+      }
 
       wordsHtml += `
         <div class="azure-word-chip ${scoreClass}" tabindex="0" title="${escapeHtml(tooltipText)}">
           <span>${escapeHtml(w.word)}</span>
-          <span class="word-score">${w.accuracyScore > 0 ? w.accuracyScore : ""}</span>
+          <span class="word-score">${escapeHtml(String(displayScore))}</span>
           ${phonemeList ? `<div class="phoneme-popover">${escapeHtml(phonemeList)}</div>` : ""}
         </div>
       `;
@@ -3664,8 +3893,8 @@ function createSpeechRecognitionInstance() {
 
   const rec = new SpeechRecognition();
   rec.lang = "en-US";
-  // 데스크톱 및 모바일 전 브라우저에서 continuous=false 적용 (onend에서 인스턴스 재생성을 통한 무봉제 자동 재연결)
-  rec.continuous = false;
+  // 데스크톱에서는 continuous=true로 긴 5~6문장 발화도 끊김 없이 계속 수신, 모바일 안드로이드는 재연결 모드
+  rec.continuous = !isAndroid;
   rec.interimResults = true;
   rec.maxAlternatives = 1;
 

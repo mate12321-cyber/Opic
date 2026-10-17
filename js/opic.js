@@ -1020,6 +1020,9 @@ function updateOpicButtonsState() {
 function evaluateOpicAnswer() {
   opicEvaluated = true;
   stopSpeakingTimer();
+  if (els.opicUserInput && document.activeElement === els.opicUserInput) {
+    els.opicUserInput.blur();
+  }
 
   const item = OPIC_QUESTIONS[opicOrder[opicCur]];
   if (!item) return;

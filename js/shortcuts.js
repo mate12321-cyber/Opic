@@ -293,6 +293,54 @@ document.addEventListener("keydown", (e) => {
   }
 
   // =============================================================================
+  // 5-2. 만능 패턴 게임 훈련 모드 단축키
+  // =============================================================================
+  const patternGameCard = document.getElementById("patternGameCard");
+  if (patternGameCard && patternGameCard.style.display !== "none") {
+    const isKeyH =
+      e.code === "KeyH" || e.key === "h" || e.key === "H" || e.key === "ㅗ";
+
+    // 숫자 1~9로 블록 덱 카드 즉시 선택
+    let blockIdx = -1;
+    if (e.code && e.code.startsWith("Digit")) {
+      const n = parseInt(e.code.replace("Digit", ""), 10);
+      if (n >= 1 && n <= 9) blockIdx = n - 1;
+    } else if (e.code && e.code.startsWith("Numpad")) {
+      const n = parseInt(e.code.replace("Numpad", ""), 10);
+      if (n >= 1 && n <= 9) blockIdx = n - 1;
+    } else if (/^[1-9]$/.test(e.key)) {
+      blockIdx = parseInt(e.key, 10) - 1;
+    }
+
+    if (
+      blockIdx !== -1 &&
+      typeof handlePatternGameBlockClick === "function"
+    ) {
+      e.preventDefault();
+      handlePatternGameBlockClick(blockIdx);
+      return;
+    } else if (isSpace) {
+      e.preventDefault();
+      const listenAllBtn = document.getElementById("pgListenAllBtn");
+      if (listenAllBtn) listenAllBtn.click();
+      return;
+    } else if (isKeyH) {
+      e.preventDefault();
+      if (typeof togglePatternGameHint === "function") togglePatternGameHint();
+      return;
+    } else if (isKeyR) {
+      e.preventDefault();
+      if (typeof resetCurrentPatternGameStage === "function")
+        resetCurrentPatternGameStage();
+      return;
+    } else if (isEnter) {
+      e.preventDefault();
+      if (typeof nextPatternGameTopic === "function") nextPatternGameTopic();
+      return;
+    }
+  }
+
+  // =============================================================================
   // 6. 필러 집중 훈련 모드 단축키
   // =============================================================================
   const fillerCard = document.getElementById("fillerCard");

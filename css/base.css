@@ -12,9 +12,16 @@
 :root {
   /* 테마 컬러 시스템 (Slate & Indigo) */
   --bg-app: #f8fafc;
+  --bg-subtle: #f8fafc;
+  --bg-alt: #f1f5f9;
   --surface: #ffffff;
+  --surface-default: #ffffff;
+  --surface-card: #ffffff;
   --surface-subtle: #f8fafc;
+  --surface-muted: #f8fafc;
   --surface-hover: #f1f5f9;
+  --card-bg: #ffffff;
+  --input-bg: #f8fafc;
 
   /* 포인트 및 프라이머리 컬러 */
   --primary: #4f46e5;
@@ -22,10 +29,13 @@
   --primary-active: #3730a3;
   --primary-subtle: #eef2ff;
   --primary-border: #c7d2fe;
+  --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
 
   /* 텍스트 컬러 */
   --text-main: #0f172a;
+  --text-primary: #0f172a;
   --text-body: #334155;
+  --text-secondary: #475569;
   --text-muted: #64748b;
   --text-faint: #94a3b8;
 
@@ -59,12 +69,14 @@
   --shadow-card:
     0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
 
-  /* 모서리 곡률 */
+  /* 모서리 곡률 & 트랜지션 */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 12px;
   --radius-xl: 18px;
   --radius-full: 9999px;
+  --radius-pill: 9999px;
+  --trans-fast: 0.15s ease;
 
   /* 폰트 패밀리 */
   --font-sans:
@@ -74,20 +86,31 @@
 }
 
 /* 🌙 다크 모드 (Dark Theme) 색상 토큰 */
+html.dark-theme,
 body.dark-theme {
   --bg-app: #0b0f19;
+  --bg-subtle: #111827;
+  --bg-alt: #1f2937;
   --surface: #111827;
+  --surface-default: #111827;
+  --surface-card: #1f2937;
   --surface-subtle: #1f2937;
+  --surface-muted: #1f2937;
   --surface-hover: #374151;
+  --card-bg: #111827;
+  --input-bg: #1f2937;
 
-  --primary: #64748b;
-  --primary-hover: #94a3b8;
-  --primary-active: #475569;
+  --primary: #818cf8;
+  --primary-hover: #a5b4fc;
+  --primary-active: #6366f1;
   --primary-subtle: #1e293b;
-  --primary-border: #475569;
+  --primary-border: #4f46e5;
+  --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
 
   --text-main: #f9fafb;
+  --text-primary: #f9fafb;
   --text-body: #e5e7eb;
+  --text-secondary: #cbd5e1;
   --text-muted: #9ca3af;
   --text-faint: #6b7280;
 
@@ -719,10 +742,18 @@ h1 {
  * 🔍 [방법 2] 사용자 맞춤 화면 및 글자 크기 스케일 (data-font-scale)
  * ============================================================================= */
 
-/* 1단계: 크게 (Large, 모바일 +12% / 랩탑 +22% / 맥북 15인치 +26%) */
+/* 1단계: 크게 (Large, 모바일 +8% / 랩탑 +22% / 맥북 15인치 +26%) */
 html[data-font-scale="large"] .wrap,
 body[data-font-scale="large"] .wrap {
-  zoom: 1.12 !important;
+  zoom: 1.08 !important;
+  max-width: 100%;
+}
+@media (max-width: 540px) {
+  html[data-font-scale="large"] .wrap,
+  body[data-font-scale="large"] .wrap {
+    zoom: 1.06 !important;
+    width: 100%;
+  }
 }
 @media (min-width: 1024px) {
   html[data-font-scale="large"] .wrap,
@@ -742,10 +773,18 @@ body[data-font-scale="large"] .modal-card {
   zoom: 1.08 !important;
 }
 
-/* 2단계: 아주 크게 (Extra Large, 모바일 +24% / 랩탑 +34% / 맥북 15인치 +38%) */
+/* 2단계: 아주 크게 (Extra Large, 모바일 +14% / 랩탑 +34% / 맥북 15인치 +38%) */
 html[data-font-scale="xlarge"] .wrap,
 body[data-font-scale="xlarge"] .wrap {
-  zoom: 1.24 !important;
+  zoom: 1.14 !important;
+  max-width: 100%;
+}
+@media (max-width: 540px) {
+  html[data-font-scale="xlarge"] .wrap,
+  body[data-font-scale="xlarge"] .wrap {
+    zoom: 1.12 !important;
+    width: 100%;
+  }
 }
 @media (min-width: 1024px) {
   html[data-font-scale="xlarge"] .wrap,
@@ -762,7 +801,7 @@ body[data-font-scale="xlarge"] .wrap {
 
 html[data-font-scale="xlarge"] .modal-card,
 body[data-font-scale="xlarge"] .modal-card {
-  zoom: 1.16 !important;
+  zoom: 1.14 !important;
 }
 
 /* =============================================================================

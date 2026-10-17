@@ -468,9 +468,18 @@ textarea::placeholder {
   border-radius: var(--radius-sm);
   font-size: 11px;
   white-space: nowrap;
+  max-width: min(260px, 85vw);
   box-shadow: var(--shadow-md);
   z-index: 50;
   pointer-events: none;
+}
+@media (max-width: 540px) {
+  .phoneme-popover {
+    white-space: normal;
+    word-break: keep-all;
+    text-align: center;
+    min-width: 110px;
+  }
 }
 .phoneme-popover::after {
   content: "";
