@@ -1189,6 +1189,10 @@ let currentMediaRecorder = null;
 /** @type {MediaStream|null} 현재 캡처 중인 마이크 오디오 스트림 */
 let currentMediaStream = null;
 
+/** @type {Promise<void>|null} 녹음 중단 및 16kHz WAV 변환 완료 대기 Promise */
+let mediaRecorderDonePromise = null;
+let mediaRecorderDoneResolver = null;
+
 /** @type {Blob[]} 청크 단위로 분할 수집되는 오디오 데이터 청크 배열 */
 let recordedAudioChunks = [];
 
@@ -1579,7 +1583,12 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
               reject(new Error("음성 인식 결과가 없습니다."));
             } else {
               try {
-                resolve(aggregateAzureSegments(segments));
+                const res = aggregateAzureSegments(segments);
+                if (!res || !res.words || res.words.length === 0) {
+                  reject(new Error("인식된 유효 단어가 없습니다."));
+                } else {
+                  resolve(res);
+                }
               } catch (err) {
                 reject(err);
               }
@@ -1589,26 +1598,28 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
             cleanup();
             if (segments.length > 0) {
               try {
-                resolve(aggregateAzureSegments(segments));
-              } catch (e2) {
-                reject(e2);
-              }
-            } else {
-              reject(new Error(err || "연속 음성 인식 중단 오류"));
+                const res = aggregateAzureSegments(segments);
+                if (res && res.words && res.words.length > 0) {
+                  resolve(res);
+                  return;
+                }
+              } catch (e2) {}
             }
+            reject(new Error(err || "연속 음성 인식 중단 오류"));
           },
         );
       } catch (err) {
         cleanup();
         if (segments.length > 0) {
           try {
-            resolve(aggregateAzureSegments(segments));
-          } catch (e3) {
-            reject(e3);
-          }
-        } else {
-          reject(err);
+            const res = aggregateAzureSegments(segments);
+            if (res && res.words && res.words.length > 0) {
+              resolve(res);
+              return;
+            }
+          } catch (e3) {}
         }
+        reject(err);
       }
     };
 
@@ -1621,10 +1632,13 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
           try {
             const parsed = JSON.parse(jsonStr);
             if (parsed && parsed.NBest && parsed.NBest[0]) {
+              const wordCount = parsed.NBest[0].Words?.length || 0;
               console.log(
-                `[SpeechSDK] Recognized segment: ${parsed.NBest[0].Words?.length || 0} words ("${e.result.text}")`,
+                `[SpeechSDK] Recognized segment: ${wordCount} words ("${e.result.text}")`,
               );
-              segments.push(parsed.NBest[0]);
+              if (wordCount > 0) {
+                segments.push(parsed.NBest[0]);
+              }
             }
           } catch (jsonErr) {
             console.warn("[SpeechSDK] JSON parse warning:", jsonErr);
@@ -1954,7 +1968,40 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     }
   }
 
-  // 폴백: 단일 REST 호출
+  // 2. SpeechSDK 실패 또는 미지원 시 문장별 슬라이싱 + 병렬 REST 호출 폴백
+  const rawSentences = referenceText
+    .split(/[.!?\n]+/)
+    .map((s) => s.trim())
+    .filter((s) => s.length >= 2);
+
+  if (rawSentences.length > 1) {
+    try {
+      console.log(
+        `[PronAssessment] Multi-sentence fallback: slicing WAV into ${rawSentences.length} sentences for parallel REST assessment...`,
+      );
+      const sentenceChunks = splitWavBufferBySentences(wavBuffer, rawSentences);
+      const segmentPromises = sentenceChunks.map((chunk) =>
+        assessPronunciationWithAzureRestRaw(chunk.wav, chunk.text).catch(
+          (err) => {
+            console.warn(
+              `[PronAssessment] Sentence chunk REST failed ("${chunk.text.slice(0, 20)}..."):`,
+              err.message,
+            );
+            return null;
+          },
+        ),
+      );
+      const segments = (await Promise.all(segmentPromises)).filter(Boolean);
+      if (segments.length > 0) {
+        addAzureAudioUsage(audioSec);
+        return aggregateAzureSegments(segments);
+      }
+    } catch (sliceErr) {
+      console.warn("[PronAssessment] Slicing REST fallback failed:", sliceErr);
+    }
+  }
+
+  // 3. 최후 폴백: 단일 REST 호출
   const fallbackResult = await assessPronunciationWithAzureRest(
     wavBuffer,
     referenceText,
@@ -2703,6 +2750,13 @@ async function renderPronunciationAssessment({
   if (!boxEl) return;
   boxEl.classList.add("show");
   boxEl.style.display = "block";
+
+  const isOpic = mode === "opic";
+
+  // 녹음이 진행 중이거나 아직 WAV 변환 중이면 완료될 때까지 안전하게 대기
+  try {
+    await ensureRecordingStoppedAndReady(mode);
+  } catch (e) {}
 
   let wavBuffer = lastRecordedWavs[mode];
   if (!wavBuffer && lastRecordedBlobs[mode]) {
@@ -3529,6 +3583,32 @@ function stopSpeechRecognition() {
 }
 
 /**
+ * 진행 중인 오디오 녹음을 안전하게 종료하고, 최신 16kHz WAV 버퍼 변환이 완료될 때까지 대기
+ * @param {string} [mode="practice"] - 학습 모드
+ * @param {number} [timeoutMs=3500] - 최대 대기 시간
+ * @returns {Promise<void>}
+ */
+async function ensureRecordingStoppedAndReady(mode = "practice", timeoutMs = 3500) {
+  const needsStop =
+    (currentMediaRecorder && currentMediaRecorder.state !== "inactive") ||
+    listening;
+
+  if (needsStop) {
+    stopSpeechRecognition();
+  }
+
+  if (mediaRecorderDonePromise) {
+    let timer = null;
+    const timeoutPromise = new Promise((resolve) => {
+      timer = setTimeout(resolve, timeoutMs);
+    });
+    await Promise.race([mediaRecorderDonePromise, timeoutPromise]);
+    if (timer) clearTimeout(timer);
+  }
+}
+window.ensureRecordingStoppedAndReady = ensureRecordingStoppedAndReady;
+
+/**
  * 마이크 응답 없음 감시 타이머 (Watchdog)
  * - 모바일 브라우저의 권한 승인 대기시간 및 네트워크 핸드셰이크를 고려하여 모바일 14초, 데스크톱 8초 부여
  */
@@ -3775,6 +3855,10 @@ function toggleSpeechRecognition(
           }
         }
 
+        mediaRecorderDonePromise = new Promise((resolve) => {
+          mediaRecorderDoneResolver = resolve;
+        });
+
         currentMediaRecorder.ondataavailable = (e) => {
           if (e.data && e.data.size > 0) {
             recordedAudioChunks.push(e.data);
@@ -3782,32 +3866,41 @@ function toggleSpeechRecognition(
         };
 
         currentMediaRecorder.onstop = async () => {
-          if (recordedAudioChunks.length > 0) {
-            const actualMime =
-              currentMediaRecorder.mimeType || mime || "audio/webm";
-            const rawBlob = new Blob(recordedAudioChunks, { type: actualMime });
-            setRecordedVoiceBlob(mode, rawBlob);
+          try {
+            if (recordedAudioChunks.length > 0) {
+              const actualMime =
+                currentMediaRecorder.mimeType || mime || "audio/webm";
+              const rawBlob = new Blob(recordedAudioChunks, { type: actualMime });
+              setRecordedVoiceBlob(mode, rawBlob);
 
-            // ⚡ 발화 연습 모드 콜백을 즉시 호출하여 모바일/데스크톱에서도 지연 없이 '내 녹음 듣기' 버튼 활성화!
-            if (
-              mode === "speechPractice" &&
-              typeof onSpeechPracticeRecordingDone === "function"
-            ) {
-              onSpeechPracticeRecordingDone(rawBlob);
-            }
-
-            // Azure 발음 채점용 16kHz 변환은 백그라운드에서 비동기 처리
-            try {
-              const wav = await blobTo16kHzWav(rawBlob);
-              if (wav) {
-                setRecordedWavBuffer(mode, wav);
+              // ⚡ 발화 연습 모드 콜백을 즉시 호출하여 모바일/데스크톱에서도 지연 없이 '내 녹음 듣기' 버튼 활성화!
+              if (
+                mode === "speechPractice" &&
+                typeof onSpeechPracticeRecordingDone === "function"
+              ) {
+                onSpeechPracticeRecordingDone(rawBlob);
               }
-            } catch (wavErr) {
-              console.warn("[MediaRecorder] wav conversion skipped:", wavErr);
+
+              // Azure 발음 채점용 16kHz 변환은 백그라운드에서 비동기 처리
+              try {
+                const wav = await blobTo16kHzWav(rawBlob);
+                if (wav) {
+                  setRecordedWavBuffer(mode, wav);
+                }
+              } catch (wavErr) {
+                console.warn("[MediaRecorder] wav conversion skipped:", wavErr);
+              }
+            }
+          } finally {
+            if (mediaRecorderDoneResolver) {
+              mediaRecorderDoneResolver();
+              mediaRecorderDoneResolver = null;
             }
           }
         };
-        currentMediaRecorder.start(100);
+
+        // timeslice 인자 없이 호출하여 Safari 및 전 브라우저에서 단일 온전한 컨테이너(헤더+오디오 전체) 생성
+        currentMediaRecorder.start();
       })
       .catch((mediaErr) => {
         console.warn("[MediaRecorder] Microphone stream error:", mediaErr);
@@ -3890,11 +3983,12 @@ function createSpeechRecognitionInstance() {
   if (!SpeechRecognition) return null;
 
   const isAndroid = /Android/i.test(navigator.userAgent);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
   const rec = new SpeechRecognition();
   rec.lang = "en-US";
-  // 데스크톱에서는 continuous=true로 긴 5~6문장 발화도 끊김 없이 계속 수신, 모바일 안드로이드는 재연결 모드
-  rec.continuous = !isAndroid;
+  // Chrome/Edge 데스크톱에서는 continuous=true로 계속 수신, Safari 및 모바일 안드로이드는 안정적인 자동 재연결 모드
+  rec.continuous = !isAndroid && !isSafari;
   rec.interimResults = true;
   rec.maxAlternatives = 1;
 

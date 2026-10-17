@@ -1079,7 +1079,7 @@ async function evaluatePatternAnswer() {
 
   // 발음 및 일치도 평가 실행
   if (typeof renderPronunciationAssessment === "function") {
-    renderPronunciationAssessment({
+    await renderPronunciationAssessment({
       boxEl: evalBox,
       badgeEl: badgeEl,
       diffEl: diffEl,
