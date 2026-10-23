@@ -13,11 +13,15 @@
      ========================================================================= -->
 <div class="topic-screen app-screen" id="opicTopicScreen" style="display: none">
   <div class="mode-switch-row">
-    <span class="mode-switch" id="homeFromOpicTopic">🏠 홈</span>
-    <span class="mode-switch" id="toBankFromOpicTopic"
-      >📋 전체 문제 모아보기</span
-    >
-    <span class="mode-switch" id="toSentenceFromOpic">문장 연습 →</span>
+    <button type="button" class="mode-switch" id="homeFromOpicTopic">
+      🏠 홈
+    </button>
+    <button type="button" class="mode-switch" id="toBankFromOpicTopic">
+      📋 전체 문제 모아보기
+    </button>
+    <button type="button" class="mode-switch" id="toSentenceFromOpic">
+      문장 연습 →
+    </button>
   </div>
   <div class="topic-header-row">
     <div class="topic-lbl">
@@ -410,14 +414,15 @@
       <kbd class="shortcut-key">2</kbd>
     </button>
   </div>
-  <div
+  <button
+    type="button"
     class="change-topic opic-retry-link"
     id="opicRetrySameLink"
     style="display: none"
   >
     <span>↺ 다시 풀기</span>
     <kbd class="shortcut-key">R</kbd>
-  </div>
+  </button>
 
   <div class="progress" id="opicProgressDots"></div>
   <div class="change-topic-row">
@@ -475,8 +480,12 @@
      ========================================================================= -->
 <div class="bank-screen app-screen" id="opicBankScreen" style="display: none">
   <div class="mode-switch-row">
-    <span class="mode-switch" id="homeFromOpicBank">🏠 홈</span>
-    <span class="mode-switch" id="toOpicTopicFromBank">← 실전 질문 연습</span>
+    <button type="button" class="mode-switch" id="homeFromOpicBank">
+      🏠 홈
+    </button>
+    <button type="button" class="mode-switch" id="toOpicTopicFromBank">
+      ← 실전 질문 연습
+    </button>
   </div>
 
   <div class="bank-header">

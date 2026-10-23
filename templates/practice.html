@@ -13,8 +13,10 @@
      ========================================================================= -->
 <div class="topic-screen app-screen" id="topicScreen" style="display: none">
   <div class="mode-switch-row">
-    <span class="mode-switch" id="homeFromTopic">🏠 홈</span>
-    <span class="mode-switch" id="toWordModeLink">문법 포인트 연습 →</span>
+    <button type="button" class="mode-switch" id="homeFromTopic">🏠 홈</button>
+    <button type="button" class="mode-switch" id="toWordModeLink">
+      문법 포인트 연습 →
+    </button>
   </div>
   <div class="topic-header-row">
     <div class="topic-lbl">
@@ -223,10 +225,15 @@
   </div>
   <!-- // #rateRow -->
 
-  <div class="change-topic" id="retrySameLink" style="display: none">
+  <button
+    type="button"
+    class="change-topic"
+    id="retrySameLink"
+    style="display: none"
+  >
     <span>↺ 다시 풀기</span>
     <kbd class="shortcut-key">R</kbd>
-  </div>
+  </button>
 
   <!-- 7. 상단 진행 상태 Dot 인디케이터 (buildDots) -->
   <div class="progress" id="progressDots"></div>

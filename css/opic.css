@@ -448,6 +448,7 @@
 .timer-gauge-labels span {
   position: absolute;
   transform: translateX(-50%);
+  white-space: nowrap;
 }
 .timer-gauge-labels span:first-child {
   left: 0;
@@ -457,6 +458,22 @@
   right: 0;
   left: auto;
   transform: none;
+}
+
+@media (max-width: 480px) {
+  .timer-gauge-labels {
+    font-size: 9px;
+    letter-spacing: -0.03em;
+  }
+  .timer-gauge-labels span:nth-child(2) {
+    left: 34% !important;
+  }
+  .timer-gauge-labels span:nth-child(3) {
+    left: 58% !important;
+  }
+  .timer-gauge-labels span:nth-child(4) {
+    left: 80% !important;
+  }
 }
 
 /* ── 한국어 답변 가이드 (영어로 말하기 힌트) ── */

@@ -689,7 +689,8 @@ textarea::placeholder {
 
 /* ── 📱 모바일 가로 모드 (Landscape Mode) 연습 화면 최적화 ── */
 @media (orientation: landscape) and (max-height: 600px) {
-  textarea {
+  textarea,
+  #opicUserInput {
     min-height: 52px;
     height: 56px;
     font-size: 14.5px;
@@ -704,6 +705,7 @@ textarea::placeholder {
     font-size: 14px;
     right: 6px;
     top: 6px;
+    bottom: auto;
     border-radius: 6px;
   }
 

@@ -31,6 +31,15 @@
   margin-top: 14px;
 }
 
+@media (min-width: 768px) {
+  .pattern-topic-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pattern-topic-grid .pattern-select-card {
+    height: 100%;
+  }
+}
+
 .pattern-select-card {
   background: var(--surface);
   border: 1px solid var(--border-light);

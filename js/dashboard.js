@@ -158,6 +158,54 @@ function renderHomeDashboard() {
     });
   }
 
+  // 1-2. 상단 통계 카드 및 최근 7일 학습량 차트 업데이트
+  if (typeof last7Days === "function" && typeof dailyLog !== "undefined") {
+    const days = last7Days();
+    const todayCount =
+      typeof todayKey === "function" ? dailyLog[todayKey()] || 0 : 0;
+    const weekTotal = days.reduce((acc, d) => acc + (dailyLog[d.key] || 0), 0);
+    const streakCount =
+      typeof computeStreak === "function" ? computeStreak() : 0;
+
+    if (els.statToday) els.statToday.textContent = `${todayCount}회`;
+    if (els.statWeek) els.statWeek.textContent = `${weekTotal}회`;
+    if (els.statStreak) els.statStreak.textContent = `${streakCount}일`;
+
+    if (els.homeChart) {
+      const maxCount = Math.max(
+        5,
+        ...days.map((d) => dailyLog[d.key] || 0),
+      );
+      els.homeChart.innerHTML = "";
+      days.forEach((d) => {
+        const count = dailyLog[d.key] || 0;
+        const heightPct =
+          count === 0 ? 8 : Math.max(14, Math.round((count / maxCount) * 100));
+
+        const col = document.createElement("div");
+        col.className = "bar-col" + (d.isToday ? " is-today" : "");
+        col.tabIndex = 0;
+
+        const tooltip = document.createElement("span");
+        tooltip.className = "bar-tooltip";
+        tooltip.textContent = `${d.label}요일 · ${count}회`;
+
+        const bar = document.createElement("div");
+        bar.className = "bar" + (d.isToday ? " today" : "");
+        bar.style.height = `${heightPct}%`;
+
+        const label = document.createElement("span");
+        label.className = "bar-label";
+        label.textContent = d.isToday ? "오늘" : d.label;
+
+        col.appendChild(tooltip);
+        col.appendChild(bar);
+        col.appendChild(label);
+        els.homeChart.appendChild(col);
+      });
+    }
+  }
+
   // 2. 메인 네비게이션 카드 서브텍스트 동적 업데이트
   // 문장 번역 모드
   if (els.navSentenceSub) {

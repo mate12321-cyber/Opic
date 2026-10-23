@@ -41,7 +41,7 @@
         📚 단어장
         <span
           id="savedWordsBadge"
-          style="font-weight: 700; color: #4f46e5; margin-left: 2px"
+          class="home-badge-indigo"
           >0개</span
         >
       </button>
@@ -59,13 +59,12 @@
       <!-- 📄 시험장 뼈대 치트시트 PDF 내보내기 버튼 -->
       <button
         type="button"
-        class="settings-trigger-btn"
+        class="settings-trigger-btn home-btn-cheatsheet"
         id="openCheatSheetBtnHome"
         onclick="
           if (typeof openCheatSheetModal === 'function') openCheatSheetModal();
         "
         title="시험장 직전 3분 압축 만능 뼈대 치트시트 보기 및 다운로드"
-        style="font-weight: 700; color: #16a34a"
       >
         📄 치트시트 PDF
       </button>
@@ -74,24 +73,41 @@
   <!-- // .home-header -->
 
   <!-- =========================================================================
+       [Section 2] 학습 현황 요약 통계 카드 (오늘 학습량 / 이번 주 누적 / 연속 학습일수)
+       ========================================================================= -->
+  <div class="home-stats" id="homeStats">
+    <div class="home-stat">
+      <span class="n" id="statToday">0</span>
+      <span class="l">오늘 학습</span>
+    </div>
+    <div class="home-stat">
+      <span class="n" id="statWeek">0</span>
+      <span class="l">최근 7일 누적</span>
+    </div>
+    <div class="home-stat">
+      <span class="n" id="statStreak">0일</span>
+      <span class="l">연속 학습 🔥</span>
+    </div>
+  </div>
+  <!-- // .home-stats -->
+
+  <!-- =========================================================================
+       [Section 3] 최근 7일 학습 활동량 막대 차트 (dashboard.js 동적 렌더링)
+       ========================================================================= -->
+  <div class="home-chart" id="homeChart" aria-label="최근 7일 학습량 차트"></div>
+  <!-- // .home-chart -->
+
+  <!-- =========================================================================
        [Section 4] 6대 학습 모드 진입 카드 네비게이션 그리드
        ========================================================================= -->
   <div class="home-nav">
     <!-- 모드 4: 만능 패턴 집중 훈련 (pattern.js) -->
-    <button class="nav-card" id="navPattern">
+    <button type="button" class="nav-card" id="navPattern">
       <span class="nav-card-icon">🧩</span>
       <span class="nav-card-body">
         <span class="nav-card-title"
           >만능 패턴 집중 훈련
-          <span
-            style="
-              font-size: 11px;
-              color: #16a34a;
-              font-weight: 700;
-              margin-left: 4px;
-            "
-            >BEST ⭐</span
-          ></span
+          <span class="nav-inline-tag tag-green">BEST ⭐</span></span
         >
         <span class="nav-card-sub" id="navPatternSub"
           >6대 만능 템플릿으로 모든 질문 정복</span
@@ -101,20 +117,12 @@
     </button>
 
     <!-- 모드 4-2: 만능 패턴 게임 훈련 (pattern-game.js) -->
-    <button class="nav-card" id="navPatternGame">
+    <button type="button" class="nav-card" id="navPatternGame">
       <span class="nav-card-icon">🎮</span>
       <span class="nav-card-body">
         <span class="nav-card-title"
           >만능 패턴 게임 훈련
-          <span
-            style="
-              font-size: 11px;
-              color: #7c3aed;
-              font-weight: 700;
-              margin-left: 4px;
-            "
-            >GAME 🕹️</span
-          ></span
+          <span class="nav-inline-tag tag-purple">GAME 🕹️</span></span
         >
         <span class="nav-card-sub" id="navPatternGameSub"
           >슬롯 조립 퍼즐 · 뼈대는 그대로 핵심 블록만 착착!</span
@@ -124,20 +132,12 @@
     </button>
 
     <!-- 모드 5: 16대 핵심 필러 집중 훈련 (filler.js) -->
-    <button class="nav-card" id="navFiller">
+    <button type="button" class="nav-card" id="navFiller">
       <span class="nav-card-icon">💬</span>
       <span class="nav-card-body">
         <span class="nav-card-title"
           >필러(Filler) 집중 훈련
-          <span
-            style="
-              font-size: 11px;
-              color: #059669;
-              font-weight: 700;
-              margin-left: 4px;
-            "
-            >유창성 UP 🔥</span
-          ></span
+          <span class="nav-inline-tag tag-emerald">유창성 UP 🔥</span></span
         >
         <span class="nav-card-sub" id="navFillerSub"
           >16개 핵심 필러 · 시점별 가이드 & 실전 연습</span
@@ -147,7 +147,7 @@
     </button>
 
     <!-- 모드 3: 실전 질문 & 답변 연습 (opic.js) -->
-    <button class="nav-card" id="navOpic">
+    <button type="button" class="nav-card" id="navOpic">
       <span class="nav-card-icon">🎙️</span>
       <span class="nav-card-body">
         <span class="nav-card-title">실전 질문 & 답변 연습</span>
@@ -157,20 +157,12 @@
     </button>
 
     <!-- OPIc 실전 문제 모아보기 (Question Bank) -->
-    <button class="nav-card" id="navOpicBank">
+    <button type="button" class="nav-card" id="navOpicBank">
       <span class="nav-card-icon">📋</span>
       <span class="nav-card-body">
         <span class="nav-card-title"
           >실전 기출 문제 모아보기
-          <span
-            style="
-              font-size: 11px;
-              color: #4f46e5;
-              font-weight: 700;
-              margin-left: 4px;
-            "
-            >NEW 💡</span
-          ></span
+          <span class="nav-inline-tag tag-indigo">NEW 💡</span></span
         >
         <span class="nav-card-sub" id="navOpicBankSub"
           >12개 주제 75문항 한눈에 보기 · 뼈대 연동 & TTS</span
@@ -180,7 +172,7 @@
     </button>
 
     <!-- 모드 1: 한→영 문장 번역 연습 (practice.js) -->
-    <button class="nav-card" id="navSentence">
+    <button type="button" class="nav-card" id="navSentence">
       <span class="nav-card-icon">📝</span>
       <span class="nav-card-body">
         <span class="nav-card-title">문장 번역 연습</span>
@@ -190,7 +182,7 @@
     </button>
 
     <!-- 모드 2: 문법 포인트 객관식 퀴즈 (grammar.js) -->
-    <button class="nav-card" id="navWord">
+    <button type="button" class="nav-card" id="navWord">
       <span class="nav-card-icon">🔤</span>
       <span class="nav-card-body">
         <span class="nav-card-title">문법 포인트 연습</span>
@@ -200,20 +192,12 @@
     </button>
 
     <!-- 모드 6: 자유 발화 연습 및 다면 진단 (speech-practice.js) -->
-    <button class="nav-card" id="navSpeechPractice">
+    <button type="button" class="nav-card" id="navSpeechPractice">
       <span class="nav-card-icon">🗣️</span>
       <span class="nav-card-body">
         <span class="nav-card-title"
           >발화 연습
-          <span
-            style="
-              font-size: 11px;
-              color: #4f46e5;
-              font-weight: 700;
-              margin-left: 4px;
-            "
-            >자유 발화 ✨</span
-          ></span
+          <span class="nav-inline-tag tag-indigo">자유 발화 ✨</span></span
         >
         <span class="nav-card-sub" id="navSpeechPracticeSub"
           >마이크 입력 · 내 녹음본 듣기 · 즉시 채점</span

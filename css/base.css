@@ -670,7 +670,12 @@ h1 {
     font-size: 11px;
   }
 
-  button {
+  .primary,
+  .ghost,
+  .secondary,
+  .good,
+  .bad,
+  .row > button {
     height: 38px;
     min-height: 38px;
     font-size: 13px;
@@ -746,25 +751,28 @@ h1 {
 html[data-font-scale="large"] .wrap,
 body[data-font-scale="large"] .wrap {
   zoom: 1.08 !important;
-  max-width: 100%;
+  max-width: min(680px, 100%);
 }
 @media (max-width: 540px) {
   html[data-font-scale="large"] .wrap,
   body[data-font-scale="large"] .wrap {
     zoom: 1.06 !important;
     width: 100%;
+    max-width: 100%;
   }
 }
 @media (min-width: 1024px) {
   html[data-font-scale="large"] .wrap,
   body[data-font-scale="large"] .wrap {
     zoom: 1.22 !important;
+    max-width: min(740px, 100%);
   }
 }
 @media (min-width: 1280px) {
   html[data-font-scale="large"] .wrap,
   body[data-font-scale="large"] .wrap {
     zoom: 1.26 !important;
+    max-width: min(780px, 100%);
   }
 }
 
@@ -777,25 +785,28 @@ body[data-font-scale="large"] .modal-card {
 html[data-font-scale="xlarge"] .wrap,
 body[data-font-scale="xlarge"] .wrap {
   zoom: 1.14 !important;
-  max-width: 100%;
+  max-width: min(680px, 100%);
 }
 @media (max-width: 540px) {
   html[data-font-scale="xlarge"] .wrap,
   body[data-font-scale="xlarge"] .wrap {
     zoom: 1.12 !important;
     width: 100%;
+    max-width: 100%;
   }
 }
 @media (min-width: 1024px) {
   html[data-font-scale="xlarge"] .wrap,
   body[data-font-scale="xlarge"] .wrap {
     zoom: 1.34 !important;
+    max-width: min(740px, 100%);
   }
 }
 @media (min-width: 1280px) {
   html[data-font-scale="xlarge"] .wrap,
   body[data-font-scale="xlarge"] .wrap {
     zoom: 1.38 !important;
+    max-width: min(780px, 100%);
   }
 }
 

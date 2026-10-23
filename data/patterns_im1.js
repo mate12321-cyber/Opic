@@ -49,7 +49,7 @@ window.PATTERNS_DATA = [
     exampleQuestion:
       "Describe your favorite place you like to visit and what it looks like.",
     category:
-      "내 방, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 호텔, 도서관, 제주도, 음악",
+      "내 방, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 요리하기, 호텔, 도서관, 제주도, 음악",
     icon: "🏠",
     desc: "어떤 장소나 좋아하는 곳을 말할 때, 6개 쉬운 문장으로 1~2단어만 바꿔서 바로 끝내는 만능 공식입니다.",
     skeleton: [
@@ -351,11 +351,11 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🍽️ 단골 식당",
-        keyword: "Italian pasta restaurant",
+        keyword: "Outback Steakhouse & T-bone steak",
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, my favorite place is the pasta restaurant.",
-            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 파스타 식당이에요.",
+            en: "Well, let me see... You know, Eva, my favorite place is Outback Steakhouse.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 아웃백 스테이크하우스예요.",
           },
           {
             en: "It is near my house, so it takes about five minutes on foot.",
@@ -366,12 +366,42 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are delicious pasta and nice wine, so it makes me feel so happy and comfortable.",
-            ko: "맛있는 파스타와 좋은 와인이 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
+            en: "There are delicious T-bone steak and Toowoomba pasta, so it makes me feel so happy and relaxed.",
+            ko: "맛있는 티본 스테이크와 투움바 파스타가 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
           },
           {
-            en: "When I go there, I usually eat spicy pasta, and enjoy the food.",
-            ko: "거기 가면, 저는 보통 매콤한 파스타를 먹고 음식을 즐겨요.",
+            en: "When I go there, I usually eat warm Bushman bread, and just relax.",
+            ko: "거기 가면, 저는 보통 따뜻한 부시맨 브레드를 먹으며 그냥 편하게 쉬어요.",
+          },
+          {
+            en: "So, I go there about two or three times a month.",
+            ko: "그래서 저는 거기를 대략 한 달에 2~3번 정도 가요.",
+          },
+        ],
+      },
+      {
+        topic: "🍳 요리하기",
+        keyword: "my kitchen & cooking curry",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, my favorite place is my kitchen.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 내 주방이에요.",
+          },
+          {
+            en: "It is big, and it has all the cooking tools.",
+            ko: "주방이 크고, 모든 요리 도구들이 다 갖춰져 있어요.",
+          },
+          {
+            en: "How can I say... it is very clean, modern, and convenient.",
+            ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 현대적이고, 편리해요.",
+          },
+          {
+            en: "There are a refrigerator and a gas range, so it makes me feel so happy and relaxed.",
+            ko: "냉장고와 가스레인지가 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
+          },
+          {
+            en: "When I go there, I usually cook curry and Bulgogi, and just relax.",
+            ko: "거기 가면, 저는 보통 카레와 불고기를 요리하고 그냥 편하게 쉬어요.",
           },
           {
             en: "So, I go there about two or three times a week.",
