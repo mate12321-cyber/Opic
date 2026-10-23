@@ -84,8 +84,8 @@ window.PATTERNS_DATA = [
         keyword: "my bedroom in my apartment",
         sentences: [
           {
-            en: "Well, you know, Eva, my favorite room is my bedroom.",
-            ko: "음, 있잖아 에바, 내가 제일 좋아하는 방은 내 침실이야.",
+            en: "Well, you know, Eva, my favorite room is the bedroom.",
+            ko: "음, 있잖아 에바, 내가 제일 좋아하는 방은 침실이야.",
           },
           {
             en: "I live in an apartment with three rooms, two bathrooms, and a living room.",
@@ -190,8 +190,8 @@ window.PATTERNS_DATA = [
             ko: "큰 스크린과 편안한 좌석이 있어서, 저를 너무 신나고 행복하게 만들어줘요.",
           },
           {
-            en: "When I go there, I usually eat popcorn and watch movies, and have a good time.",
-            ko: "거기 가면, 저는 보통 팝콘을 먹고 영화를 보며 좋은 시간을 보내요.",
+            en: "When I go there, I usually eat caramel popcorn, and just relax.",
+            ko: "거기 가면, 저는 보통 카라멜 팝콘을 먹으며 그냥 편하게 쉬어요.",
           },
           {
             en: "So, I go there about two or three times a month.",
@@ -201,31 +201,31 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🏋️ 헬스장",
-        keyword: "the gym near my house",
+        keyword: "the fitness center near my house",
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, my favorite place is my gym.",
-            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 헬스장이에요.",
+            en: "Well, let me see... You know, Eva, my favorite place is the fitness center.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 피트니스 센터예요.",
           },
           {
             en: "It is near my house, so it takes about five minutes on foot.",
             ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
           },
           {
-            en: "How can I say... it is very clean, big, and convenient.",
-            ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 넓고, 편리해요.",
+            en: "How can I say... it is very clean, modern, and convenient.",
+            ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 현대적이고, 편리해요.",
           },
           {
-            en: "There are clean machines and free weights, so it makes me feel so fresh and happy.",
-            ko: "깨끗한 머신들과 프리웨이트가 있어서, 저를 너무 개운하고 행복하게 만들어줘요.",
+            en: "There are many machines and free weights, so it makes me feel so happy and healthy.",
+            ko: "많은 기구들과 프리웨이트가 있어서, 저를 너무 행복하고 건강하게 만들어줘요.",
           },
           {
-            en: "When I go there, I usually run on the treadmill, and sweat a lot.",
-            ko: "거기 가면, 저는 보통 러닝머신을 달리고 땀을 푹 흘려요.",
+            en: "When I go there, I usually ride a bike, and just relax.",
+            ko: "거기 가면, 저는 보통 자전거를 타고 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I go there about two or three times a week.",
-            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
+            en: "So, I go there almost every day.",
+            ko: "그래서 저는 거기를 거의 매일 가요.",
           },
         ],
       },
@@ -321,10 +321,10 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🏖️ 해변",
-        keyword: "Haeundae beach & blue ocean",
+        keyword: "Haeundae Beach & the waves",
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, my favorite place is Haeundae beach.",
+            en: "Well, let me see... You know, Eva, my favorite place is Haeundae Beach.",
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 해운대 해변이에요.",
           },
           {
@@ -336,16 +336,16 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 아름답고, 평화로워요.",
           },
           {
-            en: "There are blue ocean and soft white sand, so it makes me feel so refreshed and happy.",
-            ko: "푸른 바다와 부드러운 하얀 모래가 있어서, 저를 너무 상쾌하고 행복하게 만들어줘요.",
+            en: "There are blue ocean and soft white sand, so it makes me feel so happy and relaxed.",
+            ko: "푸른 바다와 부드러운 하얀 모래가 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
           },
           {
-            en: "When I go there, I usually look at the ocean, and just relax.",
-            ko: "거기 가면, 저는 보통 바다를 바라보고 그냥 편하게 쉬어요.",
+            en: "When I go there, I usually look at the waves, and just relax.",
+            ko: "거기 가면, 저는 보통 파도를 바라보고 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I go there about two or three times a year.",
-            ko: "그래서 저는 거기를 대략 일년에 2~3번 정도 가요.",
+            en: "So, I go there every summer.",
+            ko: "그래서 저는 여름마다 거기에 가요.",
           },
         ],
       },
@@ -478,24 +478,24 @@ window.PATTERNS_DATA = [
             ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 음악은 K-pop이에요.",
           },
           {
-            en: "My favorite singer is BTS, and I love their sweet voices.",
-            ko: "제가 가장 좋아하는 가수는 BTS이고, 그들의 감미로운 목소리를 정말 좋아해요.",
+            en: "My favorite singer is BTS, so I love their music.",
+            ko: "제가 가장 좋아하는 가수는 BTS라서, 그들의 음악을 정말 좋아해요.",
           },
           {
-            en: "How can I say... the melody is very clean, comfortable, and cozy.",
-            ko: "뭐라고 말해야 할까... 멜로디가 아주 깔끔하고, 편안하고, 아늑해요.",
+            en: "How can I say... it is very exciting, dynamic, and energetic.",
+            ko: "뭐라고 말해야 할까... 그 음악은 아주 신나고, 역동적이고, 에너지가 넘쳐요.",
           },
           {
-            en: "There are sweet voices and trendy sounds, so it makes me feel so happy and relaxed.",
-            ko: "감미로운 목소리와 세련된 사운드가 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
+            en: "There are sweet voices and trendy sounds, so it makes me feel so happy and excited.",
+            ko: "감미로운 목소리와 세련된 사운드가 있어서, 저를 너무 행복하고 신나게 만들어줘요.",
           },
           {
             en: "When I listen to music, I usually close my eyes, and just relax.",
             ko: "음악을 들을 때, 저는 보통 눈을 감고 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I listen to music about two or three times a day.",
-            ko: "그래서 저는 음악을 대략 하루에 2~3번 정도 들어요.",
+            en: "So, I listen to music almost every day.",
+            ko: "그래서 저는 음악을 거의 매일 들어요.",
           },
         ],
       },
