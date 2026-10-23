@@ -47,12 +47,16 @@ let pgStageState = {
 let smState = {
   totalRounds: 10,
   curRound: 1,
-  timeLimitSec: 5, // 5초(실전), 8초(여유), 0(무제한)
-  remainingMs: 5000,
+  timeLimitSec: 15, // 기본 15초(표준 실전), 25초(여유), 10초(스피드), 0(무제한)
+  remainingMs: 15000,
   timerInterval: null,
+  readyInterval: null,
+  readyTimeout: null,
   spinTimeout: null,
   nextRoundTimeout: null,
   isSpinning: false,
+  isReadyPhase: false, // 3초 문제 읽기 유예 상태
+  readyRemainingSec: 3,
   isRoundResolved: false,
   combo: 0,
   maxCombo: 0,
@@ -288,6 +292,14 @@ function stopSlotMachineTimers() {
     clearInterval(smState.timerInterval);
     smState.timerInterval = null;
   }
+  if (smState.readyInterval) {
+    clearInterval(smState.readyInterval);
+    smState.readyInterval = null;
+  }
+  if (smState.readyTimeout) {
+    clearTimeout(smState.readyTimeout);
+    smState.readyTimeout = null;
+  }
   if (smState.spinTimeout) {
     clearTimeout(smState.spinTimeout);
     smState.spinTimeout = null;
@@ -297,6 +309,7 @@ function stopSlotMachineTimers() {
     smState.nextRoundTimeout = null;
   }
   smState.isSpinning = false;
+  smState.isReadyPhase = false;
 }
 
 /**
@@ -1031,7 +1044,7 @@ function startSlotMachineGame() {
 
   const titleEl = document.getElementById("pgMainTitle");
   if (titleEl) {
-    titleEl.innerHTML = `🎰 ${safeEscapeHtml(pat.name)} · 5초 슬롯머신`;
+    titleEl.innerHTML = `🎰 ${safeEscapeHtml(pat.name)} · 슬롯머신 챌린지`;
   }
 
   smState.curRound = 1;
@@ -1040,6 +1053,14 @@ function startSlotMachineGame() {
   smState.score = 0;
   smState.correctCount = 0;
   smState.isRoundResolved = false;
+
+  // 제한시간 칩 액티브 상태 동기화
+  document.querySelectorAll(".sm-speed-chip").forEach((btn) => {
+    btn.classList.toggle(
+      "active",
+      Number(btn.dataset.sec) === smState.timeLimitSec,
+    );
+  });
 
   const cabinetEl = document.getElementById("smCabinet");
   const resultBanner = document.getElementById("smResultBanner");
@@ -1214,10 +1235,67 @@ function spinSlotMachineRound() {
       reelSlotVal.textContent = `문장 ${nextQ.senIdx + 1} · [${nextQ.label}]`;
 
     renderSlotMachineStageQuestion();
-    startSlotMachineCountdown();
+    if (smState.timeLimitSec > 0) {
+      startSlotMachineReadyPhase();
+    } else {
+      startSlotMachineCountdown();
+    }
   }, 420);
 
   updateSlotMachineHud();
+}
+
+/**
+ * 스핀 정지 후 플레이어가 문제와 빈칸 위치를 여유롭게 파악할 수 있도록
+ * 3초간의 READY(문제 읽기 유예) 시간을 제공합니다.
+ */
+function startSlotMachineReadyPhase() {
+  if (smState.timerInterval) clearInterval(smState.timerInterval);
+  if (smState.readyInterval) clearInterval(smState.readyInterval);
+
+  smState.isReadyPhase = true;
+  smState.readyRemainingSec = 3;
+
+  const timerBar = document.getElementById("smTimerBar");
+  const hudTime = document.getElementById("smHudTime");
+  const statusMsg = document.getElementById("smStatusMsg");
+  const q = smState.currentQuestion;
+
+  if (timerBar) {
+    timerBar.className = "sm-timer-bar is-ready";
+    timerBar.style.width = "100%";
+  }
+
+  if (hudTime) {
+    hudTime.innerHTML = `<span class="ready-time-tag">👀 3s</span>`;
+  }
+
+  if (statusMsg && q) {
+    statusMsg.innerHTML = `<span class="sm-ready-badge">👀 문제 파악 (3초)</span> 👉 <strong>[${safeEscapeHtml(q.topic)}]</strong> 주제의 <strong>[${safeEscapeHtml(q.label)}]</strong> 빈칸을 먼저 확인하세요!`;
+    statusMsg.className = "sm-status-msg is-ready-msg";
+  }
+
+  smState.readyInterval = setInterval(() => {
+    smState.readyRemainingSec--;
+
+    if (smState.readyRemainingSec > 0) {
+      if (hudTime) {
+        hudTime.innerHTML = `<span class="ready-time-tag">👀 ${smState.readyRemainingSec}s</span>`;
+      }
+    } else {
+      // 3초 파악 시간 완료 -> 본 제한 시간 카운트다운 시작
+      clearInterval(smState.readyInterval);
+      smState.readyInterval = null;
+      smState.isReadyPhase = false;
+
+      if (statusMsg && q) {
+        statusMsg.innerHTML = `⚡ <strong>[${safeEscapeHtml(q.topic)}]</strong>에 어울리는 <strong>[${safeEscapeHtml(q.label)}]</strong> 블록을 터치하세요!`;
+        statusMsg.className = "sm-status-msg is-go-msg";
+      }
+
+      startSlotMachineCountdown();
+    }
+  }, 1000);
 }
 
 /**
@@ -1229,15 +1307,15 @@ function renderSlotMachineStageQuestion() {
 
   const badgeEl = document.getElementById("smSenBadge");
   if (badgeEl) {
-    badgeEl.textContent = `문장 ${q.senIdx + 1} · ${q.topic}`;
+    badgeEl.textContent = `문장 ${q.senIdx + 1} 뼈대 · ${q.topic} [${q.label}]`;
   }
 
   const statusMsg = document.getElementById("smStatusMsg");
-  if (statusMsg && !smState.isRoundResolved) {
-    statusMsg.textContent =
+  if (statusMsg && !smState.isRoundResolved && !smState.isReadyPhase) {
+    statusMsg.innerHTML =
       smState.timeLimitSec > 0
-        ? `⚡ ${smState.timeLimitSec}초 안에 [${q.topic}]에 맞는 블록을 터치하세요!`
-        : `🎯 [${q.topic}]에 맞는 블록을 선택하세요!`;
+        ? `⚡ <strong>${smState.timeLimitSec}초</strong> 안에 <strong>[${safeEscapeHtml(q.topic)}]</strong>에 맞는 블록을 터치하세요!`
+        : `🎯 <strong>[${safeEscapeHtml(q.topic)}]</strong>에 맞는 블록을 선택하세요!`;
     statusMsg.className = "sm-status-msg";
   }
 
@@ -1258,7 +1336,12 @@ function renderSlotMachineStageQuestion() {
           if (smState.isRoundResolved) {
             return `<span class="pg-slot-blank is-filled snap-anim">✓ ${safeEscapeHtml(q.answer)}</span>`;
           }
-          return `<span class="pg-slot-blank is-target">🎰 [ ${safeEscapeHtml(q.label)} ? ]</span>`;
+          return `
+            <span class="pg-slot-blank is-target sm-target-spotlight" id="smActiveSlotBlank">
+              <span class="sm-slot-indicator">👇 채울 빈칸</span>
+              <span class="sm-slot-inner">🎯 [ ${safeEscapeHtml(q.label)} ]</span>
+            </span>
+          `;
         }
         return safeEscapeHtml(seg.text);
       })

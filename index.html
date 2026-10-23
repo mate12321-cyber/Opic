@@ -66,40 +66,286 @@
       }
     </script>
     <!-- =========================================================================
-         [Section 1] 앱 초기 비동기 템플릿 로딩 스켈레톤
-         - 템플릿 fetch 완료 전 깜빡임 방지용 인라인 CSS 로더 (template-loader.js가 은닉)
+         [Section 1] 앱 초기 비동기 템플릿 & 스크립트 로딩 전체화면 차단 오버레이
+         - 모든 템플릿, 대용량 음성 SDK, 데이터셋이 로드되고 app.js가 완전히 초기화될 때까지
+           모든 버튼/입력 클릭을 원천 차단하고 실시간 로딩 진행 상태를 제공합니다.
          ========================================================================= -->
-    <div
-      id="appInitialLoading"
-      style="
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 50vh;
-        gap: 12px;
-        color: var(--text-muted, #64748b);
-        font-family: var(--font-sans, -apple-system, sans-serif);
-      "
-    >
-      <div
-        style="
-          width: 32px;
-          height: 32px;
-          border: 3px solid rgba(79, 70, 229, 0.15);
+    <div id="appInitialLoading" class="app-loading-overlay" aria-live="polite" aria-busy="true">
+      <div class="app-loading-card">
+        <div class="app-loading-header">
+          <div class="app-loading-spinner-wrap">
+            <div class="app-loading-spinner"></div>
+            <span class="app-loading-icon">🎧</span>
+          </div>
+          <div class="app-loading-titles">
+            <h1 class="app-loading-title">OPIc 한→영 트레이너</h1>
+            <p class="app-loading-subtitle">IM1 목표 달성 집중 학습 시스템</p>
+          </div>
+        </div>
+
+        <div class="app-loading-progress-box">
+          <div class="app-loading-bar-track">
+            <div id="appLoadingBarFill" class="app-loading-bar-fill"></div>
+          </div>
+          <div class="app-loading-meta">
+            <span id="appLoadingStatus" class="app-loading-status-text">학습 환경을 준비하는 중...</span>
+            <span id="appLoadingPercent" class="app-loading-percent-text">0%</span>
+          </div>
+        </div>
+
+        <div class="app-loading-footer">
+          <span class="app-loading-tip-badge">안내</span>
+          <p class="app-loading-tip-text">
+            첫 실행 시 고성능 음성 엔진과 학습 데이터를 준비하므로 잠시 시간이 걸립니다. 준비가 완료되면 바로 시작됩니다.
+          </p>
+        </div>
+      </div>
+
+      <style id="appLoadingStyles">
+        .app-loading-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100vw;
+          height: 100vh;
+          height: 100dvh;
+          z-index: 999999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+          box-sizing: border-box;
+          background-color: #f8fafc;
+          font-family: var(--font-sans, "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif);
+          cursor: wait;
+          pointer-events: auto;
+          user-select: none;
+          -webkit-user-select: none;
+          touch-action: none;
+          transition: opacity 0.35s ease-out, visibility 0.35s ease-out;
+        }
+
+        html.dark-theme .app-loading-overlay,
+        body.dark-theme .app-loading-overlay {
+          background-color: #0b0f19;
+        }
+
+        .app-loading-overlay.fade-out {
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+        }
+
+        .app-loading-card {
+          width: 100%;
+          max-width: 400px;
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          border-radius: 18px;
+          padding: 28px 24px 22px;
+          box-shadow: 0 10px 25px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+          animation: appCardPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        html.dark-theme .app-loading-card,
+        body.dark-theme .app-loading-card {
+          background: #111827;
+          border-color: #1f2937;
+          box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes appCardPop {
+          from {
+            transform: scale(0.97);
+            opacity: 0.8;
+          }
+          to {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+
+        .app-loading-header {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .app-loading-spinner-wrap {
+          position: relative;
+          width: 48px;
+          height: 48px;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .app-loading-spinner {
+          position: absolute;
+          inset: 0;
+          border: 3.5px solid rgba(79, 70, 229, 0.15);
           border-top-color: #4f46e5;
           border-radius: 50%;
-          animation: spin 0.8s linear infinite;
-        "
-      ></div>
-      <span style="font-size: 14px; font-weight: 500"
-        >OPIc 학습 환경을 준비하는 중...</span
-      >
-      <style>
-        @keyframes spin {
+          animation: appSpinnerRotate 0.85s linear infinite;
+        }
+
+        html.dark-theme .app-loading-spinner,
+        body.dark-theme .app-loading-spinner {
+          border-color: rgba(129, 140, 248, 0.2);
+          border-top-color: #818cf8;
+        }
+
+        @keyframes appSpinnerRotate {
           to {
             transform: rotate(360deg);
           }
+        }
+
+        .app-loading-icon {
+          font-size: 20px;
+          line-height: 1;
+        }
+
+        .app-loading-titles {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          min-width: 0;
+        }
+
+        .app-loading-title {
+          margin: 0;
+          font-size: 17px;
+          font-weight: 700;
+          color: #0f172a;
+          letter-spacing: -0.02em;
+        }
+
+        html.dark-theme .app-loading-title,
+        body.dark-theme .app-loading-title {
+          color: #f8fafc;
+        }
+
+        .app-loading-subtitle {
+          margin: 0;
+          font-size: 12.5px;
+          color: #64748b;
+        }
+
+        html.dark-theme .app-loading-subtitle,
+        body.dark-theme .app-loading-subtitle {
+          color: #94a3b8;
+        }
+
+        .app-loading-progress-box {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .app-loading-bar-track {
+          width: 100%;
+          height: 7px;
+          background: #e2e8f0;
+          border-radius: 9999px;
+          overflow: hidden;
+        }
+
+        html.dark-theme .app-loading-bar-track,
+        body.dark-theme .app-loading-bar-track {
+          background: #1f2937;
+        }
+
+        .app-loading-bar-fill {
+          width: 5%;
+          height: 100%;
+          background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+          border-radius: 9999px;
+          transition: width 0.22s ease-out;
+        }
+
+        html.dark-theme .app-loading-bar-fill,
+        body.dark-theme .app-loading-bar-fill {
+          background: linear-gradient(90deg, #818cf8 0%, #6366f1 100%);
+        }
+
+        .app-loading-meta {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-size: 12px;
+          gap: 8px;
+        }
+
+        .app-loading-status-text {
+          color: #475569;
+          font-weight: 500;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        html.dark-theme .app-loading-status-text,
+        body.dark-theme .app-loading-status-text {
+          color: #cbd5e1;
+        }
+
+        .app-loading-percent-text {
+          color: #4f46e5;
+          font-family: var(--font-mono, "JetBrains Mono", monospace);
+          font-weight: 700;
+          flex-shrink: 0;
+        }
+
+        html.dark-theme .app-loading-percent-text,
+        body.dark-theme .app-loading-percent-text {
+          color: #818cf8;
+        }
+
+        .app-loading-footer {
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+          padding: 10px 12px;
+          background: #f1f5f9;
+          border-radius: 10px;
+          font-size: 11.5px;
+          line-height: 1.45;
+          color: #64748b;
+        }
+
+        html.dark-theme .app-loading-footer,
+        body.dark-theme .app-loading-footer {
+          background: #1f2937;
+          color: #94a3b8;
+        }
+
+        .app-loading-tip-badge {
+          display: inline-block;
+          font-size: 10.5px;
+          font-weight: 700;
+          color: #4f46e5;
+          background: #e0e7ff;
+          padding: 2px 6px;
+          border-radius: 4px;
+          flex-shrink: 0;
+        }
+
+        html.dark-theme .app-loading-tip-badge,
+        body.dark-theme .app-loading-tip-badge {
+          color: #c7d2fe;
+          background: #312e81;
+        }
+
+        .app-loading-tip-text {
+          margin: 0;
         }
       </style>
     </div>
@@ -145,6 +391,6 @@
     <!-- =========================================================================
          [Section 4] 애플리케이션 비동기 템플릿 & 컴포넌트 로더 진입점
          ========================================================================= -->
-    <script src="js/template-loader.js?v=29"></script>
+    <script src="js/template-loader.js?v=30"></script>
   </body>
 </html>

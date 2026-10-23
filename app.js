@@ -829,44 +829,67 @@ if (cheatSheetModal) {
  * @returns {Promise<void>}
  */
 async function initDashboard() {
-  if (!window.history.state) {
-    window.history.replaceState({ screen: "home", params: {} }, "", "");
-  }
-  if (typeof initTheme === "function") initTheme();
-  await loadData();
-  initTTS();
-  loadTtsSettings();
-  await loadDailyLog();
-  await loadWordProgress();
-  await loadOpicProgress();
-  await loadPatternProgress();
-  if (typeof loadFillerProgress === "function") {
-    await loadFillerProgress();
-  }
-  await loadProgress();
-  if (typeof renderHomeDashboard === "function") {
-    renderHomeDashboard();
-  }
-  if (typeof renderPatternTopics === "function") {
-    renderPatternTopics();
-  }
-  if (typeof updateSavedWordsBadge === "function") {
-    updateSavedWordsBadge();
-  }
-  const urlParams = new URLSearchParams(window.location.search);
-  const targetScreen =
-    urlParams.get("screen") || window.location.hash.replace("#", "");
-  if (targetScreen && typeof navigateTo === "function") {
-    navigateTo(targetScreen, {}, false);
-  } else if (typeof navigateTo === "function") {
-    navigateTo("home", {}, false);
+  try {
+    if (!window.history.state) {
+      window.history.replaceState({ screen: "home", params: {} }, "", "");
+    }
+    if (typeof initTheme === "function") initTheme();
+
+    if (typeof window.updateAppLoadingProgress === "function") {
+      window.updateAppLoadingProgress(88, "학습 데이터셋 동기화 중...");
+    }
+
+    await loadData();
+    initTTS();
+    loadTtsSettings();
+
+    if (typeof window.updateAppLoadingProgress === "function") {
+      window.updateAppLoadingProgress(94, "학습 기록 및 대시보드 복원 중...");
+    }
+
+    await loadDailyLog();
+    await loadWordProgress();
+    await loadOpicProgress();
+    await loadPatternProgress();
+    if (typeof loadFillerProgress === "function") {
+      await loadFillerProgress();
+    }
+    await loadProgress();
+    if (typeof renderHomeDashboard === "function") {
+      renderHomeDashboard();
+    }
+    if (typeof renderPatternTopics === "function") {
+      renderPatternTopics();
+    }
+    if (typeof updateSavedWordsBadge === "function") {
+      updateSavedWordsBadge();
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetScreen =
+      urlParams.get("screen") || window.location.hash.replace("#", "");
+    if (targetScreen && typeof navigateTo === "function") {
+      navigateTo(targetScreen, {}, false);
+    } else if (typeof navigateTo === "function") {
+      navigateTo("home", {}, false);
+    }
+
+    if (typeof window.updateAppLoadingProgress === "function") {
+      window.updateAppLoadingProgress(100, "준비 완료!");
+    }
+  } catch (err) {
+    console.error("❌ [App] 초기화 중 오류 발생:", err);
+  } finally {
+    // 모든 준비가 완료되었으므로 로딩 오버레이를 닫아 사용자 클릭 잠금을 해제합니다.
+    if (typeof window.hideAppInitialLoading === "function") {
+      window.hideAppInitialLoading();
+    }
   }
 }
 
 // =============================================================================
 // 15. DOM 로드 완료 이벤트 리스너 (DOM Ready Entrypoint)
 // =============================================================================
-function bootMainApp() {
+async function bootMainApp() {
   // iOS Safari 및 모바일 웹 터치 시 CSS :active 가상 클래스 즉각 반응 보장
   document.addEventListener("touchstart", function () {}, { passive: true });
 
@@ -874,7 +897,7 @@ function bootMainApp() {
   initSpeechRecognition();
   if (typeof initVocabTooltip === "function") initVocabTooltip();
   if (typeof initSpeechPractice === "function") initSpeechPractice();
-  initDashboard();
+  await initDashboard();
 }
 
 if (document.readyState === "loading") {

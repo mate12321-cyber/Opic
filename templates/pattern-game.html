@@ -72,9 +72,9 @@
       onclick="if (typeof switchPatternGameMode === 'function') switchPatternGameMode('slotmachine');"
     >
       <div class="pg-mode-tab-badge">GAME 2 · 순발력 훈련</div>
-      <div class="pg-mode-tab-title">🎰 랜덤 슬롯머신 5초 챌린지</div>
+      <div class="pg-mode-tab-title">🎰 랜덤 슬롯머신 챌린지</div>
       <div class="pg-mode-tab-desc">
-        룰렛이 돌아가며 주제가 바뀌면 5초 안에 알맞은 슬롯 카드를 골라 콤보를 쌓으세요!
+        룰렛이 돌아가며 주제가 바뀌면 알맞은 슬롯 블록을 골라 콤보를 쌓으세요!
       </div>
     </button>
   </div>
@@ -145,7 +145,7 @@
       id="pgCardModeSlotMachineBtn"
       onclick="if (typeof switchPatternGameMode === 'function') switchPatternGameMode('slotmachine');"
     >
-      🎰 2. 랜덤 슬롯머신 5초 챌린지
+      🎰 2. 랜덤 슬롯머신 챌린지
     </button>
   </div>
 
@@ -318,18 +318,26 @@
         <button
           type="button"
           class="sm-speed-chip active"
-          data-sec="5"
-          onclick="if (typeof setSlotMachineTimeLimit === 'function') setSlotMachineTimeLimit(5);"
+          data-sec="15"
+          onclick="if (typeof setSlotMachineTimeLimit === 'function') setSlotMachineTimeLimit(15);"
         >
-          ⚡ 5초 (실전)
+          🌱 15초 (실전)
         </button>
         <button
           type="button"
           class="sm-speed-chip"
-          data-sec="8"
-          onclick="if (typeof setSlotMachineTimeLimit === 'function') setSlotMachineTimeLimit(8);"
+          data-sec="25"
+          onclick="if (typeof setSlotMachineTimeLimit === 'function') setSlotMachineTimeLimit(25);"
         >
-          🌱 8초 (여유)
+          🌿 25초 (여유)
+        </button>
+        <button
+          type="button"
+          class="sm-speed-chip"
+          data-sec="10"
+          onclick="if (typeof setSlotMachineTimeLimit === 'function') setSlotMachineTimeLimit(10);"
+        >
+          ⚡ 10초 (스피드)
         </button>
         <button
           type="button"

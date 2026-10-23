@@ -141,11 +141,11 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🌳 공원",
-        keyword: "the park near my house",
+        keyword: "Areumdeuri Park near my house",
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, my favorite place is the park.",
-            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 공원이에요.",
+            en: "Well, let me see... You know, Eva, my favorite place is Areumdeuri Park.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 아름드리 공원이에요.",
           },
           {
             en: "It is near my house, so it takes about five minutes on foot.",
@@ -156,8 +156,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 아름답고, 평화로워요.",
           },
           {
-            en: "There are green trees and nice benches, so it makes me feel so peaceful and relaxed.",
-            ko: "푸른 나무들과 편안한 벤치가 있어서, 저를 너무 평화롭고 편안하게 만들어줘요.",
+            en: "There are many trees and beautiful flowers, so it makes me feel so peaceful and relaxed.",
+            ko: "많은 나무들과 아름다운 꽃들이 있어서, 저를 너무 평화롭고 편안하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually take a walk, and just relax.",

@@ -1117,8 +1117,8 @@ window.QUESTIONS_DATA = [
     q_ko: "설문에서 공원 가기를 좋아한다고 하셨습니다. 자주 가시는 공원에 대해 설명해 주세요. 어디에 있고 어떻게 생겼나요?",
     sentences: [
       {
-        en: "Whenever I think of parks, the park is my favorite place.",
-        ko: "공원을 생각할 때마다, 공원이 제 최애 장소예요.",
+        en: "Whenever I think of parks, Areumdeuri Park is my favorite place.",
+        ko: "공원을 생각할 때마다, 아름드리 공원이 제 최애 장소예요.",
       },
       {
         en: "It is located near my house, so it is just five minutes.",
@@ -1129,8 +1129,8 @@ window.QUESTIONS_DATA = [
         ko: "또한, 분위기가 아주 편안하고 아늑해요.",
       },
       {
-        en: "There are green trees and nice benches, so I really like it.",
-        ko: "푸른 나무들과 좋은 벤치가 있어서 정말 마음에 들어요.",
+        en: "There are many trees and beautiful flowers, so I really like it.",
+        ko: "많은 나무들과 아름다운 꽃들이 있어서 정말 마음에 들어요.",
       },
       {
         en: "It is the best place for me.",
@@ -1142,14 +1142,14 @@ window.QUESTIONS_DATA = [
       },
     ],
     keywords: [
-      "park near my house",
+      "Areumdeuri Park near my house",
       "just five minutes",
       "relaxing and cozy",
-      "green trees and nice benches",
+      "many trees and beautiful flowers",
       "best place for me",
       "go there about two or three times a week",
     ],
-    tip: "[만능 공원 묘사] 집 근처 공원 → 접근성 편함 → 깔끔하고 아늑함 → 푸른 나무와 벤치 → 퇴근 후 혼자 산책 힐링 → 편안함.",
+    tip: "[만능 공원 묘사] 아름드리 공원 → 접근성 편함 → 깔끔하고 아늑함 → 나무와 꽃들 → 퇴근 후 혼자 산책 힐링 → 편안함.",
   },
   {
     id: "q_park_02",

@@ -13,7 +13,7 @@
   "use strict";
 
   /** @const {string} 캐시 버스팅용 빌드 버전 태그 */
-  const BUILD_VERSION = "2.2.36";
+  const BUILD_VERSION = "2.2.39";
 
   /**
    * @typedef {Object} ScreenConfig
@@ -194,20 +194,113 @@
   }
 
   /**
+   * 앱 초기 로딩 오버레이의 진행률과 상태 문구를 실시간 갱신합니다.
+   *
+   * @param {number} percent - 진행률 (0 ~ 100)
+   * @param {string} [statusText] - 사용자 안내용 상태 메시지
+   */
+  function updateAppLoadingProgress(percent, statusText) {
+    const clamped = Math.max(0, Math.min(100, Math.round(percent)));
+    const fillElem = document.getElementById("appLoadingBarFill");
+    const statusElem = document.getElementById("appLoadingStatus");
+    const percentElem = document.getElementById("appLoadingPercent");
+
+    if (fillElem) fillElem.style.width = `${clamped}%`;
+    if (statusElem && statusText) statusElem.textContent = statusText;
+    if (percentElem) percentElem.textContent = `${clamped}%`;
+  }
+  window.updateAppLoadingProgress = updateAppLoadingProgress;
+
+  /**
+   * 모든 템플릿과 스크립트, 데이터 초기화가 완료되었을 때 로딩 오버레이를 부드럽게 페이드아웃하여 닫습니다.
+   */
+  function hideAppInitialLoading() {
+    const overlay = document.getElementById("appInitialLoading");
+    if (!overlay || overlay.dataset.finished === "true") return;
+    overlay.dataset.finished = "true";
+
+    // 100% 완료 상태 표기
+    updateAppLoadingProgress(100, "준비 완료!");
+
+    // 부드러운 페이드아웃 적용 후 DOM 은닉
+    overlay.classList.add("fade-out");
+    overlay.setAttribute("aria-busy", "false");
+
+    setTimeout(() => {
+      overlay.style.display = "none";
+    }, 380);
+  }
+  window.hideAppInitialLoading = hideAppInitialLoading;
+
+  /**
+   * 초기 로딩 중 예외 발생 시 에러 카드 및 새로고침 버튼을 렌더링합니다.
+   *
+   * @param {Error|string} err - 발생한 에러 객체 또는 메시지
+   */
+  function showAppLoadingError(err) {
+    console.error("❌ [TemplateLoader] 초기화 오류:", err);
+    const overlay = document.getElementById("appInitialLoading");
+    if (!overlay) return;
+
+    const isFileProtocol = window.location.protocol === "file:";
+    const errorMsg = err && err.message ? err.message : String(err);
+
+    overlay.innerHTML = `
+      <div class="app-loading-card" style="border-color: #fca5a5;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 28px;">⚠️</span>
+          <div>
+            <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #ef4444;">학습 환경 로드 중 문제가 발생했습니다</h3>
+            <p style="margin: 4px 0 0; font-size: 12px; color: #64748b;">네트워크 연결 상태를 확인한 후 다시 시도해 주세요.</p>
+          </div>
+        </div>
+        <div style="background: #fef2f2; border: 1px solid #fee2e2; border-radius: 8px; padding: 12px; font-size: 12px; color: #991b1b; line-height: 1.5; word-break: break-all;">
+          ${errorMsg}
+        </div>
+        ${
+          isFileProtocol
+            ? `<div style="font-size: 11.5px; color: #b45309; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 8px; padding: 10px; line-height: 1.45;">
+                💡 <strong>로컬 파일 직접 실행 안내 (CORS):</strong><br>
+                브라우저 보안상 <code>file:///</code> 경로에서는 템플릿을 읽을 수 없습니다.<br>
+                VS Code <strong>Live Server</strong>나 로컬 웹서버를 사용해 주세요.
+              </div>`
+            : ""
+        }
+        <button type="button" onclick="location.reload()" style="background: #4f46e5; color: #fff; border: none; border-radius: 10px; padding: 10px 16px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s;">
+          🔄 페이지 다시 불러오기
+        </button>
+      </div>
+    `;
+  }
+  window.showAppLoadingError = showAppLoadingError;
+
+  // 비정상적인 지연 발생 시 사용자가 영구히 갇히지 않도록 안전 타이머 (15초)
+  setTimeout(() => {
+    const overlay = document.getElementById("appInitialLoading");
+    if (overlay && overlay.dataset.finished !== "true" && overlay.style.display !== "none") {
+      console.warn("⚠️ [TemplateLoader] 로딩 안전 타이머가 작동하여 오버레이를 강제 해제합니다.");
+      hideAppInitialLoading();
+    }
+  }, 15000);
+
+  /**
    * 전체 템플릿 컴포넌트를 병렬 다운로드하고 DOM 슬롯에 치환한 후 앱을 구동합니다.
    *
    * [부트스트랩 시퀀스]:
    * 1. 템플릿 조각(HTML) 및 공통 컴포넌트 병렬 비동기 요청
    * 2. 화면 슬롯(`#*Slot`)을 실제 마크업으로 완전 치환
    * 3. `voice-input` 커스텀 컴포넌트 재귀 확장
-   * 4. 초기 로딩 스켈레톤 화면 은닉
-   * 5. 애플리케이션 핵심 비즈니스 로직 스크립트 순차 실행
+   * 4. 모달 슬롯 치환
+   * 5. 애플리케이션 핵심 비즈니스 로직 스크립트 순차 실행 (오버레이 유지로 상호작용 차단)
+   * 6. app.js 진입 후 initDashboard() 완료 시점에 오버레이 자동 해제
    *
    * @async
    * @returns {Promise<void>}
    */
   async function bootApplication() {
     try {
+      updateAppLoadingProgress(10, "화면 템플릿 다운로드 중...");
+
       // 1. 공통 컴포넌트 및 모달, 각 화면 템플릿 병렬 다운로드
       const [voiceInputHtml, modalsHtml, ...screenHtmlList] = await Promise.all(
         [
@@ -216,6 +309,8 @@
           ...SCREENS.map((s) => fetchHtml(s.file)),
         ],
       );
+
+      updateAppLoadingProgress(22, "화면 인터페이스 구성 중...");
 
       // 2. 화면 슬롯을 템플릿 HTML로 완전 치환 (다중 형제 노드 보존)
       SCREENS.forEach((screenConfig, index) => {
@@ -239,42 +334,42 @@
         modalSlot.remove();
       }
 
-      // 4. 로딩 안내창(스켈레톤) 숨기기
-      const initialLoading = document.getElementById("appInitialLoading");
-      if (initialLoading) {
-        initialLoading.style.display = "none";
-      }
+      // [핵심 변경]: 이 시점에 appInitialLoading을 숨기지 않고 유지합니다.
+      // 스크립트 다운로드 및 app.js 초기화 완료 전까지 모든 버튼 클릭을 원천 차단합니다.
+      updateAppLoadingProgress(28, "핵심 모듈 로딩 준비 중...");
 
       // 5. 모든 DOM 노드가 주입되었으므로 애플리케이션 스크립트 순차 실행
+      const totalScripts = SCRIPTS_TO_LOAD.length;
+      let loadedIndex = 0;
+
       for (const scriptItem of SCRIPTS_TO_LOAD) {
+        const scriptProgress = 28 + Math.round((loadedIndex / totalScripts) * 54); // 28% ~ 82%
+
+        let statusText = `학습 모듈 로딩 중... (${loadedIndex + 1}/${totalScripts})`;
+        if (scriptItem.src.includes("cognitiveservices")) {
+          statusText = `고성능 음성 엔진 로딩 중... (${loadedIndex + 1}/${totalScripts})`;
+        } else if (scriptItem.src.includes("data/")) {
+          statusText = `IM1 공식 데이터셋 로딩 중... (${loadedIndex + 1}/${totalScripts})`;
+        } else if (scriptItem.src.includes("whisper")) {
+          statusText = `음성 인식 트랜스크라이버 준비 중... (${loadedIndex + 1}/${totalScripts})`;
+        } else if (scriptItem.src.includes("speech-practice") || scriptItem.src.includes("speech.js")) {
+          statusText = `발화 진단 시스템 로딩 중... (${loadedIndex + 1}/${totalScripts})`;
+        } else if (scriptItem.src.includes("app.js")) {
+          statusText = `애플리케이션 진입점 실행 중... (${loadedIndex + 1}/${totalScripts})`;
+        }
+
+        updateAppLoadingProgress(scriptProgress, statusText);
         await loadScript(scriptItem);
+        loadedIndex++;
       }
 
+      updateAppLoadingProgress(84, "학습 환경 최종 설정 중...");
+
       console.log(
-        "🚀 [TemplateLoader] 8대 템플릿 및 컴포넌트 로드 완료, 앱이 성공적으로 시작되었습니다.",
+        "🚀 [TemplateLoader] 8대 템플릿 및 스크립트 로드 완료, 앱 초기화를 진행합니다.",
       );
     } catch (err) {
-      console.error("❌ [TemplateLoader] 초기화 오류:", err);
-      const loadingBox = document.getElementById("appInitialLoading");
-      if (loadingBox) {
-        const isFileProtocol = window.location.protocol === "file:";
-        loadingBox.innerHTML = `
-          <div style="padding: 24px; text-align: center; color: #ef4444; line-height: 1.6;">
-            <h3 style="margin-bottom: 8px;">앱 초기화 중 문제가 발생했습니다</h3>
-            <p style="font-size: 13px; color: #64748b;">${err.message}</p>
-            ${
-              isFileProtocol
-                ? `<div style="margin-top: 14px; padding: 12px; background: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px; font-size: 12px; color: #991b1b; text-align: left;">
-                    <strong>💡 로컬 파일 직접 실행 안내 (CORS):</strong><br>
-                    브라우저 보안상 <code>file:///</code> 경로에서는 템플릿 파일을 읽을 수 없습니다.<br>
-                    VS Code의 <strong>Live Server</strong>를 사용하시거나, 터미널에서 <code>python3 -m http.server</code>로 열어주세요.<br>
-                    (GitHub Pages에 배포 시에는 정상 동작합니다.)
-                  </div>`
-                : ""
-            }
-          </div>
-        `;
-      }
+      showAppLoadingError(err);
     }
   }
 
