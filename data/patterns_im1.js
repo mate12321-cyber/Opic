@@ -49,7 +49,7 @@ window.PATTERNS_DATA = [
     exampleQuestion:
       "Describe your favorite place you like to visit and what it looks like.",
     category:
-      "내 방, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 요리하기, 호텔, 도서관, 제주도, 음악",
+      "내 방, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 요리하기, 호텔, 도서관, 제주도, 음악, 자기소개, 회사",
     icon: "🏠",
     desc: "어떤 장소나 좋아하는 곳을 말할 때, 6개 쉬운 문장으로 1~2단어만 바꿔서 바로 끝내는 만능 공식입니다.",
     skeleton: [
@@ -529,6 +529,66 @@ window.PATTERNS_DATA = [
           },
         ],
       },
+      {
+        topic: "🙋 자기소개",
+        keyword: "calm, positive & friendly",
+        sentences: [
+          {
+            en: "Hello, Eva! My name is Hyosang Kim, and I am twenty-eight years old.",
+            ko: "안녕하세요, 에바! 제 이름은 김효상이고 28살입니다.",
+          },
+          {
+            en: "I live alone in a cozy apartment near my office.",
+            ko: "저는 회사 근처의 아늑한 아파트에 혼자 살고 있어요.",
+          },
+          {
+            en: "How can I say... I am a very positive, calm, and friendly person.",
+            ko: "뭐라고 말해야 할까... 저는 매우 긍정적이고 차분하며 다정한 사람이에요.",
+          },
+          {
+            en: "My close friends often tell me that I am very reliable and easygoing.",
+            ko: "친한 친구들은 종종 제가 매우 믿음직스럽고 원만한 사람이라고 말합니다.",
+          },
+          {
+            en: "In my free time, I usually enjoy cooking, coding, and walking.",
+            ko: "여가 시간에는 주로 요리하기, 코딩, 산책하는 것을 즐겨요.",
+          },
+          {
+            en: "I am very happy to take this test today, and I will do my best.",
+            ko: "오늘 이 시험을 보게 되어 기쁘고, 최선을 다하겠습니다.",
+          },
+        ],
+      },
+      {
+        topic: "🏢 회사",
+        keyword: "my office & kind colleagues",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, my favorite place is my office.",
+            ko: "음, 어디 보자... 있잖아 에바, 제가 가장 정이 가는 곳은 제 사무실이에요.",
+          },
+          {
+            en: "It is near my house, so it takes about ten minutes on foot.",
+            ko: "저희 집 근처에 있어서, 걸어서 약 10분 정도 걸려요.",
+          },
+          {
+            en: "How can I say... it is very clean, bright, and well-organized.",
+            ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 밝고, 잘 정돈되어 있어요.",
+          },
+          {
+            en: "There are nice desks and dual-screen computers, so it makes me feel so comfortable.",
+            ko: "좋은 책상과 듀얼 모니터 컴퓨터가 있어서, 저를 너무 편안하게 만들어줘요.",
+          },
+          {
+            en: "When I go there, I usually work with my kind colleagues, and feel proud.",
+            ko: "거기 가면, 저는 보통 친절한 동료들과 함께 일하며 보람을 느껴요.",
+          },
+          {
+            en: "So, I go there five days a week from Monday to Friday.",
+            ko: "그래서 저는 월요일부터 금요일까지 주 5일 거기에 가요.",
+          },
+        ],
+      },
     ],
   },
   {
@@ -547,7 +607,7 @@ window.PATTERNS_DATA = [
     exampleQuestion:
       "What do you usually do when you visit the park? Tell me your routine from beginning to end.",
     category:
-      "카페, 공원 산책, 헬스장, 요리, 코딩, 영화 관람, 마트 장보기, 드라이브, 주말 캠핑, 독서, 음악 감상, 집안 청소, 해변 산책",
+      "카페, 공원 산책, 헬스장, 요리, 코딩, 영화 관람, 마트 장보기, 드라이브, 주말 캠핑, 독서, 음악 감상, 집안 청소, 해변 산책, 직장 업무",
     icon: "⏰",
     desc: "주말이나 평소 일과를 묻는 질문에 시간 순서(First ➔ Then ➔ When ➔ After that)로 쉽고 자연스럽게 답하는 만능 공식입니다.",
     skeleton: [
@@ -967,6 +1027,36 @@ window.PATTERNS_DATA = [
           },
         ],
       },
+      {
+        topic: "💼 직장 업무",
+        keyword: "check emails & morning meeting",
+        sentences: [
+          {
+            en: "Well, you know, on weekdays, I usually work at my office from nine to six.",
+            ko: "음, 있잖아, 평일에 저는 보통 사무실에서 9시부터 6시까지 일해요.",
+          },
+          {
+            en: "First, when I arrive at work, I check my emails and write my to-do list.",
+            ko: "우선, 출근하면 이메일을 확인하고 오늘의 할 일 목록을 적어요.",
+          },
+          {
+            en: "Then, I usually have a morning meeting with my team members.",
+            ko: "그리고 나서, 저는 보통 팀원들과 아침 회의를 진행해요.",
+          },
+          {
+            en: "At my desk, I usually write reports and check data on my computer.",
+            ko: "제 자리에서, 저는 보통 보고서를 작성하고 컴퓨터로 데이터를 확인해요.",
+          },
+          {
+            en: "After that, I clean my desk, come back home, and take a rest.",
+            ko: "그 후에는, 책상을 정리하고 집에 돌아와서 휴식을 취해요.",
+          },
+          {
+            en: "That is my workday routine.",
+            ko: "이게 바로 저의 직장 업무 루틴이에요.",
+          },
+        ],
+      },
     ],
   },
   {
@@ -985,7 +1075,7 @@ window.PATTERNS_DATA = [
     exampleQuestion:
       "Tell me about a memorable day or experience you had recently. What did you do and how was it?",
     category:
-      "영화, 축제, 새집 이사, 캠핑, 카페, 해변, 공원, 헬스장, 단골 식당, 호텔, 대형마트, 드라이브, 도서관, 제주도, 음악",
+      "영화, 축제, 새집 이사, 캠핑, 카페, 해변, 공원, 헬스장, 단골 식당, 호텔, 대형마트, 드라이브, 도서관, 제주도, 음악, 첫 출근, 영어회화",
     icon: "✨",
     desc: "어떤 주제든 과거에 있었던 기억에 남는 일을 물을 때, 6개 쉬운 문장으로 어떤 질문에도 자연스럽게 완주하는 만능 공식입니다.",
     skeleton: [
@@ -1465,6 +1555,66 @@ window.PATTERNS_DATA = [
           },
         ],
       },
+      {
+        topic: "🏢 첫 출근",
+        keyword: "my very first day at work",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
+          },
+          {
+            en: "Last year, I went to my office on my very first day at work.",
+            ko: "작년에, 저는 입사 첫날 처음으로 제 사무실에 출근했어요.",
+          },
+          {
+            en: "Actually, I was very nervous, but my colleagues were so kind and friendly.",
+            ko: "실은, 많이 긴장했지만 동료분들이 정말 친절하고 다정했어요.",
+          },
+          {
+            en: "We had a really good lunch together.",
+            ko: "우리는 함께 정말 즐거운 환영 점심 식사를 했어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I still remember that proud day clearly.",
+            ko: "그래서, 저는 그 뿌듯했던 날을 아직도 생생히 기억해요.",
+          },
+        ],
+      },
+      {
+        topic: "🗣️ 영어회화",
+        keyword: "first time speaking to a foreigner",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, I remember a very special day.",
+            ko: "음, 어디 보자... 있잖아 에바, 아주 특별했던 하루가 하나 기억나요.",
+          },
+          {
+            en: "A few years ago, I met a foreign tourist on the subway and gave directions.",
+            ko: "몇 년 전에, 지하철에서 외국인 관광객을 만나 길을 알려드렸어요.",
+          },
+          {
+            en: "Actually, I was very nervous, but he thanked me with a big smile.",
+            ko: "실은, 아주 긴장했지만 그분이 활짝 웃으며 고마워하셨어요.",
+          },
+          {
+            en: "We had a really warm conversation together.",
+            ko: "우리는 함께 정말 따뜻한 대화를 나누었어요.",
+          },
+          {
+            en: "It was the best day for me.",
+            ko: "저한테는 최고의 날이었어요.",
+          },
+          {
+            en: "So, I started practicing English much harder.",
+            ko: "그래서, 저는 영어를 훨씬 더 열심히 연습하기 시작했어요.",
+          },
+        ],
+      },
     ],
   },
   {
@@ -1482,7 +1632,7 @@ window.PATTERNS_DATA = [
     ],
     exampleQuestion:
       "Have you ever had an unexpected problem with appliances or furniture? What was the issue and how did you solve it?",
-    category: "에어컨 고장, 스마트폰 방전, 요리 연기, 갑작스런 비, 약속 지연",
+    category: "에어컨 고장, 스마트폰 방전, 요리 연기, 갑작스런 비, 약속 지연, 직장 에러, 운동 부상, 호텔 예약 문제",
     icon: "⚡",
     desc: "돌발 문제 질문에 장소·경험 템플릿과 똑같은 6문장으로 쉽고 자연스럽게 답하는 만능 공식입니다.",
     skeleton: [
@@ -1662,6 +1812,96 @@ window.PATTERNS_DATA = [
           },
         ],
       },
+      {
+        topic: "💻 직장 에러",
+        keyword: "computer error before deadline",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, I remember a big problem.",
+            ko: "음, 어디 보자... 에바, 큰 문제 하나가 기억나요.",
+          },
+          {
+            en: "Last month, I was at my office, and suddenly my computer showed an error.",
+            ko: "지난달에, 사무실에 있었는데 갑자기 컴퓨터에 에러가 떴어요.",
+          },
+          {
+            en: "At first, I was so surprised and worried.",
+            ko: "처음에는, 너무 놀라고 걱정됐어요.",
+          },
+          {
+            en: "So, I quickly checked the file with my colleague, and solved the problem.",
+            ko: "그래서, 빠르게 동료와 함께 파일을 점검해서 문제를 해결했어요.",
+          },
+          {
+            en: "It was a hard day for me.",
+            ko: "저한테는 참 힘든 하루였어요.",
+          },
+          {
+            en: "Anyway, it was solved well, so everything was okay.",
+            ko: "어쨌든, 잘 해결되어서, 다 괜찮았어요.",
+          },
+        ],
+      },
+      {
+        topic: "🏋️ 운동 부상",
+        keyword: "twisted ankle while running",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, I remember a big problem.",
+            ko: "음, 어디 보자... 에바, 큰 문제 하나가 기억나요.",
+          },
+          {
+            en: "Last month, I was at the gym, and suddenly I twisted my ankle.",
+            ko: "지난달에, 헬스장에 있었는데 갑자기 발목을 살짝 삐었어요.",
+          },
+          {
+            en: "At first, I was so surprised and worried.",
+            ko: "처음에는, 너무 놀라고 걱정됐어요.",
+          },
+          {
+            en: "So, I quickly put an ice pack on it, and solved the problem.",
+            ko: "그래서, 빠르게 얼음찜질을 하고 쉬면서 문제를 해결했어요.",
+          },
+          {
+            en: "It was a hard day for me.",
+            ko: "저한테는 참 힘든 하루였어요.",
+          },
+          {
+            en: "Anyway, it was solved well, so everything was okay.",
+            ko: "어쨌든, 잘 해결되어서, 다 괜찮았어요.",
+          },
+        ],
+      },
+      {
+        topic: "🏨 호텔 예약 문제",
+        keyword: "hotel room was not ready",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, I remember a big problem.",
+            ko: "음, 어디 보자... 에바, 큰 문제 하나가 기억나요.",
+          },
+          {
+            en: "Last month, I was at a hotel, and suddenly my room was not ready.",
+            ko: "지난달에, 호텔에 도착했는데 갑자기 제 방이 준비되지 않았어요.",
+          },
+          {
+            en: "At first, I was so surprised and worried.",
+            ko: "처음에는, 너무 놀라고 걱정됐어요.",
+          },
+          {
+            en: "So, I quickly asked the clerk for a free upgrade, and solved the problem.",
+            ko: "그래서, 빠르게 직원에게 객실 업그레이드를 요청해 문제를 해결했어요.",
+          },
+          {
+            en: "It was a hard day for me.",
+            ko: "저한테는 참 힘든 하루였어요.",
+          },
+          {
+            en: "Anyway, it was solved well, so everything was okay.",
+            ko: "어쨌든, 잘 해결되어서, 다 괜찮았어요.",
+          },
+        ],
+      },
     ],
   },
   {
@@ -1679,7 +1919,7 @@ window.PATTERNS_DATA = [
     ],
     exampleQuestion:
       "How have cafes changed from when you were a child to now? Compare the past and the present.",
-    category: "카페 변화, 영화 변화, 주거 변화, 음악 변화, 쇼핑 변화",
+    category: "카페 변화, 영화 변화, 주거 변화, 음악 변화, 쇼핑 변화, 공원 계절, 운동 변화, 캠핑 변화, 라이프스타일",
     icon: "🔄",
     desc: "과거와 현재의 차이를 묻는 질문에 장소·경험 템플릿과 똑같은 6문장으로 깔끔하게 비교하는 공식입니다.",
     skeleton: [
@@ -1848,6 +2088,126 @@ window.PATTERNS_DATA = [
           {
             en: "For example, we get dawn delivery the next morning, so it is very comfortable.",
             ko: "예를 들어 다음 날 아침 새벽 배송을 받아서 아주 편안해요.",
+          },
+          {
+            en: "It is the best change for me.",
+            ko: "저한테는 최고의 변화예요.",
+          },
+          {
+            en: "So, I really like these changes.",
+            ko: "그래서 저는 이런 변화들이 정말 마음에 들어요.",
+          },
+        ],
+      },
+      {
+        topic: "🌳 공원 계절",
+        keyword: "four seasons in the park",
+        sentences: [
+          {
+            en: "Whenever I think of the park, it changes a lot every season.",
+            ko: "공원을 생각할 때마다, 계절마다 정말 많이 변해요.",
+          },
+          {
+            en: "In spring, there are beautiful pink cherry blossoms everywhere.",
+            ko: "봄에는 곳곳에 아름다운 분홍빛 벚꽃이 가득 피어나요.",
+          },
+          {
+            en: "However, in autumn, the leaves turn red and yellow.",
+            ko: "하지만 가을에는 나뭇잎들이 붉고 노란 단풍으로 물들어요.",
+          },
+          {
+            en: "For example, people enjoy picnics in spring and take photos in autumn.",
+            ko: "예를 들어 사람들은 봄에는 피크닉을 즐기고 가을에는 사진을 찍어요.",
+          },
+          {
+            en: "It is the best place for me all year round.",
+            ko: "사계절 내내 저한테는 최고의 장소예요.",
+          },
+          {
+            en: "So, I really like these seasonal changes.",
+            ko: "그래서 저는 이런 계절의 변화들이 정말 마음에 들어요.",
+          },
+        ],
+      },
+      {
+        topic: "💪 운동 변화",
+        keyword: "better health and stamina",
+        sentences: [
+          {
+            en: "Whenever I think of my health, it changed a lot.",
+            ko: "제 건강을 생각할 때마다, 정말 많이 변했어요.",
+          },
+          {
+            en: "In the past, I got tired easily and had low energy.",
+            ko: "과거에는 쉽게 피곤해지고 체력이 많이 부족했어요.",
+          },
+          {
+            en: "However, now, my body is very strong and healthy.",
+            ko: "하지만 지금은 제 몸이 아주 튼튼하고 건강해졌어요.",
+          },
+          {
+            en: "For example, I work out regularly, so I sleep very well at night.",
+            ko: "예를 들어 규칙적으로 운동을 해서 밤에 잠도 아주 잘 자요.",
+          },
+          {
+            en: "It is the best change for me.",
+            ko: "저한테는 최고의 변화예요.",
+          },
+          {
+            en: "So, I really like these healthy changes.",
+            ko: "그래서 저는 이런 건강한 변화들이 정말 마음에 들어요.",
+          },
+        ],
+      },
+      {
+        topic: "🏕️ 캠핑 변화",
+        keyword: "glamping and modern camping gear",
+        sentences: [
+          {
+            en: "Whenever I think of camping, it changed a lot.",
+            ko: "캠핑을 생각할 때마다, 정말 많이 변했어요.",
+          },
+          {
+            en: "In the past, pitching a tent was very hard and uncomfortable.",
+            ko: "과거에는 텐트를 치는 것이 아주 힘들고 불편했어요.",
+          },
+          {
+            en: "However, now, camping is very easy, cozy, and convenient.",
+            ko: "하지만 지금은 캠핑이 아주 쉽고 아늑하며 편리해졌어요.",
+          },
+          {
+            en: "For example, we have glamping and auto-camping with nice facilities.",
+            ko: "예를 들어 좋은 시설을 갖춘 글램핑과 오토캠핑을 즐길 수 있어요.",
+          },
+          {
+            en: "It is the best change for me.",
+            ko: "저한테는 최고의 변화예요.",
+          },
+          {
+            en: "So, I really like these changes.",
+            ko: "그래서 저는 이런 변화들이 정말 마음에 들어요.",
+          },
+        ],
+      },
+      {
+        topic: "🌱 라이프스타일",
+        keyword: "healthy routine and learning English",
+        sentences: [
+          {
+            en: "Whenever I think of my lifestyle, it changed a lot.",
+            ko: "제 라이프스타일을 생각할 때마다, 정말 많이 변했어요.",
+          },
+          {
+            en: "In the past, I used to stay up late playing games.",
+            ko: "과거에는 게임을 하느라 늦게까지 깨어 있곤 했어요.",
+          },
+          {
+            en: "However, now, my daily routine is very healthy and productive.",
+            ko: "하지만 지금은 제 하루 일과가 아주 건강하고 생산적이에요.",
+          },
+          {
+            en: "For example, I wake up early, exercise, and study English every day.",
+            ko: "예를 들어 매일 일찍 일어나 운동을 하고 영어 공부를 해요.",
           },
           {
             en: "It is the best change for me.",

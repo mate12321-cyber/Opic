@@ -1,7 +1,7 @@
 /**
  * @file questions_im1.js
- * @description OPIc 실전 질문 및 IM1 맞춤 5~7문장 답변 데이터셋 (총 72문항)
- * - 12개 빈출 주제 × 6문항 (Set A 3단 콤보 3문항 + Set B 3단 콤보 3문항)
+ * @description OPIc 실전 질문 및 IM1 맞춤 5~7문장 답변 데이터셋 (총 75문항)
+ * - 12개 빈출 주제 (일반 11개 주제 × 6문항 + 롤플레이/에바 역질문 9문항)
  * - 실제 OPIc 3-3 시험의 3단 콤보 및 에바 공식 기출 프롬프트 100% 일치
  * - 정규화된 sentences 배열을 단일 진실 공급원(Single Source of Truth)으로 사용
  * - 파일 하단에서 q.answer_en, q.answer_ko를 자동 합성하여 무결성 보장

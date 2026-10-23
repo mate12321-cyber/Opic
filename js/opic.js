@@ -480,8 +480,8 @@ function startOpicPractice(wrongOnly = false) {
         ({ q }) => q.cat === cat,
       );
 
-      // 세트(combo_set: 1 = Set A, 2 = Set B)별로 그룹화하여 각각 1->2->3단계 순서 정렬
-      const setNumbers = [1, 2];
+      // 세트(combo_set: 1 = Set A, 2 = Set B, 3 = Set C/Q15)별로 그룹화하여 각각 1->2->3단계 순서 정렬
+      const setNumbers = [1, 2, 3];
       for (const setNum of setNumbers) {
         const setQuestions = catQuestions.filter(
           ({ q }) => (q.combo_set || 1) === setNum,
