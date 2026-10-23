@@ -769,16 +769,14 @@
    */
   function normalizeRectForViewport(rawRect) {
     if (!rawRect) return rawRect;
-    const vw = window.innerWidth || document.documentElement.clientWidth || 1024;
-    // 만약 브라우저의 getBoundingClientRect가 CSS zoom이 적용된 좌표(뷰포트 폭을 초과하는 값 등)나
-    // 스케일 차이를 반환하는 구형 엔진일 경우 안전하게 보정
     const wrapEl = document.querySelector(".wrap");
     if (wrapEl) {
-      const wrapRect = wrapEl.getBoundingClientRect();
-      // wrapRect.width가 clientWidth와 동일한 스케일(최신 표준)이면 그대로 사용
-      if (wrapRect.width > vw * 1.05 && wrapEl.style.zoom) {
-        const z = parseFloat(window.getComputedStyle(wrapEl).zoom) || 1;
-        if (z !== 1) {
+      const z = parseFloat(window.getComputedStyle(wrapEl).zoom) || 1;
+      if (z !== 1 && wrapEl.offsetWidth > 0) {
+        const wrapRect = wrapEl.getBoundingClientRect();
+        // 엔진이 getBoundingClientRect()를 CSS zoom 미반영(unzoomed) 좌표계로 반환하는 경우 스케일 보정
+        const ratio = wrapRect.width / wrapEl.offsetWidth;
+        if (Math.abs(ratio - 1) < 0.03) {
           return {
             left: rawRect.left * z,
             right: rawRect.right * z,
@@ -1234,7 +1232,9 @@
             const wordRange = document.createRange();
             wordRange.setStart(tNode, match.index);
             wordRange.setEnd(tNode, match.index + match[0].length);
-            const rect = wordRange.getBoundingClientRect();
+            const rect = normalizeRectForViewport(
+              wordRange.getBoundingClientRect(),
+            );
 
             // 터치 지점 (x, y)가 단어 사각형(상하좌우 8px 여유) 안에 있는지 확인
             if (

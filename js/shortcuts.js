@@ -43,14 +43,27 @@ document.addEventListener("keydown", (e) => {
     return;
   }
 
-  // 1-3. 치트시트 모달 열려있을 때 P(PDF 다운로드) 단축키
+  // 1-3. 치트시트 모달 열려있을 때 D 또는 P (PDF 다운로드) 단축키
   const cheatModal = document.getElementById("cheatSheetModal");
-  if (cheatModal && cheatModal.style.display === "flex") {
-    const isP =
-      e.code === "KeyP" || e.key === "p" || e.key === "P" || e.key === "ㅔ";
-    if (isP) {
+  if (
+    cheatModal &&
+    (cheatModal.classList.contains("show") ||
+      cheatModal.style.display === "flex")
+  ) {
+    const isPdfShortcut =
+      e.code === "KeyD" ||
+      e.key === "d" ||
+      e.key === "D" ||
+      e.key === "ㅇ" ||
+      e.code === "KeyP" ||
+      e.key === "p" ||
+      e.key === "P" ||
+      e.key === "ㅔ";
+    if (isPdfShortcut) {
       e.preventDefault();
-      if (typeof downloadCheatSheetPDF === "function") {
+      if (typeof downloadDirectPdfA4 === "function") {
+        downloadDirectPdfA4();
+      } else if (typeof downloadCheatSheetPDF === "function") {
         downloadCheatSheetPDF();
       }
       return;
