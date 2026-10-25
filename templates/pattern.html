@@ -181,7 +181,7 @@
         <span class="pmg-tag">청취 시그널</span>
         <div class="pmg-signals" id="pmgSignals"></div>
       </div>
-      <div class="pmg-row pmg-row-q">
+      <div class="pmg-row pmg-row-q" id="pmgQuestionRow">
         <div class="pmg-row-q-header">
           <span class="pmg-tag">기출 예시</span>
           <span
@@ -200,16 +200,39 @@
           <span class="pmg-type-badge" id="pmgTypeBadge" title="출제 유형"
             >1단계 · 장소 묘사</span
           >
-          <button
-            type="button"
-            class="pmg-listen-btn"
-            id="pmgListenBtn"
-            title="에바의 실제 질문 음성 듣기"
-          >
-            🔊 질문 듣기
-          </button>
+          <div class="pmg-q-header-actions">
+            <button
+              type="button"
+              class="pmg-scope-toggle-btn"
+              id="pmgScopeToggleBtn"
+              title="현재 주제 기출만 보기 / 이 패턴 전체 기출 보기 전환"
+            >
+              🎯 주제 기출
+            </button>
+            <button
+              type="button"
+              class="pmg-practice-btn"
+              id="pmgPracticeQBtn"
+              title="이 기출 문제로 실전 모의고사 연습 바로 시작"
+              style="display: none"
+            >
+              ⚡ 실전 연습
+            </button>
+            <button
+              type="button"
+              class="pmg-listen-btn"
+              id="pmgListenBtn"
+              title="에바의 실제 질문 음성 듣기"
+            >
+              🔊 질문 듣기
+            </button>
+          </div>
         </div>
-        <div class="pmg-example-q-wrap" id="pmgExampleQ">
+        <div
+          class="pmg-example-q-wrap"
+          id="pmgExampleQ"
+          title="좌우로 스와이프하거나 아래 버튼으로 다른 기출 예시를 확인하세요"
+        >
           <div class="pmg-q-en" id="pmgExampleQEn">
             "Describe your favorite place you like to visit and what it looks
             like."
@@ -218,6 +241,29 @@
             (가장 좋아하는 장소에 대해 설명하고 그곳이 어떻게 생겼는지 말씀해
             주세요.)
           </div>
+        </div>
+        <div class="pmg-q-nav-bar" id="pmgQNavBar">
+          <button
+            type="button"
+            class="pmg-q-nav-btn"
+            id="pmgPrevQBtn"
+            title="이전 기출 예시 보기"
+          >
+            ‹ 이전 기출
+          </button>
+          <div class="pmg-q-nav-center">
+            <div class="pmg-q-dots" id="pmgQDots"></div>
+            <span class="pmg-q-counter" id="pmgQCounter">1 / 2</span>
+            <span class="pmg-swipe-hint">↔ 스와이프</span>
+          </div>
+          <button
+            type="button"
+            class="pmg-q-nav-btn"
+            id="pmgNextQBtn"
+            title="다음 기출 예시 보기"
+          >
+            다음 기출 ›
+          </button>
         </div>
       </div>
     </div>

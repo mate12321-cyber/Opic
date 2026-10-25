@@ -2238,7 +2238,7 @@ window.PATTERNS_DATA = [
     exampleQuestion:
       "You want to buy concert tickets. Call the ticket box office and ask 3-4 questions to get information.",
     category:
-      "티켓 문의(11번), 헬스장 문의(11번), 약속 지연(12번), 교환/환불(12번), 예약 변경(12번), 티켓 돌발(13번), 에바 역질문(15번)",
+      "티켓 문의(11번), 헬스장 문의(11번), 호텔 문의(11번), 약속 지연(12번), 교환/환불(12번), 예약 변경(12번), 티켓 돌발(13번), 에바 역질문(15번)",
     icon: "🎭",
     desc: "롤플레이 3대 핵심(11번 질문 문의 ➔ 12번 돌발 대안 제시 ➔ 13번 과거 유사 경험)과 3-3 최신 단골인 15번 에바 역질문을 쉬운 6문장으로 완벽 해결하는 공식입니다.",
     skeleton: [
@@ -2373,6 +2373,62 @@ window.PATTERNS_DATA = [
           {
             en: "By the way, is parking free for gym members?",
             ko: "그런데 헬스장 회원은 주차가 무료인가요?",
+          },
+          {
+            en: "Thank you so much for your help. Have a nice day!",
+            ko: "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
+          },
+        ],
+      },
+      {
+        topic: "🏨 호텔 문의",
+        keyword: "room availability, rates, breakfast, parking",
+        skeleton: [
+          {
+            en: "1. Hi, I'm calling to ask about [주제].",
+            ko: "1. 안녕하세요, [주제]에 대해 여쭤보려고 전화드렸어요.",
+          },
+          {
+            en: "2. First, do you have an available room for this weekend?",
+            ko: "2. 먼저 이번 주말에 예약 가능한 빈 객실이 있나요?",
+          },
+          {
+            en: "3. And what time is check-in and check-out?",
+            ko: "3. 그리고 체크인과 체크아웃 시간은 몇 시인가요?",
+          },
+          {
+            en: "4. Also, how much is the room, and is breakfast included?",
+            ko: "4. 또한 객실 요금은 얼마이고, 조식이 포함되어 있나요?",
+          },
+          {
+            en: "5. By the way, is parking free for hotel guests?",
+            ko: "5. 그런데 투숙객 주차는 무료인가요?",
+          },
+          {
+            en: "6. Thank you so much for your help. Have a nice day!",
+            ko: "6. 도와주셔서 정말 감사합니다. 좋은 하루 보내세요!",
+          },
+        ],
+        sentences: [
+          {
+            en: "Hi, I'm calling to ask about booking a hotel room.",
+            ko: "안녕하세요, 호텔 객실 예약에 대해 문의하려고 전화드렸어요.",
+          },
+          {
+            en: "First, do you have an available standard room for this weekend?",
+            ko: "먼저 이번 주말에 예약 가능한 스탠다드 객실이 있나요?",
+          },
+          {
+            en: "And what time is check-in and check-out?",
+            ko: "그리고 체크인과 체크아웃 시간은 몇 시인가요?",
+          },
+          {
+            en: "Also, how much is the room per night, and is breakfast included?",
+            ko: "또한 1박 요금은 얼마이고, 조식이 포함되어 있나요?",
+          },
+          {
+            en: "By the way, is parking free for hotel guests?",
+            ko: "그런데 호텔 투숙객은 주차가 무료인가요?",
           },
           {
             en: "Thank you so much for your help. Have a nice day!",

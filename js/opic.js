@@ -31,6 +31,7 @@
 let opicOrder = []; // 현재 출제 세트의 질문 인덱스 배열
 let opicCur = 0; // 현재 진행 중인 질문 인덱스
 let opicSelectedCats = new Set(); // 선택된 질문 토픽 세트
+let opicCatsInitialized = false; // 카테고리 초기 선택 여부 플래그
 let opicRevealed = false; // 모범 답변 공개 여부 플래그
 let opicWrongList = []; // 오답/재검토 대상 질문 인덱스 목록
 let opicGoodCount = 0; // 만족('good') 횟수
@@ -51,51 +52,63 @@ const OPIC_SUBTHEMES = {
   자기소개: {
     1: "기본 프로필 & 일과",
     2: "성격 & 여가 라이프",
+    3: "소중한 사람 & 특별한 날",
   },
   "집/주거": {
     1: "집 구조 & 일상 루틴",
     2: "좋아하는 방 & 인테리어",
+    3: "동네 주변 & 저녁 휴식",
   },
   "직장/업무": {
     1: "회사 & 업무 일과",
     2: "동료 & 첫 출근 기억",
+    3: "업무 공간 & 점심 일과",
   },
   카페가기: {
     1: "자주 가는 카페 & 일상",
     2: "선호 메뉴 & 약속 루틴",
+    3: "조용한 카페 & 돌발 대처",
   },
   공원가기: {
     1: "동네 공원 & 산책 루틴",
     2: "공원 시설 & 피크닉",
+    3: "산책로 풍경 & 저녁 조깅",
   },
   영화보기: {
     1: "선호 장르 & 최근 영화",
     2: "영화관 시설 & 관람 루틴",
+    3: "좋아하는 배우 & OTT 감상",
   },
   음악감상: {
     1: "선호 장르 & 콘서트 기억",
     2: "좋아하는 곡 & 청취 루틴",
+    3: "좋아하는 뮤지션 & 음악 힐링",
   },
   운동하기: {
     1: "자주 하는 운동 & 헬스장",
     2: "운동 복장 & 시작 계기",
+    3: "헬스 기구 & 운동 후 회복",
   },
   요리하기: {
     1: "자신 있는 요리 & 주방",
     2: "식재료 & 장보기 루틴",
+    3: "시그니처 요리 & 홈파티 대접",
   },
   국내여행: {
     1: "추천 여행지 & 여행 준비",
     2: "기억에 남는 숙소 & 일정",
+    3: "지역 맛집 & 여행 스타일 비교",
   },
   캠핑하기: {
     1: "추천 캠핑장 & 캠핑 루틴",
     2: "캠핑 장비 & 저녁 불멍",
+    3: "텐트 아늑함 & 캠핑 아침 일과",
   },
   롤플레이: {
     1: "공연 티켓 예매 & 약속 문의",
     2: "호텔 객실 예약 & 체크인",
     3: "15번 에바 역질문 (최신 단골)",
+    4: "매장 물건 구매 & 교환/환불",
   },
 };
 
@@ -248,7 +261,10 @@ async function loadOpicProgress() {
       if (data.order && data.order.length > 0) {
         opicOrder = data.order;
         opicCur = data.cur || 0;
-        opicSelectedCats = new Set(data.selectedCats || []);
+        if (Array.isArray(data.selectedCats)) {
+          opicSelectedCats = new Set(data.selectedCats);
+          opicCatsInitialized = true;
+        }
         opicWrongList = data.wrongList || [];
         opicGoodCount = data.goodCount || 0;
         opicBadCount = data.badCount || 0;
@@ -259,8 +275,9 @@ async function loadOpicProgress() {
   } catch (e) {
     /* 초기 상태 유지 */
   }
-  if (opicSelectedCats.size === 0 && OPIC_CATEGORIES.length > 0) {
+  if (!opicCatsInitialized && OPIC_CATEGORIES.length > 0) {
     opicSelectedCats = new Set(OPIC_CATEGORIES);
+    opicCatsInitialized = true;
   }
   updatePlayModeTabsUI();
 }
@@ -387,16 +404,21 @@ function renderOpicChips() {
     OPIC_QUESTIONS = window.QUESTIONS_DATA;
     OPIC_CATEGORIES = [...new Set(OPIC_QUESTIONS.map((q) => q.cat))];
   }
-  if (
-    (!opicSelectedCats || opicSelectedCats.size === 0) &&
-    OPIC_CATEGORIES.length > 0
-  ) {
+
+  // 초기 1회 진입 시 모든 주제 선택 기본 활성화
+  if (!opicCatsInitialized && OPIC_CATEGORIES.length > 0) {
+    if (!opicSelectedCats || opicSelectedCats.size === 0) {
+      opicSelectedCats = new Set(OPIC_CATEGORIES);
+    }
+    opicCatsInitialized = true;
+  } else if (!opicSelectedCats) {
     opicSelectedCats = new Set(OPIC_CATEGORIES);
   }
 
   els.opicTopicChips.innerHTML = "";
 
   const isAllSelected =
+    opicSelectedCats &&
     opicSelectedCats.size === OPIC_CATEGORIES.length &&
     OPIC_CATEGORIES.length > 0;
 
@@ -406,6 +428,7 @@ function renderOpicChips() {
       : "전체 선택";
     els.allOpicTopicToggleBtn.onclick = () => {
       opicSelectedCats = isAllSelected ? new Set() : new Set(OPIC_CATEGORIES);
+      saveOpicProgress();
       renderOpicChips();
     };
   }
@@ -422,6 +445,7 @@ function renderOpicChips() {
       } else {
         opicSelectedCats.add(cat);
       }
+      saveOpicProgress();
       renderOpicChips();
     });
     els.opicTopicChips.appendChild(btn);
@@ -480,8 +504,12 @@ function startOpicPractice(wrongOnly = false) {
         ({ q }) => q.cat === cat,
       );
 
-      // 세트(combo_set: 1 = Set A, 2 = Set B, 3 = Set C/Q15)별로 그룹화하여 각각 1->2->3단계 순서 정렬
-      const setNumbers = [1, 2, 3];
+      // 세트(combo_set: 1 = Set A, 2 = Set B, 3 = Set C, 4 = Set D/Q15 등)별로 그룹화하여 각각 1->2->3단계 순서 정렬
+      const maxSet = Math.max(
+        ...catQuestions.map(({ q }) => q.combo_set || 1),
+        4,
+      );
+      const setNumbers = Array.from({ length: maxSet }, (_, i) => i + 1);
       for (const setNum of setNumbers) {
         const setQuestions = catQuestions.filter(
           ({ q }) => (q.combo_set || 1) === setNum,
@@ -1019,6 +1047,9 @@ function updateOpicButtonsState() {
  */
 function evaluateOpicAnswer() {
   opicEvaluated = true;
+  if (typeof listening !== "undefined" && listening) {
+    stopSpeechRecognition();
+  }
   stopSpeakingTimer();
   if (els.opicUserInput && document.activeElement === els.opicUserInput) {
     els.opicUserInput.blur();
@@ -1027,7 +1058,14 @@ function evaluateOpicAnswer() {
   const item = OPIC_QUESTIONS[opicOrder[opicCur]];
   if (!item) return;
 
-  const userText = (els.opicUserInput ? els.opicUserInput.value : "").trim();
+  const rawUserText = (els.opicUserInput ? els.opicUserInput.value : "").trim();
+  const userText =
+    typeof alignSttWithReference === "function"
+      ? alignSttWithReference(rawUserText, item.model_en || "", item)
+      : rawUserText;
+  if (userText && userText !== rawUserText && els.opicUserInput) {
+    els.opicUserInput.value = userText;
+  }
 
   // 1. 발음, 유창성, 운율, 발화량 및 주제 적합도 정밀 진단
   if (els.opicSpeechEvalBox) {
@@ -1037,7 +1075,7 @@ function evaluateOpicAnswer() {
       diffEl: els.opicEvalDiff,
       feedbackEl: els.opicEvalFeedback,
       mode: "opic",
-      referenceText: userText, // 평가 기준을 모범 답안이 아닌 '내 실제 답변'으로 설정
+      referenceText: item.model_en || userText,
       userText: userText,
       voiceBtn: els.ttsOpicUserInputBtn,
       questionItem: item, // 질문 메타데이터(질문영문, 카테고리, 키워드) 전달하여 주제 적합도 분석

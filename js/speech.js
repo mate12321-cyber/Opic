@@ -1395,12 +1395,48 @@ function utf8ToBase64(str) {
 // =============================================================================
 
 /**
+ * 16kHz 16-bit PCM WAV 버퍼에 실제 유효한 음성 에너지가 존재하는지 검사
+ * - 데스크톱/모바일 브라우저에서 마이크 스트림 충돌로 인해 무음(Silence)이 녹음된 경우
+ *   Azure가 0점을 반환하는 현상을 사전 차단하기 위한 가드 함수
+ * @param {ArrayBuffer} wavBuffer - 16kHz WAV 버퍼
+ * @returns {boolean} 유효한 음성 에너지 존재 여부
+ */
+function hasSufficientAudioEnergy(wavBuffer) {
+  if (!wavBuffer || wavBuffer.byteLength <= 44) return false;
+  try {
+    const view = new DataView(wavBuffer, 44);
+    const totalSamples = Math.floor((wavBuffer.byteLength - 44) / 2);
+    if (totalSamples < 800) return false; // 0.05초 미만
+
+    let sumSq = 0;
+    let maxPeak = 0;
+    const step = Math.max(1, Math.floor(totalSamples / 4000));
+    let count = 0;
+
+    for (let i = 0; i < totalSamples; i += step) {
+      const sample = Math.abs(view.getInt16(i * 2, true));
+      if (sample > maxPeak) maxPeak = sample;
+      sumSq += sample * sample;
+      count++;
+    }
+
+    const rms = Math.sqrt(sumSq / Math.max(1, count));
+    // 16-bit PCM(-32768~32767) 기준 피크가 100 미만이거나 RMS가 12 미만이면 완전 무음으로 판정
+    return maxPeak >= 100 && rms >= 12;
+  } catch (e) {
+    return true;
+  }
+}
+
+/**
  * Azure 연속 음성 인식(Continuous Recognition) 세그먼트 배열 종합 산출
  * - 다문장, 긴 문장, OPIc 전체 발화의 각 세그먼트별 단어 및 음소, 점수를 단어 수 가중치로 종합 병합
+ * - STT 오인식 단어와 실제 발음 간의 괴리로 인한 억울한 0점(Omission/극저점) 방어 보정 포함
  * @param {Array<Object>} segments - NBest[0] 세그먼트 결과 배열
+ * @param {boolean} [isUserSpokenRef=false] - 평가 대본이 사용자의 실시간 STT 발화에서 생성되었는지 여부
  * @returns {Object} 정밀 평가 결과 객체
  */
-function aggregateAzureSegments(segments) {
+function aggregateAzureSegments(segments, isUserSpokenRef = false) {
   if (!segments || segments.length === 0) {
     throw new Error("음성 인식 결과가 없습니다. 다시 시도해 주세요.");
   }
@@ -1417,7 +1453,6 @@ function aggregateAzureSegments(segments) {
   segments.forEach((nbest) => {
     const rawWords = nbest.Words || [];
     const count = Math.max(1, rawWords.length);
-    totalWords += count;
 
     // Azure STT REST API 및 Speech SDK NBest 객체 구조 지원:
     // 점수 필드는 NBest[0].PronunciationAssessment 또는 NBest[0].PronAssessment 객체 내에 존재함
@@ -1426,22 +1461,19 @@ function aggregateAzureSegments(segments) {
       nbest.PronAssessment ||
       nbest;
 
-    const pron = Number(pa.PronScore ?? nbest.PronScore ?? 0);
-    const acc = Number(pa.AccuracyScore ?? nbest.AccuracyScore ?? 0);
-    const flu = Number(pa.FluencyScore ?? nbest.FluencyScore ?? 0);
-    const pro = Number(pa.ProsodyScore ?? nbest.ProsodyScore ?? 0);
-    const comp = Number(pa.CompletenessScore ?? nbest.CompletenessScore ?? 0);
-
-    weightedPron += pron * count;
-    weightedAccuracy += acc * count;
-    weightedFluency += flu * count;
-    weightedProsody += pro * count;
-    weightedCompleteness += comp * count;
+    let pron = Number(pa.PronScore ?? nbest.PronScore ?? 0);
+    let acc = Number(pa.AccuracyScore ?? nbest.AccuracyScore ?? 0);
+    let flu = Number(pa.FluencyScore ?? nbest.FluencyScore ?? 0);
+    let pro = Number(pa.ProsodyScore ?? nbest.ProsodyScore ?? 0);
+    let comp = Number(pa.CompletenessScore ?? nbest.CompletenessScore ?? 0);
 
     const display = nbest.Display || nbest.DisplayText || nbest.Lexical;
     if (display) {
       displayTexts.push(display);
     }
+
+    let segWordAccSum = 0;
+    let segValidWordCount = 0;
 
     rawWords.forEach((w) => {
       // 단어 레벨 점수 및 오류 유형 추출
@@ -1450,27 +1482,94 @@ function aggregateAzureSegments(segments) {
         w.PronAssessment ||
         w;
 
-      const wordAccuracy = Number(wpa.AccuracyScore ?? w.AccuracyScore ?? 0);
-      const wordError = wpa.ErrorType || w.ErrorType || "None";
+      let wordAccuracy = Number(wpa.AccuracyScore ?? w.AccuracyScore ?? 0);
+      let wordError = wpa.ErrorType || w.ErrorType || "None";
+
+      const phonemes = (w.Phonemes || []).map((p) => {
+        const ppa =
+          p.PronunciationAssessment ||
+          p.PronAssessment ||
+          p;
+        return {
+          phoneme: p.Phoneme,
+          accuracyScore: Math.round(
+            Number(ppa.AccuracyScore ?? p.AccuracyScore ?? 0),
+          ),
+        };
+      });
+
+      // 음소 점수는 존재하나 단어 점수가 0으로 누락된 경우 음소 평균으로 복원
+      if (wordAccuracy === 0 && phonemes.length > 0) {
+        const posPhonemes = phonemes.filter((p) => p.accuracyScore > 0);
+        if (posPhonemes.length > 0) {
+          wordAccuracy =
+            posPhonemes.reduce((s, p) => s + p.accuracyScore, 0) /
+            posPhonemes.length;
+        }
+      }
+
+      // ⚡ 핵심 보정: 사용자가 실제로 말해서 STT로 전사된 단어이거나 발음이 조금 부정확해
+      // 브라우저 STT가 다른 단어로 전사한 경우, Azure가 해당 단어를 Omission(0점)이나 극저점(<45점)으로
+      // 처리하여 전체 문장 점수가 무너지는 현상을 방지
+      if (isUserSpokenRef) {
+        if (wordError === "Omission" || wordAccuracy === 0) {
+          wordError = "Mispronunciation";
+          wordAccuracy = Math.max(wordAccuracy, 62);
+        } else if (wordAccuracy > 0 && wordAccuracy < 48) {
+          wordAccuracy = Math.round(48 + wordAccuracy * 0.4);
+        }
+      } else if (wordError === "Mispronunciation" && wordAccuracy > 0 && wordAccuracy < 35) {
+        // 모범 답안 비교 시에도 일부 음소가 발음된 경우 최소 부분 점수(35~50점) 보장
+        wordAccuracy = Math.round(35 + wordAccuracy * 0.5);
+      }
+
+      const roundedWordAcc = Math.round(wordAccuracy);
+      if (wordError !== "Insertion") {
+        segWordAccSum += roundedWordAcc;
+        segValidWordCount++;
+      }
 
       allWords.push({
         word: w.Word,
-        accuracyScore: Math.round(wordAccuracy),
+        accuracyScore: roundedWordAcc,
         errorType: wordError,
-        phonemes: (w.Phonemes || []).map((p) => {
-          const ppa =
-            p.PronunciationAssessment ||
-            p.PronAssessment ||
-            p;
-          return {
-            phoneme: p.Phoneme,
-            accuracyScore: Math.round(
-              Number(ppa.AccuracyScore ?? p.AccuracyScore ?? 0),
-            ),
-          };
-        }),
+        phonemes,
       });
     });
+
+    // 세그먼트 내 단어 보정 점수를 반영하여 세그먼트 정확도/완성도/종합점수 동기화
+    if (segValidWordCount > 0) {
+      const recomputedAcc = Math.round(segWordAccSum / segValidWordCount);
+      if (recomputedAcc > acc) {
+        acc = recomputedAcc;
+      }
+      const nonOmitted = rawWords.filter(
+        (w) =>
+          (w.PronunciationAssessment?.ErrorType || w.ErrorType) !== "Omission",
+      ).length;
+      const recomputedComp = isUserSpokenRef
+        ? Math.max(comp, 85)
+        : Math.max(comp, Math.round((nonOmitted / count) * 100));
+      comp = Math.min(100, recomputedComp);
+    }
+
+    if (flu === 0 && acc > 0) flu = Math.min(100, Math.max(65, acc));
+    if (pro === 0 && acc > 0) pro = Math.min(100, Math.max(65, acc));
+    if (comp === 0 && acc > 0) comp = Math.min(100, Math.max(70, acc));
+
+    const computedPron = Math.round(
+      acc * 0.45 + flu * 0.25 + pro * 0.15 + comp * 0.15,
+    );
+    if (pron === 0 || computedPron > pron) {
+      pron = computedPron;
+    }
+
+    totalWords += count;
+    weightedPron += pron * count;
+    weightedAccuracy += acc * count;
+    weightedFluency += flu * count;
+    weightedProsody += pro * count;
+    weightedCompleteness += comp * count;
   });
 
   const pronScore = Math.round(weightedPron / Math.max(1, totalWords));
@@ -1480,6 +1579,11 @@ function aggregateAzureSegments(segments) {
   const completenessScore = Math.round(
     weightedCompleteness / Math.max(1, totalWords),
   );
+
+  // ⚡ 모든 점수가 0점인 경우(마이크 무음 또는 인식 실패) 에러를 발생시켜 로컬 채점으로 즉시 안전하게 폴백
+  if (pronScore <= 0 && accuracyScore <= 0) {
+    throw new Error("유효한 발음 점수가 산출되지 않아 로컬 채점으로 전환합니다.");
+  }
 
   // OPIc 예상 등급 산출
   let opicGrade = {
@@ -1558,9 +1662,14 @@ function aggregateAzureSegments(segments) {
  * - 30초 REST API 제한을 극복하고, 중간 쉼/침묵이 있는 긴 복합문장 및 6개 문장 전체를 한 번에 채점
  * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
  * @param {string} referenceText - 모범 기준 정답 텍스트
+ * @param {boolean} [isUserSpokenRef=false] - 사용자 발화 기반 대본 여부
  * @returns {Promise<Object>} 정밀 평가 결과 객체
  */
-async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
+async function assessPronunciationWithSpeechSDK(
+  wavBuffer,
+  referenceText,
+  isUserSpokenRef = false,
+) {
   const sdk = typeof window !== "undefined" ? window.SpeechSDK : null;
   if (!sdk || !sdk.SpeechConfig || !sdk.SpeechRecognizer) {
     throw new Error("SpeechSDK is not available");
@@ -1573,30 +1682,32 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
   const speechConfig = sdk.SpeechConfig.fromSubscription(apiKey, region);
   speechConfig.speechRecognitionLanguage = "en-US";
 
-  // 브라우저 File 객체를 생성하여 AudioConfig.fromWavFileInput으로 전체 WAV 스트리밍
-  const wavBlob = new Blob([wavBuffer], { type: "audio/wav" });
-  let audioConfig = null;
-  let pushStream = null;
-
-  if (
-    typeof File !== "undefined" &&
-    typeof sdk.AudioConfig.fromWavFileInput === "function"
-  ) {
-    try {
-      const wavFile = new File([wavBlob], "assessment.wav", {
-        type: "audio/wav",
-      });
-      audioConfig = sdk.AudioConfig.fromWavFileInput(wavFile);
-    } catch (fileErr) {
-      console.warn("[SpeechSDK] fromWavFileInput fallback to pushStream:", fileErr);
+  // 문장 간 호흡/침묵(최대 3초)에도 세션이 조기 종료되지 않도록 타임아웃 확장
+  if (sdk.PropertyId) {
+    if (sdk.PropertyId.Speech_SegmentationSilenceTimeoutMs) {
+      speechConfig.setProperty(
+        sdk.PropertyId.Speech_SegmentationSilenceTimeoutMs,
+        "2500",
+      );
+    }
+    if (sdk.PropertyId.SpeechServiceConnection_InitialSilenceTimeoutMs) {
+      speechConfig.setProperty(
+        sdk.PropertyId.SpeechServiceConnection_InitialSilenceTimeoutMs,
+        "8000",
+      );
+    }
+    if (sdk.PropertyId.SpeechServiceConnection_EndSilenceTimeoutMs) {
+      speechConfig.setProperty(
+        sdk.PropertyId.SpeechServiceConnection_EndSilenceTimeoutMs,
+        "3000",
+      );
     }
   }
 
-  if (!audioConfig) {
-    const streamFormat = sdk.AudioStreamFormat.getWaveFormatPCM(16000, 16, 1);
-    pushStream = sdk.AudioInputStream.createPushStream(streamFormat);
-    audioConfig = sdk.AudioConfig.fromStreamInput(pushStream);
-  }
+  // PushStream을 사용하여 오디오 버퍼가 즉시 EOF 처리되어 끊기는 현상을 방지
+  const streamFormat = sdk.AudioStreamFormat.getWaveFormatPCM(16000, 16, 1);
+  const pushStream = sdk.AudioInputStream.createPushStream(streamFormat);
+  const audioConfig = sdk.AudioConfig.fromStreamInput(pushStream);
 
   const pronConfig = new sdk.PronunciationAssessmentConfig(
     cleanRef,
@@ -1635,7 +1746,7 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
               reject(new Error("음성 인식 결과가 없습니다."));
             } else {
               try {
-                const res = aggregateAzureSegments(segments);
+                const res = aggregateAzureSegments(segments, isUserSpokenRef);
                 if (!res || !res.words || res.words.length === 0) {
                   reject(new Error("인식된 유효 단어가 없습니다."));
                 } else {
@@ -1650,7 +1761,7 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
             cleanup();
             if (segments.length > 0) {
               try {
-                const res = aggregateAzureSegments(segments);
+                const res = aggregateAzureSegments(segments, isUserSpokenRef);
                 if (res && res.words && res.words.length > 0) {
                   resolve(res);
                   return;
@@ -1664,7 +1775,7 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
         cleanup();
         if (segments.length > 0) {
           try {
-            const res = aggregateAzureSegments(segments);
+            const res = aggregateAzureSegments(segments, isUserSpokenRef);
             if (res && res.words && res.words.length > 0) {
               resolve(res);
               return;
@@ -1685,9 +1796,6 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
             const parsed = JSON.parse(jsonStr);
             if (parsed && parsed.NBest && parsed.NBest[0]) {
               const wordCount = parsed.NBest[0].Words?.length || 0;
-              console.log(
-                `[SpeechSDK] Recognized segment: ${wordCount} words ("${e.result.text}")`,
-              );
               if (wordCount > 0) {
                 segments.push(parsed.NBest[0]);
               }
@@ -1710,17 +1818,14 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
     };
 
     recognizer.sessionStopped = () => {
-      console.log(
-        `[SpeechSDK] Session stopped. Total segments collected: ${segments.length}`,
-      );
       finish();
     };
 
-    // 안전 타임아웃: 오디오 길이에 비례하되 최대 60초
+    // 안전 타임아웃: 오디오 길이에 비례하되 최대 45초
     const audioSec = Math.max(1, (wavBuffer.byteLength - 44) / 32000);
     const timeoutMs = Math.min(
-      60000,
-      Math.max(15000, Math.round(audioSec * 1500) + 8000),
+      45000,
+      Math.max(12000, Math.round(audioSec * 1200) + 6000),
     );
 
     safetyTimer = setTimeout(() => {
@@ -1730,35 +1835,26 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
 
     recognizer.startContinuousRecognitionAsync(
       () => {
-        // fromWavFileInput 사용 시 SDK가 자체적으로 파일 스트림을 관리하므로 수동 pushStream 처리가 불필요함
-        if (pushStream) {
-          try {
-            const pcmBytes =
-              wavBuffer.byteLength > 44 ? wavBuffer.slice(44) : wavBuffer;
-            const chunkSize = 4096;
-            let offset = 0;
-            while (offset < pcmBytes.byteLength) {
-              const chunk = pcmBytes.slice(
-                offset,
-                Math.min(offset + chunkSize, pcmBytes.byteLength),
-              );
-              pushStream.write(chunk);
-              offset += chunkSize;
-            }
-            // 전체 오디오가 SDK 내부 버퍼를 통해 WebSocket으로 전송될 수 있도록 충분한 여유 시간을 두고 close
-            const waitTime = Math.max(
-              1500,
-              Math.min(8000, Math.round((pcmBytes.byteLength / 32000) * 150)),
+        try {
+          const pcmBytes =
+            wavBuffer.byteLength > 44 ? wavBuffer.slice(44) : wavBuffer;
+          const chunkSize = 8192;
+          let offset = 0;
+          while (offset < pcmBytes.byteLength) {
+            const chunk = pcmBytes.slice(
+              offset,
+              Math.min(offset + chunkSize, pcmBytes.byteLength),
             );
-            setTimeout(() => {
-              try {
-                pushStream.close();
-              } catch (closeErr) {}
-            }, waitTime);
-          } catch (writeErr) {
-            console.error("[SpeechSDK] PushStream write error:", writeErr);
-            finish();
+            pushStream.write(chunk);
+            offset += chunkSize;
           }
+          // 마지막 문장이 잘리지 않도록 0.5초 분량의 무음(Zero PCM) 패딩 추가 후 close
+          const silencePadding = new ArrayBuffer(16000);
+          pushStream.write(silencePadding);
+          pushStream.close();
+        } catch (writeErr) {
+          console.error("[SpeechSDK] PushStream write error:", writeErr);
+          finish();
         }
       },
       (startErr) => {
@@ -1767,99 +1863,6 @@ async function assessPronunciationWithSpeechSDK(wavBuffer, referenceText) {
       },
     );
   });
-}
-
-/**
- * 16kHz Mono 16bit PCM WAV 버퍼를 문장 목록에 맞추어 단어 수 비율 + 침묵(Energy Valley) 탐색으로 슬라이싱
- * @param {ArrayBuffer} wavBuffer - 원본 16kHz WAV 버퍼
- * @param {string[]} sentences - 분할할 문장 배열
- * @returns {Array<{wav: ArrayBuffer, text: string}>} 문장별 분할된 WAV 청크 목록
- */
-function splitWavBufferBySentences(wavBuffer, sentences) {
-  if (!sentences || sentences.length <= 1) {
-    return [{ wav: wavBuffer, text: (sentences && sentences[0]) || "" }];
-  }
-
-  const pcmBytes = wavBuffer.byteLength > 44 ? wavBuffer.slice(44) : wavBuffer;
-  const totalSamples = Math.floor(pcmBytes.byteLength / 2);
-  const sampleRate = 16000;
-  const view = new DataView(pcmBytes);
-
-  const wordCounts = sentences.map((s) =>
-    Math.max(1, s.split(/\s+/).filter(Boolean).length),
-  );
-  const totalWords = wordCounts.reduce((a, b) => a + b, 0);
-
-  const splitSampleIndices = [0];
-  let accumulatedRatio = 0;
-  for (let i = 0; i < sentences.length - 1; i++) {
-    accumulatedRatio += wordCounts[i] / totalWords;
-    const targetSample = Math.round(totalSamples * accumulatedRatio);
-    // 주변 ±1.5초(24,000 samples) 범위 내에서 가장 에너지가 낮은 밸리(침묵/숨 고르는 지점) 탐색
-    const windowRadius = Math.min(24000, Math.round(targetSample * 0.4));
-    let bestSample = targetSample;
-    let minEnergy = Infinity;
-    const searchStep = 160; // 10ms 단위
-
-    const startSearch = Math.max(0, targetSample - windowRadius);
-    const endSearch = Math.min(totalSamples, targetSample + windowRadius);
-
-    for (let s = startSearch; s < endSearch; s += searchStep) {
-      let energy = 0;
-      for (let k = 0; k < searchStep && s + k < totalSamples; k++) {
-        energy += Math.abs(view.getInt16((s + k) * 2, true));
-      }
-      if (energy < minEnergy) {
-        minEnergy = energy;
-        bestSample = s;
-      }
-    }
-    splitSampleIndices.push(bestSample);
-  }
-  splitSampleIndices.push(totalSamples);
-
-  function createWavHeader(dataLength) {
-    const buffer = new ArrayBuffer(44);
-    const v = new DataView(buffer);
-    function w(offset, str) {
-      for (let k = 0; k < str.length; k++)
-        v.setUint8(offset + k, str.charCodeAt(k));
-    }
-    w(0, "RIFF");
-    v.setUint32(4, 36 + dataLength, true);
-    w(8, "WAVE");
-    w(12, "fmt ");
-    v.setUint32(16, 16, true);
-    v.setUint16(20, 1, true); // PCM
-    v.setUint16(22, 1, true); // Mono
-    v.setUint32(24, sampleRate, true);
-    v.setUint32(28, sampleRate * 2, true);
-    v.setUint16(32, 2, true);
-    v.setUint16(34, 16, true);
-    w(36, "data");
-    v.setUint32(40, dataLength, true);
-    return buffer;
-  }
-
-  const results = [];
-  for (let i = 0; i < sentences.length; i++) {
-    const startS = splitSampleIndices[i];
-    const endS = splitSampleIndices[i + 1];
-    const dataLen = (endS - startS) * 2;
-    if (dataLen < 1600) {
-      // 0.05초 미만의 무의미한 조각 건너뜀
-      continue;
-    }
-    const header = createWavHeader(dataLen);
-    const out = new Uint8Array(44 + dataLen);
-    out.set(new Uint8Array(header), 0);
-    out.set(new Uint8Array(pcmBytes.slice(startS * 2, endS * 2)), 44);
-    results.push({ wav: out.buffer, text: sentences[i] });
-  }
-
-  return results.length > 0
-    ? results
-    : [{ wav: wavBuffer, text: sentences.join(" ") }];
 }
 
 /**
@@ -1879,6 +1882,7 @@ async function assessPronunciationWithAzureRestRaw(wavBuffer, referenceText) {
     Granularity: "Phoneme",
     Dimension: "Comprehensive",
     EnableProsodyAssessment: "True",
+    EnableMiscue: "True",
   };
   const pronHeader = utf8ToBase64(JSON.stringify(pronConfig));
 
@@ -1908,101 +1912,83 @@ async function assessPronunciationWithAzureRestRaw(wavBuffer, referenceText) {
 }
 
 /**
- * Azure Cognitive Services Pronunciation Assessment REST API (단문 집계 모드)
+ * Azure Cognitive Services Pronunciation Assessment REST API (단문 및 중문 집계 모드)
  * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
  * @param {string} referenceText - 모범 기준 정답 텍스트
+ * @param {boolean} [isUserSpokenRef=false] - 사용자 발화 기반 대본 여부
  * @returns {Promise<Object>} 집계된 평가 결과 객체
  */
-async function assessPronunciationWithAzureRest(wavBuffer, referenceText) {
+async function assessPronunciationWithAzureRest(
+  wavBuffer,
+  referenceText,
+  isUserSpokenRef = false,
+) {
   const nbest = await assessPronunciationWithAzureRestRaw(
     wavBuffer,
     referenceText,
   );
-  return aggregateAzureSegments([nbest]);
+  return aggregateAzureSegments([nbest], isUserSpokenRef);
 }
 
 /**
- * 마침표 유무와 상관없이 긴 발화 텍스트를 Azure REST API가 100% 인식할 수 있는 이상적인 발화 단위(4~8단어 청크)로 분할
- * @param {string} text - 원본 발화 텍스트
- * @param {number} [maxWordsPerChunk=8] - 청크당 최대 권장 단어 수
- * @returns {string[]} 분할된 발화 청크 배열
- */
-function splitIntoUtteranceChunks(text, maxWordsPerChunk = 8) {
-  if (!text || !text.trim()) return [];
-
-  // 1. 구두점(. ! ? , ; 및 줄바꿈) 기준 1차 분할
-  const rawSegments = text
-    .split(/[.!?,\n;]+/)
-    .map((s) => s.trim())
-    .filter(Boolean);
-
-  // 2. 구두점이 없거나 긴 세그먼트를 쪼개기 위한 접속사/담화표지어/주어 분절 정규식
-  const splitKeywords =
-    /\b(and|or|but|so|because|since|although|though|however|therefore|when|whenever|after|before|then|also|besides|plus|for example|in fact|you know|honestly|actually|frankly|i think|in my opinion|i usually|i like|i love|my|we|they|it is|it was|there is|there are|sometimes|usually|always)\b/gi;
-
-  const chunks = [];
-
-  for (const seg of rawSegments) {
-    const tokens = seg.split(/\s+/).filter(Boolean);
-    if (tokens.length <= maxWordsPerChunk) {
-      chunks.push(tokens.join(" "));
-      continue;
-    }
-
-    let cur = [];
-    for (let i = 0; i < tokens.length; i++) {
-      const token = tokens[i];
-      const isSplitter = splitKeywords.test(token);
-      splitKeywords.lastIndex = 0;
-
-      // 최소 4단어 이상 쌓였고 분절 키워드가 나오거나, 이미 최대 단어 수에 도달했으면 청크 분할
-      if ((isSplitter && cur.length >= 4) || cur.length >= maxWordsPerChunk) {
-        chunks.push(cur.join(" "));
-        cur = [token];
-      } else {
-        cur.push(token);
-      }
-    }
-    if (cur.length > 0) {
-      chunks.push(cur.join(" "));
-    }
-  }
-
-  return chunks.length > 0 ? chunks : [text.trim()];
-}
-
-/**
- * Azure AI 음성 정밀 발음 평가 (스마트 발화 청킹 + 고신뢰도 REST 병렬 채점 파이프라인)
- * - 5~6문장 이상의 장문 발화도 모든 문장/단어가 누락 없이 100% 온전히 채점되도록
- *   4~8단어 발화 청크 단위로 오디오를 침묵 스냅 슬라이싱하여 병렬 채점 후 통합
+ * Azure AI 음성 정밀 발음 평가 (고속 단일 REST + 장문 SpeechSDK 하이브리드 파이프라인)
+ * - 오디오 무음 검사를 통해 하드웨어 충돌 시 0점 반환을 원천 차단
+ * - 30초 이하 발화는 오디오 강제 절단(Slicing) 없이 단일 REST(EnableMiscue=True)로 전체 문장을 한 번에 정확히 채점
+ * - 긴 침묵이 포함된 장문 발화는 SpeechSDK PushStream 연속 인식으로 누락 없이 100% 채점
  * @param {ArrayBuffer} wavBuffer - 16kHz 16bit 모노 PCM WAV 오디오
  * @param {string} referenceText - 모범 기준 정답 텍스트
+ * @param {boolean} [isUserSpokenRef=false] - 사용자 발화 기반 대본 여부
  * @returns {Promise<Object>} 정밀 평가 결과 객체 (점수, 음소/단어 분석, OPIc 예상 등급)
- * @throws {Error} API 키 부재, 오디오 데이터 부족, 인식 실패 시
+ * @throws {Error} API 키 부재, 오디오 데이터 부족/무음, 인식 실패 시
  */
-async function assessPronunciationWithAzure(wavBuffer, referenceText) {
+async function assessPronunciationWithAzure(
+  wavBuffer,
+  referenceText,
+  isUserSpokenRef = false,
+) {
   if (!azureApiKey || !azureApiKey.trim()) {
     throw new Error("Azure API Key가 설정되지 않았습니다.");
   }
-  if (!wavBuffer || wavBuffer.byteLength < 100) {
+  if (!wavBuffer || wavBuffer.byteLength < 1000) {
     throw new Error("평가할 오디오 데이터가 부족합니다.");
+  }
+  if (!hasSufficientAudioEnergy(wavBuffer)) {
+    throw new Error("오디오 무음 감지: 로컬 채점 엔진으로 전환합니다.");
   }
 
   const audioSec = Math.max(0.5, (wavBuffer.byteLength - 44) / 32000);
   const totalWords = referenceText.trim().split(/\s+/).filter(Boolean).length;
 
-  // 단문/단일 문장 (6단어 이하)의 경우 즉각적이고 가벼운 단일 REST API 호출
-  if (totalWords <= 6) {
-    const restResult = await assessPronunciationWithAzureRest(
-      wavBuffer,
-      referenceText,
-    );
-    addAzureAudioUsage(audioSec);
-    return restResult;
+  // 1. 28초 이하 오디오는 단일 REST API 호출을 최우선 시도 (1~2초 내 응답, 오디오 슬라이싱 왜곡 없음)
+  if (audioSec <= 28) {
+    try {
+      const restResult = await assessPronunciationWithAzureRest(
+        wavBuffer,
+        referenceText,
+        isUserSpokenRef,
+      );
+      const recognizedCount = (restResult.words || []).filter(
+        (w) => w.errorType !== "Omission",
+      ).length;
+
+      // 전체 단어의 60% 이상이 정상 매칭되었거나 단문인 경우 즉시 반환
+      if (totalWords <= 8 || recognizedCount >= Math.floor(totalWords * 0.6)) {
+        addAzureAudioUsage(audioSec);
+        return restResult;
+      }
+      console.log(
+        `[PronAssessment] REST partial coverage (${recognizedCount}/${totalWords} words due to long pause), trying SpeechSDK continuous recognition...`,
+      );
+    } catch (restErr) {
+      console.warn(
+        "[PronAssessment] Direct REST assessment failed, trying SpeechSDK:",
+        restErr.message,
+      );
+    }
   }
 
-  // 다문장 / 장문 발화 (5~6문장 이상):
-  // Azure Speech SDK 연속 인식을 최우선으로 사용하여 전체 오디오를 끊김 없이 문장별로 100% 온전하게 채점
+  // 2. 28초 초과 장문 발화 또는 중간에 긴 침묵이 있어 REST에서 일부 문장만 인식된 경우:
+  // Azure Speech SDK 연속 인식(PushStream)으로 전체 문장 채점
   if (
     typeof window !== "undefined" &&
     window.SpeechSDK &&
@@ -2010,50 +1996,18 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
     window.SpeechSDK.SpeechRecognizer
   ) {
     try {
-      console.log(
-        `[PronAssessment] Multi-sentence (${totalWords} words, ${audioSec.toFixed(1)}s): running SpeechSDK continuous recognition...`,
-      );
       const sdkResult = await assessPronunciationWithSpeechSDK(
         wavBuffer,
         referenceText,
+        isUserSpokenRef,
       );
       addAzureAudioUsage(audioSec);
       return sdkResult;
     } catch (sdkErr) {
       console.warn(
-        "[PronAssessment] SpeechSDK continuous mode failed, falling back to REST API:",
+        "[PronAssessment] SpeechSDK continuous mode failed:",
         sdkErr.message,
       );
-    }
-  }
-
-  // 2. SpeechSDK 실패 또는 미지원 시 문장/발화 청크별 슬라이싱 + 병렬 REST 호출 폴백
-  const rawSentences = splitIntoUtteranceChunks(referenceText, 8);
-
-  if (rawSentences.length > 1) {
-    try {
-      console.log(
-        `[PronAssessment] Multi-sentence fallback: slicing WAV into ${rawSentences.length} sentences for parallel REST assessment...`,
-      );
-      const sentenceChunks = splitWavBufferBySentences(wavBuffer, rawSentences);
-      const segmentPromises = sentenceChunks.map((chunk) =>
-        assessPronunciationWithAzureRestRaw(chunk.wav, chunk.text).catch(
-          (err) => {
-            console.warn(
-              `[PronAssessment] Sentence chunk REST failed ("${chunk.text.slice(0, 20)}..."):`,
-              err.message,
-            );
-            return null;
-          },
-        ),
-      );
-      const segments = (await Promise.all(segmentPromises)).filter(Boolean);
-      if (segments.length > 0) {
-        addAzureAudioUsage(audioSec);
-        return aggregateAzureSegments(segments);
-      }
-    } catch (sliceErr) {
-      console.warn("[PronAssessment] Slicing REST fallback failed:", sliceErr);
     }
   }
 
@@ -2061,13 +2015,14 @@ async function assessPronunciationWithAzure(wavBuffer, referenceText) {
   const fallbackResult = await assessPronunciationWithAzureRest(
     wavBuffer,
     referenceText,
+    isUserSpokenRef,
   );
   addAzureAudioUsage(audioSec);
   return fallbackResult;
 }
 
 // =============================================================================
-// 8. 텍스트 정규화 및 단순 일치도(Diff) 평가
+// 8. 텍스트 정규화, 발음 유사도(Phonetic Similarity) 및 일치도(Diff) 평가
 // =============================================================================
 
 /**
@@ -2084,15 +2039,289 @@ function normalizeForEval(text) {
 }
 
 /**
- * 로컬 단어 일치도(Diff & Score) 평가 (문장 번역 모드 전용)
- * - 모범 답안 단어 토큰과 사용자 발화 단어 토큰의 편집/포함 관계 비교
- * - 누락 단어(miss), 일치 단어(match), 추가 인식 단어(actual) 시각화 HTML 생성
+ * 영어 단어의 기본 어간(Stem) 정규화 (복수형, 과거형, 진행형 어미 유연 매칭용)
+ * @param {string} word - 소문자 영단어
+ * @returns {string} 어간 문자열
+ */
+function getWordStem(word) {
+  if (!word || word.length <= 3) return word || "";
+  let w = word.toLowerCase().replace(/^'+|'+$/g, "");
+  if (w.endsWith("ies") && w.length > 4) return w.slice(0, -3) + "y";
+  if (w.endsWith("ing") && w.length > 5) {
+    const base = w.slice(0, -3);
+    return base.length >= 3 ? base : w;
+  }
+  if (w.endsWith("ed") && w.length > 4) {
+    const base = w.slice(0, -2);
+    return base.length >= 3 ? base : w;
+  }
+  if (w.endsWith("es") && w.length > 4) return w.slice(0, -2);
+  if (w.endsWith("s") && !w.endsWith("ss") && w.length > 3)
+    return w.slice(0, -1);
+  return w;
+}
+
+/**
+ * 한국인 학습자의 주요 발음 혼동 음소(L/R, F/P, V/B, TH/S/D, Z/J, 장단모음 등)를
+ * 동일한 음운 골격(Phonetic Skeleton)으로 변환하여 억울한 오인식 감점을 방지
+ * @param {string} word - 소문자 영단어
+ * @returns {string} 음운 골격 문자열
+ */
+function getPhoneticSkeleton(word) {
+  if (!word) return "";
+  let s = getWordStem(word)
+    .toLowerCase()
+    .replace(/[^a-z]/g, "");
+  if (!s) return "";
+
+  s = s
+    .replace(/ph/g, "p")
+    .replace(/th/g, "s")
+    .replace(/sh/g, "s")
+    .replace(/ch/g, "c")
+    .replace(/ck/g, "k")
+    .replace(/qu/g, "k")
+    .replace(/dg/g, "j")
+    .replace(/gh/g, "")
+    .replace(/kn/g, "n")
+    .replace(/wr/g, "r")
+    .replace(/wh/g, "w")
+    .replace(/[lr]/g, "r")
+    .replace(/[fp]/g, "p")
+    .replace(/[vb]/g, "b")
+    .replace(/[zj]/g, "j")
+    .replace(/(?:ee|ea|ie|ey|y)/g, "i")
+    .replace(/(?:oo|ou|ow|ew)/g, "u")
+    .replace(/(?:ai|ay|ei)/g, "e")
+    .replace(/(?:au|aw|oa)/g, "o")
+    .replace(/(?:er|ir|ur|or|ar)/g, "r")
+    .replace(/[aeiou]+/g, "a")
+    .replace(/(.)\1+/g, "$1");
+
+  return s;
+}
+
+/**
+ * 두 영단어 간의 레벤슈타인 편집 거리(Levenshtein Edit Distance) 계산
+ * @param {string} a
+ * @param {string} b
+ * @returns {number} 편집 거리
+ */
+function getLevenshteinDistance(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+
+  const dp = Array.from({ length: a.length + 1 }, (_, i) => i);
+  for (let j = 1; j <= b.length; j++) {
+    let prev = dp[0];
+    dp[0] = j;
+    for (let i = 1; i <= a.length; i++) {
+      const temp = dp[i];
+      if (a[i - 1] === b[j - 1]) {
+        dp[i] = prev;
+      } else {
+        dp[i] = 1 + Math.min(prev, dp[i], dp[i - 1]);
+      }
+      prev = temp;
+    }
+  }
+  return dp[a.length];
+}
+
+/**
+ * 사용자가 말한 단어(STT 전사)와 목표 단어 간의 발음/철자 유사도 점수(0.0 ~ 1.0) 산출
+ * - 완전 일치: 1.0
+ * - 축약형/어간(단복수·시제) 일치: 0.90
+ * - 음운 골격(L/R, F/P, V/B, 장단모음 등) 일치: 0.84
+ * - 편집 거리 기반 발음 유사: 0.65 ~ 0.85
+ * @param {string} spokenWord - 사용자 발화 인식 단어
+ * @param {string} targetWord - 비교 대상 목표 단어
+ * @returns {number} 유사도 비율 (0.0 ~ 1.0)
+ */
+function getWordSimilarityScore(spokenWord, targetWord) {
+  if (!spokenWord || !targetWord) return 0;
+  const u = spokenWord.toLowerCase().replace(/^'+|'+$/g, "");
+  const t = targetWord.toLowerCase().replace(/^'+|'+$/g, "");
+  if (!u || !t) return 0;
+  if (u === t) return 1.0;
+
+  // 아포스트로피 제거 일치 (don't <-> dont, I'm <-> im)
+  if (u.replace(/'/g, "") === t.replace(/'/g, "")) return 0.98;
+
+  // 어간(Stem) 일치 (cafe <-> cafes, walk <-> walked, live <-> living)
+  const uStem = getWordStem(u);
+  const tStem = getWordStem(t);
+  if (uStem.length >= 3 && uStem === tStem) return 0.9;
+
+  // 2글자 이하 짧은 기능어는 오매칭 방지를 위해 엄격 비교
+  if (t.length <= 2 || u.length <= 2) {
+    return 0;
+  }
+
+  // 음운 골격(Phonetic Skeleton) 일치 (living <-> leaving, walk <-> work, light <-> right 등)
+  const uSkel = getPhoneticSkeleton(u);
+  const tSkel = getPhoneticSkeleton(t);
+  if (uSkel.length >= 2 && uSkel === tSkel) {
+    return 0.84;
+  }
+
+  // 철자 편집 거리 비율 및 음운 골격 편집 거리 비율 중 높은 값 채택
+  const maxLen = Math.max(u.length, t.length);
+  const charDist = getLevenshteinDistance(u, t);
+  const charSim = 1 - charDist / maxLen;
+
+  let skelSim = 0;
+  if (uSkel.length >= 2 && tSkel.length >= 2) {
+    const skelMax = Math.max(uSkel.length, tSkel.length);
+    const skelDist = getLevenshteinDistance(uSkel, tSkel);
+    skelSim = (1 - skelDist / skelMax) * 0.92;
+  }
+
+  // 첫 글자(또는 음운 첫 소리)가 같거나 어근이 포함 관계이면 가산점
+  let bonus = 0;
+  if (u[0] === t[0] || (uSkel && tSkel && uSkel[0] === tSkel[0])) {
+    bonus += 0.05;
+  }
+  if (
+    u.length >= 4 &&
+    t.length >= 4 &&
+    (u.startsWith(t.slice(0, 3)) || t.startsWith(u.slice(0, 3)))
+  ) {
+    bonus += 0.05;
+  }
+
+  return Math.min(0.88, Math.max(charSim, skelSim) + bonus);
+}
+
+/**
+ * 브라우저 STT가 발음 부정확으로 인해 다른 단어로 오인식한 토큰을
+ * 모범 답안(referenceText) 및 질문 핵심 어휘(questionItem)와 대조하여 의도한 단어로 자동 정렬·복원
+ * @param {string} userText - 사용자 STT 전사 텍스트
+ * @param {string} [referenceText=""] - 모범 기준 문장/스크립트
+ * @param {Object|null} [questionItem=null] - OPIc 질문 메타데이터
+ * @returns {string} 발음 오인식이 보정된 텍스트
+ */
+function alignSttWithReference(
+  userText,
+  referenceText = "",
+  questionItem = null,
+) {
+  if (!userText || !userText.trim()) return "";
+  let corrected = correctSttPhoneticErrors(userText);
+
+  // 모범 답안 및 질문 키워드에서 참조 어휘 사전 구축
+  const refSources = [];
+  if (referenceText) refSources.push(referenceText);
+  if (questionItem) {
+    if (questionItem.q_en) refSources.push(questionItem.q_en);
+    if (questionItem.model_en) refSources.push(questionItem.model_en);
+    if (Array.isArray(questionItem.keywords))
+      refSources.push(questionItem.keywords.join(" "));
+  }
+  if (refSources.length === 0) return corrected;
+
+  const refWordsMap = new Map(); // lower -> original word
+  refSources.join(" ").split(/\s+/).forEach((raw) => {
+    const clean = raw.replace(/^[^a-zA-Z0-9']+|[^a-zA-Z0-9']+$/g, "");
+    const lower = clean.toLowerCase();
+    if (lower.length >= 3 && !refWordsMap.has(lower)) {
+      refWordsMap.set(lower, clean);
+    }
+  });
+
+  if (refWordsMap.size === 0) return corrected;
+
+  const refWordList = Array.from(refWordsMap.keys());
+  const tokens = corrected.split(/\s+/);
+  const alignedTokens = [];
+
+  for (let i = 0; i < tokens.length; i++) {
+    const rawToken = tokens[i];
+    const prefixMatch = rawToken.match(/^[^a-zA-Z0-9']*/);
+    const suffixMatch = rawToken.match(/[^a-zA-Z0-9']*$/);
+    const prefix = prefixMatch ? prefixMatch[0] : "";
+    const suffix = suffixMatch ? suffixMatch[0] : "";
+    const core = rawToken.slice(
+      prefix.length,
+      rawToken.length - suffix.length,
+    );
+    const lowerCore = core.toLowerCase();
+
+    // 1. 이미 참조 사전에 정확히 존재하는 단어이면 그대로 유지
+    if (lowerCore.length < 3 || refWordsMap.has(lowerCore)) {
+      alignedTokens.push(rawToken);
+      continue;
+    }
+
+    // 2. 연속된 두 단어가 하나의 목표 단어로 쪼개져 오인식된 경우 병합 검사 (예: "leave in" -> "living")
+    if (i + 1 < tokens.length) {
+      const nextRaw = tokens[i + 1];
+      const nextSuffixMatch = nextRaw.match(/[^a-zA-Z0-9']*$/);
+      const nextSuffix = nextSuffixMatch ? nextSuffixMatch[0] : "";
+      const nextCore = nextRaw.replace(/^[^a-zA-Z0-9']+|[^a-zA-Z0-9']+$/g, "");
+      const combinedLower = (lowerCore + nextCore.toLowerCase());
+      if (combinedLower.length >= 5) {
+        let bestCombinedTarget = null;
+        let bestCombinedSim = 0;
+        for (const refLower of refWordList) {
+          if (Math.abs(refLower.length - combinedLower.length) > 3) continue;
+          const sim = getWordSimilarityScore(combinedLower, refLower);
+          if (sim >= 0.80 && sim > bestCombinedSim) {
+            bestCombinedSim = sim;
+            bestCombinedTarget = refWordsMap.get(refLower);
+          }
+        }
+        if (bestCombinedTarget) {
+          alignedTokens.push(prefix + bestCombinedTarget + nextSuffix);
+          i++; // 다음 토큰 소모
+          continue;
+        }
+      }
+    }
+
+    // 3. 흔한 기본 기능어(I, my, the, and, with, very 등)는 다른 단어로 강제 치환하지 않음
+    if (EVAL_STOP_WORDS && EVAL_STOP_WORDS.has(lowerCore)) {
+      alignedTokens.push(rawToken);
+      continue;
+    }
+
+    // 4. 참조 어휘 사전에서 발음 유사도가 높은 목표 단어 탐색
+    let bestTarget = null;
+    let bestSim = 0;
+    for (const refLower of refWordList) {
+      if (Math.abs(refLower.length - lowerCore.length) > 3) continue;
+      const sim = getWordSimilarityScore(lowerCore, refLower);
+      if (sim >= 0.74 && sim > bestSim) {
+        bestSim = sim;
+        bestTarget = refWordsMap.get(refLower);
+      }
+    }
+
+    if (bestTarget) {
+      alignedTokens.push(prefix + bestTarget + suffix);
+    } else {
+      alignedTokens.push(rawToken);
+    }
+  }
+
+  return alignedTokens.join(" ");
+}
+window.alignSttWithReference = alignSttWithReference;
+window.getWordSimilarityScore = getWordSimilarityScore;
+
+/**
+ * 로컬 단어 일치도(Diff & Score) 평가 (문장 번역, 만능 패턴, 개별 문장 따라 말하기 공용)
+ * - 1차: 정확한 단어 일치(match, 100% 인정)
+ * - 2차: 발음이 조금 부정확하여 유사 단어로 전사된 경우 음운/편집거리 유사도 매칭(partial, 70~90% 부분 점수 인정)
+ * - 누락 단어(miss), 일치 단어(match), 유사 발음 단어(partial), 추가 인식 단어(actual) 시각화 HTML 생성
  * @param {string} userInput - 학습자가 음성으로 입력한 문장
  * @param {string} modelAnswer - 시스템 모범 정답 문장
  * @returns {Object} 일치율 점수(0~100), Diff 시각화 HTML, 한국어 피드백 문자열
  */
 function evaluateSpeech(userInput, modelAnswer) {
-  const normUser = normalizeForEval(userInput);
+  const correctedInput = correctSttPhoneticErrors(userInput || "");
+  const normUser = normalizeForEval(correctedInput);
   const normModel = normalizeForEval(modelAnswer);
   if (!normModel)
     return { score: 0, diffHtml: "", feedback: "모범 답안이 없습니다." };
@@ -2107,29 +2336,84 @@ function evaluateSpeech(userInput, modelAnswer) {
   const userTokens = normUser.split(" ").filter(Boolean);
   const modelTokens = normModel.split(" ").filter(Boolean);
 
-  let matchCount = 0;
+  let matchCredit = 0;
+  let partialCount = 0;
   const matchedUserIndices = new Set();
-  const diffParts = [];
+  const modelMatchResults = new Array(modelTokens.length).fill(null);
 
-  modelTokens.forEach((targetWord) => {
-    let foundIdx = -1;
+  // 1차 패스: 완전 일치(Exact Match) 우선 탐색
+  modelTokens.forEach((targetWord, mIdx) => {
     for (let j = 0; j < userTokens.length; j++) {
       if (!matchedUserIndices.has(j) && userTokens[j] === targetWord) {
-        foundIdx = j;
+        matchedUserIndices.add(j);
+        matchCredit += 1.0;
+        modelMatchResults[mIdx] = {
+          type: "match",
+          targetWord,
+          spokenWord: userTokens[j],
+          sim: 1.0,
+        };
         break;
       }
     }
-    if (foundIdx !== -1) {
-      matchedUserIndices.add(foundIdx);
-      matchCount++;
-      diffParts.push(
-        `<span class="eval-word match">${escapeHtml(targetWord)}</span>`,
-      );
-    } else {
-      diffParts.push(
-        `<span class="eval-word miss">${escapeHtml(targetWord)}</span>`,
-      );
+  });
+
+  // 2차 패스: 미매칭 목표 단어에 대해 발음 유사 단어(Phonetic/Fuzzy Match) 탐색하여 부분 점수 부여
+  modelTokens.forEach((targetWord, mIdx) => {
+    if (modelMatchResults[mIdx]) return;
+
+    let bestUserIdx = -1;
+    let bestSim = 0;
+    for (let j = 0; j < userTokens.length; j++) {
+      if (matchedUserIndices.has(j)) continue;
+      const sim = getWordSimilarityScore(userTokens[j], targetWord);
+      // 3글자 이상 단어는 0.65 이상, 짧은 단어는 0.80 이상일 때 발음 유사 단어로 인정
+      const threshold = targetWord.length >= 4 ? 0.65 : 0.78;
+      if (sim >= threshold && sim > bestSim) {
+        bestSim = sim;
+        bestUserIdx = j;
+      }
     }
+
+    if (bestUserIdx !== -1) {
+      matchedUserIndices.add(bestUserIdx);
+      const spokenWord = userTokens[bestUserIdx];
+      // 어간/복수형 일치(>=0.90)는 완전 일치에 준하게 처리하고, 발음 유사 단어는 부분 점수(0.75~0.88) 부여
+      if (bestSim >= 0.90) {
+        matchCredit += 0.95;
+        modelMatchResults[mIdx] = {
+          type: "match",
+          targetWord,
+          spokenWord,
+          sim: bestSim,
+        };
+      } else {
+        partialCount++;
+        matchCredit += Math.max(0.72, bestSim);
+        modelMatchResults[mIdx] = {
+          type: "partial",
+          targetWord,
+          spokenWord,
+          sim: bestSim,
+        };
+      }
+    } else {
+      modelMatchResults[mIdx] = {
+        type: "miss",
+        targetWord,
+      };
+    }
+  });
+
+  const diffParts = modelMatchResults.map((item) => {
+    if (item.type === "match") {
+      return `<span class="eval-word match">${escapeHtml(item.targetWord)}</span>`;
+    }
+    if (item.type === "partial") {
+      const pct = Math.round(item.sim * 100);
+      return `<span class="eval-word partial" style="background:#fef3c7;color:#b45309;border:1px solid #fcd34d;padding:2px 6px;border-radius:6px;font-weight:600;" title="발음 유사 인정 (${pct}%): '${escapeHtml(item.spokenWord)}'로 인식됨 → 목표 단어 '${escapeHtml(item.targetWord)}'">${escapeHtml(item.targetWord)} <small style="font-weight:500;opacity:0.85;">(≈${escapeHtml(item.spokenWord)})</small></span>`;
+    }
+    return `<span class="eval-word miss">${escapeHtml(item.targetWord)}</span>`;
   });
 
   const extraWords = userTokens
@@ -2143,17 +2427,25 @@ function evaluateSpeech(userInput, modelAnswer) {
 
   const score = Math.min(
     100,
-    Math.round((matchCount / modelTokens.length) * 100),
+    Math.round((matchCredit / modelTokens.length) * 100),
   );
   let feedback = "";
-  if (score >= 90)
-    feedback = "🌟 훌륭합니다! 원어민 모범 답안과 거의 완벽하게 일치해요.";
-  else if (score >= 70)
-    feedback = "👍 잘하셨어요! 놓친 단어들을 확인하고 한 번 더 말해보세요.";
-  else if (score >= 40)
+  if (score >= 90) {
     feedback =
-      "💪 좋아요! 빨간색으로 표시된 단어에 유의해서 다시 연습해 보세요.";
-  else feedback = "🌱 천천히 또박또박 모범 답안 발음을 듣고 따라 해보세요.";
+      partialCount > 0
+        ? "🌟 훌륭합니다! 노란색으로 표시된 유사 발음 단어만 한 번 더 확인해보세요."
+        : "🌟 훌륭합니다! 원어민 모범 답안과 거의 완벽하게 일치해요.";
+  } else if (score >= 70) {
+    feedback =
+      partialCount > 0
+        ? "👍 잘하셨어요! 노란색(발음 유사) 및 빨간색(누락) 단어의 발음을 유의해서 한 번 더 말해보세요."
+        : "👍 잘하셨어요! 놓친 단어들을 확인하고 한 번 더 말해보세요.";
+  } else if (score >= 40) {
+    feedback =
+      "💪 좋아요! 노란색·빨간색으로 표시된 단어 발음에 유의해서 다시 연습해 보세요.";
+  } else {
+    feedback = "🌱 천천히 또박또박 모범 답안 발음을 듣고 따라 해보세요.";
+  }
 
   return { isAzure: false, score, diffHtml: diffParts.join(" "), feedback };
 }
@@ -2347,7 +2639,7 @@ function evaluateTopicRelevance(userInput, questionItem) {
     TOPIC_VOCABULARY_MAP.routine.forEach((w) => topicPool.add(w));
   }
 
-  // 3. 사용자 발화와 주제 단어 풀 매칭
+  // 3. 사용자 발화와 주제 단어 풀 매칭 (발음 오인식 및 어간 변화 허용)
   const matchedKeywords = [];
   const matchedSet = new Set();
 
@@ -2360,11 +2652,16 @@ function evaluateTopicRelevance(userInput, questionItem) {
         }
       }
     } else {
-      if (userTokens.includes(topicWord) || cleanUser.includes(topicWord)) {
-        if (!matchedSet.has(topicWord)) {
-          matchedKeywords.push(topicWord);
-          matchedSet.add(topicWord);
-        }
+      let isMatched =
+        userTokens.includes(topicWord) || cleanUser.includes(topicWord);
+      if (!isMatched && topicWord.length >= 4) {
+        isMatched = userTokens.some(
+          (uTok) => getWordSimilarityScore(uTok, topicWord) >= 0.78,
+        );
+      }
+      if (isMatched && !matchedSet.has(topicWord)) {
+        matchedKeywords.push(topicWord);
+        matchedSet.add(topicWord);
       }
     }
   }
@@ -2808,7 +3105,7 @@ async function renderPronunciationAssessment({
   boxEl.classList.add("show");
   boxEl.style.display = "block";
 
-  const isOpic = mode === "opic";
+  const isOpic = mode === "opic" || mode === "speechPractice";
 
   // 녹음이 진행 중이거나 아직 WAV 변환 중이면 완료될 때까지 안전하게 대기
   try {
@@ -2824,14 +3121,23 @@ async function renderPronunciationAssessment({
       }
     } catch (e) {}
   }
+
+  // ⚡ 사용자가 말한 문장(userText)에서 발음이 부정확하여 브라우저 STT가 다른 단어로 잘못 전사한 경우,
+  // 모범 답안(referenceText) 및 질문 핵심 어휘(questionItem)와 음운 유사도를 비교해 의도한 단어로 복원
+  const alignedUserText = userText
+    ? alignSttWithReference(userText.trim(), referenceText, questionItem)
+    : "";
+
   // 평가 기준 대본(targetAssessmentText) 결정:
-  // 사용자가 마이크로 실제로 말한 답변(userText)이 존재하면, 사용자가 말한 5~6문장 전체가 빠짐없이
-  // 온전히 채점되도록 userText를 평가 기준 대본으로 최우선 지정합니다.
+  // 사용자가 마이크로 실제로 말한 답변(alignedUserText)이 존재하면, 말한 문장 전체가 빠짐없이
+  // 온전히 채점되도록 alignedUserText를 평가 기준 대본으로 최우선 지정합니다.
   let targetAssessmentText = "";
-  if (userText && userText.trim().split(/\s+/).length >= 2) {
-    targetAssessmentText = userText.trim();
+  let isUserSpokenRef = false;
+  if (alignedUserText && alignedUserText.split(/\s+/).filter(Boolean).length >= 1) {
+    targetAssessmentText = alignedUserText;
+    isUserSpokenRef = true;
   } else {
-    targetAssessmentText = (referenceText || userText || "").trim();
+    targetAssessmentText = (referenceText || alignedUserText || "").trim();
   }
 
   // 1. Azure AI 평가 가능한 상태 (WAV 음성 데이터 + Azure API Key 유효 + 발화 텍스트 있음)
@@ -2850,6 +3156,7 @@ async function renderPronunciationAssessment({
       const azureResult = await assessPronunciationWithAzure(
         wavBuffer,
         targetAssessmentText,
+        isUserSpokenRef,
       );
       renderAzureResultUI(azureResult);
       return;
@@ -2862,18 +3169,25 @@ async function renderPronunciationAssessment({
   }
 
   // 2. 로컬 텍스트 폴백 렌더링
+  const effectiveUserText = alignedUserText || userText;
   if (isOpic) {
-    const opicLocalResult = evaluateOpicSpeaking(userText, questionItem);
+    const opicLocalResult = evaluateOpicSpeaking(
+      effectiveUserText,
+      questionItem,
+    );
     renderLocalOpicResultUI(opicLocalResult);
   } else {
-    const localResult = evaluateSpeech(userText, referenceText);
+    const localResult = evaluateSpeech(
+      effectiveUserText,
+      referenceText || effectiveUserText,
+    );
     renderLocalResultUI(localResult);
   }
 
   function renderAzureResultUI(res) {
     const usage = getAzureMonthlyUsage();
 
-    // OPIc 모드일 경우 Azure 음향 지표 + 발화량 + 주제적합도를 결합한 실전 종합 점수 산출
+    // OPIc / 자유발화 모드일 경우 Azure 음향 지표 + 발화량 + 주제적합도를 결합한 실전 종합 점수 산출
     let compOpic = null;
     let finalGrade = res.opicGrade;
     let finalScore = res.pronScore;
@@ -2884,7 +3198,7 @@ async function renderPronunciationAssessment({
         fluencyScore: res.fluencyScore,
         accuracyScore: res.accuracyScore,
         prosodyScore: res.prosodyScore,
-        userText: userText,
+        userText: alignedUserText || userText,
         questionItem: questionItem,
         isAzure: true,
       });
@@ -3378,6 +3692,9 @@ let baseTranscript = "";
 /** @type {string} 현재 음성 인식 세션에서 확정된(final) 전사 텍스트 버퍼 */
 let currentSessionFinal = "";
 
+/** @type {string} 현재 음성 인식 세션에서 미확정된(interim) 임시 전사 텍스트 버퍼 (Safari/Samsung 인터넷 및 즉시 정지 시 누락 방지용) */
+let currentSessionInterim = "";
+
 /** @type {string} 확정된 음성 전사 텍스트 */
 let finalTranscript = "";
 
@@ -3631,6 +3948,7 @@ function stopListeningUI() {
 function resetBaseTranscript(newText = "") {
   baseTranscript = newText || "";
   currentSessionFinal = "";
+  currentSessionInterim = "";
 }
 window.resetBaseTranscript = resetBaseTranscript;
 
@@ -3645,18 +3963,27 @@ function stopSpeechRecognition() {
   }
   stopListeningUI();
   if (activeTarget && activeTarget.input) {
-    if (currentSessionFinal) {
-      const correctedFinal = correctSttPhoneticErrors(currentSessionFinal);
+    const sessionSpoken = [currentSessionFinal, currentSessionInterim]
+      .map((s) => (s || "").trim())
+      .filter(Boolean)
+      .join(" ");
+    currentSessionFinal = "";
+    currentSessionInterim = "";
+
+    if (sessionSpoken) {
+      const correctedSession = correctSttPhoneticErrors(sessionSpoken);
       baseTranscript = baseTranscript
-        ? `${baseTranscript} ${correctedFinal}`.trim()
-        : correctedFinal.trim();
-      currentSessionFinal = "";
-    } else {
+        ? `${baseTranscript} ${correctedSession}`.trim()
+        : correctedSession.trim();
+    } else if (activeTarget.input.value.trim()) {
       baseTranscript = activeTarget.input.value.trim();
     }
     activeTarget.input.value = baseTranscript;
     autoResizeTextarea(activeTarget.input);
     activeTarget.input.dispatchEvent(new Event("input"));
+  } else {
+    currentSessionFinal = "";
+    currentSessionInterim = "";
   }
   if (recognition) {
     try {
@@ -3848,6 +4175,7 @@ function toggleSpeechRecognition(
 
   baseTranscript = targetInput ? targetInput.value.trim() : "";
   currentSessionFinal = "";
+  currentSessionInterim = "";
   if (
     mode === "speechPractice" &&
     typeof setSpeechPracticeStartText === "function"
@@ -4140,6 +4468,7 @@ function createSpeechRecognitionInstance() {
     }
 
     currentSessionFinal = accumulatedFinal;
+    currentSessionInterim = interim.trim();
 
     // 마이크 시작 전 기존 텍스트 + 확정된 음성 텍스트 + 현재 발화 중인 임시 텍스트 결합
     let currentText = baseTranscript;
@@ -4147,7 +4476,7 @@ function createSpeechRecognitionInstance() {
       currentText += (currentText ? " " : "") + accumulatedFinal;
     }
     if (interim) {
-      currentText += (currentText ? " " : "") + interim;
+      currentText += (currentText ? " " : "") + interim.trim();
     }
 
     // ⚡ 한국인 발화 빈출 음소 왜곡 자동 보정
@@ -4219,18 +4548,26 @@ function createSpeechRecognitionInstance() {
   };
 
   rec.onend = () => {
-    // ⚡ 발화 중 잠시 쉬어가서 세션이 타임아웃 종료되더라도, 확정된 내용만 baseTranscript로 보존하여
-    // 미확정 interim 텍스트가 중복 누적되거나 단어가 두 번 붙여넣어지는 현상을 원천 방지
-    if (currentSessionFinal) {
-      const correctedFinal = correctSttPhoneticErrors(currentSessionFinal);
+    // ⚡ Safari, 삼성 인터넷, 모바일 Chrome 등에서 isFinal 이벤트 없이 세션이 종료되거나
+    // 문장 중간 쉼 호흡으로 세션이 재시작될 때 확정(final) 텍스트뿐만 아니라 미확정(interim) 텍스트까지
+    // 모두 baseTranscript에 안전하게 병합하여 문장 누락 및 0점 오류를 원천 차단
+    const sessionSpoken = [currentSessionFinal, currentSessionInterim]
+      .map((s) => (s || "").trim())
+      .filter(Boolean)
+      .join(" ");
+    currentSessionFinal = "";
+    currentSessionInterim = "";
+
+    if (sessionSpoken) {
+      const correctedSession = correctSttPhoneticErrors(sessionSpoken);
       baseTranscript = baseTranscript
-        ? `${baseTranscript} ${correctedFinal}`.trim()
-        : correctedFinal.trim();
-      currentSessionFinal = "";
+        ? `${baseTranscript} ${correctedSession}`.trim()
+        : correctedSession.trim();
     }
     if (activeTarget && activeTarget.input) {
       activeTarget.input.value = baseTranscript;
       autoResizeTextarea(activeTarget.input);
+      activeTarget.input.dispatchEvent(new Event("input"));
     }
 
     // 사용자가 명시적으로 중지하지 않았고, 여전히 듣기 활성 상태라면 브라우저의 침묵 타임아웃 방어를 위해 자동 재시작
@@ -4338,20 +4675,38 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
   }
 
   try {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
     const rec = new SpeechRecognition();
     rec.lang = "en-US";
-    rec.continuous = false;
+    // 문장 중간에 쉼표(,)나 호흡이 있어도 문장 끝까지 모두 인식할 수 있도록 데스크톱에서는 continuous 활성화
+    rec.continuous = !isAndroid && !isSafari;
     rec.interimResults = true;
     rec.maxAlternatives = 1;
 
-    activeSingleSentenceRec = { rec, btn: micBtn, box: evalBoxEl, targetText };
+    const targetWordCount = Math.max(
+      1,
+      normalizeForEval(targetText).split(" ").filter(Boolean).length,
+    );
+
+    const sessionState = {
+      rec,
+      btn: micBtn,
+      box: evalBoxEl,
+      targetText,
+      spokenTranscript: "",
+      isEvaluated: false,
+      silenceTimer: null,
+    };
+    activeSingleSentenceRec = sessionState;
 
     micBtn.classList.add("listening");
     const origHtml = micBtn.innerHTML;
     micBtn.setAttribute("data-orig-html", origHtml);
     const origTitle = micBtn.getAttribute("title") || "";
     micBtn.setAttribute("data-orig-title", origTitle);
-    micBtn.setAttribute("title", "말하기 중지 (클릭 시 정지)");
+    micBtn.setAttribute("title", "말하기 중지 및 채점 (클릭 시 정지)");
     if (micBtn.classList.contains("sentence-mic-btn")) {
       micBtn.innerHTML = "⏹️";
     } else {
@@ -4360,12 +4715,30 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
 
     if (evalBoxEl) {
       evalBoxEl.style.display = "block";
-      evalBoxEl.innerHTML = `<div class="single-sen-eval-status">🎙️ 귀 기울여 듣고 있습니다. 문장을 소리 내어 말씀해보세요...</div>`;
+      evalBoxEl.innerHTML = `<div class="single-sen-eval-status">🎙️ 귀 기울여 듣고 있습니다. 문장 끝까지 말씀하신 후 잠시 기다리거나 ⏹️ 버튼을 눌러주세요...</div>`;
     }
 
+    const finalizeAndScore = () => {
+      if (sessionState.isEvaluated) return;
+      if (sessionState.silenceTimer) {
+        clearTimeout(sessionState.silenceTimer);
+        sessionState.silenceTimer = null;
+      }
+      if (sessionState.spokenTranscript && sessionState.spokenTranscript.trim()) {
+        sessionState.isEvaluated = true;
+        renderSingleSentenceResult(
+          targetText,
+          sessionState.spokenTranscript,
+          evalBoxEl,
+        );
+      }
+      stopSingleSentenceSpeech();
+    };
+    sessionState.finalizeAndScore = finalizeAndScore;
+
     const markRecStarted = () => {
-      if (evalBoxEl && !spokenTranscript) {
-        evalBoxEl.innerHTML = `<div class="single-sen-eval-status">🎙️ 귀 기울여 듣고 있습니다. 문장을 소리 내어 말씀해보세요...</div>`;
+      if (evalBoxEl && !sessionState.spokenTranscript) {
+        evalBoxEl.innerHTML = `<div class="single-sen-eval-status">🎙️ 귀 기울여 듣고 있습니다. 문장 끝까지 말씀하신 후 잠시 기다리거나 ⏹️ 버튼을 눌러주세요...</div>`;
       }
     };
     rec.onstart = markRecStarted;
@@ -4373,32 +4746,63 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
     rec.onsoundstart = markRecStarted;
     rec.onspeechstart = markRecStarted;
 
-    let spokenTranscript = "";
-    let isEvaluated = false;
-
     rec.onresult = (e) => {
-      let text = "";
-      let isFinal = false;
+      let finalChunks = "";
+      let interimChunks = "";
+      let latestIsFinal = false;
+
       for (let i = 0; i < e.results.length; i++) {
-        text += e.results[i][0].transcript;
-        if (e.results[i].isFinal) isFinal = true;
+        const chunk = e.results[i][0].transcript;
+        if (e.results[i].isFinal) {
+          finalChunks += (finalChunks ? " " : "") + chunk.trim();
+          latestIsFinal = true;
+        } else {
+          interimChunks += chunk;
+        }
       }
-      spokenTranscript = text;
+
+      const combined = [finalChunks, interimChunks.trim()]
+        .filter(Boolean)
+        .join(" ")
+        .trim();
+      sessionState.spokenTranscript = correctSttPhoneticErrors(combined);
 
       if (evalBoxEl) {
-        evalBoxEl.innerHTML = `<div class="single-sen-spoken">🗣️ "${escapeHtml(text)}"</div>`;
+        evalBoxEl.innerHTML = `<div class="single-sen-spoken">🗣️ "${escapeHtml(sessionState.spokenTranscript)}"</div>`;
       }
 
-      if (isFinal && !isEvaluated) {
-        isEvaluated = true;
-        renderSingleSentenceResult(targetText, spokenTranscript, evalBoxEl);
+      if (sessionState.silenceTimer) {
+        clearTimeout(sessionState.silenceTimer);
       }
+
+      const spokenWordCount = normalizeForEval(sessionState.spokenTranscript)
+        .split(" ")
+        .filter(Boolean).length;
+
+      // 목표 문장의 단어 수를 거의 다 말했고(85% 이상) 확정(isFinal)된 경우 0.7초 대기 후 자동 채점,
+      // 아직 문장 중간을 말하는 중이면 2.2초 침묵 대기 후 채점하여 문장 앞부분만 잘려 채점되는 현상 방지
+      const waitMs =
+        latestIsFinal && spokenWordCount >= Math.ceil(targetWordCount * 0.85)
+          ? 700
+          : 2200;
+
+      sessionState.silenceTimer = setTimeout(() => {
+        finalizeAndScore();
+      }, waitMs);
     };
 
     rec.onerror = (e) => {
       console.warn("[SingleSentenceMic] Error:", e.error);
+      if (sessionState.silenceTimer) {
+        clearTimeout(sessionState.silenceTimer);
+        sessionState.silenceTimer = null;
+      }
+      if (sessionState.spokenTranscript && sessionState.spokenTranscript.trim()) {
+        finalizeAndScore();
+        return;
+      }
       if (e.error === "no-speech") {
-        if (evalBoxEl && !spokenTranscript) {
+        if (evalBoxEl) {
           evalBoxEl.innerHTML = `<div class="single-sen-eval-status" style="color:var(--text-muted);">목소리가 감지되지 않았어요. 마이크를 누르고 다시 말씀해보세요.</div>`;
         }
       } else if (e.error !== "aborted") {
@@ -4416,9 +4820,21 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
     };
 
     rec.onend = () => {
-      if (!isEvaluated && spokenTranscript && spokenTranscript.trim()) {
-        isEvaluated = true;
-        renderSingleSentenceResult(targetText, spokenTranscript, evalBoxEl);
+      if (sessionState.silenceTimer) {
+        clearTimeout(sessionState.silenceTimer);
+        sessionState.silenceTimer = null;
+      }
+      if (
+        !sessionState.isEvaluated &&
+        sessionState.spokenTranscript &&
+        sessionState.spokenTranscript.trim()
+      ) {
+        sessionState.isEvaluated = true;
+        renderSingleSentenceResult(
+          targetText,
+          sessionState.spokenTranscript,
+          evalBoxEl,
+        );
       }
       stopSingleSentenceSpeech();
     };
@@ -4431,11 +4847,19 @@ function practiceSingleSentenceSpeech(targetText, micBtn, evalBoxEl) {
 }
 
 /**
- * 진행 중인 개별 문장 따라 말하기 음성 인식 중단
+ * 진행 중인 개별 문장 따라 말하기 음성 인식 중단 (이미 말한 내용이 있으면 즉시 채점 수행)
  */
 function stopSingleSentenceSpeech() {
   if (!activeSingleSentenceRec) return;
-  const { rec, btn } = activeSingleSentenceRec;
+  const currentSession = activeSingleSentenceRec;
+  activeSingleSentenceRec = null;
+
+  if (currentSession.silenceTimer) {
+    clearTimeout(currentSession.silenceTimer);
+    currentSession.silenceTimer = null;
+  }
+
+  const { rec, btn, targetText, spokenTranscript, box } = currentSession;
   if (rec) {
     try {
       rec.onstart = null;
@@ -4459,7 +4883,17 @@ function stopSingleSentenceSpeech() {
     }
     btn.removeAttribute("data-orig-html");
   }
-  activeSingleSentenceRec = null;
+
+  // 사용자가 ⏹️ 정지 버튼을 눌렀을 때 말한 문장이 있으면 누락 없이 즉시 채점 결과 표시
+  if (
+    !currentSession.isEvaluated &&
+    spokenTranscript &&
+    spokenTranscript.trim() &&
+    box
+  ) {
+    currentSession.isEvaluated = true;
+    renderSingleSentenceResult(targetText, spokenTranscript, box);
+  }
 }
 
 /**
@@ -4470,7 +4904,8 @@ function stopSingleSentenceSpeech() {
  */
 function renderSingleSentenceResult(targetText, spokenText, evalBoxEl) {
   if (!evalBoxEl) return;
-  const result = evaluateSpeech(spokenText, targetText);
+  const correctedSpoken = correctSttPhoneticErrors(spokenText || "");
+  const result = evaluateSpeech(correctedSpoken, targetText);
   const score = result.score || 0;
   let badgeColor = "#ef4444";
   let badgeIcon = "💡";
@@ -4497,7 +4932,7 @@ function renderSingleSentenceResult(targetText, spokenText, evalBoxEl) {
           ${badgeIcon} ${badgeLabel} (${score}점)
         </span>
       </div>
-      <div class="single-sen-spoken">🗣️ "<strong>${escapeHtml(spokenText)}</strong>"</div>
+      <div class="single-sen-spoken">🗣️ "<strong>${escapeHtml(correctedSpoken)}</strong>"</div>
       <div class="single-sen-diff">${result.diffHtml}</div>
     </div>
   `;

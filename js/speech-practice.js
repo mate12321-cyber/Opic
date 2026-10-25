@@ -339,22 +339,92 @@ async function evaluateSpeechPracticeAnswer() {
 
   if (!input || !evalBox) return;
 
-  const userText = input.value.trim();
+  // 진행 중인 녹음 및 STT가 있으면 먼저 안전하게 종료하여 마지막 문장까지 입력창에 반영
+  if (typeof ensureRecordingStoppedAndReady === "function") {
+    try {
+      await ensureRecordingStoppedAndReady("speechPractice");
+    } catch (e) {}
+  } else if (
+    typeof listening !== "undefined" &&
+    listening &&
+    typeof stopSpeechRecognition === "function"
+  ) {
+    stopSpeechRecognition();
+  }
+
+  let userText = input.value.trim();
+  if (userText && typeof correctSttPhoneticErrors === "function") {
+    const corrected = correctSttPhoneticErrors(userText);
+    if (corrected && corrected !== userText) {
+      userText = corrected;
+      input.value = userText;
+    }
+  }
+
   if (!userText) {
     alert("채점할 문장이 없습니다. 마이크로 말하거나 텍스트를 입력해주세요.");
     input.focus();
     return;
   }
 
-  // 발화 평가 진행 (speech.js 내 evaluateOpicSpeaking 활용)
-  const result =
-    typeof evaluateOpicSpeaking === "function"
-      ? evaluateOpicSpeaking(userText, null)
-      : null;
-
   speechPracticeEvaluated = true;
   evalBox.style.display = "block";
   evalBox.classList.add("show");
+
+  // 녹음된 오디오(WAV)와 Azure API 키가 준비된 경우 정밀 발음 평가 병행
+  let azureRes = null;
+  if (
+    typeof azureApiKey !== "undefined" &&
+    azureApiKey &&
+    azureApiKey.trim() &&
+    typeof assessPronunciationWithAzure === "function"
+  ) {
+    let wavBuf =
+      typeof lastRecordedWavs !== "undefined"
+        ? lastRecordedWavs.speechPractice
+        : null;
+    if (!wavBuf && speechPracticeRecordedBlob && typeof blobTo16kHzWav === "function") {
+      try {
+        wavBuf = await blobTo16kHzWav(speechPracticeRecordedBlob);
+        if (wavBuf && typeof setRecordedWavBuffer === "function") {
+          setRecordedWavBuffer("speechPractice", wavBuf);
+        }
+      } catch (e) {}
+    }
+    if (wavBuf) {
+      if (badgesWrap) {
+        badgesWrap.innerHTML = `<span style="font-size:12px;color:var(--text-muted);">🎙️ Azure AI 정밀 발음·유창성 분석 중...</span>`;
+      }
+      try {
+        azureRes = await assessPronunciationWithAzure(wavBuf, userText, true);
+      } catch (azErr) {
+        console.warn("[SpeechPractice] Azure assessment fallback to local:", azErr.message);
+      }
+    }
+  }
+
+  // 발화 평가 진행 (Azure 음향 점수 또는 로컬 다면 평가 활용)
+  let result = null;
+  if (azureRes && typeof calculateComprehensiveOpicScore === "function") {
+    const compResult = calculateComprehensiveOpicScore({
+      pronScore: azureRes.pronScore,
+      fluencyScore: azureRes.fluencyScore,
+      accuracyScore: azureRes.accuracyScore,
+      prosodyScore: azureRes.prosodyScore,
+      userText: userText,
+      questionItem: null,
+      isAzure: true,
+    });
+    result = {
+      isAzure: true,
+      score: compResult.finalScore,
+      opicGrade: compResult.opicGrade,
+      compResult,
+      feedback: compResult.feedback,
+    };
+  } else if (typeof evaluateOpicSpeaking === "function") {
+    result = evaluateOpicSpeaking(userText, null);
+  }
 
   // 1. 등급 및 점수 배지
   if (badgesWrap) {
@@ -365,9 +435,13 @@ async function evaluateSpeechPracticeAnswer() {
           : result.compResult
             ? result.compResult.finalScore
             : 70;
+      const azureBadge = azureRes
+        ? `<span class="sp-tag-pill" style="background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe;font-size:11px;">🎯 발음 ${azureRes.accuracyScore}% · 유창성 ${azureRes.fluencyScore}%</span>`
+        : "";
       badgesWrap.innerHTML = `
         <span class="opic-grade-badge ${result.opicGrade.gradeClass}">${result.opicGrade.label}</span>
         <span class="eval-score-badge ${score >= 80 ? "high" : score >= 50 ? "mid" : "low"}">${score}점</span>
+        ${azureBadge}
       `;
     } else {
       badgesWrap.innerHTML = `
@@ -384,7 +458,9 @@ async function evaluateSpeechPracticeAnswer() {
     words.map((w) => w.toLowerCase().replace(/[^a-z0-9]/g, "")),
   ).size;
   const sentenceCount =
-    (userText.match(/[.!?]+/g) || []).length || (wordCount > 0 ? 1 : 0);
+    result && result.compResult && result.compResult.sentenceCount
+      ? result.compResult.sentenceCount
+      : (userText.match(/[.!?]+/g) || []).length || (wordCount > 0 ? 1 : 0);
 
   if (statsGrid) {
     statsGrid.innerHTML = `

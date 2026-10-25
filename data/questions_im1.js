@@ -1,7 +1,7 @@
 /**
  * @file questions_im1.js
- * @description OPIc 실전 질문 및 IM1 맞춤 5~7문장 답변 데이터셋 (총 75문항)
- * - 12개 빈출 주제 (일반 11개 주제 × 6문항 + 롤플레이/에바 역질문 9문항)
+ * @description OPIc 실전 질문 및 IM1 맞춤 5~7문장 답변 데이터셋 (총 111문항)
+ * - 12개 빈출 주제 (일반 11개 주제 × 9문항 + 롤플레이 12문항 = 총 111문항)
  * - 실제 OPIc 3-3 시험의 3단 콤보 및 에바 공식 기출 프롬프트 100% 일치
  * - 정규화된 sentences 배열을 단일 진실 공급원(Single Source of Truth)으로 사용
  * - 파일 하단에서 q.answer_en, q.answer_ko를 자동 합성하여 무결성 보장
@@ -3427,6 +3427,1657 @@ window.QUESTIONS_DATA = [
     ],
     tip: "[15번 에바 카페 역질문] 맞장구 공감 ➔ 카페 분위기(What kind) ➔ 선호 메뉴(Drink/Dessert) ➔ 동행 여부(Alone or friends) ➔ 추천 카페 ➔ 마무리.",
   },
+  {
+    "id": "q_intro_07",
+    "cat": "자기소개",
+    "type": "가족/주변인 묘사",
+    "combo_set": 3,
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사",
+    "pattern_id": "pat_01",
+    "q_en": "Please tell me about your family or the people you live with. What are they like, and what do you do together?",
+    "q_ko": "가족이나 함께 사는 사람들에 대해 말씀해 주세요. 어떤 성향이고 주로 함께 무엇을 하시나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of my family, my parents and my younger brother come to mind first.",
+        "ko": "가족을 생각하면, 저희 부모님과 남동생이 가장 먼저 떠올라요."
+      },
+      {
+        "en": "My parents are very kind and warm, and they always support me.",
+        "ko": "부모님은 매우 다정하고 따뜻하시며, 항상 저를 응원해 주십니다."
+      },
+      {
+        "en": "My younger brother is funny and cheerful, so we get along very well.",
+        "ko": "남동생은 유쾌하고 밝은 성격이라서, 우리는 사이가 아주 좋아요."
+      },
+      {
+        "en": "When we are together, we usually eat delicious home-cooked meals and talk.",
+        "ko": "우리가 함께 모이면, 보통 맛있는 집밥을 먹으며 많은 이야기를 나눕니다."
+      },
+      {
+        "en": "They are the most important and precious people in my life.",
+        "ko": "그들은 제 인생에서 가장 소중하고 귀한 사람들입니다."
+      },
+      {
+        "en": "So, I really love spending happy time with my family.",
+        "ko": "그래서 저는 가족과 함께 행복한 시간을 보내는 것을 정말 사랑해요."
+      }
+    ],
+    "keywords": [
+      "think of my family",
+      "kind and warm parents",
+      "younger brother",
+      "home-cooked meals",
+      "precious people"
+    ],
+    "tip": "[가족 소개] 가족 구성원 환기 ➔ 부모님 성향 ➔ 동생 성향 ➔ 함께 하는 활동(식사·대화) ➔ 소중함 강조 ➔ 마무리."
+  },
+  {
+    "id": "q_intro_08",
+    "cat": "자기소개",
+    "type": "주말 가족 루틴",
+    "combo_set": 3,
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동",
+    "pattern_id": "pat_02",
+    "q_en": "What do you usually do with your family or friends on weekends? Tell me about your typical routine from morning to evening.",
+    "q_ko": "주말에 가족이나 친구들과 보통 무엇을 하시나요? 아침부터 저녁까지의 전형적인 루틴을 말씀해 주세요.",
+    "sentences": [
+      {
+        "en": "Well, you know, when I have free time on weekends, I usually love to spend time with my family.",
+        "ko": "음, 있잖아요, 주말에 자유 시간이 나면, 저는 보통 가족과 함께 시간을 보내는 것을 정말 좋아해요."
+      },
+      {
+        "en": "First, I wake up late, take a warm shower, and get ready.",
+        "ko": "우선, 늦잠을 자고 일어나서 따뜻한 물로 샤워를 하고 준비를 해요."
+      },
+      {
+        "en": "Then, I usually have a relaxing brunch with my family at home.",
+        "ko": "그리고 나서, 저는 보통 집에서 가족과 함께 여유로운 브런치를 먹습니다."
+      },
+      {
+        "en": "In the afternoon, we go for a walk in the nearby park, listening to the birds.",
+        "ko": "오후에는, 새소리를 들으면서 근처 공원으로 다 같이 산책을 나가요."
+      },
+      {
+        "en": "After that, we eat a nice dinner together, and watch TV in the living room.",
+        "ko": "그 후에는, 함께 맛있는 저녁을 먹고 거실에서 TV를 시청합니다."
+      },
+      {
+        "en": "That is my typical weekend routine with my family.",
+        "ko": "이게 바로 저의 전형적인 주말 가족 일과 루틴이에요."
+      }
+    ],
+    "keywords": [
+      "spend time with family",
+      "wake up late",
+      "relaxing brunch",
+      "nearby park walk",
+      "watch TV together"
+    ],
+    "tip": "[주말 가족 루틴] 서두 공감 ➔ 늦잠/준비 ➔ 브런치 ➔ 공원 산책 ➔ 저녁 식사 및 TV ➔ 루틴 마무리."
+  },
+  {
+    "id": "q_intro_09",
+    "cat": "자기소개",
+    "type": "가족 기념일 경험",
+    "combo_set": 3,
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 경험",
+    "pattern_id": "pat_03",
+    "q_en": "Tell me about a memorable day or special celebration you spent with your family. Where did you go and what made it so special?",
+    "q_ko": "가족과 함께 보냈던 기억에 남는 특별한 날이나 기념일에 대해 말씀해 주세요. 어디에 갔고 왜 그렇게 특별했나요?",
+    "sentences": [
+      {
+        "en": "Well, let me see... I remember a very special day with my family.",
+        "ko": "음, 어디 보자... 가족과 함께했던 아주 특별했던 하루가 기억나요."
+      },
+      {
+        "en": "Last month, we celebrated my mother's birthday at a nice Italian restaurant.",
+        "ko": "지난달에, 우리는 근사한 이탈리안 레스토랑에서 어머니의 생신을 축하했어요."
+      },
+      {
+        "en": "Actually, the food was delicious and the atmosphere was very cozy and warm.",
+        "ko": "실제로, 음식도 정말 맛있었고 분위기도 무척 아늑하고 따뜻했습니다."
+      },
+      {
+        "en": "We gave her a beautiful flower bouquet and had a great conversation together.",
+        "ko": "우리는 어머니께 예쁜 꽃다발을 선물해 드렸고, 다 함께 즐거운 대화를 나눴어요."
+      },
+      {
+        "en": "It was the happiest day for me and my whole family.",
+        "ko": "저와 온 가족 모두에게 최고의 행복한 하루였습니다."
+      },
+      {
+        "en": "So, it became an unforgettable memory for all of us.",
+        "ko": "그래서, 우리 모두에게 잊을 수 없는 소중한 추억이 되었어요."
+      }
+    ],
+    "keywords": [
+      "special day with family",
+      "mother's birthday",
+      "Italian restaurant",
+      "delicious food and cozy vibe",
+      "flower bouquet",
+      "unforgettable memory"
+    ],
+    "tip": "[가족 특별 경험] 회상 시작 ➔ 어머니 생신 식사 ➔ 음식/분위기 묘사 ➔ 꽃다발 선물 및 대화 ➔ 행복한 감정 ➔ 평생 추억 마무리."
+  },
+  {
+    "id": "q_home_07",
+    "cat": "집/주거",
+    "type": "동네/편의시설 묘사",
+    "combo_set": 3,
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사",
+    "pattern_id": "pat_01",
+    "q_en": "Please describe the neighborhood where you live. What does it look like, and what kind of facilities are around your home?",
+    "q_ko": "거주하시는 동네에 대해 설명해 주세요. 어떤 분위기이고 집 주변에 어떤 편의시설들이 있나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of my neighborhood, the peaceful atmosphere comes to mind first.",
+        "ko": "제가 사는 동네를 생각하면, 평화로운 분위기가 가장 먼저 떠올라요."
+      },
+      {
+        "en": "My neighborhood is very quiet, clean, and safe both day and night.",
+        "ko": "우리 동네는 밤낮으로 매우 조용하고 깨끗하며 치안이 안전합니다."
+      },
+      {
+        "en": "There is a convenient subway station and a big supermarket just five minutes away.",
+        "ko": "걸어서 5분 거리에 편리한 지하철역과 대형 마트가 있어요."
+      },
+      {
+        "en": "When I walk around, I usually see cozy cafes and a green park.",
+        "ko": "동네를 둘러보면, 아늑한 카페들과 푸른 공원이 곳곳에 보입니다."
+      },
+      {
+        "en": "The location is really convenient, so living here is so comfortable.",
+        "ko": "위치가 정말 편리해서, 여기서 사는 것이 아주 만족스럽고 편안해요."
+      },
+      {
+        "en": "So, I really love my lovely and peaceful neighborhood.",
+        "ko": "그래서 저는 제가 사는 사랑스럽고 평화로운 동네를 정말 좋아합니다."
+      }
+    ],
+    "keywords": [
+      "peaceful atmosphere",
+      "quiet clean and safe",
+      "subway station nearby",
+      "cozy cafes and park",
+      "convenient location"
+    ],
+    "tip": "[동네 묘사] 동네 연상 ➔ 치안/청결 분위기 ➔ 지하철/마트 편의시설 ➔ 주변 카페/공원 ➔ 편리한 입지 ➔ 만족 마무리."
+  },
+  {
+    "id": "q_home_08",
+    "cat": "집/주거",
+    "type": "저녁 휴식 루틴",
+    "combo_set": 3,
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동",
+    "pattern_id": "pat_02",
+    "q_en": "What do you usually do in the evening after getting home from work? Describe your relaxing routine from dinner until bedtime.",
+    "q_ko": "퇴근 후 저녁 시간에 집에서 보통 무엇을 하시나요? 저녁 식사부터 잠자리에 들 때까지의 휴식 루틴을 설명해 주세요.",
+    "sentences": [
+      {
+        "en": "Well, you know, when I get home after work, I usually love to relax comfortably.",
+        "ko": "음, 있잖아, 퇴근하고 집에 오면, 저는 보통 편안하게 쉬는 것을 정말 좋아해요."
+      },
+      {
+        "en": "First, I change into comfortable clothes and take a refreshing warm shower.",
+        "ko": "우선, 편안한 옷으로 갈아입고 개운하게 따뜻한 샤워를 합니다."
+      },
+      {
+        "en": "Then, I usually eat a simple dinner, listening to gentle acoustic music.",
+        "ko": "그리고 나서, 잔잔한 어쿠스틱 음악을 들으며 간단한 저녁 식사를 해요."
+      },
+      {
+        "en": "After dinner, I lie on the soft sofa and watch YouTube on my smartphone.",
+        "ko": "저녁을 먹은 뒤에는, 푹신한 소파에 누워 스마트폰으로 유튜브를 봅니다."
+      },
+      {
+        "en": "After that, I turn off the lights and go to sleep around midnight.",
+        "ko": "그 후에는, 방 불을 끄고 자정 무렵에 잠자리에 들어요."
+      },
+      {
+        "en": "That is my everyday evening routine at home.",
+        "ko": "이게 바로 집에서의 저의 매일 저녁 휴식 루틴이에요."
+      }
+    ],
+    "keywords": [
+      "relax comfortably",
+      "comfortable clothes and shower",
+      "simple dinner with music",
+      "lie on soft sofa",
+      "watch YouTube",
+      "sleep around midnight"
+    ],
+    "tip": "[저녁 루틴] 퇴근 후 귀가 ➔ 샤워/환복 ➔ 저녁 식사 및 음악 ➔ 소파 휴식(유튜브) ➔ 취침 ➔ 마무리."
+  },
+  {
+    "id": "q_home_09",
+    "cat": "집/주거",
+    "type": "집에서의 특별한 휴식",
+    "combo_set": 3,
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 경험",
+    "pattern_id": "pat_03",
+    "q_en": "Tell me about a memorable weekend or holiday you spent resting comfortably at home. What did you do and why was it so good?",
+    "q_ko": "집에서 편안하게 휴식을 취하며 보냈던 기억에 남는 주말이나 휴일에 대해 말씀해 주세요. 무엇을 했고 왜 그렇게 좋았나요?",
+    "sentences": [
+      {
+        "en": "Well, let me see... I remember a very peaceful and special holiday at home.",
+        "ko": "음, 어디 보자... 집에서 아주 평화롭고 특별하게 보냈던 휴일이 기억나요."
+      },
+      {
+        "en": "Last month, on a rainy Sunday, I decided to stay home all day alone.",
+        "ko": "지난달에, 비가 내리던 일요일에 저는 하루 종일 혼자 집에 있기로 했어요."
+      },
+      {
+        "en": "Actually, the warm bed and cozy blanket were very comfortable and relaxing.",
+        "ko": "실제로, 따뜻한 침대와 포근한 이불이 정말 편안하고 힐링이 되었습니다."
+      },
+      {
+        "en": "I read my favorite book, drank hot green tea, and took a deep nap.",
+        "ko": "좋아하는 책을 읽고, 따뜻한 녹차를 마시며 깊은 낮잠을 푹 잤어요."
+      },
+      {
+        "en": "It was the best healing day for me after a busy week.",
+        "ko": "바쁜 한 주를 보낸 저에게 최고의 힐링 하루였습니다."
+      },
+      {
+        "en": "So, I really want to enjoy that kind of sweet rest at home again.",
+        "ko": "그래서, 저는 집에서 그런 달콤한 휴식을 꼭 다시 즐기고 싶어요."
+      }
+    ],
+    "keywords": [
+      "peaceful holiday at home",
+      "rainy Sunday alone",
+      "cozy blanket",
+      "read book and hot tea",
+      "best healing day",
+      "sweet rest"
+    ],
+    "tip": "[집콕 휴식 경험] 특별한 휴일 환기 ➔ 비 오는 일요일 집콕 ➔ 침대/담요 안락함 ➔ 독서/차/낮잠 ➔ 힐링 소감 ➔ 재충전 마무리."
+  },
+  {
+    "id": "q_work_07",
+    "cat": "직장/업무",
+    "type": "업무 공간 묘사",
+    "combo_set": 3,
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사",
+    "pattern_id": "pat_01",
+    "q_en": "Please describe your workspace or desk at your office. How is it organized, and what does it look like?",
+    "q_ko": "사무실에 있는 본인의 업무 공간이나 책상에 대해 설명해 주세요. 어떻게 정돈되어 있고 어떤 모습인가요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of my workplace, my office desk comes to mind first.",
+        "ko": "직장을 생각하면, 제 사무실 책상이 가장 먼저 떠올라요."
+      },
+      {
+        "en": "My workspace is very clean, neat, and organized.",
+        "ko": "제 업무 공간은 매우 깨끗하고 정돈되어 있습니다."
+      },
+      {
+        "en": "On my desk, there is a large dual monitor, a comfortable keyboard, and my laptop.",
+        "ko": "책상 위에는 넓은 듀얼 모니터와 편안한 키보드, 제 노트북이 놓여 있어요."
+      },
+      {
+        "en": "When I work there, I usually keep a tumbler with cold water next to me.",
+        "ko": "거기서 일할 때, 저는 보통 옆에 시원한 물이 든 텀블러를 둡니다."
+      },
+      {
+        "en": "The ergonomic chair is very comfortable, so I can focus on my tasks easily.",
+        "ko": "인체공학 의자가 아주 편안해서, 업무에 쉽게 집중할 수 있어요."
+      },
+      {
+        "en": "So, I really like my productive and tidy workspace.",
+        "ko": "그래서 저는 생산적이고 깔끔한 저의 업무 공간을 정말 좋아합니다."
+      }
+    ],
+    "keywords": [
+      "office desk",
+      "clean neat and organized",
+      "dual monitor and laptop",
+      "tumbler with cold water",
+      "ergonomic chair",
+      "productive workspace"
+    ],
+    "tip": "[업무 공간 묘사] 책상 연상 ➔ 청결·정돈 ➔ 듀얼 모니터/노트북 ➔ 텀블러 배치 ➔ 인체공학 의자 편안함 ➔ 생산성 만족 마무리."
+  },
+  {
+    "id": "q_work_08",
+    "cat": "직장/업무",
+    "type": "점심시간 루틴",
+    "combo_set": 3,
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동",
+    "pattern_id": "pat_02",
+    "q_en": "What do you usually do during your lunch break at work? Tell me about your routine with your coworkers from start to finish.",
+    "q_ko": "직장에서 점심시간에 보통 무엇을 하시나요? 동료들과 함께하는 점심 루틴을 처음부터 끝까지 말씀해 주세요.",
+    "sentences": [
+      {
+        "en": "Well, you know, when lunchtime comes at twelve o'clock, I usually love to eat with my team.",
+        "ko": "음, 있잖아, 12시 점심시간이 되면, 저는 보통 팀원들과 식사하는 것을 정말 좋아해요."
+      },
+      {
+        "en": "First, I save my computer files, wash my hands, and step out of the office.",
+        "ko": "우선, 컴퓨터 파일을 저장하고 손을 씻은 뒤 사무실을 나섭니다."
+      },
+      {
+        "en": "Then, I usually go to a nearby restaurant with my kind colleagues.",
+        "ko": "그리고 나서, 친절한 동료들과 함께 회사 근처 식당으로 향해요."
+      },
+      {
+        "en": "When we eat, we enjoy delicious meals like kimchi stew and chat happily.",
+        "ko": "식사할 때는, 김치찌개 같은 맛있는 음식을 먹으며 즐겁게 담소를 나눕니다."
+      },
+      {
+        "en": "After that, we stop by a cafe, grab an iced Americano, and walk a bit.",
+        "ko": "그 후에는, 카페에 들러 아이스 아메리카노를 테이크아웃해서 가볍게 산책해요."
+      },
+      {
+        "en": "That is my enjoyable lunch routine on weekdays.",
+        "ko": "이게 바로 평일 직장에서의 저의 즐거운 점심 루틴이에요."
+      }
+    ],
+    "keywords": [
+      "lunchtime at twelve",
+      "step out of office",
+      "nearby restaurant with colleagues",
+      "kimchi stew and chat",
+      "grab iced Americano",
+      "lunch routine"
+    ],
+    "tip": "[점심시간 루틴] 12시 점심 ➔ 저장/손씻기 ➔ 동료와 식당 이동 ➔ 식사 및 담소 ➔ 테이크아웃 커피 산책 ➔ 루틴 마무리."
+  },
+  {
+    "id": "q_work_09",
+    "cat": "직장/업무",
+    "type": "성공적인 프로젝트 경험",
+    "combo_set": 3,
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 경험",
+    "pattern_id": "pat_03",
+    "q_en": "Tell me about a memorable project or task you successfully completed at work. What was it, and how did you feel?",
+    "q_ko": "직장에서 성공적으로 마쳤던 기억에 남는 프로젝트나 업무에 대해 말씀해 주세요. 어떤 일이었고 기분이 어떠셨나요?",
+    "sentences": [
+      {
+        "en": "Well, let me see... I remember a very rewarding project at work.",
+        "ko": "음, 어디 보자... 회사에서 아주 보람찼던 프로젝트가 하나 기억나요."
+      },
+      {
+        "en": "Last quarter, our team launched a new mobile service on a tight deadline.",
+        "ko": "지난 분기에, 저희 팀은 촉박한 일정 속에서 새로운 모바일 서비스를 출시했습니다."
+      },
+      {
+        "en": "Actually, the project was quite challenging, but our team teamwork was fantastic.",
+        "ko": "실제로, 프로젝트는 꽤 어려웠지만 저희 팀의 팀워크는 환상적이었어요."
+      },
+      {
+        "en": "We supported each other, worked hard, and finished everything without errors.",
+        "ko": "우리는 서로를 도우며 열심히 일했고, 오류 없이 모든 작업을 무사히 완수했습니다."
+      },
+      {
+        "en": "It was the most proud and satisfying moment for me.",
+        "ko": "저에게 가장 자랑스럽고 성취감이 컸던 순간이었어요."
+      },
+      {
+        "en": "So, that experience gave me great confidence in my career.",
+        "ko": "그래서, 그 경험은 저의 직무 커리어에 큰 자신감을 주었습니다."
+      }
+    ],
+    "keywords": [
+      "rewarding project",
+      "launched mobile service",
+      "challenging but fantastic teamwork",
+      "finished without errors",
+      "proud and satisfying",
+      "great confidence"
+    ],
+    "tip": "[성공 프로젝트 경험] 보람찬 프로젝트 환기 ➔ 모바일 서비스 런칭 ➔ 난이도 및 팀워크 ➔ 에러 없이 완수 ➔ 뿌듯함 ➔ 자신감 마무리."
+  },
+  {
+    "id": "q_cafe_07",
+    "cat": "카페가기",
+    "type": "동네 조용한 카페 묘사",
+    "combo_set": 3,
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사",
+    "pattern_id": "pat_01",
+    "q_en": "Please describe your favorite quiet cafe or neighborhood coffee shop in detail. What does the interior look like, and why do you like it?",
+    "q_ko": "자주 가시는 동네의 조용한 카페에 대해 자세히 설명해 주세요. 실내 인테리어는 어떻고 왜 그곳을 좋아하시나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of a quiet cafe, a small coffee shop near my house comes to mind.",
+        "ko": "조용한 카페를 생각하면, 집 근처 작은 동네 카페가 가장 먼저 떠올라요."
+      },
+      {
+        "en": "The cafe is very cozy, peaceful, and has warm yellow lighting.",
+        "ko": "그 카페는 매우 아늑하고 평화로우며, 따뜻한 노란빛 조명이 비춰요."
+      },
+      {
+        "en": "There are soft wooden tables, comfortable chairs, and plenty of power outlets.",
+        "ko": "부드러운 원목 테이블과 편안한 의자, 그리고 콘센트가 넉넉하게 구비되어 있습니다."
+      },
+      {
+        "en": "When I visit there, gentle jazz music is always playing softly.",
+        "ko": "거기에 방문하면, 잔잔한 재즈 음악이 항상 부드럽게 흘러나옵니다."
+      },
+      {
+        "en": "The barista is very friendly, and the coffee aroma is wonderful.",
+        "ko": "바리스타 분도 매우 친절하시고, 커피 향기도 정말 향긋해요."
+      },
+      {
+        "en": "So, it is my favorite hideout to relax and recharge.",
+        "ko": "그래서, 그곳은 제가 휴식하고 에너지를 재충전하는 최애 아지트입니다."
+      }
+    ],
+    "keywords": [
+      "small coffee shop",
+      "cozy and peaceful",
+      "warm yellow lighting",
+      "wooden tables and power outlets",
+      "gentle jazz music",
+      "favorite hideout"
+    ],
+    "tip": "[조용한 카페 묘사] 동네 아지트 연상 ➔ 조명/분위기 ➔ 원목 가구/콘센트 ➔ 재즈 음악 ➔ 친절한 바리스타 ➔ 충전 장소 마무리."
+  },
+  {
+    "id": "q_cafe_08",
+    "cat": "카페가기",
+    "type": "노트북 작업 루틴",
+    "combo_set": 3,
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동",
+    "pattern_id": "pat_02",
+    "q_en": "What do you usually do when you spend time at a cafe with your laptop or a book on weekends? Tell me about your routine.",
+    "q_ko": "주말에 노트북이나 책을 가지고 카페에 갈 때 보통 무엇을 하시나요? 카페에서의 일상 루틴을 말씀해 주세요.",
+    "sentences": [
+      {
+        "en": "Well, you know, when I have free time on Saturday, I usually love to work at a cafe.",
+        "ko": "음, 있잖아요, 토요일에 자유 시간이 나면, 저는 보통 카페에서 작업하는 걸 아주 좋아해요."
+      },
+      {
+        "en": "First, I pack my laptop, charger, and notebook into my backpack.",
+        "ko": "우선, 노트북과 충전기, 공책을 백팩에 챙겨 넣습니다."
+      },
+      {
+        "en": "Then, I usually walk to Starbucks, listening to my favorite playlist.",
+        "ko": "그리고 나서, 좋아하는 플레이리스트를 들으며 스타벅스로 걸어가요."
+      },
+      {
+        "en": "When I arrive, I order an iced Americano and find a quiet table near a window.",
+        "ko": "도착하면, 아이스 아메리카노를 주문하고 창가 쪽 조용한 자리를 잡습니다."
+      },
+      {
+        "en": "After that, I open my laptop, study coding, or read for two hours.",
+        "ko": "그 후에는, 노트북을 켜서 코딩 공부를 하거나 2시간 동안 책을 읽어요."
+      },
+      {
+        "en": "That is my productive weekend routine at a cafe.",
+        "ko": "이게 바로 주말 카페에서의 저의 생산적인 루틴이에요."
+      }
+    ],
+    "keywords": [
+      "work at cafe on Saturday",
+      "pack laptop and charger",
+      "walk to Starbucks",
+      "iced Americano near window",
+      "study coding for two hours",
+      "productive routine"
+    ],
+    "tip": "[카페 작업 루틴] 토요일 카페 ➔ 짐 챙기기 ➔ 음악 들으며 이동 ➔ 주문 및 창가 자리 ➔ 2시간 코딩/독서 ➔ 생산적 루틴 마무리."
+  },
+  {
+    "id": "q_cafe_09",
+    "cat": "카페가기",
+    "type": "음료 쏟음 돌발 대처",
+    "combo_set": 3,
+    "combo_step": 3,
+    "combo_role": "3단계: 돌발 상황",
+    "pattern_id": "pat_04",
+    "q_en": "Have you ever experienced an unexpected problem or accident at a cafe, such as spilling coffee? What happened, and how did you resolve it?",
+    "q_ko": "카페에서 커피를 쏟는 등 예상치 못한 사고나 곤란한 문제를 겪은 적이 있나요? 무슨 일이었고 어떻게 해결하셨나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of cafes, I remember a big problem I had last month.",
+        "ko": "카페를 생각하면, 지난달에 겪었던 큰 낭패가 하나 기억나요."
+      },
+      {
+        "en": "I was carrying my full iced latte to my table, and suddenly I tripped over a chair.",
+        "ko": "가득 찬 아이스 라떼를 들고 자리로 가다가, 갑자기 의자에 발이 걸려 넘어졌어요."
+      },
+      {
+        "en": "At first, I was so surprised, embarrassed, and worried about my clothes.",
+        "ko": "처음에는, 너무 놀라고 창피했으며 옷을 버릴까 봐 걱정됐습니다."
+      },
+      {
+        "en": "So, I quickly apologized to the staff and cleaned the floor with paper napkins.",
+        "ko": "그래서, 즉시 직원에게 사과드리고 종이 냅킨으로 바닥을 깨끗이 닦았어요."
+      },
+      {
+        "en": "Fortunately, the kind barista gave me a new cup of coffee with a warm smile.",
+        "ko": "다행히도, 친절한 바리스타 분께서 따뜻한 미소와 함께 새 커피를 다시 만들어 주셨습니다."
+      },
+      {
+        "en": "Anyway, it was solved well, so everything was okay.",
+        "ko": "어쨌든, 일이 잘 해결되어서, 다 괜찮았습니다."
+      }
+    ],
+    "keywords": [
+      "problem at cafe",
+      "tripped over a chair",
+      "spilled iced latte",
+      "apologized and cleaned with napkins",
+      "kind barista gave new coffee",
+      "solved well"
+    ],
+    "tip": "[카페 돌발 대처] 문제 환기 ➔ 발 걸려 라떼 쏟음 ➔ 당황/민망 ➔ 사과 및 냅킨 청소 ➔ 바리스타의 새 음료 배려 ➔ 안도 마무리."
+  },
+  {
+    "id": "q_park_07",
+    "cat": "공원가기",
+    "type": "산책로/자연 풍경 묘사",
+    "combo_set": 3,
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사",
+    "pattern_id": "pat_01",
+    "q_en": "Please describe the walking trails and natural scenery at your favorite park. What does it look like, and why do you like walking there?",
+    "q_ko": "가장 좋아하시는 공원의 산책로와 자연 풍경에 대해 설명해 주세요. 어떻게 생겼고 왜 그곳을 걷는 것을 좋아하시나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of my favorite park, the beautiful walking trail comes to mind first.",
+        "ko": "가장 좋아하는 공원을 생각하면, 아름다운 산책로가 가장 먼저 떠올라요."
+      },
+      {
+        "en": "The park trail is very wide, smooth, and surrounded by tall green trees.",
+        "ko": "공원 산책로는 매우 넓고 평탄하며, 키 큰 푸른 나무들로 둘러싸여 있습니다."
+      },
+      {
+        "en": "Along the path, there is a sparkling lake and many wooden benches to rest.",
+        "ko": "길을 따라 반짝이는 호수와 쉴 수 있는 나무 벤치가 많이 놓여 있어요."
+      },
+      {
+        "en": "When I walk there, I can always feel the fresh breeze and smell blooming flowers.",
+        "ko": "그곳을 걸을 때면, 언제나 상쾌한 바람을 느끼고 피어난 꽃향기를 맡을 수 있습니다."
+      },
+      {
+        "en": "The natural view is so peaceful, so walking there clears my mind.",
+        "ko": "자연 경관이 너무 평화로워서, 그곳을 걸으면 머릿속이 맑아져요."
+      },
+      {
+        "en": "So, I really love spending refreshing time on this park trail.",
+        "ko": "그래서 저는 이 공원 산책로에서 상쾌한 시간을 보내는 것을 정말 좋아합니다."
+      }
+    ],
+    "keywords": [
+      "beautiful walking trail",
+      "tall green trees",
+      "sparkling lake and benches",
+      "fresh breeze and flowers",
+      "clears my mind",
+      "refreshing time"
+    ],
+    "tip": "[공원 산책로 묘사] 산책로 연상 ➔ 넓고 울창한 나무 ➔ 호수와 벤치 ➔ 시원한 바람/꽃향기 ➔ 힐링 효과 ➔ 마무리."
+  },
+  {
+    "id": "q_park_08",
+    "cat": "공원가기",
+    "type": "저녁 조깅 루틴",
+    "combo_set": 3,
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동",
+    "pattern_id": "pat_02",
+    "q_en": "What do you usually do when you go for an evening walk or jog at the park? Describe your routine from start to finish.",
+    "q_ko": "저녁에 공원으로 산책이나 조깅을 나갈 때 보통 무엇을 하시나요? 처음부터 끝까지의 일과 루틴을 말씀해 주세요.",
+    "sentences": [
+      {
+        "en": "Well, you know, after eating dinner, I usually love to jog at the park.",
+        "ko": "음, 있잖아, 저녁을 먹고 나면, 저는 보통 공원에서 조깅하는 것을 정말 좋아해요."
+      },
+      {
+        "en": "First, I put on comfortable running shoes and wear light sportswear.",
+        "ko": "우선, 편안한 러닝화를 신은 뒤 가벼운 운동복을 챙겨 입습니다."
+      },
+      {
+        "en": "Then, I usually head to the park, putting my wireless earbuds in my ears.",
+        "ko": "그리고 나서, 귀에 무선 이어폰을 꽂고 공원으로 향해요."
+      },
+      {
+        "en": "When I arrive, I stretch my body for five minutes and jog along the lake.",
+        "ko": "도착하면, 5분 동안 몸을 풀고 호숫가를 따라 조깅을 합니다."
+      },
+      {
+        "en": "After sweating for forty minutes, I walk slowly to catch my breath and drink water.",
+        "ko": "40분 동안 땀을 흘린 뒤에는, 천천히 걸으며 숨을 고르고 물을 마셔요."
+      },
+      {
+        "en": "That is my healthy evening exercise routine at the park.",
+        "ko": "이게 바로 공원에서의 저의 건강한 저녁 운동 루틴이에요."
+      }
+    ],
+    "keywords": [
+      "jog after dinner",
+      "comfortable running shoes",
+      "wireless earbuds",
+      "stretch and jog along lake",
+      "sweat for forty minutes",
+      "healthy evening routine"
+    ],
+    "tip": "[저녁 조깅 루틴] 저녁 후 조깅 ➔ 런닝화/운동복 ➔ 무선 이어폰 착용 ➔ 스트레칭 후 호숫가 조깅 ➔ 쿨다운/수분 섭취 ➔ 루틴 마무리."
+  },
+  {
+    "id": "q_park_09",
+    "cat": "공원가기",
+    "type": "주말 피크닉 경험",
+    "combo_set": 3,
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 경험",
+    "pattern_id": "pat_03",
+    "q_en": "Tell me about a memorable picnic you had at a park with your friends or family. What did you eat, and what made that day so special?",
+    "q_ko": "친구나 가족과 공원에서 돗자리를 펴고 즐겼던 기억에 남는 피크닉에 대해 말씀해 주세요. 무엇을 먹었고 왜 그렇게 특별했나요?",
+    "sentences": [
+      {
+        "en": "Well, let me see... I remember a very wonderful picnic at the park.",
+        "ko": "음, 어디 보자... 공원에서 보냈던 아주 멋진 피크닉이 하나 기억나요."
+      },
+      {
+        "en": "Last spring, I went to Hangang Park with my best friends on a sunny Saturday.",
+        "ko": "지난봄 화창한 토요일에, 절친들과 함께 한강공원에 갔습니다."
+      },
+      {
+        "en": "Actually, the warm sunshine was amazing, and the river view was spectacular.",
+        "ko": "실제로, 따스한 햇살도 정말 좋았고 탁 트인 강변 뷰가 정말 멋졌어요."
+      },
+      {
+        "en": "We spread a picnic mat under a tree, ate crispy fried chicken, and drank cola.",
+        "ko": "우리는 나무 그늘 아래 돗자리를 펴고, 바삭한 치킨을 먹으며 콜라를 마셨습니다."
+      },
+      {
+        "en": "It was the happiest and most relaxing day for me.",
+        "ko": "저에게는 더없이 행복하고 여유로웠던 최고의 하루였어요."
+      },
+      {
+        "en": "So, it became an unforgettable memory with my friends.",
+        "ko": "그래서, 친구들과의 잊을 수 없는 소중한 추억이 되었습니다."
+      }
+    ],
+    "keywords": [
+      "wonderful picnic at park",
+      "Hangang Park with friends",
+      "warm sunshine and river view",
+      "picnic mat and fried chicken",
+      "relaxing day",
+      "unforgettable memory"
+    ],
+    "tip": "[공원 피크닉 경험] 피크닉 환기 ➔ 한강공원 봄나들이 ➔ 날씨와 강변 풍경 ➔ 돗자리와 치킨 먹방 ➔ 힐링 소감 ➔ 소중한 추억 마무리."
+  },
+  {
+    "id": "q_movie_07",
+    "cat": "영화보기",
+    "type": "최애 배우/감독 묘사",
+    "combo_set": 3,
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사",
+    "pattern_id": "pat_01",
+    "q_en": "Who is your favorite actor or movie director? What do you like about them, and what is your favorite movie of theirs?",
+    "q_ko": "가장 좋아하는 영화배우나 감독은 누구인가요? 그들의 어떤 점을 좋아하고 가장 좋아하는 작품은 무엇인가요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of movies, my favorite actor, Song Kang-ho, comes to mind first.",
+        "ko": "영화를 생각하면, 제가 가장 좋아하는 배우 송강호가 가장 먼저 떠올라요."
+      },
+      {
+        "en": "He is very famous in Korea, and his acting skills are truly incredible.",
+        "ko": "그는 한국에서 매우 유명하며, 연기력이 정말 대단합니다."
+      },
+      {
+        "en": "He always looks natural and brings deep emotions to every character he plays.",
+        "ko": "그는 언제나 자연스러워 보이며, 맡은 배역마다 깊은 감정을 불어넣어요."
+      },
+      {
+        "en": "When I watch his movies, especially 'Parasite', I get completely absorbed.",
+        "ko": "그의 영화, 특히 '기생충'을 볼 때면, 저는 완전히 몰입하게 됩니다."
+      },
+      {
+        "en": "His passion for cinema is very impressive and inspiring to me.",
+        "ko": "영화에 대한 그의 열정은 저에게 깊은 인상과 영감을 줍니다."
+      },
+      {
+        "en": "So, I really love watching any movie starring him.",
+        "ko": "그래서 저는 그가 출연하는 모든 영화를 보는 것을 정말 좋아해요."
+      }
+    ],
+    "keywords": [
+      "favorite actor Song Kang-ho",
+      "acting skills are incredible",
+      "natural and deep emotions",
+      "Parasite movie",
+      "passion for cinema",
+      "absorbed"
+    ],
+    "tip": "[좋아하는 배우 묘사] 최애 배우 환기 ➔ 연기력 극찬 ➔ 자연스러운 감정선 ➔ 대표작(기생충) 몰입 ➔ 영화에 대한 열정 ➔ 팬심 마무리."
+  },
+  {
+    "id": "q_movie_08",
+    "cat": "영화보기",
+    "type": "집에서 OTT 감상 루틴",
+    "combo_set": 3,
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동",
+    "pattern_id": "pat_02",
+    "q_en": "What do you usually do on weekend nights when you watch movies at home using streaming services? Describe your routine from start to finish.",
+    "q_ko": "주말 밤 집에서 넷플릭스 등 OTT로 영화를 볼 때 보통 무엇을 하시나요? 처음부터 끝까지의 일과 루틴을 설명해 주세요.",
+    "sentences": [
+      {
+        "en": "Well, you know, on Friday nights, I usually love to watch movies on Netflix at home.",
+        "ko": "음, 있잖아요, 금요일 밤이면, 저는 보통 집에서 넷플릭스로 영화 보는 걸 정말 좋아해요."
+      },
+      {
+        "en": "First, I finish my work, shower, and change into comfy pajamas.",
+        "ko": "우선, 일을 마치고 샤워를 한 뒤 편안한 잠옷으로 갈아입습니다."
+      },
+      {
+        "en": "Then, I usually microwave some butter popcorn and prepare a cold soda.",
+        "ko": "그리고 나서, 전자레인지에 버터 팝콘을 돌리고 시원한 탄산음료를 준비해요."
+      },
+      {
+        "en": "When I get ready, I turn off the main room lights to create a mini theater vibe.",
+        "ko": "준비가 되면, 방 불을 꺼서 마치 작은 영화관 같은 분위기를 만듭니다."
+      },
+      {
+        "en": "After that, I lie on my bed and enjoy an exciting action movie.",
+        "ko": "그 후에는, 침대에 편하게 누워서 흥미진진한 액션 영화를 즐겨요."
+      },
+      {
+        "en": "That is my favorite relaxing movie routine at home.",
+        "ko": "이게 바로 집에서 영화를 즐기는 저의 최애 휴식 루틴이에요."
+      }
+    ],
+    "keywords": [
+      "watch Netflix on Friday night",
+      "comfy pajamas",
+      "microwave butter popcorn",
+      "turn off lights mini theater vibe",
+      "exciting action movie",
+      "relaxing routine"
+    ],
+    "tip": "[집콕 OTT 영화 루틴] 금요일 넷플릭스 ➔ 환복 ➔ 버터팝콘/음료 준비 ➔ 불 끄고 소극장 분위기 ➔ 침대에서 관람 ➔ 힐링 루틴 마무리."
+  },
+  {
+    "id": "q_movie_09",
+    "cat": "영화보기",
+    "type": "영화관 예매 실수 돌발",
+    "combo_set": 3,
+    "combo_step": 3,
+    "combo_role": "3단계: 돌발 상황",
+    "pattern_id": "pat_04",
+    "q_en": "Tell me about a memorable problem you experienced at a movie theater, such as booking the wrong time or arriving late. What did you do to solve it?",
+    "q_ko": "영화관에서 예매 시간을 잘못 선택했거나 지각하는 등 곤란했던 문제를 겪은 적이 있나요? 어떻게 대처하여 해결하셨나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of movie theaters, I remember a big mistake I made last year.",
+        "ko": "영화관을 생각하면, 작년에 했던 큰 실수가 하나 기억나요."
+      },
+      {
+        "en": "I arrived at CGV multiplex, and suddenly realized I had booked the ticket for tomorrow.",
+        "ko": "CGV 극장에 도착했는데, 갑자기 내일 날짜로 티켓을 예매했다는 걸 깨달았어요."
+      },
+      {
+        "en": "At first, I was so surprised, confused, and worried about missing the movie.",
+        "ko": "처음에는 너무 놀라고 당황스러웠으며, 영화를 못 볼까 봐 걱정됐습니다."
+      },
+      {
+        "en": "So, I quickly went to the customer service ticket counter and explained my mistake.",
+        "ko": "그래서, 빠르게 고객센터 매표소로 가서 제 실수 상황을 설명드렸어요."
+      },
+      {
+        "en": "Fortunately, the kind staff changed my reservation to today's seat without extra fee.",
+        "ko": "다행히도, 친절한 직원분께서 추가 요금 없이 오늘 상영 좌석으로 예매를 바꿔 주셨습니다."
+      },
+      {
+        "en": "Anyway, it was solved well, so I enjoyed the movie with my friend.",
+        "ko": "어쨌든, 일이 잘 해결되어서 친구와 영화를 재미있게 봤습니다."
+      }
+    ],
+    "keywords": [
+      "mistake at movie theater",
+      "booked ticket for tomorrow",
+      "surprised and confused",
+      "customer service ticket counter",
+      "changed reservation without extra fee",
+      "solved well"
+    ],
+    "tip": "[영화 예매 돌발] 실수 환기 ➔ 내일 날짜로 잘못 예매 ➔ 당황 ➔ 티켓 매표소 문의 ➔ 무료 당일 변경 친절 대처 ➔ 안도 마무리."
+  },
+  {
+    "id": "q_music_07",
+    "cat": "음악감상",
+    "type": "최애 가수/밴드 묘사",
+    "combo_set": 3,
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사",
+    "pattern_id": "pat_01",
+    "q_en": "Who is your favorite singer, musician, or band? Describe their musical style and tell me why you love listening to them.",
+    "q_ko": "가장 좋아하는 가수나 뮤지션, 밴드는 누구인가요? 그들의 음악 스타일을 묘사하고 왜 좋아하는지 말씀해 주세요.",
+    "sentences": [
+      {
+        "en": "Whenever I think of my favorite music, the singer IU comes to mind first.",
+        "ko": "가장 좋아하는 음악을 생각하면, 가수 아이유가 가장 먼저 떠올라요."
+      },
+      {
+        "en": "Her voice is very sweet, warm, and beautiful.",
+        "ko": "그녀의 목소리는 매우 감미롭고 따뜻하며 아름답습니다."
+      },
+      {
+        "en": "Her acoustic songs have poetic lyrics and gentle guitar melodies.",
+        "ko": "그녀의 어쿠스틱 노래들은 시적인 가사와 잔잔한 기타 멜로디를 담고 있어요."
+      },
+      {
+        "en": "When I listen to her music after a hard day, I always feel comforted.",
+        "ko": "힘든 하루를 마치고 그녀의 노래를 들으면, 언제나 마음이 위로받는 기분이 듭니다."
+      },
+      {
+        "en": "Her incredible vocal talent always touches my heart deeply.",
+        "ko": "그녀의 뛰어난 가창력은 언제나 제 마음을 깊이 울립니다."
+      },
+      {
+        "en": "So, she is my absolute favorite musician of all time.",
+        "ko": "그래서, 그녀는 제가 가장 좋아하는 인생 뮤지션이에요."
+      }
+    ],
+    "keywords": [
+      "singer IU",
+      "sweet warm voice",
+      "poetic lyrics and gentle guitar",
+      "feel comforted",
+      "vocal talent touches heart",
+      "favorite musician"
+    ],
+    "tip": "[좋아하는 가수 묘사] 가수(아이유) 연상 ➔ 음색 특징 ➔ 어쿠스틱/서정적 가사 ➔ 위로와 감동 ➔ 보컬 역량 ➔ 최고 뮤지션 마무리."
+  },
+  {
+    "id": "q_music_08",
+    "cat": "음악감상",
+    "type": "출퇴근 음악 루틴",
+    "combo_set": 3,
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동",
+    "pattern_id": "pat_02",
+    "q_en": "How do you listen to music during your daily commute or while doing housework? Tell me about your routine from start to finish.",
+    "q_ko": "출퇴근길이나 집안일을 할 때 주로 음악을 어떻게 들으시나요? 처음부터 끝까지의 일과 루틴을 말씀해 주세요.",
+    "sentences": [
+      {
+        "en": "Well, you know, when I commute to work on weekdays, I usually love to listen to music.",
+        "ko": "음, 있잖아요, 평일 출근길이면, 저는 보통 음악 듣는 것을 아주 좋아해요."
+      },
+      {
+        "en": "First, I take out my wireless noise-canceling earbuds from my pocket.",
+        "ko": "우선, 주머니에서 노이즈 캔슬링 무선 이어폰을 꺼냅니다."
+      },
+      {
+        "en": "Then, I connect them to my smartphone and turn on Spotify.",
+        "ko": "그리고 나서, 스마트폰에 연결하고 스포티파이 앱을 켜요."
+      },
+      {
+        "en": "When I take the crowded subway, I play an energetic pop playlist to wake myself up.",
+        "ko": "붐비는 지하철을 탈 때는, 잠을 깨우기 위해 신나는 팝 음악 플레이리스트를 틉니다."
+      },
+      {
+        "en": "After arriving at my station, I put my earbuds back into their charging case.",
+        "ko": "도착역에 내린 후에는, 이어폰을 다시 충전 케이스에 넣어요."
+      },
+      {
+        "en": "That is my everyday commuting music routine.",
+        "ko": "이게 바로 매일 출퇴근할 때의 저의 음악 루틴이에요."
+      }
+    ],
+    "keywords": [
+      "commute to work with music",
+      "wireless noise-canceling earbuds",
+      "Spotify on smartphone",
+      "energetic pop playlist",
+      "crowded subway",
+      "charging case"
+    ],
+    "tip": "[출퇴근 음악 루틴] 출근길 음악 ➔ 무선 이어폰 꺼내기 ➔ 스트리밍 앱 연결 ➔ 신나는 팝 음악 ➔ 도착 후 케이스 보관 ➔ 루틴 마무리."
+  },
+  {
+    "id": "q_music_09",
+    "cat": "음악감상",
+    "type": "이어폰 방전 돌발 대처",
+    "combo_set": 3,
+    "combo_step": 3,
+    "combo_role": "3단계: 돌발 상황",
+    "pattern_id": "pat_04",
+    "q_en": "Tell me about an unexpected problem you experienced while listening to music, such as dead wireless earbuds or connection failure. How did you resolve it?",
+    "q_ko": "음악을 듣다가 무선 이어폰 배터리가 방전되거나 연결이 끊기는 등 곤란했던 문제를 겪은 적이 있나요? 어떻게 해결하셨나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of listening to music, I remember an annoying problem last month.",
+        "ko": "음악 듣기를 생각하면, 지난달에 겪었던 난감한 문제가 하나 기억나요."
+      },
+      {
+        "en": "I was getting on the bus for a long ride, and suddenly my wireless earbuds died.",
+        "ko": "오랜 시간 버스를 타려고 올라탔는데, 갑자기 무선 이어폰 배터리가 방전되어 꺼졌어요."
+      },
+      {
+        "en": "At first, I was so surprised and frustrated because the bus was very noisy.",
+        "ko": "처음에는, 버스 안이 너무 시끄러운데 음악을 못 들어서 몹시 당황스럽고 답답했습니다."
+      },
+      {
+        "en": "So, I quickly took out my portable power bank from my bag and charged the case.",
+        "ko": "그래서, 가방에서 휴대용 보조배터리를 재빨리 꺼내 이어폰 케이스를 충전했어요."
+      },
+      {
+        "en": "After ten minutes of fast charging, I was able to enjoy my favorite songs again.",
+        "ko": "10분 동안 고속 충전한 뒤, 좋아하는 노래를 다시 즐길 수 있었습니다."
+      },
+      {
+        "en": "Anyway, it was solved well, so I arrived home comfortably.",
+        "ko": "어쨌든, 잘 해결되어서 집까지 편안하게 도착할 수 있었어요."
+      }
+    ],
+    "keywords": [
+      "problem with music",
+      "wireless earbuds died",
+      "surprised and frustrated",
+      "portable power bank",
+      "ten minutes fast charging",
+      "solved well"
+    ],
+    "tip": "[이어폰 방전 돌발] 문제 환기 ➔ 버스에서 배터리 방전 ➔ 답답함/당황 ➔ 보조배터리 고속 충전 대처 ➔ 10분 후 음악 재개 ➔ 안도 마무리."
+  },
+  {
+    "id": "q_exercise_07",
+    "cat": "운동하기",
+    "type": "헬스 기구/시설 묘사",
+    "combo_set": 3,
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사",
+    "pattern_id": "pat_01",
+    "q_en": "Please describe the fitness machines and workout facilities you use most often at the gym. What do they look like and how do you use them?",
+    "q_ko": "헬스장에서 가장 자주 사용하는 운동 기구와 시설에 대해 설명해 주세요. 어떻게 생겼고 어떻게 사용하시나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of my fitness center, the modern cardio zone comes to mind first.",
+        "ko": "제가 다니는 헬스장을 생각하면, 현대적인 유산소 존이 가장 먼저 떠올라요."
+      },
+      {
+        "en": "The gym is very spacious, well-ventilated, and has rows of advanced treadmills.",
+        "ko": "헬스장은 매우 넓고 환기가 잘 되며, 최신 러닝머신들이 줄지어 놓여 있습니다."
+      },
+      {
+        "en": "On each treadmill, there is a large personal TV screen and heart rate sensors.",
+        "ko": "러닝머신마다 커다란 개인용 TV 화면과 심박수 측정 센서가 달려 있어요."
+      },
+      {
+        "en": "When I run there, I can watch my favorite YouTube shows while burning calories.",
+        "ko": "거기서 뛸 때면, 칼로리를 소모하면서 좋아하는 유튜브 영상을 시청할 수 있습니다."
+      },
+      {
+        "en": "The free weight area next to it is also well-equipped with clean dumbbells.",
+        "ko": "그 옆의 프리웨이트 존도 깨끗한 아령들이 아주 잘 갖추어져 있어요."
+      },
+      {
+        "en": "So, I really love working out with these great fitness machines.",
+        "ko": "그래서 저는 이렇게 훌륭한 운동 기구들로 운동하는 것을 정말 좋아합니다."
+      }
+    ],
+    "keywords": [
+      "modern cardio zone",
+      "spacious and well-ventilated",
+      "advanced treadmills",
+      "personal TV screen",
+      "watch YouTube while burning calories",
+      "clean dumbbells"
+    ],
+    "tip": "[헬스 기구 묘사] 유산소 존 연상 ➔ 넓고 쾌적한 시설 ➔ 러닝머신과 TV 스크린 ➔ 유튜브 시청 러닝 ➔ 프리웨이트 아령 ➔ 만족 마무리."
+  },
+  {
+    "id": "q_exercise_08",
+    "cat": "운동하기",
+    "type": "운동 후 회복 루틴",
+    "combo_set": 3,
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동",
+    "pattern_id": "pat_02",
+    "q_en": "What is your typical post-workout routine? Describe what you usually do after finishing your exercises from stretching to recovery.",
+    "q_ko": "운동을 마친 후 보통 무엇을 하시나요? 스트레칭부터 회복까지의 전형적인 마무리 루틴을 설명해 주세요.",
+    "sentences": [
+      {
+        "en": "Well, you know, after finishing heavy workouts, I usually have a strict recovery routine.",
+        "ko": "음, 있잖아요, 강도 높은 운동을 마치고 나면, 저는 보통 철저한 회복 루틴을 지켜요."
+      },
+      {
+        "en": "First, I cool down on the mat and stretch my tight muscles for ten minutes.",
+        "ko": "우선, 매트 위에서 쿨다운을 하며 뭉친 근육을 10분 동안 스트레칭합니다."
+      },
+      {
+        "en": "Then, I usually head to the shower room and take a relaxing warm shower.",
+        "ko": "그리고 나서, 샤워실로 향해 따뜻한 물로 편안하게 샤워를 해요."
+      },
+      {
+        "en": "When I get dressed, I mix chocolate protein powder with cold water and drink it.",
+        "ko": "옷을 갈아입은 뒤에는, 초콜릿 맛 단백질 보충제를 찬물에 타서 마십니다."
+      },
+      {
+        "en": "After that, I come back home and relax on my bed feeling energized.",
+        "ko": "그 후에는, 집에 돌아와 활력을 느끼며 침대에서 휴식을 취해요."
+      },
+      {
+        "en": "That is my healthy post-workout recovery routine.",
+        "ko": "이게 바로 저의 건강한 운동 후 회복 루틴이에요."
+      }
+    ],
+    "keywords": [
+      "strict recovery routine",
+      "cool down and stretch",
+      "relaxing warm shower",
+      "chocolate protein powder",
+      "feel energized",
+      "healthy routine"
+    ],
+    "tip": "[운동 후 회복 루틴] 마무리 루틴 서두 ➔ 쿨다운/스트레칭 ➔ 따뜻한 샤워 ➔ 단백질 쉐이크 섭취 ➔ 귀가 후 휴식 ➔ 루틴 마무리."
+  },
+  {
+    "id": "q_exercise_09",
+    "cat": "운동하기",
+    "type": "운동 목표 달성 경험",
+    "combo_set": 3,
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 경험",
+    "pattern_id": "pat_03",
+    "q_en": "Tell me about a memorable time when you achieved your fitness goal or felt proud of your healthy body. What was the experience like?",
+    "q_ko": "운동 목표를 달성했거나 건강해진 몸에 스스로 뿌듯함을 느꼈던 기억에 남는 경험에 대해 말씀해 주세요. 어떤 경험이었나요?",
+    "sentences": [
+      {
+        "en": "Well, let me see... I remember a very proud fitness achievement last year.",
+        "ko": "음, 어디 보자... 작년에 운동하면서 정말 뿌듯했던 성취 경험이 기억나요."
+      },
+      {
+        "en": "I exercised four times a week for three months to lose body fat and build stamina.",
+        "ko": "체지방을 줄이고 체력을 기르기 위해 3달 동안 매주 4번씩 꾸준히 운동했습니다."
+      },
+      {
+        "en": "Actually, the daily workouts were tough, but my energy level improved tremendously.",
+        "ko": "실제로, 매일 운동하는 건 힘들었지만 제 활력과 에너지가 엄청나게 좋아졌어요."
+      },
+      {
+        "en": "When I weighed myself, I lost five kilograms and my clothes fit perfectly.",
+        "ko": "몸무게를 재어보니 5kg이 빠져 있었고, 입던 옷들이 완벽하게 잘 맞았습니다."
+      },
+      {
+        "en": "It was the most rewarding and confidence-boosting day for me.",
+        "ko": "저에게 가장 보람차고 큰 자신감을 주었던 날이었어요."
+      },
+      {
+        "en": "So, it motivated me to keep exercising regularly every single week.",
+        "ko": "그래서, 그 경험은 제가 매주 규칙적으로 운동을 지속할 수 있는 큰 동기가 되었습니다."
+      }
+    ],
+    "keywords": [
+      "proud fitness achievement",
+      "exercised four times a week",
+      "tough workouts",
+      "lost five kilograms clothes fit perfectly",
+      "rewarding and confidence-boosting",
+      "keep exercising"
+    ],
+    "tip": "[운동 성취 경험] 성취 경험 환기 ➔ 3개월 주4회 운동 ➔ 체력 향상 ➔ 5kg 감량/옷 핏 ➔ 자신감 상승 ➔ 평생 운동 동기부여 마무리."
+  },
+  {
+    "id": "q_cook_07",
+    "cat": "요리하기",
+    "type": "자신 있는 요리 레시피 묘사",
+    "combo_set": 3,
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사",
+    "pattern_id": "pat_01",
+    "q_en": "Please describe your signature dish that you can cook best. What ingredients are used, and what does it taste like?",
+    "q_ko": "가장 자신 있게 요리할 수 있는 시그니처 요리에 대해 설명해 주세요. 어떤 재료가 들어가고 어떤 맛인가요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of my cooking, my signature dish, kimchi fried rice, comes to mind.",
+        "ko": "제가 하는 요리를 생각하면, 저의 시그니처 요리인 김치볶음밥이 가장 먼저 떠올라요."
+      },
+      {
+        "en": "It is very simple to make, but the taste is incredibly delicious and spicy.",
+        "ko": "만들기는 아주 간단하지만, 그 맛은 정말 매콤하고 기가 막히게 맛있습니다."
+      },
+      {
+        "en": "The main ingredients are spicy kimchi, white rice, canned tuna, and green onions.",
+        "ko": "주요 재료는 매콤한 김치와 밥, 참치캔, 그리고 대파입니다."
+      },
+      {
+        "en": "When I cook it, I always put a sunny-side-up fried egg and sesame oil on top.",
+        "ko": "요리할 때, 저는 항상 반숙 계란후라이와 고소한 참기름을 위에 얹어요."
+      },
+      {
+        "en": "The crispy texture and savory aroma always make my mouth water.",
+        "ko": "바삭한 밥 식감과 고소한 풍미는 언제나 군침이 돌게 만듭니다."
+      },
+      {
+        "en": "So, it is my absolute favorite comfort food to cook at home.",
+        "ko": "그래서, 김치볶음밥은 집에서 제가 가장 사랑하는 소울푸드 요리예요."
+      }
+    ],
+    "keywords": [
+      "signature dish kimchi fried rice",
+      "delicious and spicy",
+      "canned tuna and green onions",
+      "fried egg and sesame oil",
+      "crispy texture savory aroma",
+      "comfort food"
+    ],
+    "tip": "[자신 있는 요리 묘사] 김치볶음밥 환기 ➔ 맛의 매력 ➔ 핵심 식재료 ➔ 계란후라이/참기름 토핑 ➔ 고소한 향미 ➔ 소울푸드 마무리."
+  },
+  {
+    "id": "q_cook_08",
+    "cat": "요리하기",
+    "type": "주말 홈쿠킹 루틴",
+    "combo_set": 3,
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동",
+    "pattern_id": "pat_02",
+    "q_en": "What is your typical cooking routine on weekends when you prepare a homemade meal? Describe the steps from start to finish.",
+    "q_ko": "주말에 집에서 직접 요리해 먹을 때 보통 무엇을 하시나요? 처음부터 끝까지의 요리 루틴을 설명해 주세요.",
+    "sentences": [
+      {
+        "en": "Well, you know, when I stay home on Sundays, I usually love to cook lunch for myself.",
+        "ko": "음, 있잖아, 일요일에 집에 머무르면, 저는 보통 스스로를 위해 점심 요리하는 걸 정말 좋아해요."
+      },
+      {
+        "en": "First, I check my refrigerator and wash fresh vegetables with cold water.",
+        "ko": "우선, 냉장고 재료를 확인하고 신선한 채소를 차가운 물로 씻습니다."
+      },
+      {
+        "en": "Then, I usually chop onions and garlic on the cutting board, listening to the radio.",
+        "ko": "그리고 나서, 라디오를 들으며 도마 위에서 양파와 마늘을 썰어요."
+      },
+      {
+        "en": "When the pan is hot, I stir-fry the ingredients and season them with soy sauce.",
+        "ko": "팬이 달궈지면, 재료들을 볶고 간장과 소금으로 알맞게 간을 맞춥니다."
+      },
+      {
+        "en": "After eating, I immediately wash the dishes and wipe the kitchen counter clean.",
+        "ko": "식사 후에는, 즉시 설거지를 하고 싱크대 상판을 깨끗하게 닦아요."
+      },
+      {
+        "en": "That is my tidy and enjoyable cooking routine at home.",
+        "ko": "이게 바로 집에서의 저의 깔끔하고 즐거운 요리 일과 루틴이에요."
+      }
+    ],
+    "keywords": [
+      "cook lunch on Sunday",
+      "wash fresh vegetables",
+      "chop onions on cutting board",
+      "stir-fry with soy sauce",
+      "wash dishes and wipe counter",
+      "enjoyable cooking routine"
+    ],
+    "tip": "[주말 요리 루틴] 일요일 점심 요리 ➔ 재료 손질/세척 ➔ 도마 칼질/음악 ➔ 볶음 및 양념 ➔ 설거지/뒷정리 ➔ 루틴 마무리."
+  },
+  {
+    "id": "q_cook_09",
+    "cat": "요리하기",
+    "type": "홈파티 요리 대접 경험",
+    "combo_set": 3,
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 경험",
+    "pattern_id": "pat_03",
+    "q_en": "Tell me about a memorable time when you invited friends or family over to your house and cooked a meal for them. How did they react?",
+    "q_ko": "친구나 가족을 집에 초대해 직접 요리를 만들어 대접했던 기억에 남는 경험에 대해 말씀해 주세요. 반응이 어땠나요?",
+    "sentences": [
+      {
+        "en": "Well, let me see... I remember a very memorable dinner party at my home.",
+        "ko": "음, 어디 보자... 저희 집에서 열었던 아주 기억에 남는 저녁 모임이 떠올라요."
+      },
+      {
+        "en": "Last month, I invited my close coworkers over for a housewarming dinner.",
+        "ko": "지난달에, 저는 친한 직장 동료들을 집들이 저녁 식사에 초대했습니다."
+      },
+      {
+        "en": "Actually, I cooked spicy chicken stew and seafood pancakes for them.",
+        "ko": "실제로, 저는 그들을 위해 매콤한 닭볶음탕과 해물파전을 직접 요리했어요."
+      },
+      {
+        "en": "Everyone loved the food, ate everything, and complimented my cooking skills.",
+        "ko": "모두가 음식을 너무 좋아했고, 남김없이 다 먹으며 제 요리 솜씨를 칭찬했습니다."
+      },
+      {
+        "en": "It was the most rewarding and joyful evening for me.",
+        "ko": "저에게는 더없이 뿌듯하고 큰 기쁨을 주었던 저녁이었어요."
+      },
+      {
+        "en": "So, it became a wonderful memory with my good friends.",
+        "ko": "그래서, 좋은 동료들과 함께한 멋진 추억이 되었습니다."
+      }
+    ],
+    "keywords": [
+      "memorable dinner party",
+      "housewarming dinner",
+      "spicy chicken stew and seafood pancake",
+      "complimented cooking skills",
+      "rewarding and joyful",
+      "wonderful memory"
+    ],
+    "tip": "[요리 대접 경험] 홈파티 환기 ➔ 동료 집들이 초대 ➔ 닭볶음탕과 해물파전 ➔ 폭풍 칭찬 반응 ➔ 보람찬 감정 ➔ 소중한 추억 마무리."
+  },
+  {
+    "id": "q_trip_07",
+    "cat": "국내여행",
+    "type": "여행지 향토 맛집 묘사",
+    "combo_set": 3,
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사",
+    "pattern_id": "pat_01",
+    "q_en": "Please describe the most delicious local food or restaurant you discovered during your domestic trip. What was it like?",
+    "q_ko": "국내 여행 중 발견했던 가장 맛있는 지역 향토 음식이나 맛집에 대해 설명해 주세요. 어떤 곳이었나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of domestic travel, a famous seafood restaurant in Busan comes to mind first.",
+        "ko": "국내 여행을 생각하면, 부산의 유명한 해산물 맛집이 가장 먼저 떠올라요."
+      },
+      {
+        "en": "The restaurant is located right in front of Haeundae Beach with an open ocean view.",
+        "ko": "그 식당은 해운대 해변 바로 앞에 위치해 있어서 탁 트인 바다 전망을 자랑합니다."
+      },
+      {
+        "en": "They serve incredibly fresh raw fish, spicy fish stew, and various side dishes.",
+        "ko": "믿을 수 없을 정도로 신선한 활어회와 얼큰한 매운탕, 다양한 밑반찬을 제공해요."
+      },
+      {
+        "en": "When I tasted the grilled clams, the flavor was so rich, savory, and amazing.",
+        "ko": "조개구이를 맛보았을 때, 그 풍미는 매우 깊고 고소하며 환상적이었습니다."
+      },
+      {
+        "en": "The owners were very generous and welcoming to travelers.",
+        "ko": "식당 사장님들도 여행객들에게 인심이 아주 후하고 친절하셨어요."
+      },
+      {
+        "en": "So, it was the best dining experience of my entire trip.",
+        "ko": "그래서, 그곳은 제 여행 통틀어 최고의 미식 경험이었습니다."
+      }
+    ],
+    "keywords": [
+      "seafood restaurant in Busan",
+      "Haeundae Beach ocean view",
+      "fresh raw fish spicy stew",
+      "grilled clams flavor",
+      "generous owners",
+      "best dining experience"
+    ],
+    "tip": "[여행지 맛집 묘사] 부산 횟집 환기 ➔ 해운대 오션뷰 ➔ 신선한 회와 매운탕 ➔ 조개구이 풍미 ➔ 친절한 인심 ➔ 최고 식도락 마무리."
+  },
+  {
+    "id": "q_trip_08",
+    "cat": "국내여행",
+    "type": "여행 마지막 날 출발 루틴",
+    "combo_set": 3,
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동",
+    "pattern_id": "pat_02",
+    "q_en": "What do you usually do on the last day of your trip after checking out of your hotel? Describe your departure routine.",
+    "q_ko": "여행 마지막 날 호텔에서 체크아웃한 후 보통 무엇을 하시나요? 집으로 돌아오기까지의 일정 루틴을 설명해 주세요.",
+    "sentences": [
+      {
+        "en": "Well, you know, on the final day of a trip, I usually follow a relaxing departure routine.",
+        "ko": "음, 있잖아, 여행의 마지막 날이면, 저는 보통 여유로운 출발 루틴을 따릅니다."
+      },
+      {
+        "en": "First, I pack my suitcase carefully and check out of the hotel around eleven.",
+        "ko": "우선, 여행 가방을 꼼꼼히 정리하고 11시쯤 호텔에서 체크아웃을 해요."
+      },
+      {
+        "en": "Then, I usually stop by a local bakery to buy souvenir pastries for my family.",
+        "ko": "그리고 나서, 가족들에게 줄 기념 빵을 사기 위해 동네 유명 베이커리에 들릅니다."
+      },
+      {
+        "en": "After buying gifts, I sit at a nice view cafe to drink coffee and look at photos.",
+        "ko": "선물을 산 후에는, 전망 좋은 카페에 앉아 커피를 마시며 찍은 사진들을 둘러봐요."
+      },
+      {
+        "en": "After that, I drive to the train station or airport to head back home.",
+        "ko": "그 후에는, 집으로 돌아가기 위해 기차역이나 공항으로 향합니다."
+      },
+      {
+        "en": "That is my typical last-day routine on every domestic trip.",
+        "ko": "이게 바로 국내 여행 갈 때마다 제가 하는 전형적인 마지막 날 루틴이에요."
+      }
+    ],
+    "keywords": [
+      "final day of trip",
+      "pack suitcase check out at eleven",
+      "local bakery souvenir pastries",
+      "cafe to look at photos",
+      "head back home",
+      "last-day routine"
+    ],
+    "tip": "[여행 마지막 날 루틴] 마지막 날 서두 ➔ 짐 정리 및 11시 체크아웃 ➔ 지역 특산 빵 구매 ➔ 뷰 카페에서 사진 정리 ➔ 기차역/공항 이동 ➔ 루틴 마무리."
+  },
+  {
+    "id": "q_trip_09",
+    "cat": "국내여행",
+    "type": "어릴 적 vs 현재 여행 비교",
+    "combo_set": 3,
+    "combo_step": 3,
+    "combo_role": "3단계: 과거 vs 현재 변화",
+    "pattern_id": "pat_05",
+    "q_en": "How has your travel style changed compared to when you were young? Compare family vacations in the past with trips you take nowadays.",
+    "q_ko": "어릴 적과 비교하여 본인의 여행 스타일이 어떻게 변했나요? 과거 부모님과의 가족 여행과 요즘의 여행을 비교해 주세요.",
+    "sentences": [
+      {
+        "en": "Compared to the past, my travel style has changed tremendously.",
+        "ko": "과거와 비교하여, 저의 여행 스타일은 엄청나게 변했습니다."
+      },
+      {
+        "en": "In the past, when I was young, I just followed my parents without planning anything.",
+        "ko": "예전 어릴 적에는, 아무 계획도 직접 세우지 않고 그저 부모님을 따라다니기만 했어요."
+      },
+      {
+        "en": "However, nowadays, I plan my own itinerary, find trendy cafes, and book hotels online.",
+        "ko": "하지만 요즘에는, 직접 일정을 계획하고 핫플 카페를 찾으며 온라인으로 숙소를 예약합니다."
+      },
+      {
+        "en": "For example, I can use smartphone travel apps anytime to book tickets and find GPS directions.",
+        "ko": "예를 들어, 스마트폰 여행 앱으로 언제든 기차표를 예매하고 GPS 길찾기를 이용할 수 있어요."
+      },
+      {
+        "en": "It gives me much more freedom and makes my trips so much more enjoyable.",
+        "ko": "이는 훨씬 더 많은 자유를 주고 제 여행을 몇 배나 더 즐겁게 만들어 줍니다."
+      },
+      {
+        "en": "I am very satisfied with this independent and flexible way of traveling.",
+        "ko": "저는 이처럼 독립적이고 유연한 여행 방식에 매우 만족하고 있습니다."
+      }
+    ],
+    "keywords": [
+      "travel style changed tremendously",
+      "followed parents in the past",
+      "plan own itinerary nowadays",
+      "smartphone travel apps and GPS",
+      "freedom and enjoyable",
+      "independent and flexible"
+    ],
+    "tip": "[여행 스타일 비교] 변화 선언 ➔ 어릴 적 수동적 가족 여행 ➔ 현재 주도적 자유 여행 ➔ 스마트폰 앱/예약 활용 ➔ 자유로움과 재미 ➔ 독립적 만족 마무리."
+  },
+  {
+    "id": "q_camp_07",
+    "cat": "캠핑하기",
+    "type": "텐트 내부/아늑한 공간 묘사",
+    "combo_set": 3,
+    "combo_step": 1,
+    "combo_role": "1단계: 장소·대상 묘사",
+    "pattern_id": "pat_01",
+    "q_en": "Please describe the inside of your camping tent and resting setup. How do you make your camping space cozy and comfortable?",
+    "q_ko": "캠핑 텐트 내부와 휴식 공간에 대해 설명해 주세요. 텐트 안을 어떻게 아늑하고 편안하게 꾸미시나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of camping, my cozy tent shelter comes to mind first.",
+        "ko": "캠핑을 생각하면, 저의 아늑한 텐트 쉼터가 가장 먼저 떠올라요."
+      },
+      {
+        "en": "The inside of my tent is very spacious, warm, and comfortable.",
+        "ko": "제 텐트 내부는 매우 널찍하고 따뜻하며 편안합니다."
+      },
+      {
+        "en": "On the floor, I spread a thick air mat, soft sleeping bags, and warm blankets.",
+        "ko": "바닥에는 두툼한 에어매트와 푹신한 침낭, 따뜻한 담요를 깔아 두어요."
+      },
+      {
+        "en": "When evening comes, I hang small LED camping lanterns to create a romantic vibe.",
+        "ko": "저녁이 되면, 작은 LED 캠핑 감성 조명을 걸어 로맨틱한 분위기를 연출합니다."
+      },
+      {
+        "en": "Lying inside and listening to the sound of wind is so peaceful.",
+        "ko": "텐트 안에 누워 바람 소리를 듣고 있으면 마음이 참 평화로워져요."
+      },
+      {
+        "en": "So, it is my favorite private bedroom in the middle of nature.",
+        "ko": "그래서, 텐트는 자연 한가운데 있는 저의 가장 소중한 개인 침실입니다."
+      }
+    ],
+    "keywords": [
+      "cozy tent shelter",
+      "spacious warm and comfortable",
+      "thick air mat and sleeping bag",
+      "LED camping lanterns",
+      "sound of wind",
+      "private bedroom in nature"
+    ],
+    "tip": "[텐트 내부 묘사] 텐트 안 연상 ➔ 공간감과 보온 ➔ 에어매트/침낭 ➔ LED 감성 조명 ➔ 바람 소리 힐링 ➔ 자연 속 침실 마무리."
+  },
+  {
+    "id": "q_camp_08",
+    "cat": "캠핑하기",
+    "type": "캠핑장 아침 루틴",
+    "combo_set": 3,
+    "combo_step": 2,
+    "combo_role": "2단계: 일상 루틴·활동",
+    "pattern_id": "pat_02",
+    "q_en": "What is your morning routine at a campsite? Describe what you usually do from waking up to cleaning up your gear.",
+    "q_ko": "캠핑장에서의 아침 루틴은 어떤가요? 기상해서 장비를 정리할 때까지의 일과를 단계별로 말씀해 주세요.",
+    "sentences": [
+      {
+        "en": "Well, you know, morning at a campsite is always so fresh and quiet.",
+        "ko": "음, 있잖아, 캠핑장에서의 아침은 언제나 참 상쾌하고 고요해요."
+      },
+      {
+        "en": "First, I unzip my tent, breathe in the crisp morning air, and stretch.",
+        "ko": "우선, 텐트 지퍼를 열고 상쾌한 아침 공기를 마시며 기지개를 켭니다."
+      },
+      {
+        "en": "Then, I usually boil water with my small camping burner and brew drip coffee.",
+        "ko": "그리고 나서, 작은 캠핑 버너로 물을 끓여 따뜻한 드립 커피를 내려요."
+      },
+      {
+        "en": "Sitting on my folding chair, I drink hot coffee and eat a simple sandwich.",
+        "ko": "캠핑 의자에 앉아, 뜨거운 모닝커피를 마시며 간단한 샌드위치를 먹습니다."
+      },
+      {
+        "en": "After breakfast, I fold my tent, pack my camping gear into the car trunk.",
+        "ko": "아침을 먹은 뒤에는, 텐트를 접고 캠핑 장비를 차 트렁크에 정리해 실어요."
+      },
+      {
+        "en": "That is my refreshing morning routine on every camping trip.",
+        "ko": "이게 바로 캠핑 갈 때마다 제가 즐기는 상쾌한 아침 루틴이에요."
+      }
+    ],
+    "keywords": [
+      "fresh morning at campsite",
+      "crisp morning air",
+      "boil water brew drip coffee",
+      "folding chair hot coffee",
+      "fold tent pack camping gear",
+      "refreshing routine"
+    ],
+    "tip": "[캠핑 아침 루틴] 아침 공기 ➔ 기상/스트레칭 ➔ 버너로 드립 커피 끓이기 ➔ 의자에 앉아 모닝커피/샌드위치 ➔ 텐트 철거 및 짐 싣기 ➔ 루틴 마무리."
+  },
+  {
+    "id": "q_camp_09",
+    "cat": "캠핑하기",
+    "type": "캠핑 장비 분실/돌발 대처",
+    "combo_set": 3,
+    "combo_step": 3,
+    "combo_role": "3단계: 돌발 상황",
+    "pattern_id": "pat_04",
+    "q_en": "Have you ever experienced an unexpected problem while camping, such as forgetting essential equipment or bad weather? How did you solve it?",
+    "q_ko": "캠핑 중 필수 장비를 깜빡했거나 날씨 문제 등 예상치 못한 돌발 상황을 겪은 적이 있나요? 어떻게 해결하셨나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of camping, I remember a big problem I had last autumn.",
+        "ko": "캠핑을 생각하면, 지난가을에 겪었던 큰 곤경이 하나 기억나요."
+      },
+      {
+        "en": "I arrived at the campsite, pitched my tent, and suddenly realized I forgot my camping stove.",
+        "ko": "캠핑장에 도착해 텐트를 쳤는데, 갑자기 버너를 집에 두고 왔다는 걸 깨달았어요."
+      },
+      {
+        "en": "At first, I was so surprised, hungry, and worried about cooking dinner.",
+        "ko": "처음에는, 너무 놀라고 배도 고팠으며 저녁을 어떻게 해먹을지 막막했습니다."
+      },
+      {
+        "en": "So, I quickly went to the campsite manager's office and asked for help.",
+        "ko": "그래서, 재빨리 캠핑장 관리사무소로 가서 도움을 요청드렸어요."
+      },
+      {
+        "en": "Fortunately, the kind manager lent me a portable gas burner with a smile.",
+        "ko": "다행히도, 친절한 관리인 분께서 미소와 함께 휴대용 부르스타를 빌려주셨습니다."
+      },
+      {
+        "en": "Anyway, it was solved well, so we grilled delicious barbecue.",
+        "ko": "어쨌든, 일이 잘 해결되어서 맛있는 바비큐 고기를 무사히 구워 먹었습니다."
+      }
+    ],
+    "keywords": [
+      "problem while camping",
+      "forgot camping stove",
+      "surprised and hungry",
+      "campsite manager's office",
+      "lent portable gas burner",
+      "solved well grilled barbecue"
+    ],
+    "tip": "[캠핑 돌발 대처] 문제 환기 ➔ 버너 깜빡함 ➔ 배고픔/당황 ➔ 관리사무소 문의 ➔ 친절한 관리인 버너 대여 ➔ 고기 파티 성공 마무리."
+  },
+  {
+    "id": "q_rp_10",
+    "cat": "롤플레이",
+    "type": "가게 상품 문의 (11번)",
+    "combo_set": 4,
+    "combo_step": 1,
+    "combo_role": "11번: 질문 3~4가지 (문의)",
+    "pattern_id": "pat_06",
+    "q_en": "I'd like to give you a situation and ask you to act it out. You want to buy a new winter jacket at a clothing store. Call the store and ask three or four questions about size, colors, price, and business hours.",
+    "q_ko": "상황을 하나 드릴 테니 연기해 보세요. 옷가게에서 새 겨울 패딩을 사려고 합니다. 매장에 전화해 사이즈, 색상, 가격, 영업시간 등에 대해 3~4가지 질문을 해보세요.",
+    "sentences": [
+      {
+        "en": "Hi, I'm calling to ask about the new winter jacket on your website.",
+        "ko": "안녕하세요, 웹사이트에 올라온 신상 겨울 패딩에 대해 문의하려고 전화드렸어요."
+      },
+      {
+        "en": "First, do you have size large in black available at your store right now?",
+        "ko": "먼저, 지금 매장에 블랙 색상 라지 사이즈 재고가 있나요?"
+      },
+      {
+        "en": "And what are your store opening hours today?",
+        "ko": "그리고 오늘 매장 마감 및 영업시간은 어떻게 되나요?"
+      },
+      {
+        "en": "Also, how much is the jacket, and do you have any member discounts?",
+        "ko": "또한, 패딩 가격은 얼마이고 회원 할인이 적용되나요?"
+      },
+      {
+        "en": "By the way, is parking free for store customers?",
+        "ko": "그런데 매장 방문 고객은 주차가 무료인가요?"
+      },
+      {
+        "en": "Thank you so much for your help. Have a nice day!",
+        "ko": "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!"
+      }
+    ],
+    "keywords": [
+      "winter jacket",
+      "size large in black",
+      "store opening hours",
+      "price and member discounts",
+      "parking free for customers"
+    ],
+    "tip": "[11번 옷가게 문의] 인사/용건 ➔ 재고/사이즈(Size/Black) ➔ 영업시간(Hours) ➔ 가격/할인(Price/Discount) ➔ 무료 주차(Parking) ➔ 감사 마무리."
+  },
+  {
+    "id": "q_rp_11",
+    "cat": "롤플레이",
+    "type": "하자 제품 교환/환불 (12번)",
+    "combo_set": 4,
+    "combo_step": 2,
+    "combo_role": "12번: 대안 제시 (문제 해결)",
+    "pattern_id": "pat_06",
+    "q_en": "I'm sorry, but there is a problem you need to resolve. The jacket you bought yesterday has a broken zipper and a stain. Call the store, explain the problem, and suggest two alternatives.",
+    "q_ko": "죄송하지만 해결해야 할 문제가 생겼습니다. 어제 매장에서 산 패딩의 지퍼가 고장 나 있고 얼룩이 묻어 있습니다. 매장에 전화해 문제를 설명하고 대안 2가지를 제시해 보세요.",
+    "sentences": [
+      {
+        "en": "Hello, I bought this winter jacket yesterday, but there is a problem.",
+        "ko": "안녕하세요, 어제 여기서 이 겨울 패딩을 구매했는데 문제가 좀 있어서요."
+      },
+      {
+        "en": "When I checked it at home, the zipper was broken and there was a big stain on the sleeve.",
+        "ko": "집에 와서 확인해 보니 지퍼가 고장 나 있고 소매에 큰 얼룩이 묻어 있더라고요."
+      },
+      {
+        "en": "I was very surprised and upset about this.",
+        "ko": "새 상품인데 이런 하자가 있어서 너무 놀라고 속상했습니다."
+      },
+      {
+        "en": "I have the receipt, so can I exchange it for a new jacket in the same size?",
+        "ko": "영수증을 가지고 있는데, 동일한 사이즈의 새 제품으로 교환할 수 있을까요?"
+      },
+      {
+        "en": "If that is not in stock, can I get a full refund to my credit card?",
+        "ko": "만약 재고가 없다면, 신용카드로 결제했던 금액을 전액 환불받을 수 있을까요?"
+      },
+      {
+        "en": "Thank you so much for your help. Have a nice day!",
+        "ko": "도와주셔서 정말 감사합니다. 좋은 하루 보내세요!"
+      }
+    ],
+    "keywords": [
+      "bought winter jacket yesterday",
+      "zipper broken and stain",
+      "surprised and upset",
+      "receipt exchange for new one",
+      "full refund to credit card"
+    ],
+    "tip": "[12번 하자 교환/환불 대안] 구매 언급 및 문제 제기 ➔ 하자 구체적 설명(지퍼 고장/얼룩) ➔ 당황/유감 표현 ➔ 대안1: 새 제품 교환 ➔ 대안2: 전액 환불 ➔ 감사 마무리."
+  },
+  {
+    "id": "q_rp_12",
+    "cat": "롤플레이",
+    "type": "과거 교환/환불 경험 (13번)",
+    "combo_set": 4,
+    "combo_step": 3,
+    "combo_role": "13번: 과거 유사 경험",
+    "pattern_id": "pat_04",
+    "q_en": "Similar to the situation, have you ever experienced a problem when buying or returning an item at a store? Tell me what happened, what the problem was, and how you resolved it.",
+    "q_ko": "이전 상황과 유사하게, 매장에서 물건을 사거나 교환/환불하면서 예상치 못한 문제를 겪은 적이 있나요? 무슨 일이었고 어떻게 해결하셨나요?",
+    "sentences": [
+      {
+        "en": "Whenever I think of shopping, I remember a big problem I had last winter.",
+        "ko": "쇼핑을 생각할 때마다, 지난겨울에 겪었던 큰 문제가 하나 기억나요."
+      },
+      {
+        "en": "I bought a pair of running shoes, and when I wore them, the sole came off completely.",
+        "ko": "러닝화를 새로 샀는데, 신고 나갔더니 밑창이 완전히 뜯어져 버렸어요."
+      },
+      {
+        "en": "At first, I was so surprised and frustrated because they were brand new.",
+        "ko": "처음에는 새로 산 신발인데 밑창이 떨어져 너무 황당하고 답답했습니다."
+      },
+      {
+        "en": "So, I quickly took the shoes and receipt back to the store and explained the defect.",
+        "ko": "그래서, 즉시 신발과 영수증을 챙겨 매장으로 돌아가 불량 상태를 설명했어요."
+      },
+      {
+        "en": "Fortunately, the kind store manager apologized and gave me a full refund immediately.",
+        "ko": "다행히도, 친절한 매니저님께서 정중히 사과하시며 곧바로 전액 환불을 진행해 주셨습니다."
+      },
+      {
+        "en": "Anyway, it was solved well, so everything was okay.",
+        "ko": "어쨌든, 처리가 잘 되어서, 다 괜찮았습니다."
+      }
+    ],
+    "keywords": [
+      "problem with shopping",
+      "running shoes sole came off",
+      "surprised and frustrated",
+      "took shoes and receipt back",
+      "store manager gave full refund",
+      "solved well"
+    ],
+    "tip": "[13번 과거 교환/환불 경험] 쇼핑 문제 환기 ➔ 신발 밑창 뜯어짐 ➔ 황당/불쾌 ➔ 영수증 지참 매장 방문 설명 ➔ 매니저 사과 및 즉시 전액 환불 ➔ 안도 마무리."
+  }
 ];
 
 // -----------------------------------------------------------------------------

@@ -394,6 +394,7 @@ function playCurrentFillerTTS() {
 
 let fillerRecognition = null;
 let fillerIsListening = false;
+let fillerActiveSession = null;
 
 /**
  * 필러 따라 말하기 마이크 음성 인식을 토글합니다.
@@ -411,28 +412,44 @@ function toggleFillerMic(fillerId, targetPhrase) {
     return;
   }
 
-  // ⚡ 마이크 시작 시 재생 중인 TTS 정지
+  // ⚡ 다른 모드의 마이크 및 재생 중인 TTS 정지
   if (typeof stopTTS === "function") stopTTS();
+  if (typeof listening !== "undefined" && listening && typeof stopSpeechRecognition === "function") {
+    stopSpeechRecognition();
+  }
+  if (typeof stopSingleSentenceSpeech === "function") {
+    stopSingleSentenceSpeech();
+  }
 
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
     if (sttBox) {
-      sttBox.innerHTML = `<span style="color: var(--danger); font-size: 13px;">❌ 브라우저가 음성 인식을 지원하지 않습니다. (Chrome 추천)</span>`;
+      sttBox.innerHTML = `<span style="color: var(--danger); font-size: 13px;">❌ 브라우저가 음성 인식을 지원하지 않습니다. (Chrome / Safari / 삼성 인터넷 추천)</span>`;
     }
     return;
   }
 
   try {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
     fillerRecognition = new SpeechRecognition();
     fillerRecognition.lang = "en-US";
-    fillerRecognition.continuous = false;
+    fillerRecognition.continuous = !isAndroid && !isSafari;
     fillerRecognition.interimResults = true;
     fillerRecognition.maxAlternatives = 1;
 
     fillerIsListening = true;
-    let evaluated = false;
-    let lastSpokenText = "";
+    const session = {
+      evaluated: false,
+      lastSpokenText: "",
+      silenceTimer: null,
+      targetPhrase,
+      feedbackEl,
+      fillerId,
+    };
+    fillerActiveSession = session;
 
     if (micBtn) {
       micBtn.classList.add("listening");
@@ -448,26 +465,69 @@ function toggleFillerMic(fillerId, targetPhrase) {
     }
 
     fillerRecognition.onresult = (event) => {
-      let transcript = "";
+      let finalChunks = "";
+      let interimChunks = "";
       let isFinal = false;
       for (let i = 0; i < event.results.length; ++i) {
-        transcript += event.results[i][0].transcript;
-        if (event.results[i].isFinal) isFinal = true;
+        const chunk = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalChunks += (finalChunks ? " " : "") + chunk.trim();
+          isFinal = true;
+        } else {
+          interimChunks += chunk;
+        }
       }
 
-      lastSpokenText = transcript;
+      const rawCombined = [finalChunks, interimChunks.trim()]
+        .filter(Boolean)
+        .join(" ")
+        .trim();
+      const transcript =
+        typeof correctSttPhoneticErrors === "function"
+          ? correctSttPhoneticErrors(rawCombined)
+          : rawCombined;
+
+      session.lastSpokenText = transcript;
       if (sttBox) {
         sttBox.innerHTML = `🗣️ <strong style="color: var(--text-main); font-size: 14px;">"${escapeFillerHtml(transcript)}"</strong>`;
       }
 
-      if (isFinal && !evaluated) {
-        evaluated = true;
-        evaluateFillerSpeech(transcript, targetPhrase, feedbackEl, fillerId);
+      if (session.silenceTimer) {
+        clearTimeout(session.silenceTimer);
       }
+
+      const waitMs = isFinal ? 500 : 1800;
+      session.silenceTimer = setTimeout(() => {
+        if (!session.evaluated && session.lastSpokenText.trim()) {
+          session.evaluated = true;
+          evaluateFillerSpeech(
+            session.lastSpokenText,
+            targetPhrase,
+            feedbackEl,
+            fillerId,
+          );
+          stopFillerMic();
+        }
+      }, waitMs);
     };
 
     fillerRecognition.onerror = (event) => {
       console.warn("필러 STT 상태:", event.error);
+      if (session.silenceTimer) {
+        clearTimeout(session.silenceTimer);
+        session.silenceTimer = null;
+      }
+      if (!session.evaluated && session.lastSpokenText.trim()) {
+        session.evaluated = true;
+        evaluateFillerSpeech(
+          session.lastSpokenText,
+          targetPhrase,
+          feedbackEl,
+          fillerId,
+        );
+        stopFillerMic();
+        return;
+      }
       if (event.error === "no-speech") {
         if (sttBox) {
           sttBox.innerHTML = `<span style="color: var(--text-muted); font-size: 13px;">목소리가 감지되지 않았어요. 마이크를 켜고 다시 말씀해보세요.</span>`;
@@ -481,10 +541,14 @@ function toggleFillerMic(fillerId, targetPhrase) {
     };
 
     fillerRecognition.onend = () => {
-      if (!evaluated && lastSpokenText.trim()) {
-        evaluated = true;
+      if (session.silenceTimer) {
+        clearTimeout(session.silenceTimer);
+        session.silenceTimer = null;
+      }
+      if (!session.evaluated && session.lastSpokenText.trim()) {
+        session.evaluated = true;
         evaluateFillerSpeech(
-          lastSpokenText,
+          session.lastSpokenText,
           targetPhrase,
           feedbackEl,
           fillerId,
@@ -501,8 +565,18 @@ function toggleFillerMic(fillerId, targetPhrase) {
 }
 
 function stopFillerMic() {
+  const session = fillerActiveSession;
+  fillerActiveSession = null;
+  if (session && session.silenceTimer) {
+    clearTimeout(session.silenceTimer);
+    session.silenceTimer = null;
+  }
+
   if (fillerRecognition) {
     try {
+      fillerRecognition.onresult = null;
+      fillerRecognition.onerror = null;
+      fillerRecognition.onend = null;
       fillerRecognition.stop();
     } catch (e) {}
     fillerRecognition = null;
@@ -514,11 +588,22 @@ function stopFillerMic() {
     micBtn.innerHTML = `🎤 마이크 켜기`;
     micBtn.setAttribute("title", "마이크 켜기 (소리 내어 말해보기)");
   }
+
+  // 사용자가 정지(⏹️) 버튼을 눌렀을 때 미채점 발화가 있으면 즉시 채점 수행
+  if (session && !session.evaluated && session.lastSpokenText.trim()) {
+    session.evaluated = true;
+    evaluateFillerSpeech(
+      session.lastSpokenText,
+      session.targetPhrase,
+      session.feedbackEl,
+      session.fillerId,
+    );
+  }
 }
 
 /**
  * 사용자가 발화한 음성 인식 텍스트(STT)가 목표 필러 표현을 포함하는지 일치도를 평가합니다.
- * 일치할 경우 축하 피드백 표시 및 자동으로 마스터 완료 상태로 등록합니다.
+ * - 발음이 조금 부정확하여 유사 단어로 전사된 경우에도 음운/편집거리 유사도 매칭으로 유연하게 판정합니다.
  *
  * @param {string} spokenText - 인식된 사용자 음성 텍스트
  * @param {string} targetPhrase - 목표 필러 표현 문자열
@@ -529,20 +614,70 @@ function stopFillerMic() {
 function evaluateFillerSpeech(spokenText, targetPhrase, feedbackEl, fillerId) {
   if (!feedbackEl || !spokenText) return;
 
-  const spokenLower = spokenText.toLowerCase().replace(/[^a-z0-9 ]/g, "");
+  const correctedSpoken =
+    typeof correctSttPhoneticErrors === "function"
+      ? correctSttPhoneticErrors(spokenText)
+      : spokenText;
+  const spokenLower = correctedSpoken
+    .toLowerCase()
+    .replace(/[^a-z0-9' ]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const spokenTokens = spokenLower.split(" ").filter(Boolean);
+
   const targetKeywords = targetPhrase
     .toLowerCase()
     .split("/")
-    .map((k) => k.replace(/[^a-z0-9 ]/g, "").trim())
+    .map((k) =>
+      k
+        .replace(/[^a-z0-9' ]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim(),
+    )
     .filter(Boolean);
 
-  const isMatched = targetKeywords.some((keyword) => {
-    const words = keyword.split(" ").filter(Boolean);
-    return words.every((w) => spokenLower.includes(w));
-  });
+  let isExactMatch = false;
+  let isFuzzyMatch = false;
 
-  if (isMatched) {
-    feedbackEl.innerHTML = `🎉 완벽해요! 필러 표현("${escapeFillerHtml(targetPhrase)}")이 정확하게 인식되었습니다. (숙달 완료 ✓)`;
+  for (const keyword of targetKeywords) {
+    const words = keyword.split(" ").filter(Boolean);
+    if (words.length === 0) continue;
+
+    // 1. 모든 단어가 정확히 포함된 경우
+    if (words.every((w) => spokenTokens.includes(w) || spokenLower.includes(w))) {
+      isExactMatch = true;
+      break;
+    }
+
+    // 2. 발음 유사도(Phonetic/Edit Similarity) 기반 매칭 검사
+    let matchedScoreSum = 0;
+    for (const targetWord of words) {
+      if (spokenTokens.includes(targetWord)) {
+        matchedScoreSum += 1.0;
+        continue;
+      }
+      let bestSim = 0;
+      if (typeof getWordSimilarityScore === "function") {
+        for (const uTok of spokenTokens) {
+          const sim = getWordSimilarityScore(uTok, targetWord);
+          if (sim > bestSim) bestSim = sim;
+        }
+      }
+      if (bestSim >= 0.65) {
+        matchedScoreSum += bestSim;
+      }
+    }
+
+    const avgRatio = matchedScoreSum / words.length;
+    if (avgRatio >= 0.68) {
+      isFuzzyMatch = true;
+    }
+  }
+
+  if (isExactMatch || isFuzzyMatch) {
+    feedbackEl.innerHTML = isExactMatch
+      ? `🎉 완벽해요! 필러 표현("${escapeFillerHtml(targetPhrase)}")이 정확하게 인식되었습니다. (숙달 완료 ✓)`
+      : `👍 좋아요! 필러 표현("${escapeFillerHtml(targetPhrase)}")과 발음이 유사하게 인식되어 통과되었습니다! (숙달 완료 ✓)`;
     feedbackEl.className = "filler-stt-eval-msg pass";
     feedbackEl.style.display = "block";
 

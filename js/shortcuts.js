@@ -33,9 +33,10 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" || e.code === "Escape") {
     stopTTS();
     if (typeof stopFillerMic === "function") stopFillerMic();
-    if (listening && recognition) {
-      recognition.stop();
-      stopListeningUI();
+    if (typeof stopSingleSentenceSpeech === "function")
+      stopSingleSentenceSpeech();
+    if (typeof listening !== "undefined" && listening) {
+      stopSpeechRecognition();
     }
     if (typeof closeCheatSheetModal === "function") closeCheatSheetModal();
     if (typeof closeVocabModal === "function") closeVocabModal();

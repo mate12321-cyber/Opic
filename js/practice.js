@@ -194,6 +194,9 @@ function renderCard() {
 function reveal() {
   if (revealed) return;
   revealed = true;
+  if (typeof listening !== "undefined" && listening) {
+    stopSpeechRecognition();
+  }
   if (els.userInput && document.activeElement === els.userInput) {
     els.userInput.blur();
   }
@@ -202,8 +205,15 @@ function reveal() {
   els.rateRow.style.display = "flex";
   els.retrySameLink.style.display = "block";
 
-  const userText = els.userInput.value.trim();
+  const rawUserText = els.userInput.value.trim();
   const currentSentence = SENTENCES[order[cur]];
+  const userText =
+    currentSentence && typeof alignSttWithReference === "function"
+      ? alignSttWithReference(rawUserText, currentSentence.en)
+      : rawUserText;
+  if (userText && userText !== rawUserText && els.userInput) {
+    els.userInput.value = userText;
+  }
 
   // [피드백 정책 1: 원어민 발음 자동 청취]
   // 사용자가 설정에서 자동 재생을 켜둔 경우, 정답 확인과 동시에 모범 문장 TTS를 재생하여 청각적 피드백 제공
@@ -241,6 +251,12 @@ function reveal() {
  */
 function retrySameQuestion() {
   stopTTS();
+  if (typeof listening !== "undefined" && listening) {
+    stopSpeechRecognition();
+  }
+  if (typeof resetBaseTranscript === "function") {
+    resetBaseTranscript("");
+  }
   clearRecordedVoice("practice");
   delete results[order[cur]];
   revealed = false;
