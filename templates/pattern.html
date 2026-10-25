@@ -323,6 +323,32 @@
         <span class="section-toggle-icon" title="접기/펼치기">▾</span>
       </div>
     </div>
+
+    <!-- 뼈대 구조 & 변경 부분 시각 안내 범례 바 -->
+    <div class="pattern-diff-legend-bar" id="patternDiffLegendBar">
+      <div class="pdl-left">
+        <span class="pdl-item">
+          <span class="pdl-badge pdl-skel">기본 텍스트</span>
+          <span class="pdl-desc">변하지 않는 뼈대 구조</span>
+        </span>
+        <span class="pdl-divider">/</span>
+        <span class="pdl-item">
+          <span class="pdl-badge pdl-diff">✨ 강조 태그</span>
+          <span class="pdl-desc">주제별로 바뀌는 다른 부분</span>
+        </span>
+      </div>
+      <button
+        type="button"
+        class="pdl-toggle-btn"
+        id="patternHighlightToggleBtn"
+        onclick="togglePatternHighlightMode()"
+        title="다른 부분 시각 강조 켜기/끄기"
+      >
+        <span class="pdl-toggle-icon" id="patternHighlightToggleIcon">👁️</span>
+        <span class="pdl-toggle-text" id="patternHighlightToggleText">강조 켜짐</span>
+      </button>
+    </div>
+
     <div class="pattern-sentences-wrap" id="patternSentenceList"></div>
   </div>
 

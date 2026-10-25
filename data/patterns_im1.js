@@ -49,7 +49,7 @@ window.PATTERNS_DATA = [
     exampleQuestion:
       "Describe your favorite place you like to visit and what it looks like.",
     category:
-      "내 방, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 요리하기, 호텔, 도서관, 제주도, 음악, 자기소개, 회사",
+      "내 방, 우리 동네, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 요리하기, 호텔, 도서관, 제주도, 음악, 자기소개, 회사",
     icon: "🏠",
     desc: "어떤 장소나 좋아하는 곳을 말할 때, 6개 쉬운 문장으로 1~2단어만 바꿔서 바로 끝내는 만능 공식입니다.",
     skeleton: [
@@ -106,6 +106,36 @@ window.PATTERNS_DATA = [
           {
             en: "So, I go there about two or three times a day.",
             ko: "그래서 저는 하루에 대략 2~3번 정도 거기로 가요.",
+          },
+        ],
+      },
+      {
+        topic: "🏡 우리 동네",
+        keyword: "my neighborhood, parks & restaurants",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, my favorite place is my neighborhood.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 가장 좋아하는 장소는 우리 동네야.",
+          },
+          {
+            en: "Everything is near my house, so it takes about five minutes on foot.",
+            ko: "모든 것이 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
+          },
+          {
+            en: "How can I say... it is very clean, comfortable, and cozy.",
+            ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
+          },
+          {
+            en: "There are beautiful parks and nice restaurants, so it makes me feel so happy and relaxed.",
+            ko: "아름다운 공원들과 좋은 식당들이 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
+          },
+          {
+            en: "When I go there, I usually take a walk, and just relax.",
+            ko: "거기 가면, 저는 보통 산책을 하고 그냥 편하게 쉬어요.",
+          },
+          {
+            en: "So, I go there about two or three times a week.",
+            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
           },
         ],
       },

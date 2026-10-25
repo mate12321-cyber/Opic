@@ -3575,38 +3575,39 @@ window.QUESTIONS_DATA = [
     "q_ko": "거주하시는 동네에 대해 설명해 주세요. 어떤 분위기이고 집 주변에 어떤 편의시설들이 있나요?",
     "sentences": [
       {
-        "en": "Whenever I think of my neighborhood, the peaceful atmosphere comes to mind first.",
-        "ko": "제가 사는 동네를 생각하면, 평화로운 분위기가 가장 먼저 떠올라요."
+        "en": "Well, let me see... You know, Eva, my favorite place is my neighborhood.",
+        "ko": "음, 어디 보자... 있잖아 에바, 내가 가장 좋아하는 장소는 우리 동네야."
       },
       {
-        "en": "My neighborhood is very quiet, clean, and safe both day and night.",
-        "ko": "우리 동네는 밤낮으로 매우 조용하고 깨끗하며 치안이 안전합니다."
+        "en": "Everything is near my house, so it takes about five minutes on foot.",
+        "ko": "모든 것이 집 근처에 있어서, 걸어서 약 5분 정도 걸려요."
       },
       {
-        "en": "There is a convenient subway station and a big supermarket just five minutes away.",
-        "ko": "걸어서 5분 거리에 편리한 지하철역과 대형 마트가 있어요."
+        "en": "How can I say... it is very clean, comfortable, and cozy.",
+        "ko": "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요."
       },
       {
-        "en": "When I walk around, I usually see cozy cafes and a green park.",
-        "ko": "동네를 둘러보면, 아늑한 카페들과 푸른 공원이 곳곳에 보입니다."
+        "en": "There are beautiful parks and nice restaurants, so it makes me feel so happy and relaxed.",
+        "ko": "아름다운 공원들과 좋은 식당들이 있어서, 저를 너무 행복하고 편안하게 만들어줘요."
       },
       {
-        "en": "The location is really convenient, so living here is so comfortable.",
-        "ko": "위치가 정말 편리해서, 여기서 사는 것이 아주 만족스럽고 편안해요."
+        "en": "When I go there, I usually take a walk, and just relax.",
+        "ko": "거기 가면, 저는 보통 산책을 하고 그냥 편하게 쉬어요."
       },
       {
-        "en": "So, I really love my lovely and peaceful neighborhood.",
-        "ko": "그래서 저는 제가 사는 사랑스럽고 평화로운 동네를 정말 좋아합니다."
+        "en": "So, I go there about two or three times a week.",
+        "ko": "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요."
       }
     ],
     "keywords": [
-      "peaceful atmosphere",
-      "quiet clean and safe",
-      "subway station nearby",
-      "cozy cafes and park",
-      "convenient location"
+      "favorite place my neighborhood",
+      "everything near my house",
+      "clean comfortable and cozy",
+      "beautiful parks and nice restaurants",
+      "take a walk and relax",
+      "two or three times a week"
     ],
-    "tip": "[동네 묘사] 동네 연상 ➔ 치안/청결 분위기 ➔ 지하철/마트 편의시설 ➔ 주변 카페/공원 ➔ 편리한 입지 ➔ 만족 마무리."
+    "tip": "[만능 패턴 1번 적용] 최애 장소 선언(우리 동네) ➔ 접근성(걸어서 5분) ➔ 분위기(깔끔/편안/아늑) ➔ 편의시설(공원과 식당) ➔ 활동(산책) ➔ 빈도(주 2~3회) 마무리."
   },
   {
     "id": "q_home_08",

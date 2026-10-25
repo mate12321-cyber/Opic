@@ -67,7 +67,7 @@
 
 ---
 
-### 2) 집/주거 (총 6문항: 시나리오 1·2 각 3문항)
+### 2) 집/주거 (총 9문항: 시나리오 1·2·3 각 3문항)
 
 #### 🎯 시나리오 1: 집 구조 & 일상 루틴 (3단 콤보)
 
@@ -84,6 +84,14 @@
 | `q_home_05` |    `Q2, Q5, Q8`     | `🏷️ 1단계 묘사` · 공간 묘사          | **좋아하는 방 & 인테리어** (1단계) | `pat_01`  | **집에서 가장 좋아하는 방에 대해 말씀해 주세요. 어떻게 생겼고 어떤 가구들이 있으며 왜 그곳에서 시간 보내는 것을 좋아하시나요?**<br>`Please tell me about your favorite room in your home. What does it look like, what kinds of furniture are in that room, and why do you like spending time there?`         |
 | `q_home_06` |    `Q3, Q6, Q9`     | `🏷️ 2단계 루틴` · 정리 루틴          | **좋아하는 방 & 인테리어** (2단계) | `pat_02`  | **집을 깨끗하게 유지하기 위해 보통 무엇을 하시나요? 청소 루틴을 처음부터 끝까지 설명해 주세요.**<br>`What do you usually do to keep your house clean? Please describe your cleaning routine from the beginning to the end.`                                                                                   |
 | `q_home_04` | `Q4, Q7, Q10 / Q14` | `🏷️ 3단계/14번 비교` · 변화/인테리어 | **좋아하는 방 & 인테리어** (3단계) | `pat_05`  | **어릴 적 살던 집과 비교하여 현재 살고 있는 집은 어떻게 달라졌나요? 새 가구를 사거나 인테리어를 바꾸는 등 어떤 변화가 있었나요?**<br>`How has your current home changed compared to the home you lived in when you were a child? What changes have been made, such as new furniture or interior renovations?` |
+
+#### 🎯 시나리오 3: 우리 동네 & 저녁 휴식 (3단 콤보)
+
+| ID          | 출제 문항 (Slot) | 문제 유형 배지 (Type)       |        실전 시나리오 테마        | 추천 뼈대 | 질문 내용 (한국어 & 영어)                                                                                                                                                                                                                                     |
+| :---------- | :--------------: | :-------------------------- | :------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `q_home_07` |   `Q2, Q5, Q8`   | `🏷️ 1단계 묘사` · 동네 묘사 | **우리 동네 & 저녁 휴식** (1단계) | `pat_01`  | **거주하시는 동네에 대해 설명해 주세요. 어떤 분위기이고 집 주변에 어떤 편의시설들이 있나요?**<br>`Please describe the neighborhood where you live. What does it look like, and what kind of facilities are around your home?`                                  |
+| `q_home_08` |   `Q3, Q6, Q9`   | `🏷️ 2단계 루틴` · 휴식 루틴 | **우리 동네 & 저녁 휴식** (2단계) | `pat_02`  | **퇴근 후 저녁 시간에 집에서 보통 무엇을 하시나요? 저녁 식사부터 잠자리에 들 때까지의 휴식 루틴을 설명해 주세요.**<br>`What do you usually do in the evening after getting home from work? Describe your relaxing routine from dinner until bedtime.`        |
+| `q_home_09` |  `Q4, Q7, Q10`   | `🏷️ 3단계 경험` · 과거 경험 | **우리 동네 & 저녁 휴식** (3단계) | `pat_03`  | **집에서 편안하게 휴식을 취하며 보냈던 기억에 남는 주말이나 휴일에 대해 말씀해 주세요. 무엇을 했고 왜 그렇게 좋았나요?**<br>`Tell me about a memorable weekend or holiday you spent resting comfortably at home. What did you do and why was it so good?` |
 
 ---
 

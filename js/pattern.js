@@ -177,6 +177,236 @@ function formatSlotText(str) {
   );
 }
 
+// =============================================================================
+// 4-1. 뼈대(Skeleton) vs 치환(Variation) 문장 시각적 차이 하이라이트 헬퍼
+// =============================================================================
+
+let patternHighlightEnabled = true;
+
+/**
+ * 뼈대 구조 및 다른 부분(치환 슬롯) 시각 강조 모드를 켜거나 끕니다.
+ * @returns {void}
+ */
+function togglePatternHighlightMode() {
+  patternHighlightEnabled = !patternHighlightEnabled;
+  const listEl = document.getElementById("patternSentenceList");
+  const toggleBtn = document.getElementById("patternHighlightToggleBtn");
+  const toggleText = document.getElementById("patternHighlightToggleText");
+  const toggleIcon = document.getElementById("patternHighlightToggleIcon");
+
+  if (listEl) {
+    if (patternHighlightEnabled) {
+      listEl.classList.remove("highlight-off");
+    } else {
+      listEl.classList.add("highlight-off");
+    }
+  }
+
+  if (toggleBtn) {
+    toggleBtn.classList.toggle("is-disabled", !patternHighlightEnabled);
+  }
+  if (toggleText) {
+    toggleText.textContent = patternHighlightEnabled ? "강조 켜짐" : "강조 꺼짐";
+  }
+  if (toggleIcon) {
+    toggleIcon.textContent = patternHighlightEnabled ? "👁️" : "🙈";
+  }
+}
+window.togglePatternHighlightMode = togglePatternHighlightMode;
+
+/**
+ * 문장 앞의 번호 표기(예: "1. ")를 안전하게 제거합니다.
+ * @param {string} str
+ * @returns {string}
+ */
+function stripPatternLeadingNumber(str) {
+  return String(str || "")
+    .replace(/^\d+\.\s*/, "")
+    .trim();
+}
+
+/**
+ * 영문 문장에서 뼈대(Skeleton)와 다른 부분(치환/교체된 슬롯 단어)을 LCS 알고리즘으로 정밀 비교하여 시각적 태그로 래핑합니다.
+ * @param {string} skelStr - 스켈레톤 문장
+ * @param {string} varStr - 주제별 치환 실전 문장
+ * @returns {string} HTML 마크업 문자열
+ */
+function renderSentenceDiffEn(skelStr, varStr) {
+  if (!varStr) return "";
+  const cleanVar = stripPatternLeadingNumber(varStr);
+  if (!skelStr) return safeEscapeHtml(cleanVar);
+
+  const cleanSkel = stripPatternLeadingNumber(skelStr);
+  const skelWords = cleanSkel.split(/\s+/);
+  const varWords = cleanVar.split(/\s+/);
+
+  function norm(w) {
+    return w.toLowerCase().replace(/[^a-z0-9]/g, "");
+  }
+
+  const m = skelWords.length;
+  const n = varWords.length;
+  const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
+  for (let i = 1; i <= m; i++) {
+    const sw = skelWords[i - 1];
+    const isSlot = sw.includes("[");
+    const nsw = norm(sw);
+    for (let j = 1; j <= n; j++) {
+      const nvw = norm(varWords[j - 1]);
+      if (!isSlot && nsw.length > 0 && nsw === nvw) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }
+    }
+  }
+
+  let i = m;
+  let j = n;
+  const isMatchInVar = Array(n).fill(false);
+  while (i > 0 && j > 0) {
+    const sw = skelWords[i - 1];
+    const isSlot = sw.includes("[");
+    const nsw = norm(sw);
+    const nvw = norm(varWords[j - 1]);
+    if (!isSlot && nsw.length > 0 && nsw === nvw && dp[i][j] === dp[i - 1][j - 1] + 1) {
+      isMatchInVar[j - 1] = true;
+      i--;
+      j--;
+    } else if (dp[i - 1][j] >= dp[i][j - 1]) {
+      i--;
+    } else {
+      j--;
+    }
+  }
+
+  const chunks = [];
+  let curType = null;
+  let curWords = [];
+
+  for (let k = 0; k < n; k++) {
+    const isSkel = isMatchInVar[k];
+    const type = isSkel ? "skel" : "diff";
+    if (type !== curType) {
+      if (curWords.length > 0) {
+        chunks.push({ type: curType, text: curWords.join(" ") });
+      }
+      curType = type;
+      curWords = [varWords[k]];
+    } else {
+      curWords.push(varWords[k]);
+    }
+  }
+  if (curWords.length > 0) {
+    chunks.push({ type: curType, text: curWords.join(" ") });
+  }
+
+  return chunks
+    .map((c) => {
+      if (c.type === "diff") {
+        const mPunct = c.text.match(/^(.*?)([.,!?~]+)$/);
+        if (mPunct && mPunct[1].length > 0) {
+          return `<mark class="ps-diff-tag" title="주제 맞춤 변경">${safeEscapeHtml(mPunct[1])}</mark>${safeEscapeHtml(mPunct[2])}`;
+        }
+        return `<mark class="ps-diff-tag" title="주제 맞춤 변경">${safeEscapeHtml(c.text)}</mark>`;
+      }
+      return `<span class="ps-skel-word">${safeEscapeHtml(c.text)}</span>`;
+    })
+    .join(" ");
+}
+
+/**
+ * 한글 문장에서 뼈대(Skeleton)와 다른 부분(치환/교체된 슬롯 단어)을 LCS 알고리즘으로 정밀 비교하여 시각적 태그로 래핑합니다.
+ * @param {string} skelStr - 스켈레톤 한글 문장
+ * @param {string} varStr - 주제별 치환 실전 한글 문장
+ * @returns {string} HTML 마크업 문자열
+ */
+function renderSentenceDiffKo(skelStr, varStr) {
+  if (!varStr) return "";
+  const cleanVar = stripPatternLeadingNumber(varStr);
+  if (!skelStr) return safeEscapeHtml(cleanVar);
+
+  const cleanSkel = stripPatternLeadingNumber(skelStr);
+  const skelWords = cleanSkel.split(/\s+/);
+  const varWords = cleanVar.split(/\s+/);
+
+  function norm(w) {
+    return w.replace(/[.,~!?]/g, "").trim();
+  }
+
+  const m = skelWords.length;
+  const n = varWords.length;
+  const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
+  for (let i = 1; i <= m; i++) {
+    const sw = skelWords[i - 1];
+    const isSlot = sw.includes("[");
+    const nsw = norm(sw);
+    for (let j = 1; j <= n; j++) {
+      const nvw = norm(varWords[j - 1]);
+      if (!isSlot && nsw.length > 0 && nsw === nvw) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }
+    }
+  }
+
+  let i = m;
+  let j = n;
+  const isMatchInVar = Array(n).fill(false);
+  while (i > 0 && j > 0) {
+    const sw = skelWords[i - 1];
+    const isSlot = sw.includes("[");
+    const nsw = norm(sw);
+    const nvw = norm(varWords[j - 1]);
+    if (!isSlot && nsw.length > 0 && nsw === nvw && dp[i][j] === dp[i - 1][j - 1] + 1) {
+      isMatchInVar[j - 1] = true;
+      i--;
+      j--;
+    } else if (dp[i - 1][j] >= dp[i][j - 1]) {
+      i--;
+    } else {
+      j--;
+    }
+  }
+
+  const chunks = [];
+  let curType = null;
+  let curWords = [];
+
+  for (let k = 0; k < n; k++) {
+    const isSkel = isMatchInVar[k];
+    const type = isSkel ? "skel" : "diff";
+    if (type !== curType) {
+      if (curWords.length > 0) {
+        chunks.push({ type: curType, text: curWords.join(" ") });
+      }
+      curType = type;
+      curWords = [varWords[k]];
+    } else {
+      curWords.push(varWords[k]);
+    }
+  }
+  if (curWords.length > 0) {
+    chunks.push({ type: curType, text: curWords.join(" ") });
+  }
+
+  return chunks
+    .map((c) => {
+      if (c.type === "diff") {
+        const mPunct = c.text.match(/^(.*?)([.,!?~]+)$/);
+        if (mPunct && mPunct[1].length > 0) {
+          return `<mark class="ps-diff-tag-ko" title="주제 맞춤 변경">${safeEscapeHtml(mPunct[1])}</mark>${safeEscapeHtml(mPunct[2])}`;
+        }
+        return `<mark class="ps-diff-tag-ko" title="주제 맞춤 변경">${safeEscapeHtml(c.text)}</mark>`;
+      }
+      return `<span class="ps-skel-word-ko">${safeEscapeHtml(c.text)}</span>`;
+    })
+    .join(" ");
+}
+
 // 특정 패턴 직접 선택 및 진입
 function selectPattern(idx) {
   const parsed = parseInt(idx, 10);
@@ -383,7 +613,14 @@ let pmgScopeMode = "topic";
  */
 const PATTERN_TOPIC_QUESTION_MAP = {
   pat_01: {
-    "내 방": [{ qId: "q_home_05" }, { qId: "q_home_01" }, { qId: "q_home_07" }],
+    "내 방": [{ qId: "q_home_05" }, { qId: "q_home_01" }],
+    "우리 동네": [
+      { qId: "q_home_07" },
+      {
+        q_en: "Tell me about the town or community you live in. What does the area look like, and what kind of public places are near your home?",
+        q_ko: "살고 계신 지역사회나 동네에 대해 말씀해 주세요. 그 주변은 어떻게 생겼고 집 근처에 어떤 공공시설이나 장소가 있나요?",
+      },
+    ],
     카페: [{ qId: "q_cafe_01" }, { qId: "q_cafe_05" }, { qId: "q_cafe_07" }],
     공원: [{ qId: "q_park_01" }, { qId: "q_park_05" }, { qId: "q_park_07" }],
     영화관: [{ qId: "q_movie_05" }, { qId: "q_movie_01" }, { qId: "q_movie_07" }],
@@ -1533,10 +1770,40 @@ function renderPatternVariation() {
   // 문장 목록 렌더링
   const sentenceList = document.getElementById("patternSentenceList");
   if (sentenceList && curVar.sentences) {
+    sentenceList.classList.toggle("highlight-off", !patternHighlightEnabled);
+
+    // 범례 토글 버튼 상태 동기화
+    const toggleBtn = document.getElementById("patternHighlightToggleBtn");
+    const toggleText = document.getElementById("patternHighlightToggleText");
+    const toggleIcon = document.getElementById("patternHighlightToggleIcon");
+    if (toggleBtn) {
+      toggleBtn.classList.toggle("is-disabled", !patternHighlightEnabled);
+    }
+    if (toggleText) {
+      toggleText.textContent = patternHighlightEnabled ? "강조 켜짐" : "강조 꺼짐";
+    }
+    if (toggleIcon) {
+      toggleIcon.textContent = patternHighlightEnabled ? "👁️" : "🙈";
+    }
+
     sentenceList.innerHTML = curVar.sentences
       .map((s, sIdx) => {
+        const skelItem = activeSkeleton && activeSkeleton[sIdx];
+        const rawSkelEn = skelItem
+          ? typeof skelItem === "object"
+            ? skelItem.en
+            : skelItem
+          : "";
+        const rawSkelKo =
+          skelItem && typeof skelItem === "object" ? skelItem.ko : "";
+        const cleanSkelEn = stripPatternLeadingNumber(rawSkelEn);
+        const cleanSkelKo = stripPatternLeadingNumber(rawSkelKo);
+
+        const enHighlighted = renderSentenceDiffEn(cleanSkelEn, s.en);
+        const koHighlighted = renderSentenceDiffKo(cleanSkelKo, s.ko);
+
         return `
-        <div class="pattern-sentence-item">
+        <div class="pattern-sentence-item" data-sen-idx="${sIdx}">
           <div class="ps-header">
             <span class="ps-num">문장 ${sIdx + 1}</span>
             <div class="ps-actions">
@@ -1548,8 +1815,13 @@ function renderPatternVariation() {
               </button>
             </div>
           </div>
-          <div class="ps-en">${safeEscapeHtml(s.en)}</div>
-          <div class="ps-ko">${safeEscapeHtml(s.ko)}</div>
+
+          <!-- ✨ 주제 맞춤 실전 문장 (뼈대 구조와 다른 부분 인라인 시각 표시) -->
+          <div class="ps-applied-wrap">
+            <div class="ps-en">${enHighlighted}</div>
+            <div class="ps-ko">${koHighlighted}</div>
+          </div>
+
           <div class="single-sen-eval-box ps-eval-box" id="psEvalBox_${sIdx}" style="display:none;"></div>
         </div>
       `;
@@ -1634,10 +1906,10 @@ function renderPatternVariation() {
   // 4. 에바 질문 매칭 가이드 박스의 질문 예시를 현재 주제에 맞게 실시간 갱신
   updatePatternMatchGuideQuestion(pat, curVar);
 
-  // 치환된 슬롯 단어 반짝임 시각 피드백 (Pulse animation)
+  // 치환된 슬롯 단어 및 다른 부분 반짝임 시각 피드백 (Pulse animation)
   setTimeout(() => {
     const slotTags = document.querySelectorAll(
-      "#patternSkeletonList .pattern-slot-tag",
+      "#patternSkeletonList .pattern-slot-tag, #patternSentenceList .pattern-slot-tag, #patternSentenceList .ps-diff-tag, #patternSentenceList .ps-diff-tag-ko",
     );
     slotTags.forEach((el) => {
       el.classList.remove("slot-flash");

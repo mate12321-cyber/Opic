@@ -969,11 +969,95 @@ body.dark-theme .pattern-slot-tag {
   gap: 6px;
 }
 
+/* ── 단계별 문장 훈련 뼈대/다른 부분 시각 안내 범례 ── */
+.pattern-diff-legend-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  background: #f1f5f9;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  font-size: 12px;
+}
+
+.pdl-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pdl-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pdl-badge.pdl-skel {
+  background: #ffffff;
+  color: var(--text-main);
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid var(--border-medium);
+  font-size: 11px;
+}
+
+.pdl-badge.pdl-diff {
+  background: #fef3c7;
+  color: #92400e;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid #fde68a;
+  font-size: 11px;
+}
+
+.pdl-desc {
+  color: var(--text-muted);
+  font-size: 11.5px;
+}
+
+.pdl-divider {
+  color: var(--border-medium);
+  font-weight: 600;
+}
+
+.pdl-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #ffffff;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-full);
+  padding: 3px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pdl-toggle-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.pdl-toggle-btn.is-disabled {
+  opacity: 0.65;
+  background: #f8fafc;
+}
+
 /* 내부 문장 래퍼 */
 .pattern-sentences-wrap {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 0;
 }
 
@@ -984,7 +1068,7 @@ body.dark-theme .pattern-slot-tag {
   padding: 12px 14px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
   transition:
     border-color 0.15s ease,
@@ -1013,17 +1097,142 @@ body.dark-theme .pattern-slot-tag {
   border-radius: 4px;
 }
 
+/* 문장 카드 내부 📐 뼈대 구조 공식 안내 박스 */
+.ps-skel-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(243, 232, 255, 0.45);
+  border-left: 3.5px solid #a855f7;
+  border-radius: 4px;
+  padding: 7px 11px;
+  margin: 1px 0 2px;
+  transition: all 0.2s ease;
+}
+
+.ps-skel-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ps-skel-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #7e22ce;
+  background: #f3e8ff;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid #d8b4fe;
+}
+
+.ps-skel-en {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #6b21a8;
+  line-height: 1.45;
+}
+
+.ps-skel-ko {
+  font-size: 11.5px;
+  color: #86198f;
+  opacity: 0.88;
+  line-height: 1.35;
+}
+
+/* 실전 문장 영역 */
+.ps-applied-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .ps-en {
   font-size: 15px;
   font-weight: 600;
   color: var(--text-main);
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .ps-ko {
   font-size: 13px;
   color: var(--text-muted);
-  line-height: 1.4;
+  line-height: 1.45;
+}
+
+/* 실전 문장 내 뼈대 텍스트 */
+.ps-skel-word {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.ps-skel-word-ko {
+  color: var(--text-muted);
+}
+
+/* 실전 문장 내 치환/다른 부분 시각적 하이라이트 (DIFF TAG) */
+.ps-diff-tag {
+  display: inline;
+  background: #fef3c7;
+  color: #92400e;
+  font-weight: 700;
+  padding: 1.5px 5.5px;
+  border-radius: 4px;
+  border: 1px solid #fde68a;
+  margin: 0 1px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: all 0.2s ease;
+}
+
+.ps-diff-tag-ko {
+  display: inline;
+  background: #fef3c7;
+  color: #92400e;
+  font-weight: 600;
+  padding: 0.5px 4.5px;
+  border-radius: 3px;
+  border: 1px solid #fde68a;
+  margin: 0 1px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: all 0.2s ease;
+}
+
+/* 주제 변경 시 펄스 애니메이션 */
+@keyframes diffFlash {
+  0% {
+    background-color: #fde047;
+    transform: scale(1.04);
+    box-shadow: 0 0 6px rgba(234, 179, 8, 0.4);
+  }
+  50% {
+    background-color: #fef08a;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.ps-diff-tag.slot-flash,
+.ps-diff-tag-ko.slot-flash {
+  display: inline-block;
+  animation: diffFlash 0.6s ease-out;
+}
+
+/* 강조 모드가 꺼졌을 때 (클린 뷰) */
+.pattern-sentences-wrap.highlight-off .ps-skel-preview {
+  display: none !important;
+}
+
+.pattern-sentences-wrap.highlight-off .ps-diff-tag,
+.pattern-sentences-wrap.highlight-off .ps-diff-tag-ko {
+  background: transparent !important;
+  color: inherit !important;
+  border-color: transparent !important;
+  padding: 0 !important;
+  font-weight: inherit !important;
+  box-shadow: none !important;
 }
 
 #patternRetrySameLink {
@@ -1577,6 +1786,68 @@ body.dark-theme .pattern-sentence-item:hover {
 body.dark-theme .ps-num {
   background: #334155;
   color: #f1f5f9;
+}
+
+body.dark-theme .pattern-diff-legend-bar {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+body.dark-theme .pdl-badge.pdl-skel {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-color: #475569;
+}
+
+body.dark-theme .pdl-badge.pdl-diff {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fde68a;
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+body.dark-theme .pdl-toggle-btn {
+  background: #1e293b;
+  border-color: #475569;
+  color: #cbd5e1;
+}
+
+body.dark-theme .pdl-toggle-btn:hover {
+  border-color: #818cf8;
+  color: #ffffff;
+}
+
+body.dark-theme .ps-skel-preview {
+  background: rgba(147, 51, 234, 0.14);
+  border-left-color: #a855f7;
+}
+
+body.dark-theme .ps-skel-badge {
+  background: rgba(147, 51, 234, 0.3);
+  color: #d8b4fe;
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+body.dark-theme .ps-skel-en {
+  color: #e9d5ff;
+}
+
+body.dark-theme .ps-skel-ko {
+  color: #cbd5e1;
+}
+
+body.dark-theme .ps-skel-word {
+  color: #f1f5f9;
+}
+
+body.dark-theme .ps-skel-word-ko {
+  color: #94a3b8;
+}
+
+body.dark-theme .ps-diff-tag,
+body.dark-theme .ps-diff-tag-ko {
+  background: rgba(245, 158, 11, 0.22);
+  color: #fde68a;
+  border-color: rgba(245, 158, 11, 0.45);
 }
 
 body.dark-theme #patternRetrySameLink {
