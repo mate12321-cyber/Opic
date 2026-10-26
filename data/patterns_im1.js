@@ -969,11 +969,11 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🏖️ 해변",
-        keyword: "Haeundae Beach & look at the waves",
+        keyword: "go to the beach & look at the waves",
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, when I have free time, I usually like to go to Haeundae Beach.",
-            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 해운대 해변에 가는 걸 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to go to the beach.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 해변에 가는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
@@ -984,8 +984,8 @@ window.PATTERNS_DATA = [
             ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "There, I usually look at the waves and walk on soft white sand.",
-            ko: "거기서, 저는 보통 파도를 바라보고 부드러운 하얀 모래 위를 걸어요.",
+            en: "There, I usually look at the waves and take pictures.",
+            ko: "거기서, 저는 보통 파도를 바라보고 사진을 찍어요.",
           },
           {
             en: "After that, I just relax, and feel so happy.",
@@ -1029,7 +1029,7 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🍳 요리하기",
-        keyword: "my kitchen & cook curry and Bulgogi",
+        keyword: "my kitchen & cook curry",
         sentences: [
           {
             en: "Well, let me see... You know, Eva, when I have free time, I usually like to cook in my kitchen.",
@@ -1044,8 +1044,8 @@ window.PATTERNS_DATA = [
             ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "There, I usually cook curry and Bulgogi with cooking tools.",
-            ko: "거기서, 저는 보통 조리 도구로 카레와 불고기를 요리해요.",
+            en: "There, I usually cook curry and wash the dishes.",
+            ko: "거기서, 저는 보통 카레를 요리하고 설거지를 해요.",
           },
           {
             en: "After that, I just relax, and feel so happy.",
@@ -1059,11 +1059,11 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🏨 호텔",
-        keyword: "the Shilla Hotel & swim in the pool",
+        keyword: "stay at the Shilla Hotel & check in",
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, when I have free time, I usually like to stay at the Shilla Hotel.",
-            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 신라 호텔에 머무는 걸 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I go to a hotel, I usually like to stay at the Shilla Hotel.",
+            ko: "음, 어디 보자... 있잖아 에바, 호텔에 갈 때면, 저는 보통 신라 호텔에 머무는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
@@ -1074,8 +1074,8 @@ window.PATTERNS_DATA = [
             ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "There, I usually swim in the pool and lie on the soft bed.",
-            ko: "거기서, 저는 보통 수영장에서 수영을 하고 푹신한 침대에 누워요.",
+            en: "There, I usually check in and lie on the soft bed.",
+            ko: "거기서, 저는 보통 체크인을 하고 푹신한 침대에 누워요.",
           },
           {
             en: "After that, I just relax, and feel so happy.",
@@ -1104,22 +1104,22 @@ window.PATTERNS_DATA = [
             ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "There, I usually read bestsellers and sit at nice desks.",
-            ko: "거기서, 저는 보통 베스트셀러를 읽고 좋은 책상에 앉아요.",
+            en: "There, I usually read bestsellers and enjoy reading.",
+            ko: "거기서, 저는 보통 베스트셀러를 읽고 독서를 즐겨요.",
           },
           {
             en: "After that, I just relax, and feel so happy.",
             ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
-            en: "That is my library routine.",
-            ko: "이게 바로 저의 도서관 루틴이에요.",
+            en: "That is my reading routine.",
+            ko: "이게 바로 저의 독서 루틴이에요.",
           },
         ],
       },
       {
         topic: "🏝️ 국내여행(제주도)",
-        keyword: "Jeju Island & eat fresh seafood",
+        keyword: "Jeju Island & visit beautiful beaches",
         sentences: [
           {
             en: "Well, let me see... You know, Eva, when I have free time, I usually like to travel to Jeju Island.",
@@ -1134,8 +1134,8 @@ window.PATTERNS_DATA = [
             ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "There, I usually eat fresh seafood and visit beautiful beaches.",
-            ko: "거기서, 저는 보통 신선한 해산물을 먹고 아름다운 해변들을 방문해요.",
+            en: "There, I usually visit beautiful beaches and eat fresh seafood.",
+            ko: "거기서, 저는 보통 아름다운 해변들을 방문하고 신선한 해산물을 먹어요.",
           },
           {
             en: "After that, I just relax, and feel so happy.",
