@@ -1149,7 +1149,7 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "✈️ 해외여행(일본)",
-        keyword: "travel to Japan & eat local food",
+        keyword: "travel to Japan & eat delicious local food",
         sentences: [
           {
             en: "Well, let me see... You know, Eva, when I have free time, I usually like to travel to Japan.",
@@ -1164,8 +1164,8 @@ window.PATTERNS_DATA = [
             ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "There, I usually eat delicious local food and take many photos.",
-            ko: "거기서, 저는 보통 맛있는 현지 음식을 먹고 많은 사진을 찍어요.",
+            en: "There, I usually visit beautiful places and eat delicious local food.",
+            ko: "거기서, 저는 보통 아름다운 명소들을 방문하고 맛있는 현지 음식을 먹어요.",
           },
           {
             en: "After that, I just relax, and feel so happy.",
@@ -1179,11 +1179,11 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🎵 음악",
-        keyword: "listen to K-pop & BTS",
+        keyword: "listen to music & close my eyes",
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, when I have free time, I usually like to listen to K-pop.",
-            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 K-pop을 듣는 걸 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to listen to music.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 음악 듣는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
@@ -1194,8 +1194,8 @@ window.PATTERNS_DATA = [
             ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "There, I usually close my eyes and listen to BTS songs.",
-            ko: "거기서, 저는 보통 눈을 감고 BTS 노래들을 들어요.",
+            en: "There, I usually close my eyes and listen to my favorite songs.",
+            ko: "거기서, 저는 보통 눈을 감고 제가 가장 좋아하는 노래들을 들어요.",
           },
           {
             en: "After that, I just relax, and feel so happy.",
@@ -1209,7 +1209,7 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🙋 자기소개",
-        keyword: "enjoy cooking, coding, and walking",
+        keyword: "enjoy my hobbies & cook delicious food",
         sentences: [
           {
             en: "Well, let me see... You know, Eva, when I have free time, I usually like to enjoy my hobbies.",
@@ -1224,8 +1224,8 @@ window.PATTERNS_DATA = [
             ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "There, I usually cook delicious food and take a walk.",
-            ko: "거기서, 저는 보통 맛있는 요리를 하고 산책을 해요.",
+            en: "There, I usually cook delicious food and study coding.",
+            ko: "거기서, 저는 보통 맛있는 요리를 하고 코딩을 공부해요.",
           },
           {
             en: "After that, I just relax, and feel so happy.",
@@ -1239,11 +1239,11 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🏢 회사",
-        keyword: "my office & work with kind colleagues",
+        keyword: "work at my office & check emails",
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, on weekdays, I usually like to work at my office.",
-            ko: "음, 어디 보자... 있잖아 에바, 평일에는 보통 제 사무실에서 일하는 편이에요.",
+            en: "Well, let me see... You know, Eva, on weekdays, I usually work at my office.",
+            ko: "음, 어디 보자... 있잖아 에바, 평일에는 보통 제 사무실에서 일해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
@@ -1254,16 +1254,16 @@ window.PATTERNS_DATA = [
             ko: "그리고 나서, 보통 컴퓨터를 켜고 본격적으로 일과를 시작해요.",
           },
           {
-            en: "There, I usually work with kind colleagues and check dual-screen computers.",
-            ko: "거기서, 저는 보통 친절한 동료들과 일하고 듀얼 모니터 컴퓨터를 확인해요.",
+            en: "There, I usually check my emails and work with my colleagues.",
+            ko: "거기서, 저는 보통 이메일을 확인하고 동료들과 함께 일해요.",
           },
           {
             en: "After that, I just relax, and feel so happy.",
             ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
-            en: "That is my office routine.",
-            ko: "이게 바로 저의 회사 루틴이에요.",
+            en: "That is my workday routine.",
+            ko: "이게 바로 저의 근무 루틴이에요.",
           },
         ],
       },
