@@ -473,7 +473,7 @@ window.randomPatternVariation = randomPatternVariation;
 
 /**
  * 만능 패턴 6대 공식 선택 목록 화면(Topic Grid)을 렌더링합니다.
- * - 각 패턴별 아이콘, 이름, 설명, 적용 가능한 서베이 주제 태그 및 마스터 완료 뱃지 표시
+ * - 각 패턴별 아이콘, 이름, 설명, 청취 시그널 및 마스터 완료 뱃지 표시
  * @returns {void}
  */
 function renderPatternTopics() {
@@ -513,13 +513,6 @@ function renderPatternTopics() {
       ? `<span class="pattern-combo-badge">${safeEscapeHtml(pat.typeBadge || pat.comboRole)}</span>`
       : "";
 
-    const catBadges = (pat.category || "")
-      .split(",")
-      .map((c) => c.trim().replace(/\s*등$/, ""))
-      .filter((c) => c)
-      .map((c) => `<span class="pattern-cat-badge">${safeEscapeHtml(c)}</span>`)
-      .join("");
-
     return `
       <button type="button" class="pattern-select-card" data-idx="${idx}" onclick="selectPattern(${idx})">
         <div class="pattern-select-icon">${pat.icon || "🧩"}</div>
@@ -553,9 +546,6 @@ function renderPatternTopics() {
           `
               : ""
           }
-          <div class="pattern-cats-badges">
-            ${catBadges}
-          </div>
         </div>
       </button>
     `;
@@ -676,6 +666,20 @@ const PATTERN_TOPIC_QUESTION_MAP = {
         q_ko: "도서관 안에서 가장 좋아하는 자리는 어디이며, 왜 그곳에서 책을 읽거나 공부하는 것을 좋아하시나요?",
       },
     ],
+    국내여행: [
+      {
+        q_en: "You indicated in the survey that you enjoy traveling. Please describe your favorite domestic travel destination, such as Jeju Island. What does it look like?",
+        q_ko: "설문에서 여행을 좋아한다고 하셨습니다. 제주도 등 가장 좋아하시는 국내 여행지에 대해 설명해 주세요. 어떤 모습인가요?",
+      },
+      { qId: "q_trip_02" },
+    ],
+    "국내여행(제주도)": [
+      {
+        q_en: "You indicated in the survey that you enjoy traveling. Please describe your favorite domestic travel destination, such as Jeju Island. What does it look like?",
+        q_ko: "설문에서 여행을 좋아한다고 하셨습니다. 제주도 등 가장 좋아하시는 국내 여행지에 대해 설명해 주세요. 어떤 모습인가요?",
+      },
+      { qId: "q_trip_02" },
+    ],
     제주도: [
       {
         q_en: "You indicated in the survey that you enjoy traveling. Please describe your favorite travel destination, such as Jeju Island. What does it look like?",
@@ -683,18 +687,44 @@ const PATTERN_TOPIC_QUESTION_MAP = {
       },
       { qId: "q_trip_02" },
     ],
+    해외여행: [
+      {
+        q_en: "You indicated in the survey that you enjoy traveling abroad. Please describe your favorite international destination, such as Japan. What does it look like?",
+        q_ko: "설문에서 해외여행을 즐기신다고 하셨습니다. 일본 등 가장 좋아하시는 해외 여행지에 대해 설명해 주세요. 어떤 모습인가요?",
+      },
+      {
+        q_en: "Tell me about a country or city you like to visit when traveling abroad. Why do you like to go there?",
+        q_ko: "해외여행을 갈 때 방문하기 좋아하는 국가나 도시에 대해 말씀해 주세요. 왜 그곳에 가는 것을 좋아하시나요?",
+      },
+    ],
+    "해외여행(일본)": [
+      {
+        q_en: "You indicated in the survey that you enjoy traveling abroad. Please describe your favorite international destination, such as Japan. What does it look like?",
+        q_ko: "설문에서 해외여행을 즐기신다고 하셨습니다. 일본 등 가장 좋아하시는 해외 여행지에 대해 설명해 주세요. 어떤 모습인가요?",
+      },
+      {
+        q_en: "Tell me about a country or city you like to visit when traveling abroad. Why do you like to go there?",
+        q_ko: "해외여행을 갈 때 방문하기 좋아하는 국가나 도시에 대해 말씀해 주세요. 왜 그곳에 가는 것을 좋아하시나요?",
+      },
+    ],
     음악: [{ qId: "q_music_01" }, { qId: "q_music_04" }, { qId: "q_music_07" }],
     자기소개: [{ qId: "q_intro_01" }, { qId: "q_intro_04" }, { qId: "q_intro_07" }],
     회사: [{ qId: "q_work_01" }, { qId: "q_work_05" }, { qId: "q_work_07" }],
   },
   pat_02: {
+    "내 방": [{ qId: "q_home_08" }, { qId: "q_home_02" }],
+    "우리 동네": [
+      { qId: "q_home_08" },
+      {
+        q_en: "What do you usually do when you spend time around your neighborhood? Tell me about your routine.",
+        q_ko: "동네 주변에서 시간을 보낼 때 주로 무엇을 하시나요? 평소 루틴에 대해 말씀해 주세요.",
+      },
+    ],
     카페: [{ qId: "q_cafe_02" }, { qId: "q_cafe_06" }, { qId: "q_cafe_08" }],
-    "공원 산책": [{ qId: "q_park_02" }, { qId: "q_park_06" }, { qId: "q_park_08" }],
-    "헬스장 운동": [{ qId: "q_exercise_01" }, { qId: "q_exercise_05" }, { qId: "q_exercise_08" }],
-    요리: [{ qId: "q_cook_01" }, { qId: "q_cook_06" }, { qId: "q_cook_08" }],
-    "취미 코딩": [{ qId: "q_intro_02" }, { qId: "q_intro_05" }, { qId: "q_intro_08" }],
-    "영화 관람": [{ qId: "q_movie_06" }, { qId: "q_movie_03" }, { qId: "q_movie_08" }],
-    "마트 장보기": [
+    공원: [{ qId: "q_park_02" }, { qId: "q_park_06" }, { qId: "q_park_08" }],
+    영화관: [{ qId: "q_movie_06" }, { qId: "q_movie_03" }, { qId: "q_movie_08" }],
+    헬스장: [{ qId: "q_exercise_01" }, { qId: "q_exercise_05" }, { qId: "q_exercise_08" }],
+    대형마트: [
       { qId: "q_cook_06" },
       {
         q_en: "What do you usually do from the moment you arrive at the supermarket until you finish grocery shopping and return home?",
@@ -702,8 +732,30 @@ const PATTERN_TOPIC_QUESTION_MAP = {
       },
     ],
     드라이브: [{ qId: "q_trip_05" }, { qId: "q_trip_01" }, { qId: "q_trip_08" }],
-    "주말 캠핑": [{ qId: "q_camp_01" }, { qId: "q_camp_05" }, { qId: "q_camp_08" }],
-    "독서·도서관": [
+    캠핑장: [{ qId: "q_camp_01" }, { qId: "q_camp_05" }, { qId: "q_camp_08" }],
+    해변: [
+      {
+        q_en: "What is your typical daily schedule during a trip to the beach? Describe your relaxing routine from morning to evening.",
+        q_ko: "해변으로 여행을 가면 보통 하루를 어떻게 보내시나요? 아침부터 저녁까지의 여유로운 루틴을 말씀해 주세요.",
+      },
+      { qId: "q_trip_05" },
+    ],
+    "단골 식당": [
+      { qId: "q_cook_01" },
+      {
+        q_en: "When you visit your favorite restaurant, what do you usually do from ordering food to finishing your meal? Describe your routine.",
+        q_ko: "자주 가는 식당에 방문하면 음식을 주문할 때부터 식사를 마칠 때까지 보통 무엇을 하시나요? 루틴을 설명해 주세요.",
+      },
+    ],
+    요리하기: [{ qId: "q_cook_01" }, { qId: "q_cook_06" }, { qId: "q_cook_08" }],
+    호텔: [
+      { qId: "q_trip_05" },
+      {
+        q_en: "When you stay at a nice hotel, what is your typical routine from check-in to relaxation? Tell me in detail.",
+        q_ko: "호텔에 머물 때 체크인부터 휴식까지 보통 어떤 루틴으로 시간을 보내시나요? 자세히 말씀해 주세요.",
+      },
+    ],
+    도서관: [
       {
         q_en: "What do you usually do when you visit the library or read books on weekends? Tell me about your typical routine.",
         q_ko: "주말에 도서관에 가거나 책을 읽을 때 보통 무엇을 하시나요? 전형적인 일과 루틴을 말씀해 주세요.",
@@ -713,16 +765,26 @@ const PATTERN_TOPIC_QUESTION_MAP = {
         q_ko: "여가 시간에 책을 읽는 평소 습관에 대해 말씀해 주세요. 처음부터 끝까지 어떻게 준비하고 독서를 즐기시나요?",
       },
     ],
-    "음악 감상": [{ qId: "q_music_02" }, { qId: "q_music_05" }, { qId: "q_music_08" }],
-    "집안 청소": [{ qId: "q_home_06" }, { qId: "q_home_02" }, { qId: "q_home_08" }],
-    "해변 산책": [
+    국내여행: [{ qId: "q_trip_01" }, { qId: "q_trip_05" }],
+    "국내여행(제주도)": [{ qId: "q_trip_01" }, { qId: "q_trip_05" }],
+    제주도: [{ qId: "q_trip_01" }, { qId: "q_trip_05" }],
+    해외여행: [
       {
-        q_en: "What is your typical daily schedule during a trip to the beach? Describe your relaxing routine from morning to evening.",
-        q_ko: "해변으로 여행을 가면 보통 하루를 어떻게 보내시나요? 아침부터 저녁까지의 여유로운 루틴을 말씀해 주세요.",
+        q_en: "What is your typical daily schedule when you travel overseas like Japan? Describe your routine from morning to night.",
+        q_ko: "일본 등 해외여행을 갈 때 전형적인 하루 일정은 어떠한가요? 아침부터 밤까지의 일과 루틴을 설명해 주세요.",
       },
       { qId: "q_trip_05" },
     ],
-    "직장 업무": [{ qId: "q_work_02" }, { qId: "q_work_06" }, { qId: "q_work_08" }],
+    "해외여행(일본)": [
+      {
+        q_en: "What is your typical daily schedule when you travel overseas like Japan? Describe your routine from morning to night.",
+        q_ko: "일본 등 해외여행을 갈 때 전형적인 하루 일정은 어떠한가요? 아침부터 밤까지의 일과 루틴을 설명해 주세요.",
+      },
+      { qId: "q_trip_05" },
+    ],
+    음악: [{ qId: "q_music_02" }, { qId: "q_music_05" }, { qId: "q_music_08" }],
+    자기소개: [{ qId: "q_intro_02" }, { qId: "q_intro_05" }, { qId: "q_intro_08" }],
+    회사: [{ qId: "q_work_02" }, { qId: "q_work_06" }, { qId: "q_work_08" }],
   },
   pat_03: {
     영화: [

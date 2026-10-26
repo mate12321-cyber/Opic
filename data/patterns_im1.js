@@ -49,7 +49,7 @@ window.PATTERNS_DATA = [
     exampleQuestion:
       "Describe your favorite place you like to visit and what it looks like.",
     category:
-      "내 방, 우리 동네, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 요리하기, 호텔, 도서관, 제주도, 음악, 자기소개, 회사",
+      "내 방, 우리 동네, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 요리하기, 호텔, 도서관, 국내여행(제주도), 해외여행(일본), 음악, 자기소개, 회사",
     icon: "🏠",
     desc: "어떤 장소나 좋아하는 곳을 말할 때, 6개 쉬운 문장으로 1~2단어만 바꿔서 바로 끝내는 만능 공식입니다.",
     skeleton: [
@@ -216,8 +216,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are large screens and nice seats, so it makes me feel so excited and happy.",
-            ko: "큰 스크린과 편안한 좌석이 있어서, 저를 너무 신나고 행복하게 만들어줘요.",
+            en: "There are large screens and nice seats, so it makes me feel so happy and excited.",
+            ko: "큰 스크린과 편안한 좌석이 있어서, 저를 너무 행복하고 신나게 만들어줘요.",
           },
           {
             en: "When I go there, I usually eat caramel popcorn, and just relax.",
@@ -261,31 +261,31 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🛒 대형마트",
-        keyword: "E-Mart near my house",
+        keyword: "Costco near my house",
         sentences: [
           {
-            en: "Well, let me see... You know, Eva, my favorite place is E-Mart.",
-            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 이마트예요.",
+            en: "Well, let me see... You know, Eva, my favorite place is Costco.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 코스트코예요.",
           },
           {
-            en: "It is near my house, so it takes about five minutes on foot.",
-            ko: "저희 집 근처에 있어서, 걸어서 약 5분 정도 걸려요.",
+            en: "It is near my house, so it takes about ten minutes by car.",
+            ko: "저희 집 근처에 있어서, 차로 약 10분 정도 걸려요.",
           },
           {
             en: "How can I say... it is very clean, big, and convenient.",
             ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 크고, 편리해요.",
           },
           {
-            en: "There are fresh food and nice snacks, so it makes me feel so excited and happy.",
-            ko: "신선한 음식과 맛있는 간식이 있어서, 저를 너무 신나고 행복하게 만들어줘요.",
+            en: "There are delicious pizza and hot dogs, so it makes me feel so happy and excited.",
+            ko: "맛있는 피자와 핫도그가 있어서, 저를 너무 행복하고 신나게 만들어줘요.",
           },
           {
-            en: "When I go there, I usually buy groceries, and just look around.",
-            ko: "거기 가면, 저는 보통 장을 보고 그냥 구경하며 둘러봐요.",
+            en: "When I go there, I usually eat a hot dog, and just relax.",
+            ko: "거기 가면, 저는 보통 핫도그를 먹고 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I go there about two or three times a week.",
-            ko: "그래서 저는 거기를 대략 일주일에 2~3번 정도 가요.",
+            en: "So, I go there about two or three times a month.",
+            ko: "그래서 저는 거기를 대략 한 달에 2~3번 정도 가요.",
           },
         ],
       },
@@ -306,8 +306,8 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깔끔하고, 편안하고, 아늑해요.",
           },
           {
-            en: "There are scenic views and quiet roads, so it makes me feel so free and peaceful.",
-            ko: "멋진 풍경과 한적한 도로가 있어서, 저를 너무 자유롭고 평화롭게 만들어줘요.",
+            en: "There are beautiful trees and nice views, so it makes me feel so happy and relaxed.",
+            ko: "아름다운 나무들과 멋진 풍경이 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
           },
           {
             en: "When I go there, I usually listen to music, and just relax.",
@@ -500,7 +500,7 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏝️ 제주도",
+        topic: "🏝️ 국내여행(제주도)",
         keyword: "Jeju island beach & seafood",
         sentences: [
           {
@@ -516,16 +516,46 @@ window.PATTERNS_DATA = [
             ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 아름답고, 평화로워요.",
           },
           {
-            en: "There are beautiful nature and fresh seafood, so it makes me feel so refreshed and happy.",
-            ko: "아름다운 자연과 신선한 해산물이 있어서, 저를 너무 상쾌하고 행복하게 만들어줘요.",
+            en: "There are beautiful beaches and fresh seafood, so it makes me feel so happy and relaxed.",
+            ko: "아름다운 해변들과 신선한 해산물이 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
           },
           {
-            en: "When I go there, I usually drive along the coast, and make good memories.",
-            ko: "거기 가면, 저는 보통 해안가를 따라 드라이브하고 좋은 추억을 만들어요.",
+            en: "When I go there, I usually eat delicious local food, and just relax.",
+            ko: "거기 가면, 저는 보통 맛있는 현지 음식을 먹고, 그냥 편하게 쉬어요.",
           },
           {
-            en: "So, I go there about two or three times a year.",
-            ko: "그래서 저는 거기를 대략 일년에 2~3번 정도 가요.",
+            en: "So, I go there once or twice a year.",
+            ko: "그래서 저는 거기를 일 년에 한두 번 정도 가요.",
+          },
+        ],
+      },
+      {
+        topic: "✈️ 해외여행(일본)",
+        keyword: "Japan trip, seafood & relaxation",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, my favorite place is Japan.",
+            ko: "음, 어디 보자... 있잖아 에바, 내가 제일 좋아하는 곳은 일본이에요.",
+          },
+          {
+            en: "It is near Korea, so it takes about two hours by plane.",
+            ko: "한국과 가까워서, 비행기로 약 2시간 정도 걸려요.",
+          },
+          {
+            en: "How can I say... it is very clean, beautiful, and peaceful.",
+            ko: "뭐라고 말해야 할까... 거기는 아주 깨끗하고, 아름답고, 평화로워요.",
+          },
+          {
+            en: "There are beautiful beaches and fresh seafood, so it makes me feel so happy and relaxed.",
+            ko: "아름다운 해변들과 신선한 해산물이 있어서, 저를 너무 행복하고 편안하게 만들어줘요.",
+          },
+          {
+            en: "When I go there, I usually eat delicious local food, and just relax.",
+            ko: "거기 가면, 저는 보통 맛있는 현지 음식을 먹고, 그냥 편하게 쉬어요.",
+          },
+          {
+            en: "So, I go there once or twice a year.",
+            ko: "그래서 저는 거기를 일 년에 한두 번 정도 가요.",
           },
         ],
       },
@@ -637,29 +667,29 @@ window.PATTERNS_DATA = [
     exampleQuestion:
       "What do you usually do when you visit the park? Tell me your routine from beginning to end.",
     category:
-      "카페, 공원 산책, 헬스장, 요리, 코딩, 영화 관람, 마트 장보기, 드라이브, 주말 캠핑, 독서, 음악 감상, 집안 청소, 해변 산책, 직장 업무",
+      "내 방, 우리 동네, 카페, 공원, 영화관, 헬스장, 대형마트, 드라이브, 캠핑장, 해변, 단골 식당, 요리하기, 호텔, 도서관, 국내여행(제주도), 해외여행(일본), 음악, 자기소개, 회사",
     icon: "⏰",
-    desc: "주말이나 평소 일과를 묻는 질문에 시간 순서(First ➔ Then ➔ When ➔ After that)로 쉽고 자연스럽게 답하는 만능 공식입니다.",
+    desc: "주말이나 평소 일과를 묻는 질문에 시간 순서(First ➔ Then ➔ There ➔ After that)로 쉽고 자연스럽게 답하는 만능 공식입니다.",
     skeleton: [
       {
-        en: "1. Well, you know, when I have free time, I usually love to [활동/장소].",
-        ko: "1. 음, 있잖아, 자유 시간이 날 때면, 저는 보통 [활동/장소]하는 걸 정말 좋아해요.",
+        en: "1. Well, let me see... You know, Eva, when I have free time, I usually like to [활동/장소].",
+        ko: "1. 음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 [활동/장소]하는 걸 좋아해요.",
       },
       {
         en: "2. First, I change into comfortable clothes, and get ready.",
         ko: "2. 우선, 편안한 옷으로 갈아입고, 준비를 해요.",
       },
       {
-        en: "3. Then, I usually go there, listening to my favorite music.",
-        ko: "3. 그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 거기로 가요.",
+        en: "3. Then, I usually turn on my favorite music, and start my routine.",
+        ko: "3. 그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
       },
       {
-        en: "4. When I go there, I usually [행동 1] and [행동 2].",
-        ko: "4. 거기 가면, 저는 보통 [행동 1]과 [행동 2]를 해요.",
+        en: "4. There, I usually [행동 1] and [행동 2].",
+        ko: "4. 거기서, 저는 보통 [행동 1]을 하고 [행동 2]를 해요.",
       },
       {
-        en: "5. After that, I come back home, and take a rest.",
-        ko: "5. 그 후에는, 집에 돌아와서 휴식을 취해요.",
+        en: "5. After that, I just relax, and feel so happy.",
+        ko: "5. 그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
       },
       {
         en: "6. That is my [주제] routine.",
@@ -668,28 +698,88 @@ window.PATTERNS_DATA = [
     ],
     variations: [
       {
-        topic: "☕ 카페",
-        keyword: "visit Starbucks alone",
+        topic: "🏠 내 방",
+        keyword: "stay in my soft bed & check Instagram",
         sentences: [
           {
-            en: "Well, you know, when I have free time, I usually love to go to Starbucks.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 스타벅스에 가는 걸 정말 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to stay in my soft bed.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 푹신한 제 침대에 있는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
             ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
           },
           {
-            en: "Then, I usually go there, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 거기로 가요.",
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "When I go there, I usually drink iced coffee and read news.",
-            ko: "거기 가면, 저는 보통 아이스 커피를 마시고 뉴스를 읽어요.",
+            en: "There, I usually check Instagram and read a book.",
+            ko: "거기서, 저는 보통 인스타그램을 확인하고 책을 읽어요.",
           },
           {
-            en: "After that, I come back home, and take a rest.",
-            ko: "그 후에는, 집에 돌아와서 휴식을 취해요.",
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
+          },
+          {
+            en: "That is my bedroom routine.",
+            ko: "이게 바로 저의 침실 루틴이에요.",
+          },
+        ],
+      },
+      {
+        topic: "🏡 우리 동네",
+        keyword: "walk in my neighborhood & go to a cafe",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to walk in my neighborhood.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 우리 동네에서 걷는 걸 좋아해요.",
+          },
+          {
+            en: "First, I change into comfortable clothes, and get ready.",
+            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
+          },
+          {
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
+          },
+          {
+            en: "There, I usually take a walk and go to a cafe.",
+            ko: "거기서, 저는 보통 산책을 하고 카페에 가요.",
+          },
+          {
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
+          },
+          {
+            en: "That is my neighborhood routine.",
+            ko: "이게 바로 저의 동네 루틴이에요.",
+          },
+        ],
+      },
+      {
+        topic: "☕ 카페",
+        keyword: "go to a cafe & drink iced Americano",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to go to a cafe.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 카페에 가는 걸 좋아해요.",
+          },
+          {
+            en: "First, I change into comfortable clothes, and get ready.",
+            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
+          },
+          {
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
+          },
+          {
+            en: "There, I usually drink iced Americano and read a book.",
+            ko: "거기서, 저는 보통 아이스 아메리카노를 마시고 책을 읽어요.",
+          },
+          {
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
             en: "That is my cafe routine.",
@@ -698,28 +788,28 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🚶 공원 산책",
-        keyword: "walk in the park",
+        topic: "🌳 공원",
+        keyword: "Areumdeuri Park & take pictures",
         sentences: [
           {
-            en: "Well, you know, when I have free time, I usually love to walk in the park.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 공원에서 산책하는 걸 정말 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to go to Areumdeuri Park.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 아름드리 공원에 가는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
             ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
           },
           {
-            en: "Then, I usually go there, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 거기로 가요.",
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "When I go there, I usually walk slowly and take photos.",
-            ko: "거기 가면, 저는 보통 천천히 걷고 사진을 찍어요.",
+            en: "There, I usually take a walk and take pictures.",
+            ko: "거기서, 저는 보통 산책을 하고 사진을 찍어요.",
           },
           {
-            en: "After that, I come back home, and take a rest.",
-            ko: "그 후에는, 집에 돌아와서 휴식을 취해요.",
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
             en: "That is my park routine.",
@@ -728,118 +818,28 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏋️ 헬스장 운동",
-        keyword: "work out at the gym",
+        topic: "🎬 영화관",
+        keyword: "watch movies & eat caramel popcorn",
         sentences: [
           {
-            en: "Well, you know, when I have free time, I usually love to work out at the gym.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 헬스장에서 운동하는 걸 정말 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to watch movies.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 영화 보는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
             ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
           },
           {
-            en: "Then, I usually go there, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 거기로 가요.",
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "When I go there, I usually run on the treadmill and lift weights.",
-            ko: "거기 가면, 저는 보통 러닝머신을 뛰고 웨이트를 해요.",
+            en: "There, I usually eat caramel popcorn and enjoy new movies.",
+            ko: "거기서, 저는 보통 카라멜 팝콘을 먹고 신작 영화들을 즐겨요.",
           },
           {
-            en: "After that, I come back home, and take a rest.",
-            ko: "그 후에는, 집에 돌아와서 휴식을 취해요.",
-          },
-          {
-            en: "That is my workout routine.",
-            ko: "이게 바로 저의 운동 루틴이에요.",
-          },
-        ],
-      },
-      {
-        topic: "🍳 요리",
-        keyword: "cook delicious food at home",
-        sentences: [
-          {
-            en: "Well, you know, when I have free time, I usually love to cook delicious food.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 맛있는 요리하는 걸 정말 좋아해요.",
-          },
-          {
-            en: "First, I change into comfortable clothes, and get ready.",
-            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
-          },
-          {
-            en: "Then, I usually start cooking, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 요리를 시작해요.",
-          },
-          {
-            en: "In the kitchen, I usually make simple pasta and eat nicely.",
-            ko: "주방에서, 저는 보통 간단한 파스타를 만들어 맛있게 먹어요.",
-          },
-          {
-            en: "After that, I wash the dishes, and take a rest.",
-            ko: "그 후에는, 설거지를 하고 휴식을 취해요.",
-          },
-          {
-            en: "That is my cooking routine.",
-            ko: "이게 바로 저의 요리 루틴이에요.",
-          },
-        ],
-      },
-      {
-        topic: "💻 취미 코딩",
-        keyword: "study coding at desk",
-        sentences: [
-          {
-            en: "Well, you know, when I have free time, I usually love to study coding.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 코딩 공부하는 걸 정말 좋아해요.",
-          },
-          {
-            en: "First, I change into comfortable clothes, and get ready.",
-            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
-          },
-          {
-            en: "Then, I usually turn on my computer, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 컴퓨터를 켜요.",
-          },
-          {
-            en: "At my desk, I usually make web tools and test my code.",
-            ko: "책상에서, 저는 보통 웹 도구를 만들고 제 코드를 테스트해요.",
-          },
-          {
-            en: "After that, I shut down my computer, and take a rest.",
-            ko: "그 후에는, 컴퓨터를 끄고 휴식을 취해요.",
-          },
-          {
-            en: "That is my coding routine.",
-            ko: "이게 바로 저의 코딩 루틴이에요.",
-          },
-        ],
-      },
-      {
-        topic: "🎬 영화 관람",
-        keyword: "watch new movies at Megabox",
-        sentences: [
-          {
-            en: "Well, you know, when I have free time, I usually love to watch movies.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 영화 보는 걸 정말 좋아해요.",
-          },
-          {
-            en: "First, I change into comfortable clothes, and get ready.",
-            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
-          },
-          {
-            en: "Then, I usually go there, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 거기로 가요.",
-          },
-          {
-            en: "When I go there, I usually buy sweet popcorn and watch movies.",
-            ko: "거기 가면, 저는 보통 달콤한 팝콘을 사고 영화를 봐요.",
-          },
-          {
-            en: "After that, I come back home, and take a rest.",
-            ko: "그 후에는, 집에 돌아와서 휴식을 취해요.",
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
             en: "That is my movie routine.",
@@ -848,28 +848,58 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🛒 마트 장보기",
-        keyword: "grocery shopping at E-Mart",
+        topic: "🏋️ 헬스장",
+        keyword: "the fitness center & ride a bike",
         sentences: [
           {
-            en: "Well, you know, when I have free time, I usually love to go grocery shopping.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 장보러 가는 걸 정말 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to go to the fitness center.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 피트니스 센터에 가는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
             ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
           },
           {
-            en: "Then, I usually go there, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 거기로 가요.",
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "When I go there, I usually buy fresh food and nice snacks.",
-            ko: "거기 가면, 저는 보통 신선한 음식과 맛있는 간식을 사요.",
+            en: "There, I usually ride a bike and use many machines.",
+            ko: "거기서, 저는 보통 자전거를 타고 많은 운동 기구들을 이용해요.",
           },
           {
-            en: "After that, I come back home, and take a rest.",
-            ko: "그 후에는, 집에 돌아와서 휴식을 취해요.",
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
+          },
+          {
+            en: "That is my workout routine.",
+            ko: "이게 바로 저의 운동 루틴이에요.",
+          },
+        ],
+      },
+      {
+        topic: "🛒 대형마트",
+        keyword: "Costco & buy fresh food",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to go to Costco.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 코스트코에 가는 걸 좋아해요.",
+          },
+          {
+            en: "First, I change into comfortable clothes, and get ready.",
+            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
+          },
+          {
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
+          },
+          {
+            en: "There, I usually buy fresh food and nice snacks.",
+            ko: "거기서, 저는 보통 신선한 식품과 맛있는 간식을 사요.",
+          },
+          {
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
             en: "That is my shopping routine.",
@@ -879,27 +909,27 @@ window.PATTERNS_DATA = [
       },
       {
         topic: "🚗 드라이브",
-        keyword: "drive on the quiet route",
+        keyword: "drive on the quiet route & open the windows",
         sentences: [
           {
-            en: "Well, you know, when I have free time, I usually love to go for a drive.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 드라이브 가는 걸 정말 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to drive on the quiet route.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 한적한 코스로 드라이브하는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
             ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
           },
           {
-            en: "Then, I usually get in my car, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 차에 타요.",
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "When I drive, I usually open the windows and feel the fresh air.",
-            ko: "운전할 때, 저는 보통 창문을 열고 신선한 공기를 느껴요.",
+            en: "There, I usually open the windows and enjoy nice views.",
+            ko: "거기서, 저는 보통 창문을 열고 멋진 풍경을 즐겨요.",
           },
           {
-            en: "After that, I come back home, and take a rest.",
-            ko: "그 후에는, 집에 돌아와서 휴식을 취해요.",
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
             en: "That is my drive routine.",
@@ -908,28 +938,28 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🏕️ 주말 캠핑",
-        keyword: "camping by the lake",
+        topic: "🏕️ 캠핑장",
+        keyword: "go camping & grill delicious meat",
         sentences: [
           {
-            en: "Well, you know, when I have free time, I usually love to go camping.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 캠핑 가는 걸 정말 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to go camping.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 캠핑 가는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
             ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
           },
           {
-            en: "Then, I usually drive there, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 차를 몰고 가요.",
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "When I go there, I usually pitch a tent and grill delicious meat.",
-            ko: "거기 가면, 저는 보통 텐트를 치고 맛있는 고기를 구워요.",
+            en: "There, I usually grill delicious meat and look at the clean lake.",
+            ko: "거기서, 저는 보통 맛있는 고기를 굽고 깨끗한 호수를 바라봐요.",
           },
           {
-            en: "After that, I come back home, and take a rest.",
-            ko: "그 후에는, 집에 돌아와서 휴식을 취해요.",
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
             en: "That is my camping routine.",
@@ -938,28 +968,148 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "📚 독서·도서관",
-        keyword: "read books at library",
+        topic: "🏖️ 해변",
+        keyword: "Haeundae Beach & look at the waves",
         sentences: [
           {
-            en: "Well, you know, when I have free time, I usually love to read books at the library.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 도서관에서 책 읽는 걸 정말 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to go to Haeundae Beach.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 해운대 해변에 가는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
             ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
           },
           {
-            en: "Then, I usually go there, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 거기로 가요.",
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "When I go there, I usually find nice books and read quietly.",
-            ko: "거기 가면, 저는 보통 좋은 책을 찾아서 조용히 읽어요.",
+            en: "There, I usually look at the waves and walk on soft white sand.",
+            ko: "거기서, 저는 보통 파도를 바라보고 부드러운 하얀 모래 위를 걸어요.",
           },
           {
-            en: "After that, I come back home, and take a rest.",
-            ko: "그 후에는, 집에 돌아와서 휴식을 취해요.",
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
+          },
+          {
+            en: "That is my beach routine.",
+            ko: "이게 바로 저의 해변 루틴이에요.",
+          },
+        ],
+      },
+      {
+        topic: "🍽️ 단골 식당",
+        keyword: "Outback Steakhouse & eat Bushman bread",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to go to Outback Steakhouse.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 아웃백 스테이크하우스에 가는 걸 좋아해요.",
+          },
+          {
+            en: "First, I change into comfortable clothes, and get ready.",
+            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
+          },
+          {
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
+          },
+          {
+            en: "There, I usually eat warm Bushman bread and delicious T-bone steak.",
+            ko: "거기서, 저는 보통 따뜻한 부시맨 브레드를 먹고 맛있는 티본 스테이크를 먹어요.",
+          },
+          {
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
+          },
+          {
+            en: "That is my restaurant routine.",
+            ko: "이게 바로 저의 식당 루틴이에요.",
+          },
+        ],
+      },
+      {
+        topic: "🍳 요리하기",
+        keyword: "my kitchen & cook curry and Bulgogi",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to cook in my kitchen.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 제 주방에서 요리하는 걸 좋아해요.",
+          },
+          {
+            en: "First, I change into comfortable clothes, and get ready.",
+            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
+          },
+          {
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
+          },
+          {
+            en: "There, I usually cook curry and Bulgogi with cooking tools.",
+            ko: "거기서, 저는 보통 조리 도구로 카레와 불고기를 요리해요.",
+          },
+          {
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
+          },
+          {
+            en: "That is my cooking routine.",
+            ko: "이게 바로 저의 요리 루틴이에요.",
+          },
+        ],
+      },
+      {
+        topic: "🏨 호텔",
+        keyword: "the Shilla Hotel & swim in the pool",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to stay at the Shilla Hotel.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 신라 호텔에 머무는 걸 좋아해요.",
+          },
+          {
+            en: "First, I change into comfortable clothes, and get ready.",
+            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
+          },
+          {
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
+          },
+          {
+            en: "There, I usually swim in the pool and lie on the soft bed.",
+            ko: "거기서, 저는 보통 수영장에서 수영을 하고 푹신한 침대에 누워요.",
+          },
+          {
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
+          },
+          {
+            en: "That is my hotel routine.",
+            ko: "이게 바로 저의 호텔 루틴이에요.",
+          },
+        ],
+      },
+      {
+        topic: "📚 도서관",
+        keyword: "the public library & read bestsellers",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to go to the public library.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 공공 도서관에 가는 걸 좋아해요.",
+          },
+          {
+            en: "First, I change into comfortable clothes, and get ready.",
+            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
+          },
+          {
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
+          },
+          {
+            en: "There, I usually read bestsellers and sit at nice desks.",
+            ko: "거기서, 저는 보통 베스트셀러를 읽고 좋은 책상에 앉아요.",
+          },
+          {
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
             en: "That is my library routine.",
@@ -968,122 +1118,152 @@ window.PATTERNS_DATA = [
         ],
       },
       {
-        topic: "🎵 음악 감상",
-        keyword: "listen to acoustic music",
+        topic: "🏝️ 국내여행(제주도)",
+        keyword: "Jeju Island & eat fresh seafood",
         sentences: [
           {
-            en: "Well, you know, when I have free time, I usually love to listen to music.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 음악 듣는 걸 정말 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to travel to Jeju Island.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 제주도로 여행 가는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
             ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
           },
           {
-            en: "Then, I usually put on my earphones, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으며 이어폰을 껴요.",
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "In my room, I usually lie on the bed and close my eyes.",
-            ko: "제 방에서, 저는 보통 침대에 누워 눈을 감아요.",
+            en: "There, I usually eat fresh seafood and visit beautiful beaches.",
+            ko: "거기서, 저는 보통 신선한 해산물을 먹고 아름다운 해변들을 방문해요.",
           },
           {
-            en: "After that, I fall asleep easily, and take a rest.",
-            ko: "그 후에는, 스르륵 잠에 들며 휴식을 취해요.",
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
+          },
+          {
+            en: "That is my travel routine.",
+            ko: "이게 바로 저의 여행 루틴이에요.",
+          },
+        ],
+      },
+      {
+        topic: "✈️ 해외여행(일본)",
+        keyword: "travel to Japan & eat local food",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to travel to Japan.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 일본으로 여행 가는 걸 좋아해요.",
+          },
+          {
+            en: "First, I change into comfortable clothes, and get ready.",
+            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
+          },
+          {
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
+          },
+          {
+            en: "There, I usually eat delicious local food and take many photos.",
+            ko: "거기서, 저는 보통 맛있는 현지 음식을 먹고 많은 사진을 찍어요.",
+          },
+          {
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
+          },
+          {
+            en: "That is my travel routine.",
+            ko: "이게 바로 저의 여행 루틴이에요.",
+          },
+        ],
+      },
+      {
+        topic: "🎵 음악",
+        keyword: "listen to K-pop & BTS",
+        sentences: [
+          {
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to listen to K-pop.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 K-pop을 듣는 걸 좋아해요.",
+          },
+          {
+            en: "First, I change into comfortable clothes, and get ready.",
+            ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
+          },
+          {
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
+          },
+          {
+            en: "There, I usually close my eyes and listen to BTS songs.",
+            ko: "거기서, 저는 보통 눈을 감고 BTS 노래들을 들어요.",
+          },
+          {
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
             en: "That is my music routine.",
-            ko: "이게 바로 저의 음악 감상 루틴이에요.",
+            ko: "이게 바로 저의 음악 루틴이에요.",
           },
         ],
       },
       {
-        topic: "🧹 집안 청소",
-        keyword: "vacuum room & clean house",
+        topic: "🙋 자기소개",
+        keyword: "enjoy cooking, coding, and walking",
         sentences: [
           {
-            en: "Well, you know, when I have free time, I usually love to clean my house.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 집 청소하는 걸 정말 좋아해요.",
+            en: "Well, let me see... You know, Eva, when I have free time, I usually like to enjoy my hobbies.",
+            ko: "음, 어디 보자... 있잖아 에바, 자유 시간이 날 때면, 저는 보통 제 취미들을 즐기는 걸 좋아해요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
             ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
           },
           {
-            en: "Then, I usually start cleaning, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 청소를 시작해요.",
+            en: "Then, I usually turn on my favorite music, and start my routine.",
+            ko: "그리고 나서, 좋아하는 음악을 틀고 본격적으로 시작해요.",
           },
           {
-            en: "In my room, I usually vacuum the floor and open the windows.",
-            ko: "제 방에서, 저는 보통 청소기를 돌리고 창문을 열어요.",
+            en: "There, I usually cook delicious food and take a walk.",
+            ko: "거기서, 저는 보통 맛있는 요리를 하고 산책을 해요.",
           },
           {
-            en: "After that, I take a quick shower, and take a rest.",
-            ko: "그 후에는, 가볍게 샤워를 하고 휴식을 취해요.",
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
-            en: "That is my cleaning routine.",
-            ko: "이게 바로 저의 청소 루틴이에요.",
+            en: "That is my daily routine.",
+            ko: "이게 바로 저의 일상 루틴이에요.",
           },
         ],
       },
       {
-        topic: "🏖️ 해변 산책",
-        keyword: "walk along the sandy beach",
+        topic: "🏢 회사",
+        keyword: "my office & work with kind colleagues",
         sentences: [
           {
-            en: "Well, you know, when I have free time, I usually love to walk along the beach.",
-            ko: "음, 있잖아, 자유 시간이 날 때면, 저는 보통 해변을 따라 산책하는 걸 정말 좋아해요.",
+            en: "Well, let me see... You know, Eva, on weekdays, I usually like to work at my office.",
+            ko: "음, 어디 보자... 있잖아 에바, 평일에는 보통 제 사무실에서 일하는 편이에요.",
           },
           {
             en: "First, I change into comfortable clothes, and get ready.",
             ko: "우선, 편안한 옷으로 갈아입고, 준비를 해요.",
           },
           {
-            en: "Then, I usually go there, listening to my favorite music.",
-            ko: "그리고 나서, 저는 제가 가장 좋아하는 음악을 들으면서 거기로 가요.",
+            en: "Then, I usually turn on my computer, and start my routine.",
+            ko: "그리고 나서, 보통 컴퓨터를 켜고 본격적으로 일과를 시작해요.",
           },
           {
-            en: "When I go there, I usually walk slowly and look at the ocean.",
-            ko: "거기 가면, 저는 보통 천천히 걸으며 바다를 바라봐요.",
+            en: "There, I usually work with kind colleagues and check dual-screen computers.",
+            ko: "거기서, 저는 보통 친절한 동료들과 일하고 듀얼 모니터 컴퓨터를 확인해요.",
           },
           {
-            en: "After that, I come back to my room, and take a rest.",
-            ko: "그 후에는, 숙소로 돌아와서 휴식을 취해요.",
+            en: "After that, I just relax, and feel so happy.",
+            ko: "그 후에는, 그냥 편하게 쉬면서 아주 행복함을 느껴요.",
           },
           {
-            en: "That is my beach routine.",
-            ko: "이게 바로 저의 해변 산책 루틴이에요.",
-          },
-        ],
-      },
-      {
-        topic: "💼 직장 업무",
-        keyword: "check emails & morning meeting",
-        sentences: [
-          {
-            en: "Well, you know, on weekdays, I usually work at my office from nine to six.",
-            ko: "음, 있잖아, 평일에 저는 보통 사무실에서 9시부터 6시까지 일해요.",
-          },
-          {
-            en: "First, when I arrive at work, I check my emails and write my to-do list.",
-            ko: "우선, 출근하면 이메일을 확인하고 오늘의 할 일 목록을 적어요.",
-          },
-          {
-            en: "Then, I usually have a morning meeting with my team members.",
-            ko: "그리고 나서, 저는 보통 팀원들과 아침 회의를 진행해요.",
-          },
-          {
-            en: "At my desk, I usually write reports and check data on my computer.",
-            ko: "제 자리에서, 저는 보통 보고서를 작성하고 컴퓨터로 데이터를 확인해요.",
-          },
-          {
-            en: "After that, I clean my desk, come back home, and take a rest.",
-            ko: "그 후에는, 책상을 정리하고 집에 돌아와서 휴식을 취해요.",
-          },
-          {
-            en: "That is my workday routine.",
-            ko: "이게 바로 저의 직장 업무 루틴이에요.",
+            en: "That is my office routine.",
+            ko: "이게 바로 저의 회사 루틴이에요.",
           },
         ],
       },
@@ -1662,7 +1842,8 @@ window.PATTERNS_DATA = [
     ],
     exampleQuestion:
       "Have you ever had an unexpected problem with appliances or furniture? What was the issue and how did you solve it?",
-    category: "에어컨 고장, 스마트폰 방전, 요리 연기, 갑작스런 비, 약속 지연, 직장 에러, 운동 부상, 호텔 예약 문제",
+    category:
+      "에어컨 고장, 스마트폰 방전, 요리 연기, 갑작스런 비, 약속 지연, 직장 에러, 운동 부상, 호텔 예약 문제",
     icon: "⚡",
     desc: "돌발 문제 질문에 장소·경험 템플릿과 똑같은 6문장으로 쉽고 자연스럽게 답하는 만능 공식입니다.",
     skeleton: [
@@ -1949,7 +2130,8 @@ window.PATTERNS_DATA = [
     ],
     exampleQuestion:
       "How have cafes changed from when you were a child to now? Compare the past and the present.",
-    category: "카페 변화, 영화 변화, 주거 변화, 음악 변화, 쇼핑 변화, 공원 계절, 운동 변화, 캠핑 변화, 라이프스타일",
+    category:
+      "카페 변화, 영화 변화, 주거 변화, 음악 변화, 쇼핑 변화, 공원 계절, 운동 변화, 캠핑 변화, 라이프스타일",
     icon: "🔄",
     desc: "과거와 현재의 차이를 묻는 질문에 장소·경험 템플릿과 똑같은 6문장으로 깔끔하게 비교하는 공식입니다.",
     skeleton: [
